@@ -1,0 +1,35 @@
+const mongoose = require("mongoose");
+
+const studentStatusSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String
+    },
+    color: {
+      type: String
+    },
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    createdByName: {
+      type: String
+    },
+    updated_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    updatedByName: {
+      type: String,
+      default: null
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+
+studentStatusSchema.index({ name: 1, color: 1 }, { unique: true });
+module.exports = mongoose.model("studentStatus", studentStatusSchema);

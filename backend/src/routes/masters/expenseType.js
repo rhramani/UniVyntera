@@ -1,0 +1,18 @@
+const router = require("express").Router();
+
+const {
+    create,
+    update,
+    getAll,
+    deleteExpenseType,
+} = require("../../controller/masters/expenseType");
+
+const { verifyToken } = require("../../../middleware/jwt");
+
+router.post("/create", verifyToken, create);
+router.put("/update/:id", verifyToken, update);
+router.get("/getAll", verifyToken, getAll);
+router.delete("/delete/:id", verifyToken, deleteExpenseType);
+
+
+module.exports = router;

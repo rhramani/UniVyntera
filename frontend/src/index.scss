@@ -1,0 +1,252 @@
+
+@import '../src/assets/css/bootstrap.css';
+@import './assets/css/icons.css';
+
+@import 'sweetalert2/src/sweetalert2.scss';
+
+@import "./assets/scss/variables";
+
+  
+
+//bg-img5 end
+@import './assets/scss/switcher.scss';
+
+
+
+@import 'simplebar-react/dist/simplebar.min.css';
+
+@import 'react-toastify/dist/ReactToastify.css';
+
+@import '@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
+@import '@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
+@import '@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
+
+@import "react-datepicker/dist/react-datepicker-cssmodules.css";
+
+@import "react-datepicker/dist/react-datepicker.css";
+
+
+
+@import 'filepond/dist/filepond.min.css';
+@import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
+
+
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+@import 'swiper/css/navigation';
+@import 'swiper/css/effect-coverflow';
+@import 'swiper/css/thumbs';
+@import 'swiper/css/effect-flip';
+@import 'swiper/css/effect-fade';
+@import 'swiper/css/effect-cube';
+@import 'swiper/css/scrollbar';
+@import 'swiper/css/free-mode';
+
+@import "react-image-gallery/styles/scss/image-gallery.scss";
+
+@import "yet-another-react-lightbox/styles.css";
+@import "yet-another-react-lightbox/plugins/thumbnails.css";
+
+
+@import "./assets/scss/variables.scss"; // or @import "variables";
+@import 'react-select-search/style.css';
+@import "rc-slider/assets/index.css";
+@import "react-range-slider-input/dist/style.css"; //rangeSliderinput
+@import "react-datepicker/dist/react-datepicker.css"; //react-datepicker
+@import "react-calendar/dist/Calendar.css"; //  react Calendar
+@import 'suneditor/dist/css/suneditor.min.css';
+
+@import "rodal/lib/rodal.css";
+
+@import 'animate.css';
+
+//Grid-js Table
+
+@import "gridjs/dist/theme/mermaid.css";
+
+
+@import './assets/css/styles.css';
+
+
+
+ .app-sidebar {
+    *::-webkit-scrollbar {
+      width: 0rem !important;
+    }
+  }
+  .no-caret::after{
+    display: none !important;
+  }
+
+  //bg-img1 start
+  [data-bg-img="bgimg1"] {
+    --menu-bg: url(../src/assets/images/menu-bg-images/bg-img1.jpg) !important;
+  
+    &[data-menu-styles="transparent"][data-theme-mode="dark"] {
+        --menu-bg: url(../src/assets/images/menu-bg-images/bg-img1.jpg) !important;
+    }
+  }
+  
+  //bg-img1 end
+  
+  //bg-img2 start
+  [data-bg-img="bgimg2"] {
+    --menu-bg: url(../src/assets/images/menu-bg-images/bg-img2.jpg) !important;
+  
+    &[data-menu-styles="transparent"][data-theme-mode="dark"] {
+        --menu-bg: url(../src/assets/images/menu-bg-images/bg-img2.jpg) !important;
+    }
+  }
+  
+  //bg-img2 end
+  
+  //bg-img3 start
+  [data-bg-img="bgimg3"] {
+    --menu-bg: url(../src/assets/images/menu-bg-images/bg-img3.jpg) !important;
+  
+    &[data-menu-styles="transparent"][data-theme-mode="dark"] {
+        --menu-bg: url(../src/assets/images/menu-bg-images/bg-img3.jpg) !important;
+    }
+  }
+  
+  //bg-img3 end
+  
+  //bg-img4 start
+  [data-bg-img="bgimg4"] {
+    --menu-bg: url(../src/assets/images/menu-bg-images/bg-img4.jpg)!important;
+    &[data-menu-styles="transparent"][data-theme-mode="dark"] {
+        --menu-bg: url(../src/assets/images/menu-bg-images/bg-img4.jpg) !important;
+    }
+  }
+  
+  //bg-img4 end
+  
+  //bg-img5 start
+  [data-bg-img="bgimg5"] {
+    --menu-bg: url(../src/assets/images/menu-bg-images/bg-img5.jpg) !important;
+  
+    &[data-menu-styles="transparent"][data-theme-mode="dark"] {
+        --menu-bg: url(../src/assets/images/menu-bg-images/bg-img5.jpg) !important;
+    }
+  }
+
+//styles
+
+[data-width="boxed"] {
+  .dashboard-table {
+    margin-inline-end: 1px;
+  }
+}
+.contact-search3 {
+  .form-control {
+    padding-inline-end: 2.2rem !important;
+  }
+}
+[data-theme-mode="light"] {
+  &[data-header-styles="color"], &[data-header-styles="gradient"] {
+    .search-results {
+      .form-control {
+        color: rgba(255,255,255,0.5);
+      }
+    }
+    .main-header-center .btn {
+      background-color: rgba(255,255,255,0.15) !important;
+      color: rgba(255,255,255, 1) !important;
+      border-color: rgba(255,255,255, 0.08) !important;
+  }
+  }
+}
+.Select2__indicator {
+  svg {
+    display: none;
+  }
+}
+.Select2__dropdown-indicator::after {
+  content: "";
+  height: 0;
+  width: 0;
+  border-style: solid;
+  border-color: var(--text-muted) transparent transparent!important;
+  border-width: 5px;
+  position: absolute;
+  right: 11.5px;
+  top: 50%;
+  margin-top: -2.5px;
+  pointer-events: none;
+}
+[dir=rtl] {
+  .Select2__dropdown-indicator::after {
+    left: 0.7188rem;
+    right: inherit;
+  }
+  .bi-skip-backward::before,
+  .bi-skip-forward::before {
+    transform: scaleX(-1);
+  }
+}
+.card-options, .dropdown-dots {
+  .btn-check:checked + .btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check) + .btn:active {
+    border-color: transparent;
+  }
+
+}
+.wishlist-formcontrol {
+  min-width: 65px;
+}
+[data-theme-mode="dark"] {
+  div:where(.swal2-container) div:where(.swal2-validation-message) {
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.5);
+  }
+  .dTQOcO, .eygszl {
+    background-color: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.85);
+  }
+}
+.fixed-header-gridjs {
+  th.gridjs-th {
+    top: -1px !important;
+  }
+}
+.eygszl div {
+  padding: .75rem !important;
+}
+.pagination-next .page-link {
+  color: var(--primary-color);
+}
+.main-chat-list {
+  .ScrollbarsCustom-Wrapper {
+    inset: 0px 3px 0px 0px !important;
+  }
+}
+.swiper-pagination-fraction {
+  color: #fff !important;
+}
+.rounded-pill {
+  .Select2__control {
+    border-radius: 50rem;
+  }
+}
+.Select2--is-disabled .Select2__control--is-disabled {
+  background-color: rgb(var(--light-rgb)) !important;
+  color: var(--gray-3);
+}
+.react-dropdown-select-dropdown .react-dropdown-select-item {
+  padding: 8px 10px;
+  border-bottom: 0px !important;
+}
+.react-dropdown-select:focus, .react-dropdown-select:focus-within {
+  box-shadow: none !important;
+}
+.react-datepicker__close-icon::after {
+  display: none !important;
+}
+.react-datepicker__input-container input {
+  width: 100%;
+}
+.dynamic-loaded-charts-card {
+  select {
+    display: none;
+  }
+}

@@ -1,0 +1,53 @@
+const mongoose = require("mongoose");
+
+const workPermitDocumentSchema = new mongoose.Schema(
+  {
+    country: {
+      type: String,
+      required: true,
+    },
+    documents: [
+      {
+        _id: false,
+        type: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "DocumentType",
+        },
+        documentList: [
+          {
+            document: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "Document"
+            },
+            required: {
+              type: Boolean,
+              default: false,
+            },
+          },
+        ],
+      },
+    ],
+
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    createdByName: {
+      type: String,
+    },
+    updated_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    updatedByName: {
+      type: String,
+      default: null,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+module.exports = mongoose.model("workPermitDocument", workPermitDocumentSchema);

@@ -1,0 +1,473 @@
+import { useState, useRef, useEffect } from "react";
+import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { MdCalendarToday } from "react-icons/md";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  updateStudentApplication,
+  getOneStudentApplication,
+  deleteStudentApplication,
+  downloadDocument,
+  pendingDocMail,
+} from "../../../../../redux/actions/Student/StudentApplication.action";
+import LoadMoreButton from "../../../../commonComponents/LoadMoreButton";
+import DocumentHandler from "../DocumentHandler";
+import { decryptData } from "../../../../../utils/encryptionUtils";
+
+const FranceFranceVisasOnlineForm = ({ id }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSubmissionDateCalendar, setShowSubmissionDateCalendar] =
+    useState(false);
+  const [applicationData, setApplicationData] = useState(null);
+
+  const userRole = decryptData(localStorage.getItem("role"));
+
+  const [selectedDocsIds, setSelectedDocsIds] = useState([]);
+  const [selectedDocumentNames, setSelectedDocumentNames] = useState([]);
+  const documentTypes = ["France Visas Application Form"];
+  const dispatch = useDispatch();
+  const submissionDateRef = useRef(null);
+
+  const fetchData = async () => {
+    try {
+      const res = await dispatch(getOneStudentApplication(id));
+      setApplicationData(res?.data?.data);
+    } catch (error) {
+      console.error("Failed to fetch application:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchData();
+    } else {
+      toast.error("Invalid application ID. Please provide a valid ID.");
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        submissionDateRef.current &&
+        !submissionDateRef.current.contains(event.target)
+      ) {
+        setShowSubmissionDateCalendar(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const formatDate = (date) => {
+    if (!date) return "";
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const parseDate = (dateStr) => {
+    if (!dateStr) return null;
+    if (dateStr.includes("/")) {
+      const [day, month, year] = dateStr.split("/");
+      return new Date(`${year}-${month}-${day}`);
+    }
+    if (dateStr.includes("-")) return new Date(dateStr);
+    return null;
+  };
+  const toISODate = (date) => {
+    if (!date) return "";
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      started: "",
+      refernceNumber: "",
+      submissionDate: "",
+      formUpload: [],
+    },
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      started: Yup.string(),
+      refernceNumber: Yup.string(),
+      submissionDate: Yup.string(),
+      formUpload: Yup.mixed().nullable(),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      setIsLoading(true);
+      try {
+        let hasJsonChanges = false;
+        let hasFileUpload = false;
+
+        const oldForm =
+          applicationData?.visaApplicationDetails?.franceVisasForm || {};
+
+        const jsonData = {
+          visaApplicationDetails: {
+            franceVisasForm: {
+              started: values.started === "Yes",
+              refernceNumber: values.refernceNumber,
+              submissionDate: values.submissionDate,
+            },
+          },
+        };
+
+        if (
+          oldForm.started !== (values.started === "Yes") ||
+          oldForm.refernceNumber !== values.refernceNumber ||
+          oldForm.submissionDate !== values.submissionDate
+        ) {
+          hasJsonChanges = true;
+        }
+
+        let formData = null;
+        if (values.formUpload) {
+          hasFileUpload = true;
+          formData = new FormData();
+          formData.append("uploadedDocument", values.formUpload);
+          formData.append(
+            "customDocumentName",
+            "France Visas Application Form"
+          );
+          formData.append(
+            "ref_module",
+            applicationData.visaApplicationDetails._id
+          );
+        }
+
+        if (!hasJsonChanges && !hasFileUpload) {
+          toast.info("No changes detected.");
+          return;
+        }
+
+        if (hasJsonChanges) {
+          await dispatch(updateStudentApplication(jsonData, id));
+        }
+
+        if (hasFileUpload && formData) {
+          await dispatch(updateStudentApplication(formData, id));
+        }
+
+        await fetchData();
+        toast.success("France-Visas Online Form details updated successfully!");
+        resetForm();
+      } catch (error) {
+        console.error(
+          "Failed to update France-Visas Online Form details:",
+          error
+        );
+        toast.error(
+          error.message ||
+            "Failed to update France-Visas Online Form details. Please try again."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+  });
+console.log("formik", formik.errors)
+  useEffect(() => {
+    if (applicationData?.visaApplicationDetails?.franceVisasForm) {
+      const franceVisasForm =
+        applicationData.visaApplicationDetails.franceVisasForm;
+      formik.setValues({
+        started: franceVisasForm.started ? "Yes" : "No",
+        refernceNumber: franceVisasForm.refernceNumber || "",
+        submissionDate: franceVisasForm.submissionDate
+          ? toISODate(parseDate(franceVisasForm.submissionDate))
+          : "",
+        formUpload: "",
+      });
+    }
+  }, [applicationData]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    formik.setFieldValue("formUpload", file);
+  };
+  const handleCheckboxChangeId = (docId, docName) => {
+    setSelectedDocsIds((prev) => {
+      if (prev.includes(docId)) {
+        return prev.filter((id) => id !== docId);
+      }
+      return [...prev, docId];
+    });
+    setSelectedDocumentNames((prev) => {
+      if (prev.includes(docName)) {
+        return prev.filter((name) => name !== docName);
+      }
+      return [...prev, docName];
+    });
+  };
+
+  const sendPendingDocumentMain = (id, selectedDocumentNames) => {
+    const toastId = toast.loading("Sending the pending documents email");
+
+    dispatch(pendingDocMail(id, selectedDocumentNames))
+      .then((res) => {
+        if (res?.status === 200) {
+          toast.update(toastId, {
+            render:
+              res?.data?.data || "Pending documents email sent successfully",
+            type: "success",
+            isLoading: false,
+            autoClose: 3000,
+          });
+          setSelectedDocsIds([]);
+          setSelectedDocumentNames([]);
+        } else {
+          toast.update(toastId, {
+            render: res?.data?.message || "Failed to send email",
+            type: "error",
+            isLoading: false,
+            autoClose: 3000,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error sending pending doc email:", error);
+        toast.update(toastId, {
+          render: "Failed to send email. Please try again.",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      });
+  };
+
+  return (
+    <>
+      {isLoading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 2000,
+          }}
+        >
+          <LoadMoreButton isLoading={isLoading} />
+        </div>
+      )}
+
+      <div className="mb-4 my-5 p-4 bg-light rounded shadow-sm">
+        <div className="d-flex justify-content-between align-items-center">
+          <h5>France-Visas Online Form</h5>
+        </div>
+        <div className="bg-white mt-3 p-3">
+          <Form onSubmit={formik.handleSubmit}>
+            <Row>
+              <Col md={6} className="mb-3">
+                <Form.Group>
+                  <Form.Label>Application Started?</Form.Label>
+                  <div>
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Yes"
+                      name="started"
+                      value="Yes"
+                      id="yesStarted"
+                      checked={formik.values.started === "Yes"}
+                      onChange={formik.handleChange}
+                      className="custom-radio-border"
+                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                    />
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="No"
+                      name="started"
+                      value="No"
+                      id="noStarted"
+                      checked={formik.values.started === "No"}
+                      onChange={formik.handleChange}
+                      className="custom-radio-border"
+                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                    />
+                  </div>
+                  {formik.touched.started && formik.errors.started && (
+                    <div className="text-danger">{formik.errors.started}</div>
+                  )}
+                </Form.Group>
+              </Col>
+
+              {formik.values.started === "Yes" && (
+                <>
+                  <Col md={6} className="mb-3">
+                    <Form.Group>
+                      <Form.Label>Application Reference Number</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="refernceNumber"
+                        placeholder="Enter reference number"
+                        value={formik.values.refernceNumber}
+                        onChange={formik.handleChange}
+                        className="custom-select-height"
+                        style={{
+                          cursor: userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "",
+                        }}
+                        disabled={userRole === "Student" || userRole === "LeadStudent"}
+                      />
+                      {formik.touched.refernceNumber &&
+                        formik.errors.refernceNumber && (
+                          <div className="text-danger">
+                            {formik.errors.refernceNumber}
+                          </div>
+                        )}
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={6} className="mb-3">
+                    <Form.Group>
+                      <Form.Label>Application Submission Date</Form.Label>
+                      <div
+                        style={{ position: "relative" }}
+                        ref={submissionDateRef}
+                      >
+                        <Form.Control
+                          type="text"
+                          name="submissionDate"
+                          placeholder="dd/mm/yyyy"
+                          value={
+                            formik.values.submissionDate
+                              ? formatDate(
+                                  parseDate(formik.values.submissionDate)
+                                )
+                              : ""
+                          }
+                          readOnly
+                          onClick={() => setShowSubmissionDateCalendar(true)}
+                          style={{
+                            cursor:
+                              userRole === "Student" || userRole === "LeadStudent"
+                                ? "not-allowed"
+                                : "pointer",
+                            paddingRight: "40px",
+                          }}
+                          className="custom-select-height"
+                          disabled={userRole === "Student" || userRole === "LeadStudent"}
+                        />
+                        <MdCalendarToday
+                          style={{
+                            position: "absolute",
+                            right: 10,
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            color: "#888",
+                            pointerEvents: "none",
+                          }}
+                          size={20}
+                        />
+                        {showSubmissionDateCalendar && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "100%",
+                              left: 0,
+                              zIndex: 10000,
+                              background: "#fff",
+                              boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                              borderRadius: "8px",
+                              marginTop: "4px",
+                              width: 350,
+                            }}
+                          >
+                            <Calendar
+                              className="form-control border-0"
+                              onChange={(date) => {
+                                formik.setFieldValue(
+                                  "submissionDate",
+                                  toISODate(date)
+                                );
+                                setShowSubmissionDateCalendar(false);
+                              }}
+                              value={
+                                parseDate(formik.values.submissionDate) ||
+                                new Date()
+                              }
+                              locale="en-GB"
+                            />
+                          </div>
+                        )}
+                        {formik.touched.submissionDate &&
+                          formik.errors.submissionDate && (
+                            <div className="text-danger">
+                              {formik.errors.submissionDate}
+                            </div>
+                          )}
+                      </div>
+                    </Form.Group>
+                  </Col>
+
+                  <Col md={6} className="mb-3">
+                    <Form.Group>
+                      <Form.Label>Upload Completed Application Form</Form.Label>
+                      <Form.Control
+                        type="file"
+                        name="formUpload"
+                        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
+                        onChange={handleFileChange}
+                        className="custom-select-height"
+                        disabled={
+                          applicationData?.uploadedDocumentDetails?.some(
+                            (doc) =>
+                              doc.customDocumentName ===
+                              "France Visas Application Form"
+                          ) || userRole === "Student" || userRole === "LeadStudent"
+                        }
+                      />
+                    </Form.Group>
+                  </Col>
+                </>
+              )}
+            </Row>
+            {userRole !== "Student" && userRole !== "LeadStudent" && (
+              <div className="d-flex justify-content-end me-3">
+                <Button
+                  type="submit"
+                  className="custom-select-height"
+                  variant="primary"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Submitting..." : "Submit"}
+                </Button>
+              </div>
+            )}
+          </Form>
+        </div>
+        <DocumentHandler
+          applicationData={applicationData}
+          documentTypes={documentTypes}
+          id={id}
+          dispatch={dispatch}
+          updateStudentApplication={updateStudentApplication}
+          deleteStudentApplication={deleteStudentApplication}
+          downloadDocument={downloadDocument}
+          userRole={userRole}
+          selectedDocsIds={selectedDocsIds}
+          handleCheckboxChangeId={handleCheckboxChangeId}
+          selectedDocumentNames={selectedDocumentNames}
+          sendPendingDocumentMain={sendPendingDocumentMain}
+          fetchData={fetchData}
+        />
+      </div>
+    </>
+  );
+};
+
+export default FranceFranceVisasOnlineForm;
