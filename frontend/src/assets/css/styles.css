@@ -56927,3 +56927,43 @@ th.sticky-col-right-2 {
 /* .default-bg-color {
   background-color: #F4F6FB;
 } */
+
+.kpi-hover-card {
+  transition: all 0.3s ease;
+  border: 1px solid transparent !important;
+}
+
+.kpi-hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(var(--bs-primary-rgb), 0.2) !important;
+}
+
+/* Background Tints for Icons */
+.bg-primary-transparent {
+  background-color: rgba(98, 89, 202, 0.1);
+}
+.bg-success-transparent {
+  background-color: rgba(34, 192, 60, 0.1);
+}
+.bg-warning-transparent {
+  background-color: rgba(247, 184, 75, 0.1);
+}
+.bg-info-transparent {
+  background-color: rgba(23, 162, 184, 0.1);
+}
+
+.letter-spacing-1 {
+  letter-spacing: 0.5px;
+}
+
+.bg-white-2 {
+  background: rgba(255, 255, 255, 0.2);
+}
+.text-white-7 {
+  color: rgba(255, 255, 255, 0.7);
+}
+.letter-spacing-1 {
+  letter-spacing: 1px;
+}
+
