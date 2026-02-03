@@ -1,12 +1,12 @@
-import { Fragment, useEffect, useRef, useState } from "react";
-import { Row, Col, Form, Modal, Button, Dropdown } from "react-bootstrap";
-import Pageheader from "../../../layouts/Pageheader";
-import { FaChevronDown, FaChevronUp, FaSearch, FaPlus } from "react-icons/fa";
-import { AiOutlineClose } from "react-icons/ai";
-import { useDispatch } from "react-redux";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { Row, Col, Form, Modal, Button, Dropdown } from 'react-bootstrap';
+import Pageheader from '../../../layouts/Pageheader';
+import { FaChevronDown, FaChevronUp, FaSearch, FaPlus } from 'react-icons/fa';
+import { AiOutlineClose } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 import {
   bulkUpload,
   countryDropDownCourse,
@@ -19,35 +19,34 @@ import {
   getDependentFilter,
   updateCourseFinder,
   getStudyArea,
-} from "../../../redux/actions/CourseFinder.action";
+} from '../../../redux/actions/CourseFinder.action';
 import {
   getAllInstitute,
   instituteWiseCampusDropdown,
   stateDropdown,
   universityCountryDropdown,
-} from "../../../redux/actions/Master/Institute.action";
-import { getAllProgramLevel } from "../../../redux/actions/Master/ProgramLevel.action";
-import { getAllRequirement } from "../../../redux/actions/Master/Requirement.action";
-import Select from "react-select";
-import { REACT_APP_API_URL } from "../../../baseUrl";
-import { useLocation, useNavigate } from "react-router-dom";
-import { FaUndo } from "react-icons/fa";
-import getSymbolFromCurrency from "currency-symbol-map";
-import { getAllTag } from "../../../redux/actions/Master/Tag.action";
-import usePermissions from "../../commonComponents/usePermissions";
-import LoadMoreButton from "../../commonComponents/LoadMoreButton";
-import { decryptData } from "../../../utils/encryptionUtils";
-import { getAllCurrencyRate } from "../../../redux/actions/Master/CurrencyRate.action";
-import CourseFinderCard from "./courseFinder_Components/CourseFinderCard";
-import CourseFinderForm from "./courseFinder_Components/CourseFinderForm";
+} from '../../../redux/actions/Master/Institute.action';
+import { getAllProgramLevel } from '../../../redux/actions/Master/ProgramLevel.action';
+import { getAllRequirement } from '../../../redux/actions/Master/Requirement.action';
+import Select from 'react-select';
+import { REACT_APP_API_URL } from '../../../baseUrl';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { FaUndo } from 'react-icons/fa';
+import getSymbolFromCurrency from 'currency-symbol-map';
+import { getAllTag } from '../../../redux/actions/Master/Tag.action';
+import usePermissions from '../../commonComponents/usePermissions';
+import LoadMoreButton from '../../commonComponents/LoadMoreButton';
+import { decryptData } from '../../../utils/encryptionUtils';
+import { getAllCurrencyRate } from '../../../redux/actions/Master/CurrencyRate.action';
+import CourseFinderCard from './courseFinder_Components/CourseFinderCard';
+import CourseFinderForm from './courseFinder_Components/CourseFinderForm';
 
 const CourseFinder = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { canCreate, canRead, canUpdate, canDelete, canDownload, canUpload } =
-    usePermissions("Course Finder");
+  const { canCreate, canRead, canUpdate, canDelete, canDownload, canUpload } = usePermissions('Course Finder');
 
   const [showModal, setShowModal] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -82,27 +81,27 @@ const CourseFinder = () => {
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState([]);
   const [eslElpAvailable, setEslElpAvailable] = useState([]);
-  const [backlog, setBacklog] = useState("");
-  const [score, setScore] = useState("");
-  const [scoreOutOf, setScoreOutOf] = useState("");
+  const [backlog, setBacklog] = useState('');
+  const [score, setScore] = useState('');
+  const [scoreOutOf, setScoreOutOf] = useState('');
   const [courseFinderData, setCourseFinderData] = useState([]);
-  const [relexFilterMsg, setRelexFilterMsg] = useState("");
+  const [relexFilterMsg, setRelexFilterMsg] = useState('');
   // const [search, setSearch] = useState("");
   const [selectedInstitute, setSelectedInstitute] = useState([]);
   const [campus, setCampus] = useState([]);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [totalRecords, setTotalRecords] = useState(0);
   const [selectedDuration, setSelectedDuration] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
-  const userRole = decryptData(localStorage.getItem("role"));
+  const userRole = decryptData(localStorage.getItem('role'));
   const [appliedFilters, setAppliedFilters] = useState({});
   const [hasSearched, setHasSearched] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currencyCodeData, setCurrencyCodeData] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [currencyRate, setCurrencyRate] = useState([]);
-  const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: "" });
+  const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' });
 
   const [studyAreaInput, setStudyAreaInput] = useState();
   const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
@@ -122,31 +121,29 @@ const CourseFinder = () => {
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [totalPages, setTotalPages] = useState(0);
 
-  const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
-  );
+  const storedEncryptedCurrency = decryptData(localStorage.getItem('crmCurrency'));
 
   const concentrations = Array.from(
     new Set(
       courseFinderData.flatMap((item) => {
         const values = [];
-        if (item.concentration && item.concentration.trim() !== "") {
+        if (item.concentration && item.concentration.trim() !== '') {
           values.push(item.concentration.trim());
         }
-        if (item.programName && item.programName.trim() !== "") {
+        if (item.programName && item.programName.trim() !== '') {
           values.push(item.programName.trim());
         }
         return values;
-      })
-    )
+      }),
+    ),
   );
 
   const scoreOutOfOptions = [
-    { value: "100", label: "Out of 100" },
-    { value: "10", label: "Out of 10" },
-    { value: "7", label: "Out of 7" },
-    { value: "5", label: "Out of 5" },
-    { value: "4", label: "Out of 4" },
+    { value: '100', label: 'Out of 100' },
+    { value: '10', label: 'Out of 10' },
+    { value: '7', label: 'Out of 7' },
+    { value: '5', label: 'Out of 5' },
+    { value: '4', label: 'Out of 4' },
   ];
 
   const getSuggestions = (value) => {
@@ -160,16 +157,12 @@ const CourseFinder = () => {
       item
         .split(/\s+/)
         .map((word) => word.trim())
-        .filter((word) => word.toLowerCase().includes(inputValue))
+        .filter((word) => word.toLowerCase().includes(inputValue)),
     );
 
-    const phraseSuggestions = concentrations.filter((item) =>
-      item.toLowerCase().includes(inputValue)
-    );
+    const phraseSuggestions = concentrations.filter((item) => item.toLowerCase().includes(inputValue));
 
-    const allSuggestions = [
-      ...new Set([...wordSuggestions, ...phraseSuggestions]),
-    ];
+    const allSuggestions = [...new Set([...wordSuggestions, ...phraseSuggestions])];
 
     return allSuggestions;
   };
@@ -243,40 +236,27 @@ const CourseFinder = () => {
     setShowViewModal(false);
     setSelectedItem(null);
 
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = 'auto';
   };
 
   useEffect(() => {
     if (showViewModal) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, [showViewModal]);
 
   const handleEslElpChange = (e) => {
     const isChecked = e.target.checked;
     setShowInput(isChecked);
-    formik.setFieldValue("eslElpAvailable", isChecked ? "Yes" : "No");
+    formik.setFieldValue('eslElpAvailable', isChecked ? 'Yes' : 'No');
   };
 
-  const monthList = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  const monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const month = monthList.map((month) => ({
     value: month,
@@ -330,8 +310,8 @@ const CourseFinder = () => {
   const handleMinChange = (event) => {
     const inputValue = event.target.value;
 
-    if (inputValue === "") {
-      setMinPrice("");
+    if (inputValue === '') {
+      setMinPrice('');
       return;
     }
 
@@ -349,12 +329,12 @@ const CourseFinder = () => {
   const handleMaxChange = (event) => {
     const inputValue = event.target.value;
 
-    if (inputValue === "") {
-      setMaxPrice("");
+    if (inputValue === '') {
+      setMaxPrice('');
       return;
     }
 
-    const newMax = event.target.value === "" ? 0 : Number(event.target.value);
+    const newMax = event.target.value === '' ? 0 : Number(event.target.value);
     if (newMax >= minPrice) {
       setMaxPrice(newMax);
       handleCourseSearch(minPrice, newMax);
@@ -366,25 +346,9 @@ const CourseFinder = () => {
 
   const valuetext = (value) => `${value}`;
 
-  const intakeList = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  const intakeList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  const intakeYearList = Array.from(
-    { length: 20 },
-    (_, index) => new Date().getFullYear() + index
-  );
+  const intakeYearList = Array.from({ length: 20 }, (_, index) => new Date().getFullYear() + index);
 
   const openModal = () => setShowModal(true);
   const closeModal = () => {
@@ -398,17 +362,17 @@ const CourseFinder = () => {
     setSelectedStudyLevel([]);
     setSelectedTags([]);
 
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = 'auto';
   };
 
   useEffect(() => {
     if (showModal) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, [showModal]);
 
@@ -418,11 +382,11 @@ const CourseFinder = () => {
 
   const fetchDependentFilter = async (country, studyArea) => {
     try {
-      const res = await dispatch(getDependentFilter(country, studyArea || ""));
+      const res = await dispatch(getDependentFilter(country, studyArea || ''));
       // setStudyArea(res?.data?.data?.studyAreas);
       setDisciplineArea(res?.data?.data?.disciplineAreas);
     } catch (error) {
-      console.log("Error fetching Study area and Discipline Area");
+      console.log('Error fetching Study area and Discipline Area');
     }
   };
 
@@ -431,16 +395,13 @@ const CourseFinder = () => {
       const res = await dispatch(getStudyArea(country));
       setStudyArea(res?.data?.data?.studyAreas);
     } catch (error) {
-      console.log("Error fetching Study area and Discipline Area");
+      console.log('Error fetching Study area and Discipline Area');
     }
   };
 
   useEffect(() => {
     if (selectedStudyArea) {
-      fetchDependentFilter(
-        selectedCountry?.map((option) => option.label) || [],
-        selectedStudyArea
-      );
+      fetchDependentFilter(selectedCountry?.map((option) => option.label) || [], selectedStudyArea);
     }
   }, [selectedStudyArea]);
   useEffect(() => {
@@ -454,12 +415,9 @@ const CourseFinder = () => {
     try {
       const filterPayload = {
         ...filters,
-        requirements:
-          !showModal && filters.requirements ? filters.requirements : [],
+        requirements: !showModal && filters.requirements ? filters.requirements : [],
       };
-      const res = await dispatch(
-        getAllCourseFinder(page, limit, filterPayload)
-      );
+      const res = await dispatch(getAllCourseFinder(page, limit, filterPayload));
       const responseData = res?.data?.data;
       setRelexFilterMsg(responseData?.message);
       if (responseData?.data?.length === 0) {
@@ -471,7 +429,7 @@ const CourseFinder = () => {
         setTotalPages(responseData?.totalPages || 0);
       }
     } catch (error) {
-      console.error("Error fetching institute:", error);
+      console.error('Error fetching institute:', error);
       setCourseFinderData([]);
       setTotalRecords(0);
     } finally {
@@ -501,34 +459,28 @@ const CourseFinder = () => {
       setSelectedStudyArea(filters.selectedStudyArea || []);
       setSelectedDisciplineArea(filters.selectedDisciplineArea || []);
       setSelectedDuration(filters.selectedDuration || []);
-      setEslElpAvailable(filters.eslElpAvailable || "");
+      setEslElpAvailable(filters.eslElpAvailable || '');
       setSelectedInstitute(filters.selectedInstitute || []);
       setCampus(filters.campus || []);
-      setBacklog(filters.backlog || "");
-      setScore(filters.score || "");
-      setScoreOutOf(filters.scoreOutOf || "");
-      setSearchText(filters.searchText || "");
+      setBacklog(filters.backlog || '');
+      setScore(filters.score || '');
+      setScoreOutOf(filters.scoreOutOf || '');
+      setSearchText(filters.searchText || '');
       setSelectedProgramLevel(filters.selectedProgramLevel || []);
       setFilterRequirements(filters.filterRequirements || []);
       setMinPrice(filters.minPrice || 0);
       setMaxPrice(filters.maxPrice || 100000);
       setHasSearched(true);
-      setStudyAreaInput(filters.studyAreaInput || "");
+      setStudyAreaInput(filters.studyAreaInput || '');
       setShowSlider(filters.showSlider || false);
       setCurrentPage(filters.currentPage || 1);
 
       if (filters.selectedInstitute?.length > 0) {
-        const instituteNames = filters.selectedInstitute.map(
-          (inst) => inst.label
-        );
-        fetchAllCampusByInstitute(instituteNames, "");
+        const instituteNames = filters.selectedInstitute.map((inst) => inst.label);
+        fetchAllCampusByInstitute(instituteNames, '');
       }
 
-      fetchAllCourseFinder(
-        filters.currentPage,
-        itemsPerPage,
-        filters.appliedFilters || {}
-      );
+      fetchAllCourseFinder(filters.currentPage, itemsPerPage, filters.appliedFilters || {});
 
       navigate(location.pathname, { replace: true, state: {} });
     }
@@ -604,10 +556,7 @@ const CourseFinder = () => {
     const countryCodes = selectedOption?.map((option) => option.value);
     const countryNames = selectedOption?.map((option) => option.label);
     fetchAllStates(countryCodes);
-    fetchAllInstituteByCountry(
-      countryNames || selectedCountry?.map((option) => option.label),
-      selectedState?.label
-    );
+    fetchAllInstituteByCountry(countryNames || selectedCountry?.map((option) => option.label), selectedState?.label);
     fetchDependentFilter(countryNames);
     // setLoadedRecords(12);
     setCurrentPage(1);
@@ -615,18 +564,18 @@ const CourseFinder = () => {
 
   const handleInstituteChange = (selectedOption) => {
     setSelectedInstitute(selectedOption);
-    setCampus("");
+    setCampus('');
     // setLoadedRecords(12);
     setCurrentPage(1);
     if (selectedOption) {
-      fetchAllCampusByInstitute(selectedOption.value.instituteName, "");
+      fetchAllCampusByInstitute(selectedOption.value.instituteName, '');
     } else {
       setCampusDataByInstitute([]);
     }
   };
 
   const handleCampusChange = (selectedOption) => {
-    const campusId = selectedOption ? selectedOption.value : "";
+    const campusId = selectedOption ? selectedOption.value : '';
     setCampus(campusId);
     // setLoadedRecords(12);
     setCurrentPage(1);
@@ -641,26 +590,19 @@ const CourseFinder = () => {
         allStates = [...allStates, ...data];
       }
       // Remove duplicates based on state isoCode
-      const uniqueStates = Array.from(
-        new Map(allStates.map((state) => [state.isoCode, state])).values()
-      );
+      const uniqueStates = Array.from(new Map(allStates.map((state) => [state.isoCode, state])).values());
       setStates(uniqueStates);
     } catch (err) {
-      console.error("Error fetching states:", err);
+      console.error('Error fetching states:', err);
       setStates([]);
     }
   };
 
   const handleStateChange = (selectedOptions) => {
     setSelectedState(selectedOptions || []);
-    const stateLabels = selectedOptions
-      ? selectedOptions.map((s) => s.label)
-      : [];
+    const stateLabels = selectedOptions ? selectedOptions.map((s) => s.label) : [];
 
-    fetchAllInstituteByCountry(
-      selectedCountry?.map((c) => c.label) || [],
-      stateLabels
-    );
+    fetchAllInstituteByCountry(selectedCountry?.map((c) => c.label) || [], stateLabels);
     // setLoadedRecords(12);
     setCurrentPage(1);
   };
@@ -671,9 +613,7 @@ const CourseFinder = () => {
   };
 
   const fetchAllInstituteByCountry = async (country, state) => {
-    const response = await dispatch(
-      getAllInstitute(1, 5000, "", country, state)
-    );
+    const response = await dispatch(getAllInstitute(1, 5000, '', country, state));
     const responseData = response?.data?.data?.data;
     setInstituteDataByCountry(responseData);
   };
@@ -682,19 +622,15 @@ const CourseFinder = () => {
     try {
       let allCampuses = [];
       for (const instituteName of instituteNames) {
-        const response = await dispatch(
-          instituteWiseCampusDropdown(instituteName, "")
-        );
+        const response = await dispatch(instituteWiseCampusDropdown(instituteName, ''));
         const responseData = response?.data?.data || [];
         allCampuses = [...allCampuses, ...responseData];
       }
       // Remove duplicates based on campus ID
-      const uniqueCampuses = Array.from(
-        new Map(allCampuses.map((campus) => [campus._id, campus])).values()
-      );
+      const uniqueCampuses = Array.from(new Map(allCampuses.map((campus) => [campus._id, campus])).values());
       setCampusDataByInstitute(uniqueCampuses);
     } catch (error) {
-      console.error("Error fetching campuses:", error);
+      console.error('Error fetching campuses:', error);
       setCampusDataByInstitute([]);
     }
   };
@@ -712,7 +648,7 @@ const CourseFinder = () => {
   };
 
   const fetchAllTags = async () => {
-    const response = await dispatch(getAllTag(""));
+    const response = await dispatch(getAllTag(''));
     const responseData = response?.data?.data;
     setTagsData(responseData || []);
   };
@@ -730,7 +666,7 @@ const CourseFinder = () => {
         setCurrencyRate(res?.data?.message || []);
       }
     } catch (error) {
-      console.error("Error fetching student statuses:", error);
+      console.error('Error fetching student statuses:', error);
     }
   };
 
@@ -755,29 +691,29 @@ const CourseFinder = () => {
       requirements: !showModal ? filterRequirements : [],
       searchText: searchText,
       institute: selectedInstitute?.map((institute) => institute.value) || [],
-      campus: campus || "",
-      backlog: backlog || "",
-      score: score || "",
-      scoreOutOf: scoreOutOf || "",
-      minTuitionFee: minTuitionFee !== undefined ? minTuitionFee : "",
-      maxTuitionFee: maxTuitionFee !== undefined ? maxTuitionFee : "",
+      campus: campus || '',
+      backlog: backlog || '',
+      score: score || '',
+      scoreOutOf: scoreOutOf || '',
+      minTuitionFee: minTuitionFee !== undefined ? minTuitionFee : '',
+      maxTuitionFee: maxTuitionFee !== undefined ? maxTuitionFee : '',
     };
 
     const hasValidFilters = Object.values(filters).some((value) => {
       if (Array.isArray(value)) {
         return value.length > 0;
       }
-      if (typeof value === "string") {
-        return value.trim() !== "";
+      if (typeof value === 'string') {
+        return value.trim() !== '';
       }
-      if (typeof value === "number") {
+      if (typeof value === 'number') {
         return true;
       }
       return value;
     });
 
     if (!hasValidFilters) {
-      toast.error("Please apply at least one filter");
+      toast.error('Please apply at least one filter');
       return;
     }
 
@@ -794,40 +730,40 @@ const CourseFinder = () => {
   const formik = useFormik({
     initialValues: {
       university: [],
-      programName: "",
-      concentration: "",
-      studyArea: "",
-      career: "",
-      disciplineArea: "",
-      score: "",
-      scoreOutOf: "",
-      websiteUrl: "",
-      country: "",
+      programName: '',
+      concentration: '',
+      studyArea: '',
+      career: '',
+      disciplineArea: '',
+      score: '',
+      scoreOutOf: '',
+      websiteUrl: '',
+      country: '',
       studyLevel: [],
-      duration: "",
+      duration: '',
       intakes: [],
       intakeYear: [],
       tags: [],
       applicationStartDate: [],
       applicationEndDate: [],
-      entryRequirements: "",
-      applicationFee: "",
-      currencyCode: "",
-      yearlyTuitionFee: "",
-      scholarshipAvailable: "",
-      scholarshipDetails: "",
-      remarks: "",
-      eslElpAvailable: "No",
-      eslElpDetails: "",
-      applicationMode: "",
-      englishProficiencyExamWaiver: "",
-      status: "",
+      entryRequirements: '',
+      applicationFee: '',
+      currencyCode: '',
+      yearlyTuitionFee: '',
+      scholarshipAvailable: '',
+      scholarshipDetails: '',
+      remarks: '',
+      eslElpAvailable: 'No',
+      eslElpDetails: '',
+      applicationMode: '',
+      englishProficiencyExamWaiver: '',
+      status: '',
       requirements: [],
-      criteria: "",
+      criteria: '',
     },
     validationSchema: Yup.object({
-      university: Yup.array().min(1, "University is required"),
-      programName: Yup.string().required("Program Name is required"),
+      university: Yup.array().min(1, 'University is required'),
+      programName: Yup.string().required('Program Name is required'),
       concentration: Yup.string(),
       studyArea: Yup.string(),
       career: Yup.string(),
@@ -837,14 +773,14 @@ const CourseFinder = () => {
       websiteUrl: Yup.string(),
       studyLevel: Yup.array(),
       duration: Yup.string(),
-      intakes: Yup.array().min(1, "At least one intake is required"),
+      intakes: Yup.array().min(1, 'At least one intake is required'),
       intakeYear: Yup.array(),
       tags: Yup.array(),
       applicationStartDate: Yup.array().of(Yup.string()),
       applicationEndDate: Yup.array().of(Yup.string()),
       entryRequirements: Yup.string(),
       applicationFee: Yup.string(),
-      currencyCode: Yup.string().required("Currency Code is required"),
+      currencyCode: Yup.string().required('Currency Code is required'),
       yearlyTuitionFee: Yup.string(),
       scholarshipAvailable: Yup.string(),
       scholarshipDetails: Yup.string(),
@@ -860,30 +796,26 @@ const CourseFinder = () => {
       setIsLoading(true);
       try {
         toast.dismiss();
-        const formattedRequirements = selectedRequirements.map(
-          (req) => req._id
-        );
+        const formattedRequirements = selectedRequirements.map((req) => req._id);
 
         const formattedIntakes = intakeList.map((intake) => ({
           month: intake,
-          status: checkboxStatus[intake] ? "Active" : "Inactive",
+          status: checkboxStatus[intake] ? 'Active' : 'Inactive',
         }));
 
         // Convert comma-separated disciplineArea to array
         const formattedDisciplineArea = values.disciplineArea
           ? values.disciplineArea
-              .split(",")
+              .split(',')
               .map((item) => item.trim())
               .filter((item) => item.length > 0)
           : [];
 
         const submitData = {
           ...values,
-          status: values.status || "Active",
+          status: values.status || 'Active',
           requirements: formattedRequirements,
-          intakes: formattedIntakes.filter((item) =>
-            selectedIntake.includes(item.month)
-          ),
+          intakes: formattedIntakes.filter((item) => selectedIntake.includes(item.month)),
           tags: selectedTags.map((tag) => tag._id),
           disciplineArea: formattedDisciplineArea,
           career: values.career,
@@ -892,7 +824,7 @@ const CourseFinder = () => {
         if (values.id) {
           const res = await dispatch(updateCourseFinder(submitData, values.id));
           if (res?.data?.code === 200) {
-            toast.success("Course updated successfully");
+            toast.success('Course updated successfully');
             closeModal();
             resetForm();
             setSelectedRequirements([]);
@@ -906,7 +838,7 @@ const CourseFinder = () => {
             .filter((r) => r._id)
             .map((r) => ({
               name: r._id,
-              value: textboxValues[r._id] || "",
+              value: textboxValues[r._id] || '',
             }));
 
           values.intakes = selectedIntake;
@@ -915,7 +847,7 @@ const CourseFinder = () => {
 
           const res = await dispatch(createCourseFinder(submitData));
           if (res?.data?.code === 201) {
-            toast.success("Course added successfully");
+            toast.success('Course added successfully');
             closeModal();
             resetForm();
             setSelectedIntake([]);
@@ -942,9 +874,7 @@ const CourseFinder = () => {
   };
   useEffect(() => {
     if (durationData.length > 0 && formik.values.duration?.length > 0) {
-      const preSelected = durationData.filter((option) =>
-        formik.values.duration.includes(option.value)
-      );
+      const preSelected = durationData.filter((option) => formik.values.duration.includes(option.value));
       setSelectedDuration(preSelected);
     }
   }, [durationData, formik.values.duration]);
@@ -952,31 +882,27 @@ const CourseFinder = () => {
   const handleEdit = (item) => {
     const universities = item.university ? [item.university._id] : [];
 
-    setSelectedUniversities(
-      item.university
-        ? [{ _id: item.university._id, name: item.university.instituteName }]
-        : []
-    );
+    setSelectedUniversities(item.university ? [{ _id: item.university._id, name: item.university.instituteName }] : []);
 
     const intakes = item.intakes || [];
     const selected = intakes.map((i) => i.month);
     const checkboxStates = {};
     intakes.forEach((i) => {
-      checkboxStates[i.month] = i.status === "Active";
+      checkboxStates[i.month] = i.status === 'Active';
     });
 
     setSelectedIntake(selected);
     setCheckboxStatus(checkboxStates);
     setSelectedIntakeYear(item.intakeYear || []);
-    setShowInput(item.eslElpAvailable === "Yes");
+    setShowInput(item.eslElpAvailable === 'Yes');
 
     const reqList = item.requirements || [];
     const textBoxObj = {};
     reqList.forEach((req) => {
       if (req?.name?._id) {
-        textBoxObj[req.name._id] = req.value || "";
+        textBoxObj[req.name._id] = req.value || '';
       } else if (req?.name) {
-        textBoxObj[req.name] = req.value || "";
+        textBoxObj[req.name] = req.value || '';
       }
     });
     setTextboxValues(textBoxObj);
@@ -1000,44 +926,42 @@ const CourseFinder = () => {
       ...formik.initialValues,
       id: item._id,
       university: universities,
-      programName: item.programName || "",
-      concentration: item.concentration || "",
-      studyArea: item.studyArea || "",
-      career: item.career || "",
-      disciplineArea: Array.isArray(item.disciplineArea)
-        ? item.disciplineArea.join(", ")
-        : item.disciplineArea || "",
-      score: item.score || "",
-      scoreOutOf: item.scoreOutOf || "",
-      websiteUrl: item.websiteUrl || "",
-      country: item.university?.country || "",
+      programName: item.programName || '',
+      concentration: item.concentration || '',
+      studyArea: item.studyArea || '',
+      career: item.career || '',
+      disciplineArea: Array.isArray(item.disciplineArea) ? item.disciplineArea.join(', ') : item.disciplineArea || '',
+      score: item.score || '',
+      scoreOutOf: item.scoreOutOf || '',
+      websiteUrl: item.websiteUrl || '',
+      country: item.university?.country || '',
       studyLevel: item.studyLevel || [],
-      duration: item.duration || "",
+      duration: item.duration || '',
       intakes: intakes || [],
       intakeYear: item.intakeYear || [],
       tags: formattedTags.map((t) => t._id) || [],
-      applicationStartDate: item.applicationStartDate || "",
-      applicationEndDate: item.applicationEndDate || "",
-      entryRequirements: item.entryRequirements || "",
-      applicationFee: item.applicationFee || "",
-      currencyCode: item.currencyCode || "",
-      yearlyTuitionFee: item.yearlyTuitionFee || "",
-      scholarshipAvailable: item.scholarshipAvailable || "",
-      scholarshipDetails: item.scholarshipDetails || "",
-      remarks: item.remarks || "",
-      eslElpAvailable: item.eslElpAvailable || "No",
-      eslElpDetails: item.eslElpDetails || "",
-      applicationMode: item.applicationMode || "",
-      englishProficiencyExamWaiver: item.englishProficiencyExamWaiver || "",
-      status: item.status || "",
+      applicationStartDate: item.applicationStartDate || '',
+      applicationEndDate: item.applicationEndDate || '',
+      entryRequirements: item.entryRequirements || '',
+      applicationFee: item.applicationFee || '',
+      currencyCode: item.currencyCode || '',
+      yearlyTuitionFee: item.yearlyTuitionFee || '',
+      scholarshipAvailable: item.scholarshipAvailable || '',
+      scholarshipDetails: item.scholarshipDetails || '',
+      remarks: item.remarks || '',
+      eslElpAvailable: item.eslElpAvailable || 'No',
+      eslElpDetails: item.eslElpDetails || '',
+      applicationMode: item.applicationMode || '',
+      englishProficiencyExamWaiver: item.englishProficiencyExamWaiver || '',
+      status: item.status || '',
       requirements: formattedRequirements || [],
-      criteria: item.criteria || "",
+      criteria: item.criteria || '',
     });
 
     openModal();
   };
   const resetFilters = () => {
-    setStudyAreaInput("");
+    setStudyAreaInput('');
     setSelectedMonths([]);
     setSelectedYear([]);
     setSelectedCountry(null);
@@ -1045,13 +969,13 @@ const CourseFinder = () => {
     setSelectedStudyArea([]);
     setSelectedDisciplineArea([]);
     setSelectedDuration([]);
-    setEslElpAvailable("");
+    setEslElpAvailable('');
     setSelectedInstitute([]);
     setCampus([]);
-    setBacklog("");
-    setScore("");
-    setScoreOutOf("");
-    setSearchText("");
+    setBacklog('');
+    setScore('');
+    setScoreOutOf('');
+    setSearchText('');
     setSelectedProgramLevel([]);
     setFilterRequirements([]);
     setAppliedFilters({});
@@ -1073,7 +997,7 @@ const CourseFinder = () => {
       toast.dismiss();
       const res = await dispatch(deleteCourseFinder(item._id));
       if (res?.data?.code === 200) {
-        toast.success("Course deleted successfully");
+        toast.success('Course deleted successfully');
         // setLoadedRecords(12);
         setCurrentPage(1);
         fetchAllCourseFinder(1, itemsPerPage, appliedFilters);
@@ -1081,7 +1005,7 @@ const CourseFinder = () => {
         setShowDeleteModal(false);
       }
     } catch (error) {
-      console.error("Error deleting course:", error);
+      console.error('Error deleting course:', error);
     }
   };
 
@@ -1092,61 +1016,61 @@ const CourseFinder = () => {
       if (selectedIds.length < 20) {
         setSelectedIds([...selectedIds, id]);
       } else {
-        toast.error("You can only select up to 20 items.");
+        toast.error('You can only select up to 20 items.');
       }
     }
   };
 
   const courseDownload = async () => {
     if (selectedIds.length === 0) {
-      toast.error("Please select at least one course to download");
+      toast.error('Please select at least one course to download');
       return;
     }
     try {
-      const ids = selectedIds.join(",");
+      const ids = selectedIds.join(',');
       const res = await dispatch(courseDownloadExcel(ids));
       if (res?.data?.code === 200) {
-        const filePath = res.data.data.replace("/api", "");
+        const filePath = res.data.data.replace('/api', '');
         const downloadUrl = `${REACT_APP_API_URL}${filePath}`;
 
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = downloadUrl;
-        link.setAttribute("download", "course_list.xlsx");
+        link.setAttribute('download', 'course_list.xlsx');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 
-        toast.success("Course download successfully");
+        toast.success('Course download successfully');
         setSelectedIds([]);
       }
     } catch (error) {
-      console.error("Error downloading course:", error);
+      console.error('Error downloading course:', error);
     }
   };
   const handleAllDownload = async () => {
     if (courseFinderData.length === 0) {
-      toast.error("No courses available to download");
+      toast.error('No courses available to download');
       return;
     }
 
     try {
-      const ids = courseFinderData.map((item) => item._id).join(",");
+      const ids = courseFinderData.map((item) => item._id).join(',');
       const res = await dispatch(courseDownloadExcel(ids));
       if (res?.data?.code === 200) {
-        const filePath = res.data.data.replace("/api", "");
+        const filePath = res.data.data.replace('/api', '');
         const downloadUrl = `${REACT_APP_API_URL}${filePath}`;
 
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = downloadUrl;
-        link.setAttribute("download", "course_list.xlsx");
+        link.setAttribute('download', 'course_list.xlsx');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 
-        toast.success("Course download successfully");
+        toast.success('Course download successfully');
       }
     } catch (error) {
-      console.error("Error downloading all courses:", error);
+      console.error('Error downloading all courses:', error);
     }
   };
 
@@ -1155,16 +1079,16 @@ const CourseFinder = () => {
     const file = e.target.files[0];
     if (!file) return;
     const formData = new FormData();
-    formData.append("excelFile", file);
+    formData.append('excelFile', file);
 
-    const toastId = toast.loading("Uploading file...");
+    const toastId = toast.loading('Uploading file...');
     try {
       const res = await dispatch(bulkUpload(formData));
 
       if (res?.data?.code === 201) {
         toast.update(toastId, {
-          render: "File uploaded successfully",
-          type: "success",
+          render: 'File uploaded successfully',
+          type: 'success',
           isLoading: false,
           autoClose: 3000,
         });
@@ -1173,8 +1097,8 @@ const CourseFinder = () => {
         fetchAllCourseFinder(1, itemsPerPage, appliedFilters);
       } else {
         toast.update(toastId, {
-          render: res?.data?.message || "Upload failed.",
-          type: "error",
+          render: res?.data?.message || 'Upload failed.',
+          type: 'error',
           isLoading: false,
           autoClose: 3000,
         });
@@ -1183,10 +1107,10 @@ const CourseFinder = () => {
       fetchAllDuration();
       e.target.value = null;
     } catch (error) {
-      console.error("Error uploading file:", error?.response?.data?.message);
+      console.error('Error uploading file:', error?.response?.data?.message);
       toast.update(toastId, {
-        render: error?.response?.data?.message || "Error uploading file",
-        type: "error",
+        render: error?.response?.data?.message || 'Error uploading file',
+        type: 'error',
         isLoading: false,
         autoClose: 3000,
       });
@@ -1195,34 +1119,14 @@ const CourseFinder = () => {
     }
   };
 
-  const options = [
-    { value: "Yes", label: "Yes" },
-    { value: "No", label: "No" },
-  ];
-
   // Flatten and split all discipline areas into individual, unique options
   const disciplineAreaOptions = Array.from(
     new Set(
       (disciplineAreasOption || [])
-        .flatMap((option) =>
-          Array.isArray(option)
-            ? option
-            : typeof option === "string"
-            ? option.split(",")
-            : []
-        )
+        .flatMap((option) => (Array.isArray(option) ? option : typeof option === 'string' ? option.split(',') : []))
         .map((item) => item.trim())
-        .filter(Boolean)
-    )
-  ).map((option) => ({
-    value: option,
-    label: option,
-  }));
-
-  const studyAreaOptions = Array.from(
-    new Set(
-      (studyAreaOption || []).map((option) => option.trim()).filter(Boolean)
-    )
+        .filter(Boolean),
+    ),
   ).map((option) => ({
     value: option,
     label: option,
@@ -1242,57 +1146,111 @@ const CourseFinder = () => {
   // };
 
   const getINRValue = (amount, currencyCode) => {
-    if (!currencyRate || !currencyRate.length)
-      return "Conversion rate not found!";
-    const rateObj = currencyRate.find(
-      (rate) => rate.currencyCode === currencyCode
-    );
-    if (!rateObj || !rateObj.INRvalue) return "Conversion rate not found!";
+    if (!currencyRate || !currencyRate.length) return 'Conversion rate not found!';
+    const rateObj = currencyRate.find((rate) => rate.currencyCode === currencyCode);
+    if (!rateObj || !rateObj.INRvalue) return 'Conversion rate not found!';
 
     // Handle null, undefined, or invalid amount
-    if (amount == null || amount === "") return "Invalid amount";
+    if (amount == null || amount === '') return 'Invalid amount';
 
     // Convert amount to string and remove commas
-    const amountStr = String(amount).replace(/,/g, "");
+    const amountStr = String(amount).replace(/,/g, '');
 
     // Convert to number and validate
     const amountNum = parseFloat(amountStr);
-    if (isNaN(amountNum)) return "Invalid amount";
+    if (isNaN(amountNum)) return 'Invalid amount';
 
     // Calculate INR value
     const inrValue = amountNum * parseFloat(rateObj.INRvalue);
 
     // Check if inrValue is valid
-    if (isNaN(inrValue)) return "Invalid conversion";
+    if (isNaN(inrValue)) return 'Invalid conversion';
 
-    return `${
-      storedEncryptedCurrency ? storedEncryptedCurrency : "INR"
-    } Value: ${
-      storedEncryptedCurrency
-        ? getSymbolFromCurrency(storedEncryptedCurrency)
-        : "₹"
-    }${inrValue.toLocaleString("en-IN")}`;
+    return `${storedEncryptedCurrency ? storedEncryptedCurrency : 'INR'} Value: ${
+      storedEncryptedCurrency ? getSymbolFromCurrency(storedEncryptedCurrency) : '₹'
+    }${inrValue.toLocaleString('en-IN')}`;
   };
+
+  const customStyle = {
+    control: (base) => ({
+      ...base,
+      height: '45px',
+      minHeight: '45px',
+      padding: '0 0 0 5px',
+      // borderColor: '#b5bcc4',
+      fontSize: '15px',
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: '#000000',
+    }),
+  };
+  // const customStyle = {
+  //   control: (base) => ({
+  //     ...base,
+  //     height: 50,
+  //     minHeight: 50,
+  //     padding: '0 10px',
+  //   }),
+  //   valueContainer: (base) => ({
+  //     ...base,
+  //     minHeight: 48,
+  //     paddingTop: 6,
+  //     paddingBottom: 6,
+  //     paddingLeft: 8,
+  //     paddingRight: 8,
+  //     display: 'flex',
+  //     flexWrap: 'wrap',
+  //     alignItems: 'center',
+  //   }),
+  //   multiValue: (base) => ({
+  //     ...base,
+  //     backgroundColor: '#f0f0f0',
+  //     borderRadius: 12,
+  //     padding: '2px 8px',
+  //     margin: '2px 4px',
+  //     fontSize: 14,
+  //     color: '#333',
+  //     display: 'flex',
+  //     alignItems: 'center',
+  //   }),
+  //   multiValueLabel: (base) => ({
+  //     ...base,
+  //     color: '#333',
+  //     fontWeight: 500,
+  //     padding: 0,
+  //   }),
+  //   multiValueRemove: (base) => ({
+  //     ...base,
+  //     color: '#888',
+  //     ':hover': {
+  //       backgroundColor: '#e0e0e0',
+  //       color: '#222',
+  //     },
+  //   }),
+  //   menuPortal: (base) => ({
+  //     ...base,
+  //     zIndex: 9999,
+  //   }),
+  // };
+
+  const customStyle2 = { height: 45, minHeight: 45, padding: '0 10px', borderRadius: '5px' };
 
   return (
     <Fragment>
       <div className="d-flex justify-content-between align-items-center">
         <div>
-          <Pageheader
-            mainheading="Course"
-            parentfolder="Home"
-            activepage="Course"
-          />
+          <Pageheader mainheading="Course" parentfolder="Home" activepage="Course" />
         </div>
-        <div style={{ minWidth: "100px" }}>
+        <div style={{ minWidth: '100px' }}>
           {canCreate && (
             <Button
               variant="primary"
-              className="d-flex align-items-center gap-1 w-100 rounded-5"
-              style={{ height: "45px" }}
+              className="custom-select-height2 d-flex align-items-center gap-1 w-100"
+              style={{ height: '45px' }}
               onClick={openModal}
             >
-              <FaPlus fontSize={12} style={{ marginBottom: "2px" }} />
+              <FaPlus fontSize={12} style={{ marginBottom: '2px' }} />
               <span>Add Course</span>
             </Button>
           )}
@@ -1302,34 +1260,31 @@ const CourseFinder = () => {
       {/* {canRead && ( */}
       <div
         className="small-device-adjust p-3 mb-4 bg-light rounded"
-        style={{ border: "1px solid #053880", overflow: "visible" }}
+        style={{ border: '1px solid #053880', overflow: 'visible' }}
       >
         {/* Combined input and buttons in a single flex row */}
         <Row className="align-items-end g-2 px-2 mb-2">
           {/* <Col> */}
           <div className="filter-section gap-2">
-            <Form.Group
-              controlId="studyArea"
-              style={{ flex: 1, position: "relative" }}
-            >
+            <Form.Group controlId="studyArea" style={{ flex: 1, position: 'relative' }}>
               <Form.Control
                 type="text"
                 placeholder="What would you like to study?"
                 name="studyArea"
-                className="w-100 rounded-5 search-input-light text-capitalize"
+                className="custom-select-height2 w-100 search-input-light text-capitalize"
                 autoComplete="off"
                 style={{
-                  height: "45px",
-                  borderColor: "#b5bcc4",
-                  padding: "10px",
-                  minWidth: "230px",
+                  height: '45px',
+                  borderColor: '#b5bcc4',
+                  padding: '10px',
+                  minWidth: '230px',
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = "#007BFF";
+                  e.target.style.borderColor = '#007BFF';
                   handleInputFocus();
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = "#b5bcc4";
+                  e.target.style.borderColor = '#b5bcc4';
                   handleInputBlur();
                 }}
                 value={searchText}
@@ -1340,18 +1295,18 @@ const CourseFinder = () => {
                 <div
                   className="suggestions-container"
                   style={{
-                    position: "absolute",
-                    top: "100%",
+                    position: 'absolute',
+                    top: '100%',
                     left: 0,
                     right: 0,
-                    background: "#fff",
-                    border: "0.5px solid #b5bcc4",
-                    borderRadius: "10px",
-                    maxHeight: "150px",
-                    overflowY: "auto",
+                    background: '#fff',
+                    border: '0.5px solid #b5bcc4',
+                    borderRadius: '10px',
+                    maxHeight: '150px',
+                    overflowY: 'auto',
                     zIndex: 1000,
-                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                    marginTop: "5px",
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                    marginTop: '5px',
                   }}
                 >
                   {suggestions.map((word, index) => (
@@ -1359,18 +1314,14 @@ const CourseFinder = () => {
                       key={`${word}-${index}`}
                       className="suggestion-item"
                       style={{
-                        padding: "8px 12px",
-                        cursor: "pointer",
-                        backgroundColor: "#fff",
+                        padding: '8px 12px',
+                        cursor: 'pointer',
+                        backgroundColor: '#fff',
                         // borderBottom: "1px solid #f0f0f0",
                       }}
                       onMouseDown={() => handleSuggestionClick(word)}
-                      onMouseEnter={(e) =>
-                        (e.target.style.backgroundColor = "#DEEBFF")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.target.style.backgroundColor = "#fff")
-                      }
+                      onMouseEnter={(e) => (e.target.style.backgroundColor = '#DEEBFF')}
+                      onMouseLeave={(e) => (e.target.style.backgroundColor = '#fff')}
                     >
                       {word}
                     </div>
@@ -1381,8 +1332,8 @@ const CourseFinder = () => {
             <div className="d-flex flex-wrap justify-content-end gap-2">
               <Button
                 variant="primary"
-                className="rounded-5 d-flex justify-content-center align-items-center gap-2 px-5"
-                style={{ height: "45px", fontSize: "16px" }}
+                className="custom-select-height2 d-flex justify-content-center align-items-center gap-2 px-5"
+                style={{ fontSize: '16px' }}
                 onClick={() => {
                   setShowFilterModal(false);
                   const hasValidFilters = handleCourseSearch();
@@ -1399,8 +1350,8 @@ const CourseFinder = () => {
               </Button>
               <Button
                 variant="link"
-                className="border-primary text-primary text-decoration-none rounded-5 d-flex justify-content-center align-items-center gap-2 px-5"
-                style={{ height: "45px", fontSize: "16px" }}
+                className="custom-select-height2 border-primary text-primary text-decoration-none d-flex justify-content-center align-items-center gap-2 px-5"
+                style={{ fontSize: '16px' }}
                 onClick={() => {
                   resetFilters();
                   setShowSlider(false);
@@ -1416,10 +1367,7 @@ const CourseFinder = () => {
 
         <Row className="align-items-end g-2 px-2">
           <Col xs={12} sm={3} md={3}>
-            <Form.Label
-              className="course_finder_filter mb-1"
-              style={{ fontWeight: 500 }}
-            >
+            <Form.Label className="course_finder_filter mb-1" style={{ fontWeight: 500 }}>
               Country
             </Form.Label>
             <Select
@@ -1435,44 +1383,45 @@ const CourseFinder = () => {
               value={selectedCountry}
               placeholder="Select Country"
               isClearable
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  minHeight: "45px",
-                  padding: "0 10px",
-                  borderRadius: "30px",
-                  borderColor: "#b5bcc4",
-                  fontSize: "15px",
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#000",
-                  fontSize: "15px",
-                }),
-                multiValue: (base) => ({
-                  ...base,
-                  fontSize: "16px",
-                  margin: "4px 2px",
-                }),
-                valueContainer: (base) => ({
-                  ...base,
-                  flexWrap: "wrap",
-                  padding: "2px",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  fontSize: "16px",
-                  marginTop: "2px",
-                  width: "100%",
-                  position: "absolute",
-                  zIndex: 9999,
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  maxHeight: "200px",
-                  overflowY: "auto",
-                }),
-              }}
+              styles={customStyle}
+              // styles={{
+              //   control: (base) => ({
+              //     ...base,
+              //     minHeight: "45px",
+              //     padding: "0 10px",
+              //     borderRadius: "30px",
+              //     borderColor: "#b5bcc4",
+              //     fontSize: "15px",
+              //   }),
+              //   placeholder: (base) => ({
+              //     ...base,
+              //     color: "#000",
+              //     fontSize: "15px",
+              //   }),
+              //   multiValue: (base) => ({
+              //     ...base,
+              //     fontSize: "16px",
+              //     margin: "4px 2px",
+              //   }),
+              //   valueContainer: (base) => ({
+              //     ...base,
+              //     flexWrap: "wrap",
+              //     padding: "2px",
+              //   }),
+              //   menu: (base) => ({
+              //     ...base,
+              //     fontSize: "16px",
+              //     marginTop: "2px",
+              //     width: "100%",
+              //     position: "absolute",
+              //     zIndex: 9999,
+              //   }),
+              //   menuList: (base) => ({
+              //     ...base,
+              //     maxHeight: "200px",
+              //     overflowY: "auto",
+              //   }),
+              // }}
             />
           </Col>
           <Col xs={12} sm={3} md={3}>
@@ -1499,65 +1448,13 @@ const CourseFinder = () => {
               classNamePrefix="custom-select"
               placeholder="Select State"
               isClearable
-              menuPortalTarget={
-                typeof window !== "undefined" ? document.body : null
-              }
+              menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
               menuPosition="fixed"
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  height: 50,
-                  minHeight: 50,
-                  padding: "0 10px",
-                }),
-                valueContainer: (base) => ({
-                  ...base,
-                  minHeight: 48,
-                  paddingTop: 6,
-                  paddingBottom: 6,
-                  paddingLeft: 8,
-                  paddingRight: 8,
-                  display: "flex",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                }),
-                multiValue: (base) => ({
-                  ...base,
-                  backgroundColor: "#f0f0f0",
-                  borderRadius: 12,
-                  padding: "2px 8px",
-                  margin: "2px 4px",
-                  fontSize: 14,
-                  color: "#333",
-                  display: "flex",
-                  alignItems: "center",
-                }),
-                multiValueLabel: (base) => ({
-                  ...base,
-                  color: "#333",
-                  fontWeight: 500,
-                  padding: 0,
-                }),
-                multiValueRemove: (base) => ({
-                  ...base,
-                  color: "#888",
-                  ":hover": {
-                    backgroundColor: "#e0e0e0",
-                    color: "#222",
-                  },
-                }),
-                menuPortal: (base) => ({
-                  ...base,
-                  zIndex: 9999,
-                }),
-              }}
+              styles={customStyle}
             />
           </Col>
           <Col xs={12} sm={3} md={3}>
-            <Form.Label
-              className="course_finder_filter mb-1"
-              style={{ fontWeight: 500 }}
-            >
+            <Form.Label className="course_finder_filter mb-1" style={{ fontWeight: 500 }}>
               Institute
             </Form.Label>
             <Select
@@ -1565,11 +1462,9 @@ const CourseFinder = () => {
               options={Array.from(
                 new Map(
                   instituteDataByCountry
-                    ?.sort((a, b) =>
-                      a.instituteName.localeCompare(b.instituteName)
-                    )
-                    ?.map((institute) => [institute.instituteName, institute]) // use name as key
-                ).values()
+                    ?.sort((a, b) => a.instituteName.localeCompare(b.instituteName))
+                    ?.map((institute) => [institute.instituteName, institute]), // use name as key
+                ).values(),
               ).map((institute) => ({
                 value: institute._id,
                 label: institute.instituteName,
@@ -1579,10 +1474,8 @@ const CourseFinder = () => {
                 setCampus([]); // Clear campus selection when institute changes
                 if (selectedOptions && selectedOptions.length > 0) {
                   // Fetch campuses for all selected institutes
-                  const instituteNames = selectedOptions.map(
-                    (option) => option.label
-                  );
-                  fetchAllCampusByInstitute(instituteNames, "");
+                  const instituteNames = selectedOptions.map((option) => option.label);
+                  fetchAllCampusByInstitute(instituteNames, '');
                 } else {
                   setCampusDataByInstitute([]);
                 }
@@ -1595,28 +1488,11 @@ const CourseFinder = () => {
               isClearable
               classNamePrefix="custom-select"
               placeholder="Select Institute"
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  height: "45px",
-                  minHeight: "45px",
-                  padding: "0 0 0 5px",
-                  borderRadius: "25px",
-                  borderColor: "#b5bcc4",
-                  fontSize: "15px",
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#000000",
-                }),
-              }}
+              styles={customStyle}
             />
           </Col>
           <Col xs={12} sm={3} md={3}>
-            <Form.Label
-              className="course_finder_filter mb-1"
-              style={{ fontWeight: 500 }}
-            >
+            <Form.Label className="course_finder_filter mb-1" style={{ fontWeight: 500 }}>
               Campus
             </Form.Label>
             <Select
@@ -1628,9 +1504,7 @@ const CourseFinder = () => {
                   label: campus.campus,
                 }))}
               onChange={(selectedOptions) => {
-                const campusIds = selectedOptions
-                  ? selectedOptions.map((option) => option.value)
-                  : [];
+                const campusIds = selectedOptions ? selectedOptions.map((option) => option.value) : [];
                 setCampus(campusIds);
                 // setLoadedRecords(12);
                 setCurrentPage(1);
@@ -1646,25 +1520,7 @@ const CourseFinder = () => {
               placeholder="Select Campus"
               isClearable
               classNamePrefix="custom-select"
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  height: "45px",
-                  minHeight: "45px",
-                  padding: "0 0 0 5px",
-                  borderRadius: "25px",
-                  borderColor: "#b5bcc4",
-                  fontSize: "15px",
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#000000",
-                }),
-                menu: (base) => ({
-                  ...base,
-                  zIndex: 10000,
-                }),
-              }}
+              styles={customStyle}
             />
           </Col>
         </Row>
@@ -1675,12 +1531,12 @@ const CourseFinder = () => {
               variant="primary"
               className="rounded-5"
               style={{
-                width: "200px",
-                height: "45px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "16px",
+                width: '200px',
+                height: '45px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '16px',
               }}
               onClick={() => {
                 setShowFilterModal(true);
@@ -1688,27 +1544,17 @@ const CourseFinder = () => {
               }}
             >
               Advance Search
-              <FaChevronDown size={20} style={{ marginLeft: "12px" }} />
+              <FaChevronDown size={20} style={{ marginLeft: '12px' }} />
             </Button>
           </div>
         )}
-        {showFilterModal && (
-          <hr style={{ margin: "16px 0", borderTop: "1px solid #053880" }} />
-        )}
-        <div
-          className={`transition-container ${showFilterModal ? "show" : ""} ${
-            isDropdownOpen ? "drop" : ""
-          }`}
-        >
+        
+        <div className={`transition-container ${showFilterModal ? 'show' : ''} ${isDropdownOpen ? 'drop' : ''}`}>
           {/* Row 1 */}
-          <Row
-            className="g-2 px-2 mt-1 w-100 rounded"
-            style={{ transition: "min-height 0.2s" }}
-          >
+          <hr style={{ margin: '16px 0', borderTop: '1px solid #053880' }} />
+          <Row className="g-3 px-2 mt-1 w-100 rounded" style={{ transition: 'min-height 0.7s' }}>
             <Col md={3}>
-              <Form.Label className="course_finder_filter">
-                Program Level
-              </Form.Label>
+              <Form.Label className="course_finder_filter">Program Level</Form.Label>
               <Select
                 isMulti
                 options={studyLevelData
@@ -1719,72 +1565,17 @@ const CourseFinder = () => {
                   ?.map((level) => ({ value: level._id, label: level.name }))
                   .filter((opt) => selectedProgramLevel.includes(opt.value))}
                 onChange={(selectedOptions) => {
-                  setSelectedProgramLevel(
-                    selectedOptions
-                      ? selectedOptions.map((opt) => opt.value)
-                      : []
-                  );
+                  setSelectedProgramLevel(selectedOptions ? selectedOptions.map((opt) => opt.value) : []);
                 }}
                 classNamePrefix="custom-select"
                 placeholder="Select Program Level"
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
+                menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
+                styles={customStyle}
               />
             </Col>
             <Col md={3}>
-              <Form.Label className="course_finder_filter">
-                Study Area
-              </Form.Label>
+              <Form.Label className="course_finder_filter">Study Area</Form.Label>
               <Select
                 id="study-area-select"
                 options={studyAreaOption?.map((option) => ({
@@ -1793,9 +1584,7 @@ const CourseFinder = () => {
                 }))}
                 isMulti
                 onChange={(selectedOptions) => {
-                  const values = selectedOptions
-                    ? selectedOptions.map((opt) => opt.value)
-                    : [];
+                  const values = selectedOptions ? selectedOptions.map((opt) => opt.value) : [];
                   setSelectedStudyArea(values);
                   // setLoadedRecords(12);
                   setCurrentPage(1);
@@ -1807,141 +1596,33 @@ const CourseFinder = () => {
                 classNamePrefix="custom-select"
                 placeholder="Select Study Area"
                 isClearable
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
+                menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
+                styles={customStyle}
               />
             </Col>
             <Col md={3}>
-              <Form.Label className="course_finder_filter">
-                Discipline Area
-              </Form.Label>
+              <Form.Label className="course_finder_filter">Discipline Area</Form.Label>
               <Select
                 id="descilline-area-select"
                 options={disciplineAreaOptions}
                 isMulti
                 onChange={(selectedOptions) => {
-                  setSelectedDisciplineArea(
-                    selectedOptions
-                      ? selectedOptions.map((opt) => opt.value)
-                      : []
-                  );
+                  setSelectedDisciplineArea(selectedOptions ? selectedOptions.map((opt) => opt.value) : []);
                   // setLoadedRecords(12);
                   setCurrentPage(1);
                 }}
-                value={disciplineAreaOptions.filter((opt) =>
-                  selectedDisciplineArea.includes(opt.value)
-                )}
+                value={disciplineAreaOptions.filter((opt) => selectedDisciplineArea.includes(opt.value))}
                 classNamePrefix="custom-select"
                 placeholder="Select Discipline Area"
                 isClearable
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
+                menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
+                styles={customStyle}
               />
             </Col>
             <Col md={3}>
-              <Form.Label className="course_finder_filter">
-                Requirements
-              </Form.Label>
+              <Form.Label className="course_finder_filter">Requirements</Form.Label>
               <Select
                 isMulti
                 options={requirementsData?.map((req) => ({
@@ -1952,76 +1633,17 @@ const CourseFinder = () => {
                   ?.map((req) => ({ value: req._id, label: req.name }))
                   .filter((opt) => filterRequirements.includes(opt.value))}
                 onChange={(selectedOptions) => {
-                  setFilterRequirements(
-                    selectedOptions
-                      ? selectedOptions.map((opt) => opt.value)
-                      : []
-                  );
+                  setFilterRequirements(selectedOptions ? selectedOptions.map((opt) => opt.value) : []);
                   // setLoadedRecords(12);
                   setCurrentPage(1);
                 }}
                 classNamePrefix="custom-select"
                 placeholder="Select Requirements"
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
+                menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
+                styles={customStyle}
               />
             </Col>
-          </Row>
-          {/* Row 2 */}
-          <Row
-            className="g-2 px-2 mt-1 w-100 rounded"
-            style={{ transition: "min-height 0.2s" }}
-          >
             <Col md={3}>
               <Form.Label className="course_finder_filter">Year</Form.Label>
               <Select
@@ -2040,58 +1662,9 @@ const CourseFinder = () => {
                 }
                 classNamePrefix="custom-select"
                 placeholder="Select Year"
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
+                menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
+                styles={customStyle}
               />
             </Col>
             <Col md={3}>
@@ -2105,58 +1678,9 @@ const CourseFinder = () => {
                 value={selectedMonths}
                 classNamePrefix="custom-select"
                 placeholder="Select Months"
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
+                menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
+                styles={customStyle}
               />
             </Col>
             <Col md={3}>
@@ -2169,58 +1693,9 @@ const CourseFinder = () => {
                 value={selectedDuration}
                 classNamePrefix="custom-select"
                 placeholder="Select Duration"
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
+                menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
+                styles={customStyle}
               />
             </Col>
             <Col md={3}>
@@ -2235,77 +1710,24 @@ const CourseFinder = () => {
                 }}
                 name="backlog"
                 placeholder="Search Backlog"
-                className="w-100 rounded-5 search-input-light"
-                style={{ height: 50, minHeight: 50, padding: "0 10px" }}
+                className="w-100 search-input-light"
+                style={customStyle2}
               />
             </Col>
             <Col md={6}>
-              <Form.Label className="course_finder_filter">
-                Score Out Of
-              </Form.Label>
+              <Form.Label className="course_finder_filter">Score Out Of</Form.Label>
               <Select
                 id="duration-select"
                 options={scoreOutOfOptions}
                 onChange={(selected) => {
                   setScoreOutOf(selected?.value);
                 }}
-                value={scoreOutOfOptions.filter(
-                  (score) => score.value === scoreOutOf
-                )}
+                value={scoreOutOfOptions.filter((score) => score.value === scoreOutOf)}
                 classNamePrefix="custom-select"
                 placeholder="Select Duration"
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
+                menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                 menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
+                styles={customStyle}
               />
             </Col>
             <Col md={6}>
@@ -2320,43 +1742,13 @@ const CourseFinder = () => {
                 }}
                 name="score"
                 placeholder="Search Score"
-                className="w-100 rounded-5 search-input-light"
-                style={{ height: 50, minHeight: 50, padding: "0 10px" }}
+                className="w-100 search-input-light"
+                style={customStyle2}
               />
             </Col>
-            {/* <Col md={3}>
-                <Form.Label className="course_finder_filter">ESL/ELP Available</Form.Label>
-                <Select
-                  id="esl-elp-select"
-                  options={options}
-                  onChange={(selectedOption) => {
-                    setEslElpAvailable(
-                      selectedOption ? selectedOption.value : ""
-                    );
-                  }}
-                  value={
-                    options.find((opt) => opt.value === eslElpAvailable) ||
-                    null
-                  }
-                  classNamePrefix="custom-select"
-                  placeholder="Select available ESL/ELP"
-                  isClearable
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                  }}
-                />
-              </Col> */}
           </Row>
           {/* Row 3 */}
-          <Row
-            className="g-2 px-2 mt-1 w-100 rounded"
-            style={{ transition: "min-height 0.2s" }}
-          ></Row>
+          <Row className="g-2 px-2 mt-1 w-100 rounded" style={{ transition: 'min-height 0.2s' }}></Row>
           <div className="d-flex justify-content-center">
             <Button
               variant="link"
@@ -2368,10 +1760,7 @@ const CourseFinder = () => {
                 }, 300);
               }}
             >
-              <FaChevronUp
-                size={24}
-                className={`${isDropdownOpen ? "chevron" : ""}`}
-              />
+              <FaChevronUp size={24} className={`${isDropdownOpen ? 'chevron' : ''}`} />
             </Button>
           </div>
         </div>
@@ -2409,17 +1798,17 @@ const CourseFinder = () => {
       />
 
       <div className="d-flex flex-wrap justify-content-end gap-2">
-        {" "}
+        {' '}
         {canUpload && (
           <a
             href={`https://studyvisaconsultant.com/api/public/sampleCourseBulkUpload/sampleCourseBulkUpload.xlsx`}
             download
             className="custom-select-height btn btn-outline-primary btn-icon-text d-inline-flex align-items-center mb-2"
             style={{
-              pointerEvents: "auto",
-              position: "relative",
-              whiteSpace: "nowrap",
-              textDecoration: "none",
+              pointerEvents: 'auto',
+              position: 'relative',
+              whiteSpace: 'nowrap',
+              textDecoration: 'none',
             }}
           >
             <i className="fe fe-download me-2 fs-14"></i> Get Sample File
@@ -2431,10 +1820,10 @@ const CourseFinder = () => {
               htmlFor="fileUpload"
               className="custom-select-height btn btn-primary btn-icon-text d-inline-flex align-items-center mb-2"
               style={{
-                pointerEvents: "auto",
-                position: "relative",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
+                pointerEvents: 'auto',
+                position: 'relative',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
               }}
             >
               <i className="fe fe-upload-cloud me-2 fs-14"></i> Bulk Data Upload
@@ -2446,32 +1835,32 @@ const CourseFinder = () => {
               id="fileUpload"
               accept=".xlsx, .xls, .csv"
               onChange={handleFileChnage}
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
             />
           </>
         )}
-        {userRole !== "Student" && userRole !== "LeadStudent" && canDownload && (
+        {userRole !== 'Student' && userRole !== 'LeadStudent' && canDownload && (
           <button
             type="button"
             className="custom-select-height btn btn-primary btn-icon-text d-inline-flex align-items-center mb-2"
             style={{
-              pointerEvents: "auto",
-              position: "relative",
-              whiteSpace: "nowrap",
+              pointerEvents: 'auto',
+              position: 'relative',
+              whiteSpace: 'nowrap',
             }}
             onClick={courseDownload}
           >
             <i className="fe fe-download-cloud me-2 fs-14"></i> Download Report
           </button>
         )}
-        {userRole === "Super Admin" && (
+        {userRole === 'Super Admin' && (
           <button
             type="button"
             className="custom-select-height btn btn-primary btn-icon-text d-inline-flex align-items-center mb-2"
             style={{
-              pointerEvents: "auto",
-              position: "relative",
-              whiteSpace: "nowrap",
+              pointerEvents: 'auto',
+              position: 'relative',
+              whiteSpace: 'nowrap',
             }}
             onClick={handleAllDownload}
           >
@@ -2511,19 +1900,19 @@ const CourseFinder = () => {
       {tooltip.show && (
         <div
           style={{
-            position: "fixed",
+            position: 'fixed',
             top: tooltip.y - 40,
             left: tooltip.x - 175,
-            background: "#fff",
-            color: "#333",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            padding: "4px 12px",
-            fontSize: "14px",
-            whiteSpace: "nowrap",
+            background: '#fff',
+            color: '#333',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            padding: '4px 12px',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
             zIndex: 9999,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-            pointerEvents: "none",
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            pointerEvents: 'none',
           }}
         >
           {tooltip.text}

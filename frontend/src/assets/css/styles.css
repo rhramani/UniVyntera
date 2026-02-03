@@ -74,7 +74,7 @@ Width
 
 :root {
   --body-bg-rgb: 234, 237, 247;
-  --primary-rgb: 5, 56, 128 !important;
+  --primary-rgb: 51, 134, 140 !important;
   --secondary-rgb: 241, 56, 139;
   --warning-rgb: 255, 155, 33;
   --info-rgb: 1, 184, 255;
@@ -970,7 +970,7 @@ Width
 }
 
 [data-menu-styles="dark"][data-theme-mode="light"] {
-  --menu-bg: #0e0e23;
+  --menu-bg: #0F2C2E;
   --menu-prime-color: rgba(255, 255, 255, 0.4);
   --menu-border-color: rgba(255, 255, 255, 0.1);
 }
@@ -7366,7 +7366,7 @@ Width
 
 .card.custom-card {
   border-radius: 0.688rem;
-  border: 0;
+  border: 1px solid #E6EAF2;
   background-color: var(--custom-white);
   box-shadow: 0 10px 30px 0 var(--primary005);
   position: relative;
@@ -43880,7 +43880,7 @@ h4,
 .transition-container {
   max-height: 0;
   opacity: 0;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.5s ease-in-out;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
@@ -44157,13 +44157,20 @@ h4,
 .custom-select-height {
   height: 40px !important;
   min-width: 75px !important;
-  border-radius: 30px !important;
+  border-radius: 5px !important;
   font-size: 15px;
 }
 
 [data-theme-mode="dark"] .custom-select-height {
   background-color: white !important;
   color: black !important;
+}
+
+.custom-select-height2 {
+  height: 45px !important;
+  min-width: 75px !important;
+  border-radius: 5px !important;
+  font-size: 15px;
 }
 
 .input-fields {
@@ -44213,7 +44220,7 @@ h4,
 }
 
 .form-main-heading {
-  background-color: #053880;
+  background-color: #479297;
   color: white;
 }
 
@@ -44257,7 +44264,7 @@ h4,
 .custom-select__control {
   height: 40px !important;
   min-width: 75px !important;
-  border-radius: 30px !important;
+  border-radius: 5px !important;
   box-shadow: none !important;
   height: auto !important;
   max-height: 40px !important;
@@ -44275,7 +44282,7 @@ h4,
 
 /* Dropdown menu styles */
 .custom-select__menu {
-  border-radius: 10px !important;
+  border-radius: 5px !important;
   overflow: hidden !important;
   z-index: 1000 !important;
   position: absolute !important;
@@ -45544,7 +45551,7 @@ table {
 
 /* buttons style */
 .rounded_button {
-  border-radius: 30px;
+  border-radius: 5px;
   font-size: 17px;
 }
 
@@ -47340,3 +47347,7 @@ th.sticky-col-right-2 {
   background: #dde1e7;
   transform: scale(0.98);
 }
+
+/* .default-bg-color {
+  background-color: #F4F6FB;
+} */
