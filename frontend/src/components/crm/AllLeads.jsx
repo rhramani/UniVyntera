@@ -51,7 +51,6 @@ import LoadMoreButton from "../commonComponents/LoadMoreButton";
 import ViewModal from "../commonComponents/ViewModal";
 import WhatsappMessageModal from "./commonLeadForm/WhatsAppModal";
 import FormModal from "./commonLeadForm/FormModal";
-import LeadFilters from "./commonLeadForm/LeadFilters";
 import { getBranchMemberByBranch } from "../../redux/actions/BranchMember.action";
 import { decryptData } from "../../utils/encryptionUtils";
 import { getAllBranch } from "../../redux/actions/Branch.action";
@@ -62,6 +61,7 @@ import { getAllFollowUpType } from "../../redux/actions/Lead/FollowUpType.action
 import WaDaddyWhatsAppModal from "./commonLeadForm/WaDaddyWhatsAppModal";
 import ConvertToApplicationModal from "./allLeadsComponents/ConvertToApplicationModal";
 import AllLeadsCard from "./allLeadsComponents/AllLeadsCard";
+import LeadFilters from "./commonLeadForm/LeadFilters";
 import { getOneLeadSubStatus } from "../../redux/actions/Master/LeadStatuses/LeadSubStatus.action";
 import SearchWithDropdown from "../commonComponents/SearchWithDropdown";
 import LeadReportTable from "./allLeadsComponents/LeadReportTable";
@@ -149,7 +149,8 @@ const AllLeads = () => {
   const [formRoleList, setFormRoleList] = useState(null);
   const [formUserList, setFormUserList] = useState([]);
   const [fullLeadAssignments, setFullLeadAssignments] = useState([]);
-  const [currentEditingAssignment, setCurrentEditingAssignment] = useState(null);
+  const [currentEditingAssignment, setCurrentEditingAssignment] =
+    useState(null);
 
   const [activeView, setActiveView] = useState("card");
 
@@ -495,7 +496,7 @@ const AllLeads = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "5px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -1082,7 +1083,7 @@ const AllLeads = () => {
     instituteOptions,
     campusOptions,
     programLevelData,
-    allcourseData
+    allcourseData,
   ) => {
     const updatedData = [...formData.interestedCourseDetails];
     const updatedIndex = edit.interestedCourseIndex;
@@ -1091,10 +1092,18 @@ const AllLeads = () => {
     // Create entry with updated display names
     const entryWithNames = {
       ...updatedEntry,
-      instituteName: instituteOptions.find(opt => opt.value === updatedEntry.institute)?.label || updatedEntry.institute,
-      campusName: campusOptions.find(opt => opt.value === updatedEntry.campus)?.label || updatedEntry.campus,
-      programLevelName: programLevelData.find(pl => pl._id === updatedEntry.programLevel)?.name || updatedEntry.programLevel,
-      courseName: allcourseData.find(c => c._id === updatedEntry.course)?.programName || updatedEntry.course,
+      instituteName:
+        instituteOptions.find((opt) => opt.value === updatedEntry.institute)
+          ?.label || updatedEntry.institute,
+      campusName:
+        campusOptions.find((opt) => opt.value === updatedEntry.campus)?.label ||
+        updatedEntry.campus,
+      programLevelName:
+        programLevelData.find((pl) => pl._id === updatedEntry.programLevel)
+          ?.name || updatedEntry.programLevel,
+      courseName:
+        allcourseData.find((c) => c._id === updatedEntry.course)?.programName ||
+        updatedEntry.course,
     };
 
     updatedData[updatedIndex] = entryWithNames;
@@ -1118,27 +1127,40 @@ const AllLeads = () => {
     instituteOptions,
     campusOptions,
     programLevelData,
-    allcourseData
+    allcourseData,
   ) => {
     const newEntry = values.interestedCourseDetails[index.interestedCourse];
 
     if (!newEntry || !newEntry.institute || !newEntry.course) {
-      toast.error("Please fill institute and course before adding interested course.");
+      toast.error(
+        "Please fill institute and course before adding interested course.",
+      );
       return false;
     }
 
     // Create entry with display names for table display
     const entryWithNames = {
       ...newEntry,
-      instituteName: instituteOptions.find(opt => opt.value === newEntry.institute)?.label || newEntry.institute,
-      campusName: campusOptions.find(opt => opt.value === newEntry.campus)?.label || newEntry.campus,
-      programLevelName: programLevelData.find(pl => pl._id === newEntry.programLevel)?.name || newEntry.programLevel,
-      courseName: allcourseData.find(c => c._id === newEntry.course)?.programName || newEntry.course,
+      instituteName:
+        instituteOptions.find((opt) => opt.value === newEntry.institute)
+          ?.label || newEntry.institute,
+      campusName:
+        campusOptions.find((opt) => opt.value === newEntry.campus)?.label ||
+        newEntry.campus,
+      programLevelName:
+        programLevelData.find((pl) => pl._id === newEntry.programLevel)?.name ||
+        newEntry.programLevel,
+      courseName:
+        allcourseData.find((c) => c._id === newEntry.course)?.programName ||
+        newEntry.course,
     };
 
     setFormData((prevState) => ({
       ...prevState,
-      interestedCourseDetails: [...prevState.interestedCourseDetails, entryWithNames],
+      interestedCourseDetails: [
+        ...prevState.interestedCourseDetails,
+        entryWithNames,
+      ],
     }));
 
     setIndex((prev) => ({
@@ -1247,16 +1269,21 @@ const AllLeads = () => {
     const { _id, ...newEntryWithoutId } = newEntry || {};
 
     // Also create the full assignment object for display
-    const roleObj = getRoleList?.data?.find(r => r._id === newEntryWithoutId.role);
-    const userObj = formUserList?.find(u => u._id === newEntryWithoutId.user);
+    const roleObj = getRoleList?.data?.find(
+      (r) => r._id === newEntryWithoutId.role,
+    );
+    const userObj = formUserList?.find((u) => u._id === newEntryWithoutId.user);
     const userFullName = userObj
-      ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() || userObj.name
+      ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() ||
+        userObj.name
       : null;
 
     const fullAssignmentObject = {
       _id: null, // New assignments don't have _id yet
       role: roleObj ? { _id: roleObj._id, name: roleObj.name } : null,
-      user: userObj ? { _id: userObj._id, name: userFullName, email: userObj.email } : null,
+      user: userObj
+        ? { _id: userObj._id, name: userFullName, email: userObj.email }
+        : null,
     };
 
     const updatedLeadAssign = [...formData.lead_assign, newEntryWithoutId];
@@ -1266,7 +1293,7 @@ const AllLeads = () => {
       lead_assign: updatedLeadAssign,
     }));
 
-    setFullLeadAssignments(prev => [...prev, fullAssignmentObject]);
+    setFullLeadAssignments((prev) => [...prev, fullAssignmentObject]);
 
     // Update the form values to reflect the complete assignments list
     // This is needed for the payload processing in handelEditLead
@@ -1275,8 +1302,8 @@ const AllLeads = () => {
     // Clear the current form fields for the next assignment
     setTimeout(() => {
       // This will trigger the useEffect in FormModal to reset the form
-    // Reset the form for the next assignment (keep index at 0)
-    // The useEffect in FormModal will handle clearing the form
+      // Reset the form for the next assignment (keep index at 0)
+      // The useEffect in FormModal will handle clearing the form
     }, 100);
   };
 
@@ -1301,7 +1328,12 @@ const AllLeads = () => {
     console.log("updatedData length:", updatedData.length);
 
     if (updatedIndex >= updatedData.length) {
-      console.error("Index out of bounds:", updatedIndex, "length:", updatedData.length);
+      console.error(
+        "Index out of bounds:",
+        updatedIndex,
+        "length:",
+        updatedData.length,
+      );
       return;
     }
 
@@ -1314,18 +1346,21 @@ const AllLeads = () => {
 
     // Also update fullLeadAssignments with the complete objects
     const updatedFullAssignments = [...fullLeadAssignments];
-    const roleObj = getRoleList?.data?.find(r => r._id === updatedEntry.role);
-    const userObj = formUserList?.find(u => u._id === updatedEntry.user);
+    const roleObj = getRoleList?.data?.find((r) => r._id === updatedEntry.role);
+    const userObj = formUserList?.find((u) => u._id === updatedEntry.user);
 
     // Construct user name properly like in formUserOptions
     const userFullName = userObj
-      ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() || userObj.name
+      ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() ||
+        userObj.name
       : null;
 
     updatedFullAssignments[updatedIndex] = {
       _id: updatedEntry._id,
       role: roleObj ? { _id: roleObj._id, name: roleObj.name } : null,
-      user: userObj ? { _id: userObj._id, name: userFullName, email: userObj.email } : null,
+      user: userObj
+        ? { _id: userObj._id, name: userFullName, email: userObj.email }
+        : null,
     };
 
     setFormData((prevState) => ({
@@ -1573,18 +1608,18 @@ const AllLeads = () => {
           changedFields[key] = updated[key];
         }
       } else if (key === "visa_info") {
-              if (!arraysEqual(original[key], updated[key])) {
-                changedFields[key] = updated[key];
-              }
-            } else if (key === "interestedCourseDetails") {
-              if (!arraysEqual(original[key], updated[key])) {
-                changedFields[key] = updated[key];
-              }
-            } else if (key === "lead_assign") {
-              if (!arraysEqual(original[key], updated[key])) {
-                changedFields[key] = updated[key];
-              }
-            } else {
+        if (!arraysEqual(original[key], updated[key])) {
+          changedFields[key] = updated[key];
+        }
+      } else if (key === "interestedCourseDetails") {
+        if (!arraysEqual(original[key], updated[key])) {
+          changedFields[key] = updated[key];
+        }
+      } else if (key === "lead_assign") {
+        if (!arraysEqual(original[key], updated[key])) {
+          changedFields[key] = updated[key];
+        }
+      } else {
         // Compare simple fields
         const originalVal = normalizeValue(original[key]);
         const updatedVal = normalizeValue(updated[key]);
@@ -1619,7 +1654,9 @@ const AllLeads = () => {
     const originalLeadAssign = Array.isArray(originalLead?.lead_assign)
       ? originalLead.lead_assign
       : [];
-    const originalInterestedCourses = Array.isArray(originalLead?.interestedCourseDetails)
+    const originalInterestedCourses = Array.isArray(
+      originalLead?.interestedCourseDetails,
+    )
       ? originalLead.interestedCourseDetails
       : [];
 
@@ -1676,31 +1713,33 @@ const AllLeads = () => {
     );
 
     // Find new courses to add
-    const newCourses = interestedCourseDetails?.filter(
-      (item) => item?.institute && item?.course && !item?._id,
-    ) || [];
+    const newCourses =
+      interestedCourseDetails?.filter(
+        (item) => item?.institute && item?.course && !item?._id,
+      ) || [];
 
     // Find updated courses
-    const updatedCourses = interestedCourseDetails?.filter((item) => {
-      if (!item?._id) return false;
+    const updatedCourses =
+      interestedCourseDetails?.filter((item) => {
+        if (!item?._id) return false;
 
-      const oldItem = originalInterestedCourses.find(
-        (o) => o?._id?.toString() === item?._id?.toString(),
-      );
+        const oldItem = originalInterestedCourses.find(
+          (o) => o?._id?.toString() === item?._id?.toString(),
+        );
 
-      if (!oldItem) return false;
+        if (!oldItem) return false;
 
-      // Check if any field has changed
-      return (
-        oldItem.institute !== item.institute ||
-        oldItem.campus !== item.campus ||
-        oldItem.programLevel !== item.programLevel ||
-        oldItem.course !== item.course ||
-        oldItem.intakeMonth !== item.intakeMonth ||
-        oldItem.intakeYear !== item.intakeYear ||
-        oldItem.remarks !== item.remarks
-      );
-    }) || [];
+        // Check if any field has changed
+        return (
+          oldItem.institute !== item.institute ||
+          oldItem.campus !== item.campus ||
+          oldItem.programLevel !== item.programLevel ||
+          oldItem.course !== item.course ||
+          oldItem.intakeMonth !== item.intakeMonth ||
+          oldItem.intakeYear !== item.intakeYear ||
+          oldItem.remarks !== item.remarks
+        );
+      }) || [];
 
     /* ===============================
      APPLY OPERATIONS (Allow multiple)
@@ -1731,7 +1770,7 @@ const AllLeads = () => {
 
     // ➕ ADD COURSES
     if (newCourses.length > 0) {
-      updatePayload.interestedCourseDetails = newCourses.map(course => ({
+      updatePayload.interestedCourseDetails = newCourses.map((course) => ({
         institute: course.institute,
         campus: course.campus,
         programLevel: course.programLevel,
@@ -1802,9 +1841,11 @@ const AllLeads = () => {
       })),
 
       // Only include interestedCourseDetails for ADD operations, not for update/delete operations
-      ...(updatePayload.interestedCourseDetails ? {
-        interestedCourseDetails: updatePayload.interestedCourseDetails
-      } : {}),
+      ...(updatePayload.interestedCourseDetails
+        ? {
+            interestedCourseDetails: updatePayload.interestedCourseDetails,
+          }
+        : {}),
 
       visa_info: (visa_info || []).map((item) => ({
         visited_countries: item.visited_countries,
@@ -2121,7 +2162,7 @@ const AllLeads = () => {
 
       // Store full lead assignments data for display purposes
       setFullLeadAssignments(
-        Array.isArray(lead.lead_assign) ? lead.lead_assign : []
+        Array.isArray(lead.lead_assign) ? lead.lead_assign : [],
       );
     }
   }, [getLeadDataById]);
@@ -3187,27 +3228,31 @@ const AllLeads = () => {
                   instituteOptions,
                   campusOptions,
                   programLevelData,
-                  allcourseData
-                ) => handleInterestedCourseDetailEdit(
-                  values,
-                  instituteOptions,
-                  campusOptions,
-                  programLevelData,
-                  allcourseData
-                )}
+                  allcourseData,
+                ) =>
+                  handleInterestedCourseDetailEdit(
+                    values,
+                    instituteOptions,
+                    campusOptions,
+                    programLevelData,
+                    allcourseData,
+                  )
+                }
                 handleInterestedCourseSubmit={(
                   values,
                   instituteOptions,
                   campusOptions,
                   programLevelData,
-                  allcourseData
-                ) => handleInterestedCourseSubmit(
-                  values,
-                  instituteOptions,
-                  campusOptions,
-                  programLevelData,
-                  allcourseData
-                )}
+                  allcourseData,
+                ) =>
+                  handleInterestedCourseSubmit(
+                    values,
+                    instituteOptions,
+                    campusOptions,
+                    programLevelData,
+                    allcourseData,
+                  )
+                }
                 handleInterestedCourseDelete={handleInterestedCourseDelete}
                 fullLeadAssignments={fullLeadAssignments}
                 setCurrentEditingAssignment={setCurrentEditingAssignment}

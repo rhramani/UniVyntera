@@ -438,13 +438,9 @@ const CourseFinder = () => {
   };
 
   useEffect(() => {
-    // if (
-    //   userRole === "Super Admin" &&
-    //   !hasSearched &&
-    //   !location.state?.filters
-    // ) {
+    
     fetchAllCourseFinder(currentPage, itemsPerPage, appliedFilters);
-    // }
+    
   }, [currentPage, itemsPerPage, appliedFilters]);
 
   useEffect(() => {
@@ -496,11 +492,7 @@ const CourseFinder = () => {
 
   useEffect(() => {
     fetchAllInstitute();
-    // fetchAllInstituteByCountry(
-    //   selectedCountry?.map((option) => option.label),
-    //   selectedState?.label
-    // );
-    // fetchAllStates(selectedCountry?.map((option) => option.value));
+    
     fetchAllProgramLevel();
     fetchAllRequirements();
     fetchAllTags();
@@ -982,14 +974,8 @@ const CourseFinder = () => {
     setMinPrice(0);
     setMaxPrice(100000);
 
-    // if (userRole === "Super Admin") {
     fetchAllCourseFinder(1, itemsPerPage, {});
-    // } else {
-    //   setHasSearched(false);
-    //   setCourseFinderData([]);
-    //   setTotalRecords(0);
-    //   setShowFilterModal(false);
-    // }
+    
   };
 
   const handleDelete = async (item) => {
@@ -1132,19 +1118,6 @@ const CourseFinder = () => {
     label: option,
   }));
 
-  // const getINRValue = (amount, currencyCode) => {
-  //   if (!currencyRate || !currencyRate.length) return null;
-  //   const rateObj = currencyRate.find(
-  //     (rate) => rate.currencyCode === currencyCode
-  //   );
-  //   if (rateObj && rateObj.INRvalue) {
-  //     const inrValue =
-  //       parseFloat(amount?.replace(/,/g, "")) * parseFloat(rateObj.INRvalue);
-  //     return `INR Value: ₹${inrValue.toLocaleString("en-IN")}`;
-  //   }
-  //   return "Conversion rate not found!";
-  // };
-
   const getINRValue = (amount, currencyCode) => {
     if (!currencyRate || !currencyRate.length) return 'Conversion rate not found!';
     const rateObj = currencyRate.find((rate) => rate.currencyCode === currencyCode);
@@ -1185,54 +1158,6 @@ const CourseFinder = () => {
       color: '#000000',
     }),
   };
-  // const customStyle = {
-  //   control: (base) => ({
-  //     ...base,
-  //     height: 50,
-  //     minHeight: 50,
-  //     padding: '0 10px',
-  //   }),
-  //   valueContainer: (base) => ({
-  //     ...base,
-  //     minHeight: 48,
-  //     paddingTop: 6,
-  //     paddingBottom: 6,
-  //     paddingLeft: 8,
-  //     paddingRight: 8,
-  //     display: 'flex',
-  //     flexWrap: 'wrap',
-  //     alignItems: 'center',
-  //   }),
-  //   multiValue: (base) => ({
-  //     ...base,
-  //     backgroundColor: '#f0f0f0',
-  //     borderRadius: 12,
-  //     padding: '2px 8px',
-  //     margin: '2px 4px',
-  //     fontSize: 14,
-  //     color: '#333',
-  //     display: 'flex',
-  //     alignItems: 'center',
-  //   }),
-  //   multiValueLabel: (base) => ({
-  //     ...base,
-  //     color: '#333',
-  //     fontWeight: 500,
-  //     padding: 0,
-  //   }),
-  //   multiValueRemove: (base) => ({
-  //     ...base,
-  //     color: '#888',
-  //     ':hover': {
-  //       backgroundColor: '#e0e0e0',
-  //       color: '#222',
-  //     },
-  //   }),
-  //   menuPortal: (base) => ({
-  //     ...base,
-  //     zIndex: 9999,
-  //   }),
-  // };
 
   const customStyle2 = { height: 45, minHeight: 45, padding: '0 10px', borderRadius: '5px' };
 
@@ -1384,44 +1309,7 @@ const CourseFinder = () => {
               placeholder="Select Country"
               isClearable
               styles={customStyle}
-              // styles={{
-              //   control: (base) => ({
-              //     ...base,
-              //     minHeight: "45px",
-              //     padding: "0 10px",
-              //     borderRadius: "30px",
-              //     borderColor: "#b5bcc4",
-              //     fontSize: "15px",
-              //   }),
-              //   placeholder: (base) => ({
-              //     ...base,
-              //     color: "#000",
-              //     fontSize: "15px",
-              //   }),
-              //   multiValue: (base) => ({
-              //     ...base,
-              //     fontSize: "16px",
-              //     margin: "4px 2px",
-              //   }),
-              //   valueContainer: (base) => ({
-              //     ...base,
-              //     flexWrap: "wrap",
-              //     padding: "2px",
-              //   }),
-              //   menu: (base) => ({
-              //     ...base,
-              //     fontSize: "16px",
-              //     marginTop: "2px",
-              //     width: "100%",
-              //     position: "absolute",
-              //     zIndex: 9999,
-              //   }),
-              //   menuList: (base) => ({
-              //     ...base,
-              //     maxHeight: "200px",
-              //     overflowY: "auto",
-              //   }),
-              // }}
+              
             />
           </Col>
           <Col xs={12} sm={3} md={3}>
@@ -1434,14 +1322,7 @@ const CourseFinder = () => {
                   value: state.isoCode,
                   label: state.name,
                 }))}
-              // onChange={(selectedOptions) => {
-              //   setSelectedState(selectedOptions || []);
-              //   fetchAllInstituteByCountry(
-              //     selectedCountry?.map((c) => c.label),
-              //     selectedOptions?.map((s) => s.label) || []
-              //   );
-              //   setLoadedRecords(12);
-              // }}
+              
               onChange={handleStateChange}
               isMulti
               value={selectedState}
@@ -1529,7 +1410,7 @@ const CourseFinder = () => {
           <div className="d-flex justify-content-center mt-3">
             <Button
               variant="primary"
-              className="rounded-5"
+              className="rounded-1"
               style={{
                 width: '200px',
                 height: '45px',

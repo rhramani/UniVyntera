@@ -276,7 +276,7 @@ const CourseFinderForm = ({
                     options={scoreOutOfOptions}
                     name="scoreOutOf"
                     placeholder="Select Score Out Of"
-                    className="custom-select-height"
+                     classNamePrefix="custom-select"
                     value={scoreOutOfOptions.find(
                       (opt) => opt.value === formik.values.scoreOutOf
                     )}
@@ -286,18 +286,7 @@ const CourseFinderForm = ({
                         selectedOption ? selectedOption.value : ""
                       );
                     }}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        borderRadius: "30px",
-                        color: "black",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "black",
-                        fontSize: "13px",
-                      }),
-                    }}
+                    
                     isClearable
                   />
                   {formik.touched.scoreOutOf && formik.errors.scoreOutOf && (
@@ -622,7 +611,7 @@ const CourseFinderForm = ({
                 <Form.Group className="mb-3">
                   <Form.Label>Currency</Form.Label>
                   <Select
-                    className="custom-select-height"
+                     classNamePrefix="custom-select"
                     name="currencyCode"
                     options={currencyCodeData?.map((code) => ({
                       value: code.code,
@@ -644,26 +633,6 @@ const CourseFinderForm = ({
                     }
                     placeholder="Select Currency"
                     isClearable
-                    styles={{
-                      control: (base, state) => ({
-                        ...base,
-                        borderRadius: "30px",
-                        color: "black",
-                        minWidth: "160px",
-                        border: state.isFocused ? "1px" : base.border,
-                        borderColor: state.isFocused
-                          ? "#3B3665"
-                          : base.borderColor,
-                        boxShadow: state.isFocused
-                          ? "0 0 0 1px #053880"
-                          : base.boxShadow,
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "black",
-                        fontSize: "13px",
-                      }),
-                    }}
                   />
 
                   {formik?.touched?.currencyCode &&

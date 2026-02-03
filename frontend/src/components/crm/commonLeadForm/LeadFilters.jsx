@@ -43,7 +43,7 @@ const LeadFilters = ({
   leadSubStatusOptions,
   fetchLeadSubStatus,
   leadSubStatus,
-  allOther
+  allOther,
 }) => {
   const [showStartDateCalendar, setShowStartDateCalendar] = useState(false);
   const [startDateValue, setStartDateValue] = useState(null);
@@ -120,7 +120,7 @@ const LeadFilters = ({
       followUpType: filters.followUpType,
       assignRole: filters.assignRole || "",
       updatedOn: filters.updatedOn || "",
-      otherService: filters.otherService || ""
+      otherService: filters.otherService || "",
     };
 
     if (canRead) {
@@ -335,7 +335,7 @@ const LeadFilters = ({
               <div className="filter-item">
                 <Form.Label>Branch</Form.Label>
                 <Select
-                  className="custom-select-height"
+                  className="filter-height"
                   options={[
                     { value: "All", label: "All" },
                     { value: "head_office", label: "Head Office" },
@@ -352,8 +352,8 @@ const LeadFilters = ({
                         (filters.branchId === ""
                           ? "All"
                           : filters.branchId === null
-                          ? "head_office"
-                          : filters.branchId)
+                            ? "head_office"
+                            : filters.branchId),
                     ) || null
                   }
                   onChange={async (selectedOption) => {
@@ -381,7 +381,7 @@ const LeadFilters = ({
 
                     try {
                       const res = await dispatch(
-                        getAllRoleList(branchId || "", showAll)
+                        getAllRoleList(branchId || "", showAll),
                       );
                       setGetRoleList(res?.data);
                       setAllUser([]);
@@ -394,7 +394,6 @@ const LeadFilters = ({
                   placeholder="Select Branch"
                   isClearable
                   isSearchable
-                  classNamePrefix="custom-select"
                   styles={selectStyles}
                   noOptionsMessage={() => "No branches available"}
                 />
@@ -403,11 +402,11 @@ const LeadFilters = ({
             <div className="filter-item">
               <Form.Label>Lead Assign Role</Form.Label>
               <Select
-                className="custom-select-height"
+                className="filter-height"
                 options={filterRoleOptions}
                 value={
                   filterRoleOptions?.find(
-                    (option) => option.value === filters.assignRole
+                    (option) => option.value === filters.assignRole,
                   ) || null
                 }
                 onChange={(selectedOption) => {
@@ -446,7 +445,7 @@ const LeadFilters = ({
                       selectedRoleId,
                       selectedRoleName,
                       selectedBranchId,
-                      showAllUsers
+                      showAllUsers,
                     );
                   } else {
                     setAllUser([]);
@@ -455,7 +454,6 @@ const LeadFilters = ({
                 placeholder="Select Lead Assign Role"
                 isClearable
                 isSearchable
-                classNamePrefix="custom-select"
                 styles={selectStyles}
                 noOptionsMessage={() => "No roles available"}
               />
@@ -463,11 +461,11 @@ const LeadFilters = ({
             <div className="filter-item">
               <Form.Label>Lead Assign</Form.Label>
               <Select
-                className="custom-select-height"
+                className="filter-height"
                 options={userOptions}
                 value={
                   userOptions.find(
-                    (option) => option.value === filters.assignId
+                    (option) => option.value === filters.assignId,
                   ) || null
                 }
                 onChange={(selectedOption) =>
@@ -480,7 +478,6 @@ const LeadFilters = ({
                 isClearable
                 isSearchable
                 isDisabled={!filters.assignRole}
-                classNamePrefix="custom-select"
                 styles={selectStyles}
                 noOptionsMessage={() => "No users available"}
               />
@@ -527,7 +524,7 @@ const LeadFilters = ({
                 value={
                   filters.followUpType
                     ? followUpTypeOptions.find(
-                        (option) => option.value === filters.followUpType
+                        (option) => option.value === filters.followUpType,
                       )
                     : null
                 }
@@ -670,30 +667,33 @@ const LeadFilters = ({
               />
             </div>{" "}
             <div className="filter-item">
-                                          <Form.Label>Other Service</Form.Label>
-                                          <Select
-                                            className="filter-height"
-                                            styles={selectStyles}
-                                            classNamePrefix="select"
-                                            value={
-                                              filters.otherService
-                                                ? allOther.find((option) => option.value === filters.otherService) : null
-                                            }
-                                            onChange={(option) => {
-                                              setFilters({
-                                                ...filters,
-                                                otherService: option ? option.value : "",
-                                              });
-                                              setCurrentPage(1);
-                                            }}
-                                            options={allOther?.map((item) => ({
-                                              value: item._id,
-                                              label: item.name,
-                                            }))}
-                                            placeholder="Select Other Service"
-                                            isClearable
-                                          />
-                                        </div>
+              <Form.Label>Other Service</Form.Label>
+              <Select
+                className="filter-height"
+                styles={selectStyles}
+                classNamePrefix="select"
+                value={
+                  filters.otherService
+                    ? allOther.find(
+                        (option) => option.value === filters.otherService,
+                      )
+                    : null
+                }
+                onChange={(option) => {
+                  setFilters({
+                    ...filters,
+                    otherService: option ? option.value : "",
+                  });
+                  setCurrentPage(1);
+                }}
+                options={allOther?.map((item) => ({
+                  value: item._id,
+                  label: item.name,
+                }))}
+                placeholder="Select Other Service"
+                isClearable
+              />
+            </div>
             <div className="filter-item">
               <Form.Label>Updated On</Form.Label>
 
