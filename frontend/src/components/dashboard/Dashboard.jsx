@@ -13,6 +13,7 @@ import {
   Container,
   OverlayTrigger,
   Tooltip,
+  Badge,
 } from "react-bootstrap";
 import ALLImages from "../../common/Imagedata";
 import {
@@ -124,7 +125,7 @@ const Dashboard = () => {
   // Tabs States :
   const [activeTab, setActiveTab] = useState("applicationPipeline");
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   const [allStudentApplication, setAllStudentApplication] = useState([]);
@@ -158,7 +159,7 @@ const Dashboard = () => {
     showAll = false,
     country = "",
     followUp = "",
-    b2bId = ""
+    b2bId = "",
   ) => {
     try {
       const res = await dispatch(
@@ -172,8 +173,8 @@ const Dashboard = () => {
           showAll,
           country,
           followUp,
-          b2bId
-        )
+          b2bId,
+        ),
       );
       const responseData = res?.data?.data;
       setAllStudentApplication(responseData?.data || []);
@@ -199,7 +200,7 @@ const Dashboard = () => {
         mainStatus?.value || "",
         selectedBranchId,
         showAll,
-        selectedCountry?.value || ""
+        selectedCountry?.value || "",
       );
     }
   }, [
@@ -227,7 +228,7 @@ const Dashboard = () => {
         selectedOption?.value || "",
         branchId,
         newShowAll,
-        selectedCountry?.value || ""
+        selectedCountry?.value || "",
       );
     }
   };
@@ -417,8 +418,8 @@ const Dashboard = () => {
           filters.startDate,
           filters.endDate,
           branchId,
-          headOffice
-        )
+          headOffice,
+        ),
       );
       const responseData = res?.data?.data;
 
@@ -584,7 +585,7 @@ const Dashboard = () => {
           label: function (context) {
             const total = context.dataset.data.reduce(
               (sum, val) => sum + val,
-              0
+              0,
             );
             const value = context.raw;
             const percentage = ((value / total) * 100).toFixed(1);
@@ -616,7 +617,7 @@ const Dashboard = () => {
   };
 
   const bankLabels = bankwiseTotals.map(
-    (bank) => bank.bankName || "Unknown Bank"
+    (bank) => bank.bankName || "Unknown Bank",
   );
   const bankData = bankwiseTotals.map((bank) => bank.totalAmount || 0);
 
@@ -669,7 +670,7 @@ const Dashboard = () => {
           label: function (context) {
             const total = context.dataset.data.reduce(
               (sum, val) => sum + val,
-              0
+              0,
             );
             const value = context.raw;
             const percentage = ((value / total) * 100).toFixed(1);
@@ -780,7 +781,7 @@ const Dashboard = () => {
 
   const filteredBranchData =
     dashboardData?.branchWiseCollectionVsExpense?.filter(
-      (branch) => branch.branch !== "Head Office"
+      (branch) => branch.branch !== "Head Office",
     );
 
   const branchName = filteredBranchData?.map((branch) => branch?.branch);
@@ -880,10 +881,10 @@ const Dashboard = () => {
     dashboardData?.topCounselorByAdmission || [];
 
   const topCounselorNames = topCounselorByadmissionCount?.map(
-    (item) => item.name
+    (item) => item.name,
   );
   const topCounselorData = topCounselorByadmissionCount?.map(
-    (item) => item.count
+    (item) => item.count,
   );
 
   // Top Counselors by Admission Count Chart Data
@@ -941,6 +942,82 @@ const Dashboard = () => {
   // Check if QR code should be displayed (all required values present)
   const shouldShowQRCode = userName && userType && userId;
 
+  const KPI_CARDS = [
+    {
+      title: "Pending Leads",
+      value: dashboardData?.totalPendingLeads || 0,
+      link: `/lead/allleads?status=New&selectedBranch=${selectedBranch}`,
+      icon: "fe-clock", // Change to your icon class
+      color: "primary",
+    },
+    {
+      title: "Total Leads",
+      value: dashboardData?.totalLeads || 0,
+      link: `/lead/allleads?selectedBranch=${selectedBranch}`,
+      icon: "fe-users",
+      color: "success",
+    },
+    {
+      title: "Today's Follow-ups",
+      value: dashboardData?.todayFollowUpLeads || 0,
+      link: "/lead/todayfollowup",
+      icon: "fe-phone-call",
+      color: "warning",
+    },
+    {
+      title: "Total Applications",
+      value: dashboardData?.totalStudents || 0,
+      link: `/student/studentapplication?selectedBranch=${selectedBranch}`,
+      icon: "fe-file-text",
+      color: "info",
+    },
+  ];
+
+  const academicStats = [
+    {
+      title: "Total Offer Letters",
+      value: dashboardData?.totalOfferLetter || 0,
+      link: `/student/studentapplication?selectedBranch=${selectedBranch}`,
+      icon: "fe-mail",
+      color: "info",
+    },
+    {
+      title: "Total Admissions",
+      value: dashboardData?.totalAdmissions || 0,
+      link: `/student/studentapplication?selectedBranch=${selectedBranch}`,
+      icon: "fe-user-check",
+      color: "success",
+    },
+    {
+      title: "Visa Approved",
+      value: dashboardData?.totalVisaApproved || 0,
+      link: `/student/studentapplication?selectedBranch=${selectedBranch}`,
+      icon: "fe-check-square",
+      color: "primary",
+    },
+  ];
+
+  const performanceStats = [
+    {
+      title: "Top Visa Counsellor",
+      value: dashboardData?.topCounselor?.name || "N/A",
+      icon: "fe-award",
+      color: "warning",
+    },
+    {
+      title: "Top Performing Branch",
+      value: dashboardData?.topBranchName || "N/A",
+      icon: "fe-trending-up",
+      color: "secondary",
+    },
+    {
+      title: "Total Collection",
+      value: dashboardData?.totalUniversityCollection || 0,
+      icon: "fe-briefcase",
+      color: "danger",
+    },
+  ];
+
   return (
     <>
       <div
@@ -955,29 +1032,33 @@ const Dashboard = () => {
           parentfolder="Home"
           activepage="Dashboard"
         />
-        {userRole !== "Super Admin" && userRole !== "B2B Admin"  && userRole !== "Branch" && shouldShowQRCode && qrCodeUrl && (
-          <Col sm={12} md={6} lg={6} xl={3}>
-            <Card className="custom-card h-100">
-              <div className="card-item">
-                <div className="text-center my-2">
-                  <label className="main-content-label fs-13 font-weight-bold">
-                    Create New Lead
-                  </label>
+        {userRole !== "Super Admin" &&
+          userRole !== "B2B Admin" &&
+          userRole !== "Branch" &&
+          shouldShowQRCode &&
+          qrCodeUrl && (
+            <Col sm={12} md={6} lg={6} xl={3}>
+              <Card className="custom-card h-100">
+                <div className="card-item">
+                  <div className="text-center my-2">
+                    <label className="main-content-label fs-13 font-weight-bold">
+                      Create New Lead
+                    </label>
+                  </div>
+                  <div className="text-center">
+                    <QRCodeCanvas
+                      value={qrCodeUrl}
+                      size={120}
+                      bgColor="#ffffff"
+                      fgColor="#000000"
+                      level="H"
+                      includeMargin={true}
+                    />
+                  </div>
                 </div>
-                <div className="text-center">
-                  <QRCodeCanvas
-                    value={qrCodeUrl}
-                    size={120}
-                    bgColor="#ffffff"
-                    fgColor="#000000"
-                    level="H"
-                    includeMargin={true}
-                  />
-                </div>
-              </div>
-            </Card>
-          </Col>
-        )}
+              </Card>
+            </Col>
+          )}
       </div>
 
       {(userType === "user" || userType === "Branch User") &&
@@ -1302,71 +1383,107 @@ const Dashboard = () => {
       ) : (
         <>
           <Row className="row-sm align-items-stretch">
-            <Col sm={8} md={9} lg={9} xl={10} className="mb-3">
-              <Card className="bg-primary custom-card card-box h-100">
-                <Card.Body className="p-4">
-                  <Row className="align-items-center">
-                    <h4 className="d-flex mb-3">
-                      <span className="font-weight-bold text-fixed-white">
-                        {(role === "Coaching Faculty" &&
-                          coachingFaculty?.name) ||
-                          loginData?.data?.name ||
-                          b2BAdminLoginData?.data?.companyName ||
-                          branchLoginData?.data?.name ||
-                          (branchMemberLoginData?.data?.firstName ||
-                          branchMemberLoginData?.data?.lastName
-                            ? `${
-                                branchMemberLoginData?.data?.firstName || ""
-                              } ${
-                                branchMemberLoginData?.data?.lastName || ""
-                              }`.trim()
-                            : "") ||
-                          (b2BMemberLoginData?.firstName ||
-                          b2BMemberLoginData?.lastName
-                            ? `${b2BMemberLoginData?.firstName || ""} ${
-                                b2BMemberLoginData?.lastName || ""
-                              }`.trim()
-                            : "") ||
-                          "User logout"}
-                        !
-                      </span>
-                    </h4>
-                    <p className="text-fixed-white op-8 mb-1">
-                      You have{" "}
-                      <b className="text-warning">
-                        {dashboardData?.totalStudents || 0}
-                      </b>{" "}
-                      follow-ups scheduled today, with{" "}
-                      <b className="text-warning">
-                        {dashboardData?.totalStudents || 0}
-                      </b>{" "}
-                      applications pending review. Keep guiding students to
-                      their dream destinations!
-                    </p>
-                  </Row>
+            <Col sm={12} md={8} lg={9} xl={10} className="mb-3">
+              <Card className="bg-primary custom-card card-box h-100 overflow-hidden shadow-sm border-0">
+                {/* Added a subtle decorative background circle for a modern look */}
+                <div
+                  className="pos-absolute all-0 opacity-10"
+                  style={{
+                    background:
+                      "radial-gradient(circle at top right, #ffffff 0%, transparent 70%)",
+                    pointerEvents: "none",
+                  }}
+                ></div>
+
+                <Card.Body className="p-4 d-flex flex-column justify-content-center position-relative">
+                  <div className="d-flex align-items-center mb-2">
+                    <h3 className="font-weight-bold text-fixed-white mb-0">
+                      Welcome back, {userName}!
+                    </h3>
+                  </div>
+
+                  <p
+                    className="text-fixed-white op-9 mb-4 fs-14"
+                    style={{ maxWidth: "600px" }}
+                  >
+                    Your dashboard is up to date. Here is a quick snapshot of
+                    what requires your attention today.
+                  </p>
+
+                  <div className="d-flex flex-wrap gap-3">
+                    {/* Stat Pill 1 */}
+                    <div className="d-flex align-items-center bg-white-10 rounded-3 px-3 py-2 border border-white-2">
+                      <div
+                        className="me-3 bg-warning rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: "32px", height: "32px" }}
+                      >
+                        <i className="fe fe-phone text-dark fs-14"></i>
+                      </div>
+                      <div>
+                        <div className="text-fixed-white fs-12 op-8">
+                          Today's Follow-ups
+                        </div>
+                        <div className="text-fixed-white fw-bold fs-16">
+                          {dashboardData?.totalStudents || 0}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Stat Pill 2 */}
+                    <div className="d-flex align-items-center bg-white-10 rounded-3 px-3 py-2 border border-white-2">
+                      <div
+                        className="me-3 bg-info rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: "32px", height: "32px" }}
+                      >
+                        <i className="fe fe-file-text text-white fs-14"></i>
+                      </div>
+                      <div>
+                        <div className="text-fixed-white fs-12 op-8">
+                          Pending Reviews
+                        </div>
+                        <div className="text-fixed-white fw-bold fs-16">
+                          {dashboardData?.totalStudents || 0}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>
+
             {shouldShowQRCode && qrCodeUrl && (
-              <Col sm={4} md={3} lg={3} xl={2} className="mb-3">
-                <Card className="custom-card h-100">
-                  <div className="card-item">
-                    <div className="text-center my-2">
-                      <label className="main-content-label fs-13 font-weight-bold">
-                        Create New Lead
-                      </label>
+              <Col sm={12} md={4} lg={3} xl={2} className="mb-3">
+                <Card className="custom-card h-100 border-0 shadow-sm text-center">
+                  <Card.Body className="d-flex flex-column align-items-center justify-content-center p-3">
+                    <div className="mb-2">
+                      <span className="text-uppercase fw-bold fs-11 text-muted letter-spacing-1">
+                        Quick Action
+                      </span>
+                      <h6 className="mb-3 mt-1 fw-bold">Create New Lead</h6>
                     </div>
-                    <div className="text-center">
+
+                    <div className="p-2 bg-light rounded-3 shadow-inner">
                       <QRCodeCanvas
                         value={qrCodeUrl}
-                        size={120}
-                        bgColor="#ffffff"
-                        fgColor="#000000"
+                        size={110}
+                        bgColor="transparent"
+                        fgColor="#2b313c"
                         level="H"
-                        includeMargin={true}
+                        includeMargin={false}
                       />
                     </div>
-                  </div>
+
+                    <div className="mt-3">
+                      <Badge
+                        bg="primary-light"
+                        className="text-primary fw-normal border-0"
+                        style={{ cursor: "pointer" }} // Makes it look clickable
+                        onClick={() => window.open(qrCodeUrl, "_blank")} // Opens the link
+                      >
+                        <i className="fe fe-external-link me-1"></i> Open Link
+                      </Badge>
+                    </div>
+                  </Card.Body>
                 </Card>
               </Col>
             )}
@@ -1385,701 +1502,378 @@ const Dashboard = () => {
             ) && (
               <>
                 <Col md={9}>
-                  <Row className="row-sm">
-                    <Col md={12} lg={12} xl={12}>
-                      <Row className="row-sm">
-                        <Col>
-                          <Card className="custom-card transcation-crypto">
-                            <Card.Body>
-                              <div className="d-flex flex-wrap align-items-end gap-3">
-                                <div>
-                                  <Form.Label>Date Range</Form.Label>
+                  <Row className="row-sm mb-4 align-items-stretch">
+                    {/* DATE RANGE CONTROL CARD */}
+                    <Col xl={8} lg={7} md={12} className="mb-3">
+                      <Card className="custom-card h-100 border-0 shadow-sm overflow-visible">
+                        <Card.Body className="p-3">
+                          <div className="d-flex align-items-center">
+                            {/* Icon Badge - Matches KPI style */}
+                            <div
+                              className="bg-primary-transparent rounded-circle d-flex align-items-center justify-content-center me-3"
+                              style={{
+                                width: "54px",
+                                height: "54px",
+                                minWidth: "54px",
+                              }}
+                            >
+                              <i className="fe fe-calendar fs-24 text-primary"></i>
+                            </div>
+
+                            <div className="flex-grow-1">
+                              <h6 className="fw-bold mb-2 fs-14">Date Range</h6>
+                              <div className="d-flex align-items-center gap-2">
+                                {/* Start Date Field */}
+                                <div className="position-relative flex-fill">
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="From Date"
+                                    value={
+                                      filters.startDate
+                                        ? formatDate(
+                                            parseDate(filters.startDate),
+                                          )
+                                        : ""
+                                    }
+                                    readOnly
+                                    onClick={() =>
+                                      setShowStartDateCalendar(
+                                        !showStartDateCalendar,
+                                      )
+                                    }
+                                    className="form-control-sm bg-light border-0 px-3 rounded-pill fs-13"
+                                    style={{
+                                      height: "38px",
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                  {showStartDateCalendar && (
+                                    <div
+                                      ref={startDateCalendarRef}
+                                      className="position-absolute top-100 start-0 z-index-10 mt-2 shadow-lg rounded-3 bg-white border"
+                                    >
+                                      <Calendar
+                                        onChange={(d) => {
+                                          setFilters({
+                                            ...filters,
+                                            startDate: toISODate(d),
+                                          });
+                                          setShowStartDateCalendar(false);
+                                        }}
+                                        value={startDateValue}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+
+                                <span className="text-muted fw-bold">→</span>
+
+                                {/* End Date Field */}
+                                <div className="position-relative flex-fill">
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="To Date"
+                                    value={
+                                      filters.endDate
+                                        ? formatDate(parseDate(filters.endDate))
+                                        : ""
+                                    }
+                                    readOnly
+                                    onClick={() =>
+                                      setShowEndDateCalendar(
+                                        !showEndDateCalendar,
+                                      )
+                                    }
+                                    className="form-control-sm bg-light border-0 px-3 rounded-pill fs-13"
+                                    style={{
+                                      height: "38px",
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                  {showEndDateCalendar && (
+                                    <div
+                                      ref={endDateCalendarRef}
+                                      className="position-absolute top-100 start-0 z-index-10 mt-2 shadow-lg rounded-3 bg-white border"
+                                    >
+                                      <Calendar
+                                        onChange={(d) => {
+                                          setFilters({
+                                            ...filters,
+                                            endDate: toISODate(d),
+                                          });
+                                          setShowEndDateCalendar(false);
+                                        }}
+                                        value={endDateValue}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+
+                    {/* BRANCH SELECTOR CARD */}
+                    <Col xl={4} lg={5} md={12} className="mb-3">
+                      <Card
+                        className="custom-card h-100 border-0 shadow-sm overflow-visible"
+                        style={{
+                          background:
+                            "linear-gradient(45deg, #6259ca, #8e85ef)",
+                        }}
+                      >
+                        <Card.Body className="p-3">
+                          <div className="d-flex align-items-center h-100">
+                            {/* Icon Badge */}
+                            <div
+                              className="rounded-circle d-flex align-items-center justify-content-center me-3"
+                              style={{
+                                width: "48px",
+                                height: "48px",
+                                minWidth: "48px",
+                                background: "rgba(255, 255, 255, 0.2)",
+                              }}
+                            >
+                              <i className="fe fe-map-pin fs-18 text-white"></i>
+                            </div>
+
+                            <div className="flex-grow-1">
+                              <p className="mb-1 text-white-50 fs-10 fw-bold text-uppercase letter-spacing-1">
+                                Workspace
+                              </p>
+
+                              <Dropdown className="w-100">
+                                <Dropdown.Toggle
+                                  as="div" // Use as="div" to remove default bootstrap caret/button styles
+                                  role="button"
+                                  className="d-flex align-items-center justify-content-between px-3 py-2 rounded-2 text-white fw-bold fs-15 shadow-none no-caret"
+                                  style={{
+                                    background: "rgba(255, 255, 255, 0.1)", // Light tint
+                                    border:
+                                      "1px solid rgba(255, 255, 255, 0.3)", // Subtle white border
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  <span className="text-truncate">
+                                    {selectedBranch ||
+                                      (branchesList && branchesList[0]?.name) ||
+                                      "Global View"}
+                                  </span>
+                                  {/* Only this arrow will show now */}
+                                  <i className="fe fe-chevron-down fs-14 ms-2 opacity-75"></i>
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu
+                                  className="shadow-lg border-0 mt-2 py-2"
+                                  style={{
+                                    minWidth: "220px",
+                                    borderRadius: "10px",
+                                  }}
+                                >
+                                  <Dropdown.Header className="fs-10 text-uppercase fw-bold text-muted">
+                                    Switch Branch
+                                  </Dropdown.Header>
+                                  <Dropdown.Item
+                                    className="py-2 px-3 fs-13"
+                                    onClick={() =>
+                                      handleBranchSelect("All", "")
+                                    }
+                                  >
+                                    <i className="fe fe-globe me-2 text-primary opacity-50"></i>
+                                    Global View (All)
+                                  </Dropdown.Item>
+
+                                  <Dropdown.Divider className="mx-2" />
+
                                   <div
                                     style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: "8px",
-                                      position: "relative",
+                                      maxHeight: "200px",
+                                      overflowY: "auto",
                                     }}
                                   >
-                                    <div
-                                      style={{
-                                        position: "relative",
-                                        flex: "1",
-                                      }}
-                                    >
-                                      <Form.Control
-                                        type="text"
-                                        className="filter-height"
-                                        placeholder="dd/mm/yyyy"
-                                        value={
-                                          filters.startDate
-                                            ? formatDate(
-                                                parseDate(filters.startDate)
-                                              )
-                                            : ""
+                                    {branchesList?.map((branch, index) => (
+                                      <Dropdown.Item
+                                        key={index}
+                                        className={`py-2 px-3 fs-13 ${selectedBranch === branch.name ? "bg-primary-light fw-bold text-primary" : ""}`}
+                                        onClick={() =>
+                                          handleBranchSelect(
+                                            branch?.name,
+                                            branch?._id,
+                                          )
                                         }
-                                        readOnly
-                                        ref={startDateInputRef}
-                                        onClick={() => {
-                                          if (filters.startDate) {
-                                            setStartDateValue(
-                                              parseDate(filters.startDate)
-                                            );
-                                          }
-                                          setShowStartDateCalendar(
-                                            (show) => !show
-                                          );
-                                        }}
-                                        style={{
-                                          cursor: "pointer",
-                                          backgroundColor: "#fff",
-                                          borderRadius: "30px",
-                                          width: "100%",
-                                          maxWidth: "200px",
-                                        }}
-                                        aria-label="Start date"
-                                      />
-                                      {filters.startDate ? (
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setFilters({
-                                              ...filters,
-                                              startDate: "",
-                                            });
-                                            setStartDateValue(null);
-                                            setShowStartDateCalendar(false);
-                                          }}
-                                          style={{
-                                            position: "absolute",
-                                            right: 10,
-                                            top: "50%",
-                                            transform: "translateY(-50%)",
-                                            background: "transparent",
-                                            border: "none",
-                                            cursor: "pointer",
-                                            fontSize: 16,
-                                            color: "#888",
-                                            padding: 0,
-                                            zIndex: 1000,
-                                          }}
-                                          aria-label="Clear start date"
-                                        >
-                                          ×
-                                        </button>
-                                      ) : (
-                                        <MdCalendarToday
-                                          style={{
-                                            position: "absolute",
-                                            right: 12,
-                                            top: "50%",
-                                            transform: "translateY(-50%)",
-                                            color: "#888",
-                                            pointerEvents: "none",
-                                          }}
-                                          size={18}
-                                        />
-                                      )}
-                                      {showStartDateCalendar && (
-                                        <div
-                                          ref={startDateCalendarRef}
-                                          style={{
-                                            position: "absolute",
-                                            top: "100%",
-                                            left: "0",
-                                            zIndex: 9999,
-                                            background: "#fff",
-                                            boxShadow:
-                                              "0 4px 16px rgba(0,0,0,0.15)",
-                                            borderRadius: "8px",
-                                            marginTop: "4px",
-                                            width: 300,
-                                            minWidth: 300,
-                                            maxWidth: 300,
-                                          }}
-                                        >
-                                          <Calendar
-                                            className="form-control m-0 p-0 border-0"
-                                            onChange={(selectedDate) => {
-                                              if (
-                                                filters.endDate &&
-                                                selectedDate >
-                                                  parseDate(filters.endDate)
-                                              ) {
-                                                alert(
-                                                  "Start date cannot be after end date"
-                                                );
-                                                return;
-                                              }
-                                              setStartDateValue(selectedDate);
-                                              setFilters({
-                                                ...filters,
-                                                startDate:
-                                                  toISODate(selectedDate),
-                                              });
-                                              setShowStartDateCalendar(false);
-                                            }}
-                                            value={startDateValue}
-                                            locale="en-GB"
-                                            // maxDate={new Date()}
-                                          />
-                                        </div>
-                                      )}
-                                    </div>
-
-                                    <span
-                                      style={{
-                                        color: "#888",
-                                        fontSize: "16px",
-                                        fontWeight: "normal",
-                                      }}
-                                    >
-                                      -
-                                    </span>
-
-                                    <div
-                                      style={{
-                                        position: "relative",
-                                        flex: "1",
-                                      }}
-                                    >
-                                      <Form.Control
-                                        type="text"
-                                        className="filter-height"
-                                        placeholder="dd/mm/yyyy"
-                                        value={
-                                          filters.endDate
-                                            ? formatDate(
-                                                parseDate(filters.endDate)
-                                              )
-                                            : ""
-                                        }
-                                        readOnly
-                                        ref={endDateInputRef}
-                                        onClick={() => {
-                                          if (filters.endDate) {
-                                            setEndDateValue(
-                                              parseDate(filters.endDate)
-                                            );
-                                          }
-                                          setShowEndDateCalendar(
-                                            (show) => !show
-                                          );
-                                        }}
-                                        style={{
-                                          cursor: "pointer",
-                                          backgroundColor: "#fff",
-                                          borderRadius: "30px",
-                                          width: "100%",
-                                          maxWidth: "200px",
-                                        }}
-                                        aria-label="End date"
-                                      />
-                                      {filters.endDate ? (
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setFilters({
-                                              ...filters,
-                                              endDate: "",
-                                            });
-                                            setEndDateValue(null);
-                                            setShowEndDateCalendar(false);
-                                          }}
-                                          style={{
-                                            position: "absolute",
-                                            right: 10,
-                                            top: "50%",
-                                            transform: "translateY(-50%)",
-                                            background: "transparent",
-                                            border: "none",
-                                            cursor: "pointer",
-                                            fontSize: 16,
-                                            color: "#888",
-                                            padding: 0,
-                                            zIndex: 1000,
-                                          }}
-                                          aria-label="Clear end date"
-                                        >
-                                          ×
-                                        </button>
-                                      ) : (
-                                        <MdCalendarToday
-                                          style={{
-                                            position: "absolute",
-                                            right: 12,
-                                            top: "50%",
-                                            transform: "translateY(-50%)",
-                                            color: "#888",
-                                            pointerEvents: "none",
-                                          }}
-                                          size={18}
-                                        />
-                                      )}
-                                      {showEndDateCalendar && (
-                                        <div
-                                          ref={endDateCalendarRef}
-                                          style={{
-                                            position: "absolute",
-                                            top: "100%",
-                                            left: "0",
-                                            zIndex: 9999,
-                                            background: "#fff",
-                                            boxShadow:
-                                              "0 4px 16px rgba(0,0,0,0.15)",
-                                            borderRadius: "8px",
-                                            marginTop: "4px",
-                                            width: 300,
-                                            minWidth: 300,
-                                            maxWidth: 300,
-                                          }}
-                                        >
-                                          <Calendar
-                                            className="form-control m-0 p-0 border-0"
-                                            onChange={(selectedDate) => {
-                                              if (
-                                                filters.startDate &&
-                                                selectedDate <
-                                                  parseDate(filters.startDate)
-                                              ) {
-                                                alert(
-                                                  "End date cannot be before start date"
-                                                );
-                                                return;
-                                              }
-                                              setEndDateValue(selectedDate);
-                                              setFilters({
-                                                ...filters,
-                                                endDate:
-                                                  toISODate(selectedDate),
-                                              });
-                                              setShowEndDateCalendar(false);
-                                            }}
-                                            value={endDateValue}
-                                            locale="en-GB"
-                                            // maxDate={new Date()}
-                                            minDate={
-                                              filters.startDate
-                                                ? parseDate(filters.startDate)
-                                                : undefined
-                                            }
-                                          />
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {/* <div className="filter-item-2">
-                                  <Form.Label>Visa Country</Form.Label>
-                                  <Select
-                                    className="filter-height"
-                                    options={formattedVisaCountryOptions}
-                                    // value={selectedVisaCountry}
-                                    // onChange={handleVisaCountryChange}
-                                    placeholder="Select Visa Country"
-                                    classNamePrefix="custom-select"
-                                    isClearable
-                                    styles={{
-                                      placeholder: (base) => ({
-                                        ...base,
-                                        fontSize: "13px",
-                                      }),
-                                    }}
-                                  />
-                                </div>
-
-                                <div className="filter-item-2">
-                                  <Form.Label>Counsellor</Form.Label>
-                                  <Select
-                                    className="filter-height"
-                                    options={formattedCounsellorOptions}
-                                    // value={selectedCounsellor}
-                                    // onChange={handleCounsellorChange}
-                                    placeholder="Select Counsellor"
-                                    classNamePrefix="custom-select"
-                                    isClearable
-                                    styles={{
-                                      placeholder: (base) => ({
-                                        ...base,
-                                        fontSize: "13px",
-                                      }),
-                                    }}
-                                  />
-                                </div>
-
-                                <div className="filter-item-2">
-                                  <Form.Label>Counsellor</Form.Label>
-                                  <Form.Select
-                                    className="filter-height"
-                                    style={{ borderRadius: "30px" }}
-                                  >
-                                    <option value="">Select option</option>
-                                    {counsellorOptions.map((counsellor, index) => (
-                                      <option key={index} value={counsellor}>
-                                        {counsellor}
-                                      </option>
+                                      >
+                                        <i className="fe fe-map-pin me-2 opacity-50"></i>
+                                        {branch?.name}
+                                      </Dropdown.Item>
                                     ))}
-                                  </Form.Select>
-                                </div>
-
-                                <div className="filter-item-2">
-                                  <Form.Label>Application Status</Form.Label>
-                                  <Select
-                                    className="filter-height"
-                                    options={studentStatusOptions}
-                                    // value={mainStatus}
-                                    // onChange={handleStudentStatusChange}
-                                    placeholder="Select Status"
-                                    classNamePrefix="custom-select"
-                                    isClearable
-                                    styles={{
-                                      placeholder: (base) => ({
-                                        ...base,
-                                        fontSize: "13px",
-                                      }),
-                                    }}
-                                  />
-                                </div> */}
-                              </div>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-
-                        <Col>
-                          <Card className="custom-card">
-                            <Card.Body>
-                              <div className="card-item d-flex justify-content-between align-items-center">
-                                <div className="my-2">
-                                  <label className="main-content-label fs-13 font-weight-bold mb-2">
-                                    Select Branch
-                                  </label>
-                                  <span className="d-block fs-12 mb-0 text-muted mt-1">
-                                    Choose a branch to view data
-                                  </span>
-                                </div>
-                                <div className="card-item-body">
-                                  <Dropdown>
-                                    <Dropdown.Toggle
-                                      variant="default"
-                                      className="btn btn-wave waves-effect waves-light btn-primary d-inline-flex align-items-center border-0"
-                                    >
-                                      {selectedBranch || branchesList[0]?.name}
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu style={{ margin: "0px" }}>
-                                      <Dropdown.Item
-                                        key="all"
-                                        onClick={() =>
-                                          handleBranchSelect("All", "")
-                                        }
-                                      >
-                                        All
-                                      </Dropdown.Item>
-                                      <Dropdown.Item
-                                        key="head-office"
-                                        onClick={() =>
-                                          handleBranchSelect("Head Office", "")
-                                        }
-                                      >
-                                        Head Office
-                                      </Dropdown.Item>
-                                      {branchesList?.map((branch, index) => (
-                                        <Dropdown.Item
-                                          key={index}
-                                          onClick={() =>
-                                            handleBranchSelect(
-                                              branch?.name,
-                                              branch?._id
-                                            )
-                                          }
-                                        >
-                                          {branch?.name}
-                                        </Dropdown.Item>
-                                      ))}
-                                    </Dropdown.Menu>
-                                  </Dropdown>
-                                </div>
-                              </div>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-                      </Row>
+                                  </div>
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </div>
+                          </div>
+                        </Card.Body>
+                      </Card>
                     </Col>
                   </Row>
 
                   <Row className="row-sm mt-lg">
-                    <Col sm={12} md={6} lg={6} xl={3}>
-                      <Link
-                        to={`/lead/allleads?status=New&selectedBranch=${selectedBranch}`}
-                        style={{ textDecoration: "none", cursor: "pointer" }}
+                    {KPI_CARDS.map((card, index) => (
+                      <Col
+                        key={index}
+                        sm={12}
+                        md={6}
+                        lg={6}
+                        xl={3}
+                        className="mb-3"
                       >
-                        <Card className="custom-card py-2">
-                          <Card.Body>
-                            <div className="card-item">
-                              <div className="card-item-icon card-icon">
-                                <svg
-                                  className="text-primary"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
+                        <Link to={card.link} style={{ textDecoration: "none" }}>
+                          <Card className="custom-card h-100 border-0 shadow-sm kpi-hover-card">
+                            <Card.Body className="p-3">
+                              <div className="d-flex align-items-center">
+                                {/* Icon Container with subtle background */}
+                                <div
+                                  className={`bg-${card.color}-transparent rounded-circle d-flex align-items-center justify-content-center me-3`}
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    minWidth: "50px",
+                                  }}
                                 >
-                                  <path d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7h2v4h-2zm0-6h2v2h-2z" />
-                                </svg>
-                              </div>
-                              <div className="card-item-title mb-2">
-                                <label className="main-content-label fs-13 font-weight-bold mb-1">
-                                  Pending Leads
-                                </label>
-                              </div>
-                              <div className="card-item-body">
-                                <div className="card-item-stat">
-                                  <h4 className="font-weight-bold">
-                                    {dashboardData?.totalPendingLeads || 0}
-                                  </h4>
+                                  <i
+                                    className={`fe ${card.icon} fs-20 text-${card.color}`}
+                                  ></i>
+                                </div>
+
+                                {/* Text Content */}
+                                <div className="flex-grow-1">
+                                  <p className="text-muted mb-1 fs-12 fw-bold text-uppercase letter-spacing-1">
+                                    {card.title}
+                                  </p>
+                                  <div className="d-flex align-items-baseline">
+                                    <h3 className="mb-0 fw-bold">
+                                      {card.value}
+                                    </h3>
+                                    {/* Optional: Add a small trend indicator if you have the data */}
+                                    {/* <span className="ms-2 text-success fs-11 fw-semibold">+5%</span> */}
+                                  </div>
+                                </div>
+
+                                {/* Optional: Simple Arrow indicator */}
+                                <div className="ms-auto opacity-25">
+                                  <i className="fe fe-chevron-right fs-16"></i>
                                 </div>
                               </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Link>
-                    </Col>
-                    <Col sm={12} md={6} lg={6} xl={3}>
-                      <Link
-                        to={`/lead/allleads?selectedBranch=${selectedBranch}`}
-                        style={{ textDecoration: "none", cursor: "pointer" }}
-                      >
-                        <Card className="custom-card py-2">
-                          <Card.Body>
-                            <div className="card-item">
-                              <div className="card-item-icon card-icon">
-                                <svg
-                                  className="text-primary"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                >
-                                  <path d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7h2v4h-2zm0-6h2v2h-2z" />
-                                </svg>
-                              </div>
-                              <div className="card-item-title mb-2">
-                                <label className="main-content-label fs-13 font-weight-bold mb-1">
-                                  Total Leads
-                                </label>
-                              </div>
-                              <div className="card-item-body">
-                                <div className="card-item-stat">
-                                  <h4 className="font-weight-bold">
-                                    {dashboardData?.totalLeads || 0}
-                                  </h4>
-                                </div>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Link>
-                    </Col>
-                    <Col sm={12} md={6} lg={6} xl={3}>
-                      <Link
-                        to="/lead/todayfollowup"
-                        style={{ textDecoration: "none", cursor: "pointer" }}
-                      >
-                        <Card className="custom-card py-2">
-                          <Card.Body>
-                            <div className="card-item">
-                              <div className="card-item-icon card-icon">
-                                <svg
-                                  className="text-primary"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                >
-                                  <path d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7h2v4h-2zm0-6h2v2h-2z" />
-                                </svg>
-                              </div>
-                              <div className="card-item-title mb-2">
-                                <label className="main-content-label fs-13 font-weight-bold mb-1">
-                                  Today's FollowUp Leads
-                                </label>
-                                {/* <span className="d-block fs-12 mb-0 text-muted">`
-                        Scheduled for today
-                      </span> */}
-                              </div>
-                              <div className="card-item-body">
-                                <div className="card-item-stat">
-                                  <h4 className="font-weight-bold">
-                                    {dashboardData?.todayFollowUpLeads || 0}
-                                  </h4>
-                                </div>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Link>
-                    </Col>
-                    <Col sm={12} md={6} lg={6} xl={3}>
-                      <Link
-                        to={`/student/studentapplication?selectedBranch=${selectedBranch}`}
-                        style={{ textDecoration: "none", cursor: "pointer" }}
-                      >
-                        <Card className="custom-card py-2">
-                          <Card.Body>
-                            <div className="card-item">
-                              <div className="card-item-icon card-icon">
-                                <svg
-                                  className="text-primary"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                >
-                                  <path d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79-4-4-4z" />
-                                </svg>
-                              </div>
-                              <div className="card-item-title mb-2">
-                                <label className="main-content-label fs-13 font-weight-bold mb-1">
-                                  Total Applications
-                                </label>
-                                {/* <span className="d-block fs-12 mb-0 text-muted">
-                        Total leads generated
-                      </span> */}
-                              </div>
-                              <div className="card-item-body">
-                                <div className="card-item-stat">
-                                  <h4 className="font-weight-bold">
-                                    {dashboardData?.totalStudents || 0}
-                                  </h4>
-                                </div>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Link>
-                    </Col>
+                            </Card.Body>
+                          </Card>
+                        </Link>
+                      </Col>
+                    ))}
                   </Row>
 
                   <Row className="row-sm">
-                    <Col sm={12} md={6} lg={6} xl={4}>
+                    {/* Total Offer Letters */}
+                    <Col sm={12} md={6} lg={6} xl={4} className="mb-3">
                       <Link
                         to={`/student/studentapplication?selectedBranch=${selectedBranch}`}
-                        style={{ textDecoration: "none", cursor: "pointer" }}
+                        style={{ textDecoration: "none" }}
                       >
-                        <Card className="custom-card py-2">
-                          <Card.Body>
-                            <div className="card-item">
-                              <div className="card-item-icon card-icon">
-                                <svg
-                                  className="text-primary"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                >
-                                  <path d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
-                                </svg>
+                        <Card className="custom-card h-100 border-0 shadow-sm kpi-hover-card">
+                          <Card.Body className="p-3">
+                            <div className="d-flex align-items-center">
+                              <div
+                                className="bg-info-transparent rounded-circle d-flex align-items-center justify-content-center me-3"
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  minWidth: "50px",
+                                }}
+                              >
+                                <i className="fe fe-mail fs-20 text-info"></i>
                               </div>
-                              <div className="card-item-title mb-2">
-                                <label className="main-content-label fs-13 font-weight-bold mb-1">
+                              <div className="flex-grow-1">
+                                <p className="text-muted mb-1 fs-12 fw-bold text-uppercase letter-spacing-1">
                                   Total Offer Letters
-                                </label>
-                                {/* <span className="d-block fs-12 mb-0 text-muted">
-                        New leads this month
-                      </span> */}
+                                </p>
+                                <h3 className="mb-0 fw-bold">
+                                  {dashboardData?.totalOfferLetter || 0}
+                                </h3>
                               </div>
-                              <div className="card-item-body">
-                                <div className="card-item-stat">
-                                  <h4 className="font-weight-bold">
-                                    {dashboardData?.totalOfferLetter || 0}
-                                  </h4>
-                                </div>
+                              <div className="ms-auto opacity-25">
+                                <i className="fe fe-chevron-right fs-16"></i>
                               </div>
                             </div>
                           </Card.Body>
                         </Card>
                       </Link>
                     </Col>
-                    <Col sm={12} md={6} lg={6} xl={4}>
+
+                    {/* Total Admissions */}
+                    <Col sm={12} md={6} lg={6} xl={4} className="mb-3">
                       <Link
                         to={`/student/studentapplication?selectedBranch=${selectedBranch}`}
-                        style={{ textDecoration: "none", cursor: "pointer" }}
+                        style={{ textDecoration: "none" }}
                       >
-                        <Card className="custom-card py-2">
-                          <Card.Body>
-                            <div className="card-item">
-                              <div className="card-item-icon card-icon">
-                                <svg
-                                  className="text-primary"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                >
-                                  <path d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7h2v4h-2zm0-6h2v2h-2z" />
-                                </svg>
+                        <Card className="custom-card h-100 border-0 shadow-sm kpi-hover-card">
+                          <Card.Body className="p-3">
+                            <div className="d-flex align-items-center">
+                              <div
+                                className="bg-success-transparent rounded-circle d-flex align-items-center justify-content-center me-3"
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  minWidth: "50px",
+                                }}
+                              >
+                                <i className="fe fe-user-check fs-20 text-success"></i>
                               </div>
-                              <div className="card-item-title mb-2">
-                                <label className="main-content-label fs-13 font-weight-bold mb-1">
+                              <div className="flex-grow-1">
+                                <p className="text-muted mb-1 fs-12 fw-bold text-uppercase letter-spacing-1">
                                   Total Admissions
-                                </label>
-                                {/* <span className="d-block fs-12 mb-0 text-muted">
-                        Scheduled for today
-                      </span> */}
+                                </p>
+                                <h3 className="mb-0 fw-bold">
+                                  {dashboardData?.totalAdmissions || 0}
+                                </h3>
                               </div>
-                              <div className="card-item-body">
-                                <div className="card-item-stat">
-                                  <h4 className="font-weight-bold">
-                                    {dashboardData?.totalAdmissions || 0}
-                                  </h4>
-                                </div>
+                              <div className="ms-auto opacity-25">
+                                <i className="fe fe-chevron-right fs-16"></i>
                               </div>
                             </div>
                           </Card.Body>
                         </Card>
                       </Link>
                     </Col>
-                    <Col sm={12} md={6} lg={6} xl={4}>
+
+                    {/* Visa Approved */}
+                    <Col sm={12} md={6} lg={6} xl={4} className="mb-3">
                       <Link
                         to={`/student/studentapplication?selectedBranch=${selectedBranch}`}
-                        style={{ textDecoration: "none", cursor: "pointer" }}
+                        style={{ textDecoration: "none" }}
                       >
-                        <Card className="custom-card py-2">
-                          <Card.Body>
-                            <div className="card-item">
-                              <div className="card-item-icon card-icon">
-                                <svg
-                                  className="text-primary"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                >
-                                  <path d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7h2v4h-2zm0-6h2v2h-2z" />
-                                </svg>
+                        <Card className="custom-card h-100 border-0 shadow-sm kpi-hover-card">
+                          <Card.Body className="p-3">
+                            <div className="d-flex align-items-center">
+                              <div
+                                className="bg-primary-transparent rounded-circle d-flex align-items-center justify-content-center me-3"
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  minWidth: "50px",
+                                }}
+                              >
+                                <i className="fe fe-check-square fs-20 text-primary"></i>
                               </div>
-                              <div className="card-item-title mb-2">
-                                <label className="main-content-label fs-13 font-weight-bold mb-1">
+                              <div className="flex-grow-1">
+                                <p className="text-muted mb-1 fs-12 fw-bold text-uppercase letter-spacing-1">
                                   Visa Approved
-                                </label>
-                                {/* <span className="d-block fs-12 mb-0 text-muted">
-                        Total follow-ups
-                      </span> */}
+                                </p>
+                                <h3 className="mb-0 fw-bold">
+                                  {dashboardData?.totalVisaApproved || 0}
+                                </h3>
                               </div>
-                              <div className="card-item-body">
-                                <div className="card-item-stat">
-                                  <h4 className="font-weight-bold">
-                                    {dashboardData?.totalVisaApproved || 0}
-                                  </h4>
-                                </div>
+                              <div className="ms-auto opacity-25">
+                                <i className="fe fe-chevron-right fs-16"></i>
                               </div>
                             </div>
                           </Card.Body>
@@ -2089,107 +1883,84 @@ const Dashboard = () => {
                   </Row>
 
                   <Row className="row-sm">
-                    <Col sm={12} md={6} lg={6} xl={4}>
-                      <Card className="custom-card py-2">
-                        <Card.Body>
-                          <div className="card-item">
-                            <div className="card-item-icon card-icon">
-                              <svg
-                                className="text-primary"
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                width="24"
-                              >
-                                <path d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79-4-4-4z" />
-                              </svg>
+                    {/* Top Visa Counsellor */}
+                    <Col sm={12} md={6} lg={6} xl={4} className="mb-3">
+                      <Card className="custom-card h-100 border-0 shadow-sm kpi-hover-card">
+                        <Card.Body className="p-3">
+                          <div className="d-flex align-items-center">
+                            <div
+                              className="bg-warning-transparent rounded-circle d-flex align-items-center justify-content-center me-3"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                minWidth: "50px",
+                              }}
+                            >
+                              <i className="fe fe-award fs-20 text-warning"></i>
                             </div>
-                            <div className="card-item-title mb-2">
-                              <label className="main-content-label fs-13 font-weight-bold mb-1">
+                            <div className="flex-grow-1 overflow-hidden">
+                              <p className="text-muted mb-1 fs-12 fw-bold text-uppercase letter-spacing-1">
                                 Top Visa Counsellor
-                              </label>
-                              {/* <span className="d-block fs-12 mb-0 text-muted">
-                        Total leads generated
-                      </span> */}
-                            </div>
-                            <div className="card-item-body">
-                              <div className="card-item-stat">
-                                <h4 className="font-weight-bold">
-                                  {dashboardData?.topCounselor?.name || 0}
-                                </h4>
-                              </div>
+                              </p>
+                              <h4 className="mb-0 fw-bold text-truncate">
+                                {dashboardData?.topCounselor?.name || "N/A"}
+                              </h4>
                             </div>
                           </div>
                         </Card.Body>
                       </Card>
                     </Col>
-                    <Col sm={12} md={6} lg={6} xl={4}>
-                      <Card className="custom-card py-2">
-                        <Card.Body>
-                          <div className="card-item">
-                            <div className="card-item-icon card-icon">
-                              <svg
-                                className="text-primary"
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                width="24"
-                              >
-                                <path d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
-                              </svg>
+
+                    {/* Top Performing Branch */}
+                    <Col sm={12} md={6} lg={6} xl={4} className="mb-3">
+                      <Card className="custom-card h-100 border-0 shadow-sm kpi-hover-card">
+                        <Card.Body className="p-3">
+                          <div className="d-flex align-items-center">
+                            <div
+                              className="bg-secondary-transparent rounded-circle d-flex align-items-center justify-content-center me-3"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                minWidth: "50px",
+                              }}
+                            >
+                              <i className="fe fe-trending-up fs-20 text-secondary"></i>
                             </div>
-                            <div className="card-item-title mb-2">
-                              <label className="main-content-label fs-13 font-weight-bold mb-1">
+                            <div className="flex-grow-1 overflow-hidden">
+                              <p className="text-muted mb-1 fs-12 fw-bold text-uppercase letter-spacing-1">
                                 Top Performing Branch
-                              </label>
-                              {/* <span className="d-block fs-12 mb-0 text-muted">
-                        New leads this month
-                      </span> */}
-                            </div>
-                            <div className="card-item-body">
-                              <div className="card-item-stat">
-                                <h4 className="font-weight-bold">
-                                  {dashboardData?.topBranchName || 0}
-                                </h4>
-                              </div>
+                              </p>
+                              <h4 className="mb-0 fw-bold text-truncate">
+                                {dashboardData?.topBranchName || "N/A"}
+                              </h4>
                             </div>
                           </div>
                         </Card.Body>
                       </Card>
                     </Col>
-                    <Col sm={12} md={6} lg={6} xl={4}>
-                      <Card className="custom-card py-2">
-                        <Card.Body>
-                          <div className="card-item">
-                            <div className="card-item-icon card-icon">
-                              <svg
-                                className="text-primary"
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                width="24"
-                              >
-                                <path d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7h2v4h-2zm0-6h2v2h-2z" />
-                              </svg>
+
+                    {/* Total Collection */}
+                    <Col sm={12} md={6} lg={6} xl={4} className="mb-3">
+                      <Card className="custom-card h-100 border-0 shadow-sm kpi-hover-card">
+                        <Card.Body className="p-3">
+                          <div className="d-flex align-items-center">
+                            <div
+                              className="bg-danger-transparent rounded-circle d-flex align-items-center justify-content-center me-3"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                minWidth: "50px",
+                              }}
+                            >
+                              <i className="fe fe-briefcase fs-20 text-danger"></i>
                             </div>
-                            <div className="card-item-title mb-2">
-                              <label className="main-content-label fs-13 font-weight-bold mb-1">
+                            <div className="flex-grow-1">
+                              <p className="text-muted mb-1 fs-12 fw-bold text-uppercase letter-spacing-1">
                                 Total Collection
-                              </label>
-                              {/* <span className="d-block fs-12 mb-0 text-muted">
-                        Total follow-ups
-                      </span> */}
-                            </div>
-                            <div className="card-item-body">
-                              <div className="card-item-stat">
-                                <h4 className="font-weight-bold">
-                                  {dashboardData?.totalUniversityCollection ||
-                                    0}
-                                </h4>
-                              </div>
+                              </p>
+                              <h3 className="mb-0 fw-bold">
+                                {dashboardData?.totalUniversityCollection || 0}
+                              </h3>
                             </div>
                           </div>
                         </Card.Body>
@@ -2203,24 +1974,6 @@ const Dashboard = () => {
                     onCall={(number) => console.log("Calling:", number)}
                   />
                 </Col>
-
-                {/* <Col sm={12} lg={6} xl={6}>
-              <Card className="custom-card overflow-hidden">
-                <Card.Header>
-                  <label className="main-content-label mb-2">
-                    Visa Approval Trend (Monthly)
-                  </label>
-                </Card.Header>
-                <Card.Body>
-                  <div style={{ height: "300px" }}>
-                    <Line
-                      data={countryVisaApprovalData}
-                      options={visaApprovalOptions}
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col> */}
                 <Col sm={12} lg={6} xl={6}>
                   <Card className="custom-card overflow-hidden">
                     <Card.Header>
@@ -2290,11 +2043,11 @@ const Dashboard = () => {
                               <span>
                                 {storedEncryptedCurrency
                                   ? getSymbolFromCurrency(
-                                      storedEncryptedCurrency
+                                      storedEncryptedCurrency,
                                     )
                                   : "₹"}{" "}
                                 {new Intl.NumberFormat().format(
-                                  totalPaidAmount
+                                  totalPaidAmount,
                                 )}
                               </span>
                             </div>
@@ -2314,7 +2067,7 @@ const Dashboard = () => {
                               <span>
                                 {storedEncryptedCurrency
                                   ? getSymbolFromCurrency(
-                                      storedEncryptedCurrency
+                                      storedEncryptedCurrency,
                                     )
                                   : "₹"}{" "}
                                 {new Intl.NumberFormat().format(totalDueAmount)}
@@ -2558,7 +2311,7 @@ const Dashboard = () => {
                                         value={
                                           filters.startDate
                                             ? formatDate(
-                                                parseDate(filters.startDate)
+                                                parseDate(filters.startDate),
                                               )
                                             : ""
                                         }
@@ -2567,11 +2320,11 @@ const Dashboard = () => {
                                         onClick={() => {
                                           if (filters.startDate) {
                                             setStartDateValue(
-                                              parseDate(filters.startDate)
+                                              parseDate(filters.startDate),
                                             );
                                           }
                                           setShowStartDateCalendar(
-                                            (show) => !show
+                                            (show) => !show,
                                           );
                                         }}
                                         style={{
@@ -2651,7 +2404,7 @@ const Dashboard = () => {
                                                   parseDate(filters.endDate)
                                               ) {
                                                 alert(
-                                                  "Start date cannot be after end date"
+                                                  "Start date cannot be after end date",
                                                 );
                                                 return;
                                               }
@@ -2694,7 +2447,7 @@ const Dashboard = () => {
                                         value={
                                           filters.endDate
                                             ? formatDate(
-                                                parseDate(filters.endDate)
+                                                parseDate(filters.endDate),
                                               )
                                             : ""
                                         }
@@ -2703,11 +2456,11 @@ const Dashboard = () => {
                                         onClick={() => {
                                           if (filters.endDate) {
                                             setEndDateValue(
-                                              parseDate(filters.endDate)
+                                              parseDate(filters.endDate),
                                             );
                                           }
                                           setShowEndDateCalendar(
-                                            (show) => !show
+                                            (show) => !show,
                                           );
                                         }}
                                         style={{
@@ -2787,7 +2540,7 @@ const Dashboard = () => {
                                                   parseDate(filters.startDate)
                                               ) {
                                                 alert(
-                                                  "End date cannot be before start date"
+                                                  "End date cannot be before start date",
                                                 );
                                                 return;
                                               }
@@ -3118,7 +2871,7 @@ const Dashboard = () => {
                                       className="ht-6 my-auto"
                                       now={Math.min(
                                         source.percentage * 10,
-                                        100
+                                        100,
                                       )}
                                     />
                                   </Col>
@@ -3299,852 +3052,7 @@ const Dashboard = () => {
                 </Col>
               </Row>
             )}
-            {/* {activeTab === "counselorPerformance" && <CounselorPerformance />}
-        {activeTab === "financialOverview" && <FinancialOverview />}
-        {activeTab === "studentFunnel" && <StudentFunnel />}
-        {activeTab === "ieltsSummary" && <IeltsSummary />} */}
           </Card>
-
-          {/* <Card className="p-4 shadow-sm rounded">
-        <h5 className="mb-3 fw-semibold">Additional Controls</h5>
-        <Row className="g-3">
-          <Col xs={12} sm={6} md={3}>
-            <Button
-              variant="outline-primary"
-              className="w-100 d-flex align-items-center justify-content-center gap-2"
-            >
-              <FaDownload />
-              Download Report
-            </Button>
-          </Col>
-          <Col xs={12} sm={6} md={3}>
-            <Button
-              variant="outline-purple"
-              className="btn-outline-purple w-100 d-flex align-items-center justify-content-center gap-2"
-              style={{ color: "#6f42c1", borderColor: "#6f42c1" }}
-            >
-              <FaUpload />
-              Import Student Data
-            </Button>
-          </Col>
-          <Col xs={12} sm={6} md={3}>
-            <Button
-              variant="outline-indigo"
-              className="btn-outline-indigo w-100 d-flex align-items-center justify-content-center gap-2"
-              style={{ color: "#6610f2", borderColor: "#6610f2" }}
-            >
-              <FaChartBar />
-              Export Statistics
-            </Button>
-          </Col>
-          <Col xs={12} sm={6} md={3}>
-            <Button
-              variant="outline-success"
-              className="w-100 d-flex align-items-center justify-content-center gap-2"
-            >
-              <FaCalendarAlt />
-              Upcoming Deadlines
-            </Button>
-          </Col>
-        </Row>
-      </Card> */}
-
-          <Row className="row-sm">
-            <Col sm={12} lg={12} xl={8}>
-              {/* <Row className="row-sm">
-            <Col sm={12} md={6} lg={6} xl={4}>
-              <Card className="custom-card">
-                <Card.Body>
-                  <div className="card-item">
-                    <div className="card-item-icon card-icon">
-                      <svg
-                        className="text-primary"
-                        xmlns="http://www.w3.org/2000/svg"
-                        enableBackground="new 0 0 24 24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        width="24"
-                      >
-                        <g>
-                          <rect
-                            height="14"
-                            opacity=".3"
-                            width="14"
-                            x="5"
-                            y="5"
-                          />
-                          <g>
-                            <rect fill="none" height="24" width="24" />
-                            <g>
-                              <path d="M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,19H5V5h14V19z" />
-                              <rect height="5" width="2" x="7" y="12" />
-                              <rect height="10" width="2" x="15" y="7" />
-                              <rect height="3" width="2" x="11" y="14" />
-                              <rect height="2" width="2" x="11" y="10" />
-                            </g>
-                          </g>
-                        </g>
-                      </svg>
-                    </div>
-                    <div className="card-item-title mb-2">
-                      <label className="main-content-label fs-13 font-weight-bold mb-1">
-                        Total Revenue
-                      </label>
-                      <span className="d-block fs-12 mb-0 text-muted">
-                        Previous month vs this months
-                      </span>
-                    </div>
-                    <div className="card-item-body">
-                      <div className="card-item-stat">
-                        <h4 className="font-weight-bold">$5,900.00</h4>
-                        <small>
-                          <b className="text-success">10%</b> higher
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col sm={12} md={6} lg={6} xl={4}>
-              <Card className="custom-card">
-                <Card.Body>
-                  <div className="card-item">
-                    <div className="card-item-icon card-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        width="24"
-                      >
-                        <path d="M0 0h24v24H0V0z" fill="none" />
-                        <path
-                          d="M12 4c-4.41 0-8 3.59-8 8 0 1.82.62 3.49 1.64 4.83 1.43-1.74 4.9-2.33 6.36-2.33s4.93.59 6.36 2.33C19.38 15.49 20 13.82 20 12c0-4.41-3.59-8-8-8zm0 9c-1.94 0-3.5-1.56-3.5-3.5S10.06 6 12 6s3.5 1.56 3.5 3.5S13.94 13 12 13z"
-                          opacity=".3"
-                        />
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM7.07 18.28c.43-.9 3.05-1.78 4.93-1.78s4.51.88 4.93 1.78C15.57 19.36 13.86 20 12 20s-3.57-.64-4.93-1.72zm11.29-1.45c-1.43-1.74-4.9-2.33-6.36-2.33s-4.93.59-6.36 2.33C4.62 15.49 4 13.82 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 1.82-.62 3.49-1.64 4.83zM12 6c-1.94 0-3.5 1.56-3.5 3.5S10.06 13 12 13s3.5-1.56 3.5-3.5S13.94 6 12 6zm0 5c-.83 0-1.5-.67-1.5-1.5S11.17 8 12 8s1.5.67 1.5 1.5S12.83 11 12 11z" />
-                      </svg>
-                    </div>
-                    <div className="card-item-title mb-2">
-                      <label className="main-content-label fs-13 font-weight-bold mb-1">
-                        New Employees
-                      </label>
-                      <span className="d-block fs-12 mb-0 text-muted">
-                        Employees joined this month
-                      </span>
-                    </div>
-                    <div className="card-item-body">
-                      <div className="card-item-stat">
-                        <h4 className="font-weight-bold">15</h4>
-                        <small>
-                          <b className="text-success">5%</b> Increased
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col sm={12} md={12} lg={12} xl={4}>
-              <Card className="card custom-card">
-                <Card.Body>
-                  <div className="card-item">
-                    <div className="card-item-icon card-icon">
-                      <svg
-                        className="text-primary"
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        width="24"
-                      >
-                        <path d="M0 0h24v24H0V0z" fill="none" />
-                        <path
-                          d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm1.23 13.33V19H10.9v-1.69c-1.5-.31-2.77-1.28-2.86-2.97h1.71c.09.92.72 1.64 2.32 1.64 1.71 0 2.1-.86 2.1-1.39 0-.73-.39-1.41-2.34-1.87-2.17-.53-3.66-1.42-3.66-3.21 0-1.51 1.22-2.48 2.72-2.81V5h2.34v1.71c1.63.39 2.44 1.63 2.49 2.97h-1.71c-.04-.97-.56-1.64-1.94-1.64-1.31 0-2.1.59-2.1 1.43 0 .73.57 1.22 2.34 1.67 1.77.46 3.66 1.22 3.66 3.42-.01 1.6-1.21 2.48-2.74 2.77z"
-                          opacity=".3"
-                        />
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z" />
-                      </svg>
-                    </div>
-                    <div className="card-item-title  mb-2">
-                      <label className="main-content-label fs-13 font-weight-bold mb-1">
-                        Total Expenses
-                      </label>
-                      <span className="d-block fs-12 mb-0 text-muted">
-                        Previous month vs this months
-                      </span>
-                    </div>
-                    <div className="card-item-body">
-                      <div className="card-item-stat">
-                        <h4 className="font-weight-bold">$8,500</h4>
-                        <small>
-                          <b className="text-danger">12%</b> decrease
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row> */}
-
-              <Row className="row-sm">
-                {/* <Col sm={12} lg={12} xl={12}>
-              <Card className="custom-card overflow-hidden">
-                <Card.Header className="border-bottom-0">
-                  <div>
-                    <label className="main-content-label mb-2">
-                      Application Processing Status
-                    </label>
-                    <span className="d-block fs-12 mb-0 text-muted">
-                      Track the progress of student applications through
-                      submission, review, and approval stages
-                    </span>
-                  </div>
-                </Card.Header>
-                <Card.Body className="ps-12">
-                  <div>
-                    <Container>
-                      <div className="chart-dropshadow2 ht-300">
-                        <Bar
-                          data={applicationStatusData}
-                          options={applicationStatusOptions}
-                        />
-                      </div>
-                    </Container>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col> */}
-
-                {/* <Col lg={12}>
-              <Card className="custom-card mg-b-20">
-                <Card.Body>
-                  <Card.Header className="border-bottom-0 pt-0 ps-0 pe-0 pb-2 d-flex">
-                    <div>
-                      <label className="main-content-label mb-2">Tasks</label>
-                      <p className="mb-0 fs-12 mb-3 text-muted">
-                        A task is accomplished by a set deadline, and must
-                        contribute toward work-related objectives.
-                      </p>
-                    </div>
-                    <div className="ms-auto d-flex flex-wrap gap-2">
-                      <div className="contact-search3 me-3">
-                        <Button variant="" type="button" className="border-0">
-                          <i
-                            className="fe fe-search fw-semibold text-muted"
-                            aria-hidden="true"
-                          ></i>
-                        </Button>
-                        <Form.Control
-                          type="text"
-                          className="h-6"
-                          id="typehead1"
-                          placeholder="Search here..."
-                          autoComplete="off"
-                        />
-                      </div>
-                      <Dropdown className="ms-auto d-flex">
-                        <Dropdown.Toggle
-                          variant="default"
-                          className="btn btn-wave waves-effect waves-light btn-primary d-inline-flex align-items-center border-0"
-                        >
-                          <i className="ri-equalizer-line me-1"></i>Sort by
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu style={{ margin: "0px" }}>
-                          <Dropdown.Item>Task</Dropdown.Item>
-                          <Dropdown.Item>Team</Dropdown.Item>
-                          <Dropdown.Item>Status</Dropdown.Item>
-                          <Dropdown.Divider />
-                          <Dropdown.Item>
-                            <i className="fa fa-cog me-2"></i> Settings
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div>
-                  </Card.Header>
-                  <div className="table-responsive tasks">
-                    <Table className="card-table table-vcenter text-nowrap mb-0 border dashboard-table">
-                      <thead>
-                        <tr>
-                          <th className="wd-lg-10p">Task</th>
-                          <th className="wd-lg-20p text-center">Team</th>
-                          <th className="wd-lg-20p text-center">Open task</th>
-                          <th className="wd-lg-20p">Prority</th>
-                          <th className="wd-lg-20p">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {TASKS.map((items, index) => (
-                          <tr key={index} data-index={index}>
-                            <td className="fw-medium">
-                              <div className="d-flex">
-                                <Form.Check
-                                  className="me-4 rounded"
-                                  defaultChecked={items.checked}
-                                  type="radio"
-                                  label=""
-                                />
-                                <span className="mt-1">{items.Task}</span>
-                              </div>
-                            </td>
-                            <td className="text-nowrap">
-                              <div className="avatar-list-stacked my-auto float-end">
-                                <div className="avatar avatar-rounded avatar-sm">
-                                  <img
-                                    alt="avatar"
-                                    className="rounded-circle"
-                                    src={items.TeamMember1}
-                                  />
-                                </div>
-                                <div className="avatar avatar-rounded avatar-sm">
-                                  <img
-                                    alt="avatar"
-                                    className="rounded-circle"
-                                    src={items.TeamMember2}
-                                  />
-                                </div>
-                                <div className="avatar avatar-rounded avatar-sm">
-                                  <img
-                                    alt="avatar"
-                                    className="rounded-circle"
-                                    src={items.TeamMember3}
-                                  />
-                                </div>
-                                <div className="avatar avatar-rounded avatar-sm">
-                                  <img
-                                    alt="avatar"
-                                    className="rounded-circle"
-                                    src={items.TeamMember4}
-                                  />
-                                </div>
-                              </div>
-                            </td>
-                            <td className="text-center">
-                              37<i className=""></i>
-                            </td>
-                            <td className={`text-${items.Profittext}`}>
-                              {items.TaskProfit}
-                            </td>
-                            <td>
-                              <span
-                                className={`badge rounded-pill bg-${items.Statustext}-transparent`}
-                              >
-                                {items.Status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </div>
-                  <div className="float-end mt-3">
-                    <nav className="pagination-style-3">
-                      <Pagination className="mb-0 flex-wrap">
-                        <Pagination.Item disabled>Prev</Pagination.Item>
-                        <Pagination.Item active>{1}</Pagination.Item>
-                        <Pagination.Item>{2}</Pagination.Item>
-                        <Pagination.Ellipsis />
-                        <Pagination.Item>{16}</Pagination.Item>
-                        <Pagination.Item>Next</Pagination.Item>
-                      </Pagination>
-                    </nav>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col> */}
-              </Row>
-            </Col>
-            <Col sm={12} lg={12} xl={4} className=" mt-xl-3">
-              {/* <div className="card custom-card card-dashboard-calendar">
-            <label className="main-content-label mb-2 pt-1">
-              Recent Admissions
-            </label>
-            <span className="d-block fs-12 mb-2 text-muted">
-              Number of student admissions by destination country
-            </span>
-            <div style={{ height: "300px" }}>
-              <Pie data={pieChartData} options={pieChartOptions} />
-            </div>
-            <span className="d-block fs-12 mb-2 text-muted">
-              Projects where development work is on completion
-            </span>
-            <table className="table m-b-0 transcations mt-2">
-              <tbody>
-                <tr>
-                  <td className="wd-5p">
-                    <div className="main-img-user avatar-md">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle me-3"
-                        src={ALLImages("face5")}
-                      />
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex align-middle ms-3">
-                      <div className="d-inline-block">
-                        <h6 className="mb-1">Flicker</h6>
-                        <p className="mb-0 fs-13 text-muted">App improvement</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="text-end">
-                    <div className="d-inline-block">
-                      <h6 className="mb-2 fs-15 fw-semibold">
-                        $45.234
-                        <i className="fas fa-level-up-alt ms-2 text-success m-l-10"></i>
-                      </h6>
-                      <p className="mb-0 text-muted">12 Jan 2020</p>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="wd-5p">
-                    <div className="main-img-user avatar-md">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle me-3"
-                        src={ALLImages("face6")}
-                      />
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex align-middle ms-3">
-                      <div className="d-inline-block">
-                        <h6 className="mb-1">Intoxica</h6>
-                        <p className="mb-0 fs-13 text-muted">Milestone</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="text-end">
-                    <div className="d-inline-block">
-                      <h6 className="mb-2 fs-15 fw-semibold">
-                        $23.452
-                        <i className="fas fa-level-down-alt ms-2 text-danger m-l-10"></i>
-                      </h6>
-                      <p className="mb-0 text-muted">23 Jan 2020</p>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="wd-5p">
-                    <div className="main-img-user avatar-md">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle me-3"
-                        src={ALLImages("face7")}
-                      />
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex align-middle ms-3">
-                      <div className="d-inline-block">
-                        <h6 className="mb-1">Digiwatt</h6>
-                        <p className="mb-0 fs-13 text-muted">Sales executive</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="text-end">
-                    <div className="d-inline-block">
-                      <h6 className="mb-2 fs-15 fw-semibold">
-                        $78.001
-                        <i className="fas fa-level-down-alt ms-2 text-danger m-l-10"></i>
-                      </h6>
-                      <p className="mb-0 text-muted">4 Apr 2020</p>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="wd-5p">
-                    <div className="main-img-user avatar-md">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle me-3"
-                        src={ALLImages("face8")}
-                      />
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex align-middle ms-3">
-                      <div className="d-inline-block">
-                        <h6 className="mb-1">Flicker</h6>
-                        <p className="mb-0 fs-13 text-muted">Milestone2</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="text-end">
-                    <div className="d-inline-block">
-                      <h6 className="mb-2 fs-15 fw-semibold">
-                        $37.285
-                        <i className="fas fa-level-up-alt ms-2 text-success m-l-10"></i>
-                      </h6>
-                      <p className="mb-0 text-muted">4 Apr 2020</p>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="wd-5p pb-0">
-                    <div className="main-img-user avatar-md">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle me-3"
-                        src={ALLImages("face4")}
-                      />
-                    </div>
-                  </td>
-                  <td className="pb-0">
-                    <div className="d-flex align-middle ms-3">
-                      <div className="d-inline-block">
-                        <h6 className="mb-1">Flicker</h6>
-                        <p className="mb-0 fs-13 text-muted">App improvement</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="text-end pb-0">
-                    <div className="d-inline-block">
-                      <h6 className="mb-2 fs-15 fw-semibold">
-                        $25.341
-                        <i className="fas fa-level-down-alt ms-2 text-danger m-l-10"></i>
-                      </h6>
-                      <p className="mb-0 text-muted">4 Apr 2020</p>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div> */}
-
-              {/* <Card className="custom-card">
-            <Card.Body>
-              <div className="card-item">
-                <div className="card-item-title mb-2">
-                  <label className="main-content-label fs-13 font-weight-bold mb-1">
-                    Student Applications
-                  </label>
-                  <span className="d-block fs-12 mb-0 text-muted">
-                    Total applications received
-                  </span>
-                </div>
-                <div className="card-item-body">
-                  <div className="card-item-stat">
-                    <h4 className="font-weight-bold">
-                      {staticData.studentApplication}
-                    </h4>
-                    <small>
-                      <b className="text-success">15%</b> increase
-                    </small>
-                  </div>
-                </div>
-                <hr />
-                <div className="card-item-title mb-2">
-                  <label className="main-content-label fs-13 font-weight-bold mb-1">
-                    Top Counselor
-                  </label>
-                  <span className="d-block fs-12 mb-0 text-muted">
-                    Highest performing counselor
-                  </span>
-                </div>
-                <div className="card-item-body">
-                  <div className="card-item-stat">
-                    <h4 className="font-weight-bold">
-                      {staticData.topCounselor}
-                    </h4>
-                    <small>Closed {staticData.offerLetterCount} deals</small>
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card> */}
-
-              {/* Offer Letters and Total Transaction */}
-              {/* <Card className="custom-card">
-            <Card.Body>
-              <div className="card-item">
-                <div className="card-item-title mb-2">
-                  <label className="main-content-label fs-13 font-weight-bold mb-1">
-                    Offer Letters Issued
-                  </label>
-                  <span className="d-block fs-12 mb-0 text-muted">
-                    Total offer letters sent
-                  </span>
-                </div>
-                <div className="card-item-body">
-                  <div className="card-item-stat">
-                    <h4 className="font-weight-bold">
-                      {staticData.offerLetterCount}
-                    </h4>
-                    <small>
-                      <b className="text-success">20%</b> increase
-                    </small>
-                  </div>
-                </div>
-                <hr />
-                <div className="card-item-title mb-2">
-                  <label className="main-content-label fs-13 font-weight-bold mb-1">
-                    Total Transaction
-                  </label>
-                  <span className="d-block fs-12 mb-0 text-muted">
-                    Total transaction amount
-                  </span>
-                </div>
-                <div className="card-item-body">
-                  <div className="card-item-stat">
-                    <h4 className="font-weight-bold">
-                      ${staticData.totalTransaction.toLocaleString()}
-                    </h4>
-                    <small>
-                      <b className="text-success">12%</b> increase
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card> */}
-
-              {/* <Card className="custom-card">
-            <Card.Body>
-              <Row className="row-sm">
-                <Col className="col-6">
-                  <div className="card-item-title">
-                    <label className="main-content-label fs-13 font-weight-bold mb-2">
-                      Project Launch
-                    </label>
-                    <span className="d-block fs-12 mb-0 text-muted">
-                      the project is going to launch
-                    </span>
-                  </div>
-                  <p className="mb-0 fs-24 mt-2">
-                    <b className="text-primary">145 days</b>
-                  </p>
-                  <Link to="#" className="text-muted">
-                    12 Monday, Oct 2020
-                  </Link>
-                </Col>
-                <div className="col-6">
-                  <img
-                    src={ALLImages("png28")}
-                    alt="work"
-                    className="best-emp"
-                  />
-                </div>
-              </Row>
-            </Card.Body>
-          </Card> */}
-
-              {/* <Card className=" custom-card">
-            <Card.Header className="border-bottom-0 pb-0 d-flex ps-3 ms-1">
-              <div>
-                <label className="main-content-label mb-2 pt-2">
-                  On goiong projects
-                </label>
-                <span className="d-block fs-12 mb-2 text-muted">
-                  Projects where development work is on completion
-                </span>
-              </div>
-            </Card.Header>
-            <Card.Body className="pt-2 mt-0">
-              <div className="list-card">
-                <div className="d-flex">
-                  <div className="avatar-list-stacked d-flex align-items-center">
-                    <div className="avatar avatar-rounded avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={ALLImages("face1")}
-                      />
-                    </div>
-                    <div className="avatar avatar-rounded avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={ALLImages("face2")}
-                      />
-                    </div>
-                    <div className="avatar avatar-rounded avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={ALLImages("face3")}
-                      />
-                    </div>
-                    <div className="avatar avatar-rounded avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={ALLImages("face4")}
-                      />
-                    </div>
-                    <div className="ms-4">Design team</div>
-                  </div>
-                  <div className="ms-auto float-end">
-                    <Dropdown className="GOIONGPROJECTS">
-                      <Dropdown.Toggle
-                        as="a"
-                        variant="default"
-                        className="no-caret option-dots"
-                      >
-                        {" "}
-                        <i className="fe fe-more-horizontal"></i>{" "}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu
-                        className=" dropdown-menu-end"
-                        style={{ margin: "0px" }}
-                      >
-                        <Dropdown.Item>Today</Dropdown.Item>
-                        <Dropdown.Item>Last Week</Dropdown.Item>
-                        <Dropdown.Item>Last Month</Dropdown.Item>
-                        <Dropdown.Item>Last Year</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                </div>
-                <div className="card-item mt-2">
-                  <div className="card-item-icon bg-transparent card-icon">
-                    <CircularProgress
-                      variant="determinate"
-                      value={85}
-                      className="peity-donut"
-                      data-peity='{ "fill": ["#6259ca", "rgba(204, 204, 204,0.3)"], "innerRadius": 15, "radius": 20}'
-                      style={{ color: "#6259ca" }}
-                    />
-                    <MobileAppDesign />
-                  </div>
-                  <div className="card-item-body">
-                    <div className="card-item-stat">
-                      <small className="fs-10 text-primary fw-semibold">
-                        25 August 2020
-                      </small>
-                      <h6 className=" mt-2">Mobile app design</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="list-card mb-0">
-                <div className="d-flex">
-                  <div className="avatar-list-stacked d-flex align-items-center">
-                    <div className="avatar avatar-rounded avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={ALLImages("face5")}
-                      />
-                    </div>
-                    <div className="avatar avatar-rounded avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={ALLImages("face6")}
-                      />
-                    </div>
-                    <div className="avatar avatar-rounded avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={ALLImages("face7")}
-                      />
-                    </div>
-                    <div className="avatar avatar-rounded avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={ALLImages("face8")}
-                      />
-                    </div>
-                    <div className="ms-4">Design team</div>
-                  </div>
-                  <div className="ms-auto float-end">
-                    <Dropdown className="Designteam">
-                      <Dropdown.Toggle
-                        as="a"
-                        variant=""
-                        className="no-caret option-dots"
-                      >
-                        <i className="fe fe-more-horizontal"></i>
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu
-                        className=" dropdown-menu-end"
-                        style={{ margin: "0px" }}
-                      >
-                        <Dropdown.Item>Today</Dropdown.Item>
-                        <Dropdown.Item>Last Week</Dropdown.Item>
-                        <Dropdown.Item>Last Month</Dropdown.Item>
-                        <Dropdown.Item>Last Year</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                </div>
-                <div className="card-item mt-2">
-                  <div className="card-item-icon bg-transparent card-icon">
-                    <WebsiteAppDesign />
-                  </div>
-                  <div className="card-item-body">
-                    <div className="card-item-stat">
-                      <small className="fs-10 text-primary fw-semibold">
-                        12 JUNE 2020
-                      </small>
-                      <h6 className=" mt-2">Website Redesign</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card> */}
-
-              {/* <Card className="custom-card">
-            <Card.Body>
-              <div className="d-flex">
-                <label className="main-content-label my-auto">
-                  Website Design
-                </label>
-                <div className="ms-auto  d-flex">
-                  <div className="me-3 d-flex text-muted fs-13">Running</div>
-                </div>
-              </div>
-              <div className="mt-2">
-                <div>
-                  <span className="fs-15 text-muted">
-                    Task completed : 7/10
-                  </span>
-                </div>
-                <div className="container">
-                  <WebsiteDesign />
-                </div>
-              </div>
-              <Row className="row">
-                <Col className="col">
-                  <div className="mt-4">
-                    <div className="d-flex mb-2">
-                      <h5 className="fs-15 my-auto text-muted fw-normal">
-                        Client :
-                      </h5>
-                      <h5 className="fs-15 my-auto ms-3">John Deo</h5>
-                    </div>
-                    <div className="d-flex mb-0">
-                      <h5 className="fs-13 my-auto text-muted fw-normal">
-                        Deadline :
-                      </h5>
-                      <h5 className="fs-13 my-auto text-muted ms-2">
-                        25 Dec 2020
-                      </h5>
-                    </div>
-                  </div>
-                </Col>
-                <Col className=" col-auto">
-                  <div className="mt-3">
-                    <div>
-                      <img
-                        alt="logo"
-                        className="ht-50"
-                        src={ALLImages("png21")}
-                      />
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card> */}
-            </Col>
-          </Row>
         </>
       )}
     </>

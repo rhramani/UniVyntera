@@ -16,7 +16,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="text-dark fw-semibold"
             >
-              SmartX CRM
+              Vyntera CRM
             </a>
             . Designed with by
             <span> </span>
