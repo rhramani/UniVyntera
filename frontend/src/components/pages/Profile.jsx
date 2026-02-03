@@ -1946,9 +1946,9 @@ const Profile = () => {
                                       style={{ cursor: "pointer" }}
                                     >
                                       {showNewPassword ? (
-                                        <Visibility sx={{ fontSize: 18 }} />
-                                      ) : (
                                         <VisibilityOff sx={{ fontSize: 18 }} />
+                                      ) : (
+                                        <Visibility sx={{ fontSize: 18 }} />
                                       )}
                                     </span>
                                   </div>
@@ -1992,9 +1992,9 @@ const Profile = () => {
                                       style={{ cursor: "pointer" }}
                                     >
                                       {showConfirmPassword ? (
-                                        <Visibility sx={{ fontSize: 18 }} />
-                                      ) : (
                                         <VisibilityOff sx={{ fontSize: 18 }} />
+                                      ) : (
+                                        <Visibility sx={{ fontSize: 18 }} />
                                       )}
                                     </span>
                                   </div>
@@ -2041,11 +2041,11 @@ const Profile = () => {
                                         style={{ cursor: "pointer" }}
                                       >
                                         {showCurrentPassword ? (
-                                          <Visibility sx={{ fontSize: 18 }} />
-                                        ) : (
                                           <VisibilityOff
-                                            sx={{ fontSize: 18 }}
+                                          sx={{ fontSize: 18 }}
                                           />
+                                        ) : (
+                                          <Visibility sx={{ fontSize: 18 }} />
                                         )}
                                       </span>
                                     </div>
@@ -2133,9 +2133,9 @@ const Profile = () => {
                                       style={{ cursor: "pointer" }}
                                     >
                                       {showNewPassword ? (
-                                        <Visibility sx={{ fontSize: 18 }} />
-                                      ) : (
                                         <VisibilityOff sx={{ fontSize: 18 }} />
+                                      ) : (
+                                        <Visibility sx={{ fontSize: 18 }} />
                                       )}
                                     </span>
                                   </div>
@@ -2179,9 +2179,9 @@ const Profile = () => {
                                       style={{ cursor: "pointer" }}
                                     >
                                       {showConfirmPassword ? (
-                                        <Visibility sx={{ fontSize: 18 }} />
-                                      ) : (
                                         <VisibilityOff sx={{ fontSize: 18 }} />
+                                      ) : (
+                                        <Visibility sx={{ fontSize: 18 }} />
                                       )}
                                     </span>
                                   </div>

@@ -228,9 +228,9 @@ const UniversityPortalDetails = ({
                     style={{ cursor: "pointer" }}
                   >
                     {showCredential ? (
-                      <Visibility sx={{ fontSize: 18 }} />
-                    ) : (
                       <VisibilityOff sx={{ fontSize: 18 }} />
+                    ) : (
+                      <Visibility sx={{ fontSize: 18 }} />
                     )}
                   </span>
                 </div>

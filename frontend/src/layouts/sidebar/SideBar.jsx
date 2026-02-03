@@ -741,7 +741,8 @@ const SideBar = ({ local_varaiable, ThemeChanger }) => {
             />
             {/* <img src={ALLImages("logo4")} className="toggle-dark" alt="logo4" /> */}
             <img src={ALLImages("logo5")} className="toggle-logo" alt="logo5" />
-            <img src={dashboardLogo} className={getLogoClass()} alt="logo6" />
+            {/* <img src={dashboardLogo} className={getLogoClass()} alt="logo6" /> */}
+            <img src={ALLImages("logo1")} className={getLogoClass()} alt="logo6" />
           </Link>
         </div>
 

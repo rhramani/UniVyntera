@@ -394,9 +394,9 @@ const B2BAdminForm = () => {
                       style={{ cursor: "pointer" }}
                     >
                       {showPassword ? (
-                        <Visibility sx={{ fontSize: 18 }} />
-                      ) : (
                         <VisibilityOff sx={{ fontSize: 18 }} />
+                      ) : (
+                        <Visibility sx={{ fontSize: 18 }} />
                       )}
                     </span>
                   </div>

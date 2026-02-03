@@ -27,7 +27,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="fw-semibold text-primary"
             >
-              SmartX CRM
+              Vyntera CRM
             </a>{" "}
             All rights reserved
           </span>
