@@ -594,7 +594,7 @@ const CourseFinderCard = ({
                                     : "N/A"}
                                 </span>
                               </p>
-                              <p className="course_card_main text-gray-6 bg-light-purple text-dark px-2 py-1 rounded">
+                              <p className="course_card_main text-gray-6 bg-light-purple text-dark px-2 py-1">
                                 <span className="span-1">
                                   Level&nbsp;:&nbsp;
                                 </span>
@@ -635,7 +635,7 @@ const CourseFinderCard = ({
                                 </span>
                               </p>
                               <div className="horizontal_line"></div>
-                              <div className="d-flex justify-content-between align-items-center mt-3">
+                              <div className="d-flex flex-wrap justify-content-between align-items-center mt-3 gap-2">
                                 <div
                                   style={{
                                     display: "flex",
@@ -689,9 +689,9 @@ const CourseFinderCard = ({
                                     </a>
                                   )}
                                 </div>
-                                <div>
+                                <div className="d-flex flex-wrap gap-2">
                                   <button
-                                    className="btn btn-primary rounded_button me-2"
+                                    className="btn btn-primary rounded_button"
                                     onClick={() => handleApplyClick(item)}
                                   >
                                     Apply Now

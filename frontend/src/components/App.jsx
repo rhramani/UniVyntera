@@ -21,7 +21,7 @@ const App = () => {
     <Fragment>
       <Provider store={Store}>
         
-        <div className="horizontalMenucontainer">
+        <div className="horizontalMenucontainer default-bg-color">
           <Switcher />
           <div className="page">
             <Header />

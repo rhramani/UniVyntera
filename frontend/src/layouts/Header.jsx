@@ -1221,7 +1221,7 @@ const Header = ({ local_varaiable, ThemeChanger }) => {
               )}
             </div>
 
-            <div className="header-element header-theme-mode">
+            {/* <div className="header-element header-theme-mode">
               <Link
                 to="#"
                 className="header-link layout-setting"
@@ -1236,7 +1236,7 @@ const Header = ({ local_varaiable, ThemeChanger }) => {
                   <i className="fe fe-sun header-link-icon lh-2"></i>{" "}
                 </span>
               </Link>
-            </div>
+            </div> */}
             {/* {userRole === "Super Admin" && (
               <Dropdown className="header-element country-selector">
                 <Dropdown.Toggle
