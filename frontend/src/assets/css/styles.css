@@ -10682,9 +10682,9 @@ Width
 }
 
 .card.custom-card .card-header {
-  /* padding-block-start: 1rem;
+  padding-block-start: 1rem;
   padding-block-end: 0;
-  padding-inline: 1.563rem; */
+  padding-inline: 1.563rem;
   background-color: transparent !important;
   border-block-end: 0px solid var(--default-border);
   display: flex;
@@ -53657,7 +53657,7 @@ h4,
 }
 
 .form-main-heading {
-  background-color: #5d54be;
+  background-color: #479297;
   color: white;
 }
 
