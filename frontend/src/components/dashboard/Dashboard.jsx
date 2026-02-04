@@ -1505,7 +1505,10 @@ const Dashboard = () => {
                   <Row className="row-sm mb-4 align-items-stretch">
                     {/* DATE RANGE CONTROL CARD */}
                     <Col xl={8} lg={7} md={12} className="mb-3">
-                      <Card className="custom-card h-100 border-0 shadow-sm overflow-visible">
+                      <Card
+                        className="custom-card h-100 border-0 shadow-sm overflow-visible"
+                        style={{ zIndex: 100 }}
+                      >
                         <Card.Body className="p-3">
                           <div className="d-flex align-items-center">
                             {/* Icon Badge - Matches KPI style */}
@@ -1547,10 +1550,26 @@ const Dashboard = () => {
                                       cursor: "pointer",
                                     }}
                                   />
+                                  {filters.startDate && (
+                                    <span
+                                      className="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer text-muted hover-primary"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setFilters({
+                                          ...filters,
+                                          startDate: "",
+                                        });
+                                      }}
+                                      style={{ zIndex: 10 }}
+                                    >
+                                      <i className="fe fe-x fs-10"></i>
+                                    </span>
+                                  )}
                                   {showStartDateCalendar && (
                                     <div
                                       ref={startDateCalendarRef}
-                                      className="position-absolute top-100 start-0 z-index-10 mt-2 shadow-lg rounded-3 bg-white border"
+                                      className="position-absolute top-100 start-0 mt-2 shadow-lg rounded-3 bg-white border"
+                                      style={{ zIndex: 1000 }}
                                     >
                                       <Calendar
                                         onChange={(d) => {
@@ -1560,7 +1579,18 @@ const Dashboard = () => {
                                           });
                                           setShowStartDateCalendar(false);
                                         }}
-                                        value={startDateValue}
+                                        value={
+                                          filters.startDate
+                                            ? parseDate(filters.startDate)
+                                            : null
+                                        }
+                                        tileClassName={({ date, view }) =>
+                                          view === "month" &&
+                                          date.toDateString() ===
+                                            new Date().toDateString()
+                                            ? "no-today-highlight"
+                                            : null
+                                        }
                                       />
                                     </div>
                                   )}
@@ -1590,10 +1620,26 @@ const Dashboard = () => {
                                       cursor: "pointer",
                                     }}
                                   />
+                                  {filters.endDate && (
+                                    <span
+                                      className="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer text-muted hover-primary"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setFilters({
+                                          ...filters,
+                                          endDate: "",
+                                        });
+                                      }}
+                                      style={{ zIndex: 10 }}
+                                    >
+                                      <i className="fe fe-x fs-10"></i>
+                                    </span>
+                                  )}
                                   {showEndDateCalendar && (
                                     <div
                                       ref={endDateCalendarRef}
-                                      className="position-absolute top-100 start-0 z-index-10 mt-2 shadow-lg rounded-3 bg-white border"
+                                      className="position-absolute top-100 start-0 mt-2 shadow-lg rounded-3 bg-white border"
+                                      style={{ zIndex: 1000 }}
                                     >
                                       <Calendar
                                         onChange={(d) => {
@@ -1603,7 +1649,18 @@ const Dashboard = () => {
                                           });
                                           setShowEndDateCalendar(false);
                                         }}
-                                        value={endDateValue}
+                                        value={
+                                          filters.endDate
+                                            ? parseDate(filters.endDate)
+                                            : null
+                                        }
+                                        tileClassName={({ date, view }) =>
+                                          view === "month" &&
+                                          date.toDateString() ===
+                                            new Date().toDateString()
+                                            ? "no-today-highlight"
+                                            : null
+                                        }
                                       />
                                     </div>
                                   )}
@@ -1969,11 +2026,12 @@ const Dashboard = () => {
                   </Row>
                 </Col>
 
-                <Col md={3} lg={3} xl={3}>
+                <Col md={3} lg={3} xl={3} className="mb-3">
                   <Dialpad
                     onCall={(number) => console.log("Calling:", number)}
                   />
                 </Col>
+                
                 <Col sm={12} lg={6} xl={6}>
                   <Card className="custom-card overflow-hidden">
                     <Card.Header>
@@ -2016,6 +2074,7 @@ const Dashboard = () => {
                     </Card.Body>
                   </Card>
                 </Col>
+
                 <Col sm={12} lg={6} xl={6}>
                   <Card className="custom-card overflow-hidden">
                     <Card.Header>

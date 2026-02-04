@@ -1,133 +1,128 @@
 import { useState } from "react";
-import { Button, Container, Row, Col, Form, Modal } from "react-bootstrap";
+import { Button, Form, Card } from "react-bootstrap";
 import CallIcon from "@mui/icons-material/Call";
+import BackspaceIcon from "@mui/icons-material/Backspace";
+import DialpadIcon from "@mui/icons-material/Dialpad";
 import { toast } from "react-toastify";
-import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { createCtcCallingForDashboard } from "../../../redux/actions/Dashboard.action";
 
 const Dialpad = () => {
   const dispatch = useDispatch();
   const [number, setNumber] = useState("");
-  const [showModal, setShowModal] = useState(false);
+
+  const keys = [
+    { num: "1", sub: "" },
+    { num: "2", sub: "ABC" },
+    { num: "3", sub: "DEF" },
+    { num: "4", sub: "GHI" },
+    { num: "5", sub: "JKL" },
+    { num: "6", sub: "MNO" },
+    { num: "7", sub: "PQRS" },
+    { num: "8", sub: "TUV" },
+    { num: "9", sub: "WXYZ" },
+    { num: "*", sub: "" },
+    { num: "0", sub: "+" },
+    { num: "#", sub: "" },
+  ];
 
   const handleClick = (value) => {
-    setNumber((prev) => prev + value);
+    if (number.length < 12) setNumber((prev) => prev + value);
   };
-
-  const handleBackspace = () => {
-    setNumber((prev) => prev.slice(0, -1));
-  };
-
-
-  const handleClear = () => {
-    setNumber("");
-  };
+  const handleBackspace = () => setNumber((prev) => prev.slice(0, -1));
 
   const handleCall = async () => {
     if (number) {
-      const payload = {
-        number: number,
-      };
-      
-      const res = await dispatch(createCtcCallingForDashboard(payload));
-      if (res?.data?.code) {
-        toast.success("Call placed successfully");
-      }
-      
-      // setShowModal(true);
-      handleClear();
+      const res = await dispatch(createCtcCallingForDashboard({ number }));
+      if (res?.data?.code) toast.success("Connecting call...");
+      setNumber("");
     } else {
-      toast.error("Enter a number to call");
+      toast.error("Please enter a valid number");
     }
   };
 
   return (
-    <Container className="dialpad p-4 rounded text-center">
-      <Form.Control
-        type="text"
-        value={number}
-        maxLength={10} 
-        onChange={(e) => {
-          const val = e.target.value;
-          if (/^[0-9*#]*$/.test(val)) {
-            setNumber(val);
-          }
-        }}
-        className="mb-4 text-center search-input-light"
-        style={{ fontSize: "18px", height: "45px" }}
-      />
+    <Card className="border-0 shadow-sm h-100 rich-dialer-premium overflow-hidden">
+      {/* HEADER SECTION */}
+      <div className="dialer-header p-3 d-flex justify-content-between align-items-center">
+        <div className="d-flex align-items-center">
+          <div className="icon-box-sm bg-primary-transparent me-2">
+            <DialpadIcon className="text-primary fs-18" />
+          </div>
+          <div>
+            <h6 className="mb-0 fw-bold fs-13 text-dark text-uppercase letter-spacing-1">
+              Dialer
+            </h6>
+            <div className="d-flex align-items-center mt-1">
+              <span className="pulse-indicator me-1"></span>
+              <span className="text-success fs-10 fw-bold">SYSTEM ACTIVE</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <Row className="g-2">
-        {["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"].map(
-          (digit) => (
-            <Col xs={4} key={digit}>
-              <Button
-                variant="dark"
-                onClick={() => handleClick(digit)}
-                className="w-100 py-3 fs-5"
-              >
-                {digit}
-              </Button>
-            </Col>
-          ),
-        )}
-      </Row>
-
-      <Button
-        variant="success"
-        onClick={handleCall}
-        className="w-100 mt-3 fs-6 fw-bold rounded-pill"
-      >
-        <CallIcon style={{ fontSize: "24px" }} />
-      </Button>
-
-      <Row className="mt-2 g-2">
-        <Col>
-          <Button
-            variant="warning"
-            onClick={handleBackspace}
-            className="w-100 custom-select-height"
-          >
-            ⌫
-          </Button>
-        </Col>
-        <Col>
-          <Button
-            variant="danger"
-            onClick={handleClear}
-            className="w-100 custom-select-height"
-          >
-            Clear
-          </Button>
-        </Col>
-      </Row>
-
-      <Modal size="md" show={showModal} onHide={() => setShowModal(false)} top>
-        <Modal.Header className="form-main-heading">
-          <Modal.Title>On Call</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowModal(false)}
+      {/* DISPLAY SECTION */}
+      <div className="dialer-display-area p-3">
+        <div className="display-glass shadow-inner">
+          <Form.Control
+            type="text"
+            value={number}
+            placeholder="Enter phone number..."
+            className="dialer-input-premium border-0 shadow-none text-center"
+            readOnly
           />
-        </Modal.Header>
-        <Modal.Body className="text-center">
-          <p style={{ fontSize: "20px", fontWeight: "bold", color: "#000" }}>
-            📢 Please connect IVR to enable direct calling from the CRM.
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
+          <div className="display-actions">
+            {number && (
+              <span className="clear-btn-text" onClick={() => setNumber("")}>
+                Clear
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* KEYPAD SECTION */}
+      <Card.Body className="p-3 pt-0">
+        <div className="dialer-grid">
+          {keys.map((key) => (
+            <button
+              key={key.num}
+              type="button"
+              className="premium-key-btn"
+              onClick={() => handleClick(key.num)}
+            >
+              <span className="num">{key.num}</span>
+              <span className="sub">{key.sub || ""}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* FOOTER ACTIONS */}
+        <div className="d-flex align-items-center gap-3 mt-3">
           <Button
-            variant="outline-primary"
-            className="custom-select-height"
-            onClick={() => setShowModal(false)}
+            className="call-btn-premium flex-grow-1 shadow-lg border-0"
+            onClick={handleCall}
           >
-            Close
+            <div className="d-flex align-items-center justify-content-center">
+              <CallIcon className="me-2 fs-20" />
+              <span className="fw-bold fs-14">START CALL</span>
+            </div>
           </Button>
-        </Modal.Footer>
-      </Modal>
-    </Container>
+
+          <Button
+            variant="light"
+            className="backspace-btn-premium border shadow-sm"
+            onClick={handleBackspace}
+            disabled={!number}
+          >
+            <BackspaceIcon
+              className={number ? "text-danger" : "text-muted"}
+              fontSize="small"
+            />
+          </Button>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
 
