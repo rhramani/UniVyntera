@@ -3313,7 +3313,7 @@ const AllocatedLeads = () => {
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.country
                             ? {
@@ -3347,7 +3347,7 @@ const AllocatedLeads = () => {
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.followUpType
                             ? followUpTypeOptions.find(
@@ -3421,7 +3421,7 @@ const AllocatedLeads = () => {
                       <Form.Label>Sub status</Form.Label>
                       <Select
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.subStatus
                             ? {
@@ -3484,7 +3484,7 @@ const AllocatedLeads = () => {
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.leadActivity
                             ? {

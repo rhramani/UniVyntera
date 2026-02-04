@@ -576,7 +576,7 @@ const B2BLeads = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -3418,7 +3418,7 @@ const B2BLeads = () => {
                         <Select
                           className="filter-height"
                           styles={selectStyles}
-                          classNamePrefix="select"
+                          classNamePrefix="custom-select"
                           value={
                             filters.b2bId
                               ? {
@@ -3452,7 +3452,7 @@ const B2BLeads = () => {
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.country
                             ? {
@@ -3486,7 +3486,7 @@ const B2BLeads = () => {
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.followUpType
                             ? followUpTypeOptions.find(
@@ -3513,7 +3513,7 @@ const B2BLeads = () => {
                       <Form.Label>Status</Form.Label>
                       <Select
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.status
                             ? {
@@ -3612,7 +3612,7 @@ const B2BLeads = () => {
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.leadActivity
                             ? {

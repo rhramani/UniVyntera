@@ -496,7 +496,7 @@ const AllLeads = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "5px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({

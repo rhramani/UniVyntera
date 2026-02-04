@@ -10682,9 +10682,9 @@ Width
 }
 
 .card.custom-card .card-header {
-  padding-block-start: 1rem;
+  /* padding-block-start: 1rem;
   padding-block-end: 0;
-  padding-inline: 1.563rem;
+  padding-inline: 1.563rem; */
   background-color: transparent !important;
   border-block-end: 0px solid var(--default-border);
   display: flex;
@@ -53594,7 +53594,7 @@ h4,
 .custom-select-height {
   height: 40px !important;
   min-width: 75px !important;
-  border-radius: 5px !important;
+  border-radius: 12px !important;
   font-size: 15px;
 }
 
@@ -53606,7 +53606,7 @@ h4,
 .custom-select-height2 {
   height: 45px !important;
   min-width: 75px !important;
-  border-radius: 5px !important;
+  border-radius: 12px !important;
   font-size: 15px;
 }
 
@@ -53701,7 +53701,7 @@ h4,
 .custom-select__control {
   height: 40px !important;
   min-width: 75px !important;
-  border-radius: 5px !important;
+  border-radius: 12px !important;
   box-shadow: none !important;
   height: auto !important;
   max-height: 40px !important;
@@ -54393,7 +54393,7 @@ table {
 }
 
 .course_finder_filter {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   margin-bottom: 5px;
   display: block;
@@ -54428,7 +54428,7 @@ table {
   }
 
   .course_finder_filter {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .custom-select-height {
@@ -54461,7 +54461,7 @@ table {
   }
 
   .course_finder_filter {
-    font-size: 13px;
+    font-size: 11px;
   }
 
   .custom-select-height {
@@ -55791,7 +55791,7 @@ table {
 
 .filter-height {
   height: 40px !important;
-  border-radius: 5px;
+  border-radius: 12px;
   font-size: 15px;
 }
 
@@ -56799,7 +56799,8 @@ th.sticky-col-right-2 {
 /* ===== PAGE BACKGROUND ===== */
 .signin-page {
   min-height: 100vh;
-  background: #f5fafa;
+  /* background: #f5fafa; */
+  background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56814,13 +56815,13 @@ th.sticky-col-right-2 {
   border-radius: 5px;
   display: flex;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.12);
 }
 
 /* ===== LEFT SIDE (SOFT IMAGE-LIKE GRADIENT) ===== */
 .signin-left {
   width: 45%;
-  background: linear-gradient(135deg, #dff1f0 0%, #e2f3f3 45%, #d3eeee 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 45%, #818cf8 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56858,20 +56859,20 @@ th.sticky-col-right-2 {
 .signin-form h3 {
   font-size: 26px;
   font-weight: 700;
-  color: #33868c;
+  color: #4f46e5;
   margin-bottom: 6px;
 }
 
 .sub-text {
   font-size: 14px;
-  color: #6b7280;
+  color: #64748b;
   margin-bottom: 28px;
 }
 
 /* ===== OTP ===== */
 .send-otp {
   font-size: 13px;
-  color: #33868c;
+  color: #4f46e5;
   padding-left: 0;
 }
 
@@ -56879,16 +56880,17 @@ th.sticky-col-right-2 {
 .signin-btn {
   width: 100%;
   height: 46px;
-  background: #33868c;
+  background: linear-gradient(90deg, #4f46e5, #6366f1);
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   font-size: 15px;
   margin-top: 14px;
+  color: #ffffff;
 }
 
 .signin-btn:hover {
-  background: #2f7b80;
+  background: linear-gradient(90deg, #4338ca, #4f46e5);
 }
 
 /* ===== FOOTER ===== */
@@ -56900,11 +56902,11 @@ th.sticky-col-right-2 {
 .signin-footer p {
   margin-bottom: 6px;
   font-size: 13px;
-  color: #4b5563;
+  color: #64748b;
 }
 
 .signin-footer a {
-  color: #33868c;
+  color: #4f46e5;
   font-weight: 600;
   text-decoration: none;
 }
@@ -56966,4 +56968,3 @@ th.sticky-col-right-2 {
 .letter-spacing-1 {
   letter-spacing: 1px;
 }
-
