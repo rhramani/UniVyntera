@@ -5,25 +5,13 @@ import {
   Col,
   Row,
   ProgressBar,
-  Button,
   Form,
   Dropdown,
-  Table,
-  Pagination,
-  Container,
   OverlayTrigger,
   Tooltip,
   Badge,
 } from "react-bootstrap";
-import ALLImages from "../../common/Imagedata";
-import {
-  BudgetTask,
-  MobileAppDesign,
-  ProjectBudget,
-  WebsiteAppDesign,
-  WebsiteDesign,
-} from "../../common/Chartdata";
-import { TASKS } from "../../common/Comondata";
+
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { adminGetOne } from "../../redux/actions/Admin.action";
@@ -31,25 +19,13 @@ import { decryptData } from "../../utils/encryptionUtils";
 import { getOneB2BAdmin } from "../../redux/actions/B2BAdmin.action";
 import { getAllBranch, getOneBranch } from "../../redux/actions/Branch.action";
 import { getB2BMemberById } from "../../redux/actions/B2BMember.action";
-import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
-import { CircularProgress } from "@mui/material";
-import { countryDropDownCourse } from "../../redux/actions/CourseFinder.action";
+import { Bar, Doughnut } from "react-chartjs-2";
 import { getBranchMemberById } from "../../redux/actions/BranchMember.action";
 import { MdCalendarToday } from "react-icons/md";
 import Calendar from "react-calendar";
 import DashboardTabs from "./components/DashboardTabs";
-import ApplicationPipeline from "./components/ApplicationPipeline";
-import CounselorPerformance from "./components/CounselorPerformance";
-import FinancialOverview from "./components/FinancialOverview";
-import StudentFunnel from "./components/studentFunnel";
-import IeltsSummary from "./components/IeltsSummary";
 import Dialpad from "./components/Dialpad";
-import {
-  FaCalendarAlt,
-  FaChartBar,
-  FaDownload,
-  FaUpload,
-} from "react-icons/fa";
+
 import { getAllStudentApplication } from "../../redux/actions/Student/StudentApplication.action";
 import { getAllStudentStatus } from "../../redux/actions/Student/StudentStatus.action";
 import Select from "react-select";
@@ -63,13 +39,6 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import { QRCodeCanvas } from "qrcode.react";
 import { QRCODE_URL } from "../../baseUrl";
 
-const formatDate = (date) => {
-  if (!date) return "";
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
-};
 const parseDate = (dateStr) => {
   if (!dateStr) return null;
   if (dateStr.includes("/")) {
@@ -520,183 +489,7 @@ const Dashboard = () => {
     selectedBranchId,
   ]);
 
-  const generateDistinctColors = (count) => {
-    const colors = [];
-    const hueStep = 360 / count;
-    for (let i = 0; i < count; i++) {
-      const hue = i * hueStep;
-      colors.push(`hsl(${hue}, 70%, 55%)`);
-    }
-    return colors;
-  };
-
-  // const labels = preferredCountries?.map((c) => c?.name) || [];
-  const totalCountry = dashboardData?.countryVisaApproval?.length || [];
-  const countryVisaData = dashboardData?.countryVisaApproval || [];
-  const labels = countryVisaData?.map((item) => item?._id);
-
-  const colors = generateDistinctColors(labels.length);
-
-  const data = countryVisaData?.map((item) => item?.totalApproved);
-
-  // const data = labels.map((name) =>
-  //   name === "Finland" ? 20000 : Math.floor(Math.random() * 10000 + 1000)
-  // );
-
-  const pieChartData = {
-    labels,
-    datasets: [
-      {
-        label: "Transaction Amount by Country (%)",
-        data,
-        backgroundColor: colors,
-        borderColor: "#fff",
-        borderWidth: 2,
-        hoverOffset: 20,
-      },
-    ],
-  };
-
-  const pieChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "top",
-        labels: {
-          color: "#333",
-          font: {
-            weight: "bold",
-            size: 14,
-          },
-          boxWidth: 20,
-          padding: 15,
-          usePointStyle: true,
-        },
-      },
-      tooltip: {
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        titleColor: "#fff",
-        bodyColor: "#fff",
-        borderColor: "#ddd",
-        borderWidth: 1,
-        padding: 10,
-        callbacks: {
-          label: function (context) {
-            const total = context.dataset.data.reduce(
-              (sum, val) => sum + val,
-              0,
-            );
-            const value = context.raw;
-            const percentage = ((value / total) * 100).toFixed(1);
-            return `${context.label}: ${value} (${percentage}%)`;
-          },
-        },
-        // callbacks: {
-        //   label: function (context) {
-        //     const total = 209313;
-        //     const percentage = ((context.raw / total) * 100).toFixed(1);
-        //     return `${context.label}: ${percentage}%`;
-        //   },
-        // },
-      },
-    },
-    elements: {
-      arc: {
-        borderWidth: 2,
-        borderColor: "#fff",
-        shadowOffsetX: 3,
-        shadowOffsetY: 3,
-        shadowBlur: 10,
-        shadowColor: "rgba(0, 0, 0, 0.2)",
-      },
-    },
-    layout: {
-      padding: 10,
-    },
-  };
-
-  const bankLabels = bankwiseTotals.map(
-    (bank) => bank.bankName || "Unknown Bank",
-  );
-  const bankData = bankwiseTotals.map((bank) => bank.totalAmount || 0);
-
-  const bankPieChartData = {
-    labels: bankLabels,
-    datasets: [
-      {
-        label: "Transaction Amount by Bank (%)",
-        data: bankData,
-        backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#9966FF",
-          "#FF9F40",
-        ],
-        borderColor: "#fff",
-        borderWidth: 2,
-        hoverOffset: 20,
-      },
-    ],
-  };
-
-  const bankPieChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "top",
-        labels: {
-          color: "#333",
-          font: {
-            weight: "bold",
-            size: 14,
-          },
-          boxWidth: 20,
-          padding: 15,
-          usePointStyle: true,
-        },
-      },
-      tooltip: {
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        titleColor: "#fff",
-        bodyColor: "#fff",
-        borderColor: "#ddd",
-        borderWidth: 1,
-        padding: 10,
-        callbacks: {
-          label: function (context) {
-            const total = context.dataset.data.reduce(
-              (sum, val) => sum + val,
-              0,
-            );
-            const value = context.raw;
-            const percentage = ((value / total) * 100).toFixed(1);
-            return `${context.label}: ${
-              storedEncryptedCurrency
-                ? getSymbolFromCurrency(storedEncryptedCurrency)
-                : "₹"
-            } ${value} (${percentage}%)`;
-          },
-        },
-      },
-    },
-    elements: {
-      arc: {
-        borderWidth: 2,
-        borderColor: "#fff",
-        shadowOffsetX: 3,
-        shadowOffsetY: 3,
-        shadowBlur: 10,
-        shadowColor: "rgba(0, 0, 0, 0.2)",
-      },
-    },
-    layout: {
-      padding: 10,
-    },
-  };
+  const totalCountry = dashboardData?.countryVisaApproval?.length || 0;
 
   const counselorTasksData = {
     labels: ["Completed", "Pending"],
@@ -719,64 +512,6 @@ const Dashboard = () => {
       tooltip: { enabled: true },
     },
     cutout: "60%", // Donut effect
-  };
-
-  // Static options for Visa Country dropdown
-  const visaCountryOptions = ["USA", "Canada", "UK", "Australia", "Germany"];
-  const formattedVisaCountryOptions = visaCountryOptions.map((country) => ({
-    label: country,
-    value: country,
-  }));
-
-  // Static options for Counsellor dropdown
-  const counsellorOptions = [
-    "Jane Smith",
-    "John Doe",
-    "Emily Davis",
-    "Michael Brown",
-    "Sarah Wilson",
-  ];
-  const formattedCounsellorOptions = counsellorOptions.map((name) => ({
-    label: name,
-    value: name,
-  }));
-
-  // Static options for Application Status dropdown
-  const applicationStatusOptions2 = [
-    "Submitted",
-    "Reviewed",
-    "Approved",
-    "Rejected",
-    "Pending",
-  ];
-
-  const visaApprovalOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: true },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: { display: true, text: "Visa Approvals" },
-      },
-      x: { title: { display: true, text: "Month" } },
-    },
-  };
-
-  // Country-wise Visa Approval Chart Data
-  const countryVisaApprovalData = {
-    labels: ["USA", "Canada", "UK", "Australia"],
-    datasets: [
-      {
-        data: [25.0, 30.0, 20.0, 15.0],
-        backgroundColor: ["#4A90E2", "#50E3C2", "#9013FE", "#F5A623"],
-        borderColor: "#fff",
-        borderWidth: 2,
-      },
-    ],
   };
 
   const filteredBranchData =
@@ -973,50 +708,70 @@ const Dashboard = () => {
     },
   ];
 
-  const academicStats = [
-    {
-      title: "Total Offer Letters",
-      value: dashboardData?.totalOfferLetter || 0,
-      link: `/student/studentapplication?selectedBranch=${selectedBranch}`,
-      icon: "fe-mail",
-      color: "info",
-    },
-    {
-      title: "Total Admissions",
-      value: dashboardData?.totalAdmissions || 0,
-      link: `/student/studentapplication?selectedBranch=${selectedBranch}`,
-      icon: "fe-user-check",
-      color: "success",
-    },
-    {
-      title: "Visa Approved",
-      value: dashboardData?.totalVisaApproved || 0,
-      link: `/student/studentapplication?selectedBranch=${selectedBranch}`,
-      icon: "fe-check-square",
-      color: "primary",
-    },
-  ];
+  // --- Custom Data Prep for Refined UI ---
 
-  const performanceStats = [
-    {
-      title: "Top Visa Counsellor",
-      value: dashboardData?.topCounselor?.name || "N/A",
-      icon: "fe-award",
-      color: "warning",
-    },
-    {
-      title: "Top Performing Branch",
-      value: dashboardData?.topBranchName || "N/A",
-      icon: "fe-trending-up",
-      color: "secondary",
-    },
-    {
-      title: "Total Collection",
-      value: dashboardData?.totalUniversityCollection || 0,
-      icon: "fe-briefcase",
-      color: "danger",
-    },
-  ];
+  // 1. Country-Wise Visa Approval Logic
+  const refinedCountryData = useMemo(() => {
+    const raw = dashboardData?.countryVisaApproval || [];
+    const total = raw.reduce((sum, item) => sum + (item.totalApproved || 0), 0);
+    const sorted = [...raw].sort(
+      (a, b) => (b.totalApproved || 0) - (a.totalApproved || 0),
+    );
+
+    // Muted Pastel Colors Palette
+    const palette = [
+      "#6c5ffc",
+      "#05c3fb",
+      "#f7b731",
+      "#e82646",
+      "#09ad95",
+      "#1170e4",
+      "#f82649",
+    ];
+
+    return sorted.map((item, index) => ({
+      name: item._id || "Unknown",
+      count: item.totalApproved || 0,
+      percentage:
+        total > 0 ? ((item.totalApproved / total) * 100).toFixed(1) : 0,
+      color: palette[index % palette.length],
+    }));
+  }, [dashboardData]);
+
+  const maxCountryValue =
+    Math.max(...refinedCountryData.map((d) => d.count), 0) || 1;
+
+  // 2. Bank-Wise Total Amount Logic
+  const refinedBankData = useMemo(() => {
+    const raw = bankwiseTotals || [];
+    // const total = raw.reduce((sum, item) => sum + (item.totalAmount || 0), 0);
+    const palette = ["#6259ca", "#01b8ff", "#198754", "#f7b731", "#dc3545"];
+
+    const chartData = {
+      labels: raw.map((i) => i.bankName || "Unknown"),
+      datasets: [
+        {
+          data: raw.map((i) => i.totalAmount || 0),
+          backgroundColor: palette,
+          borderWidth: 0,
+          hoverOffset: 5,
+          cutout: "75%",
+          radius: "90%",
+        },
+      ],
+    };
+
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
+      },
+    };
+
+    return { list: raw, chartData, chartOptions, palette };
+  }, [bankwiseTotals]);
 
   return (
     <>
@@ -2031,75 +1786,109 @@ const Dashboard = () => {
                     onCall={(number) => console.log("Calling:", number)}
                   />
                 </Col>
-                
-                <Col sm={12} lg={6} xl={6}>
-                  <Card className="custom-card overflow-hidden">
-                    <Card.Header>
-                      <label className="main-content-label mb-2">
-                        Country-wise Visa Approval
-                      </label>
+
+                <Col sm={12} lg={6} xl={6} className="mb-4">
+                  <Card className="custom-card h-100 overflow-hidden shadow-sm border-0">
+                    <Card.Header className="pt-3 px-4 border-bottom-0 bg-transparent d-flex justify-content-between align-items-center">
+                      <div className="d-flex flex-column">
+                        <label className="main-content-label mb-1 text-dark fs-15 fw-bold">
+                          Country-Wise Visa Approval
+                        </label>
+                        <span className="text-muted fs-12 fw-medium">
+                          Global stats overview
+                        </span>
+                      </div>
+                      <div className="d-flex align-items-center gap-3">
+                        <div className="px-3 py-1 bg-primary-transparent rounded-pill text-primary fs-12 fw-bold">
+                          <i className="fe fe-globe me-2"></i>
+                          {totalCountry} Countries
+                        </div>
+                        {/* <i className="fe fe-filter text-muted bg-light p-2 rounded-circle cursor-pointer hover-effect"></i> */}
+                      </div>
                     </Card.Header>
-                    <Card.Body>
+                    <Card.Body className="px-4 pb-4 pt-2">
                       <div
-                        className="d-flex flex-column justify-content-between"
-                        style={{ height: "370px" }}
+                        className="d-flex flex-column gap-3 mt-2"
+                        style={{ maxHeight: "360px", overflowY: "auto" }}
                       >
-                        <div className="w-100 border shadow-sm px-2 py-1 rounded">
-                          <div className="d-flex align-items-center justify-content-between">
-                            <div className="d-flex align-items-center gap-2">
-                              <i
-                                className="bi bi-flag"
-                                style={{ fontSize: "1rem", color: "#198754" }}
-                              ></i>
-                              <span
-                                className="fw-semibold"
-                                style={{ color: "#198754" }}
-                              >
-                                Total Country
+                        {refinedCountryData.map((country, idx) => (
+                          <div key={idx} className="w-100">
+                            <div className="d-flex justify-content-between align-items-center mb-1">
+                              <div className="d-flex align-items-center gap-2">
+                                <span className="fw-semibold text-dark fs-13">
+                                  {country.name}
+                                </span>
+                                <span className="text-muted fs-11">
+                                  ({country.percentage}%)
+                                </span>
+                              </div>
+                              <span className="fw-bold text-dark fs-13">
+                                {country.count}
                               </span>
                             </div>
-                            <span>
-                              {new Intl.NumberFormat().format(totalCountry)}
-                            </span>
+                            <div className="progress ht-6 rounded-pill bg-light">
+                              <div
+                                className="progress-bar rounded-pill"
+                                role="progressbar"
+                                style={{
+                                  width: `${
+                                    (country.count / maxCountryValue) * 100
+                                  }%`,
+                                  backgroundColor: country.color,
+                                }}
+                              ></div>
+                            </div>
                           </div>
-                        </div>
-                        {/* <Pie
-                  data={countryVisaApprovalData}
-                  options={countryVisaApprovalOptions}
-                /> */}
-                        <div style={{ height: "300px" }}>
-                          <Pie data={pieChartData} options={pieChartOptions} />
-                        </div>
+                        ))}
+                        {refinedCountryData.length === 0 && (
+                          <div className="text-center text-muted py-5">
+                            No data available
+                          </div>
+                        )}
                       </div>
                     </Card.Body>
                   </Card>
                 </Col>
 
-                <Col sm={12} lg={6} xl={6}>
-                  <Card className="custom-card overflow-hidden">
-                    <Card.Header>
-                      <label className="main-content-label mb-2">
-                        Bank-wise total Amount
-                      </label>
+                <Col sm={12} lg={6} xl={6} className="mb-4">
+                  <Card className="custom-card h-100 overflow-hidden shadow-sm border-0">
+                    <Card.Header className="pt-3 px-4 border-bottom-0 bg-transparent">
+                      <div className="d-flex align-items-center gap-2">
+                        <i className="fe fe-briefcase text-primary fs-16 bg-primary-transparent p-2 rounded-circle"></i>
+                        <div className="d-flex flex-column">
+                          <label className="main-content-label mb-0 text-dark fs-15 fw-bold">
+                            Bank-Wise Total Amount
+                          </label>
+                          <span className="text-muted fs-11 fw-medium">
+                            Financial Summary by Bank
+                          </span>
+                        </div>
+                      </div>
                     </Card.Header>
-                    <Card.Body>
-                      <div style={{ height: "370px" }}>
-                        <div className="d-flex flex-wrap justify-content-center gap-2">
-                          <div className="w-100 border shadow-sm px-2 py-1 rounded">
-                            <div className="d-flex align-items-center justify-content-between">
-                              <div className="d-flex align-items-center gap-2">
-                                <i
-                                  className="bi bi-bank"
-                                  style={{ fontSize: "1rem", color: "#0d6efd" }}
-                                ></i>
-                                <span
-                                  className="fw-semibold"
-                                  style={{ color: "#0d6efd" }}
-                                >
-                                  Bank Balance
-                                </span>
-                              </div>
-                              <span>
+                    <Card.Body className="p-4 pt-2">
+                      <div className="row g-3 mb-4 mt-1">
+                        <div className="col-6">
+                          <div
+                            className="p-3 border-0 rounded-4 d-flex align-items-center justify-content-between shadow-sm"
+                            style={{
+                              backgroundColor: "#f5f3ff", // Ultra-light Lavender/Indigo
+                              border: "1px solid #e0e7ff",
+                            }}
+                          >
+                            <div>
+                              <p
+                                className="mb-1 text-muted fs-11 fw-bold text-uppercase tracking-wider"
+                                style={{ opacity: 0.8 }}
+                              >
+                                Bank Balance
+                              </p>
+                              <h5
+                                className="mb-0 fw-bold"
+                                style={{
+                                  color: "#4f46e5",
+                                  letterSpacing: "-0.5px",
+                                }}
+                              >
                                 {storedEncryptedCurrency
                                   ? getSymbolFromCurrency(
                                       storedEncryptedCurrency,
@@ -2108,42 +1897,130 @@ const Dashboard = () => {
                                 {new Intl.NumberFormat().format(
                                   totalPaidAmount,
                                 )}
-                              </span>
+                              </h5>
+                            </div>
+                            <div
+                              className="d-flex align-items-center justify-content-center rounded-circle"
+                              style={{
+                                backgroundColor: "rgba(79, 70, 229, 0.1)",
+                                width: "40px",
+                                height: "40px",
+                              }}
+                            >
+                              <i
+                                className="bi bi-bank fs-5"
+                                style={{ color: "#4f46e5" }}
+                              ></i>
                             </div>
                           </div>
+                        </div>
 
-                          <div className="w-100 border shadow-sm px-2 py-1 rounded">
-                            <div className="d-flex align-items-center justify-content-between">
-                              <div className="d-flex align-items-center gap-2">
-                                <i
-                                  className="bi bi-cash-stack text-warning"
-                                  style={{ fontSize: "1.1rem" }}
-                                ></i>
-                                <span className="fw-semibold text-warning">
-                                  Cash Balance
-                                </span>
-                              </div>
-                              <span>
+                        <div className="col-6">
+                          <div
+                            className="p-3 border-0 rounded-4 d-flex align-items-center justify-content-between shadow-sm"
+                            style={{
+                              backgroundColor: "#fffbeb", // Ultra-light warm Gold
+                              border: "1px solid #fef3c7",
+                            }}
+                          >
+                            <div>
+                              <p
+                                className="mb-1 text-muted fs-11 fw-bold text-uppercase tracking-wider"
+                                style={{ opacity: 0.8 }}
+                              >
+                                Cash Balance
+                              </p>
+                              <h5
+                                className="mb-0 fw-bold"
+                                style={{
+                                  color: "#b45309",
+                                  letterSpacing: "-0.5px",
+                                }}
+                              >
                                 {storedEncryptedCurrency
                                   ? getSymbolFromCurrency(
                                       storedEncryptedCurrency,
                                     )
                                   : "₹"}{" "}
                                 {new Intl.NumberFormat().format(totalDueAmount)}
-                              </span>
+                              </h5>
+                            </div>
+                            <div
+                              className="d-flex align-items-center justify-content-center rounded-circle"
+                              style={{
+                                backgroundColor: "rgba(180, 83, 9, 0.1)",
+                                width: "40px",
+                                height: "40px",
+                              }}
+                            >
+                              <i
+                                className="bi bi-wallet2 fs-5"
+                                style={{ color: "#b45309" }}
+                              ></i>
                             </div>
                           </div>
                         </div>
+                      </div>
 
-                        {/* <Pie
-                  data={countryVisaApprovalData}
-                  options={countryVisaApprovalOptions}
-                /> */}
-                        <div style={{ height: "300px" }}>
-                          <Pie
-                            data={bankPieChartData}
-                            options={bankPieChartOptions}
-                          />
+                      <div className="row align-items-center">
+                        <div className="col-5 text-center position-relative">
+                          <div
+                            style={{
+                              height: "140px",
+                              width: "140px",
+                              margin: "0 auto",
+                            }}
+                          >
+                            <Doughnut
+                              data={refinedBankData.chartData}
+                              options={refinedBankData.chartOptions}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="col-7 border-start border-light ps-4">
+                          <div
+                            className="d-flex flex-column gap-3"
+                            style={{ maxHeight: "150px", overflowY: "auto" }}
+                          >
+                            {refinedBankData.list.map((bank, i) => (
+                              <div
+                                key={i}
+                                className="d-flex align-items-center justify-content-between"
+                              >
+                                <div className="d-flex align-items-center gap-2">
+                                  <span
+                                    className="dot-label"
+                                    style={{
+                                      backgroundColor:
+                                        refinedBankData.palette[
+                                          i % refinedBankData.palette.length
+                                        ],
+                                      width: "8px",
+                                      height: "8px",
+                                      borderRadius: "50%",
+                                    }}
+                                  ></span>
+                                  <span
+                                    className="fs-12 fw-semibold text-dark text-truncate"
+                                    style={{ maxWidth: "90px" }}
+                                  >
+                                    {bank.bankName || "Unknown"}
+                                  </span>
+                                </div>
+                                <span className="fs-12 fw-bold text-dark">
+                                  {new Intl.NumberFormat().format(
+                                    bank.totalAmount || 0,
+                                  )}
+                                </span>
+                              </div>
+                            ))}
+                            {refinedBankData.list.length === 0 && (
+                              <span className="text-muted fs-12">
+                                No transactions
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </Card.Body>
@@ -2185,50 +2062,54 @@ const Dashboard = () => {
                   </Card>
                 </Col>
 
-                <Col sm={12} md={6} lg={6} xl={6}>
-                  <Card className="custom-card overflow-hidden h-100">
-                    <Card.Header className="d-block border-bottom-0 pb-0">
+                <Col sm={12} md={6} lg={6} xl={6} className="mb-4">
+                  <Card className="custom-card h-100 shadow-sm border-0 overflow-hidden">
+                    <Card.Header className="pt-4 px-4 border-bottom-0 bg-transparent">
                       <div>
-                        <div className="d-md-flex">
-                          <label className="main-content-label my-auto pt-2">
-                            Counselor Tasks Today
-                          </label>
-                          <div className="ms-auto mt-3 d-flex">
-                            <div className="me-3 d-flex text-muted fs-13">
-                              <span className="legend bg-primary rounded-circle"></span>
-                              Completed
-                            </div>
-                            <div className="d-flex text-muted fs-13">
-                              <span className="legend bg-light rounded-circle"></span>
-                              Pending
-                            </div>
-                          </div>
-                        </div>
-                        <span className="d-block fs-12 mt-2 mb-0 text-muted">
-                          Follow-up activities for student applications
+                        <label className="main-content-label mb-1 text-dark fs-15 fw-bold">
+                          Counselor Tasks Today
+                        </label>
+                        <span className="d-block fs-12 text-muted fw-medium">
+                          Follow-up activities snapshot
                         </span>
                       </div>
                     </Card.Header>
-                    <Card.Body className="py-0">
-                      <Row>
-                        <Col sm={6} className="my-auto">
-                          <h6 className="mb-3 font-weight-normal">
-                            Follow-ups Due
-                          </h6>
-                          <div className="text-start">
-                            <h3 className="font-weight-bold me-3 mb-2 text-primary">
-                              {dashboardData?.todaysLeadFollowup || 0}
-                            </h3>
-                            <p className="fs-13 my-auto text-muted">
-                              June 17, 2025
+
+                    <Card.Body className="px-4 py-2">
+                      <Row className="align-items-center">
+                        {/* Left Stats Section */}
+                        <Col xs={6} md={6} lg={6} xl={6}>
+                          <div className="d-flex flex-column justify-content-center h-100">
+                            <p className="text-muted text-uppercase fs-11 fw-bold letter-spacing-1 mb-1">
+                              Follow-ups Due
                             </p>
+                            <h2 className="display-6 fw-bold text-dark mb-2">
+                              {dashboardData?.todaysLeadFollowup || 0}
+                            </h2>
+                            <div
+                              className="d-flex align-items-center text-muted fs-12 bg-light p-2 rounded-2"
+                              style={{ width: "fit-content" }}
+                            >
+                              <i className="bi bi-calendar3 me-2 text-primary"></i>
+                              <span className="fw-medium">
+                                {new Date().toLocaleDateString("en-US", {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                })}
+                              </span>
+                            </div>
                           </div>
                         </Col>
-                        <Col md={6} className="px-0">
-                          <div className="forth circle d-flex justify-content-end">
-                            <div className="mt-4 mb-3">
+
+                        {/* Right Chart Section */}
+                        <Col xs={6} md={6} lg={6} xl={6}>
+                          <div
+                            className="position-relative d-flex justify-content-center align-items-center"
+                            style={{ height: "140px" }}
+                          >
+                            <div style={{ width: "110px", height: "110px" }}>
                               <Doughnut
-                                style={{ height: "100px" }}
                                 data={counselorTasksData}
                                 options={counselorTasksOptions}
                               />
@@ -2237,91 +2118,173 @@ const Dashboard = () => {
                         </Col>
                       </Row>
                     </Card.Body>
+
+                    {/* Moved Legend to the end (Bottom) */}
+                    <Card.Footer className="bg-light border-0 py-3 px-4 d-flex justify-content-end gap-3">
+                      <div className="d-flex align-items-center gap-2">
+                        <span
+                          className="rounded-circle"
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            backgroundColor: "#6c5ffc", // Vyntera Purple
+                            boxShadow: "0 0 5px rgba(108, 95, 252, 0.4)",
+                          }}
+                        ></span>
+                        <span className="fs-12 text-dark fw-bold">Done</span>
+                      </div>
+                      <div className="d-flex align-items-center gap-2">
+                        <span
+                          className="rounded-circle"
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            backgroundColor: "#cbd5e1", // Rich Slate/Pending color
+                          }}
+                        ></span>
+                        <span className="fs-12 text-muted fw-bold">
+                          Pending
+                        </span>
+                      </div>
+                    </Card.Footer>
                   </Card>
                 </Col>
-                <Col sm={12} md={6} lg={6} xl={6}>
-                  <Card className="custom-card top-inquiries h-100">
-                    <Card.Header className="border-bottom-0 pb-0">
-                      <div>
-                        <div className="d-flex">
-                          <label className="main-content-label my-auto pt-2">
-                            Top Inquiries Sources
-                          </label>
-                        </div>
-                        <span className="d-block fs-12 mt-2 -mb-2 text-muted">
-                          Sources generating the most student inquiries
+
+                <Col sm={12} md={6} lg={6} xl={6} className="mb-4">
+                  <Card className="custom-card h-100 shadow-sm border-0">
+                    <Card.Header className="pt-4 px-4 border-bottom-0 bg-transparent">
+                      <div className="mb-2">
+                        <label
+                          className="main-content-label mb-1 text-dark fs-15 fw-bold"
+                          style={{ letterSpacing: "-0.3px" }}
+                        >
+                          Top Inquiries Sources
+                        </label>
+                        <span className="d-block fs-12 text-muted fw-medium">
+                          Highest performing channels
                         </span>
                       </div>
                     </Card.Header>
-                    <Card.Body>
+                    <Card.Body className="px-4 pb-4 pt-2">
                       <div
+                        className="custom-v-scrollbar" // Added custom class for scrollbar styling
                         style={{
-                          maxHeight: "120px",
+                          maxHeight: "180px",
                           overflowY: "auto",
                           overflowX: "hidden",
-                          scrollbarWidth: "thin",
-                          scrollbarColor: "#6c757d #e9ecef",
+                          paddingRight: "8px",
                         }}
                       >
                         {topInquiries.length > 0 ? (
-                          topInquiries.map((source, index) => (
-                            <Row
-                              key={index}
-                              className={index > 0 ? "mt-4" : "mt-1"}
-                            >
-                              <Col sm={5} className="col-4">
-                                <OverlayTrigger
-                                  placement="top"
-                                  overlay={
-                                    <Tooltip id={`tooltip-${index}`}>
-                                      {source.lead_from}
-                                    </Tooltip>
-                                  }
-                                >
-                                  <span
-                                    style={{
-                                      whiteSpace: "nowrap",
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      display: "block",
-                                      maxWidth: "100%",
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    {source.lead_from}
-                                  </span>
-                                </OverlayTrigger>
-                              </Col>
-                              <Col sm={4} className="col-4 my-auto">
-                                <ProgressBar
-                                  className="ht-6 my-auto"
-                                  now={Math.min(source.percentage * 10, 100)}
-                                />
-                              </Col>
-                              <Col sm={3} className="col-4">
-                                <div className="d-flex">
-                                  <span className="fs-13">
-                                    <i
-                                      className={`fe fe-arrow-${
-                                        source.percentage >= 5 ? "up" : "down"
-                                      } text-${
-                                        source.percentage >= 5
-                                          ? "success"
-                                          : "danger"
-                                      }`}
-                                    ></i>
-                                    <b>{source.percentage.toFixed(2)}%</b>
-                                  </span>
+                          <div className="d-flex flex-column gap-4">
+                            {" "}
+                            {/* Increased gap for more "breathability" */}
+                            {topInquiries.map((source, index) => (
+                              <div key={index} className="w-100">
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                  <div className="d-flex align-items-center gap-3 overflow-hidden">
+                                    {/* Refined Rank Circle */}
+                                    <div
+                                      className="d-flex align-items-center justify-content-center rounded-circle fw-bold"
+                                      style={{
+                                        minWidth: "26px",
+                                        width: "26px",
+                                        height: "26px",
+                                        fontSize: "11px",
+                                        backgroundColor:
+                                          index === 0
+                                            ? "rgba(108, 95, 252, 0.1)"
+                                            : "#f8fafc",
+                                        color:
+                                          index === 0 ? "#6c5ffc" : "#64748b",
+                                        border:
+                                          index === 0
+                                            ? "1px solid rgba(108, 95, 252, 0.2)"
+                                            : "1px solid #e2e8f0",
+                                      }}
+                                    >
+                                      {index + 1}
+                                    </div>
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip>{source.lead_from}</Tooltip>
+                                      }
+                                    >
+                                      <span
+                                        className="text-dark fs-13 fw-bold text-truncate"
+                                        style={{ opacity: 0.85 }}
+                                      >
+                                        {source.lead_from}
+                                      </span>
+                                    </OverlayTrigger>
+                                  </div>
+
+                                  <div className="d-flex align-items-center gap-2">
+                                    <span
+                                      className="fw-bold fs-13 text-dark"
+                                      style={{
+                                        fontFamily: "Inter, sans-serif",
+                                      }}
+                                    >
+                                      {source.percentage.toFixed(1)}%
+                                    </span>
+                                    {/* Sleeker Badge */}
+                                    <span
+                                      className="badge rounded-pill px-2 py-1 fs-10 fw-bold d-flex align-items-center"
+                                      style={{
+                                        backgroundColor:
+                                          source.percentage >= 5
+                                            ? "#ecfdf5"
+                                            : "#fef2f2",
+                                        color:
+                                          source.percentage >= 5
+                                            ? "#059669"
+                                            : "#dc2626",
+                                        border: `1px solid ${source.percentage >= 5 ? "#10b98133" : "#ef444433"}`,
+                                      }}
+                                    >
+                                      <i
+                                        className={`bi bi-graph-${source.percentage >= 5 ? "up" : "down"} me-1`}
+                                      ></i>
+                                      {source.percentage >= 5 ? "High" : "Low"}
+                                    </span>
+                                  </div>
                                 </div>
-                              </Col>
-                            </Row>
-                          ))
+
+                                {/* Slimmer, more sophisticated Progress Bar */}
+                                <div
+                                  className="progress rounded-pill"
+                                  style={{
+                                    height: "6px",
+                                    backgroundColor: "#f1f5f9",
+                                  }}
+                                >
+                                  <div
+                                    className="progress-bar rounded-pill"
+                                    role="progressbar"
+                                    style={{
+                                      width: `${Math.min(source.percentage * 1.5, 100)}%`,
+                                      backgroundColor:
+                                        index === 0
+                                          ? "#6c5ffc"
+                                          : index === 1
+                                            ? "#0ea5e9"
+                                            : "#f59e0b",
+                                      transition: "width 1s ease-in-out",
+                                    }}
+                                  ></div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
                         ) : (
-                          <Row className="mt-1">
-                            <Col sm={12}>
-                              <span>No inquiry sources available</span>
-                            </Col>
-                          </Row>
+                          <div className="d-flex flex-column align-items-center justify-content-center h-100 text-muted py-5">
+                            <i className="bi bi-bar-chart-line fs-1 mb-2 opacity-25"></i>
+                            <span className="fs-13 fw-medium">
+                              No data available
+                            </span>
+                          </div>
                         )}
                       </div>
                     </Card.Body>
@@ -2817,7 +2780,7 @@ const Dashboard = () => {
                 </Col>
                 <Col sm={12} md={12} lg={6} xl={6}>
                   <Row className="g-3 d-flex">
-                    <Col xs={12}>
+                    <Col xs={12} md={12} lg={12} xl={12}>
                       <Card className="custom-card overflow-hidden h-100">
                         <Card.Header className="d-block border-bottom-0 pb-0">
                           <div>
@@ -2872,7 +2835,7 @@ const Dashboard = () => {
                       </Card>
                     </Col>
 
-                    <Col xs={12}>
+                    <Col xs={12} md={12} lg={12} xl={12}>
                       <Card className="custom-card top-inquiries h-100">
                         <Card.Header className="border-bottom-0 pb-0">
                           <div>
@@ -2994,12 +2957,13 @@ const Dashboard = () => {
               <Row className="row-sm">
                 <Col md={12} lg={12} xl={12}>
                   <Card.Header>
-                    <div className="w-100 d-flex flex-wrap justify-content-between align-items-center gap-3">
-                      <h4 className="card-title mb-0">
+                    <div className="w-100 d-flex flex-wrap justify-content-center justify-content-sm-between align-items-center gap-3">
+                      <h4 className="card-title mb-0 text-center text-sm-start">
                         Application Status Summary
                       </h4>
-                      <div className="d-flex flex-wrap">
-                        <div className="filter-item me-3">
+                      <div className="d-flex flex-wrap align-items-center justify-content-center gap-3">
+                        {/* Select Status - Kept original styles as requested */}
+                        <div className="filter-item">
                           <Select
                             className="filter-height"
                             options={studentStatusOptions}
@@ -3012,6 +2976,7 @@ const Dashboard = () => {
                               control: (base) => ({
                                 ...base,
                                 minWidth: "150px",
+
                                 fontSize: "13px",
                               }),
                               placeholder: (base) => ({
@@ -3021,13 +2986,15 @@ const Dashboard = () => {
                             }}
                           />
                         </div>
-                        <div className="d-flex align-items-center">
-                          <div className="filter-item filter-height total-records px-3 d-flex align-items-center">
-                            <span>
-                              Total Records :
-                              <strong>&nbsp;{totalRecords}</strong>
-                            </span>
-                          </div>
+
+                        {/* Refined Total Records Badge */}
+                        <div className="filter-item filter-height total-records px-3 d-flex align-items-center rounded-2 border bg-light">
+                          <span className="fs-12 fw-medium text-muted text-nowrap">
+                            Total Records:{" "}
+                            <strong className="text-primary">
+                              &nbsp;{totalRecords}
+                            </strong>
+                          </span>
                         </div>
                       </div>
                       {/* <Button variant="link" className="text-primary">
@@ -3097,7 +3064,8 @@ const Dashboard = () => {
                           </tbody>
                         </table>
                       </div>
-                      <div className="d-flex justify-content-between align-items-center mt-3">
+
+                      <div className="p-4 border-top d-flex justify-content-end">
                         {totalPages > 1 && (
                           <Paginations
                             currentPage={currentPage}

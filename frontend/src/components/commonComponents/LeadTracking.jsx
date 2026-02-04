@@ -467,7 +467,7 @@ const LeadTracking = () => {
 
   return (
     <>
-      <div className="form-main-heading w-100 p-2 position-sticky top-0 z-3">
+      <div className="form-main-heading p-2 position-sticky top-0 z-3" style={{width:"100%"}}>
         <div className="d-flex justify-content-between align-items-center">
           <h3>History</h3>
           <Button
