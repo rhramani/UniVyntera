@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineInfoCircle,
+  AiOutlineClockCircle,
+  AiOutlineUser,
+} from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { applicationAndLeadProcess } from "../../redux/actions/Lead.action";
-import DataTable from "./DataTable";
 import { BASEURL } from "../../baseUrl";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
@@ -29,6 +33,7 @@ const LeadTracking = () => {
   useEffect(() => {
     getApplicationProcess();
   }, [id]);
+
   // ✅ Robust Date Formatter: handles YYYY-MM-DD, YYYY/MM/DD, ISO, with or without time
   const formatDate = (dateValue) => {
     if (!dateValue) return "-";
@@ -248,7 +253,7 @@ const LeadTracking = () => {
       case "visa_allocation":
         return "Visa Allocation";
       case "CTC_Calling":
-        return "CTC Calling";  
+        return "CTC Calling";
       default:
         return event ? event.replace(/_/g, " ") : "-";
     }
@@ -272,7 +277,8 @@ const LeadTracking = () => {
         <OverlayTrigger placement="top" overlay={<Tooltip>View File</Tooltip>}>
           <Button
             variant="primary"
-            className="custom-select-height"
+            className="custom-select-height p-1 px-2"
+            size="sm"
             onClick={() => window.open(fullUrl, "_blank")}
           >
             <VisibilityIcon className="me-1" style={{ fontSize: "16px" }} />
@@ -302,16 +308,7 @@ const LeadTracking = () => {
       );
     }
 
-    if (stringValue.length > 25) {
-      return (
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip>{stringValue}</Tooltip>}
-        >
-          <span>{stringValue.slice(0, 25)}...</span>
-        </OverlayTrigger>
-      );
-    }
+    // Full value rendered
 
     return stringValue;
   };
@@ -445,11 +442,6 @@ const LeadTracking = () => {
 
     // ✅ Add default metadata columns
     baseColumns.push(
-      // {
-      //   label: "Updated Date",
-      //   key: "date",
-      //   render: () => formatDate(item.date),
-      // },
       {
         label: "Updated Time",
         key: "time",
@@ -459,7 +451,7 @@ const LeadTracking = () => {
         label: "Updated By",
         key: "updatedByName",
         render: () => item?.updatedByName || "-",
-      }
+      },
     );
 
     return baseColumns;
@@ -467,7 +459,10 @@ const LeadTracking = () => {
 
   return (
     <>
-      <div className="form-main-heading p-2 position-sticky top-0 z-3" style={{width:"100%"}}>
+      <div
+        className="form-main-heading p-2 position-sticky top-0 z-3"
+        style={{ width: "100%" }}
+      >
         <div className="d-flex justify-content-between align-items-center">
           <h3>History</h3>
           <Button
@@ -489,26 +484,79 @@ const LeadTracking = () => {
       <div className="leadtrack-wrapper">
         {applicationProcess && applicationProcess.length > 0 ? (
           <div className="leadtrack-timeline">
-            {applicationProcess.map((item, index) => (
-              <div key={index} className="leadtrack-timeline-item">
-                <div className="leadtrack-timeline-dot"></div>
-                <div className="leadtrack-timeline-content">
-                  <div className="leadtrack-timeline-title mb-3">
-                    <span>{getEventLabel(item.event)}</span> /{" "}
-                    <span>{formatDate(item.date)}</span>
+            {applicationProcess.map((item, index) => {
+              // Filter out 'event' key as it's shown in title, keep others for grid
+              const columns = getColumnsForEvent(item).filter(
+                (c) => c.key !== "event",
+              );
+
+              return (
+                <div key={index} className="leadtrack-timeline-item">
+                  <div className="leadtrack-timeline-dot"></div>
+                  <div className="leadtrack-timeline-content">
+                    <div className="leadtrack-timeline-title mb-3 d-flex justify-content-between align-items-center">
+                      <div>
+                        <span className="fw-bold">
+                          {getEventLabel(item.event)}
+                        </span>
+                        <span className="mx-2 text-muted">/</span>
+                        <span className="text-secondary">
+                          {formatDate(item.date)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Grid Layout Replacement for DataTable */}
+                    <div
+                      className="card border shadow-sm"
+                      style={{ borderRadius: "10px" }}
+                    >
+                      <div className="card-body">
+                        <div className="row g-3">
+                          {columns.map((col, i) => (
+                            <div className="col-12 col-md-6 col-lg-4" key={i}>
+                              <div
+                                className="text-uppercase text-muted fw-bold"
+                                style={{
+                                  fontSize: "0.75rem",
+                                  letterSpacing: "0.5px",
+                                }}
+                              >
+                                {col.label}
+                              </div>
+                              <div
+                                className="mt-1"
+                                style={{
+                                  fontWeight: 500,
+                                  wordBreak: "break-word",
+                                }}
+                              >
+                                {col.render
+                                  ? col.render(item)
+                                  : item[col.key] || "-"}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        {/* Footer section for metadata */}
+                        <div className="mt-4 pt-3 border-top d-flex justify-content-end text-muted small align-items-center">
+                          <span className="me-3 d-flex align-items-center">
+                            <AiOutlineClockCircle className="me-1" />{" "}
+                            {formatTime(item.date)}
+                          </span>
+                          <span className="d-flex align-items-center">
+                            <AiOutlineUser className="me-1" /> Updated by:{" "}
+                            <strong className="ms-1">
+                              {item.updatedByName || "-"}
+                            </strong>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <DataTable
-                    columns={getColumnsForEvent(item)}
-                    data={[item]}
-                    showNoColumn={false}
-                    canEdit={false}
-                    canDelete={false}
-                    canUpdate={false}
-                    actionView={false}
-                  />
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div

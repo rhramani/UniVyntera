@@ -72,8 +72,8 @@ const CoachingStudent = () => {
     userRole === "Branch"
       ? branchID
       : userType === "Branch User"
-      ? branchUserId
-      : null;
+        ? branchUserId
+        : null;
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -145,15 +145,17 @@ const CoachingStudent = () => {
           label:
             branchList.find(
               (b) =>
-                b._id === (userType === "Branch User" ? branchUserId : branchID)
+                b._id ===
+                (userType === "Branch User" ? branchUserId : branchID),
             )?.branchName ||
             branchList.find(
               (b) =>
-                b._id === (userType === "Branch User" ? branchUserId : branchID)
+                b._id ===
+                (userType === "Branch User" ? branchUserId : branchID),
             )?.name ||
             "Branch",
         }
-      : { value: "HeadOffice", label: "Head Office" }
+      : { value: "HeadOffice", label: "Head Office" },
   );
 
   const allBranchOptions =
@@ -191,7 +193,7 @@ const CoachingStudent = () => {
       remarkHistory: Yup.array().of(
         Yup.object({
           remark: Yup.string().required("Remark is required"),
-        })
+        }),
       ),
     }),
     onSubmit: async (values) => {
@@ -212,13 +214,13 @@ const CoachingStudent = () => {
         }
 
         const res = await dispatch(
-          updateStudentApplication(payload, edit.studentId)
+          updateStudentApplication(payload, edit.studentId),
         );
         if (res?.status === 200) {
           toast.success(
             edit.remarkDetails
               ? "Remark updated successfully!"
-              : "Remark added successfully!"
+              : "Remark added successfully!",
           );
           setShowRemarkModal(false);
           remarkFormik.resetForm();
@@ -302,7 +304,7 @@ const CoachingStudent = () => {
               listening: Yup.number().nullable(),
               total: Yup.number().nullable(),
             }).nullable(),
-          })
+          }),
         )
         .nullable(),
       subPlan: Yup.string(),
@@ -319,7 +321,7 @@ const CoachingStudent = () => {
               date: Yup.string().nullable(),
               bank: Yup.string().nullable(),
               paymentMode: Yup.string(),
-            })
+            }),
           ),
         otherwise: () => Yup.array().nullable(),
       }),
@@ -394,10 +396,10 @@ const CoachingStudent = () => {
         toast.dismiss();
 
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         if (values.id && canUpdate) {
@@ -458,12 +460,12 @@ const CoachingStudent = () => {
               (exam) => ({
                 examId: exam.examId,
                 update: exam.update,
-              })
+              }),
             );
           }
 
           const res = await dispatch(
-            updateStudentApplication(payload, values.id)
+            updateStudentApplication(payload, values.id),
           );
 
           if (res?.status === 200) {
@@ -562,7 +564,7 @@ const CoachingStudent = () => {
             filters.endDate,
             filters.targetAchieved,
             filters.branch,
-            filters.showAll
+            filters.showAll,
           );
         }
       } catch (error) {
@@ -599,7 +601,7 @@ const CoachingStudent = () => {
       if (formik.values.coachingDetails.subPlan) {
         setAmountForSection(
           formik.values.coachingDetails.subPlan,
-          "coachingDetails"
+          "coachingDetails",
         );
       }
     }
@@ -635,7 +637,7 @@ const CoachingStudent = () => {
       const totalPaid =
         values.paidAmount?.reduce(
           (sum, entry) => sum + (parseFloat(entry.amount) || 0),
-          0
+          0,
         ) || 0;
 
       const dueAmount = payableAmount - totalPaid;
@@ -643,14 +645,14 @@ const CoachingStudent = () => {
       // -------- Update Formik --------
       formik.setFieldValue(
         `${section}.payableAmount`,
-        Math.max(0, payableAmount).toFixed(2)
+        Math.max(0, payableAmount).toFixed(2),
       );
       formik.setFieldValue(
         `${section}.dueAmount`,
-        Math.max(0, dueAmount).toFixed(2)
+        Math.max(0, dueAmount).toFixed(2),
       );
     },
-    [formik]
+    [formik],
   );
 
   // Debounced calculation effect
@@ -679,13 +681,13 @@ const CoachingStudent = () => {
     await fetchCoachingFaculties(
       item.coachingDetails?.batchStatus || "",
       branchValue,
-      false
+      false,
     );
 
     if (item.coachingDetails?.batchFaculty?._id) {
       await fetchBatchTimes(
         item.coachingDetails.batchFaculty._id,
-        item.coachingDetails.batchStatus || ""
+        item.coachingDetails.batchStatus || "",
       );
     }
     const countryName = item.country;
@@ -693,7 +695,7 @@ const CoachingStudent = () => {
     const cityName = item.city;
 
     const selectedCountry = countries.find(
-      (c) => c.name.trim() === countryName
+      (c) => c.name.trim() === countryName,
     );
     const countryIsoCode = selectedCountry?.isoCode;
 
@@ -709,7 +711,7 @@ const CoachingStudent = () => {
     }
 
     const selectedState = fetchedStates.find(
-      (s) => s.name.trim() === stateName
+      (s) => s.name.trim() === stateName,
     );
     const stateIsoCode = selectedState?.isoCode;
 
@@ -720,7 +722,7 @@ const CoachingStudent = () => {
     let fetchedCities = [];
     if (stateIsoCode) {
       const cityRes = await dispatch(
-        cityDropdown(countryIsoCode, stateIsoCode)
+        cityDropdown(countryIsoCode, stateIsoCode),
       );
       fetchedCities = cityRes?.data?.data || [];
       setCityDropDownList(fetchedCities);
@@ -764,7 +766,7 @@ const CoachingStudent = () => {
     if (item.coachingDetails?.batchFaculty?._id) {
       await fetchBatchTimes(
         item.coachingDetails.batchFaculty._id || "",
-        item?.coachingDetails.batchStatus
+        item?.coachingDetails.batchStatus,
       );
     }
 
@@ -795,7 +797,7 @@ const CoachingStudent = () => {
           filters.endDate,
           filters.targetAchieved,
           filters.branch,
-          filters.showAll
+          filters.showAll,
         );
       }
       setShowDeleteModal(false);
@@ -815,7 +817,7 @@ const CoachingStudent = () => {
     endDate = filters.endDate,
     targetAchieved = filters.targetAchieved,
     branch = filters.branch,
-    showAll = filters.showAll
+    showAll = filters.showAll,
   ) => {
     try {
       const res = await dispatch(
@@ -829,8 +831,8 @@ const CoachingStudent = () => {
           endDate,
           targetAchieved,
           branch,
-          showAll
-        )
+          showAll,
+        ),
       );
       setCoachingStudentData(res?.data?.data?.data || []);
       setTotalPages(res?.data?.data?.totalPages || 0);
@@ -852,7 +854,7 @@ const CoachingStudent = () => {
         filters.endDate,
         filters.targetAchieved,
         filters.branch,
-        filters.showAll
+        filters.showAll,
       );
     }
   }, [canRead, currentPage, itemsPerPage, search, filters]);
@@ -942,8 +944,8 @@ const CoachingStudent = () => {
       userType === "Branch User"
         ? branchUserId
         : userRole === "Branch"
-        ? branchID
-        : branch;
+          ? branchID
+          : branch;
 
     const res = await dispatch(
       getAllCoachingFaculty(
@@ -952,8 +954,8 @@ const CoachingStudent = () => {
         "",
         formik.values.coachingDetails.batchStatus || "",
         showAll,
-        finalBranch
-      )
+        finalBranch,
+      ),
     );
 
     setFilterCoachingFaculties(res?.data?.data?.data || []);
@@ -972,18 +974,11 @@ const CoachingStudent = () => {
         (userType === "Branch User"
           ? branchUserId
           : userRole === "Branch"
-          ? branchID
-          : "");
+            ? branchID
+            : "");
 
       const res = await dispatch(
-        getAllCoachingFaculty(
-          1,
-          1000,
-          "",
-          batchStatus,
-          showAll,
-          finalBranchId
-        )
+        getAllCoachingFaculty(1, 1000, "", batchStatus, showAll, finalBranchId),
       );
       setCoachingFaculties(res?.data?.data?.data || []);
     } catch (err) {
@@ -1032,7 +1027,7 @@ const CoachingStudent = () => {
           endDate,
           targetAchieved,
           filters.branch,
-          filters.showAll
+          filters.showAll,
         );
 
         fetchCoachingStudent(
@@ -1045,7 +1040,7 @@ const CoachingStudent = () => {
           endDate,
           targetAchieved,
           filters.branch,
-          filters.showAll
+          filters.showAll,
         );
         setTimeout(() => {
           navigate(location.pathname, { replace: true });
@@ -1152,30 +1147,47 @@ const CoachingStudent = () => {
 
   const getAttendanceStatus = (student, date) => {
     const record = attendanceData?.find(
-      (r) => r?.student === student && r?.date === date
+      (r) => r?.student === student && r?.date === date,
     );
     return record || { status: null, remark: "" };
   };
 
   const getButtonStyle = (status) => {
     const baseStyle = {
-      width: 32,
-      height: 32,
-      borderRadius: "50%",
+      width: 36,
+      height: 36,
+      borderRadius: "10px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       margin: "0 auto",
       cursor: "default",
+      fontSize: "18px",
+      transition: "all 0.2s ease",
     };
 
     if (status === "present") {
-      return { ...baseStyle, backgroundColor: "#d4f5d4", color: "green" };
+      return {
+        ...baseStyle,
+        backgroundColor: "#e8f5e9",
+        color: "#2e7d32",
+        border: "1px solid #c8e6c9",
+      };
     }
     if (status === "absent") {
-      return { ...baseStyle, backgroundColor: "#fddddd", color: "red" };
+      return {
+        ...baseStyle,
+        backgroundColor: "#ffebee",
+        color: "#c62828",
+        border: "1px solid #ffcdd2",
+      };
     }
-    return { ...baseStyle, backgroundColor: "#E8E8F7", color: "#555" };
+    return {
+      ...baseStyle,
+      backgroundColor: "#f5f5f5",
+      color: "#9e9e9e",
+      border: "1px solid #eeeeee",
+    };
   };
 
   const prevWeek = () => {
@@ -1195,7 +1207,7 @@ const CoachingStudent = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -1498,7 +1510,7 @@ const CoachingStudent = () => {
 
                             return (
                               allBranchOptions.find(
-                                (option) => option.value === filters.branch
+                                (option) => option.value === filters.branch,
                               ) || null
                             );
                           })()}
@@ -1554,7 +1566,7 @@ const CoachingStudent = () => {
                                 label: faculty.name,
                               }))
                               .find(
-                                (option) => option.value === filters.faculty
+                                (option) => option.value === filters.faculty,
                               ) || null
                           }
                           onChange={(selected) => {
@@ -1614,7 +1626,7 @@ const CoachingStudent = () => {
                         }))}
                         value={
                           targetAchievedOptions?.find(
-                            (opt) => opt.value === filters.targetAchieved
+                            (opt) => opt.value === filters.targetAchieved,
                           ) || null
                         }
                         onChange={(selected) => {
@@ -1785,12 +1797,23 @@ const CoachingStudent = () => {
         }}
         centered
         size="xl"
+        className="attendance-history-modal"
       >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title>Attendance History</Modal.Title>
+        <Modal.Header className="form-main-heading p-3 border-0 rounded-top">
+          <Modal.Title className="fw-bold text-white d-flex align-items-center gap-2">
+            Attendance History
+            {selectedStudent?.name && (
+              <span
+                className="badge bg-white text-primary rounded-pill fw-normal shadow-sm"
+                style={{ fontSize: "0.75rem", opacity: 0.9 }}
+              >
+                {selectedStudent.name}
+              </span>
+            )}
+          </Modal.Title>
           <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer" }}
+            size={22}
+            className="text-white cursor-pointer hover-rotate"
             onClick={() => {
               setShowAttendanceModal(false);
               setSelectedStudent(null);
@@ -1799,180 +1822,243 @@ const CoachingStudent = () => {
             }}
           />
         </Modal.Header>
-        <Modal.Body>
-          <div className="d-flex justify-content-center align-items-center mb-3">
-            <Button variant="light" onClick={prevWeek}>
-              <BiChevronLeft size={20} />
-            </Button>
-            <h6
-              className="mb-0 px-3"
-              style={{ cursor: "pointer" }}
-              onClick={() => setShowCalendar(!showCalendar)}
-              ref={dateRangeRef}
-            >
-              {formatShort(attendanceStartDate)} - {formatShort(dates[6])}
-            </h6>
-            <Button variant="light" onClick={nextWeek}>
-              <BiChevronRight size={20} />
-            </Button>
-          </div>
-          {showCalendar && (
+        <Modal.Body className="p-4 bg-white">
+          <div className="d-flex flex-column align-items-center mb-4 pt-2">
             <div
-              style={{
-                position: "absolute",
-                // top: dateRangeRef.current
-                //   ? dateRangeRef.current.getBoundingClientRect().bottom +
-                //     window.scrollY +
-                //     4
-                //   : "70px",
-                // left: dateRangeRef.current
-                //   ? dateRangeRef.current.getBoundingClientRect().left +
-                //     window.scrollX
-                //   : "auto",
-                // zIndex: 9999,
-                background: "rgba(255, 255, 255, 0.8)",
-                backdropFilter: "blur(5px)",
-                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                borderRadius: "8px",
-                padding: "10px",
-                width: 300,
-                minWidth: 300,
-                maxWidth: 300,
-              }}
+              className="d-flex align-items-center bg-light p-1 rounded-pill shadow-sm border border-light"
+              style={{ backgroundColor: "#f8f9fa" }}
             >
-              <Calendar
-                className="form-control m-0 p-0 border-0"
-                onChange={(date) => {
-                  setAttendanceStartDate(date);
-                  setShowCalendar(false);
+              <Button
+                variant="white"
+                className="rounded-circle border-0 d-flex align-items-center justify-content-center hover-bg-gray bg-white shadow-sm"
+                style={{ width: "40px", height: "40px" }}
+                onClick={prevWeek}
+              >
+                <BiChevronLeft size={24} className="text-primary" />
+              </Button>
+
+              <div
+                className="px-4 py-2 fw-bold text-dark cursor-pointer select-none text-center d-flex align-items-center justify-content-center"
+                style={{ minWidth: "220px", fontSize: "0.95rem" }}
+                onClick={() => setShowCalendar(!showCalendar)}
+                ref={dateRangeRef}
+              >
+                {formatShort(dates[0])} — {formatShort(dates[6])}
+              </div>
+
+              <Button
+                variant="white"
+                className="rounded-circle border-0 d-flex align-items-center justify-content-center hover-bg-gray bg-white shadow-sm"
+                style={{ width: "40px", height: "40px" }}
+                onClick={nextWeek}
+              >
+                <BiChevronRight size={24} className="text-primary" />
+              </Button>
+            </div>
+
+            {showCalendar && (
+              <div
+                className="calendar-popover shadow-lg border rounded-4 overflow-hidden"
+                style={{
+                  position: "absolute",
+                  top: "145px",
+                  zIndex: 9999,
+                  background: "#fff",
                 }}
-                value={attendanceStartDate}
-                locale="en-GB"
-              />
-            </div>
-          )}
-          {attendanceData?.length > 0 ? (
-            <Table bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>Student</th>
-                  {dates.map((date) => {
-                    const isToday =
-                      date.toDateString() === new Date().toDateString();
-                    return (
-                      <th key={date} className="text-center">
-                        <div style={{ fontWeight: "bold" }}>
-                          {isToday
-                            ? "Today"
-                            : date
-                                .toLocaleDateString("en-US", {
-                                  weekday: "short",
-                                })
-                                .toUpperCase()}
-                        </div>
-                        <small>{formatDate(date).toUpperCase()}</small>
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{selectedStudent?.name}</td>
-                  {dates.map((date) => {
-                    const dateString = date.toISOString().split("T")[0];
-                    const { status, remark } = getAttendanceStatus(
-                      selectedStudent?._id,
-                      dateString
-                    );
-                    const isToday =
-                      date.toDateString() === new Date().toDateString();
-                    return (
-                      <td
-                        key={dateString}
-                        className="text-center"
-                        style={{
-                          backgroundColor: isToday ? "#f9f9f9" : "transparent",
-                        }}
+              >
+                <Calendar
+                  className="border-0 p-2"
+                  onChange={(date) => {
+                    setAttendanceStartDate(date);
+                    setShowCalendar(false);
+                  }}
+                  value={attendanceStartDate}
+                  locale="en-GB"
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 border border-light">
+            <div className="card-body p-0">
+              {attendanceData?.length > 0 ? (
+                <div className="table-responsive">
+                  <Table borderless hover className="mb-0">
+                    <thead>
+                      <tr
+                        className="bg-light-subtle border-bottom border-light"
+                        style={{ backgroundColor: "#fcfcfc" }}
                       >
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            remark ? (
-                              <Tooltip
-                                id={`tooltip-${selectedStudent?._id}-${dateString}`}
-                              >
-                                {remark}
-                              </Tooltip>
-                            ) : (
-                              <Tooltip
-                                id={`tooltip-${selectedStudent?._id}-${dateString}`}
-                              >
-                                No remark
-                              </Tooltip>
-                            )
-                          }
+                        <th
+                          className="p-3 ps-4 text-secondary text-uppercase small fw-bold"
+                          style={{ width: "200px", backgroundColor: "#fbfbfb" }}
                         >
-                          <div style={getButtonStyle(status)}>
-                            {status === "present" && <Check fontSize="small" />}
-                            {status === "absent" && <Close fontSize="small" />}
-                            {status === null && <span>•</span>}
-                          </div>
-                        </OverlayTrigger>
-                      </td>
-                    );
-                  })}
-                </tr>
-              </tbody>
-            </Table>
-          ) : (
-            <div className="text-center py-5">
-              No attendance data available for this student
-            </div>
-          )}
-          {/* Legend */}
-          <div className="d-flex gap-4 mt-3 flex-wrap justify-content-center">
-            {["present", "absent", "notMarked"].map((type) => {
-              let bgColor, icon, textColor, label;
-              if (type === "present") {
-                bgColor = "#d4f5d4";
-                icon = <Check fontSize="small" />;
-                label = "Present";
-                textColor = "green";
-              } else if (type === "absent") {
-                bgColor = "#fddddd";
-                icon = <Close fontSize="small" />;
-                label = "Absent";
-                textColor = "red";
-              } else {
-                bgColor = "#E8E8F7";
-                icon = <span style={{ fontWeight: "bold" }}>•</span>;
-                label = "Not Marked";
-                textColor = "#555";
-              }
-              return (
-                <div key={type} className="d-flex align-items-center gap-2">
-                  <div
-                    style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: bgColor,
-                      color: textColor,
-                    }}
-                  >
-                    {icon}
-                  </div>
-                  <span>{label}</span>
+                          Description
+                        </th>
+                        {dates.map((date) => {
+                          const isToday =
+                            date.toDateString() === new Date().toDateString();
+                          return (
+                            <th
+                              key={date.toISOString()}
+                              className="text-center p-3"
+                            >
+                              <div
+                                className={`fw-bold mb-1 ${isToday ? "text-primary" : "text-dark"}`}
+                                style={{ fontSize: "0.85rem" }}
+                              >
+                                {date
+                                  .toLocaleDateString("en-US", {
+                                    weekday: "short",
+                                  })
+                                  .toUpperCase()}
+                              </div>
+                              <div
+                                className="text-muted"
+                                style={{ fontSize: "0.7rem", fontWeight: 500 }}
+                              >
+                                {formatDate(date)}
+                              </div>
+                            </th>
+                          );
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="align-middle">
+                        <td
+                          className="p-3 ps-4 fw-bold text-dark border-end border-light"
+                          style={{ backgroundColor: "#fcfcfc" }}
+                        >
+                          Progress Status
+                        </td>
+                        {dates.map((date) => {
+                          const dateString = date.toISOString().split("T")[0];
+                          const { status, remark } = getAttendanceStatus(
+                            selectedStudent?._id,
+                            dateString,
+                          );
+                          const isToday =
+                            date.toDateString() === new Date().toDateString();
+                          return (
+                            <td
+                              key={dateString}
+                              className="text-center p-3"
+                              style={{
+                                backgroundColor: isToday
+                                  ? "rgba(98, 89, 202, 0.05)"
+                                  : "transparent",
+                              }}
+                            >
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip id={`tip-${dateString}`}>
+                                    {remark ||
+                                      (status ? "No remark" : "Not Marked")}
+                                  </Tooltip>
+                                }
+                              >
+                                <div
+                                  style={getButtonStyle(status)}
+                                  className="shadow-xs attendance-dot"
+                                >
+                                  {status === "present" && (
+                                    <Check style={{ fontSize: "20px" }} />
+                                  )}
+                                  {status === "absent" && (
+                                    <Close style={{ fontSize: "20px" }} />
+                                  )}
+                                  {status === null && (
+                                    <span style={{ fontSize: "24px" }}>•</span>
+                                  )}
+                                </div>
+                              </OverlayTrigger>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    </tbody>
+                  </Table>
                 </div>
-              );
-            })}
+              ) : (
+                <div className="text-center py-5">
+                  <div className="bg-light rounded-circle d-inline-flex p-4 mb-3 border">
+                    <AiOutlineClose
+                      size={40}
+                      className="text-muted opacity-25"
+                    />
+                  </div>
+                  <h5 className="text-muted fw-normal">
+                    No attendance data available for this student
+                  </h5>
+                  <p className="small text-muted mb-0">
+                    Try selecting a different date range or week
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div
+            className="d-flex flex-wrap gap-4 p-3 px-4 bg-light rounded-4 justify-content-center border border-light mt-2"
+            style={{ backgroundColor: "#f8f9fa" }}
+          >
+            {[
+              {
+                type: "present",
+                label: "Present",
+                color: "#2e7d32",
+                bg: "#e8f5e9",
+                icon: <Check style={{ fontSize: "18px" }} />,
+              },
+              {
+                type: "absent",
+                label: "Absent",
+                color: "#c62828",
+                bg: "#ffebee",
+                icon: <Close style={{ fontSize: "18px" }} />,
+              },
+              {
+                type: "notMarked",
+                label: "Not Marked",
+                color: "#757575",
+                bg: "#f5f5f5",
+                icon: (
+                  <span className="fw-bold" style={{ fontSize: "20px" }}>
+                    •
+                  </span>
+                ),
+              },
+            ].map((item) => (
+              <div key={item.label} className="d-flex align-items-center gap-2">
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "8px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: item.bg,
+                    color: item.color,
+                    border: `1px solid ${item.type === "notMarked" ? "#eee" : item.bg}`,
+                  }}
+                  className="shadow-xs"
+                >
+                  {item.icon}
+                </div>
+                <span
+                  className="small fw-bold text-secondary"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  {item.label}
+                </span>
+              </div>
+            ))}
           </div>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="border-0 p-3 pt-0 justify-content-end bg-white rounded-bottom">
           <Button
             variant="link"
             className="custom-select-height btn border-primary text-primary text-decoration-none"
@@ -1982,10 +2068,47 @@ const CoachingStudent = () => {
               setAttendanceData([]);
               setShowCalendar(false);
             }}
+            style={{ fontSize: "0.85rem" }}
           >
             Close
           </Button>
         </Modal.Footer>
+        <style>{`
+          .attendance-history-modal .hover-rotate {
+            transition: transform 0.3s ease;
+          }
+          .attendance-history-modal .hover-rotate:hover {
+            transform: rotate(90deg);
+          }
+          .attendance-history-modal .hover-bg-gray:hover {
+            background-color: #f0f0f0 !important;
+          }
+          .attendance-history-modal .attendance-dot {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          }
+          .attendance-history-modal .attendance-dot:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+          }
+          .calendar-popover .react-calendar__tile--active {
+            background-color: #053880 !important;
+            color: white !important;
+            border-radius: 6px;
+          }
+          .calendar-popover .react-calendar__tile--active abbr {
+            color: white !important;
+          }
+          .calendar-popover .react-calendar__tile--now {
+            background-color: rgba(98, 89, 202, 0.1) !important;
+            color: #053880 !important;
+            border-radius: 6px;
+          }
+          .calendar-popover .react-calendar {
+            border-radius: 12px;
+            box-shadow: none;
+            border: none;
+          }
+        `}</style>
       </Modal>
 
       <Modal
