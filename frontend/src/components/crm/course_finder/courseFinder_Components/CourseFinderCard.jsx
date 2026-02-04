@@ -169,7 +169,7 @@ const CourseFinderCard = ({
                   Course Finder
                 </div>
                 <div className="d-flex flex-wrap align-items-center justify-content-end gap-3 w-50">
-                  {showSlider && (
+                  {/* {showSlider && (
                     <div
                       className="bg-white p-3 rounded-lg shadow-sm"
                       style={{ borderRadius: "12px", flex: 1 }}
@@ -223,7 +223,7 @@ const CourseFinderCard = ({
                         </div>
                       </Box>
                     </div>
-                  )}
+                  )} */}
                   <div className="d-flex align-items-center gap-3 w-100 justify-content-end">
                     <div
                       className="custom-select-height total-records px-4 py-2 mt-0 d-flex align-items-center h-6"
@@ -435,7 +435,7 @@ const CourseFinderCard = ({
                                         width: "60px",
                                         height: "60px",
                                         objectFit: "cover",
-                                        border: "2px solid #e2e8f0",
+                                        // border: "2px solid #e2e8f0",
                                       }}
                                     />
                                   </div>
@@ -994,7 +994,7 @@ const CourseFinderCard = ({
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
                 centered
-                size="sm"
+                // size="sm"
               >
                 <Modal.Header
                   className="form-main-heading"
@@ -1018,7 +1018,7 @@ const CourseFinderCard = ({
                 </Modal.Header>
                 <Modal.Body className="text-center py-4">
                   <div className="text-danger fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill">⚠️</i>
+                    <i className="bi bi-exclamation-triangle-fill"></i>
                   </div>
                   <p className="mb-1 fw-semibold">
                     Are you sure you want to delete this item?

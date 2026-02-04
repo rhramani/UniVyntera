@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineArrowLeft } from "react-icons/ai";
 // import { useEffect, useState } from "react";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { REACT_APP_API_URL } from "../../../../baseUrl";
@@ -67,54 +67,143 @@ const CourseFinderView = () => {
 
   return (
     <>
-      <div className="form-main-heading w-100 p-2 position-sticky top-0 z-3">
+      <div
+        className="form-main-heading w-100 p-3 position-sticky top-0 z-3"
+        style={{
+          background: "linear-gradient(90deg, #6B5CE7 0%, #7B68EE 100%)",
+          color: "white",
+          borderRadius: "0 0 16px 16px",
+          boxShadow: "0 4px 12px rgba(107, 92, 231, 0.3)",
+        }}
+      >
         <div className="d-flex justify-content-between align-items-center">
-          <h3>Course Details</h3>
+          <div className="d-flex align-items-center gap-3">
+            <Button
+              variant="link"
+              onClick={() =>
+                navigate("/coursefinder", { state: { filters: state?.filters } })
+              }
+              className="text-light p-0"
+              style={{
+                fontSize: "24px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <AiOutlineArrowLeft size={24} />
+            </Button>
+            <h3 className="mb-0">Course Details</h3>
+          </div>
           <Button
             variant="link"
             onClick={() =>
               navigate("/coursefinder", { state: { filters: state?.filters } })
             }
-            className="text-light"
+            className="text-light p-0"
+            style={{
+              fontSize: "24px",
+            }}
           >
-            <AiOutlineClose size={20} />
+            <AiOutlineClose size={24} />
           </Button>
         </div>
       </div>
-      <Row className="mt-3 courseFinder-row">
+      <Row className="mt-4 courseFinder-row px-3">
         <Col lg={4} md={12} className="mb-4">
-          <Card className="custom-card">
-            <Card.Body>
-              <div className="text-center mb-4">
-                <div className="d-flex align-items-center mb-5">
-                  <img
-                    src={imageUrl}
-                    alt="University Logo"
-                    style={{ maxWidth: "200px" }}
-                  />
+          <Card
+            className="custom-card h-100"
+            style={{
+              background: "white",
+              border: "1px solid #e2e8f0",
+              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
+              borderRadius: "16px",
+              overflow: "hidden",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)";
+              e.currentTarget.style.boxShadow = "0 20px 40px rgba(0, 0, 0, 0.1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 10px 25px rgba(0, 0, 0, 0.15)";
+            }}
+          >
+            <Card.Body className="p-4">
+              <div className="text-center">
+                <div className="d-flex justify-content-center mb-4">
+                  <div
+                    className="university-logo-container"
+                    style={{
+                      width: "120px",
+                      height: "120px",
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      border: "4px solid #e2e8f0",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "#f8fafc",
+                    }}
+                  >
+                    <img
+                      src={imageUrl}
+                      alt="University Logo"
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
                 </div>
-                <h4 className="fw-bold course_institute mb-4 text-gray-6">
+                <h4
+                  className="fw-bold mb-4"
+                  style={{
+                    color: "#1e293b",
+                    fontSize: "22px",
+                    lineHeight: 1.3,
+                  }}
+                >
                   {selectedItem?.university?.instituteName || "NA"}
                 </h4>
-                <div className="course_institute text-gray-6">
-                  <p>State</p>
-                  <p className="mb-1">
-                    {selectedItem?.university?.state || "NA"}
-                  </p>
+                
+                <div className="d-flex flex-column gap-3 mb-4">
+                  <div
+                    className="p-3 rounded-lg"
+                    style={{
+                      background: "#f1f5f9",
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+                    <p className="mb-1 text-muted small">State</p>
+                    <p className="mb-0 fw-semibold">
+                      {selectedItem?.university?.state || "NA"}
+                    </p>
+                  </div>
+                  
+                  <div
+                    className="p-3 rounded-lg"
+                    style={{
+                      background: "#f1f5f9",
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+                    <p className="mb-1 text-muted small">Country</p>
+                    <p className="mb-0 fw-semibold">
+                      {selectedItem?.university?.country || "NA"}
+                    </p>
+                  </div>
                 </div>
-                <div className="course_institute text-gray-6">
-                  <p>Country</p>
-                  <p className="mb-1">
-                    {selectedItem?.university?.country || "NA"}
-                  </p>
-                </div>
+                
                 <div
-                  className="view_course_institute p-2 mx-4 text-light rounded d-flex align-items-center justify-content-between"
-                  style={{ backgroundColor: "#053880", minHeight: "60px" }}
+                  className="p-3 mb-4 text-light rounded d-flex align-items-center justify-content-between"
+                  style={{
+                    background: "linear-gradient(135deg, #6B5CE7 0%, #7B68EE 100%)",
+                    minHeight: "60px",
+                  }}
                 >
-                  <p className="mb-0">
-                    <strong>Study Level:</strong>
-                  </p>
+                  <p className="mb-0 fw-semibold">Study Level:</p>
                   <OverlayTrigger
                     placement="bottom"
                     overlay={
@@ -137,126 +226,151 @@ const CourseFinderView = () => {
                     >
                       {selectedItem?.studyLevel?.length > 2
                         ? `${selectedItem.studyLevel
-                          .slice(0, 2)
-                          .map((lvl) => lvl.name)
-                          .join(", ")} +${selectedItem.studyLevel.length - 2
-                        } more`
+                            .slice(0, 2)
+                            .map((lvl) => lvl.name)
+                            .join(", ")} +${selectedItem.studyLevel.length - 2
+                          } more`
                         : selectedItem?.studyLevel
-                          ?.map((lvl) => lvl.name)
-                          .join(", ") || "NA"}
+                            ?.map((lvl) => lvl.name)
+                            .join(", ") || "NA"}
                     </div>
                   </OverlayTrigger>
                 </div>
-                <div className="mt-3">
-                  <a
-                    href={selectedItem?.websiteUrl || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary text-decoration-underline"
-                  >
-                    {selectedItem?.websiteUrl}
-                  </a>
-                </div>
+                
+                {selectedItem?.websiteUrl && (
+                  <div className="mt-3">
+                    <a
+                      href={selectedItem?.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary w-100"
+                      style={{
+                        background: "linear-gradient(135deg, #6B5CE7 0%, #7B68EE 100%)",
+                        border: "none",
+                        borderRadius: "8px",
+                        padding: "12px 20px",
+                        fontWeight: "500",
+                        transition: "all 0.2s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = "scale(1.02)";
+                        e.target.style.boxShadow = "0 4px 12px rgba(107, 92, 231, 0.3)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = "scale(1)";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    >
+                      Visit University Website
+                    </a>
+                  </div>
+                )}
               </div>
             </Card.Body>
           </Card>
         </Col>
-        <Col lg={8} md={12} className="text-gray-6">
-          <h5 className="mt-1 mb-3">Program Details</h5>
-          <div className="bg-white p-4 rounded">
-            <h4 className="mb-3">{selectedItem?.programName || "NA"}</h4>
+        <Col lg={8} md={12}>
+          <div className="bg-white p-4 rounded-lg" style={{
+            boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
+            borderRadius: "16px",
+            border: "1px solid #e2e8f0",
+          }}>
+            <h4 
+              className="mb-4 pb-3 border-bottom" 
+              style={{
+                color: "#1e293b",
+                fontSize: "24px",
+                fontWeight: "600",
+              }}
+            >
+              {selectedItem?.programName || "NA"}
+            </h4>
 
-            <Card className="mb-3 text-gray-6">
-              <div className="courseFinder_header_bg p-2">
-                <strong>Program Details</strong>
+            <Card 
+              className="mb-4"
+              style={{
+                border: "1px solid #e2e8f0",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              <div 
+                className="p-3"
+                style={{
+                  background: "linear-gradient(135deg, #6B5CE7 0%, #7B68EE 100%)",
+                  color: "white",
+                }}
+              >
+                <strong style={{fontSize: "18px"}}>Program Details</strong>
               </div>
-              <Card.Body>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Campus</strong>
-                  </Col>
-                  <Col>{selectedItem?.university?.campus?.campus || "NA"}</Col>
+              <Card.Body className="p-4">
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Campus</Col>
+                  <Col md={8}>{selectedItem?.university?.campus?.campus || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Concentration</strong>
-                  </Col>
-                  <Col>{selectedItem?.concentration || "NA"}</Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Concentration</Col>
+                  <Col md={8}>{selectedItem?.concentration || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Intakes</strong>
-                  </Col>
-                  <Col>
-                    <div
-                      style={{
-                        backgroundColor: "#D1FAE5",
-                        padding: "10px",
-                        borderRadius: "5px",
-                        marginBottom: "10px",
-                        color: "#047857",
-                      }}
-                    >
-                      <strong>Active: </strong>
-                      {selectedItem?.intakes && selectedItem.intakes.length > 0
-                        ? selectedItem.intakes
-                          .filter((intake) => intake.status === "Active")
-                          .map((intake) => intake.month)
-                          .join(", ")
-                        : "None"}
-                    </div>
-                    <div
-                      style={{
-                        backgroundColor: "#FECACA",
-                        padding: "10px",
-                        borderRadius: "5px",
-                        color: "#B91C1C",
-                      }}
-                    >
-                      <strong>Inactive: </strong>
-                      {selectedItem?.intakes && selectedItem.intakes.length > 0
-                        ? selectedItem.intakes
-                          .filter((intake) => intake.status === "Inactive")
-                          .map((intake) => intake.month)
-                          .join(", ")
-                        : "None"}
+                
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Intakes</Col>
+                  <Col md={8}>
+                    <div className="d-flex flex-column gap-2">
+                      <div
+                        style={{
+                          backgroundColor: "#D1FAE5",
+                          padding: "12px",
+                          borderRadius: "8px",
+                          color: "#047857",
+                          border: "1px solid #A7F3D0",
+                        }}
+                      >
+                        <strong>Active: </strong>
+                        {selectedItem?.intakes && selectedItem.intakes.length > 0
+                          ? selectedItem.intakes
+                              .filter((intake) => intake.status === "Active")
+                              .map((intake) => intake.month)
+                              .join(", ")
+                          : "None"}
+                      </div>
+                      <div
+                        style={{
+                          backgroundColor: "#FECACA",
+                          padding: "12px",
+                          borderRadius: "8px",
+                          color: "#B91C1C",
+                          border: "1px solid #FCA5A5",
+                        }}
+                      >
+                        <strong>Inactive: </strong>
+                        {selectedItem?.intakes && selectedItem.intakes.length > 0
+                          ? selectedItem.intakes
+                              .filter((intake) => intake.status === "Inactive")
+                              .map((intake) => intake.month)
+                              .join(", ")
+                          : "None"}
+                      </div>
                     </div>
                   </Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Intake Years</strong>
-                  </Col>
-                  <Col>{selectedItem?.intakeYear?.join(", ") || "NA"}</Col>
+                
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Intake Years</Col>
+                  <Col md={8}>{selectedItem?.intakeYear?.join(", ") || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Duration</strong>
-                  </Col>
-                  <Col>{selectedItem?.duration || "NA"}</Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Duration</Col>
+                  <Col md={8}>{selectedItem?.duration || "NA"}</Col>
                 </Row>
-                {/* <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Study Level</strong>
-                  </Col>
-                  <Col>
-                    {" "}
-                    {selectedItem?.studyLevel
-                      ?.map((lvl) => lvl.name)
-                      .join(", ") || "NA"}
-                  </Col>
-                </Row> */}
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Entry Requirements</strong>
-                  </Col>
-                  <Col>{selectedItem?.entryRequirements || "NA"}</Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Entry Requirements</Col>
+                  <Col md={8}>{selectedItem?.entryRequirements || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Application Start Dates</strong>
-                  </Col>
-                  <Col>
+                
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Application Start Dates</Col>
+                  <Col md={8}>
                     {Array.isArray(selectedItem?.applicationStartDate) &&
                       selectedItem.applicationStartDate.length > 0
                       ? selectedItem.applicationStartDate.join(", ")
@@ -264,11 +378,9 @@ const CourseFinderView = () => {
                   </Col>
                 </Row>
 
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Application End Dates</strong>
-                  </Col>
-                  <Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Application End Dates</Col>
+                  <Col md={8}>
                     {Array.isArray(selectedItem?.applicationEndDate) &&
                       selectedItem.applicationEndDate.length > 0
                       ? selectedItem.applicationEndDate.join(", ")
@@ -276,176 +388,99 @@ const CourseFinderView = () => {
                   </Col>
                 </Row>
 
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Application Fee</strong>
-                  </Col>
-                  <Col>
-                    {selectedItem.applicationFee &&
-                      selectedItem.currencyCode ? (
-                      <>
-                        {getSymbolFromCurrency(selectedItem.currencyCode) ||
-                          selectedItem.currencyCode}
-                        &nbsp;
-                        {new Intl.NumberFormat().format(
-                          Number(
-                            String(selectedItem.applicationFee).replace(
-                              /,/g,
-                              ""
-                            )
-                          )
-                        )}
-                      </>
-                    ) : selectedItem.applicationFee ? (
-                      new Intl.NumberFormat().format(
-                        Number(
-                          String(selectedItem.applicationFee).replace(/,/g, "")
-                        )
-                      )
-                    ) : (
-                      "N/A"
-                    )}
-                  </Col>
-                </Row>
-
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Yearly Tuition Fee</strong>
-                  </Col>
-                  <Col>
-                    {selectedItem.yearlyTuitionFee &&
-                      selectedItem.currencyCode ? (
-                      <>
-                        {getSymbolFromCurrency(selectedItem.currencyCode) ||
-                          selectedItem.currencyCode}
-                        &nbsp;
-                        {new Intl.NumberFormat().format(
-                          Number(
-                            String(selectedItem.yearlyTuitionFee)?.replace(
-                              /,/g,
-                              ""
-                            )
-                          )
-                        )}
-                      </>
-                    ) : selectedItem.yearlyTuitionFee ? (
-                      new Intl.NumberFormat().format(
-                        Number(
-                          String(selectedItem.yearlyTuitionFee)?.replace(
-                            /,/g,
-                            ""
-                          )
-                        )
-                      )
-                    ) : (
-                      "N/A"
-                    )}
-                  </Col>
-                </Row>
-                {/* <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Yearly Tuition Fee</strong>
-                  </Col>
-                  <Col>
-                    <span
-                      className="span-2"
-                      style={{
-                        position: "relative",
-                        display: "inline-block",
-                      }}
-                    >
-                      {selectedItem.yearlyTuitionFee &&
-                      selectedItem.currencyCode ? (
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Application Fee</Col>
+                  <Col md={8}>
+                    <div className="p-2 rounded" style={{background: "#f1f5f9"}}>
+                      {selectedItem.applicationFee &&
+                        selectedItem.currencyCode ? (
                         <>
                           {getSymbolFromCurrency(selectedItem.currencyCode) ||
                             selectedItem.currencyCode}
                           &nbsp;
                           {new Intl.NumberFormat().format(
                             Number(
-                              String(selectedItem.yearlyTuitionFee).replace(
-                                /,/g,
-                                ""
-                              )
-                            )
-                          )}
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={
-                              <Tooltip>
-                                {getINRValue(
-                                  selectedItem.yearlyTuitionFee,
-                                  selectedItem.currencyCode
-                                )}
-                              </Tooltip>
-                            }
-                          >
-                            <span
-                              style={{
-                                position: "absolute",
-                                top: "-10px",
-                                right: "-5px",
-                                cursor: "pointer",
-                              }}
-                            >
-                              <img
-                                src={ALLImages("course1")}
-                                height="15px"
-                                width="15px"
-                                style={{ marginBottom: "15px" }}
-                                alt=""
-                              />
-                            </span>
-                          </OverlayTrigger>
-                        </>
-                      ) : selectedItem.yearlyTuitionFee ? (
-                        <>
-                          {new Intl.NumberFormat().format(
-                            Number(
-                              String(selectedItem.yearlyTuitionFee).replace(
+                              String(selectedItem.applicationFee).replace(
                                 /,/g,
                                 ""
                               )
                             )
                           )}
                         </>
+                      ) : selectedItem.applicationFee ? (
+                        new Intl.NumberFormat().format(
+                          Number(
+                            String(selectedItem.applicationFee).replace(/,/g, "")
+                          )
+                        )
                       ) : (
                         "N/A"
                       )}
-                    </span>
+                    </div>
                   </Col>
-                </Row> */}
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Website URL</strong>
-                  </Col>
-                  <Col>
-                    <strong>
-                      {selectedItem?.websiteUrl ? (
-                        <a
-                          href={selectedItem.websiteUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary"
-                        >
-                          {selectedItem.websiteUrl}
-                        </a>
+                </Row>
+
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Yearly Tuition Fee</Col>
+                  <Col md={8}>
+                    <div className="p-2 rounded" style={{background: "#f1f5f9"}}>
+                      {selectedItem.yearlyTuitionFee &&
+                        selectedItem.currencyCode ? (
+                        <>
+                          {getSymbolFromCurrency(selectedItem.currencyCode) ||
+                            selectedItem.currencyCode}
+                          &nbsp;
+                          {new Intl.NumberFormat().format(
+                            Number(
+                              String(selectedItem.yearlyTuitionFee)?.replace(
+                                /,/g,
+                                ""
+                              )
+                            )
+                          )}
+                        </>
+                      ) : selectedItem.yearlyTuitionFee ? (
+                        new Intl.NumberFormat().format(
+                          Number(
+                            String(selectedItem.yearlyTuitionFee)?.replace(
+                              /,/g,
+                              ""
+                            )
+                          )
+                        )
                       ) : (
-                        <span>NA</span>
+                        "N/A"
                       )}
-                    </strong>
+                    </div>
                   </Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Study Area</strong>
+                
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Website URL</Col>
+                  <Col md={8}>
+                    {selectedItem?.websiteUrl ? (
+                      <a
+                        href={selectedItem.websiteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary fw-semibold"
+                        style={{textDecoration: "underline"}}
+                      >
+                        {selectedItem.websiteUrl}
+                      </a>
+                    ) : (
+                      <span>NA</span>
+                    )}
                   </Col>
-                  <Col>{selectedItem?.studyArea || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Discipline Area</strong>
-                  </Col>
-                  <Col>
+                
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Study Area</Col>
+                  <Col md={8}>{selectedItem?.studyArea || "NA"}</Col>
+                </Row>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Discipline Area</Col>
+                  <Col md={8}>
                     {selectedItem?.disciplineArea?.length > 0
                       ? Array.isArray(selectedItem.disciplineArea)
                         ? selectedItem.disciplineArea.join(", ")
@@ -453,11 +488,9 @@ const CourseFinderView = () => {
                       : "N/A"}
                   </Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Career Details</strong>
-                  </Col>
-                  <Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Career Details</Col>
+                  <Col md={8}>
                     {selectedItem?.career && selectedItem.career.length > 0
                       ? Array.isArray(selectedItem.career)
                         ? selectedItem.career.join(", ")
@@ -465,90 +498,110 @@ const CourseFinderView = () => {
                       : "N/A"}
                   </Col>
                 </Row>
-
               </Card.Body>
             </Card>
 
-            <Card className="mb-3 text-gray-6">
-              <div className="courseFinder_header_bg p-2">
-                <strong>Requirements</strong>
+            <Card 
+              className="mb-4"
+              style={{
+                border: "1px solid #e2e8f0",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              <div 
+                className="p-3"
+                style={{
+                  background: "linear-gradient(135deg, #6B5CE7 0%, #7B68EE 100%)",
+                  color: "white",
+                }}
+              >
+                <strong style={{fontSize: "18px"}}>Requirements</strong>
               </div>
-              <Card.Body>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Exam</strong>
-                  </Col>
-                  <Col>
+              <Card.Body className="p-4">
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Exam</Col>
+                  <Col md={8}>
                     {selectedItem?.requirements
                       .map((req) => req.name)
                       .join(", ") || "NA"}
                   </Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Criteria</strong>
-                  </Col>
-                  <Col>{selectedItem?.criteria || "NA"}</Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Criteria</Col>
+                  <Col md={8}>{selectedItem?.criteria || "NA"}</Col>
                 </Row>
               </Card.Body>
             </Card>
 
-            <Card className="mb-3 text-gray-6">
-              <div className="courseFinder_header_bg p-2">
-                <strong>Additional Info</strong>
+            <Card 
+              className="mb-4"
+              style={{
+                border: "1px solid #e2e8f0",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              <div 
+                className="p-3"
+                style={{
+                  background: "linear-gradient(135deg, #6B5CE7 0%, #7B68EE 100%)",
+                  color: "white",
+                }}
+              >
+                <strong style={{fontSize: "18px"}}>Additional Info</strong>
               </div>
-              <Card.Body>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Scholarship Available</strong>
-                  </Col>
-                  <Col>{selectedItem?.scholarshipAvailable || "NA"}</Col>
+              <Card.Body className="p-4">
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Scholarship Available</Col>
+                  <Col md={8}>{selectedItem?.scholarshipAvailable || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Scholarship Details</strong>
-                  </Col>
-                  <Col>{selectedItem?.scholarshipDetails || "NA"}</Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Scholarship Details</Col>
+                  <Col md={8}>{selectedItem?.scholarshipDetails || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>SchESL/ELP Available</strong>
-                  </Col>
-                  <Col>{selectedItem?.eslElpAvailable || "NA"}</Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">ESL/ELP Available</Col>
+                  <Col md={8}>{selectedItem?.eslElpAvailable || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>ESL/ELP Details</strong>
-                  </Col>
-                  <Col>{selectedItem?.eslElpDetails || "NA"}</Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">ESL/ELP Details</Col>
+                  <Col md={8}>{selectedItem?.eslElpDetails || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Application Mode</strong>
-                  </Col>
-                  <Col>{selectedItem?.applicationMode || "NA"}</Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Application Mode</Col>
+                  <Col md={8}>{selectedItem?.applicationMode || "NA"}</Col>
                 </Row>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>English Exam Waiver</strong>
-                  </Col>
-                  <Col>
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">English Exam Waiver</Col>
+                  <Col md={8}>
                     {selectedItem?.englishProficiencyExamWaiver || "NA"}
                   </Col>
                 </Row>
               </Card.Body>
             </Card>
 
-            <Card className="mb-3 text-gray-6">
-              <div className="courseFinder_header_bg p-2">
-                <strong>Remarks & Admin</strong>
+            <Card 
+              className="mb-4"
+              style={{
+                border: "1px solid #e2e8f0",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              <div 
+                className="p-3"
+                style={{
+                  background: "linear-gradient(135deg, #6B5CE7 0%, #7B68EE 100%)",
+                  color: "white",
+                }}
+              >
+                <strong style={{fontSize: "18px"}}>Remarks & Admin</strong>
               </div>
-              <Card.Body>
-                <Row className="mb-2">
-                  <Col md={3}>
-                    <strong>Remarks</strong>
-                  </Col>
-                  <Col>{selectedItem?.remarks || "NA"}</Col>
+              <Card.Body className="p-4">
+                <Row className="mb-3">
+                  <Col md={4} className="fw-semibold text-muted">Remarks</Col>
+                  <Col md={8}>{selectedItem?.remarks || "NA"}</Col>
                 </Row>
               </Card.Body>
             </Card>
