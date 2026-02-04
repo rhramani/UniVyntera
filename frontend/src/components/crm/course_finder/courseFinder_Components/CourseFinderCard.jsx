@@ -387,7 +387,7 @@ const CourseFinderCard = ({
                             className="card h-100 border-0 course_card"
                             style={{
                               position: "relative",
-                              background: "white",
+                              background: "#fff",
                               borderRadius: "16px",
                               overflow: "hidden",
                               boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
@@ -484,23 +484,94 @@ const CourseFinderCard = ({
                                       </div>
                                     )}
                                   {canCreate && (
-                                    <IconButton
-                                      aria-label="more"
-                                      aria-controls={`menu-${index}`}
-                                      aria-haspopup="true"
-                                      onClick={(e) => {
-                                        setOpenDropdown(
-                                          openDropdown === index ? null : index,
-                                        );
-                                        setAnchorEl(e.currentTarget);
-                                      }}
-                                      style={{
-                                        color: "#64748b",
-                                        padding: "8px",
+                                    <>
+                                      <IconButton
+                                        aria-label="more"
+                                        aria-controls={`menu-${index}`}
+                                        aria-haspopup="true"
+                                        onClick={(e) => {
+                                          setOpenDropdown(
+                                            openDropdown === index ? null : index,
+                                          );
+                                          setAnchorEl(e.currentTarget);
+                                        }}
+                                        style={{
+                                          color: "#64748b",
+                                          padding: "8px",
+                                        }}
+                                      >
+                                        <MoreVertIcon className="three-dots-icon" />
+                                      </IconButton>
+                                      <Menu
+                                    id={`menu-${index}`}
+                                    anchorEl={anchorEl}
+                                    open={openDropdown === index}
+                                    onClose={() => setOpenDropdown(null)}
+                                    MenuListProps={{
+                                      "aria-labelledby": `menu-${index}`,
+                                    }}
+                                    sx={{
+                                      "& .MuiPaper-root": {
+                                        minWidth: "150px",
+                                        boxShadow:
+                                          "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                                      },
+                                    }}
+                                  >
+                                    {canUpdate && (
+                                      <MenuItem
+                                        key="edit"
+                                        onClick={() => {
+                                          handleEdit(item);
+                                          setOpenDropdown(null);
+                                        }}
+                                      >
+                                        <EditIcon
+                                          fontSize="small"
+                                          sx={{ mr: 1 }}
+                                          className="edit-icon"
+                                        />
+                                        <span className="edit-action-text">
+                                          Edit
+                                        </span>
+                                      </MenuItem>
+                                    )}
+                                    {canDelete && (
+                                      <MenuItem
+                                        key="delete"
+                                        onClick={() => {
+                                          setSelectedItem(item);
+                                          setShowDeleteModal(true);
+                                          setOpenDropdown(null);
+                                        }}
+                                      >
+                                        <DeleteIcon
+                                          fontSize="small"
+                                          sx={{ mr: 1 }}
+                                          className="delete-icon"
+                                        />
+                                        <span className="delete-action-text">
+                                          Delete
+                                        </span>
+                                      </MenuItem>
+                                    )}
+                                    <MenuItem
+                                      onClick={() => {
+                                        handleView(item);
+                                        setOpenDropdown(null);
                                       }}
                                     >
-                                      <MoreVertIcon className="three-dots-icon" />
-                                    </IconButton>
+                                      <VisibilityIcon
+                                        fontSize="small"
+                                        sx={{ mr: 1 }}
+                                        className="view-icon"
+                                      />
+                                      <span className="view-action-text">
+                                        View
+                                      </span>
+                                    </MenuItem>
+                                  </Menu>
+                                    </>
                                   )}
                                 </div>
                               </div>
