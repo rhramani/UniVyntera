@@ -143,7 +143,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
       if (studentData?.country) {
         const selectedCountry = responseData.find(
           (c) =>
-            c.name === studentData.country || c.isoCode === studentData.country
+            c.name === studentData.country || c.isoCode === studentData.country,
         );
         if (selectedCountry) {
           await handleCountryChange(selectedCountry.isoCode);
@@ -163,7 +163,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
       setCityDropDownList([]);
 
       const selectedCountry = countries.find(
-        (c) => c.isoCode === countryIsoCode
+        (c) => c.isoCode === countryIsoCode,
       );
       if (!selectedCountry) return;
 
@@ -173,7 +173,8 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
 
       if (studentData?.state && countryIsoCode === formik.values.country) {
         const selectedState = data.find(
-          (s) => s.name === studentData.state || s.isoCode === studentData.state
+          (s) =>
+            s.name === studentData.state || s.isoCode === studentData.state,
         );
         if (selectedState) {
           formik.setFieldValue("state", selectedState.isoCode);
@@ -197,12 +198,12 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
 
       if (studentData?.city && stateIsoCode === formik.values.state) {
         const selectedCity = data.find(
-          (c) => (typeof c === "string" ? c : c.name) === studentData.city
+          (c) => (typeof c === "string" ? c : c.name) === studentData.city,
         );
         if (selectedCity) {
           formik.setFieldValue(
             "city",
-            typeof selectedCity === "string" ? selectedCity : selectedCity.name
+            typeof selectedCity === "string" ? selectedCity : selectedCity.name,
           );
         } else {
           formik.setFieldValue("city", studentData.city);
@@ -219,7 +220,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
 
   useEffect(() => {
     if (oneStudentData?._id) {
-      setStudentData(oneStudentData); 
+      setStudentData(oneStudentData);
       fetchStudentData(oneStudentData._id);
     }
   }, [oneStudentData]);
@@ -262,10 +263,10 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
       try {
         toast.dismiss();
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         if (canUpdate) {
@@ -277,7 +278,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
           };
 
           const res = await dispatch(
-            updateStudentApplication(payload, studentData?._id)
+            updateStudentApplication(payload, studentData?._id),
           );
 
           if (res?.status === 200) {
@@ -340,23 +341,23 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
           payload.append("coachingExamUpdate[examName]", values.examName);
           payload.append(
             "coachingExamUpdate[scores][reading]",
-            values.scores.reading || ""
+            values.scores.reading || "",
           );
           payload.append(
             "coachingExamUpdate[scores][writing]",
-            values.scores.writing || ""
+            values.scores.writing || "",
           );
           payload.append(
             "coachingExamUpdate[scores][speaking]",
-            values.scores.speaking || ""
+            values.scores.speaking || "",
           );
           payload.append(
             "coachingExamUpdate[scores][listening]",
-            values.scores.listening || ""
+            values.scores.listening || "",
           );
           payload.append(
             "coachingExamUpdate[scores][total]",
-            values.scores.total || ""
+            values.scores.total || "",
           );
           if (values.scoreFile) {
             payload.append("coachingDoc", values.scoreFile);
@@ -365,23 +366,23 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
           payload.append("coachingExamDetails[examName]", values.examName);
           payload.append(
             "coachingExamDetails[scores][reading]",
-            values.scores.reading || ""
+            values.scores.reading || "",
           );
           payload.append(
             "coachingExamDetails[scores][writing]",
-            values.scores.writing || ""
+            values.scores.writing || "",
           );
           payload.append(
             "coachingExamDetails[scores][speaking]",
-            values.scores.speaking || ""
+            values.scores.speaking || "",
           );
           payload.append(
             "coachingExamDetails[scores][listening]",
-            values.scores.listening || ""
+            values.scores.listening || "",
           );
           payload.append(
             "coachingExamDetails[scores][total]",
-            values.scores.total || ""
+            values.scores.total || "",
           );
           if (values.scoreFile) {
             payload.append("coachingDoc", values.scoreFile);
@@ -389,13 +390,13 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
         }
 
         const res = await dispatch(
-          updateStudentApplication(payload, studentData?._id)
+          updateStudentApplication(payload, studentData?._id),
         );
         if (res?.status === 200) {
           toast.success(
             edit.examDetails
               ? "Exam updated successfully!"
-              : "Exam added successfully!"
+              : "Exam added successfully!",
           );
           await fetchStudentData(studentData?._id);
           setShowExamModal(false);
@@ -409,7 +410,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
       } catch (error) {
         console.error("Error updating exam details:", error);
         toast.error(
-          error?.response?.data?.message || "Failed to update exam details"
+          error?.response?.data?.message || "Failed to update exam details",
         );
       } finally {
         setIsLoading(false);
@@ -421,7 +422,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
     try {
       const payload = { coachingExamId };
       const res = await dispatch(
-        deleteStudentApplication(payload, studentData?._id)
+        deleteStudentApplication(payload, studentData?._id),
       );
       if (res?.status === 200) {
         toast.success("Exam deleted successfully!");
@@ -472,7 +473,11 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
               fontSize: "14px",
             }}
             onClick={() =>
-              window.open(`${BASEURL}/${item.document}`, "_blank", "noopener,noreferrer")
+              window.open(
+                `${BASEURL}/${item.document}`,
+                "_blank",
+                "noopener,noreferrer",
+              )
             }
           >
             <VisibilityIcon className="me-1" style={{ fontSize: "16px" }} />
@@ -485,7 +490,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
   ];
 
   return (
-    <div className="my-4 student-info-container">
+    <div className="student-info-section">
       {isLoading && (
         <div
           style={{
@@ -505,111 +510,221 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
         </div>
       )}
 
-      <Row>
-        <div className="d-flex justify-content-between mb-3">
-          <h3 className="text-primary">{studentData?.name}{" "}
-  ({studentData?.studentId || "N/A"})</h3>
-          <div className="d-flex align-items-center gap-3">
-            {(canUpdate || canCreate) && (
-              <Button
-                variant="primary"
-                className="custom-select-height"
-                onClick={() => setShow(true)}
+      {/* Styled Student Info Card */}
+      <div className="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 mt-2">
+        <div className="form-main-heading d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center p-3 gap-3">
+          <div className="d-flex flex-wrap align-items-center gap-2">
+            <h5 className="mb-0 text-white fw-bold">
+              Coaching Student Information
+            </h5>
+            {studentData?.studentId && (
+              <span
+                className="badge bg-white text-primary rounded-pill px-3 py-2 shadow-sm"
+                style={{ fontSize: "0.8rem" }}
               >
-                <EditIcon style={{ fontSize: "16px" }} /> Edit Profile
-              </Button>
+                ID: {studentData.studentId}
+              </span>
             )}
           </div>
+          {(canUpdate || canCreate) && (
+            <Button
+              variant="white"
+              className="btn-sm rounded-pill px-4 py-2 fw-bold text-primary shadow-sm bg-white border-0 hover-lift"
+              onClick={() => setShow(true)}
+              style={{ transition: "all 0.2s", whiteSpace: "nowrap" }}
+            >
+              <EditIcon style={{ fontSize: "16px" }} className="me-1 mb-1" />{" "}
+              Edit Profile
+            </Button>
+          )}
         </div>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <BadgeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#0288D1", fontSize: "20px" }}
-            />
-            <strong className="info-label">Name</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {studentData?.name || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <EmailIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#FB8C00", fontSize: "20px" }}
-            />
-            <strong className="info-label">Email</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {studentData?.email || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <PhoneIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#34A853", fontSize: "20px" }}
-            />
-            <strong className="info-label">Mobile Number</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {studentData?.contact || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <CakeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#FB8C00", fontSize: "20px" }}
-            />
-            <strong className="info-label">DOB</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {formatDate(parseDate(studentData?.DOB)) || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <PublicIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#EA4335", fontSize: "20px" }}
-            />
-            <strong className="info-label">Country</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {studentData?.country || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <LocationCityIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#6C757D", fontSize: "20px" }}
-            />
-            <strong className="info-label">City</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {studentData?.city || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <HomeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#5E35B1", fontSize: "20px" }}
-            />
-            <strong className="info-label">Address</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {studentData?.address || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <SportsScoreIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#9C27B0", fontSize: "20px" }}
-            />
-            <strong className="info-label">Targeted Score</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {studentData?.coachingDetails?.targetedScore || "N/A"}
-          </p>
-        </Col>
-      </Row>
+
+        <div className="card-body p-3 p-sm-4 bg-white">
+          <Row className="g-4">
+            <Col md={6} lg={4}>
+              <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
+                <div
+                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-primary d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px" }}
+                >
+                  <BadgeIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="flex-grow-1 min-width-0">
+                  <div
+                    className="text-muted small fw-bold text-uppercase mb-1"
+                    style={{ letterSpacing: "0.5px" }}
+                  >
+                    Full Name
+                  </div>
+                  <div className="fw-bold text-dark text-truncate fs-6">
+                    {studentData?.name || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4}>
+              <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
+                <div
+                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-warning d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px" }}
+                >
+                  <EmailIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="flex-grow-1 min-width-0">
+                  <div
+                    className="text-muted small fw-bold text-uppercase mb-1"
+                    style={{ letterSpacing: "0.5px" }}
+                  >
+                    Email Address
+                  </div>
+                  <div
+                    className="fw-bold text-dark text-truncate fs-6"
+                    title={studentData?.email}
+                  >
+                    {studentData?.email || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4}>
+              <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
+                <div
+                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-success d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px" }}
+                >
+                  <PhoneIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="flex-grow-1 min-width-0">
+                  <div
+                    className="text-muted small fw-bold text-uppercase mb-1"
+                    style={{ letterSpacing: "0.5px" }}
+                  >
+                    Mobile Number
+                  </div>
+                  <div className="fw-bold text-dark fs-6">
+                    {studentData?.contact || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4}>
+              <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
+                <div
+                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-info d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px" }}
+                >
+                  <CakeIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="flex-grow-1 min-width-0">
+                  <div
+                    className="text-muted small fw-bold text-uppercase mb-1"
+                    style={{ letterSpacing: "0.5px" }}
+                  >
+                    Date of Birth
+                  </div>
+                  <div className="fw-bold text-dark fs-6">
+                    {formatDate(parseDate(studentData?.DOB)) || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4}>
+              <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
+                <div
+                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-danger d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px" }}
+                >
+                  <PublicIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="flex-grow-1 min-width-0">
+                  <div
+                    className="text-muted small fw-bold text-uppercase mb-1"
+                    style={{ letterSpacing: "0.5px" }}
+                  >
+                    Country
+                  </div>
+                  <div className="fw-bold text-dark text-truncate fs-6">
+                    {studentData?.country || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4}>
+              <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
+                <div
+                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-secondary d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px" }}
+                >
+                  <LocationCityIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="flex-grow-1 min-width-0">
+                  <div
+                    className="text-muted small fw-bold text-uppercase mb-1"
+                    style={{ letterSpacing: "0.5px" }}
+                  >
+                    City
+                  </div>
+                  <div className="fw-bold text-dark fs-6">
+                    {studentData?.city || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4}>
+              <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
+                <div
+                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-dark d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px" }}
+                >
+                  <HomeIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="flex-grow-1 min-width-0">
+                  <div
+                    className="text-muted small fw-bold text-uppercase mb-1"
+                    style={{ letterSpacing: "0.5px" }}
+                  >
+                    Permanent Address
+                  </div>
+                  <div
+                    className="fw-bold text-dark fs-6 text-truncate"
+                    title={studentData?.address}
+                  >
+                    {studentData?.address || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4}>
+              <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
+                <div
+                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px", color: "#9C27B0" }}
+                >
+                  <SportsScoreIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="flex-grow-1 min-width-0">
+                  <div
+                    className="text-muted small fw-bold text-uppercase mb-1"
+                    style={{ letterSpacing: "0.5px" }}
+                  >
+                    Targeted Score
+                  </div>
+                  <div className="fw-bold text-dark fs-6">
+                    {studentData?.coachingDetails?.targetedScore || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </div>
 
       <div className="my-4 p-4 bg-light rounded shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
@@ -693,7 +808,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                     onChange={(event) => {
                       examFormik.setFieldValue(
                         "scoreFile",
-                        event.currentTarget.files[0]
+                        event.currentTarget.files[0],
                       );
                     }}
                     onBlur={examFormik.handleBlur}
@@ -729,7 +844,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                           </div>
                         )}
                     </Col>
-                  )
+                  ),
                 )}
               </Row>
               <div className="text-end mt-4">
@@ -856,7 +971,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                       const dialCode = data.dialCode ? `+${data.dialCode}` : "";
                       const formattedPhone = `${dialCode} ${phone.replace(
                         data.dialCode,
-                        ""
+                        "",
                       )}`.trim();
                       formik.setFieldValue("contact", formattedPhone);
                     }
@@ -965,7 +1080,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                   onChange={(selectedOption) => {
                     formik.setFieldValue(
                       "gender",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                   }}
                   onBlur={formik.handleBlur}
@@ -1014,7 +1129,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                           value: formik.values.country,
                           label:
                             countries.find(
-                              (c) => c.isoCode === formik.values.country
+                              (c) => c.isoCode === formik.values.country,
                             )?.name ||
                             studentData?.country ||
                             "",
@@ -1065,7 +1180,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                           value: formik.values.state,
                           label:
                             stateDropDown.find(
-                              (s) => s.isoCode === formik.values.state
+                              (s) => s.isoCode === formik.values.state,
                             )?.name ||
                             studentData?.state ||
                             "",
@@ -1077,7 +1192,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                       formik.setFieldValue("state", selectedOption.value);
                       handleStateChange(
                         formik.values.country,
-                        selectedOption.value
+                        selectedOption.value,
                       );
                       formik.setFieldError("state", "");
                     } else {

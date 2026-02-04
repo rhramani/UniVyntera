@@ -25,7 +25,7 @@ const AttendanceHistoryModal = ({
   selectedStudent,
 }) => {
   const [attendanceStartDate, setAttendanceStartDate] = useState(
-    getMondayOfWeek(new Date())
+    getMondayOfWeek(new Date()),
   );
   const [showCalendar, setShowCalendar] = useState(false);
   const dateRangeRef = useRef(null);
@@ -67,7 +67,7 @@ const AttendanceHistoryModal = ({
 
   const getAttendanceStatus = (student, date) => {
     const record = attendanceData?.find(
-      (r) => r?.student === student && r?.date === date
+      (r) => r?.student === student && r?.date === date,
     );
     return record || { status: null, remark: "" };
   };
@@ -247,7 +247,7 @@ const AttendanceHistoryModal = ({
                     const dateString = date.toISOString().split("T")[0];
                     const { status, remark } = getAttendanceStatus(
                       selectedStudent?._id,
-                      dateString
+                      dateString,
                     );
                     const isToday =
                       date.toDateString() === new Date().toDateString();
@@ -291,7 +291,7 @@ const AttendanceHistoryModal = ({
             </Table>
           ) : (
             <div className="text-center py-5">
-              No attendance data available for this student
+              No att{/* endance data available for this student */}
             </div>
           )}
           {/* Legend */}

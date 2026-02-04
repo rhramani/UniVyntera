@@ -11,7 +11,7 @@ const CoachingTabs = ({
 }) => {
   const personalPermissions = usePermissions(
     "Student Applications",
-    "Personal Details"
+    "Personal Details",
   );
 
   const personalSections = [
@@ -68,37 +68,49 @@ const CoachingTabs = ({
   }, [selectedPersonalSection]);
 
   return (
-    <Row>
-      <Col className="d-flex justify-content-between align-items-center">
+    <Row className="mb-4">
+      <Col>
         <div
-          className="w-100 d-flex flex-column position-relative"
+          className="w-100 d-flex flex-column position-relative shadow-sm"
           style={{
-            padding: "15px 20px",
+            padding: "10px",
             backgroundColor: "#fff",
-            borderRadius: "10px",
-            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.05)",
+            borderRadius: "15px",
+            border: "1px solid #f0f0f0",
           }}
         >
-          <div className="d-flex align-items-center position-relative gap-2">
+          <div className="d-flex align-items-center position-relative">
             {showLeftArrow && (
               <div
                 onClick={scrollLeft}
-                style={{ cursor: "pointer", padding: "0 10px" }}
+                className="d-flex align-items-center justify-content-center shadow-sm"
+                style={{
+                  cursor: "pointer",
+                  width: "32px",
+                  height: "32px",
+                  backgroundColor: "#fff",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  left: "5px",
+                  zIndex: 10,
+                  border: "1px solid #eee",
+                }}
               >
                 <ArrowBackIosNewIcon
-                  style={{ fontSize: "20px", color: "#053880" }}
+                  style={{ fontSize: "14px", color: "#053880" }}
                 />
               </div>
             )}
 
             <div
               ref={scrollContainerRef}
-              className="d-flex scroll-container"
+              className="d-flex scroll-container py-1 px-2"
               style={{
                 overflowX: "auto",
                 whiteSpace: "nowrap",
                 flex: 1,
                 scrollbarWidth: "none",
+                gap: "10px",
               }}
             >
               <style>
@@ -106,44 +118,64 @@ const CoachingTabs = ({
                     .scroll-container::-webkit-scrollbar {
                       display: none;
                     }
+                    .tab-item {
+                      transition: all 0.2s ease;
+                      border: 1px solid transparent;
+                    }
+                    .tab-item:hover:not(.active) {
+                      background-color: #f8f9fa !important;
+                      color: #053880 !important;
+                    }
                   `}
               </style>
               {personalSections.map((section) => (
-                <span
+                <div
                   key={section.key}
                   onClick={() => onPersonalSectionSelect(section.key)}
+                  className={`tab-item px-4 py-2 rounded-pill cursor-pointer ${
+                    selectedPersonalSection === section.key
+                      ? "active shadow-sm"
+                      : ""
+                  }`}
                   style={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     fontWeight:
-                      selectedPersonalSection === section.key ? "600" : "400",
+                      selectedPersonalSection === section.key ? "700" : "500",
+                    backgroundColor:
+                      selectedPersonalSection === section.key
+                        ? "#053880"
+                        : "transparent",
                     color:
                       selectedPersonalSection === section.key
-                        ? "#053880"
-                        : "#000000",
-                    textDecoration: "underline",
-                    textDecorationColor:
-                      selectedPersonalSection === section.key
-                        ? "#053880"
-                        : "#d0d0d0",
-                    textDecorationThickness: "2px",
-                    textUnderlineOffset: "4px",
+                        ? "#ffffff"
+                        : "#6c757d",
                     cursor: "pointer",
-                    padding: "8px 15px",
                     display: "inline-block",
                   }}
                 >
                   {section.label}
-                </span>
+                </div>
               ))}
             </div>
 
             {showRightArrow && (
               <div
                 onClick={scrollRight}
-                style={{ cursor: "pointer", padding: "0 10px" }}
+                className="d-flex align-items-center justify-content-center shadow-sm"
+                style={{
+                  cursor: "pointer",
+                  width: "32px",
+                  height: "32px",
+                  backgroundColor: "#fff",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  right: "5px",
+                  zIndex: 10,
+                  border: "1px solid #eee",
+                }}
               >
                 <ArrowForwardIosIcon
-                  style={{ fontSize: "20px", color: "#053880" }}
+                  style={{ fontSize: "14px", color: "#053880" }}
                 />
               </div>
             )}

@@ -225,7 +225,7 @@ const CoachingDetails = () => {
             : "");
 
       const res = await dispatch(
-        getAllCoachingFaculty(1, 1000, "", "", showAll, finalBranchId)
+        getAllCoachingFaculty(1, 1000, "", "", showAll, finalBranchId),
       );
       const facultyData = res?.data?.data?.data || [];
       const options = facultyData.map((faculty) => ({
@@ -305,7 +305,7 @@ const CoachingDetails = () => {
       const plans = res?.data?.data?.data || [];
 
       const admissionPlan = plans.find(
-        (plan) => plan.name.toLowerCase() === "coaching"
+        (plan) => plan.name.toLowerCase() === "coaching",
       );
 
       if (admissionPlan?._id && id) {
@@ -351,7 +351,7 @@ const CoachingDetails = () => {
       remarkHistory: Yup.array().of(
         Yup.object({
           remark: Yup.string().required("Remark is required"),
-        })
+        }),
       ),
     }),
     onSubmit: async (values) => {
@@ -376,7 +376,7 @@ const CoachingDetails = () => {
           toast.success(
             edit.remarkDetails
               ? "Remark updated successfully!"
-              : "Remark added successfully!"
+              : "Remark added successfully!",
           );
           await fetchOneStudentDetails();
           setShowRemarkModal(false);
@@ -445,17 +445,17 @@ const CoachingDetails = () => {
           payload.append("mockTestId", editMockTest.mockTestId);
           payload.append(
             "mockTestUpdate[testDate]",
-            testDate ? toISODate(testDate) : ""
+            testDate ? toISODate(testDate) : "",
           );
 
           payload.append("mockTestDetails[branch]", values.branch || null);
           payload.append(
             "mockTestUpdate[faculty]",
-            values.faculty?.value || ""
+            values.faculty?.value || "",
           );
           payload.append(
             "mockTestUpdate[AssmtDate]",
-            assmtDate ? toISODate(assmtDate) : ""
+            assmtDate ? toISODate(assmtDate) : "",
           );
           payload.append("mockTestUpdate[testAssmt]", values.testAssmt);
           payload.append("mockTestUpdate[reading]", values.reading || "");
@@ -469,16 +469,16 @@ const CoachingDetails = () => {
         } else {
           payload.append(
             "mockTestDetails[testDate]",
-            testDate ? toISODate(testDate) : ""
+            testDate ? toISODate(testDate) : "",
           );
           payload.append("mockTestDetails[branch]", values.branch || null);
           payload.append(
             "mockTestDetails[faculty]",
-            values.faculty?.value || ""
+            values.faculty?.value || "",
           );
           payload.append(
             "mockTestDetails[AssmtDate]",
-            assmtDate ? toISODate(assmtDate) : ""
+            assmtDate ? toISODate(assmtDate) : "",
           );
           payload.append("mockTestDetails[testAssmt]", values.testAssmt);
           payload.append("mockTestDetails[reading]", values.reading || "");
@@ -496,7 +496,7 @@ const CoachingDetails = () => {
           toast.success(
             editMockTest.isEditing
               ? "Mock Test updated successfully!"
-              : "Mock Test added successfully!"
+              : "Mock Test added successfully!",
           );
           await fetchOneStudentDetails();
           setShowMockTestModal(false);
@@ -512,7 +512,7 @@ const CoachingDetails = () => {
         toast.error(
           editMockTest.isEditing
             ? "Failed to update mock test"
-            : "Failed to add mock test"
+            : "Failed to add mock test",
         );
       }
     },
@@ -601,7 +601,7 @@ const CoachingDetails = () => {
           toast.success(
             editMasterSession.isEditing
               ? "Master Session updated successfully!"
-              : "Master Session added successfully!"
+              : "Master Session added successfully!",
           );
           await fetchOneStudentDetails();
           setShowMasterSessionModal(false);
@@ -617,7 +617,7 @@ const CoachingDetails = () => {
         toast.error(
           editMasterSession.isEditing
             ? "Failed to update master session"
-            : "Failed to add master session"
+            : "Failed to add master session",
         );
       }
     },
@@ -668,27 +668,27 @@ const CoachingDetails = () => {
         if (editTargetAchieved.isEditing) {
           payload.append(
             "targetAchievedDetails[date]",
-            date ? toISODate(date) : ""
+            date ? toISODate(date) : "",
           );
           payload.append(
             "targetAchievedDetails[scores][reading]",
-            values.scores.reading || ""
+            values.scores.reading || "",
           );
           payload.append(
             "targetAchievedDetails[scores][writing]",
-            values.scores.writing || ""
+            values.scores.writing || "",
           );
           payload.append(
             "targetAchievedDetails[scores][speaking]",
-            values.scores.speaking || ""
+            values.scores.speaking || "",
           );
           payload.append(
             "targetAchievedDetails[scores][listening]",
-            values.scores.listening || ""
+            values.scores.listening || "",
           );
           payload.append(
             "targetAchievedDetails[scores][total]",
-            values.scores.total || ""
+            values.scores.total || "",
           );
           if (values.resultFile) {
             payload.append("resultDoc", values.resultFile);
@@ -696,27 +696,27 @@ const CoachingDetails = () => {
         } else {
           payload.append(
             "targetAchievedDetails[date]",
-            date ? toISODate(date) : ""
+            date ? toISODate(date) : "",
           );
           payload.append(
             "targetAchievedDetails[scores][reading]",
-            values.scores.reading || ""
+            values.scores.reading || "",
           );
           payload.append(
             "targetAchievedDetails[scores][writing]",
-            values.scores.writing || ""
+            values.scores.writing || "",
           );
           payload.append(
             "targetAchievedDetails[scores][speaking]",
-            values.scores.speaking || ""
+            values.scores.speaking || "",
           );
           payload.append(
             "targetAchievedDetails[scores][listening]",
-            values.scores.listening || ""
+            values.scores.listening || "",
           );
           payload.append(
             "targetAchievedDetails[scores][total]",
-            values.scores.total || ""
+            values.scores.total || "",
           );
           if (values.resultFile) {
             payload.append("resultDoc", values.resultFile);
@@ -728,7 +728,7 @@ const CoachingDetails = () => {
           toast.success(
             editTargetAchieved.isEditing
               ? "Target Achieved updated successfully!"
-              : "Target Achieved added successfully!"
+              : "Target Achieved added successfully!",
           );
 
           fetchOneStudentDetails();
@@ -743,7 +743,7 @@ const CoachingDetails = () => {
         console.error("Error updating target achieved details:", error);
         toast.error(
           error?.response?.data?.message ||
-          "Failed to update target achieved details"
+            "Failed to update target achieved details",
         );
       } finally {
         setIsLoading(false);
@@ -792,7 +792,7 @@ const CoachingDetails = () => {
           toast.success(
             editSubjectGrade.isEditing
               ? "Subject grade updated successfully!"
-              : "Subject grade added successfully!"
+              : "Subject grade added successfully!",
           );
           fetchOneStudentDetails();
           setShowSubjectGradeModal(false);
@@ -925,7 +925,7 @@ const CoachingDetails = () => {
               window.open(
                 `${BASEURL}/${item.document}`,
                 "_blank",
-                "noopener,noreferrer"
+                "noopener,noreferrer",
               )
             }
           >
@@ -1026,7 +1026,7 @@ const CoachingDetails = () => {
               window.open(
                 `${BASEURL}/${item.document}`,
                 "_blank",
-                "noopener,noreferrer"
+                "noopener,noreferrer",
               )
             }
           >
@@ -1045,7 +1045,7 @@ const CoachingDetails = () => {
       render: (item) =>
         item && item.subject
           ? subjectOptions.find((opt) => opt.value === item.subject)?.label ||
-          "-"
+            "-"
           : "-",
     },
     {
@@ -1152,10 +1152,7 @@ const CoachingDetails = () => {
           borderTopRightRadius: "0",
         }}
       >
-        <Card.Header className="border-bottom-0 d-flex justify-content-between">
-          <div className="card-title">Coaching Student Information</div>
-        </Card.Header>
-        <div className="mx-4">
+        <div className="p-0">
           <CoachingStudentInfo oneStudentData={oneStudentData} />
 
           <CoachingTabs
@@ -1167,269 +1164,269 @@ const CoachingDetails = () => {
 
           {(selectedPersonalSection === "all" ||
             selectedPersonalSection === "remark") && (
-              <div className="my-4 p-4 bg-light rounded shadow-sm">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="mb-0">Remark</h5>
-                  <Button
-                    variant="primary"
-                    className="px-4 py-2"
-                    style={{ borderRadius: "20px" }}
-                    onClick={() => {
-                      remarkFormik.resetForm();
-                      setEdit({
-                        remarkDetails: false,
-                        remarkDetailsIndex: 0,
-                        remarkDetailsObj: null,
-                      });
-                      setShowRemarkModal(true);
-                    }}
-                  >
-                    Add New
-                  </Button>
-                </div>
-
-                <Modal
-                  show={showRemarkModal}
-                  onHide={() => {
-                    setShowRemarkModal(false);
+            <div className="my-4 p-4 bg-light rounded shadow-sm">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5 className="mb-0">Remark</h5>
+                <Button
+                  variant="primary"
+                  className="px-4 py-2"
+                  style={{ borderRadius: "20px" }}
+                  onClick={() => {
                     remarkFormik.resetForm();
                     setEdit({
                       remarkDetails: false,
                       remarkDetailsIndex: 0,
                       remarkDetailsObj: null,
                     });
-                  }}
-                  size="md"
-                  centered
-                >
-                  <Modal.Header className="form-main-heading">
-                    <Modal.Title>
-                      {edit.remarkDetails ? "Update Remark" : "Add Remark"}
-                    </Modal.Title>
-                    <AiOutlineClose
-                      size={20}
-                      style={{ cursor: "pointer", color: "white" }}
-                      onClick={() => {
-                        setShowRemarkModal(false);
-                        remarkFormik.resetForm();
-                        setEdit({
-                          remarkDetails: false,
-                          remarkDetailsIndex: 0,
-                          remarkDetailsObj: null,
-                        });
-                      }}
-                    />
-                  </Modal.Header>
-                  <Modal.Body className="p-4">
-                    <Form onSubmit={remarkFormik.handleSubmit}>
-                      <Row>
-                        <Col className="mb-3">
-                          <Form.Label>Remark</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Remark"
-                            className="rounded-pill"
-                            name="remarkHistory[0].remark"
-                            value={remarkFormik.values.remarkHistory[0].remark}
-                            onChange={remarkFormik.handleChange}
-                            onBlur={remarkFormik.handleBlur}
-                          />
-                          {remarkFormik.touched.remarkHistory?.[0]?.remark &&
-                            remarkFormik.errors.remarkHistory?.[0]?.remark && (
-                              <div className="text-danger">
-                                {remarkFormik.errors.remarkHistory[0].remark}
-                              </div>
-                            )}
-                        </Col>
-                      </Row>
-                      <div className="text-end mt-4">
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="rounded-pill px-4"
-                        >
-                          {edit.remarkDetails ? "Update" : "Add"}
-                        </Button>
-                      </div>
-                    </Form>
-                  </Modal.Body>
-                </Modal>
-
-                <DataTable
-                  columns={remarkColumns}
-                  data={formData.remarkHistory || []}
-                  currentPage={1}
-                  totalPages={1}
-                  itemsPerPage={10}
-                  onEdit={(item, index) => {
-                    remarkFormik.setValues({
-                      remarkHistory: [{ remark: item.remarks || "" }],
-                    });
-                    setEdit({
-                      remarkDetails: true,
-                      remarkDetailsIndex: index,
-                      remarkDetailsObj: item,
-                    });
                     setShowRemarkModal(true);
                   }}
-                  onDelete={(item) => handleDeleteRemark(item._id)}
-                  section="Remark Details"
-                />
+                >
+                  Add New
+                </Button>
               </div>
-            )}
+
+              <Modal
+                show={showRemarkModal}
+                onHide={() => {
+                  setShowRemarkModal(false);
+                  remarkFormik.resetForm();
+                  setEdit({
+                    remarkDetails: false,
+                    remarkDetailsIndex: 0,
+                    remarkDetailsObj: null,
+                  });
+                }}
+                size="md"
+                centered
+              >
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {edit.remarkDetails ? "Update Remark" : "Add Remark"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={() => {
+                      setShowRemarkModal(false);
+                      remarkFormik.resetForm();
+                      setEdit({
+                        remarkDetails: false,
+                        remarkDetailsIndex: 0,
+                        remarkDetailsObj: null,
+                      });
+                    }}
+                  />
+                </Modal.Header>
+                <Modal.Body className="p-4">
+                  <Form onSubmit={remarkFormik.handleSubmit}>
+                    <Row>
+                      <Col className="mb-3">
+                        <Form.Label>Remark</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter Remark"
+                          className="rounded-pill"
+                          name="remarkHistory[0].remark"
+                          value={remarkFormik.values.remarkHistory[0].remark}
+                          onChange={remarkFormik.handleChange}
+                          onBlur={remarkFormik.handleBlur}
+                        />
+                        {remarkFormik.touched.remarkHistory?.[0]?.remark &&
+                          remarkFormik.errors.remarkHistory?.[0]?.remark && (
+                            <div className="text-danger">
+                              {remarkFormik.errors.remarkHistory[0].remark}
+                            </div>
+                          )}
+                      </Col>
+                    </Row>
+                    <div className="text-end mt-4">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="rounded-pill px-4"
+                      >
+                        {edit.remarkDetails ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
+
+              <DataTable
+                columns={remarkColumns}
+                data={formData.remarkHistory || []}
+                currentPage={1}
+                totalPages={1}
+                itemsPerPage={10}
+                onEdit={(item, index) => {
+                  remarkFormik.setValues({
+                    remarkHistory: [{ remark: item.remarks || "" }],
+                  });
+                  setEdit({
+                    remarkDetails: true,
+                    remarkDetailsIndex: index,
+                    remarkDetailsObj: item,
+                  });
+                  setShowRemarkModal(true);
+                }}
+                onDelete={(item) => handleDeleteRemark(item._id)}
+                section="Remark Details"
+              />
+            </div>
+          )}
 
           {(selectedPersonalSection === "all" ||
             selectedPersonalSection === "mockTest") && (
-              <div className="my-4 p-4 bg-light rounded shadow-sm">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="mb-0">Mock Test</h5>
-                  <Button
-                    variant="primary"
-                    className="px-4 py-2"
-                    style={{ borderRadius: "20px" }}
-                    onClick={() => {
-                      mockTestFormik.resetForm();
-                      setShowMockTestModal(true);
-                    }}
-                  >
-                    Add New
-                  </Button>
-                </div>
-
-                <Modal
-                  show={showMockTestModal}
-                  onHide={() => {
-                    setShowMockTestModal(false);
-                    setShowMockTestDateCalendar(false);
-                    setShowMockTestAssmtDateCalendar(false);
+            <div className="my-4 p-4 bg-light rounded shadow-sm">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5 className="mb-0">Mock Test</h5>
+                <Button
+                  variant="primary"
+                  className="px-4 py-2"
+                  style={{ borderRadius: "20px" }}
+                  onClick={() => {
                     mockTestFormik.resetForm();
-                    setEditMockTest({
-                      isEditing: false,
-                      mockTestId: null,
-                      mockTestData: null,
-                    });
+                    setShowMockTestModal(true);
                   }}
-                  size="lg"
-                  centered
                 >
-                  <Modal.Header className="form-main-heading">
-                    <Modal.Title>
-                      {editMockTest.isEditing
-                        ? "Update Mock Test"
-                        : "Add Mock Test"}
-                    </Modal.Title>
-                    <AiOutlineClose
-                      size={20}
-                      style={{ cursor: "pointer", color: "white" }}
-                      onClick={() => {
-                        setShowMockTestModal(false);
-                        setShowMockTestDateCalendar(false);
-                        setShowMockTestAssmtDateCalendar(false);
-                        mockTestFormik.resetForm();
-                        setEditMockTest({
-                          isEditing: false,
-                          mockTestId: null,
-                          mockTestData: null,
-                        });
-                      }}
-                    />
-                  </Modal.Header>
-                  <Modal.Body className="p-4">
-                    <Form onSubmit={mockTestFormik.handleSubmit}>
-                      <Row>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Mock Test Date</Form.Label>
-                          <div style={{ position: "relative" }}>
-                            <Form.Control
-                              type="text"
-                              className="custom-select-height"
-                              name="testDate"
-                              placeholder="dd/mm/yyyy"
-                              value={
-                                mockTestFormik.values.testDate
-                                  ? formatDate(
-                                    parseDate(mockTestFormik.values.testDate)
+                  Add New
+                </Button>
+              </div>
+
+              <Modal
+                show={showMockTestModal}
+                onHide={() => {
+                  setShowMockTestModal(false);
+                  setShowMockTestDateCalendar(false);
+                  setShowMockTestAssmtDateCalendar(false);
+                  mockTestFormik.resetForm();
+                  setEditMockTest({
+                    isEditing: false,
+                    mockTestId: null,
+                    mockTestData: null,
+                  });
+                }}
+                size="lg"
+                centered
+              >
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {editMockTest.isEditing
+                      ? "Update Mock Test"
+                      : "Add Mock Test"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={() => {
+                      setShowMockTestModal(false);
+                      setShowMockTestDateCalendar(false);
+                      setShowMockTestAssmtDateCalendar(false);
+                      mockTestFormik.resetForm();
+                      setEditMockTest({
+                        isEditing: false,
+                        mockTestId: null,
+                        mockTestData: null,
+                      });
+                    }}
+                  />
+                </Modal.Header>
+                <Modal.Body className="p-4">
+                  <Form onSubmit={mockTestFormik.handleSubmit}>
+                    <Row>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Mock Test Date</Form.Label>
+                        <div style={{ position: "relative" }}>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            name="testDate"
+                            placeholder="dd/mm/yyyy"
+                            value={
+                              mockTestFormik.values.testDate
+                                ? formatDate(
+                                    parseDate(mockTestFormik.values.testDate),
                                   )
-                                  : ""
-                              }
-                              readOnly
-                              ref={mockTestDateInputRef}
-                              onClick={() => {
-                                setShowMockTestDateCalendar((show) => !show);
-                              }}
-                              style={{
-                                cursor: "pointer",
-                                backgroundColor: "#fff",
-                              }}
-                            />
-                            <MdCalendarToday
+                                : ""
+                            }
+                            readOnly
+                            ref={mockTestDateInputRef}
+                            onClick={() => {
+                              setShowMockTestDateCalendar((show) => !show);
+                            }}
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#fff",
+                            }}
+                          />
+                          <MdCalendarToday
+                            style={{
+                              position: "absolute",
+                              right: 10,
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              color: "#888",
+                              pointerEvents: "none",
+                            }}
+                            size={20}
+                          />
+                          {showMockTestDateCalendar && (
+                            <div
+                              ref={mockTestDateCalendarRef}
                               style={{
                                 position: "absolute",
-                                right: 10,
-                                top: "50%",
-                                transform: "translateY(-50%)",
-                                color: "#888",
-                                pointerEvents: "none",
+                                top: "100%",
+                                left: "0",
+                                zIndex: 9999,
+                                background: "#fff",
+                                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                borderRadius: "8px",
+                                marginTop: "4px",
+                                width: 300,
+                                minWidth: 300,
+                                maxWidth: 300,
                               }}
-                              size={20}
-                            />
-                            {showMockTestDateCalendar && (
-                              <div
-                                ref={mockTestDateCalendarRef}
-                                style={{
-                                  position: "absolute",
-                                  top: "100%",
-                                  left: "0",
-                                  zIndex: 9999,
-                                  background: "#fff",
-                                  boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                                  borderRadius: "8px",
-                                  marginTop: "4px",
-                                  width: 300,
-                                  minWidth: 300,
-                                  maxWidth: 300,
+                            >
+                              <Calendar
+                                className="form-control m-0 p-0 border-0"
+                                onChange={(selectedDate) => {
+                                  mockTestFormik.setFieldValue(
+                                    "testDate",
+                                    formatDate(selectedDate),
+                                  );
+                                  setShowMockTestDateCalendar(false);
                                 }}
-                              >
-                                <Calendar
-                                  className="form-control m-0 p-0 border-0"
-                                  onChange={(selectedDate) => {
-                                    mockTestFormik.setFieldValue(
-                                      "testDate",
-                                      formatDate(selectedDate)
-                                    );
-                                    setShowMockTestDateCalendar(false);
-                                  }}
-                                  value={parseDate(
-                                    mockTestFormik.values.testDate
-                                  )}
-                                  locale="en-GB"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          {mockTestFormik.touched.testDate &&
-                            mockTestFormik.errors.testDate && (
-                              <div className="text-danger">
-                                {mockTestFormik.errors.testDate}
-                              </div>
-                            )}
-                        </Col>
-                        {userRole === "Super Admin" && (
-                          <Col md={6} className="mb-3">
-                            <Form.Label>Branch</Form.Label>
-                            <Select
-                              options={[
-                                { value: "HeadOffice", label: "Head Office" },
-                                ...branchList.map((branch) => ({
-                                  value: branch._id,
-                                  label: branch.branchName || branch.name,
-                                })),
-                              ]}
-                              value={
-                                mockTestFormik.values.branch === null ||
-                                  mockTestFormik.values.branch === "HeadOffice"
-                                  ? { value: "HeadOffice", label: "Head Office" }
-                                  : branchList
+                                value={parseDate(
+                                  mockTestFormik.values.testDate,
+                                )}
+                                locale="en-GB"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        {mockTestFormik.touched.testDate &&
+                          mockTestFormik.errors.testDate && (
+                            <div className="text-danger">
+                              {mockTestFormik.errors.testDate}
+                            </div>
+                          )}
+                      </Col>
+                      {userRole === "Super Admin" && (
+                        <Col md={6} className="mb-3">
+                          <Form.Label>Branch</Form.Label>
+                          <Select
+                            options={[
+                              { value: "HeadOffice", label: "Head Office" },
+                              ...branchList.map((branch) => ({
+                                value: branch._id,
+                                label: branch.branchName || branch.name,
+                              })),
+                            ]}
+                            value={
+                              mockTestFormik.values.branch === null ||
+                              mockTestFormik.values.branch === "HeadOffice"
+                                ? { value: "HeadOffice", label: "Head Office" }
+                                : branchList
                                     .map((b) => ({
                                       value: b._id,
                                       label: b.branchName || b.name,
@@ -1437,439 +1434,438 @@ const CoachingDetails = () => {
                                     .find(
                                       (opt) =>
                                         opt.value ===
-                                        mockTestFormik.values.branch
+                                        mockTestFormik.values.branch,
                                     ) || null
-                              }
-                              onChange={(selectedOption) => {
-                                const branchValue =
-                                  selectedOption?.value === "HeadOffice"
-                                    ? null
-                                    : selectedOption?.value;
+                            }
+                            onChange={(selectedOption) => {
+                              const branchValue =
+                                selectedOption?.value === "HeadOffice"
+                                  ? null
+                                  : selectedOption?.value;
 
-                                mockTestFormik.setFieldValue(
-                                  "branch",
-                                  branchValue
-                                );
+                              mockTestFormik.setFieldValue(
+                                "branch",
+                                branchValue,
+                              );
 
-                                fetchFacultyOptions(branchValue, false);
+                              fetchFacultyOptions(branchValue, false);
 
-                                mockTestFormik.setFieldValue("faculty", null);
-                              }}
-                              placeholder="Select Branch"
-                              isClearable={false}
-                              classNamePrefix="custom-select"
-                            />
-                          </Col>
-                        )}
-                        {userRole !== "Coaching Faculty" && (
-
-                          <Col md={6} className="mb-3">
-                            <Form.Label>Assmt. By Faculty</Form.Label>
-                            <Select
-                              options={facultyOptions}
-                              name="faculty"
-                              placeholder="Select Faculty"
-                              classNamePrefix="custom-select"
-                              styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  borderRadius: "30px",
-                                  color: "black",
-                                }),
-                                placeholder: (base) => ({
-                                  ...base,
-                                  color: "black",
-                                  fontSize: "13px",
-                                }),
-                              }}
-                              isClearable
-                              onChange={(option) =>
-                                mockTestFormik.setFieldValue("faculty", option)
-                              }
-                              value={mockTestFormik.values.faculty}
-                            />
-                          </Col>
-                        )}
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Assmt. Date</Form.Label>
-                          <div style={{ position: "relative" }}>
-                            <Form.Control
-                              type="text"
-                              name="AssmtDate"
-                              className="rounded-pill"
-                              placeholder="dd/mm/yyyy"
-                              value={
-                                mockTestFormik.values.AssmtDate
-                                  ? formatDate(
-                                    parseDate(mockTestFormik.values.AssmtDate)
-                                  )
-                                  : ""
-                              }
-                              readOnly
-                              ref={mockTestAssmtDateInputRef}
-                              onClick={() => {
-                                setShowMockTestAssmtDateCalendar((show) => !show);
-                              }}
-                              style={{
-                                cursor: "pointer",
-                                backgroundColor: "#fff",
-                              }}
-                            />
-                            <MdCalendarToday
-                              style={{
-                                position: "absolute",
-                                right: 10,
-                                top: "50%",
-                                transform: "translateY(-50%)",
-                                color: "#888",
-                                pointerEvents: "none",
-                              }}
-                              size={20}
-                            />
-                            {showMockTestAssmtDateCalendar && (
-                              <div
-                                ref={mockTestAssmtDateCalendarRef}
-                                style={{
-                                  position: "absolute",
-                                  top: "100%",
-                                  left: "0",
-                                  zIndex: 9999,
-                                  background: "#fff",
-                                  boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                                  borderRadius: "8px",
-                                  marginTop: "4px",
-                                  width: 300,
-                                  minWidth: 300,
-                                  maxWidth: 300,
-                                }}
-                              >
-                                <Calendar
-                                  className="form-control m-0 p-0 border-0"
-                                  onChange={(selectedDate) => {
-                                    mockTestFormik.setFieldValue(
-                                      "AssmtDate",
-                                      formatDate(selectedDate)
-                                    );
-                                    setShowMockTestAssmtDateCalendar(false);
-                                  }}
-                                  value={parseDate(
-                                    mockTestFormik.values.AssmtDate
-                                  )}
-                                  locale="en-GB"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          {mockTestFormik.touched.AssmtDate &&
-                            mockTestFormik.errors.AssmtDate && (
-                              <div className="text-danger">
-                                {mockTestFormik.errors.AssmtDate}
-                              </div>
-                            )}
+                              mockTestFormik.setFieldValue("faculty", null);
+                            }}
+                            placeholder="Select Branch"
+                            isClearable={false}
+                            classNamePrefix="custom-select"
+                          />
                         </Col>
+                      )}
+                      {userRole !== "Coaching Faculty" && (
                         <Col md={6} className="mb-3">
-                          <Form.Label>Mock Test Assmt.</Form.Label>
+                          <Form.Label>Assmt. By Faculty</Form.Label>
+                          <Select
+                            options={facultyOptions}
+                            name="faculty"
+                            placeholder="Select Faculty"
+                            classNamePrefix="custom-select"
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                borderRadius: "30px",
+                                color: "black",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "black",
+                                fontSize: "13px",
+                              }),
+                            }}
+                            isClearable
+                            onChange={(option) =>
+                              mockTestFormik.setFieldValue("faculty", option)
+                            }
+                            value={mockTestFormik.values.faculty}
+                          />
+                        </Col>
+                      )}
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Assmt. Date</Form.Label>
+                        <div style={{ position: "relative" }}>
                           <Form.Control
                             type="text"
-                            name="testAssmt"
-                            placeholder="Enter Mock Test Assmt."
+                            name="AssmtDate"
                             className="rounded-pill"
-                            value={mockTestFormik.values.testAssmt}
-                            onChange={mockTestFormik.handleChange}
-                            onBlur={mockTestFormik.handleBlur}
-                          />
-                          {mockTestFormik.touched.testAssmt &&
-                            mockTestFormik.errors.testAssmt && (
-                              <div className="text-danger">
-                                {mockTestFormik.errors.testAssmt}
-                              </div>
-                            )}
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Listening</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="listening"
-                            placeholder="Enter Listening"
-                            className="rounded-pill"
-                            value={mockTestFormik.values.listening}
-                            onChange={mockTestFormik.handleChange}
-                            onBlur={mockTestFormik.handleBlur}
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Reading</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="reading"
-                            placeholder="Enter Reading"
-                            className="rounded-pill"
-                            value={mockTestFormik.values.reading}
-                            onChange={mockTestFormik.handleChange}
-                            onBlur={mockTestFormik.handleBlur}
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Writing</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="writing"
-                            placeholder="Enter Writing"
-                            className="rounded-pill"
-                            value={mockTestFormik.values.writing}
-                            onChange={mockTestFormik.handleChange}
-                            onBlur={mockTestFormik.handleBlur}
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Speaking</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="speaking"
-                            placeholder="Enter Speaking"
-                            className="rounded-pill"
-                            value={mockTestFormik.values.speaking}
-                            onChange={mockTestFormik.handleChange}
-                            onBlur={mockTestFormik.handleBlur}
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Overall</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="total"
-                            placeholder="Enter Overall"
-                            className="rounded-pill"
-                            value={mockTestFormik.values.total}
-                            onChange={mockTestFormik.handleChange}
-                            onBlur={mockTestFormik.handleBlur}
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Upload Document</Form.Label>
-                          <Form.Control
-                            type="file"
-                            name="mockFile"
-                            onChange={(event) => {
-                              mockTestFormik.setFieldValue(
-                                "mockFile",
-                                event.currentTarget.files[0]
-                              );
+                            placeholder="dd/mm/yyyy"
+                            value={
+                              mockTestFormik.values.AssmtDate
+                                ? formatDate(
+                                    parseDate(mockTestFormik.values.AssmtDate),
+                                  )
+                                : ""
+                            }
+                            readOnly
+                            ref={mockTestAssmtDateInputRef}
+                            onClick={() => {
+                              setShowMockTestAssmtDateCalendar((show) => !show);
                             }}
-                            onBlur={mockTestFormik.handleBlur}
-                            className="rounded-pill"
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#fff",
+                            }}
                           />
-                        </Col>
-                      </Row>
-                      <div className="text-end mt-4">
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="rounded-pill px-4"
-                        >
-                          {editMockTest.isEditing ? "Update" : "Add"}
-                        </Button>
-                      </div>
-                    </Form>
-                  </Modal.Body>
-                </Modal>
+                          <MdCalendarToday
+                            style={{
+                              position: "absolute",
+                              right: 10,
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              color: "#888",
+                              pointerEvents: "none",
+                            }}
+                            size={20}
+                          />
+                          {showMockTestAssmtDateCalendar && (
+                            <div
+                              ref={mockTestAssmtDateCalendarRef}
+                              style={{
+                                position: "absolute",
+                                top: "100%",
+                                left: "0",
+                                zIndex: 9999,
+                                background: "#fff",
+                                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                borderRadius: "8px",
+                                marginTop: "4px",
+                                width: 300,
+                                minWidth: 300,
+                                maxWidth: 300,
+                              }}
+                            >
+                              <Calendar
+                                className="form-control m-0 p-0 border-0"
+                                onChange={(selectedDate) => {
+                                  mockTestFormik.setFieldValue(
+                                    "AssmtDate",
+                                    formatDate(selectedDate),
+                                  );
+                                  setShowMockTestAssmtDateCalendar(false);
+                                }}
+                                value={parseDate(
+                                  mockTestFormik.values.AssmtDate,
+                                )}
+                                locale="en-GB"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        {mockTestFormik.touched.AssmtDate &&
+                          mockTestFormik.errors.AssmtDate && (
+                            <div className="text-danger">
+                              {mockTestFormik.errors.AssmtDate}
+                            </div>
+                          )}
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Mock Test Assmt.</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="testAssmt"
+                          placeholder="Enter Mock Test Assmt."
+                          className="rounded-pill"
+                          value={mockTestFormik.values.testAssmt}
+                          onChange={mockTestFormik.handleChange}
+                          onBlur={mockTestFormik.handleBlur}
+                        />
+                        {mockTestFormik.touched.testAssmt &&
+                          mockTestFormik.errors.testAssmt && (
+                            <div className="text-danger">
+                              {mockTestFormik.errors.testAssmt}
+                            </div>
+                          )}
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Listening</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="listening"
+                          placeholder="Enter Listening"
+                          className="rounded-pill"
+                          value={mockTestFormik.values.listening}
+                          onChange={mockTestFormik.handleChange}
+                          onBlur={mockTestFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Reading</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="reading"
+                          placeholder="Enter Reading"
+                          className="rounded-pill"
+                          value={mockTestFormik.values.reading}
+                          onChange={mockTestFormik.handleChange}
+                          onBlur={mockTestFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Writing</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="writing"
+                          placeholder="Enter Writing"
+                          className="rounded-pill"
+                          value={mockTestFormik.values.writing}
+                          onChange={mockTestFormik.handleChange}
+                          onBlur={mockTestFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Speaking</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="speaking"
+                          placeholder="Enter Speaking"
+                          className="rounded-pill"
+                          value={mockTestFormik.values.speaking}
+                          onChange={mockTestFormik.handleChange}
+                          onBlur={mockTestFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Overall</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="total"
+                          placeholder="Enter Overall"
+                          className="rounded-pill"
+                          value={mockTestFormik.values.total}
+                          onChange={mockTestFormik.handleChange}
+                          onBlur={mockTestFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Upload Document</Form.Label>
+                        <Form.Control
+                          type="file"
+                          name="mockFile"
+                          onChange={(event) => {
+                            mockTestFormik.setFieldValue(
+                              "mockFile",
+                              event.currentTarget.files[0],
+                            );
+                          }}
+                          onBlur={mockTestFormik.handleBlur}
+                          className="rounded-pill"
+                        />
+                      </Col>
+                    </Row>
+                    <div className="text-end mt-4">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="rounded-pill px-4"
+                      >
+                        {editMockTest.isEditing ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
 
-                <DataTable
-                  columns={mockTestColumns}
-                  data={formData.mockTestDetails || []}
-                  currentPage={1}
-                  totalPages={1}
-                  itemsPerPage={10}
-                  onEdit={async (item) => {
-                    const options = await fetchFacultyOptions(
-                      item.branch?._id || null,
-                      false
-                    );
+              <DataTable
+                columns={mockTestColumns}
+                data={formData.mockTestDetails || []}
+                currentPage={1}
+                totalPages={1}
+                itemsPerPage={10}
+                onEdit={async (item) => {
+                  const options = await fetchFacultyOptions(
+                    item.branch?._id || null,
+                    false,
+                  );
 
-                    const selectedFaculty =
-                      options.find((opt) => opt.value === item.faculty?._id) ||
-                      null;
+                  const selectedFaculty =
+                    options.find((opt) => opt.value === item.faculty?._id) ||
+                    null;
 
-                    mockTestFormik.setValues({
-                      testDate: item.testDate || "",
-                      branch: item.branch?._id || null,
-                      faculty: selectedFaculty,
-                      AssmtDate: item.AssmtDate || "",
-                      testAssmt: item.testAssmt || "",
-                      listening: item.listening || "",
-                      reading: item.reading || "",
-                      writing: item.writing || "",
-                      speaking: item.speaking || "",
-                      total: item.total || "",
-                      mockFile: "",
-                    });
+                  mockTestFormik.setValues({
+                    testDate: item.testDate || "",
+                    branch: item.branch?._id || null,
+                    faculty: selectedFaculty,
+                    AssmtDate: item.AssmtDate || "",
+                    testAssmt: item.testAssmt || "",
+                    listening: item.listening || "",
+                    reading: item.reading || "",
+                    writing: item.writing || "",
+                    speaking: item.speaking || "",
+                    total: item.total || "",
+                    mockFile: "",
+                  });
 
-                    setEditMockTest({
-                      isEditing: true,
-                      mockTestId: item._id,
-                      mockTestData: item,
-                    });
+                  setEditMockTest({
+                    isEditing: true,
+                    mockTestId: item._id,
+                    mockTestData: item,
+                  });
 
-                    setShowMockTestModal(true);
-                  }}
-                  onDelete={(item) => handleDeleteMockTest(item._id)}
-                  section="Mock Test Details"
-                />
-              </div>
-            )}
+                  setShowMockTestModal(true);
+                }}
+                onDelete={(item) => handleDeleteMockTest(item._id)}
+                section="Mock Test Details"
+              />
+            </div>
+          )}
 
           {(selectedPersonalSection === "all" ||
             selectedPersonalSection === "masterSession") && (
-              <div className="my-4 p-4 bg-light rounded shadow-sm">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="mb-0">Master Session</h5>
-                  <Button
-                    variant="primary"
-                    className="px-4 py-2"
-                    style={{ borderRadius: "20px" }}
-                    onClick={() => {
-                      masterSessionFormik.resetForm();
-                      setShowMasterSessionModal(true);
-                    }}
-                  >
-                    Add New
-                  </Button>
-                </div>
-
-                <Modal
-                  show={showMasterSessionModal}
-                  onHide={() => {
-                    setShowMasterSessionModal(false);
-                    setShowSessionDateCalendar(false);
-                    setShowMasterSessionAssmtDateCalendar(false);
+            <div className="my-4 p-4 bg-light rounded shadow-sm">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5 className="mb-0">Master Session</h5>
+                <Button
+                  variant="primary"
+                  className="px-4 py-2"
+                  style={{ borderRadius: "20px" }}
+                  onClick={() => {
                     masterSessionFormik.resetForm();
-                    setEditMasterSession({
-                      isEditing: false,
-                      masterSessionId: null,
-                      masterSessionData: null,
-                    });
+                    setShowMasterSessionModal(true);
                   }}
-                  size="lg"
-                  centered
                 >
-                  <Modal.Header className="form-main-heading">
-                    <Modal.Title>
-                      {editMasterSession.isEditing
-                        ? "Update Master Session"
-                        : "Add Master Session"}
-                    </Modal.Title>
-                    <AiOutlineClose
-                      size={20}
-                      style={{ cursor: "pointer", color: "white" }}
-                      onClick={() => {
-                        setShowMasterSessionModal(false);
-                        setShowSessionDateCalendar(false);
-                        setShowMasterSessionAssmtDateCalendar(false);
-                        masterSessionFormik.resetForm();
-                        setEditMasterSession({
-                          isEditing: false,
-                          masterSessionId: null,
-                          masterSessionData: null,
-                        });
-                      }}
-                    />
-                  </Modal.Header>
-                  <Modal.Body className="p-4">
-                    <Form onSubmit={masterSessionFormik.handleSubmit}>
-                      <Row>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Session Date</Form.Label>
-                          <div style={{ position: "relative" }}>
-                            <Form.Control
-                              type="text"
-                              name="testDate"
-                              className="rounded-pill"
-                              placeholder="dd/mm/yyyy"
-                              value={
-                                masterSessionFormik.values.testDate
-                                  ? formatDate(
+                  Add New
+                </Button>
+              </div>
+
+              <Modal
+                show={showMasterSessionModal}
+                onHide={() => {
+                  setShowMasterSessionModal(false);
+                  setShowSessionDateCalendar(false);
+                  setShowMasterSessionAssmtDateCalendar(false);
+                  masterSessionFormik.resetForm();
+                  setEditMasterSession({
+                    isEditing: false,
+                    masterSessionId: null,
+                    masterSessionData: null,
+                  });
+                }}
+                size="lg"
+                centered
+              >
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {editMasterSession.isEditing
+                      ? "Update Master Session"
+                      : "Add Master Session"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={() => {
+                      setShowMasterSessionModal(false);
+                      setShowSessionDateCalendar(false);
+                      setShowMasterSessionAssmtDateCalendar(false);
+                      masterSessionFormik.resetForm();
+                      setEditMasterSession({
+                        isEditing: false,
+                        masterSessionId: null,
+                        masterSessionData: null,
+                      });
+                    }}
+                  />
+                </Modal.Header>
+                <Modal.Body className="p-4">
+                  <Form onSubmit={masterSessionFormik.handleSubmit}>
+                    <Row>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Session Date</Form.Label>
+                        <div style={{ position: "relative" }}>
+                          <Form.Control
+                            type="text"
+                            name="testDate"
+                            className="rounded-pill"
+                            placeholder="dd/mm/yyyy"
+                            value={
+                              masterSessionFormik.values.testDate
+                                ? formatDate(
                                     parseDate(
-                                      masterSessionFormik.values.testDate
-                                    )
+                                      masterSessionFormik.values.testDate,
+                                    ),
                                   )
-                                  : ""
-                              }
-                              readOnly
-                              ref={sessionDateInputRef}
-                              onClick={() => {
-                                setShowSessionDateCalendar((show) => !show);
-                              }}
-                              style={{
-                                cursor: "pointer",
-                                backgroundColor: "#fff",
-                              }}
-                            />
-                            <MdCalendarToday
+                                : ""
+                            }
+                            readOnly
+                            ref={sessionDateInputRef}
+                            onClick={() => {
+                              setShowSessionDateCalendar((show) => !show);
+                            }}
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#fff",
+                            }}
+                          />
+                          <MdCalendarToday
+                            style={{
+                              position: "absolute",
+                              right: 10,
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              color: "#888",
+                              pointerEvents: "none",
+                            }}
+                            size={20}
+                          />
+                          {showSessionDateCalendar && (
+                            <div
+                              ref={sessionDateCalendarRef}
                               style={{
                                 position: "absolute",
-                                right: 10,
-                                top: "50%",
-                                transform: "translateY(-50%)",
-                                color: "#888",
-                                pointerEvents: "none",
+                                top: "100%",
+                                left: "0",
+                                zIndex: 9999,
+                                background: "#fff",
+                                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                borderRadius: "8px",
+                                marginTop: "4px",
+                                width: 300,
                               }}
-                              size={20}
-                            />
-                            {showSessionDateCalendar && (
-                              <div
-                                ref={sessionDateCalendarRef}
-                                style={{
-                                  position: "absolute",
-                                  top: "100%",
-                                  left: "0",
-                                  zIndex: 9999,
-                                  background: "#fff",
-                                  boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                                  borderRadius: "8px",
-                                  marginTop: "4px",
-                                  width: 300,
+                            >
+                              <Calendar
+                                className="form-control m-0 p-0 border-0"
+                                onChange={(selectedDate) => {
+                                  masterSessionFormik.setFieldValue(
+                                    "testDate",
+                                    formatDate(selectedDate),
+                                  );
+                                  setShowSessionDateCalendar(false);
                                 }}
-                              >
-                                <Calendar
-                                  className="form-control m-0 p-0 border-0"
-                                  onChange={(selectedDate) => {
-                                    masterSessionFormik.setFieldValue(
-                                      "testDate",
-                                      formatDate(selectedDate)
-                                    );
-                                    setShowSessionDateCalendar(false);
-                                  }}
-                                  value={parseDate(
-                                    masterSessionFormik.values.testDate
-                                  )}
-                                  locale="en-GB"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          {masterSessionFormik.touched.testDate &&
-                            masterSessionFormik.errors.testDate && (
-                              <div className="text-danger">
-                                {masterSessionFormik.errors.testDate}
-                              </div>
-                            )}
-                        </Col>
-                        {userRole === "Super Admin" && (
-                          <Col md={6} className="mb-3">
-                            <Form.Label>Branch</Form.Label>
-                            <Select
-                              options={[
-                                { value: "HeadOffice", label: "Head Office" },
-                                ...branchList.map((branch) => ({
-                                  value: branch._id,
-                                  label: branch.branchName || branch.name,
-                                })),
-                              ]}
-                              value={
-                                masterSessionFormik.values.branch === null ||
-                                  masterSessionFormik.values.branch === "HeadOffice"
-                                  ? { value: "HeadOffice", label: "Head Office" }
-                                  : branchList
+                                value={parseDate(
+                                  masterSessionFormik.values.testDate,
+                                )}
+                                locale="en-GB"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        {masterSessionFormik.touched.testDate &&
+                          masterSessionFormik.errors.testDate && (
+                            <div className="text-danger">
+                              {masterSessionFormik.errors.testDate}
+                            </div>
+                          )}
+                      </Col>
+                      {userRole === "Super Admin" && (
+                        <Col md={6} className="mb-3">
+                          <Form.Label>Branch</Form.Label>
+                          <Select
+                            options={[
+                              { value: "HeadOffice", label: "Head Office" },
+                              ...branchList.map((branch) => ({
+                                value: branch._id,
+                                label: branch.branchName || branch.name,
+                              })),
+                            ]}
+                            value={
+                              masterSessionFormik.values.branch === null ||
+                              masterSessionFormik.values.branch === "HeadOffice"
+                                ? { value: "HeadOffice", label: "Head Office" }
+                                : branchList
                                     .map((b) => ({
                                       value: b._id,
                                       label: b.branchName || b.name,
@@ -1877,702 +1873,706 @@ const CoachingDetails = () => {
                                     .find(
                                       (opt) =>
                                         opt.value ===
-                                        masterSessionFormik.values.branch
+                                        masterSessionFormik.values.branch,
                                     ) || null
-                              }
-                              onChange={(selectedOption) => {
-                                const branchValue =
-                                  selectedOption?.value === "HeadOffice"
-                                    ? null
-                                    : selectedOption?.value;
+                            }
+                            onChange={(selectedOption) => {
+                              const branchValue =
+                                selectedOption?.value === "HeadOffice"
+                                  ? null
+                                  : selectedOption?.value;
 
-                                masterSessionFormik.setFieldValue(
-                                  "branch",
-                                  branchValue
-                                );
+                              masterSessionFormik.setFieldValue(
+                                "branch",
+                                branchValue,
+                              );
 
-                                fetchFacultyOptions(branchValue, false);
+                              fetchFacultyOptions(branchValue, false);
 
-                                masterSessionFormik.setFieldValue(
-                                  "faculty",
-                                  null
-                                );
-                              }}
-                              placeholder="Select Branch"
-                              isClearable={false}
-                              classNamePrefix="custom-select"
-                            />
-                          </Col>
-                        )}
-                        {userRole !== "Coaching Faculty" && (
-                          <Col md={6} className="mb-3">
-                            <Form.Label>Assmt. By Faculty</Form.Label>
-                            <Select
-                              options={facultyOptions}
-                              name="faculty"
-                              placeholder="Select Faculty"
-                              classNamePrefix="custom-select"
-                              styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  borderRadius: "30px",
-                                  color: "black",
-                                }),
-                                placeholder: (base) => ({
-                                  ...base,
-                                  color: "black",
-                                  fontSize: "13px",
-                                }),
-                              }}
-                              isClearable
-                              onChange={(option) =>
-                                masterSessionFormik.setFieldValue("faculty", option)
-                              }
-                              value={masterSessionFormik.values.faculty}
-                            />
-                          </Col>)}
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Assmt. Date</Form.Label>
-                          <div style={{ position: "relative" }}>
-                            <Form.Control
-                              type="text"
-                              name="AssmtDate"
-                              className="rounded-pill"
-                              placeholder="dd/mm/yyyy"
-                              value={
-                                masterSessionFormik.values.AssmtDate
-                                  ? formatDate(
-                                    parseDate(
-                                      masterSessionFormik.values.AssmtDate
-                                    )
-                                  )
-                                  : ""
-                              }
-                              readOnly
-                              ref={masterSessionAssmtDateInputRef}
-                              onClick={() => {
-                                setShowMasterSessionAssmtDateCalendar(
-                                  (show) => !show
-                                );
-                              }}
-                              style={{
-                                cursor: "pointer",
-                                backgroundColor: "#fff",
-                              }}
-                            />
-                            <MdCalendarToday
-                              style={{
-                                position: "absolute",
-                                right: 10,
-                                top: "50%",
-                                transform: "translateY(-50%)",
-                                color: "#888",
-                                pointerEvents: "none",
-                              }}
-                              size={20}
-                            />
-                            {showMasterSessionAssmtDateCalendar && (
-                              <div
-                                ref={masterSessionAssmtDateCalendarRef}
-                                style={{
-                                  position: "absolute",
-                                  top: "100%",
-                                  left: "0",
-                                  zIndex: 9999,
-                                  background: "#fff",
-                                  boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                                  borderRadius: "8px",
-                                  marginTop: "4px",
-                                  width: 300,
-                                }}
-                              >
-                                <Calendar
-                                  className="form-control m-0 p-0 border-0"
-                                  onChange={(selectedDate) => {
-                                    masterSessionFormik.setFieldValue(
-                                      "AssmtDate",
-                                      formatDate(selectedDate)
-                                    );
-                                    setShowMasterSessionAssmtDateCalendar(false);
-                                  }}
-                                  value={parseDate(
-                                    masterSessionFormik.values.AssmtDate
-                                  )}
-                                  locale="en-GB"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          {masterSessionFormik.touched.AssmtDate &&
-                            masterSessionFormik.errors.AssmtDate && (
-                              <div className="text-danger">
-                                {masterSessionFormik.errors.AssmtDate}
-                              </div>
-                            )}
+                              masterSessionFormik.setFieldValue(
+                                "faculty",
+                                null,
+                              );
+                            }}
+                            placeholder="Select Branch"
+                            isClearable={false}
+                            classNamePrefix="custom-select"
+                          />
                         </Col>
+                      )}
+                      {userRole !== "Coaching Faculty" && (
                         <Col md={6} className="mb-3">
-                          <Form.Label>Master Session Assmt.</Form.Label>
+                          <Form.Label>Assmt. By Faculty</Form.Label>
+                          <Select
+                            options={facultyOptions}
+                            name="faculty"
+                            placeholder="Select Faculty"
+                            classNamePrefix="custom-select"
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                borderRadius: "30px",
+                                color: "black",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "black",
+                                fontSize: "13px",
+                              }),
+                            }}
+                            isClearable
+                            onChange={(option) =>
+                              masterSessionFormik.setFieldValue(
+                                "faculty",
+                                option,
+                              )
+                            }
+                            value={masterSessionFormik.values.faculty}
+                          />
+                        </Col>
+                      )}
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Assmt. Date</Form.Label>
+                        <div style={{ position: "relative" }}>
                           <Form.Control
                             type="text"
-                            name="testAssmt"
-                            placeholder="Enter Master Session Assmt."
+                            name="AssmtDate"
                             className="rounded-pill"
-                            value={masterSessionFormik.values.testAssmt}
-                            onChange={masterSessionFormik.handleChange}
-                            onBlur={masterSessionFormik.handleBlur}
+                            placeholder="dd/mm/yyyy"
+                            value={
+                              masterSessionFormik.values.AssmtDate
+                                ? formatDate(
+                                    parseDate(
+                                      masterSessionFormik.values.AssmtDate,
+                                    ),
+                                  )
+                                : ""
+                            }
+                            readOnly
+                            ref={masterSessionAssmtDateInputRef}
+                            onClick={() => {
+                              setShowMasterSessionAssmtDateCalendar(
+                                (show) => !show,
+                              );
+                            }}
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#fff",
+                            }}
                           />
-                          {masterSessionFormik.touched.testAssmt &&
-                            masterSessionFormik.errors.testAssmt && (
-                              <div className="text-danger">
-                                {masterSessionFormik.errors.testAssmt}
-                              </div>
-                            )}
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Listening</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="listening"
-                            placeholder="Enter Listening"
-                            className="rounded-pill"
-                            value={masterSessionFormik.values.listening}
-                            onChange={masterSessionFormik.handleChange}
-                            onBlur={masterSessionFormik.handleBlur}
+                          <MdCalendarToday
+                            style={{
+                              position: "absolute",
+                              right: 10,
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              color: "#888",
+                              pointerEvents: "none",
+                            }}
+                            size={20}
                           />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Reading</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="reading"
-                            placeholder="Enter Reading"
-                            className="rounded-pill"
-                            value={masterSessionFormik.values.reading}
-                            onChange={masterSessionFormik.handleChange}
-                            onBlur={masterSessionFormik.handleBlur}
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Writing</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="writing"
-                            placeholder="Enter Writing"
-                            className="rounded-pill"
-                            value={masterSessionFormik.values.writing}
-                            onChange={masterSessionFormik.handleChange}
-                            onBlur={masterSessionFormik.handleBlur}
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Speaking</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="speaking"
-                            placeholder="Enter Speaking"
-                            className="rounded-pill"
-                            value={masterSessionFormik.values.speaking}
-                            onChange={masterSessionFormik.handleChange}
-                            onBlur={masterSessionFormik.handleBlur}
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Overall</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="total"
-                            placeholder="Enter Overall"
-                            className="rounded-pill"
-                            value={masterSessionFormik.values.total}
-                            onChange={masterSessionFormik.handleChange}
-                            onBlur={masterSessionFormik.handleBlur}
-                          />
-                        </Col>
-                      </Row>
-                      <div className="text-end mt-4">
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="rounded-pill px-4"
-                        >
-                          {editMasterSession.isEditing ? "Update" : "Add"}
-                        </Button>
-                      </div>
-                    </Form>
-                  </Modal.Body>
-                </Modal>
+                          {showMasterSessionAssmtDateCalendar && (
+                            <div
+                              ref={masterSessionAssmtDateCalendarRef}
+                              style={{
+                                position: "absolute",
+                                top: "100%",
+                                left: "0",
+                                zIndex: 9999,
+                                background: "#fff",
+                                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                borderRadius: "8px",
+                                marginTop: "4px",
+                                width: 300,
+                              }}
+                            >
+                              <Calendar
+                                className="form-control m-0 p-0 border-0"
+                                onChange={(selectedDate) => {
+                                  masterSessionFormik.setFieldValue(
+                                    "AssmtDate",
+                                    formatDate(selectedDate),
+                                  );
+                                  setShowMasterSessionAssmtDateCalendar(false);
+                                }}
+                                value={parseDate(
+                                  masterSessionFormik.values.AssmtDate,
+                                )}
+                                locale="en-GB"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        {masterSessionFormik.touched.AssmtDate &&
+                          masterSessionFormik.errors.AssmtDate && (
+                            <div className="text-danger">
+                              {masterSessionFormik.errors.AssmtDate}
+                            </div>
+                          )}
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Master Session Assmt.</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="testAssmt"
+                          placeholder="Enter Master Session Assmt."
+                          className="rounded-pill"
+                          value={masterSessionFormik.values.testAssmt}
+                          onChange={masterSessionFormik.handleChange}
+                          onBlur={masterSessionFormik.handleBlur}
+                        />
+                        {masterSessionFormik.touched.testAssmt &&
+                          masterSessionFormik.errors.testAssmt && (
+                            <div className="text-danger">
+                              {masterSessionFormik.errors.testAssmt}
+                            </div>
+                          )}
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Listening</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="listening"
+                          placeholder="Enter Listening"
+                          className="rounded-pill"
+                          value={masterSessionFormik.values.listening}
+                          onChange={masterSessionFormik.handleChange}
+                          onBlur={masterSessionFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Reading</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="reading"
+                          placeholder="Enter Reading"
+                          className="rounded-pill"
+                          value={masterSessionFormik.values.reading}
+                          onChange={masterSessionFormik.handleChange}
+                          onBlur={masterSessionFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Writing</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="writing"
+                          placeholder="Enter Writing"
+                          className="rounded-pill"
+                          value={masterSessionFormik.values.writing}
+                          onChange={masterSessionFormik.handleChange}
+                          onBlur={masterSessionFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Speaking</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="speaking"
+                          placeholder="Enter Speaking"
+                          className="rounded-pill"
+                          value={masterSessionFormik.values.speaking}
+                          onChange={masterSessionFormik.handleChange}
+                          onBlur={masterSessionFormik.handleBlur}
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Overall</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="total"
+                          placeholder="Enter Overall"
+                          className="rounded-pill"
+                          value={masterSessionFormik.values.total}
+                          onChange={masterSessionFormik.handleChange}
+                          onBlur={masterSessionFormik.handleBlur}
+                        />
+                      </Col>
+                    </Row>
+                    <div className="text-end mt-4">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="rounded-pill px-4"
+                      >
+                        {editMasterSession.isEditing ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
 
-                <DataTable
-                  columns={masterSessionColumns}
-                  data={formData.masterSessionDetails || []}
-                  currentPage={1}
-                  totalPages={1}
-                  itemsPerPage={10}
-                  onEdit={async (item) => {
-                    const options = await fetchFacultyOptions(
-                      item.branch?._id || null,
-                      false
-                    );
+              <DataTable
+                columns={masterSessionColumns}
+                data={formData.masterSessionDetails || []}
+                currentPage={1}
+                totalPages={1}
+                itemsPerPage={10}
+                onEdit={async (item) => {
+                  const options = await fetchFacultyOptions(
+                    item.branch?._id || null,
+                    false,
+                  );
 
-                    const selectedFaculty =
-                      options.find((opt) => opt.value === item.faculty?._id) ||
-                      null;
+                  const selectedFaculty =
+                    options.find((opt) => opt.value === item.faculty?._id) ||
+                    null;
 
-                    masterSessionFormik.setValues({
-                      testDate: item.testDate || "",
-                      branch: item.branch?._id || null,
-                      faculty: selectedFaculty,
-                      AssmtDate: item.AssmtDate || "",
-                      testAssmt: item.testAssmt || "",
-                      listening: item.listening || "",
-                      reading: item.reading || "",
-                      writing: item.writing || "",
-                      speaking: item.speaking || "",
-                      total: item.total || "",
-                    });
-                    setEditMasterSession({
-                      isEditing: true,
-                      masterSessionId: item._id,
-                      masterSessionData: item,
-                    });
-                    setShowMasterSessionModal(true);
-                  }}
-                  onDelete={(item) => handleDeleteMasterSession(item._id)}
-                  section="Master Session Details"
-                />
-              </div>
-            )}
+                  masterSessionFormik.setValues({
+                    testDate: item.testDate || "",
+                    branch: item.branch?._id || null,
+                    faculty: selectedFaculty,
+                    AssmtDate: item.AssmtDate || "",
+                    testAssmt: item.testAssmt || "",
+                    listening: item.listening || "",
+                    reading: item.reading || "",
+                    writing: item.writing || "",
+                    speaking: item.speaking || "",
+                    total: item.total || "",
+                  });
+                  setEditMasterSession({
+                    isEditing: true,
+                    masterSessionId: item._id,
+                    masterSessionData: item,
+                  });
+                  setShowMasterSessionModal(true);
+                }}
+                onDelete={(item) => handleDeleteMasterSession(item._id)}
+                section="Master Session Details"
+              />
+            </div>
+          )}
 
           {(selectedPersonalSection === "all" ||
             selectedPersonalSection === "targetAchieved") && (
-              <div className="my-4 p-4 bg-light rounded shadow-sm">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="mb-0">Exam Score Achieved</h5>
-                  {!(
-                    formData?.targetAchieved &&
-                    (formData?.targetAchieved?.scores?.reading ||
-                      formData?.targetAchieved?.scores?.writing ||
-                      formData?.targetAchieved?.scores?.speaking ||
-                      formData?.targetAchieved?.scores?.listening ||
-                      formData?.targetAchieved?.scores?.total ||
-                      formData?.targetAchieved?.document ||
-                      formData?.targetAchieved?.date)
-                  ) && (
-                      <Button
-                        variant="primary"
-                        className="px-4 py-2"
-                        style={{ borderRadius: "20px" }}
-                        onClick={() => {
-                          targetAchievedFormik.resetForm();
-                          setShowTargetAchievedModal(true);
-                          setShowAchievedDateCalendar(false);
-                        }}
-                      >
-                        Add New
-                      </Button>
-                    )}
-                </div>
-
-                <Modal
-                  show={showTargetAchievedModal}
-                  onHide={() => {
-                    setShowTargetAchievedModal(false);
-                    setShowAchievedDateCalendar(false);
-                    targetAchievedFormik.resetForm();
-                    setEditTargetAchieved({
-                      isEditing: false,
-                      targetAchievedData: null,
-                    });
-                  }}
-                  size="lg"
-                  centered
-                >
-                  <Modal.Header className="form-main-heading">
-                    <Modal.Title>
-                      {editTargetAchieved.isEditing
-                        ? "Update Target Achieved"
-                        : "Add Target Achieved"}
-                    </Modal.Title>
-                    <AiOutlineClose
-                      onClick={() => {
-                        setShowTargetAchievedModal(false);
-                        setShowAchievedDateCalendar(false);
-                        targetAchievedFormik.resetForm();
-                        setEditTargetAchieved({
-                          isEditing: false,
-                          targetAchievedData: null,
-                        });
-                      }}
-                      style={{ cursor: "pointer", color: "white" }}
-                    />
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form onSubmit={targetAchievedFormik.handleSubmit}>
-                      <Row>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Achieved Date</Form.Label>
-                          <div style={{ position: "relative" }}>
-                            <Form.Control
-                              type="text"
-                              name="date"
-                              className="rounded-pill"
-                              placeholder="dd/mm/yyyy"
-                              value={
-                                targetAchievedFormik.values.date
-                                  ? formatDate(
-                                    parseDate(targetAchievedFormik.values.date)
-                                  )
-                                  : ""
-                              }
-                              readOnly
-                              ref={achievedDateInputRef}
-                              onClick={() => {
-                                setShowAchievedDateCalendar((show) => !show);
-                              }}
-                              style={{
-                                cursor: "pointer",
-                                backgroundColor: "#fff",
-                              }}
-                            />
-                            <MdCalendarToday
-                              style={{
-                                position: "absolute",
-                                right: 10,
-                                top: "50%",
-                                transform: "translateY(-50%)",
-                                color: "#888",
-                                pointerEvents: "none",
-                              }}
-                              size={20}
-                            />
-                            {showAchievedDateCalendar && (
-                              <div
-                                ref={achievedDateCalendarRef}
-                                style={{
-                                  position: "absolute",
-                                  top: "100%",
-                                  left: "0",
-                                  zIndex: 9999,
-                                  background: "#fff",
-                                  boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                                  borderRadius: "8px",
-                                  marginTop: "4px",
-                                  width: 300,
-                                }}
-                              >
-                                <Calendar
-                                  className="form-control m-0 p-0 border-0"
-                                  onChange={(selectedDate) => {
-                                    targetAchievedFormik.setFieldValue(
-                                      "date",
-                                      formatDate(selectedDate)
-                                    );
-                                    setShowAchievedDateCalendar(false);
-                                  }}
-                                  value={parseDate(
-                                    targetAchievedFormik.values.date
-                                  )}
-                                  locale="en-GB"
-                                />
-                              </div>
-                            )}
-                          </div>
-                          {targetAchievedFormik.touched.date &&
-                            targetAchievedFormik.errors.date && (
-                              <div className="text-danger">
-                                {targetAchievedFormik.errors.date}
-                              </div>
-                            )}
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Upload Document</Form.Label>
-                          <Form.Control
-                            type="file"
-                            name="resultFile"
-                            onChange={(event) => {
-                              targetAchievedFormik.setFieldValue(
-                                "resultFile",
-                                event.currentTarget.files[0]
-                              );
-                            }}
-                            onBlur={targetAchievedFormik.handleBlur}
-                            className="rounded-pill"
-                          />
-                        </Col>
-                        {[
-                          "reading",
-                          "writing",
-                          "speaking",
-                          "listening",
-                          "total",
-                        ].map((scoreType) => (
-                          <Col md={4} key={scoreType} className="mb-3">
-                            <Form.Label>
-                              {scoreType?.charAt(0)?.toUpperCase() +
-                                scoreType?.slice(1)}{" "}
-                              Score
-                            </Form.Label>
-                            <Form.Control
-                              type="number"
-                              placeholder={`Enter ${scoreType} score`}
-                              className="rounded-pill"
-                              name={`scores.${scoreType}`}
-                              value={
-                                targetAchievedFormik.values.scores[scoreType]
-                              }
-                              onChange={targetAchievedFormik.handleChange}
-                              onBlur={targetAchievedFormik.handleBlur}
-                            />
-                          </Col>
-                        ))}
-                      </Row>
-                      <div className="text-end mt-4">
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="rounded-pill px-4"
-                        >
-                          {editTargetAchieved.isEditing ? "Update" : "Add"}
-                        </Button>
-                      </div>
-                    </Form>
-                  </Modal.Body>
-                </Modal>
-
-                <DataTable
-                  columns={targetAchievedColumns}
-                  data={
-                    formData?.targetAchieved &&
-                      (formData?.targetAchieved?.scores?.reading ||
-                        formData?.targetAchieved?.scores?.writing ||
-                        formData?.targetAchieved?.scores?.speaking ||
-                        formData?.targetAchieved?.scores?.listening ||
-                        formData?.targetAchieved?.scores?.total ||
-                        formData?.targetAchieved?.document ||
-                        formData?.targetAchieved?.date)
-                      ? [formData?.targetAchieved]
-                      : []
-                  }
-                  currentPage={1}
-                  totalPages={1}
-                  itemsPerPage={10}
-                  onEdit={(item) => {
-                    targetAchievedFormik.setValues({
-                      date: item.date || "",
-                      scores: {
-                        reading: item.scores?.reading || "",
-                        writing: item.scores?.writing || "",
-                        speaking: item.scores?.speaking || "",
-                        listening: item.scores?.listening || "",
-                        total: item.scores?.total || "",
-                      },
-                      resultFile: "",
-                    });
-                    setEditTargetAchieved({
-                      isEditing: true,
-                      targetAchievedData: item,
-                    });
-                    setShowTargetAchievedModal(true);
-                  }}
-                  onDelete={() => handleDeleteTargetAchieved()}
-                  section="Target Achieved Details"
-                />
-              </div>
-            )}
-
-          {(selectedPersonalSection === "all" ||
-            selectedPersonalSection === "subjectGrade") && (
-              <div className="my-4 p-4 bg-light rounded shadow-sm">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="mb-0">Subject Grade</h5>
+            <div className="my-4 p-4 bg-light rounded shadow-sm">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5 className="mb-0">Exam Score Achieved</h5>
+                {!(
+                  formData?.targetAchieved &&
+                  (formData?.targetAchieved?.scores?.reading ||
+                    formData?.targetAchieved?.scores?.writing ||
+                    formData?.targetAchieved?.scores?.speaking ||
+                    formData?.targetAchieved?.scores?.listening ||
+                    formData?.targetAchieved?.scores?.total ||
+                    formData?.targetAchieved?.document ||
+                    formData?.targetAchieved?.date)
+                ) && (
                   <Button
                     variant="primary"
                     className="px-4 py-2"
                     style={{ borderRadius: "20px" }}
                     onClick={() => {
-                      subjectGradeFormik.resetForm();
-                      setShowSubjectGradeModal(true);
+                      targetAchievedFormik.resetForm();
+                      setShowTargetAchievedModal(true);
+                      setShowAchievedDateCalendar(false);
                     }}
                   >
                     Add New
                   </Button>
-                </div>
+                )}
+              </div>
 
-                <Modal
-                  show={showSubjectGradeModal}
-                  onHide={() => {
-                    setShowSubjectGradeModal(false);
-                    subjectGradeFormik.resetForm();
-                    setEditSubjectGrade({
-                      isEditing: false,
-                      subjectGradeData: null,
-                    });
-                  }}
-                  size="lg"
-                  centered
-                >
-                  <Modal.Header className="form-main-heading">
-                    <Modal.Title>
-                      {editSubjectGrade.isEditing
-                        ? "Update Subject Grade"
-                        : "Add Subject Grade"}
-                    </Modal.Title>
-                    <AiOutlineClose
-                      onClick={() => {
-                        setShowSubjectGradeModal(false);
-                        subjectGradeFormik.resetForm();
-                        setEditSubjectGrade({
-                          isEditing: false,
-                          subjectGradeData: null,
-                        });
-                      }}
-                      style={{ cursor: "pointer", color: "white" }}
-                    />
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form onSubmit={subjectGradeFormik.handleSubmit}>
-                      <Row>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Subject</Form.Label>
-                          <Select
-                            options={subjectOptions}
-                            name="subject"
-                            placeholder="Select Subject"
-                            classNamePrefix="custom-select"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                borderRadius: "30px",
-                                color: "black",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "black",
-                                fontSize: "13px",
-                              }),
-                            }}
-                            isClearable
-                            onChange={(option) =>
-                              subjectGradeFormik.setFieldValue(
-                                "subject",
-                                option ? option.value : null
-                              )
-                            }
-                            value={
-                              subjectOptions.find(
-                                (opt) =>
-                                  opt.value === subjectGradeFormik.values.subject
-                              ) || null
-                            }
-                          />
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label>Level</Form.Label>
-                          <Select
-                            options={levelOptions}
-                            name="level"
-                            placeholder="Select Level"
-                            classNamePrefix="custom-select"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                borderRadius: "30px",
-                                color: "black",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "black",
-                                fontSize: "13px",
-                              }),
-                            }}
-                            isClearable
-                            onChange={(option) =>
-                              subjectGradeFormik.setFieldValue(
-                                "level",
-                                option ? option.value : null
-                              )
-                            }
-                            value={
-                              levelOptions.find(
-                                (opt) =>
-                                  opt.value === subjectGradeFormik.values.level
-                              ) || null
-                            }
-                          />
-                        </Col>
-                        <Col className="mb-3">
-                          <Form.Label>Remark</Form.Label>
+              <Modal
+                show={showTargetAchievedModal}
+                onHide={() => {
+                  setShowTargetAchievedModal(false);
+                  setShowAchievedDateCalendar(false);
+                  targetAchievedFormik.resetForm();
+                  setEditTargetAchieved({
+                    isEditing: false,
+                    targetAchievedData: null,
+                  });
+                }}
+                size="lg"
+                centered
+              >
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {editTargetAchieved.isEditing
+                      ? "Update Target Achieved"
+                      : "Add Target Achieved"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    onClick={() => {
+                      setShowTargetAchievedModal(false);
+                      setShowAchievedDateCalendar(false);
+                      targetAchievedFormik.resetForm();
+                      setEditTargetAchieved({
+                        isEditing: false,
+                        targetAchievedData: null,
+                      });
+                    }}
+                    style={{ cursor: "pointer", color: "white" }}
+                  />
+                </Modal.Header>
+                <Modal.Body>
+                  <Form onSubmit={targetAchievedFormik.handleSubmit}>
+                    <Row>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Achieved Date</Form.Label>
+                        <div style={{ position: "relative" }}>
                           <Form.Control
                             type="text"
-                            placeholder="Enter Remark"
+                            name="date"
                             className="rounded-pill"
-                            name="remarks"
-                            value={subjectGradeFormik.values.remarks}
-                            onChange={subjectGradeFormik.handleChange}
-                            onBlur={subjectGradeFormik.handleBlur}
+                            placeholder="dd/mm/yyyy"
+                            value={
+                              targetAchievedFormik.values.date
+                                ? formatDate(
+                                    parseDate(targetAchievedFormik.values.date),
+                                  )
+                                : ""
+                            }
+                            readOnly
+                            ref={achievedDateInputRef}
+                            onClick={() => {
+                              setShowAchievedDateCalendar((show) => !show);
+                            }}
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#fff",
+                            }}
+                          />
+                          <MdCalendarToday
+                            style={{
+                              position: "absolute",
+                              right: 10,
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              color: "#888",
+                              pointerEvents: "none",
+                            }}
+                            size={20}
+                          />
+                          {showAchievedDateCalendar && (
+                            <div
+                              ref={achievedDateCalendarRef}
+                              style={{
+                                position: "absolute",
+                                top: "100%",
+                                left: "0",
+                                zIndex: 9999,
+                                background: "#fff",
+                                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                borderRadius: "8px",
+                                marginTop: "4px",
+                                width: 300,
+                              }}
+                            >
+                              <Calendar
+                                className="form-control m-0 p-0 border-0"
+                                onChange={(selectedDate) => {
+                                  targetAchievedFormik.setFieldValue(
+                                    "date",
+                                    formatDate(selectedDate),
+                                  );
+                                  setShowAchievedDateCalendar(false);
+                                }}
+                                value={parseDate(
+                                  targetAchievedFormik.values.date,
+                                )}
+                                locale="en-GB"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        {targetAchievedFormik.touched.date &&
+                          targetAchievedFormik.errors.date && (
+                            <div className="text-danger">
+                              {targetAchievedFormik.errors.date}
+                            </div>
+                          )}
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Upload Document</Form.Label>
+                        <Form.Control
+                          type="file"
+                          name="resultFile"
+                          onChange={(event) => {
+                            targetAchievedFormik.setFieldValue(
+                              "resultFile",
+                              event.currentTarget.files[0],
+                            );
+                          }}
+                          onBlur={targetAchievedFormik.handleBlur}
+                          className="rounded-pill"
+                        />
+                      </Col>
+                      {[
+                        "reading",
+                        "writing",
+                        "speaking",
+                        "listening",
+                        "total",
+                      ].map((scoreType) => (
+                        <Col md={4} key={scoreType} className="mb-3">
+                          <Form.Label>
+                            {scoreType?.charAt(0)?.toUpperCase() +
+                              scoreType?.slice(1)}{" "}
+                            Score
+                          </Form.Label>
+                          <Form.Control
+                            type="number"
+                            placeholder={`Enter ${scoreType} score`}
+                            className="rounded-pill"
+                            name={`scores.${scoreType}`}
+                            value={
+                              targetAchievedFormik.values.scores[scoreType]
+                            }
+                            onChange={targetAchievedFormik.handleChange}
+                            onBlur={targetAchievedFormik.handleBlur}
                           />
                         </Col>
-                      </Row>
-                      <div className="text-end mt-4">
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="rounded-pill px-4"
-                        >
-                          {editSubjectGrade.isEditing ? "Update" : "Add"}
-                        </Button>
-                      </div>
-                    </Form>
-                  </Modal.Body>
-                </Modal>
+                      ))}
+                    </Row>
+                    <div className="text-end mt-4">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="rounded-pill px-4"
+                      >
+                        {editTargetAchieved.isEditing ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
 
-                <DataTable
-                  columns={subjectGradeColumns}
-                  data={formData.subjectLevelDetails || []}
-                  currentPage={1}
-                  totalPages={1}
-                  itemsPerPage={10}
-                  onEdit={(item) => {
-                    subjectGradeFormik.setValues({
-                      subject: item.subject || null,
-                      level: item.level || null,
-                      remarks: item.remarks || "",
-                    });
-                    setEditSubjectGrade({
-                      isEditing: true,
-                      subjectLevelId: item._id,
-                      subjectGradeData: item,
-                    });
+              <DataTable
+                columns={targetAchievedColumns}
+                data={
+                  formData?.targetAchieved &&
+                  (formData?.targetAchieved?.scores?.reading ||
+                    formData?.targetAchieved?.scores?.writing ||
+                    formData?.targetAchieved?.scores?.speaking ||
+                    formData?.targetAchieved?.scores?.listening ||
+                    formData?.targetAchieved?.scores?.total ||
+                    formData?.targetAchieved?.document ||
+                    formData?.targetAchieved?.date)
+                    ? [formData?.targetAchieved]
+                    : []
+                }
+                currentPage={1}
+                totalPages={1}
+                itemsPerPage={10}
+                onEdit={(item) => {
+                  targetAchievedFormik.setValues({
+                    date: item.date || "",
+                    scores: {
+                      reading: item.scores?.reading || "",
+                      writing: item.scores?.writing || "",
+                      speaking: item.scores?.speaking || "",
+                      listening: item.scores?.listening || "",
+                      total: item.scores?.total || "",
+                    },
+                    resultFile: "",
+                  });
+                  setEditTargetAchieved({
+                    isEditing: true,
+                    targetAchievedData: item,
+                  });
+                  setShowTargetAchievedModal(true);
+                }}
+                onDelete={() => handleDeleteTargetAchieved()}
+                section="Target Achieved Details"
+              />
+            </div>
+          )}
+
+          {(selectedPersonalSection === "all" ||
+            selectedPersonalSection === "subjectGrade") && (
+            <div className="my-4 p-4 bg-light rounded shadow-sm">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5 className="mb-0">Subject Grade</h5>
+                <Button
+                  variant="primary"
+                  className="px-4 py-2"
+                  style={{ borderRadius: "20px" }}
+                  onClick={() => {
+                    subjectGradeFormik.resetForm();
                     setShowSubjectGradeModal(true);
                   }}
-                  showDeleteButton={false}
-                  // onDelete={(item) => handleDeleteSubjectGrade(item._id)}
-                  section="Subject Grade Details"
-                />
+                >
+                  Add New
+                </Button>
               </div>
-            )}
+
+              <Modal
+                show={showSubjectGradeModal}
+                onHide={() => {
+                  setShowSubjectGradeModal(false);
+                  subjectGradeFormik.resetForm();
+                  setEditSubjectGrade({
+                    isEditing: false,
+                    subjectGradeData: null,
+                  });
+                }}
+                size="lg"
+                centered
+              >
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {editSubjectGrade.isEditing
+                      ? "Update Subject Grade"
+                      : "Add Subject Grade"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    onClick={() => {
+                      setShowSubjectGradeModal(false);
+                      subjectGradeFormik.resetForm();
+                      setEditSubjectGrade({
+                        isEditing: false,
+                        subjectGradeData: null,
+                      });
+                    }}
+                    style={{ cursor: "pointer", color: "white" }}
+                  />
+                </Modal.Header>
+                <Modal.Body>
+                  <Form onSubmit={subjectGradeFormik.handleSubmit}>
+                    <Row>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Subject</Form.Label>
+                        <Select
+                          options={subjectOptions}
+                          name="subject"
+                          placeholder="Select Subject"
+                          classNamePrefix="custom-select"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              borderRadius: "30px",
+                              color: "black",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "black",
+                              fontSize: "13px",
+                            }),
+                          }}
+                          isClearable
+                          onChange={(option) =>
+                            subjectGradeFormik.setFieldValue(
+                              "subject",
+                              option ? option.value : null,
+                            )
+                          }
+                          value={
+                            subjectOptions.find(
+                              (opt) =>
+                                opt.value === subjectGradeFormik.values.subject,
+                            ) || null
+                          }
+                        />
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label>Level</Form.Label>
+                        <Select
+                          options={levelOptions}
+                          name="level"
+                          placeholder="Select Level"
+                          classNamePrefix="custom-select"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              borderRadius: "30px",
+                              color: "black",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "black",
+                              fontSize: "13px",
+                            }),
+                          }}
+                          isClearable
+                          onChange={(option) =>
+                            subjectGradeFormik.setFieldValue(
+                              "level",
+                              option ? option.value : null,
+                            )
+                          }
+                          value={
+                            levelOptions.find(
+                              (opt) =>
+                                opt.value === subjectGradeFormik.values.level,
+                            ) || null
+                          }
+                        />
+                      </Col>
+                      <Col className="mb-3">
+                        <Form.Label>Remark</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter Remark"
+                          className="rounded-pill"
+                          name="remarks"
+                          value={subjectGradeFormik.values.remarks}
+                          onChange={subjectGradeFormik.handleChange}
+                          onBlur={subjectGradeFormik.handleBlur}
+                        />
+                      </Col>
+                    </Row>
+                    <div className="text-end mt-4">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="rounded-pill px-4"
+                      >
+                        {editSubjectGrade.isEditing ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
+
+              <DataTable
+                columns={subjectGradeColumns}
+                data={formData.subjectLevelDetails || []}
+                currentPage={1}
+                totalPages={1}
+                itemsPerPage={10}
+                onEdit={(item) => {
+                  subjectGradeFormik.setValues({
+                    subject: item.subject || null,
+                    level: item.level || null,
+                    remarks: item.remarks || "",
+                  });
+                  setEditSubjectGrade({
+                    isEditing: true,
+                    subjectLevelId: item._id,
+                    subjectGradeData: item,
+                  });
+                  setShowSubjectGradeModal(true);
+                }}
+                showDeleteButton={false}
+                // onDelete={(item) => handleDeleteSubjectGrade(item._id)}
+                section="Subject Grade Details"
+              />
+            </div>
+          )}
 
           {(selectedPersonalSection === "all" ||
             selectedPersonalSection === "accountant") && (
-              // <div className="my-5 p-4 bg-light rounded shadow-sm">
-              //   <DataTable
-              //     columns={AccountantColumns}
-              //     data={accountantData}
-              //     totalData={totalData}
-              //     currentPage={1}
-              //     itemsPerPage={10}
-              //     actionView={false}
-              //     rowHeight={false}
-              //   />
-              // </div>
-              <ApplicationAccountant
-                accountantData={accountantData}
-                oneStudentData={oneStudentData}
-                fetchAccountant={fetchAccountant}
-                totalData={totalData}
-                mainPlanKey="coaching"
-              />
-            )}
+            // <div className="my-5 p-4 bg-light rounded shadow-sm">
+            //   <DataTable
+            //     columns={AccountantColumns}
+            //     data={accountantData}
+            //     totalData={totalData}
+            //     currentPage={1}
+            //     itemsPerPage={10}
+            //     actionView={false}
+            //     rowHeight={false}
+            //   />
+            // </div>
+            <ApplicationAccountant
+              accountantData={accountantData}
+              oneStudentData={oneStudentData}
+              fetchAccountant={fetchAccountant}
+              totalData={totalData}
+              mainPlanKey="coaching"
+            />
+          )}
         </div>
       </Card>
     </>
