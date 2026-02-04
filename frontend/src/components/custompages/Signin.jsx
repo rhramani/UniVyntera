@@ -520,7 +520,7 @@ const Signin = () => {
               className="fw-bold mb-3"
               style={{
                 fontSize: "28px",
-                color: "#1f3d3f",
+                color: "#ffffff",
                 lineHeight: "1.3",
               }}
             >
@@ -531,7 +531,7 @@ const Signin = () => {
               className="mb-2"
               style={{
                 fontSize: "14px",
-                color: "#355f61",
+                color: "#e0e7ff",
                 maxWidth: "350px",
               }}
             >

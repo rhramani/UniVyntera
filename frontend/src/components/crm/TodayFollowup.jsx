@@ -2893,7 +2893,7 @@ const TodayFollowup = () => {
                     <Select
                       className="filter-height"
                       styles={selectStyles}
-                      classNamePrefix="select"
+                      classNamePrefix="custom-select"
                       value={
                         filters.country
                           ? {
@@ -2927,7 +2927,7 @@ const TodayFollowup = () => {
                     <Select
                       className="filter-height"
                       styles={selectStyles}
-                      classNamePrefix="select"
+                      classNamePrefix="custom-select"
                       value={
                         filters.followUpType
                           ? followUpTypeOptions.find(
@@ -3002,7 +3002,7 @@ const TodayFollowup = () => {
                     <Form.Label>Sub status</Form.Label>
                     <Select
                       styles={selectStyles}
-                      classNamePrefix="select"
+                      classNamePrefix="custom-select"
                       value={
                         filters.subStatus
                           ? {
@@ -3064,7 +3064,7 @@ const TodayFollowup = () => {
                     <Select
                       className="filter-height"
                       styles={selectStyles}
-                      classNamePrefix="select"
+                      classNamePrefix="custom-select"
                       value={
                         filters.leadActivity
                           ? {

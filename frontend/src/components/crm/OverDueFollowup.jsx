@@ -498,7 +498,7 @@ const OverDueFollowup = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -3307,7 +3307,7 @@ const fetchAllUser = async (
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.country
                             ? {
@@ -3341,7 +3341,7 @@ const fetchAllUser = async (
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.followUpType
                             ? followUpTypeOptions.find(
@@ -3368,7 +3368,7 @@ const fetchAllUser = async (
                       <Form.Label>Status</Form.Label>
                       <Select
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.status
                             ? {
@@ -3404,7 +3404,7 @@ const fetchAllUser = async (
                       <Form.Label>Sub status</Form.Label>
                       <Select
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.subStatus
                             ? {
@@ -3466,7 +3466,7 @@ const fetchAllUser = async (
                       <Select
                         className="filter-height"
                         styles={selectStyles}
-                        classNamePrefix="select"
+                        classNamePrefix="custom-select"
                         value={
                           filters.leadActivity
                             ? {

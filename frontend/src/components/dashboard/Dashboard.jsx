@@ -1701,7 +1701,7 @@ const Dashboard = () => {
                         <Card.Body className="p-3">
                           <div className="d-flex align-items-center">
                             <div
-                              className="bg-warning-transparent rounded-circle d-flex align-items-center justify-content-center me-3"
+                              className="bg-warning-transparent  d-flex align-items-center justify-content-center me-3"
                               style={{
                                 width: "50px",
                                 height: "50px",
