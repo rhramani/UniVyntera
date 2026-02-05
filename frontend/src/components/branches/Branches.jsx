@@ -460,9 +460,9 @@ const Branches = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div>
+              {/* <div>
                 <div className="card-title">Branch</div>
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               <Row className="mb-3 d-flex justify-content-between">
@@ -757,7 +757,7 @@ const Branches = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: " 30px",
+                              borderRadius: " 12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -824,7 +824,7 @@ const Branches = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: " 30px",
+                              borderRadius: " 12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -890,7 +890,7 @@ const Branches = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: " 30px",
+                              borderRadius: " 12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({

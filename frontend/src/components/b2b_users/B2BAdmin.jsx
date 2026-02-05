@@ -1094,7 +1094,7 @@ const B2BAdmin = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0 d-flex justify-content-between">
-              <div className="card-title mb-0">B2B Admin</div>
+              <div className="card-title mb-0"></div>
               <div className="d-flex flex-wrap align-items-center gap-2">
                 <div className="filter-item">
                   <div className="contact-search3 d-flex align-items-center border rounded-pill">
@@ -1175,7 +1175,7 @@ const B2BAdmin = () => {
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                         minWidth: "150px",
                       }),
@@ -1211,7 +1211,7 @@ const B2BAdmin = () => {
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                         minWidth: "150px",
                       }),
@@ -1240,7 +1240,7 @@ const B2BAdmin = () => {
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                         minWidth: "150px",
                       }),
@@ -1729,7 +1729,7 @@ const B2BAdmin = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: " 30px",
+                              borderRadius: " 12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -1796,7 +1796,7 @@ const B2BAdmin = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: " 30px",
+                              borderRadius: " 12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -1852,7 +1852,7 @@ const B2BAdmin = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: " 30px",
+                              borderRadius: " 12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({

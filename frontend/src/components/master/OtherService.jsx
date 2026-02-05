@@ -164,7 +164,7 @@ const Other = () => {
       <Row className="mt-5 row-sm">
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
-            <Card.Header className="border-bottom-0">
+            <Card.Header className="border-bottom-0 d-flex justify-content-between">
               {/* <div>
                 <div className="card-title">
                   {highlightForm ? "Update Other Service" : "Add Other Service"}

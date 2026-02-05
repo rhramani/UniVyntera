@@ -219,7 +219,7 @@ const Stream = () => {
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                           minHeight: "38px",
                           width: "200px",

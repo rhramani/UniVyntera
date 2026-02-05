@@ -2127,7 +2127,7 @@ const Dashboard = () => {
                           style={{
                             width: "10px",
                             height: "10px",
-                            backgroundColor: "#6c5ffc", // Vyntera Purple
+                            backgroundColor: "#6c5ffc", // Zokep Purple
                             boxShadow: "0 0 5px rgba(108, 95, 252, 0.4)",
                           }}
                         ></span>

@@ -1304,7 +1304,7 @@ const BranchMember = () => {
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
               <div className="w-100 d-flex justify-content-between">
-                <div className="card-title">Branch Member</div>
+                <div className="card-title"></div>
                 <div className="d-flex flex-wrap align-items-center gap-2"><div className="contact-search3">
                     <button type="button" className="btn border-0">
                       <i

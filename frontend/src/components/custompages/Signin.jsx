@@ -455,7 +455,7 @@ const Signin = () => {
                   access.
                 </Card.Text>
                 <Button
-                  href="mailto:support@vynteracrm.com"
+                  href="mailto:support@zokepcrm.com"
                   style={{
                     backgroundColor: "#053880", // Deep blue button
                     borderColor: "#053880",
@@ -484,14 +484,14 @@ const Signin = () => {
                 >
                   📞 Need help? Reach out at{" "}
                   <a
-                    href="mailto:support@vynteracrm.com"
+                    href="mailto:support@zokepcrm.com"
                     style={{
                       color: "#053880",
                       textDecoration: "none",
                       fontWeight: "500",
                     }}
                   >
-                    support@vynteracrm.com
+                    support@zokepcrm.com
                   </a>
                 </p>
               </Card.Body>
@@ -536,7 +536,7 @@ const Signin = () => {
               }}
             >
               Simplify lead management and strengthen customer relationships
-              with <strong>Vyntera</strong>.
+              with <strong>Zokep</strong>.
             </p>
           </div>
         </div>
@@ -545,7 +545,7 @@ const Signin = () => {
         <div className="signin-right">
           <div className="signin-content">
             <form onSubmit={formik.handleSubmit} className="signin-form">
-              <h3>Sign in to Vyntera</h3>
+              <h3>Sign in to Zokep</h3>
               {/* <p className="sub-text">Connect, manage, and grow relationships across the global community.</p> */}
               <p className="sub-text">Connect and grow globally.</p>
 
@@ -614,8 +614,8 @@ const Signin = () => {
             <div className="signin-footer">
               <p>
                 📞 Need help? Contact{" "}
-                <a href="mailto:support@vynteracrm.com">
-                  support@vynteracrm.com
+                <a href="mailto:support@zokepcrm.com">
+                  support@zokepcrm.com
                 </a>
               </p>
 

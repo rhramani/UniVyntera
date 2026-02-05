@@ -1490,7 +1490,7 @@ const DirectInstitute = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: " 30px",
+                              borderRadius: " 12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -1544,7 +1544,7 @@ const DirectInstitute = () => {
                           styles={{
                             control: (base, state) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: state.isDisabled ? "#6c757d" : "black",
                               backgroundColor: state.isDisabled
                                 ? "#e9ecef"
@@ -1605,7 +1605,7 @@ const DirectInstitute = () => {
                           styles={{
                             control: (base, state) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: state.isDisabled ? "#6c757d" : "black",
                               backgroundColor: state.isDisabled
                                 ? "#e9ecef"
@@ -1688,7 +1688,7 @@ const DirectInstitute = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: " 30px",
+                              borderRadius: " 12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({

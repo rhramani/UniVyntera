@@ -334,18 +334,18 @@ const Member = () => {
   return (
     <>
       <Pageheader
-        mainheading="Member"
+        mainheading="B2B Team Member"
         parentfolder="Home"
-        activepage="Member"
+        activepage="B2B Team Member"
       />
 
       <Row className="mt-5 row-sm">
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div>
+              {/* <div>
                 <div className="card-title">B2B Team Member</div>
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               <Row className="mb-3 d-flex justify-content-between">
