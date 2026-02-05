@@ -3003,8 +3003,8 @@ const AllLeads = () => {
       <Row className="mt-5 row-sm">
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
-            <Card.Header className="border-bottom-0 d-flex justify-content-between">
-              <div className="card-title mb-0">All Leads</div>
+            <Card.Header className="border-bottom-0 d-flex justify-content-end">
+              {/* <div className="card-title mb-0">All Leads</div> */}
               {canRead && (
                 <div className="d-flex flex-wrap align-items-center gap-2">
                   <SearchWithDropdown
