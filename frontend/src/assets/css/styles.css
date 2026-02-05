@@ -53338,7 +53338,7 @@ h4,
   background-color: white !important;
   color: black !important;
   border: 1px solid lightgray !important;
-  border-radius: 30px;
+  border-radius: 12px;
 }
 
 .month-dropdown-toggle:hover,
@@ -53657,7 +53657,7 @@ h4,
 }
 
 .form-main-heading {
-  background-color: #479297;
+  background-color: #6B63C3;
   color: white;
 }
 
