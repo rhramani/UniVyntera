@@ -235,7 +235,7 @@ const Branches = () => {
     { value: "Active", label: "Active" },
     { value: "Inactive", label: "Inactive" },
   ];
-  
+
   const branchFields = [
     { label: "NAME", key: "name" },
     { label: "CONTECT PERSON", key: "contactPerson" },
@@ -681,9 +681,9 @@ const Branches = () => {
                           value={
                             formik.values.status
                               ? {
-                                  value: formik.values.status,
-                                  label: formik.values.status,
-                                }
+                                value: formik.values.status,
+                                label: formik.values.status,
+                              }
                               : null
                           }
                           onChange={(option) =>
@@ -784,13 +784,13 @@ const Branches = () => {
                           value={
                             formik.values.state
                               ? stateDropDown
-                                  ?.map((state) => ({
-                                    value: state.isoCode,
-                                    label: state.name,
-                                  }))
-                                  .filter(
-                                    (s) => s.value === formik.values.state
-                                  )
+                                ?.map((state) => ({
+                                  value: state.isoCode,
+                                  label: state.name,
+                                }))
+                                .filter(
+                                  (s) => s.value === formik.values.state
+                                )
                               : []
                           }
                           onChange={(option) => {
@@ -851,14 +851,14 @@ const Branches = () => {
                           value={
                             formik.values.city
                               ? cityDropDownList
-                                  ?.map((city) => {
-                                    const name =
-                                      typeof city === "string"
-                                        ? city
-                                        : city.name;
-                                    return { value: name, label: name };
-                                  })
-                                  .filter((c) => c.value === formik.values.city)
+                                ?.map((city) => {
+                                  const name =
+                                    typeof city === "string"
+                                      ? city
+                                      : city.name;
+                                  return { value: name, label: name };
+                                })
+                                .filter((c) => c.value === formik.values.city)
                               : []
                           }
                           onChange={(selectedOption) => {
@@ -994,11 +994,12 @@ const Branches = () => {
               />
 
               {totalPages > 1 && branchesList.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  /></div>
               )}
             </Card.Body>
           </Card>

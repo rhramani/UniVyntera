@@ -9,6 +9,7 @@ import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
 import DataTable from "../commonComponents/DataTable";
 import usePermissions from "../commonComponents/usePermissions";
 import { createCoachingRequirement, deleteCoachingRequirement, getAllCoachingRequirement, updateCoachingRequirement } from "../../redux/actions/Master/CoachingRequirement.action";
+import Pageheader from "../../layouts/Pageheader";
 
 const CoachingRequirement = () => {
   const dispatch = useDispatch();
@@ -158,29 +159,36 @@ const CoachingRequirement = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Coaching Requirement"
+        parentfolder="Coaching"
+        activepage="Coaching Requirement"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {highlightForm
                   ? "Update Coaching Requirement"
                   : "Add Coaching Requirement"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit} className="form_main_class">
               {(canCreate || (canUpdate && highlightForm)) && (
                 <div className="form_left_section">
                   <div className="form-group">
-                    <Form.Label>Coaching Requirement Name</Form.Label>
+                    <Form.Label>Coaching Requirement</Form.Label>
                     <Form.Control
                       type="text"
                       name="name"
                       className="custom-select-height"
-                      placeholder="Enter Coaching Requirement name..."
+                      placeholder="Enter coaching requirement"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -256,16 +264,19 @@ const CoachingRequirement = () => {
             />
 
             {totalPages > 1 && allCoachingRequirements.length > 0 && (
+              <div className="mt-4 d-flex justify-content-end align-items-end">
               <Paginations
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
               />
+              </div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

@@ -202,8 +202,8 @@ const DataTable = ({
 
   return (
     <>
-      <div className="table-responsive">
-        <Table className="text-nowrap border" style={{ tableLayout: "auto" }}>
+      <div className="table-responsive" style={{ borderRadius: "12px", border: "1px solid #dee2e6" }}>
+        <Table className="table table-hover modern-table table-nowrap" style={{ tableLayout: "auto", marginBottom: "0" }}>
           <thead>
             <tr>
               {showNoColumn && (

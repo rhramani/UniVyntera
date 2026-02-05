@@ -1105,10 +1105,17 @@ const PartnerCommissionReport = () => {
                 </>
               )}
 
-              <div className="table-responsive">
+              <div
+                className="table-responsive modern-table-wrapper"
+                style={{
+                  borderRadius: "12px",
+                  border: "1px solid #dee2e6",
+                }}
+              >
+
                 <table
-                  className="text-nowrap border"
-                  style={{ tableLayout: "auto" }}
+                  className="table table-hover modern-table table-nowrap"
+                 style={{ tableLayout: "auto" }}
                 >
                   <thead className="text-uppercase">
                     <tr>
@@ -1156,7 +1163,7 @@ const PartnerCommissionReport = () => {
               </div>
 
               {totalPages > 1 && partnerCommissionReports.length > 0 && (
-                <div className="mt-4 d-flex">
+                <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}

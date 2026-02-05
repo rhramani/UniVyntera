@@ -14,6 +14,7 @@ import {
   getAllCategory,
   updateCategory,
 } from "../../../redux/actions/Master/TaskManagementMaster/TaskCategory.action";
+import Pageheader from "../../../layouts/Pageheader";
 
 const TaskCategory = () => {
   const dispatch = useDispatch();
@@ -154,124 +155,134 @@ const TaskCategory = () => {
   ];
 
   return (
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            <div className="card-title">
+    <>
+      <Pageheader
+        mainheading="Task Category"
+        parentfolder="Task"
+        activepage="Task Category"
+      />
+
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div className="card-title">
               {isEditing ? "Update Category" : "Add Category"}
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <Form onSubmit={formik.handleSubmit} className="form_main_class">
-              {(canCreate || (canUpdate && isEditing)) && (
-                <div className="form_left_section">
-                  <div className="form-group">
-                    <Form.Label>Category</Form.Label>
+            </div> */}
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={formik.handleSubmit} className="form_main_class">
+                {(canCreate || (canUpdate && isEditing)) && (
+                  <div className="form_left_section">
+                    <div className="form-group">
+                      <Form.Label>Category</Form.Label>
+                      <Form.Control
+                        type="text"
+                        className="custom-select-height"
+                        placeholder="Enter category"
+                        name="name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                      {formik.touched.name && formik.errors.name && (
+                        <div className="custom-text-danger">
+                          {formik.errors.name}
+                        </div>
+                      )}
+                    </div>
+                    <div className="form-group form-group-button">
+                      <Button
+                        variant="primary"
+                        className="custom-select-height"
+                        type="submit"
+                        disabled={formik.values.id ? !canUpdate : !canCreate}
+                      >
+                        {formik.values.id ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="form_right_section my-3">
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
                     <Form.Control
                       type="text"
-                      className="custom-select-height"
-                      placeholder="Enter category name..."
-                      name="name"
-                      value={formik.values.name}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      className="filter-height border-0"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
                     />
-                    {formik.touched.name && formik.errors.name && (
-                      <div className="custom-text-danger">
-                        {formik.errors.name}
-                      </div>
-                    )}
                   </div>
-                  <div className="form-group form-group-button">
-                    <Button
-                      variant="primary"
-                      className="custom-select-height"
-                      type="submit"
-                      disabled={formik.values.id ? !canUpdate : !canCreate}
-                    >
-                      {formik.values.id ? "Update" : "Add"}
-                    </Button>
-                  </div>
-                </div>
-              )}
 
-              <div className="form_right_section my-3">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
+                  <ItemsPerPageSelect
+                    itemsPerPage={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
                   />
-                </div>
 
-                <ItemsPerPageSelect
-                  itemsPerPage={itemsPerPage}
-                  onChange={handleItemsPerPageChange}
-                />
-
-                <div className="custom-select-height total-records px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                  <span>
-                    Total Records: <strong>{totalRecords}</strong>
-                  </span>
+                  <div className="custom-select-height total-records px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
+                    <span>
+                      Total Records: <strong>{totalRecords}</strong>
+                    </span>
+                  </div>
                 </div>
+              </Form>
+              <div className={isEditing ? "update-warning mb-3" : ""}>
+                {isEditing ? "Update your information" : ""}
               </div>
-            </Form>
-            <div className={isEditing ? "update-warning mb-3" : ""}>
-              {isEditing ? "Update your information" : ""}
-            </div>
 
-            {isLoading ? (
-              <div className="d-flex justify-content-center my-4">
-                <div
-                  className="spinner-border text-primary"
-                  role="status"
-                  style={{ width: "3rem", height: "3rem" }}
-                >
-                  <span className="visually-hidden">Loading...</span>
+              {isLoading ? (
+                <div className="d-flex justify-content-center my-4">
+                  <div
+                    className="spinner-border text-primary"
+                    role="status"
+                    style={{ width: "3rem", height: "3rem" }}
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <>
-                <DataTable
-                  columns={columns}
-                  data={category}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                  canEdit={canUpdate}
-                  canDelete={canDelete}
-                  canRead={canRead}
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  itemsPerPage={itemsPerPage}
-                  onPageChange={setCurrentPage}
-                />
-
-                {totalPages > 1 && category.length > 0 && (
-                  <Paginations
+              ) : (
+                <>
+                  <DataTable
+                    columns={columns}
+                    data={category}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    canEdit={canUpdate}
+                    canDelete={canDelete}
+                    canRead={canRead}
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    onPageChange={(page) => setCurrentPage(page)}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={setCurrentPage}
                   />
-                )}
-              </>
-            )}
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+
+                  {totalPages > 1 && category.length > 0 && (
+                    <div className="mt-4 d-flex justify-content-end align-items-end">
+                      <Paginations
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 

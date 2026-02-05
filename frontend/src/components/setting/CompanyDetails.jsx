@@ -207,17 +207,17 @@ const CompanyDetails = () => {
   return (
     <>
       <Pageheader
-        mainheading="Company Logo"
+        mainheading="Company Details"
         parentfolder="Settings"
-        activepage="Company Logo"
+        activepage="Company Details"
       />
       <Row className="mt-5 row-sm">
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div>
+              {/* <div>
                 <div className="card-title">Company Logos</div>
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               {settings.length < 1 ? (

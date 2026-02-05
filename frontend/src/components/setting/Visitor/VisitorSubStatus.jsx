@@ -56,7 +56,7 @@ const VisitorSubStatus = () => {
   ) => {
     try {
       const res = await dispatch(getAllVisitorSubStatus(page, limit, search));
-      
+
       if (res?.status === 200) {
         setVisitorSubStatus(res?.data?.data?.data || []);
         setTotalRecords(res?.data?.data?.totalRecords || 0);
@@ -222,9 +222,9 @@ const VisitorSubStatus = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div>
+              {/* <div>
                 <div className="card-title">Visitor Sub Status</div>
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit}>
@@ -371,11 +371,13 @@ const VisitorSubStatus = () => {
               />
 
               {totalPages > 1 && visitorSubStatus?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

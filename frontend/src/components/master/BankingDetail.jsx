@@ -15,6 +15,7 @@ import {
   getAllBankingDetails,
   updateBankingDetails,
 } from "../../redux/actions/Master/Banking.action";
+import Pageheader from "../../layouts/Pageheader";
 
 const BankingDetail = () => {
   const dispatch = useDispatch();
@@ -201,259 +202,269 @@ const BankingDetail = () => {
   ];
 
   return (
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            <div>
+    <>
+      <Pageheader
+        mainheading="Banking Details"
+        parentfolder="Master"
+        activepage="Banking Details"
+      />
+
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div>
               <div className="card-title">
                 {formik.values.id
                   ? "Update Banking Details"
                   : "Add Banking Details"}
               </div>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <form onSubmit={formik.handleSubmit}>
-              <Row className="mb-3">
-                <Col md={4} className="d-flex align-items-end">
-                  {canCreate && (
-                    <Button
-                      variant="primary"
-                      className="custom-select-height"
-                      onClick={handleShow}
-                    >
-                      {formik.values.id
-                        ? "Update Banking Details"
-                        : "Add Banking Details"}
-                    </Button>
-                  )}
-                </Col>
-                <Col className="d-flex align-items-end justify-content-end gap-2">
-                  <div className="ms-auto">
-                    <div className="contact-search3">
-                      <button type="button" className="btn border-0">
-                        <i
-                          className="fe fe-search fw-semibold text-muted"
-                          aria-hidden="true"
-                        ></i>
-                      </button>
-                      <Form.Control
-                        type="text"
-                        className="filter-height border-0"
-                        id="typehead1"
-                        placeholder="Search here..."
-                        autoComplete="off"
-                        value={search}
-                        onChange={(e) => {
-                          setSearch(e.target.value);
-                          setCurrentPage(1);
-                        }}
-                      />
+            </div> */}
+            </Card.Header>
+            <Card.Body>
+              <form onSubmit={formik.handleSubmit}>
+                <Row className="mb-3">
+                  <Col md={4} className="d-flex align-items-end">
+                    {canCreate && (
+                      <Button
+                        variant="primary"
+                        className="custom-select-height"
+                        onClick={handleShow}
+                      >
+                        {formik.values.id
+                          ? "Update Banking Details"
+                          : "Add Banking Details"}
+                      </Button>
+                    )}
+                  </Col>
+                  <Col className="d-flex align-items-end justify-content-end gap-2">
+                    <div className="ms-auto">
+                      <div className="contact-search3">
+                        <button type="button" className="btn border-0">
+                          <i
+                            className="fe fe-search fw-semibold text-muted"
+                            aria-hidden="true"
+                          ></i>
+                        </button>
+                        <Form.Control
+                          type="text"
+                          className="filter-height border-0"
+                          id="typehead1"
+                          placeholder="Search here..."
+                          autoComplete="off"
+                          value={search}
+                          onChange={(e) => {
+                            setSearch(e.target.value);
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <ItemsPerPageSelect
-                    itemsPerPage={itemsPerPage}
-                    onChange={handleItemsPerPageChange}
+                    <ItemsPerPageSelect
+                      itemsPerPage={itemsPerPage}
+                      onChange={handleItemsPerPageChange}
+                    />
+                    <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
+                      <span>
+                        Total Records: <strong>{totalRecords}</strong>
+                      </span>
+                    </div>
+                  </Col>
+                </Row>
+              </form>
+
+              <Modal show={show} onHide={handleClose} size="lg" centered>
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {formik.values.id
+                      ? "Update Banking Details"
+                      : "Add Banking Details"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={handleClose}
                   />
-                  <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                    <span>
-                      Total Records: <strong>{totalRecords}</strong>
-                    </span>
-                  </div>
-                </Col>
-              </Row>
-            </form>
-
-            <Modal show={show} onHide={handleClose} size="lg" centered>
-              <Modal.Header className="form-main-heading">
-                <Modal.Title>
-                  {formik.values.id
-                    ? "Update Banking Details"
-                    : "Add Banking Details"}
-                </Modal.Title>
-                <AiOutlineClose
-                  size={20}
-                  style={{ cursor: "pointer", color: "white" }}
-                  onClick={handleClose}
-                />
-              </Modal.Header>
-              <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
-                <Form onSubmit={formik.handleSubmit}>
-                  <Row className="mb-3 mt-0">
-                    <Col md={6} className="mb-3">
-                      <Form.Label className="fw-semibold">Bank Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        className="custom-select-height"
-                        placeholder="Enter Bank Name"
-                        name="bankName"
-                        value={formik.values.bankName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        isInvalid={
-                          formik.touched.bankName && !!formik.errors.bankName
-                        }
-                      />
-                      {formik.touched.bankName && formik.errors.bankName && (
-                        <div className="text-danger">
-                          {formik.errors.bankName}
-                        </div>
-                      )}
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        Account Type
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        className="custom-select-height"
-                        placeholder="Enter Account Type"
-                        name="accountType"
-                        value={formik.values.accountType}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        isInvalid={
-                          formik.touched.accountType &&
-                          !!formik.errors.accountType
-                        }
-                      />
-                      {formik.touched.accountType &&
-                        formik.errors.accountType && (
+                </Modal.Header>
+                <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                  <Form onSubmit={formik.handleSubmit}>
+                    <Row className="mb-3 mt-0">
+                      <Col md={6} className="mb-3">
+                        <Form.Label className="fw-semibold">Bank Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          className="custom-select-height"
+                          placeholder="Enter bank name"
+                          name="bankName"
+                          value={formik.values.bankName}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.touched.bankName && !!formik.errors.bankName
+                          }
+                        />
+                        {formik.touched.bankName && formik.errors.bankName && (
                           <div className="text-danger">
-                            {formik.errors.accountType}
+                            {formik.errors.bankName}
                           </div>
                         )}
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        Account Number
-                      </Form.Label>
-                      <Form.Control
-                        type="number"
-                        className="custom-select-height"
-                        placeholder="Enter Account Number"
-                        name="accountNumber"
-                        value={formik.values.accountNumber}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        isInvalid={
-                          formik.touched.accountNumber &&
-                          !!formik.errors.accountNumber
-                        }
-                      />
-                      {formik.touched.accountNumber &&
-                        formik.errors.accountNumber && (
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Account Type
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          className="custom-select-height"
+                          placeholder="Enter account type"
+                          name="accountType"
+                          value={formik.values.accountType}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.touched.accountType &&
+                            !!formik.errors.accountType
+                          }
+                        />
+                        {formik.touched.accountType &&
+                          formik.errors.accountType && (
+                            <div className="text-danger">
+                              {formik.errors.accountType}
+                            </div>
+                          )}
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Account Number
+                        </Form.Label>
+                        <Form.Control
+                          type="number"
+                          className="custom-select-height"
+                          placeholder="Enter account number"
+                          name="accountNumber"
+                          value={formik.values.accountNumber}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.touched.accountNumber &&
+                            !!formik.errors.accountNumber
+                          }
+                        />
+                        {formik.touched.accountNumber &&
+                          formik.errors.accountNumber && (
+                            <div className="text-danger">
+                              {formik.errors.accountNumber}
+                            </div>
+                          )}
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Bank Address
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          className="custom-select-height"
+                          placeholder="Enter bank address"
+                          name="bankAddress"
+                          value={formik.values.bankAddress}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.touched.bankAddress &&
+                            !!formik.errors.bankAddress
+                          }
+                        />
+                        {formik.touched.bankAddress &&
+                          formik.errors.bankAddress && (
+                            <div className="text-danger">
+                              {formik.errors.bankAddress}
+                            </div>
+                          )}
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label className="fw-semibold">IFSC Code</Form.Label>
+                        <Form.Control
+                          type="text"
+                          className="custom-select-height"
+                          placeholder="Enter IFSC code"
+                          name="ifscCode"
+                          value={formik.values.ifscCode}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.touched.ifscCode && !!formik.errors.ifscCode
+                          }
+                        />
+                        {formik.touched.ifscCode && formik.errors.ifscCode && (
                           <div className="text-danger">
-                            {formik.errors.accountNumber}
+                            {formik.errors.ifscCode}
                           </div>
                         )}
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        Bank Address
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        className="custom-select-height"
-                        placeholder="Enter Bank Address"
-                        name="bankAddress"
-                        value={formik.values.bankAddress}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        isInvalid={
-                          formik.touched.bankAddress &&
-                          !!formik.errors.bankAddress
-                        }
-                      />
-                      {formik.touched.bankAddress &&
-                        formik.errors.bankAddress && (
+                      </Col>
+                      <Col md={6} className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          SWIFT Code
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          className="custom-select-height"
+                          placeholder="Enter SWIFT code"
+                          name="swiftCode"
+                          value={formik.values.swiftCode}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.touched.swiftCode && !!formik.errors.swiftCode
+                          }
+                        />
+                        {formik.touched.swiftCode && formik.errors.swiftCode && (
                           <div className="text-danger">
-                            {formik.errors.bankAddress}
+                            {formik.errors.swiftCode}
                           </div>
                         )}
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <Form.Label className="fw-semibold">IFSC Code</Form.Label>
-                      <Form.Control
-                        type="text"
+                      </Col>
+                    </Row>
+                    <div className="text-end">
+                      <Button
+                        variant="primary"
                         className="custom-select-height"
-                        placeholder="Enter IFSC Code"
-                        name="ifscCode"
-                        value={formik.values.ifscCode}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        isInvalid={
-                          formik.touched.ifscCode && !!formik.errors.ifscCode
-                        }
-                      />
-                      {formik.touched.ifscCode && formik.errors.ifscCode && (
-                        <div className="text-danger">
-                          {formik.errors.ifscCode}
-                        </div>
-                      )}
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        SWIFT Code
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        className="custom-select-height"
-                        placeholder="Enter SWIFT Code"
-                        name="swiftCode"
-                        value={formik.values.swiftCode}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        isInvalid={
-                          formik.touched.swiftCode && !!formik.errors.swiftCode
-                        }
-                      />
-                      {formik.touched.swiftCode && formik.errors.swiftCode && (
-                        <div className="text-danger">
-                          {formik.errors.swiftCode}
-                        </div>
-                      )}
-                    </Col>
-                  </Row>
-                  <div className="text-end">
-                    <Button
-                      variant="primary"
-                      className="custom-select-height"
-                      type="submit"
-                    >
-                      {formik.values.id ? "Update" : "Add"}
-                    </Button>
-                  </div>
-                </Form>
-              </Modal.Body>
-            </Modal>
+                        type="submit"
+                      >
+                        {formik.values.id ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
 
-            <DataTable
-              columns={columns}
-              data={bankingDetails}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              itemsPerPage={itemsPerPage}
-              onPageChange={setCurrentPage}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              canEdit={canUpdate}
-              canDelete={canDelete}
-              canRead={canRead}
-            />
-
-            {totalPages > 1 && bankingDetails.length > 0 && (
-              <Paginations
+              <DataTable
+                columns={columns}
+                data={bankingDetails}
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                canEdit={canUpdate}
+                canDelete={canDelete}
+                canRead={canRead}
               />
-            )}
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+
+              {totalPages > 1 && bankingDetails.length > 0 && (
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 

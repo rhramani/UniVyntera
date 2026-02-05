@@ -14,6 +14,7 @@ import {
   getAllStudentRegisterFor,
   updateStudentRegisterFor,
 } from "../../redux/actions/Master/StudentRegisterFor.action";
+import Pageheader from "../../layouts/Pageheader";
 
 const StudentRegisterFor = () => {
   const dispatch = useDispatch();
@@ -164,27 +165,34 @@ const StudentRegisterFor = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Student Register For"
+        parentfolder="Coaching"
+        activepage="Student Register For"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div className="card-title">
+            {/* <div className="card-title">
               {highlightForm
                 ? "Update Student Register For"
                 : "Add Student Register For"}
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit} className="form_main_class">
               {(canCreate || (canUpdate && highlightForm)) && (
                 <div className="form_left_section">
                   <div className="form-group">
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>Register For</Form.Label>
                     <Form.Control
                       type="text"
                       name="name"
                       className="custom-select-height"
-                      placeholder="Enter name..."
+                      placeholder="Enter register for"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -255,16 +263,19 @@ const StudentRegisterFor = () => {
             />
 
             {totalPages > 1 && allStudentRegisterFor.length > 0 && (
+              <div className="mt-4 d-flex justify-content-end align-items-end">
               <Paginations
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
               />
+              </div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

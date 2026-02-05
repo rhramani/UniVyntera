@@ -54,7 +54,7 @@ const GroupList = ({
 
       if (res?.status === 200) {
         const responseData = res?.data?.data || {};
-        
+
         if (Array.isArray(responseData)) {
           setGroups(responseData);
           setTotalRecords(responseData.length);
@@ -63,8 +63,8 @@ const GroupList = ({
           setGroups(responseData.data);
           setTotalRecords(
             responseData.totalRecords ||
-              responseData.totalCount ||
-              responseData.data.length
+            responseData.totalCount ||
+            responseData.data.length
           );
           setTotalPages(responseData.totalPages || 1);
         } else {
@@ -125,7 +125,7 @@ const GroupList = ({
         setShowDeleteModal(false);
         setGroupToDelete(null);
         setCurrentPage(1);
-        
+
         if (refreshGroups) {
           refreshGroups();
         }
@@ -345,11 +345,13 @@ const GroupList = ({
           />
 
           {totalPages > 1 && groups.length > 0 && (
-            <Paginations
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={(page) => setCurrentPage(page)}
-            />
+            <div className="mt-4 d-flex justify-content-end align-items-end">
+              <Paginations
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            </div>
           )}
         </>
       )}

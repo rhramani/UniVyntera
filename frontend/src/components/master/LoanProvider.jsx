@@ -156,6 +156,7 @@ const LoanProvider = () => {
 
   return (
     <>
+      <Pageheader mainheading="Loan Provider" parentfolder="Master" activepage="Loan Provider" />
       {isLoading && (
         <div
           style={{
@@ -178,7 +179,7 @@ const LoanProvider = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0 d-flex justify-content-between">
-              <div className="card-title mb-0">Loan Provider</div>
+              {/* <div className="card-title mb-0">Loan Provider</div> */}
             </Card.Header>
             <Card.Body>
               <div className="d-flex flex-wrap align-items-end gap-3 mb-3">
@@ -341,11 +342,13 @@ const LoanProvider = () => {
               />
 
               {totalPages > 1 && loanProviders?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

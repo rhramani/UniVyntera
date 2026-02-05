@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import { AiOutlineClose } from "react-icons/ai";
 import DataTable from "../commonComponents/DataTable";
 import { toast } from "react-toastify";
+import Pageheader from "../../layouts/Pageheader";
 
 const EducationLoanStatus = () => {
   const dispatch = useDispatch();
@@ -169,128 +170,136 @@ const EducationLoanStatus = () => {
   ];
 
   return (
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            <div>
-              <div className="card-title">Add Education Loan Status</div>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <Form onSubmit={formik.handleSubmit}>
-              <div className="d-flex flex-wrap justify-content-between gap-3 mb-3">
-                {canCreate && (
-                  <Button
-                    variant="primary"
-                    type="button"
-                    className="custom-select-height"
-                    onClick={handleShowUploadModal}
-                  >
-                    Add Education Loan Status
-                  </Button>
-                )}
+    <>
+      <Pageheader
+        mainheading="Education Loan Status"
+        parentfolder="Master"
+        activepage="Education Loan Status"
+      />
 
-                <div className="d-flex align-items-end justify-content-end gap-2">
-                  <div className="ms-auto">
-                    <div className="contact-search3">
-                      <button type="button" className="btn border-0">
-                        <i
-                          className="fe fe-search fw-semibold text-muted"
-                          aria-hidden="true"
-                        ></i>
-                      </button>
-                      <Form.Control
-                        type="text"
-                        className="filter-height border-0"
-                        placeholder="Search here..."
-                        autoComplete="off"
-                        value={search}
-                        onChange={(e) => {
-                          setSearch(e.target.value);
-                        }}
-                      />
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div>
+              <div className="card-title">Add Education Loan Status</div>
+            </div> */}
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={formik.handleSubmit}>
+                <div className="d-flex flex-wrap justify-content-between gap-3 mb-3">
+                  {canCreate && (
+                    <Button
+                      variant="primary"
+                      type="button"
+                      className="custom-select-height"
+                      onClick={handleShowUploadModal}
+                    >
+                      Add Education Loan Status
+                    </Button>
+                  )}
+
+                  <div className="d-flex align-items-end justify-content-end gap-2">
+                    <div className="ms-auto">
+                      <div className="contact-search3">
+                        <button type="button" className="btn border-0">
+                          <i
+                            className="fe fe-search fw-semibold text-muted"
+                            aria-hidden="true"
+                          ></i>
+                        </button>
+                        <Form.Control
+                          type="text"
+                          className="filter-height border-0"
+                          placeholder="Search here..."
+                          autoComplete="off"
+                          value={search}
+                          onChange={(e) => {
+                            setSearch(e.target.value);
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </Form>
+              </Form>
 
-            <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
-              <Modal.Header className="form-main-heading">
-                <Modal.Title>
-                  {formik.values.id
-                    ? "Update Education Loan Status"
-                    : "Add Education Loan Status"}
-                </Modal.Title>
-                <AiOutlineClose
-                  size={20}
-                  style={{ cursor: "pointer", color: "white" }}
-                  onClick={handleCloseUploadModal}
-                />
-              </Modal.Header>
-              <Modal.Body>
-                <Form>
-                  <Form.Group controlId="status" className="mb-3">
-                    <Form.Label>Status</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter status"
-                      className="custom-select-height"
-                      name="status"
-                      value={formik.values.status}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.status && formik.errors.status && (
-                      <div className="text-danger">{formik.errors.status}</div>
-                    )}
-                  </Form.Group>
-                  <Form.Group controlId="color" className="mb-3">
-                    <Form.Label>Background Color</Form.Label>
-                    <Form.Control
-                      type="color"
-                      name="color"
-                      className="form-control-color border-0 w-100"
-                      value={formik.values.color}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.color && formik.errors.color && (
-                      <div className="text-danger">{formik.errors.color}</div>
-                    )}
-                  </Form.Group>
-                </Form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button
-                  variant="link"
-                  className="custom-add-button btn border-primary text-primary text-decoration-none"
-                  onClick={handleCloseUploadModal}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="custom-add-button"
-                  onClick={formik.handleSubmit}
-                >
-                  {formik.values.id ? "Update" : "Add"}
-                </Button>
-              </Modal.Footer>
-            </Modal>
+              <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {formik.values.id
+                      ? "Update Education Loan Status"
+                      : "Add Education Loan Status"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={handleCloseUploadModal}
+                  />
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Group controlId="status" className="mb-3">
+                      <Form.Label>Status</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter status"
+                        className="custom-select-height"
+                        name="status"
+                        value={formik.values.status}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                      {formik.touched.status && formik.errors.status && (
+                        <div className="text-danger">{formik.errors.status}</div>
+                      )}
+                    </Form.Group>
+                    <Form.Group controlId="color" className="mb-3">
+                      <Form.Label>Background Color</Form.Label>
+                      <Form.Control
+                        type="color"
+                        name="color"
+                        className="form-control-color border-0 w-100"
+                        value={formik.values.color}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                      {formik.touched.color && formik.errors.color && (
+                        <div className="text-danger">{formik.errors.color}</div>
+                      )}
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="link"
+                    className="custom-add-button btn border-primary text-primary text-decoration-none"
+                    onClick={handleCloseUploadModal}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    type="button"
+                    className="custom-add-button"
+                    onClick={formik.handleSubmit}
+                  >
+                    {formik.values.id ? "Update" : "Add"}
+                  </Button>
+                </Modal.Footer>
+              </Modal>
 
-            <DataTable
-              columns={columns}
-              data={loanStatus}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+              <DataTable
+                columns={columns}
+                data={loanStatus}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 

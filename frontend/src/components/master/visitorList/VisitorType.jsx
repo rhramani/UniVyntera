@@ -9,6 +9,7 @@ import ItemsPerPageSelect from "../../commonComponents/ItemsPerPageSelect";
 import DataTable from "../../commonComponents/DataTable";
 import usePermissions from "../../commonComponents/usePermissions";
 import { createVisitorType, deleteVisitorType, getAllVisitorType, updateVisitorType } from "../../../redux/actions/Master/VisitorList/VisitorType.action";
+import Pageheader from "../../../layouts/Pageheader";
 
 const VisitorType = () => {
   const dispatch = useDispatch();
@@ -150,15 +151,21 @@ const VisitorType = () => {
     },
   ];
   return (
+    <>
+      <Pageheader
+        mainheading="Visitor Type"
+        parentfolder="Visitor"
+        activepage="Visitor Type"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {highlightForm ? "Update Visitor Type" : "Add Visitor Type"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <form onSubmit={formik.handleSubmit} className="form_main_class">
@@ -170,7 +177,7 @@ const VisitorType = () => {
                       type="text"
                       name="name"
                       className="custom-select-height"
-                      placeholder="Enter Visitor Type..."
+                      placeholder="Enter visitor type"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -253,16 +260,18 @@ const VisitorType = () => {
             />
 
             {totalPages > 1 && allVisitorType.length > 0 && (
-              <Paginations
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
+              <div className="mt-4 d-flex justify-content-end align-items-end">
+                      <Paginations
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      /></div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 export default VisitorType;

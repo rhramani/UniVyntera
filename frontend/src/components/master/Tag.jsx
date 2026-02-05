@@ -13,6 +13,7 @@ import {
   updateTag,
 } from "../../redux/actions/Master/Tag.action";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const Tag = () => {
   const dispatch = useDispatch();
@@ -120,15 +121,21 @@ const Tag = () => {
   }, [formik]);
 
   return (
+    <>
+      <Pageheader
+        mainheading="Tag"
+        parentfolder="Course"
+        activepage="Tag"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {highlightForm ? "Update Tag" : "Add Tag"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             {(canCreate || (canUpdate && formik.values.id)) && (
@@ -136,12 +143,12 @@ const Tag = () => {
                 <Form onSubmit={formik.handleSubmit} className="mb-4">
                   <div className="d-flex flex-wrap align-items-end gap-3">
                     <div className="filter-item">
-                      <Form.Label>Tag Name</Form.Label>
+                      <Form.Label>Tag</Form.Label>
                       <Form.Control
                         type="text"
                         name="name"
                         className="custom-select-height"
-                        placeholder="Enter Tag..."
+                        placeholder="Enter tag"
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -275,6 +282,7 @@ const Tag = () => {
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

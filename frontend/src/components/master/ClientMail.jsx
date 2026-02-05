@@ -275,14 +275,14 @@ const ClientMail = () => {
     <>
       <Pageheader
         mainheading="Client Mail"
-        parentfolder="Settings"
+        parentfolder="Master"
         activepage="Client Mail"
       />
       <Row className="mt-5 row-sm">
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0 d-flex justify-content-between">
-              <div className="card-title mb-0">Client Mail</div>
+              <div className="card-title mb-0"></div>
               <div className="d-flex flex-wrap align-items-center gap-2">
                 <div className="contact-search3">
                   <button type="button" className="btn border-0">
@@ -493,7 +493,7 @@ const ClientMail = () => {
                       <Form.Control
                         type="text"
                         className="custom-select-height"
-                        placeholder="Enter contact number"
+                        placeholder="Enter contact"
                         name="contact"
                         value={formik.values.contact}
                         onChange={formik.handleChange}
@@ -545,11 +545,13 @@ const ClientMail = () => {
               />
 
               {totalPages > 1 && clientMails?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                  </div>
               )}
             </Card.Body>
           </Card>

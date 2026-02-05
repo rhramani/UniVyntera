@@ -657,11 +657,11 @@ const AccountantExpenses = () => {
                           { value: "Head Office", label: "Head Office" },
                           ...(Array.isArray(branchList)
                             ? branchList
-                                .sort((a, b) => a.name.localeCompare(b.name))
-                                .map((branch) => ({
-                                  value: branch.name,
-                                  label: branch.name,
-                                }))
+                              .sort((a, b) => a.name.localeCompare(b.name))
+                              .map((branch) => ({
+                                value: branch.name,
+                                label: branch.name,
+                              }))
                             : []),
                         ]}
                         value={filters.center}
@@ -696,8 +696,8 @@ const AccountantExpenses = () => {
                             : "₹"}{" "}
                           {allExpenses?.length > 0
                             ? totalAmount?.toLocaleString("en-IN", {
-                                maximumFractionDigits: 2,
-                              })
+                              maximumFractionDigits: 2,
+                            })
                             : "0"}
                         </strong>
                       </span>
@@ -733,11 +733,13 @@ const AccountantExpenses = () => {
                 onEdit={handleEdit}
               />
               {totalPages > 1 && allExpenses.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>
@@ -767,11 +769,11 @@ const AccountantExpenses = () => {
                         { value: "Head Office", label: "Head Office" },
                         ...(Array.isArray(branchList)
                           ? branchList
-                              .sort((a, b) => a.name.localeCompare(b.name))
-                              .map((branch) => ({
-                                value: branch.name,
-                                label: branch.name,
-                              }))
+                            .sort((a, b) => a.name.localeCompare(b.name))
+                            .map((branch) => ({
+                              value: branch.name,
+                              label: branch.name,
+                            }))
                           : []),
                       ]}
                       value={formik.values.center}

@@ -164,9 +164,9 @@ const LeadStatus = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div>
+              {/* <div>
                 <div className="card-title">Lead Status</div>
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit}>
@@ -222,11 +222,11 @@ const LeadStatus = () => {
                 <Modal.Body>
                   <Form>
                     <Form.Group controlId="formName" className="mb-3">
-                      <Form.Label>Name</Form.Label>
+                      <Form.Label>Status</Form.Label>
                       <Form.Control
                         type="text"
                         className="custom-select-height"
-                        placeholder="Enter name"
+                        placeholder="Enter status"
                         name="name"
                         value={formik.values.name}
                         onChange={formik.handleChange}

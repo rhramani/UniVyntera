@@ -265,14 +265,14 @@ const WhatsappTemplete = () => {
                           value={
                             categoryOptions
                               ? categoryOptions
-                                  .map((option) => ({
-                                    value: option._id,
-                                    label: option.name,
-                                  }))
-                                  .find(
-                                    (option) =>
-                                      option.value === selectedCategory
-                                  ) || null
+                                .map((option) => ({
+                                  value: option._id,
+                                  label: option.name,
+                                }))
+                                .find(
+                                  (option) =>
+                                    option.value === selectedCategory
+                                ) || null
                               : null
                           }
                           onChange={(selectedOption) => {
@@ -332,8 +332,8 @@ const WhatsappTemplete = () => {
                 <Modal.Header className="form-main-heading">
                   <Modal.Title>
                     {formik.values.id
-                      ? "Update Whatsapp Template"
-                      : "Add Whatsapp Template"}
+                      ? "Update Template"
+                      : "Add Template"}
                   </Modal.Title>
                   <AiOutlineClose
                     size={20}
@@ -357,14 +357,14 @@ const WhatsappTemplete = () => {
                           value={
                             categoryOptions
                               ? categoryOptions
-                                  .map((option) => ({
-                                    value: option._id,
-                                    label: option.name,
-                                  }))
-                                  .find(
-                                    (option) =>
-                                      option.value === formik.values.category
-                                  ) || null
+                                .map((option) => ({
+                                  value: option._id,
+                                  label: option.name,
+                                }))
+                                .find(
+                                  (option) =>
+                                    option.value === formik.values.category
+                                ) || null
                               : null
                           }
                           onChange={(selectedOption) => {
@@ -398,7 +398,7 @@ const WhatsappTemplete = () => {
                         <Form.Control
                           rows={4}
                           className="custom-select-height"
-                          placeholder="Enter Title"
+                          placeholder="Enter title"
                           name="type"
                           value={formik.values.type}
                           onChange={formik.handleChange}
@@ -460,11 +460,13 @@ const WhatsappTemplete = () => {
               />
 
               {totalPages > 1 && wpTemplate?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

@@ -15,6 +15,7 @@ import {
 } from "../../redux/actions/Master/ApplicationType.action";
 import usePermissions from "../commonComponents/usePermissions";
 import LoadMoreButton from "../commonComponents/LoadMoreButton";
+import Pageheader from "../../layouts/Pageheader";
 
 const ApplicationType = () => {
   const dispatch = useDispatch();
@@ -176,6 +177,11 @@ const ApplicationType = () => {
 
   return (
     <>
+      <Pageheader
+        mainheading="Application Type"
+        parentfolder="Master"
+        activepage="Application Type"
+      />
       {isLoading && (
         <div
           style={{
@@ -198,11 +204,11 @@ const ApplicationType = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="card-title">
+              {/* <div className="card-title">
                 {highlightForm
                   ? "Update Application Type"
                   : "Add Application Type"}
-              </div>
+              </div> */}
             </Card.Header>
 
             <Card.Body>
@@ -210,12 +216,12 @@ const ApplicationType = () => {
                 {(canCreate || (canUpdate && formik.values.id)) && (
                   <div className="form_left_section bottom-margin">
                     <div className="form-group">
-                      <Form.Label>Application Type Name</Form.Label>
+                      <Form.Label>Application Type</Form.Label>
                       <Form.Control
                         type="text"
                         name="name"
                         className="custom-select-height"
-                        placeholder="Enter Application Type name..."
+                        placeholder="Enter application type"
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -290,11 +296,13 @@ const ApplicationType = () => {
               />
 
               {totalPages > 1 && allApplicationType.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

@@ -13,6 +13,8 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { BASEURL } from "../../baseUrl";
+import { FaCog, FaEnvelope, FaBuilding, FaMoneyBill, FaFileInvoice } from "react-icons/fa";
+import Pageheader from "../../layouts/Pageheader";
 
 const Configuration = () => {
   const dispatch = useDispatch();
@@ -451,1039 +453,1155 @@ const Configuration = () => {
   });
   console.log("formik.errors:", formik.errors);
   return (
+    <>
+      <Pageheader
+        mainheading="Configuration"
+        parentfolder="Settings"
+        activepage="Configuration"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div className="card-title">Configuration</div>
+            {/* <div className="card-title">Configuration</div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit}>
-              <Row className="mb-3 mt-0">
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Lead Facebook Token
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="leadFacebookToken"
-                    className="custom-select-height"
-                    value={formik.values.leadFacebookToken}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Lead Facebook Token"
-                  />
-                  {formik.touched.leadFacebookToken &&
-                    formik.errors.leadFacebookToken && (
-                      <div className="text-danger">
-                        {formik.errors.leadFacebookToken}
+              <Row className="g-4 mb-3 mt-0">
+                {/* Section 1: Lead Facebook Configuration */}
+                <Col lg={12} md={12}>
+                  <Card className="h-100 wa-credentials-group">
+                    <Card.Body>
+                      <div className="d-flex align-items-center mb-3">
+                        <div className="me-2 text-primary">
+                          <FaCog size={20} />
+                        </div>
+                        <h5 className="mb-0">Lead Facebook Configuration</h5>
                       </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Lead Facebook Page Id
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="leadFacebookPageId"
-                    className="custom-select-height"
-                    value={formik.values.leadFacebookPageId}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Lead Facebook Page Id"
-                  />
-                  {formik.touched.leadFacebookPageId &&
-                    formik.errors.leadFacebookPageId && (
-                      <div className="text-danger">
-                        {formik.errors.leadFacebookPageId}
-                      </div>
-                    )}
-                </Col>
-                {/* <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Cloudinary Cloud Name
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="cloudinary.cloudName"
-                    className="custom-select-height"
-                    value={formik.values.cloudinary.cloudName}
-                    onChange={formik.handleChange}
-                    placeholder="Cloud Name"
-                  />
-                  {formik.touched.cloudinary?.cloudName &&
-                    formik.errors.cloudinary?.cloudName && (
-                      <div className="text-danger">
-                        {formik.errors.cloudinary.cloudName}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Cloudinary API Key
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="cloudinary.apiKey"
-                    className="custom-select-height"
-                    value={formik.values.cloudinary.apiKey}
-                    onChange={formik.handleChange}
-                    placeholder="API Key"
-                  />
-                  {formik.touched.cloudinary?.apiKey &&
-                    formik.errors.cloudinary?.apiKey && (
-                      <div className="text-danger">
-                        {formik.errors.cloudinary.apiKey}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Cloudinary API Secret
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="cloudinary.apiSecret"
-                    className="custom-select-height"
-                    value={formik.values.cloudinary.apiSecret}
-                    onChange={formik.handleChange}
-                    placeholder="API Secret"
-                  />
-                  {formik.touched.cloudinary?.apiSecret &&
-                    formik.errors.cloudinary?.apiSecret && (
-                      <div className="text-danger">
-                        {formik.errors.cloudinary.apiSecret}
-                      </div>
-                    )}
-                </Col> */}
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Nodemailer Email
-                  </Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="nodemailer.email"
-                    className="custom-select-height"
-                    value={formik.values.nodemailer.email}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Email"
-                  />
-                  {formik.touched.nodemailer?.email &&
-                    formik.errors.nodemailer?.email && (
-                      <div className="text-danger">
-                        {formik.errors.nodemailer.email}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Nodemailer Password
-                  </Form.Label>
-                  <div className="position-relative">
-                    <Form.Control
-                      type={showCredential ? "text" : "password"}
-                      name="nodemailer.password"
-                      className="custom-select-height"
-                      value={formik.values.nodemailer.password}
-                      onChange={formik.handleChange}
-                      placeholder="Enter Password"
-                    />
-                    <span
-                      onClick={() => setShowCredential(!showCredential)}
-                      className="position-absolute top-50 end-0 translate-middle-y pe-3"
-                      style={{ cursor: "pointer" }}
-                    >
-                      {showCredential ? (
-                        <VisibilityOff sx={{ fontSize: 18 }} />
-                      ) : (
-                        <Visibility sx={{ fontSize: 18 }} />
-                      )}
-                    </span>
-                  </div>
-                  {formik.touched.nodemailer?.password &&
-                    formik.errors.nodemailer?.password && (
-                      <div className="text-danger">
-                        {formik.errors.nodemailer.password}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Gmail Top Logo
-                  </Form.Label>
-                  <Form.Control
-                    type="file"
-                    name="gmail.topLogo"
-                    className="custom-select-height"
-                    onChange={(event) =>
-                      formik.setFieldValue(
-                        "gmail.topLogo",
-                        event.currentTarget.files[0]
-                      )
-                    }
-                    accept="image/*"
-                  />
 
-                  {/* Show from backend */}
-                  {typeof formik.values.gmail.topLogo === "string" &&
-                    formik.values.gmail.topLogo && (
-                      <img
-                        src={`${BASEURL}/${formik.values.gmail.topLogo}`}
-                        alt="Top Logo"
-                        style={{ width: "100px", marginTop: "10px" }}
-                      />
-                    )}
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Lead Facebook Token
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="leadFacebookToken"
+                          className="custom-select-height"
+                          value={formik.values.leadFacebookToken}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Lead Facebook Token"
+                        />
+                        {formik.touched.leadFacebookToken &&
+                          formik.errors.leadFacebookToken && (
+                            <div className="text-danger">
+                              {formik.errors.leadFacebookToken}
+                            </div>
+                          )}
+                      </Form.Group>
 
-                  {/* Show newly uploaded preview */}
-                  {formik.values.gmail.topLogo instanceof File && (
-                    <img
-                      src={URL.createObjectURL(formik.values.gmail.topLogo)}
-                      alt="Top Logo Preview"
-                      style={{ width: "100px", marginTop: "10px" }}
-                    />
-                  )}
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Lead Facebook Page Id
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="leadFacebookPageId"
+                          className="custom-select-height"
+                          value={formik.values.leadFacebookPageId}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Lead Facebook Page Id"
+                        />
+                        {formik.touched.leadFacebookPageId &&
+                          formik.errors.leadFacebookPageId && (
+                            <div className="text-danger">
+                              {formik.errors.leadFacebookPageId}
+                            </div>
+                          )}
+                      </Form.Group>
 
-                  {formik.touched.gmail?.topLogo &&
-                    formik.errors.gmail?.topLogo && (
-                      <div className="text-danger">
-                        {formik.errors.gmail.topLogo}
-                      </div>
-                    )}
+                      {/* Cloudinary Configuration */}
+                      {/* <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Cloudinary Cloud Name
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="cloudinary.cloudName"
+                          className="custom-select-height"
+                          value={formik.values.cloudinary.cloudName}
+                          onChange={formik.handleChange}
+                          placeholder="Cloud Name"
+                        />
+                        {formik.touched.cloudinary?.cloudName &&
+                          formik.errors.cloudinary?.cloudName && (
+                            <div className="text-danger">
+                              {formik.errors.cloudinary.cloudName}
+                            </div>
+                          )}
+                      </Form.Group>
+                      
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Cloudinary API Key
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="cloudinary.apiKey"
+                          className="custom-select-height"
+                          value={formik.values.cloudinary.apiKey}
+                          onChange={formik.handleChange}
+                          placeholder="API Key"
+                        />
+                        {formik.touched.cloudinary?.apiKey &&
+                          formik.errors.cloudinary?.apiKey && (
+                            <div className="text-danger">
+                              {formik.errors.cloudinary.apiKey}
+                            </div>
+                          )}
+                      </Form.Group>
+                      
+                      <Form.Group className="mb-0">
+                        <Form.Label className="fw-semibold">
+                          Cloudinary API Secret
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="cloudinary.apiSecret"
+                          className="custom-select-height"
+                          value={formik.values.cloudinary.apiSecret}
+                          onChange={formik.handleChange}
+                          placeholder="API Secret"
+                        />
+                        {formik.touched.cloudinary?.apiSecret &&
+                          formik.errors.cloudinary?.apiSecret && (
+                            <div className="text-danger">
+                              {formik.errors.cloudinary.apiSecret}
+                            </div>
+                          )}
+                      </Form.Group> */}
+                    </Card.Body>
+                  </Card>
                 </Col>
 
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Gmail Bottom Logo
-                  </Form.Label>
-                  <Form.Control
-                    type="file"
-                    name="gmail.bottomLogo"
-                    className="custom-select-height"
-                    onChange={(event) =>
-                      formik.setFieldValue(
-                        "gmail.bottomLogo",
-                        event.currentTarget.files[0]
-                      )
-                    }
-                    accept="image/*"
-                  />
+                {/* Section 2: Nodemailer & Gmail Configuration */}
+                <Col lg={12} md={12}>
+                  <Card className="h-100 wa-credentials-group">
+                    <Card.Body>
+                      <div className="d-flex align-items-center mb-3">
+                        <div className="me-2 text-primary">
+                          <FaEnvelope size={20} />
+                        </div>
+                        <h5 className="mb-0">Nodemailer & Gmail Configuration</h5>
+                      </div>
 
-                  {/* Show from backend */}
-                  {typeof formik.values.gmail.bottomLogo === "string" &&
-                    formik.values.gmail.bottomLogo && (
-                      <img
-                        src={`${BASEURL}/${formik.values.gmail.bottomLogo}`}
-                        alt="Bottom Logo"
-                        style={{ width: "100px", marginTop: "10px" }}
-                      />
-                    )}
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Nodemailer Email
+                        </Form.Label>
+                        <Form.Control
+                          type="email"
+                          name="nodemailer.email"
+                          className="custom-select-height"
+                          value={formik.values.nodemailer.email}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Email"
+                        />
+                        {formik.touched.nodemailer?.email &&
+                          formik.errors.nodemailer?.email && (
+                            <div className="text-danger">
+                              {formik.errors.nodemailer.email}
+                            </div>
+                          )}
+                      </Form.Group>
 
-                  {/* Show newly uploaded preview */}
-                  {formik.values.gmail.bottomLogo instanceof File && (
-                    <img
-                      src={URL.createObjectURL(formik.values.gmail.bottomLogo)}
-                      alt="Bottom Logo Preview"
-                      style={{ width: "100px", marginTop: "10px" }}
-                    />
-                  )}
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Nodemailer Password
+                        </Form.Label>
+                        <div className="position-relative">
+                          <Form.Control
+                            type={showCredential ? "text" : "password"}
+                            name="nodemailer.password"
+                            className="custom-select-height secure-input"
+                            value={formik.values.nodemailer.password}
+                            onChange={formik.handleChange}
+                            placeholder="Enter Password"
+                          />
+                          <span
+                            onClick={() => setShowCredential(!showCredential)}
+                            className="position-absolute top-50 end-0 translate-middle-y pe-3"
+                            style={{ cursor: "pointer" }}
+                          >
+                            {showCredential ? (
+                              <VisibilityOff sx={{ fontSize: 18 }} />
+                            ) : (
+                              <Visibility sx={{ fontSize: 18 }} />
+                            )}
+                          </span>
+                        </div>
+                        {formik.touched.nodemailer?.password &&
+                          formik.errors.nodemailer?.password && (
+                            <div className="text-danger">
+                              {formik.errors.nodemailer.password}
+                            </div>
+                          )}
+                      </Form.Group>
 
-                  {formik.touched.gmail?.bottomLogo &&
-                    formik.errors.gmail?.bottomLogo && (
-                      <div className="text-danger">
-                        {formik.errors.gmail.bottomLogo}
-                      </div>
-                    )}
-                </Col>
+                      <Form.Group className="mb-0">
+                        <Form.Label className="fw-semibold">
+                          Gmail Top Logo
+                        </Form.Label>
+                        <Form.Control
+                          type="file"
+                          name="gmail.topLogo"
+                          className="custom-select-height"
+                          onChange={(event) =>
+                            formik.setFieldValue(
+                              "gmail.topLogo",
+                              event.currentTarget.files[0]
+                            )
+                          }
+                          accept="image/*"
+                        />
 
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Invoice Logo</Form.Label>
-                  <Form.Control
-                    type="file"
-                    name="invoiceLogo"
-                    className="custom-select-height"
-                    onChange={(event) =>
-                      formik.setFieldValue(
-                        "invoiceLogo",
-                        event.currentTarget.files[0]
-                      )
-                    }
-                    accept="image/*"
-                  />
+                        {/* Show from backend */}
+                        {typeof formik.values.gmail.topLogo === "string" &&
+                          formik.values.gmail.topLogo && (
+                            <img
+                              src={`${BASEURL}/${formik.values.gmail.topLogo}`}
+                              alt="Top Logo"
+                              style={{ width: "100px", marginTop: "10px" }}
+                            />
+                          )}
 
-                  {/* Show from backend */}
-                  {typeof formik.values.invoiceLogo === "string" &&
-                    formik.values.invoiceLogo && (
-                      <img
-                        src={`${BASEURL}/${formik.values.invoiceLogo}`}
-                        alt="Invoice Logo"
-                        style={{ width: "100px", marginTop: "10px" }}
-                      />
-                    )}
+                        {/* Show newly uploaded preview */}
+                        {formik.values.gmail.topLogo instanceof File && (
+                          <img
+                            src={URL.createObjectURL(formik.values.gmail.topLogo)}
+                            alt="Top Logo Preview"
+                            style={{ width: "100px", marginTop: "10px" }}
+                          />
+                        )}
 
-                  {/* Show newly uploaded preview */}
-                  {formik.values.invoiceLogo instanceof File && (
-                    <img
-                      src={URL.createObjectURL(formik.values.invoiceLogo)}
-                      alt="Invoice Logo Preview"
-                      style={{ width: "100px", marginTop: "10px" }}
-                    />
-                  )}
+                        {formik.touched.gmail?.topLogo &&
+                          formik.errors.gmail?.topLogo && (
+                            <div className="text-danger">
+                              {formik.errors.gmail.topLogo}
+                            </div>
+                          )}
 
-                  {formik.touched.invoiceLogo && formik.errors.invoiceLogo && (
-                    <div className="text-danger">
-                      {formik.errors.invoiceLogo}
-                    </div>
-                  )}
-                </Col>
+                        <Form.Group className="mb-3 mt-3">
+                          <Form.Label className="fw-semibold">
+                            Gmail Bottom Logo
+                          </Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="gmail.bottomLogo"
+                            className="custom-select-height"
+                            onChange={(event) =>
+                              formik.setFieldValue(
+                                "gmail.bottomLogo",
+                                event.currentTarget.files[0]
+                              )
+                            }
+                            accept="image/*"
+                          />
 
-                <hr className="my-4" />
+                          {/* Show from backend */}
+                          {typeof formik.values.gmail.bottomLogo === "string" &&
+                            formik.values.gmail.bottomLogo && (
+                              <img
+                                src={`${BASEURL}/${formik.values.gmail.bottomLogo}`}
+                                alt="Bottom Logo"
+                                style={{ width: "100px", marginTop: "10px" }}
+                              />
+                            )}
 
-                {/* <Col md={12} className="mb-3">
-                  <h5>Voice AI Details</h5>
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Omnidim Api Key
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="voiceAIDetails.OMNIDIM_API_KEY"
-                    className="custom-select-height"
-                    value={formik.values.voiceAIDetails.OMNIDIM_API_KEY}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Omnidim Api Key"
-                  />
-                  {formik.touched.voiceAIDetails?.OMNIDIM_API_KEY &&
-                    formik.errors.voiceAIDetails?.OMNIDIM_API_KEY && (
-                      <div className="text-danger">
-                        {formik.errors.voiceAIDetails.OMNIDIM_API_KEY}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Omnidim Phone Number Id
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="voiceAIDetails.OMNIDIM_DEFAULT_PHONE_NUMBER_ID"
-                    className="custom-select-height"
-                    value={
-                      formik.values.voiceAIDetails
-                        .OMNIDIM_DEFAULT_PHONE_NUMBER_ID
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Omnidim Phone Number Id"
-                  />
-                  {formik.touched.voiceAIDetails
-                    ?.OMNIDIM_DEFAULT_PHONE_NUMBER_ID &&
-                    formik.errors.voiceAIDetails
-                      ?.OMNIDIM_DEFAULT_PHONE_NUMBER_ID && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.voiceAIDetails
-                            .OMNIDIM_DEFAULT_PHONE_NUMBER_ID
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Omnidim Base Url
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="voiceAIDetails.OMNIDIM_BASE_URL"
-                    className="custom-select-height"
-                    value={formik.values.voiceAIDetails.OMNIDIM_BASE_URL}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Omnidim Base Url"
-                  />
-                  {formik.touched.voiceAIDetails?.OMNIDIM_BASE_URL &&
-                    formik.errors.voiceAIDetails?.OMNIDIM_BASE_URL && (
-                      <div className="text-danger">
-                        {formik.errors.voiceAIDetails.OMNIDIM_BASE_URL}
-                      </div>
-                    )}
-                </Col> */}
+                          {/* Show newly uploaded preview */}
+                          {formik.values.gmail.bottomLogo instanceof File && (
+                            <img
+                              src={URL.createObjectURL(formik.values.gmail.bottomLogo)}
+                              alt="Bottom Logo Preview"
+                              style={{ width: "100px", marginTop: "10px" }}
+                            />
+                          )}
 
-                <hr className="my-4" />
-                <Col md={12} className="mb-3">
-                  <h5>CTC Credentials</h5>
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">CTC Username</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="CTCCredentials.CTC_USERNAME"
-                    className="custom-select-height"
-                    value={formik.values.CTCCredentials?.CTC_USERNAME}
-                    onChange={formik.handleChange}
-                    placeholder="Enter CTC Username"
-                  />
-                  {formik.touched.CTCCredentials?.CTC_USERNAME &&
-                    formik.errors.CTCCredentials?.CTC_USERNAME && (
-                      <div className="text-danger">
-                        {formik.errors.CTCCredentials?.CTC_USERNAME}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">CTC Password</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="CTCCredentials.CTC_PASSWORD"
-                    className="custom-select-height"
-                    value={formik.values.CTCCredentials?.CTC_PASSWORD}
-                    onChange={formik.handleChange}
-                    placeholder="Enter CTC Password"
-                  />
-                  {formik.touched.CTCCredentials?.CTC_PASSWORD &&
-                    formik.errors.CTCCredentials?.CTC_PASSWORD && (
-                      <div className="text-danger">
-                        {formik.errors.CTCCredentials?.CTC_PASSWORD}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">CTC Base Url</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="CTCCredentials.CTC_BASE_URL"
-                    className="custom-select-height"
-                    value={formik.values.CTCCredentials?.CTC_BASE_URL}
-                    onChange={formik.handleChange}
-                    placeholder="Enter CTC Base Url"
-                  />
-                  {formik.touched.CTCCredentials?.CTC_BASE_URL &&
-                    formik.errors.CTCCredentials?.CTC_BASE_URL && (
-                      <div className="text-danger">
-                        {formik.errors.CTCCredentials?.CTC_BASE_URL}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">CTC Number</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="CTCCredentials.CLINumber"
-                    className="custom-select-height"
-                    value={formik.values.CTCCredentials?.CLINumber}
-                    onChange={formik.handleChange}
-                    placeholder="Enter CTC Number"
-                  />
-                  {formik.touched.CTCCredentials?.CLINumber &&
-                    formik.errors.CTCCredentials?.CLINumber && (
-                      <div className="text-danger">
-                        {formik.errors.CTCCredentials?.CLINumber}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    CTC Recording Flag
-                  </Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="CTCCredentials.CTC_RECORDING_FLAG"
-                    className="custom-select-height"
-                    value={formik.values.CTCCredentials?.CTC_RECORDING_FLAG}
-                    onChange={(e) =>
-                      formik.setFieldValue(
-                        "CTCCredentials.CTC_RECORDING_FLAG",
-                        Number(e.target.value)
-                      )
-                    }
-                    placeholder="Enter CTC Recording Flag"
-                  />
-                  {formik.touched.CTCCredentials?.CTC_RECORDING_FLAG &&
-                    formik.errors.CTCCredentials?.CTC_RECORDING_FLAG && (
-                      <div className="text-danger">
-                        {formik.errors.CTCCredentials?.CTC_RECORDING_FLAG}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">CTC DTMF Flag</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="CTCCredentials.CTC_DTMF_FLAG"
-                    className="custom-select-height"
-                    value={formik.values.CTCCredentials?.CTC_DTMF_FLAG}
-                    onChange={(e) =>
-                      formik.setFieldValue(
-                        "CTCCredentials.CTC_DTMF_FLAG",
-                        Number(e.target.value)
-                      )
-                    }
-                    placeholder="Enter CTC DTMF Flag"
-                  />
-                  {formik.touched.CTCCredentials?.CTC_DTMF_FLAG &&
-                    formik.errors.CTCCredentials?.CTC_DTMF_FLAG && (
-                      <div className="text-danger">
-                        {formik.errors.CTCCredentials?.CTC_DTMF_FLAG}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    CTC PINGBACK URL
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="CTCCredentials.CTC_PINGBACK_URL"
-                    className="custom-select-height"
-                    value={formik.values.CTCCredentials?.CTC_PINGBACK_URL}
-                    onChange={formik.handleChange}
-                    placeholder="Enter CTC Pingback Url"
-                  />
-                  {formik.touched.CTCCredentials?.CTC_PINGBACK_URL &&
-                    formik.errors.CTCCredentials?.CTC_PINGBACK_URL && (
-                      <div className="text-danger">
-                        {formik.errors.CTCCredentials?.CTC_PINGBACK_URL}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    CTC PINGBACK SECRET
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="CTCCredentials.CTC_PINGBACK_SECRET"
-                    className="custom-select-height"
-                    value={formik.values.CTCCredentials?.CTC_PINGBACK_SECRET}
-                    onChange={formik.handleChange}
-                    placeholder="Enter CTC Pingback Secret"
-                  />
-                  {formik.touched.CTCCredentials?.CTC_PINGBACK_SECRET &&
-                    formik.errors.CTCCredentials?.CTC_PINGBACK_SECRET && (
-                      <div className="text-danger">
-                        {formik.errors.CTCCredentials?.CTC_PINGBACK_SECRET}
-                      </div>
-                    )}
+                          {formik.touched.gmail?.bottomLogo &&
+                            formik.errors.gmail?.bottomLogo && (
+                              <div className="text-danger">
+                                {formik.errors.gmail.bottomLogo}
+                              </div>
+                            )}
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                          <Form.Label className="fw-semibold">Invoice Logo</Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="invoiceLogo"
+                            className="custom-select-height"
+                            onChange={(event) =>
+                              formik.setFieldValue(
+                                "invoiceLogo",
+                                event.currentTarget.files[0]
+                              )
+                            }
+                            accept="image/*"
+                          />
+
+                          {/* Show from backend */}
+                          {typeof formik.values.invoiceLogo === "string" &&
+                            formik.values.invoiceLogo && (
+                              <img
+                                src={`${BASEURL}/${formik.values.invoiceLogo}`}
+                                alt="Invoice Logo"
+                                style={{ width: "100px", marginTop: "10px" }}
+                              />
+                            )}
+
+                          {/* Show newly uploaded preview */}
+                          {formik.values.invoiceLogo instanceof File && (
+                            <img
+                              src={URL.createObjectURL(formik.values.invoiceLogo)}
+                              alt="Invoice Logo Preview"
+                              style={{ width: "100px", marginTop: "10px" }}
+                            />
+                          )}
+
+                          {formik.touched.invoiceLogo && formik.errors.invoiceLogo && (
+                            <div className="text-danger">
+                              {formik.errors.invoiceLogo}
+                            </div>
+                          )}
+                        </Form.Group>
+                      </Form.Group>
+                    </Card.Body>
+                  </Card>
                 </Col>
 
-                <hr className="my-4" />
+                {/* Section 3: CTC Credentials */}
+                <Col lg={12} md={12}>
+                  <Card className="h-100 wa-credentials-group">
+                    <Card.Body>
+                      <div className="d-flex align-items-center mb-3">
+                        <div className="me-2 text-primary">
+                          <FaBuilding size={20} />
+                        </div>
+                        <h5 className="mb-0">CTC Credentials</h5>
+                      </div>
 
-                <Col md={12} className="mb-3">
-                  <h5>University Commission Invoice Details</h5>
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.name"
-                    className="custom-select-height"
-                    value={formik.values.uniCommissionInvoice.name}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Name"
-                  />
-                  {formik.touched.uniCommissionInvoice?.name &&
-                    formik.errors.uniCommissionInvoice?.name && (
-                      <div className="text-danger">
-                        {formik.errors.uniCommissionInvoice.name}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Address</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.address"
-                    className="custom-select-height"
-                    value={formik.values.uniCommissionInvoice.address}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Address"
-                  />
-                  {formik.touched.uniCommissionInvoice?.address &&
-                    formik.errors.uniCommissionInvoice?.address && (
-                      <div className="text-danger">
-                        {formik.errors.uniCommissionInvoice.address}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Tax Registration No
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.taxRegistrationNo"
-                    className="custom-select-height"
-                    value={formik.values.uniCommissionInvoice.taxRegistrationNo}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Tax Registration No"
-                  />
-                  {formik.touched.uniCommissionInvoice?.taxRegistrationNo &&
-                    formik.errors.uniCommissionInvoice?.taxRegistrationNo && (
-                      <div className="text-danger">
-                        {formik.errors.uniCommissionInvoice.taxRegistrationNo}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Phone No</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.phoneNo"
-                    className="custom-select-height"
-                    value={formik.values.uniCommissionInvoice.phoneNo}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Phone No"
-                  />
-                  {formik.touched.uniCommissionInvoice?.phoneNo &&
-                    formik.errors.uniCommissionInvoice?.phoneNo && (
-                      <div className="text-danger">
-                        {formik.errors.uniCommissionInvoice.phoneNo}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Account Owner Name
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.bankDetails.accountOwnerName"
-                    className="custom-select-height"
-                    value={
-                      formik.values.uniCommissionInvoice.bankDetails
-                        .accountOwnerName
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Account Owner Name"
-                  />
-                  {formik.touched.uniCommissionInvoice?.bankDetails
-                    ?.accountOwnerName &&
-                    formik.errors.uniCommissionInvoice?.bankDetails
-                      ?.accountOwnerName && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.uniCommissionInvoice.bankDetails
-                            .accountOwnerName
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Account Owner Address
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.bankDetails.accountOwnerAddress"
-                    className="custom-select-height"
-                    value={
-                      formik.values.uniCommissionInvoice.bankDetails
-                        .accountOwnerAddress
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Account Owner Address"
-                  />
-                  {formik.touched.uniCommissionInvoice?.bankDetails
-                    ?.accountOwnerAddress &&
-                    formik.errors.uniCommissionInvoice?.bankDetails
-                      ?.accountOwnerAddress && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.uniCommissionInvoice.bankDetails
-                            .accountOwnerAddress
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Bank Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.bankDetails.bankName"
-                    className="custom-select-height"
-                    value={
-                      formik.values.uniCommissionInvoice.bankDetails.bankName
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Bank Name"
-                  />
-                  {formik.touched.uniCommissionInvoice?.bankDetails?.bankName &&
-                    formik.errors.uniCommissionInvoice?.bankDetails
-                      ?.bankName && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.uniCommissionInvoice.bankDetails
-                            .bankName
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Account Number
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.bankDetails.accountNumber"
-                    className="custom-select-height"
-                    value={
-                      formik.values.uniCommissionInvoice.bankDetails
-                        .accountNumber
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Account Number"
-                  />
-                  {formik.touched.uniCommissionInvoice?.bankDetails
-                    ?.accountNumber &&
-                    formik.errors.uniCommissionInvoice?.bankDetails
-                      ?.accountNumber && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.uniCommissionInvoice.bankDetails
-                            .accountNumber
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">SWIFT Code</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.bankDetails.SWIFTCode"
-                    className="custom-select-height"
-                    value={
-                      formik.values.uniCommissionInvoice.bankDetails.SWIFTCode
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter SWIFT Code"
-                  />
-                  {formik.touched.uniCommissionInvoice?.bankDetails
-                    ?.SWIFTCode &&
-                    formik.errors.uniCommissionInvoice?.bankDetails
-                      ?.SWIFTCode && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.uniCommissionInvoice.bankDetails
-                            .SWIFTCode
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">IBAN</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="uniCommissionInvoice.bankDetails.IBAN"
-                    className="custom-select-height"
-                    value={formik.values.uniCommissionInvoice.bankDetails.IBAN}
-                    onChange={formik.handleChange}
-                    placeholder="Enter IBAN"
-                  />
-                  {formik.touched.uniCommissionInvoice?.bankDetails?.IBAN &&
-                    formik.errors.uniCommissionInvoice?.bankDetails?.IBAN && (
-                      <div className="text-danger">
-                        {formik.errors.uniCommissionInvoice.bankDetails.IBAN}
-                      </div>
-                    )}
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">CTC Username</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="CTCCredentials.CTC_USERNAME"
+                          className="custom-select-height"
+                          value={formik.values.CTCCredentials?.CTC_USERNAME}
+                          onChange={formik.handleChange}
+                          placeholder="Enter CTC Username"
+                        />
+                        {formik.touched.CTCCredentials?.CTC_USERNAME &&
+                          formik.errors.CTCCredentials?.CTC_USERNAME && (
+                            <div className="text-danger">
+                              {formik.errors.CTCCredentials?.CTC_USERNAME}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">CTC Password</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="CTCCredentials.CTC_PASSWORD"
+                          className="custom-select-height"
+                          value={formik.values.CTCCredentials?.CTC_PASSWORD}
+                          onChange={formik.handleChange}
+                          placeholder="Enter CTC Password"
+                        />
+                        {formik.touched.CTCCredentials?.CTC_PASSWORD &&
+                          formik.errors.CTCCredentials?.CTC_PASSWORD && (
+                            <div className="text-danger">
+                              {formik.errors.CTCCredentials?.CTC_PASSWORD}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">CTC Base Url</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="CTCCredentials.CTC_BASE_URL"
+                          className="custom-select-height"
+                          value={formik.values.CTCCredentials?.CTC_BASE_URL}
+                          onChange={formik.handleChange}
+                          placeholder="Enter CTC Base Url"
+                        />
+                        {formik.touched.CTCCredentials?.CTC_BASE_URL &&
+                          formik.errors.CTCCredentials?.CTC_BASE_URL && (
+                            <div className="text-danger">
+                              {formik.errors.CTCCredentials?.CTC_BASE_URL}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">CTC Number</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="CTCCredentials.CLINumber"
+                          className="custom-select-height"
+                          value={formik.values.CTCCredentials?.CLINumber}
+                          onChange={formik.handleChange}
+                          placeholder="Enter CTC Number"
+                        />
+                        {formik.touched.CTCCredentials?.CLINumber &&
+                          formik.errors.CTCCredentials?.CLINumber && (
+                            <div className="text-danger">
+                              {formik.errors.CTCCredentials?.CLINumber}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          CTC Recording Flag
+                        </Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="CTCCredentials.CTC_RECORDING_FLAG"
+                          className="custom-select-height"
+                          value={formik.values.CTCCredentials?.CTC_RECORDING_FLAG}
+                          onChange={(e) =>
+                            formik.setFieldValue(
+                              "CTCCredentials.CTC_RECORDING_FLAG",
+                              Number(e.target.value)
+                            )
+                          }
+                          placeholder="Enter CTC Recording Flag"
+                        />
+                        {formik.touched.CTCCredentials?.CTC_RECORDING_FLAG &&
+                          formik.errors.CTCCredentials?.CTC_RECORDING_FLAG && (
+                            <div className="text-danger">
+                              {formik.errors.CTCCredentials?.CTC_RECORDING_FLAG}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">CTC DTMF Flag</Form.Label>
+                        <Form.Control
+                          type="number"
+                          name="CTCCredentials.CTC_DTMF_FLAG"
+                          className="custom-select-height"
+                          value={formik.values.CTCCredentials?.CTC_DTMF_FLAG}
+                          onChange={(e) =>
+                            formik.setFieldValue(
+                              "CTCCredentials.CTC_DTMF_FLAG",
+                              Number(e.target.value)
+                            )
+                          }
+                          placeholder="Enter CTC DTMF Flag"
+                        />
+                        {formik.touched.CTCCredentials?.CTC_DTMF_FLAG &&
+                          formik.errors.CTCCredentials?.CTC_DTMF_FLAG && (
+                            <div className="text-danger">
+                              {formik.errors.CTCCredentials?.CTC_DTMF_FLAG}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          CTC PINGBACK URL
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="CTCCredentials.CTC_PINGBACK_URL"
+                          className="custom-select-height"
+                          value={formik.values.CTCCredentials?.CTC_PINGBACK_URL}
+                          onChange={formik.handleChange}
+                          placeholder="Enter CTC Pingback Url"
+                        />
+                        {formik.touched.CTCCredentials?.CTC_PINGBACK_URL &&
+                          formik.errors.CTCCredentials?.CTC_PINGBACK_URL && (
+                            <div className="text-danger">
+                              {formik.errors.CTCCredentials?.CTC_PINGBACK_URL}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-0">
+                        <Form.Label className="fw-semibold">
+                          CTC PINGBACK SECRET
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="CTCCredentials.CTC_PINGBACK_SECRET"
+                          className="custom-select-height"
+                          value={formik.values.CTCCredentials?.CTC_PINGBACK_SECRET}
+                          onChange={formik.handleChange}
+                          placeholder="Enter CTC Pingback Secret"
+                        />
+                        {formik.touched.CTCCredentials?.CTC_PINGBACK_SECRET &&
+                          formik.errors.CTCCredentials?.CTC_PINGBACK_SECRET && (
+                            <div className="text-danger">
+                              {formik.errors.CTCCredentials?.CTC_PINGBACK_SECRET}
+                            </div>
+                          )}
+                      </Form.Group>
+                    </Card.Body>
+                  </Card>
                 </Col>
 
-                <hr className="my-4" />
+                {/* Section 4: University Commission Invoice Details */}
+                <Col lg={12} md={12}>
+                  <Card className="h-100 wa-credentials-group">
+                    <Card.Body>
+                      <div className="d-flex align-items-center mb-3">
+                        <div className="me-2 text-primary">
+                          <FaMoneyBill size={20} />
+                        </div>
+                        <h5 className="mb-0">University Commission Invoice Details</h5>
+                      </div>
 
-                <Col md={12} className="mb-3">
-                  <h5>B2B Invoice Details</h5>
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    B2B Invoice Name
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="b2bInvoice.name"
-                    className="custom-select-height"
-                    value={formik.values.b2bInvoice.name}
-                    onChange={formik.handleChange}
-                    placeholder="Enter B2B Invoice Name"
-                  />
-                  {formik.touched.b2bInvoice?.name &&
-                    formik.errors.b2bInvoice?.name && (
-                      <div className="text-danger">
-                        {formik.errors.b2bInvoice.name}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    B2B Invoice Address
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="b2bInvoice.address"
-                    className="custom-select-height"
-                    value={formik.values.b2bInvoice.address}
-                    onChange={formik.handleChange}
-                    placeholder="Enter B2B Invoice Address"
-                  />
-                  {formik.touched.b2bInvoice?.address &&
-                    formik.errors.b2bInvoice?.address && (
-                      <div className="text-danger">
-                        {formik.errors.b2bInvoice.address}
-                      </div>
-                    )}
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.name"
+                          className="custom-select-height"
+                          value={formik.values.uniCommissionInvoice.name}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Name"
+                        />
+                        {formik.touched.uniCommissionInvoice?.name &&
+                          formik.errors.uniCommissionInvoice?.name && (
+                            <div className="text-danger">
+                              {formik.errors.uniCommissionInvoice.name}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Address</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.address"
+                          className="custom-select-height"
+                          value={formik.values.uniCommissionInvoice.address}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Address"
+                        />
+                        {formik.touched.uniCommissionInvoice?.address &&
+                          formik.errors.uniCommissionInvoice?.address && (
+                            <div className="text-danger">
+                              {formik.errors.uniCommissionInvoice.address}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Tax Registration No
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.taxRegistrationNo"
+                          className="custom-select-height"
+                          value={formik.values.uniCommissionInvoice.taxRegistrationNo}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Tax Registration No"
+                        />
+                        {formik.touched.uniCommissionInvoice?.taxRegistrationNo &&
+                          formik.errors.uniCommissionInvoice?.taxRegistrationNo && (
+                            <div className="text-danger">
+                              {formik.errors.uniCommissionInvoice.taxRegistrationNo}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Phone No</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.phoneNo"
+                          className="custom-select-height"
+                          value={formik.values.uniCommissionInvoice.phoneNo}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Phone No"
+                        />
+                        {formik.touched.uniCommissionInvoice?.phoneNo &&
+                          formik.errors.uniCommissionInvoice?.phoneNo && (
+                            <div className="text-danger">
+                              {formik.errors.uniCommissionInvoice.phoneNo}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Account Owner Name
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.bankDetails.accountOwnerName"
+                          className="custom-select-height"
+                          value={
+                            formik.values.uniCommissionInvoice.bankDetails
+                              .accountOwnerName
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Account Owner Name"
+                        />
+                        {formik.touched.uniCommissionInvoice?.bankDetails
+                          ?.accountOwnerName &&
+                          formik.errors.uniCommissionInvoice?.bankDetails
+                            ?.accountOwnerName && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.uniCommissionInvoice.bankDetails
+                                  .accountOwnerName
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Account Owner Address
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.bankDetails.accountOwnerAddress"
+                          className="custom-select-height"
+                          value={
+                            formik.values.uniCommissionInvoice.bankDetails
+                              .accountOwnerAddress
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Account Owner Address"
+                        />
+                        {formik.touched.uniCommissionInvoice?.bankDetails
+                          ?.accountOwnerAddress &&
+                          formik.errors.uniCommissionInvoice?.bankDetails
+                            ?.accountOwnerAddress && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.uniCommissionInvoice.bankDetails
+                                  .accountOwnerAddress
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Bank Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.bankDetails.bankName"
+                          className="custom-select-height"
+                          value={
+                            formik.values.uniCommissionInvoice.bankDetails.bankName
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Bank Name"
+                        />
+                        {formik.touched.uniCommissionInvoice?.bankDetails?.bankName &&
+                          formik.errors.uniCommissionInvoice?.bankDetails
+                            ?.bankName && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.uniCommissionInvoice.bankDetails
+                                  .bankName
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Account Number
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.bankDetails.accountNumber"
+                          className="custom-select-height"
+                          value={
+                            formik.values.uniCommissionInvoice.bankDetails
+                              .accountNumber
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Account Number"
+                        />
+                        {formik.touched.uniCommissionInvoice?.bankDetails
+                          ?.accountNumber &&
+                          formik.errors.uniCommissionInvoice?.bankDetails
+                            ?.accountNumber && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.uniCommissionInvoice.bankDetails
+                                  .accountNumber
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">SWIFT Code</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.bankDetails.SWIFTCode"
+                          className="custom-select-height"
+                          value={
+                            formik.values.uniCommissionInvoice.bankDetails.SWIFTCode
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter SWIFT Code"
+                        />
+                        {formik.touched.uniCommissionInvoice?.bankDetails
+                          ?.SWIFTCode &&
+                          formik.errors.uniCommissionInvoice?.bankDetails
+                            ?.SWIFTCode && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.uniCommissionInvoice.bankDetails
+                                  .SWIFTCode
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-0">
+                        <Form.Label className="fw-semibold">IBAN</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="uniCommissionInvoice.bankDetails.IBAN"
+                          className="custom-select-height"
+                          value={formik.values.uniCommissionInvoice.bankDetails.IBAN}
+                          onChange={formik.handleChange}
+                          placeholder="Enter IBAN"
+                        />
+                        {formik.touched.uniCommissionInvoice?.bankDetails?.IBAN &&
+                          formik.errors.uniCommissionInvoice?.bankDetails?.IBAN && (
+                            <div className="text-danger">
+                              {formik.errors.uniCommissionInvoice.bankDetails.IBAN}
+                            </div>
+                          )}
+                      </Form.Group>
+                    </Card.Body>
+                  </Card>
                 </Col>
 
-                <hr className="my-4" />
+                {/* Section 5: B2B & Application Fee Invoice Details */}
+                <Col lg={12} md={12}>
+                  <Card className="h-100 wa-credentials-group">
+                    <Card.Body>
+                      <div className="d-flex align-items-center mb-3">
+                        <div className="me-2 text-primary">
+                          <FaFileInvoice size={20} />
+                        </div>
+                        <h5 className="mb-0">B2B & Application Fee Invoice Details</h5>
+                      </div>
 
-                <Col md={12} className="mb-3">
-                  <h5>Application Fee Invoice Details</h5>
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          B2B Invoice Name
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="b2bInvoice.name"
+                          className="custom-select-height"
+                          value={formik.values.b2bInvoice.name}
+                          onChange={formik.handleChange}
+                          placeholder="Enter B2B Invoice Name"
+                        />
+                        {formik.touched.b2bInvoice?.name &&
+                          formik.errors.b2bInvoice?.name && (
+                            <div className="text-danger">
+                              {formik.errors.b2bInvoice.name}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          B2B Invoice Address
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="b2bInvoice.address"
+                          className="custom-select-height"
+                          value={formik.values.b2bInvoice.address}
+                          onChange={formik.handleChange}
+                          placeholder="Enter B2B Invoice Address"
+                        />
+                        {formik.touched.b2bInvoice?.address &&
+                          formik.errors.b2bInvoice?.address && (
+                            <div className="text-danger">
+                              {formik.errors.b2bInvoice.address}
+                            </div>
+                          )}
+                      </Form.Group>
+
+
+                    </Card.Body>
+                  </Card>
                 </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.name"
-                    className="custom-select-height"
-                    value={formik.values.applicationFeeInvoice.name}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Name"
-                  />
-                  {formik.touched.applicationFeeInvoice?.name &&
-                    formik.errors.applicationFeeInvoice?.name && (
-                      <div className="text-danger">
-                        {formik.errors.applicationFeeInvoice.name}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Application</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.application"
-                    className="custom-select-height"
-                    value={formik.values.applicationFeeInvoice.application}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Application"
-                  />
-                  {formik.touched.applicationFeeInvoice?.application &&
-                    formik.errors.applicationFeeInvoice?.application && (
-                      <div className="text-danger">
-                        {formik.errors.applicationFeeInvoice.application}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Address</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.address"
-                    className="custom-select-height"
-                    value={formik.values.applicationFeeInvoice.address}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Address"
-                  />
-                  {formik.touched.applicationFeeInvoice?.address &&
-                    formik.errors.applicationFeeInvoice?.address && (
-                      <div className="text-danger">
-                        {formik.errors.applicationFeeInvoice.address}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Phone No</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.phoneNo"
-                    className="custom-select-height"
-                    value={formik.values.applicationFeeInvoice.phoneNo}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Phone No"
-                  />
-                  {formik.touched.applicationFeeInvoice?.phoneNo &&
-                    formik.errors.applicationFeeInvoice?.phoneNo && (
-                      <div className="text-danger">
-                        {formik.errors.applicationFeeInvoice.phoneNo}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Notes</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.notes"
-                    className="custom-select-height"
-                    value={formik.values.applicationFeeInvoice.notes}
-                    onChange={formik.handleChange}
-                    placeholder="Enter Notes"
-                  />
-                  {formik.touched.applicationFeeInvoice?.notes &&
-                    formik.errors.applicationFeeInvoice?.notes && (
-                      <div className="text-danger">
-                        {formik.errors.applicationFeeInvoice.notes}
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Bank Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.bankDetails.bankName"
-                    className="custom-select-height"
-                    value={
-                      formik.values.applicationFeeInvoice.bankDetails.bankName
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Bank Name"
-                  />
-                  {formik.touched.applicationFeeInvoice?.bankDetails
-                    ?.bankName &&
-                    formik.errors.applicationFeeInvoice?.bankDetails
-                      ?.bankName && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.applicationFeeInvoice.bankDetails
-                            .bankName
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Account Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.bankDetails.accountName"
-                    className="custom-select-height"
-                    value={
-                      formik.values.applicationFeeInvoice.bankDetails
-                        .accountName
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Account Name"
-                  />
-                  {formik.touched.applicationFeeInvoice?.bankDetails
-                    ?.accountName &&
-                    formik.errors.applicationFeeInvoice?.bankDetails
-                      ?.accountName && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.applicationFeeInvoice.bankDetails
-                            .accountName
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">
-                    Account Number
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.bankDetails.accountNumber"
-                    className="custom-select-height"
-                    value={
-                      formik.values.applicationFeeInvoice.bankDetails
-                        .accountNumber
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Account Number"
-                  />
-                  {formik.touched.applicationFeeInvoice?.bankDetails
-                    ?.accountNumber &&
-                    formik.errors.applicationFeeInvoice?.bankDetails
-                      ?.accountNumber && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.applicationFeeInvoice.bankDetails
-                            .accountNumber
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Bank Address</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.bankDetails.bankAddress"
-                    className="custom-select-height"
-                    value={
-                      formik.values.applicationFeeInvoice.bankDetails
-                        .bankAddress
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Bank Address"
-                  />
-                  {formik.touched.applicationFeeInvoice?.bankDetails
-                    ?.bankAddress &&
-                    formik.errors.applicationFeeInvoice?.bankDetails
-                      ?.bankAddress && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.applicationFeeInvoice.bankDetails
-                            .bankAddress
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">IFSC Code</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.bankDetails.IFSCCode"
-                    className="custom-select-height"
-                    value={
-                      formik.values.applicationFeeInvoice.bankDetails.IFSCCode
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter IFSC Code"
-                  />
-                  {formik.touched.applicationFeeInvoice?.bankDetails
-                    ?.IFSCCode &&
-                    formik.errors.applicationFeeInvoice?.bankDetails
-                      ?.IFSCCode && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.applicationFeeInvoice.bankDetails
-                            .IFSCCode
-                        }
-                      </div>
-                    )}
-                </Col>
-                <Col md={6} className="mb-3">
-                  <Form.Label className="fw-semibold">Swift Code</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="applicationFeeInvoice.bankDetails.SwiftCode"
-                    className="custom-select-height"
-                    value={
-                      formik.values.applicationFeeInvoice.bankDetails.SwiftCode
-                    }
-                    onChange={formik.handleChange}
-                    placeholder="Enter Swift Code"
-                  />
-                  {formik.touched.applicationFeeInvoice?.bankDetails
-                    ?.SwiftCode &&
-                    formik.errors.applicationFeeInvoice?.bankDetails
-                      ?.SwiftCode && (
-                      <div className="text-danger">
-                        {
-                          formik.errors.applicationFeeInvoice.bankDetails
-                            .SwiftCode
-                        }
-                      </div>
-                    )}
+
+                {/* Additional invoice fields - in a separate card for space */}
+                <Col lg={12} md={12}>
+                  <Card className="h-100 wa-credentials-group">
+                    <Card.Body>
+                      <h5 className="mb-3">Application Fee Invoice Details</h5>
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.name"
+                          className="custom-select-height"
+                          value={formik.values.applicationFeeInvoice.name}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Name"
+                        />
+                        {formik.touched.applicationFeeInvoice?.name &&
+                          formik.errors.applicationFeeInvoice?.name && (
+                            <div className="text-danger">
+                              {formik.errors.applicationFeeInvoice.name}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-0">
+                        <Form.Label className="fw-semibold">Application</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.application"
+                          className="custom-select-height"
+                          value={formik.values.applicationFeeInvoice.application}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Application"
+                        />
+                        {formik.touched.applicationFeeInvoice?.application &&
+                          formik.errors.applicationFeeInvoice?.application && (
+                            <div className="text-danger">
+                              {formik.errors.applicationFeeInvoice.application}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Address</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.address"
+                          className="custom-select-height"
+                          value={formik.values.applicationFeeInvoice.address}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Address"
+                        />
+                        {formik.touched.applicationFeeInvoice?.address &&
+                          formik.errors.applicationFeeInvoice?.address && (
+                            <div className="text-danger">
+                              {formik.errors.applicationFeeInvoice.address}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Phone No</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.phoneNo"
+                          className="custom-select-height"
+                          value={formik.values.applicationFeeInvoice.phoneNo}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Phone No"
+                        />
+                        {formik.touched.applicationFeeInvoice?.phoneNo &&
+                          formik.errors.applicationFeeInvoice?.phoneNo && (
+                            <div className="text-danger">
+                              {formik.errors.applicationFeeInvoice.phoneNo}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Notes</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.notes"
+                          className="custom-select-height"
+                          value={formik.values.applicationFeeInvoice.notes}
+                          onChange={formik.handleChange}
+                          placeholder="Enter Notes"
+                        />
+                        {formik.touched.applicationFeeInvoice?.notes &&
+                          formik.errors.applicationFeeInvoice?.notes && (
+                            <div className="text-danger">
+                              {formik.errors.applicationFeeInvoice.notes}
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Bank Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.bankDetails.bankName"
+                          className="custom-select-height"
+                          value={
+                            formik.values.applicationFeeInvoice.bankDetails.bankName
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Bank Name"
+                        />
+                        {formik.touched.applicationFeeInvoice?.bankDetails
+                          ?.bankName &&
+                          formik.errors.applicationFeeInvoice?.bankDetails
+                            ?.bankName && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.applicationFeeInvoice.bankDetails
+                                  .bankName
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Account Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.bankDetails.accountName"
+                          className="custom-select-height"
+                          value={
+                            formik.values.applicationFeeInvoice.bankDetails
+                              .accountName
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Account Name"
+                        />
+                        {formik.touched.applicationFeeInvoice?.bankDetails
+                          ?.accountName &&
+                          formik.errors.applicationFeeInvoice?.bankDetails
+                            ?.accountName && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.applicationFeeInvoice.bankDetails
+                                  .accountName
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">
+                          Account Number
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.bankDetails.accountNumber"
+                          className="custom-select-height"
+                          value={
+                            formik.values.applicationFeeInvoice.bankDetails
+                              .accountNumber
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Account Number"
+                        />
+                        {formik.touched.applicationFeeInvoice?.bankDetails
+                          ?.accountNumber &&
+                          formik.errors.applicationFeeInvoice?.bankDetails
+                            ?.accountNumber && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.applicationFeeInvoice.bankDetails
+                                  .accountNumber
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Bank Address</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.bankDetails.bankAddress"
+                          className="custom-select-height"
+                          value={
+                            formik.values.applicationFeeInvoice.bankDetails
+                              .bankAddress
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Bank Address"
+                        />
+                        {formik.touched.applicationFeeInvoice?.bankDetails
+                          ?.bankAddress &&
+                          formik.errors.applicationFeeInvoice?.bankDetails
+                            ?.bankAddress && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.applicationFeeInvoice.bankDetails
+                                  .bankAddress
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">IFSC Code</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.bankDetails.IFSCCode"
+                          className="custom-select-height"
+                          value={
+                            formik.values.applicationFeeInvoice.bankDetails.IFSCCode
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter IFSC Code"
+                        />
+                        {formik.touched.applicationFeeInvoice?.bankDetails
+                          ?.IFSCCode &&
+                          formik.errors.applicationFeeInvoice?.bankDetails
+                            ?.IFSCCode && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.applicationFeeInvoice.bankDetails
+                                  .IFSCCode
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+
+                      <Form.Group className="mb-0">
+                        <Form.Label className="fw-semibold">Swift Code</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="applicationFeeInvoice.bankDetails.SwiftCode"
+                          className="custom-select-height"
+                          value={
+                            formik.values.applicationFeeInvoice.bankDetails.SwiftCode
+                          }
+                          onChange={formik.handleChange}
+                          placeholder="Enter Swift Code"
+                        />
+                        {formik.touched.applicationFeeInvoice?.bankDetails
+                          ?.SwiftCode &&
+                          formik.errors.applicationFeeInvoice?.bankDetails
+                            ?.SwiftCode && (
+                            <div className="text-danger">
+                              {
+                                formik.errors.applicationFeeInvoice.bankDetails
+                                  .SwiftCode
+                              }
+                            </div>
+                          )}
+                      </Form.Group>
+                    </Card.Body>
+                  </Card>
                 </Col>
               </Row>
-              {canCreate && (
-                <div className="text-end">
-                  <Button
-                    variant="primary"
-                    className="custom-select-height"
-                    type="submit"
-                  >
-                    Submit
-                  </Button>
-                </div>
-              )}
+
+              {/* Voice AI Details Section */}
+              {/* <Row className="g-4 mb-3">
+                <Col lg={12} md={12}>
+                  <Card className="h-100 wa-credentials-group">
+                    <Card.Body>
+                      <div className="d-flex align-items-center mb-3">
+                        <div className="me-2 text-primary">
+                          <FaCog size={20} />
+                        </div>
+                        <h5 className="mb-0">Voice AI Details</h5>
+                      </div>
+
+                      <Row>
+                        <Col md={6} className="mb-3">
+                          <Form.Label className="fw-semibold">
+                            Omnidim Api Key
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="voiceAIDetails.OMNIDIM_API_KEY"
+                            className="custom-select-height"
+                            value={formik.values.voiceAIDetails.OMNIDIM_API_KEY}
+                            onChange={formik.handleChange}
+                            placeholder="Enter Omnidim Api Key"
+                          />
+                          {formik.touched.voiceAIDetails?.OMNIDIM_API_KEY &&
+                            formik.errors.voiceAIDetails?.OMNIDIM_API_KEY && (
+                              <div className="text-danger">
+                                {formik.errors.voiceAIDetails.OMNIDIM_API_KEY}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={6} className="mb-3">
+                          <Form.Label className="fw-semibold">
+                            Omnidim Phone Number Id
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="voiceAIDetails.OMNIDIM_DEFAULT_PHONE_NUMBER_ID"
+                            className="custom-select-height"
+                            value={
+                              formik.values.voiceAIDetails
+                                .OMNIDIM_DEFAULT_PHONE_NUMBER_ID
+                            }
+                            onChange={formik.handleChange}
+                            placeholder="Enter Omnidim Phone Number Id"
+                          />
+                          {formik.touched.voiceAIDetails
+                            ?.OMNIDIM_DEFAULT_PHONE_NUMBER_ID &&
+                            formik.errors.voiceAIDetails
+                              ?.OMNIDIM_DEFAULT_PHONE_NUMBER_ID && (
+                              <div className="text-danger">
+                                {
+                                  formik.errors.voiceAIDetails
+                                    .OMNIDIM_DEFAULT_PHONE_NUMBER_ID
+                                }
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={6} className="mb-3">
+                          <Form.Label className="fw-semibold">
+                            Omnidim Base Url
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="voiceAIDetails.OMNIDIM_BASE_URL"
+                            className="custom-select-height"
+                            value={formik.values.voiceAIDetails.OMNIDIM_BASE_URL}
+                            onChange={formik.handleChange}
+                            placeholder="Enter Omnidim Base Url"
+                          />
+                          {formik.touched.voiceAIDetails?.OMNIDIM_BASE_URL &&
+                            formik.errors.voiceAIDetails?.OMNIDIM_BASE_URL && (
+                              <div className="text-danger">
+                                {formik.errors.voiceAIDetails.OMNIDIM_BASE_URL}
+                              </div>
+                            )}
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row> */}
+
+              <div className="text-end">
+                <Button
+                  variant="primary"
+                  className="custom-select-height"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </div>
             </Form>
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

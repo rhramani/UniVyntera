@@ -14,6 +14,7 @@ import {
   updateVisitorDocumentType,
 } from "../../redux/actions/Document/visitorDocumentType.action";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const VisitorDocumentType = () => {
   const dispatch = useDispatch();
@@ -160,17 +161,23 @@ const VisitorDocumentType = () => {
     },
   ];
   return (
+    <>
+      <Pageheader
+        mainheading="Visitor Document Type"
+        parentfolder="Visitor"
+        activepage="Visitor Document Type"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {highlightForm
                   ? "Update Visitor Document Type"
                   : "Add Visitor Document Type"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <form onSubmit={formik.handleSubmit} className="form_main_class">
@@ -184,7 +191,7 @@ const VisitorDocumentType = () => {
                       type="text"
                       name="name"
                       className="custom-select-height"
-                      placeholder="Enter Visitor Document Type..."
+                      placeholder="Enter visitor document type"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -269,16 +276,19 @@ const VisitorDocumentType = () => {
             />
 
             {totalPages > 1 && allDocumentType.length > 0 && (
+              <div className="mt-4 d-flex justify-content-end align-items-end">
               <Paginations
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
               />
+              </div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 export default VisitorDocumentType;

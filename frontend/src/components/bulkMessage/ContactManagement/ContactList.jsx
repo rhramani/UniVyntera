@@ -212,7 +212,7 @@ const ContactList = ({
                       }
                       indeterminate={
                         selectedContacts?.length > 0 &&
-                        selectedContacts?.length < contacts?.length
+                          selectedContacts?.length < contacts?.length
                           ? "true"
                           : ""
                       }
@@ -326,11 +326,13 @@ const ContactList = ({
             />
 
             {totalPages > 1 && contacts?.length > 0 && (
-              <Paginations
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
+              <div className="mt-4 d-flex justify-content-end align-items-end">
+                <Paginations
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={(page) => setCurrentPage(page)}
+                />
+              </div>
             )}
           </>
         )}

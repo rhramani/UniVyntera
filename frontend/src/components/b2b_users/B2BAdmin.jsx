@@ -671,9 +671,8 @@ const B2BAdmin = () => {
       label: "Status",
       render: (item) => (
         <Button
-          className={`d-flex justify-content-center align-items-center gap-2 rounded-4 ${
-            item.status === "Active" ? "active-status" : "inactive-status"
-          }`}
+          className={`d-flex justify-content-center align-items-center gap-2 rounded-4 ${item.status === "Active" ? "active-status" : "inactive-status"
+            }`}
           size="sm"
           onClick={() => handleStatusToggle(item)}
           style={{ minWidth: "80px" }}
@@ -715,64 +714,64 @@ const B2BAdmin = () => {
     },
     ...(userRole !== "B2B Member"
       ? [
-          ...(hasAnyRecording
-            ? [
-                {
-                  label: "Recording",
-                  key: "ctcRecording",
-                  className: "sticky-col-right-1",
-                  headerClassName: "sticky-col-right-1",
-                  render: (item) =>
-                    item?.CTCCallRecording ? (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          window.open(item.CTCCallRecording, "_blank");
-                        }}
-                        className="recording-pill-btn"
-                      >
-                        <MdOutlinePlayCircleFilled size={16} />
-                        <span>RECORDING</span>
-                      </button>
-                    ) : (
-                      "-"
-                    ),
-                },
-              ]
-            : []),
-          {
-            label: "CTC Call",
-            key: "ctcCall",
-            className: "sticky-col-right-2",
-            headerClassName: "sticky-col-right-2",
-            render: (item) => (
-              <button
-                type="button"
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  try {
-                    setIsLoading(true);
-                    const payload = { entityType: "b2b" };
-                    await dispatch(addCtcCalling(item?._id, payload));
-                    toast.success("CTC calling initiated");
-                  } catch (error) {
-                    toast.error(
-                      error?.response?.data?.message ||
-                        "Failed to initiate CTC call"
-                    );
-                  } finally {
-                    setIsLoading(false);
-                  }
-                }}
-                className="call-pill-btn"
-              >
-                <MdCall size={16} />
-                <span>CALL</span>
-              </button>
-            ),
-          },
-        ]
+        ...(hasAnyRecording
+          ? [
+            {
+              label: "Recording",
+              key: "ctcRecording",
+              className: "sticky-col-right-1",
+              headerClassName: "sticky-col-right-1",
+              render: (item) =>
+                item?.CTCCallRecording ? (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(item.CTCCallRecording, "_blank");
+                    }}
+                    className="recording-pill-btn"
+                  >
+                    <MdOutlinePlayCircleFilled size={16} />
+                    <span>RECORDING</span>
+                  </button>
+                ) : (
+                  "-"
+                ),
+            },
+          ]
+          : []),
+        {
+          label: "CTC Call",
+          key: "ctcCall",
+          className: "sticky-col-right-2",
+          headerClassName: "sticky-col-right-2",
+          render: (item) => (
+            <button
+              type="button"
+              onClick={async (e) => {
+                e.stopPropagation();
+                try {
+                  setIsLoading(true);
+                  const payload = { entityType: "b2b" };
+                  await dispatch(addCtcCalling(item?._id, payload));
+                  toast.success("CTC calling initiated");
+                } catch (error) {
+                  toast.error(
+                    error?.response?.data?.message ||
+                    "Failed to initiate CTC call"
+                  );
+                } finally {
+                  setIsLoading(false);
+                }
+              }}
+              className="call-pill-btn"
+            >
+              <MdCall size={16} />
+              <span>CALL</span>
+            </button>
+          ),
+        },
+      ]
       : []),
   ];
 
@@ -1548,9 +1547,9 @@ const B2BAdmin = () => {
                           value={
                             formik.values.status
                               ? {
-                                  value: formik.values.status,
-                                  label: formik.values.status,
-                                }
+                                value: formik.values.status,
+                                label: formik.values.status,
+                              }
                               : null
                           }
                           onChange={(option) =>
@@ -1757,13 +1756,13 @@ const B2BAdmin = () => {
                           value={
                             formik.values.state
                               ? stateDropDown
-                                  ?.map((state) => ({
-                                    value: state.isoCode,
-                                    label: state.name,
-                                  }))
-                                  .filter(
-                                    (s) => s.value === formik.values.state
-                                  )
+                                ?.map((state) => ({
+                                  value: state.isoCode,
+                                  label: state.name,
+                                }))
+                                .filter(
+                                  (s) => s.value === formik.values.state
+                                )
                               : []
                           }
                           onChange={(option) => {
@@ -1824,11 +1823,11 @@ const B2BAdmin = () => {
                           value={
                             formik.values.city
                               ? [
-                                  {
-                                    value: formik.values.city,
-                                    label: formik.values.city,
-                                  },
-                                ]
+                                {
+                                  value: formik.values.city,
+                                  label: formik.values.city,
+                                },
+                              ]
                               : []
                           }
                           onChange={(selectedOption) => {
@@ -1881,14 +1880,14 @@ const B2BAdmin = () => {
                                 setAgreementStartValue(
                                   formik.values.agreementStartDate.includes("/")
                                     ? (() => {
-                                        const [day, month, year] =
-                                          formik.values.agreementStartDate.split(
-                                            "/"
-                                          );
-                                        return new Date(
-                                          `${year}-${month}-${day}`
+                                      const [day, month, year] =
+                                        formik.values.agreementStartDate.split(
+                                          "/"
                                         );
-                                      })()
+                                      return new Date(
+                                        `${year}-${month}-${day}`
+                                      );
+                                    })()
                                     : new Date(formik.values.agreementStartDate)
                                 );
                               }
@@ -1968,14 +1967,14 @@ const B2BAdmin = () => {
                                 setAgreementEndValue(
                                   formik.values.agreementEndDate.includes("/")
                                     ? (() => {
-                                        const [day, month, year] =
-                                          formik.values.agreementEndDate.split(
-                                            "/"
-                                          );
-                                        return new Date(
-                                          `${year}-${month}-${day}`
+                                      const [day, month, year] =
+                                        formik.values.agreementEndDate.split(
+                                          "/"
                                         );
-                                      })()
+                                      return new Date(
+                                        `${year}-${month}-${day}`
+                                      );
+                                    })()
                                     : new Date(formik.values.agreementEndDate)
                                 );
                               }
@@ -2064,9 +2063,8 @@ const B2BAdmin = () => {
                     </Row>
 
                     <div
-                      className={`section-wrapper ${
-                        isDropdownOpen ? "dropdown-open" : ""
-                      }`}
+                      className={`section-wrapper ${isDropdownOpen ? "dropdown-open" : ""
+                        }`}
                     >
                       <h5
                         className="form-heading p-2 d-flex justify-content-between"
@@ -2300,11 +2298,12 @@ const B2BAdmin = () => {
               />
 
               {totalPages > 1 && adminList.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  /></div>
               )}
             </Card.Body>
           </Card>

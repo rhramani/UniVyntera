@@ -1967,7 +1967,7 @@ const TodayFollowup = () => {
       const responseData = res?.data?.data;
       setAllFollowUpTypes(responseData?.data || []);
     } catch (error) {
-      console.error("Error fetching Follow-Up Types:", error);
+      console.error("Error fetching Follow Up Types:", error);
     }
   };
 

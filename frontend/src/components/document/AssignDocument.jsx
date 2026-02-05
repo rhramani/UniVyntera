@@ -29,6 +29,7 @@ import { getAllDocumentList } from "../../redux/actions/Document/DocumentList.ac
 import { getAllDocumentType } from "../../redux/actions/Document/DocumentType.action";
 import { countryDropdown } from "../../redux/actions/Master/Institute.action";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const AssignDocument = () => {
   const dispatch = useDispatch();
@@ -414,315 +415,322 @@ const AssignDocument = () => {
   ];
 
   return (
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            <div>
+    <>
+      <Pageheader
+        mainheading="Assign Document"
+        parentfolder="Assign"
+        activepage="Assign Document"
+      />
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div>
               <div className="card-title">
                 {formik.values.id
                   ? "Update Assign Document"
                   : "Add Assign Document"}
               </div>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <form onSubmit={formik.handleSubmit}>
-              <Row className="mb-3">
-                <Col md={4} className="d-flex align-items-end">
-                  {canCreate && (
-                    <Button
-                      variant="primary"
-                      className="custom-select-height"
-                      onClick={handleShow}
-                    >
-                      {formik.values.id
-                        ? "Update Assign Document"
-                        : "Add Assign Document"}
-                    </Button>
-                  )}
-                </Col>
-                <Col className="d-flex align-items-end justify-content-end gap-2">
-                  <div className="ms-auto">
-                    <div className="contact-search3">
-                      <button type="button" className="btn border-0">
-                        <i
-                          className="fe fe-search fw-semibold text-muted"
-                          aria-hidden="true"
-                        ></i>
-                      </button>
-                      <Form.Control
-                        type="text"
-                        className="filter-height border-0"
-                        id="typehead1"
-                        placeholder="Search here..."
-                        autoComplete="off"
-                        value={search}
-                        onChange={(e) => {
-                          setSearch(e.target.value);
-                          setCurrentPage(1);
-                        }}
-                      />
+            </div> */}
+            </Card.Header>
+            <Card.Body>
+              <form onSubmit={formik.handleSubmit}>
+                <Row className="mb-3">
+                  <Col md={4} className="d-flex align-items-end">
+                    {canCreate && (
+                      <Button
+                        variant="primary"
+                        className="custom-select-height"
+                        onClick={handleShow}
+                      >
+                        {formik.values.id
+                          ? "Update Assign Document"
+                          : "Add Assign Document"}
+                      </Button>
+                    )}
+                  </Col>
+                  <Col className="d-flex align-items-end justify-content-end gap-2">
+                    <div className="ms-auto">
+                      <div className="contact-search3">
+                        <button type="button" className="btn border-0">
+                          <i
+                            className="fe fe-search fw-semibold text-muted"
+                            aria-hidden="true"
+                          ></i>
+                        </button>
+                        <Form.Control
+                          type="text"
+                          className="filter-height border-0"
+                          id="typehead1"
+                          placeholder="Search here..."
+                          autoComplete="off"
+                          value={search}
+                          onChange={(e) => {
+                            setSearch(e.target.value);
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <ItemsPerPageSelect
-                    itemsPerPage={itemsPerPage}
-                    onChange={handleItemsPerPageChange}
-                  />
-                  <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                    <span>
-                      Total Records :<strong> {totalRecords}</strong>
-                    </span>
-                  </div>
-                </Col>
-              </Row>
-            </form>
+                    <ItemsPerPageSelect
+                      itemsPerPage={itemsPerPage}
+                      onChange={handleItemsPerPageChange}
+                    />
+                    <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
+                      <span>
+                        Total Records :<strong> {totalRecords}</strong>
+                      </span>
+                    </div>
+                  </Col>
+                </Row>
+              </form>
 
-            <Modal show={show} onHide={handleClose} size={allDocumentTypes.length === 0 ? "md" : "lg"} centered>
-              <Modal.Header className="form-main-heading">
-                <Modal.Title>
-                  {formik.values.id
-                    ? "Update Assign Document"
-                    : "Add Assign Document"}
-                </Modal.Title>
-                <AiOutlineClose
-                  size={20}
-                  style={{ cursor: "pointer", color: "white" }}
-                  onClick={handleClose}
-                />
-              </Modal.Header>
-              <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
-                <Form onSubmit={formik.handleSubmit}>
-                  <Row className="mb-3 mt-0">
-                    <Col md={allDocumentTypes.length === 0 ? "12" : "6"} className="mb-3">
-                      <Form.Label className="fw-semibold">Country</Form.Label>
-                      <Select
-                        options={[
-                          { value: "All", label: "All" },
-                          ...(countries?.map((c) => ({
-                            value: c.name,
-                            label: c.name,
-                          })) || []),
-                        ]}
-                        value={
-                          formik.values.country
-                            ? {
+              <Modal show={show} onHide={handleClose} size={allDocumentTypes.length === 0 ? "md" : "lg"} centered>
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {formik.values.id
+                      ? "Update Assign Document"
+                      : "Add Assign Document"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={handleClose}
+                  />
+                </Modal.Header>
+                <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                  <Form onSubmit={formik.handleSubmit}>
+                    <Row className="mb-3 mt-0">
+                      <Col md={allDocumentTypes.length === 0 ? "12" : "6"} className="mb-3">
+                        <Form.Label className="fw-semibold">Country</Form.Label>
+                        <Select
+                          options={[
+                            { value: "All", label: "All" },
+                            ...(countries?.map((c) => ({
+                              value: c.name,
+                              label: c.name,
+                            })) || []),
+                          ]}
+                          value={
+                            formik.values.country
+                              ? {
                                 value: formik.values.country,
                                 label: formik.values.country,
                               }
-                            : null
-                        }
-                        onChange={(selectedOptions) => {
-                          formik.setFieldValue(
-                            "country",
-                            selectedOptions?.value || ""
-                          );
-                        }}
-                        placeholder="Select Country"
-                        classNamePrefix="custom-select"
-                        isClearable
-                        isSearchable
-                        noOptionsMessage={() => "No countries available"}
-                      />
-                      {formik.touched.country && formik.errors.country && (
-                        <div className="text-danger">
-                          {formik.errors.country}
-                        </div>
-                      )}
-                    </Col>
-                    {allDocumentTypes?.map((type) => (
-                      <Col md={6} key={type._id}>
-                        <Form.Group
-                          className="mb-3"
-                          controlId={`document-${type._id}`}
-                        >
-                          <Form.Label className="fw-semibold">
-                            {type?.name}
-                          </Form.Label>
-                          <Dropdown
-                            show={showDocumentDropdown[type._id] || false}
-                            onToggle={(isOpen) =>
-                              setShowDocumentDropdown((prev) => ({
-                                ...prev,
-                                [type._id]: isOpen,
-                              }))
-                            }
+                              : null
+                          }
+                          onChange={(selectedOptions) => {
+                            formik.setFieldValue(
+                              "country",
+                              selectedOptions?.value || ""
+                            );
+                          }}
+                          placeholder="Select Country"
+                          classNamePrefix="custom-select"
+                          isClearable
+                          isSearchable
+                          noOptionsMessage={() => "No countries available"}
+                        />
+                        {formik.touched.country && formik.errors.country && (
+                          <div className="text-danger">
+                            {formik.errors.country}
+                          </div>
+                        )}
+                      </Col>
+                      {allDocumentTypes?.map((type) => (
+                        <Col md={6} key={type._id}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId={`document-${type._id}`}
                           >
-                            <Dropdown.Toggle
-                              className={`month-dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center border${
-                                !selectedDocuments[type._id]?.length
-                                  ? "text-muted"
-                                  : ""
-                              }`}
-                              style={{
-                                height: "38px",
-                                fontSize: "13px",
-                                padding: "8px 12px",
-                                overflow: "hidden",
-                              }}
+                            <Form.Label className="fw-semibold">
+                              {type?.name}
+                            </Form.Label>
+                            <Dropdown
+                              show={showDocumentDropdown[type._id] || false}
+                              onToggle={(isOpen) =>
+                                setShowDocumentDropdown((prev) => ({
+                                  ...prev,
+                                  [type._id]: isOpen,
+                                }))
+                              }
                             >
-                              <div
+                              <Dropdown.Toggle
+                                className={`month-dropdown-toggle w-100 text-start d-flex justify-content-between align-items-center border${!selectedDocuments[type._id]?.length
+                                    ? "text-muted"
+                                    : ""
+                                  }`}
                                 style={{
-                                  flexGrow: 1,
-                                  overflowX: "auto",
-                                  overflowY: "hidden",
-                                  whiteSpace: "nowrap",
-                                  marginRight: "8px",
+                                  height: "38px",
+                                  fontSize: "13px",
+                                  padding: "8px 12px",
+                                  overflow: "hidden",
                                 }}
-                                className="d-flex align-items-center gap-2"
                               >
-                                {selectedDocuments[type._id]?.length > 0 ? (
-                                  selectedDocuments[type._id].map((doc) => (
+                                <div
+                                  style={{
+                                    flexGrow: 1,
+                                    overflowX: "auto",
+                                    overflowY: "hidden",
+                                    whiteSpace: "nowrap",
+                                    marginRight: "8px",
+                                  }}
+                                  className="d-flex align-items-center gap-2"
+                                >
+                                  {selectedDocuments[type._id]?.length > 0 ? (
+                                    selectedDocuments[type._id].map((doc) => (
+                                      <span
+                                        key={doc.value}
+                                        className="text-black rounded-4 px-2 py-1"
+                                        style={{
+                                          fontSize: "12px",
+                                          backgroundColor: "#E9ECEF",
+                                          flexShrink: 0,
+                                        }}
+                                      >
+                                        {doc.label}
+                                      </span>
+                                    ))
+                                  ) : (
                                     <span
-                                      key={doc.value}
-                                      className="text-black rounded-4 px-2 py-1"
                                       style={{
-                                        fontSize: "12px",
-                                        backgroundColor: "#E9ECEF",
-                                        flexShrink: 0,
-                                      }}
-                                    >
-                                      {doc.label}
-                                    </span>
-                                  ))
-                                ) : (
-                                  <span
-                                    style={{
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      whiteSpace: "nowrap",
-                                    }}
-                                  >
-                                    Select {type.name}
-                                  </span>
-                                )}
-                              </div>
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu
-                              className="month-dropdown-menu w-100"
-                              style={{
-                                borderRadius: "8px",
-                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                                maxHeight: "200px",
-                                overflowY: "auto",
-                              }}
-                            >
-                              {allDocumentListByType[type._id]
-                                ?.sort((a, b) =>
-                                  a.label?.localeCompare(b.label)
-                                )
-                                ?.map((document) => (
-                                  <div
-                                    key={document.value}
-                                    className="d-flex align-items-center px-2 py-1"
-                                    style={{
-                                      transition: "background-color 0.2s",
-                                      ":hover": { backgroundColor: "#f1f1f1" },
-                                    }}
-                                  >
-                                    <Form.Check
-                                      name={`document-${type._id}`}
-                                      type="checkbox"
-                                      id={`checkbox-${document.value}`}
-                                      checked={(
-                                        selectedCheckboxes[type._id] || []
-                                      ).some(
-                                        (item) => item.value === document.value
-                                      )}
-                                      onChange={(e) =>
-                                        handleCheckboxDocumentChange(
-                                          document,
-                                          type._id,
-                                          e
-                                        )
-                                      }
-                                      className="me-2 custom-checkbox"
-                                      style={{ flexShrink: 0 }}
-                                    />
-                                    <span
-                                      onClick={(e) =>
-                                        handleDocumentNameClick(
-                                          document,
-                                          type._id,
-                                          e
-                                        )
-                                      }
-                                      style={{
-                                        fontSize: "14px",
-                                        color: selectedDocuments[
-                                          type._id
-                                        ]?.some(
-                                          (item) =>
-                                            item.value === document.value
-                                        )
-                                          ? "#007bff"
-                                          : "#333",
-                                        flexGrow: 1,
                                         overflow: "hidden",
                                         textOverflow: "ellipsis",
                                         whiteSpace: "nowrap",
-                                        cursor: "pointer",
-                                        fontWeight: selectedDocuments[
-                                          type._id
-                                        ]?.some(
-                                          (item) =>
-                                            item.value === document.value
-                                        )
-                                          ? "bold"
-                                          : "normal",
                                       }}
                                     >
-                                      {document.label}
+                                      Select {type.name}
                                     </span>
-                                  </div>
-                                ))}
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </Form.Group>
-                      </Col>
-                    ))}
-                  </Row>
-                  {formik.touched.documents && formik.errors.documents && (
-                    <div className="text-danger">{formik.errors.documents}</div>
-                  )}
-                  <div className="text-end">
-                    <Button
-                      variant="primary"
-                      className="custom-select-height"
-                      type="submit"
-                    >
-                      {formik.values.id ? "Update" : "Add"}
-                    </Button>
-                  </div>
-                </Form>
-              </Modal.Body>
-            </Modal>
+                                  )}
+                                </div>
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu
+                                className="month-dropdown-menu w-100"
+                                style={{
+                                  borderRadius: "8px",
+                                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                  maxHeight: "200px",
+                                  overflowY: "auto",
+                                }}
+                              >
+                                {allDocumentListByType[type._id]
+                                  ?.sort((a, b) =>
+                                    a.label?.localeCompare(b.label)
+                                  )
+                                  ?.map((document) => (
+                                    <div
+                                      key={document.value}
+                                      className="d-flex align-items-center px-2 py-1"
+                                      style={{
+                                        transition: "background-color 0.2s",
+                                        ":hover": { backgroundColor: "#f1f1f1" },
+                                      }}
+                                    >
+                                      <Form.Check
+                                        name={`document-${type._id}`}
+                                        type="checkbox"
+                                        id={`checkbox-${document.value}`}
+                                        checked={(
+                                          selectedCheckboxes[type._id] || []
+                                        ).some(
+                                          (item) => item.value === document.value
+                                        )}
+                                        onChange={(e) =>
+                                          handleCheckboxDocumentChange(
+                                            document,
+                                            type._id,
+                                            e
+                                          )
+                                        }
+                                        className="me-2 custom-checkbox"
+                                        style={{ flexShrink: 0 }}
+                                      />
+                                      <span
+                                        onClick={(e) =>
+                                          handleDocumentNameClick(
+                                            document,
+                                            type._id,
+                                            e
+                                          )
+                                        }
+                                        style={{
+                                          fontSize: "14px",
+                                          color: selectedDocuments[
+                                            type._id
+                                          ]?.some(
+                                            (item) =>
+                                              item.value === document.value
+                                          )
+                                            ? "#007bff"
+                                            : "#333",
+                                          flexGrow: 1,
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
+                                          whiteSpace: "nowrap",
+                                          cursor: "pointer",
+                                          fontWeight: selectedDocuments[
+                                            type._id
+                                          ]?.some(
+                                            (item) =>
+                                              item.value === document.value
+                                          )
+                                            ? "bold"
+                                            : "normal",
+                                        }}
+                                      >
+                                        {document.label}
+                                      </span>
+                                    </div>
+                                  ))}
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </Form.Group>
+                        </Col>
+                      ))}
+                    </Row>
+                    {formik.touched.documents && formik.errors.documents && (
+                      <div className="text-danger">{formik.errors.documents}</div>
+                    )}
+                    <div className="text-end">
+                      <Button
+                        variant="primary"
+                        className="custom-select-height"
+                        type="submit"
+                      >
+                        {formik.values.id ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
 
-            <DataTable
-              columns={columns}
-              data={allCountryDocument}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              itemsPerPage={itemsPerPage}
-              onPageChange={setCurrentPage}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              canEdit={canUpdate}
-              canDelete={canDelete}
-              canRead={canRead}
-            />
-
-            {totalPages > 1 && allCountryDocument.length > 0 && (
-              <Paginations
+              <DataTable
+                columns={columns}
+                data={allCountryDocument}
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                canEdit={canUpdate}
+                canDelete={canDelete}
+                canRead={canRead}
               />
-            )}
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+
+              {totalPages > 1 && allCountryDocument.length > 0 && (
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  /></div>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 

@@ -284,9 +284,9 @@ const ApplicationFeesInvoices = () => {
         console.error("Error creating/updating invoice:", error);
         toast.error(
           error?.response?.data?.message ||
-            (values.id
-              ? "Failed to update invoice"
-              : "Failed to create invoice")
+          (values.id
+            ? "Failed to update invoice"
+            : "Failed to create invoice")
         );
       } finally {
         setSubmitting(false);
@@ -984,8 +984,8 @@ const ApplicationFeesInvoices = () => {
                             : "₹"}{" "}
                           {invoiceData?.length > 0
                             ? totalPayable?.toLocaleString("en-IN", {
-                                maximumFractionDigits: 2,
-                              })
+                              maximumFractionDigits: 2,
+                            })
                             : "0"}
                         </strong>
                       </span>
@@ -1027,10 +1027,17 @@ const ApplicationFeesInvoices = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="table-responsive modern-table-wrapper">
+                  <div
+                    className="table-responsive modern-table-wrapper"
+                    style={{
+                      borderRadius: "12px",
+                      border: "1px solid #dee2e6",
+                    }}
+                  >
+
                     <table
-                      className="table table-hover modern-table border table-nowrap"
-                      style={{ width: "100%", overflowX: "auto" }}
+                      className="table table-hover modern-table table-nowrap"
+                    style={{ width: "100%", overflowX: "auto" }}
                     >
                       <thead className="bg-light sticky-header">
                         <tr>
@@ -1342,11 +1349,13 @@ const ApplicationFeesInvoices = () => {
                     </table>
                   </div>
                   {totalPages > 1 && invoiceData.length > 0 && (
-                    <Paginations
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={(page) => setCurrentPage(page)}
-                    />
+                    <div className="mt-4 d-flex justify-content-end align-items-end">
+                      <Paginations
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      /></div>
+
                   )}
                 </>
               ) : (
@@ -1669,20 +1678,19 @@ const ApplicationFeesInvoices = () => {
                           const payable =
                             value && rate && !isNaN(value) && !isNaN(rate)
                               ? (parseFloat(value) * parseFloat(rate)).toFixed(
-                                  0
-                                )
+                                0
+                              )
                               : "";
                           formik.setFieldValue(
                             `students.${index}.payable`,
                             payable
                           );
                         }}
-                        className={`custom-select-height ${
-                          formik.touched.students?.[index]?.amount &&
-                          formik.errors.students?.[index]?.amount
+                        className={`custom-select-height ${formik.touched.students?.[index]?.amount &&
+                            formik.errors.students?.[index]?.amount
                             ? "is-invalid"
                             : ""
-                        }`}
+                          }`}
                       />
                       {formik.touched.students?.[index]?.amount &&
                         formik.errors.students?.[index]?.amount && (
@@ -1706,20 +1714,19 @@ const ApplicationFeesInvoices = () => {
                           const payable =
                             amount && value && !isNaN(amount) && !isNaN(value)
                               ? (
-                                  parseFloat(amount) * parseFloat(value)
-                                ).toFixed(0)
+                                parseFloat(amount) * parseFloat(value)
+                              ).toFixed(0)
                               : "";
                           formik.setFieldValue(
                             `students.${index}.payable`,
                             payable
                           );
                         }}
-                        className={`custom-select-height ${
-                          formik.touched.students?.[index]?.rate &&
-                          formik.errors.students?.[index]?.rate
+                        className={`custom-select-height ${formik.touched.students?.[index]?.rate &&
+                            formik.errors.students?.[index]?.rate
                             ? "is-invalid"
                             : ""
-                        }`}
+                          }`}
                       />
                       {formik.touched.students?.[index]?.rate &&
                         formik.errors.students?.[index]?.rate && (
@@ -1735,12 +1742,11 @@ const ApplicationFeesInvoices = () => {
                         placeholder="Enter Payable Amount"
                         value={student.payable}
                         disabled
-                        className={`custom-select-height ${
-                          formik.touched.students?.[index]?.payable &&
-                          formik.errors.students?.[index]?.payable
+                        className={`custom-select-height ${formik.touched.students?.[index]?.payable &&
+                            formik.errors.students?.[index]?.payable
                             ? "is-invalid"
                             : ""
-                        }`}
+                          }`}
                       />
                       {formik.touched.students?.[index]?.payable &&
                         formik.errors.students?.[index]?.payable && (
@@ -1819,39 +1825,39 @@ const ApplicationFeesInvoices = () => {
                       {["GPay", "Bank", "UPI"].includes(
                         student.paymentMode
                       ) && (
-                        <Form.Group>
-                          <Form.Label>Bank</Form.Label>
-                          <Select
-                            className=""
-                            options={bankOptions}
-                            value={
-                              bankOptions.find(
-                                (option) => option.value === student.bank
-                              ) || null
-                            }
-                            onChange={(option) =>
-                              formik.setFieldValue(
-                                `students[${index}].bank`,
-                                option ? option.value : null
-                              )
-                            }
-                            classNamePrefix="custom-select"
-                            placeholder="Select bank"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                fontSize: "13px",
-                              }),
-                            }}
-                          />
-                          {formik.touched.students?.[index]?.bank &&
-                            formik.errors.students?.[index]?.bank && (
-                              <div className="text-danger mt-1">
-                                {formik.errors.students[index]?.bank}
-                              </div>
-                            )}
-                        </Form.Group>
-                      )}
+                          <Form.Group>
+                            <Form.Label>Bank</Form.Label>
+                            <Select
+                              className=""
+                              options={bankOptions}
+                              value={
+                                bankOptions.find(
+                                  (option) => option.value === student.bank
+                                ) || null
+                              }
+                              onChange={(option) =>
+                                formik.setFieldValue(
+                                  `students[${index}].bank`,
+                                  option ? option.value : null
+                                )
+                              }
+                              classNamePrefix="custom-select"
+                              placeholder="Select bank"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  fontSize: "13px",
+                                }),
+                              }}
+                            />
+                            {formik.touched.students?.[index]?.bank &&
+                              formik.errors.students?.[index]?.bank && (
+                                <div className="text-danger mt-1">
+                                  {formik.errors.students[index]?.bank}
+                                </div>
+                              )}
+                          </Form.Group>
+                        )}
                     </Col>
                   </Row>
                 </div>
@@ -1878,8 +1884,8 @@ const ApplicationFeesInvoices = () => {
                     ? "Updating..."
                     : "Adding..."
                   : formik.values.id
-                  ? "Update Invoice"
-                  : "Add Invoice"}
+                    ? "Update Invoice"
+                    : "Add Invoice"}
               </Button>
             </div>
           </Form>

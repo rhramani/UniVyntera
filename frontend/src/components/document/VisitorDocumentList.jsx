@@ -24,6 +24,7 @@ import {
 } from "../../redux/actions/Document/VisitorDocumentList.action";
 import { getAllVisitorDocumentType } from "../../redux/actions/Document/visitorDocumentType.action";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const VisitorDocumentList = () => {
   const dispatch = useDispatch();
@@ -190,15 +191,21 @@ const VisitorDocumentList = () => {
     },
   ];
   return (
+    <>
+      <Pageheader
+        mainheading="Visitor Document List"
+        parentfolder="Visitor"
+        activepage="Visitor Document List"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {highlightForm ? "Update Visitor Document List" : "Add Visitor Document List"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <form onSubmit={formik.handleSubmit} className="form_main_class">
@@ -268,7 +275,7 @@ const VisitorDocumentList = () => {
                       type="text"
                       name="name"
                       className="custom-select-height"
-                      placeholder="Enter Visitor Document name..."
+                      placeholder="Enter visitor document name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -352,16 +359,19 @@ const VisitorDocumentList = () => {
             />
 
             {totalPages > 1 && allDocumentList.length > 0 && (
+              <div className="mt-4 d-flex justify-content-end align-items-end">
               <Paginations
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
               />
+              </div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 export default VisitorDocumentList;

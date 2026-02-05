@@ -16,6 +16,7 @@ import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
 import DataTable from "../commonComponents/DataTable";
 import usePermissions from "../commonComponents/usePermissions";
 import Select from "react-select";
+import Pageheader from "../../layouts/Pageheader";
 
 const Stream = () => {
   const dispatch = useDispatch();
@@ -189,15 +190,21 @@ const Stream = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Stream"
+        parentfolder="Course"
+        activepage="Stream"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {highlightForm ? "Update stream" : "Add stream"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit} className="form_main_class">
@@ -265,7 +272,7 @@ const Stream = () => {
                       type="text"
                       name="stream"
                       className="custom-select-height"
-                      placeholder="Enter stream name..."
+                      placeholder="Enter stream"
                       value={formik.values.stream}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -339,16 +346,18 @@ const Stream = () => {
             />
 
             {totalPages > 1 && allStream.length > 0 && (
-              <Paginations
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
+              <div className="mt-4 d-flex justify-content-end align-items-end">
+                      <Paginations
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      /></div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

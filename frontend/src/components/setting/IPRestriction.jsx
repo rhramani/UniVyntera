@@ -169,7 +169,7 @@ const IPRestriction = () => {
         </div>
       </div>
 
-      <div className="bg-white mt-3 p-3">
+      <div className="card mt-3 p-3">
         <h5 className="mb-3">Currency</h5>
         <Row>
           <Col md={4} className="mb-3">
@@ -199,7 +199,7 @@ const IPRestriction = () => {
         </Row>
       </div>
 
-      <div className="bg-white mt-3 p-3">
+      <div className="card mt-3 p-3">
         <h5 className="mb-3">Country ISO Code</h5>
         <form onSubmit={handleCountryCodeSubmit}>
           <Row className="align-items-center">

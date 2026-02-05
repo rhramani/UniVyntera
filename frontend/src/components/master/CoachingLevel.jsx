@@ -10,6 +10,7 @@ import Select from "react-select";
 import usePermissions from "../commonComponents/usePermissions";
 import { createLevel, deleteLevel, getAllLevel, updateLevel } from "../../redux/actions/Master/CoachingLevel.action";
 import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
+import Pageheader from "../../layouts/Pageheader";
 
 
 const CoachingLevel = () => {
@@ -148,13 +149,20 @@ const CoachingLevel = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Coaching Level"
+        parentfolder="Coaching"
+        activepage="Coaching Level"
+      />
+     
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div className="card-title">
+            {/* <div className="card-title">
               {isEditing ? "Update Level" : "Add Level"}
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit} className="form_main_class">
@@ -165,7 +173,7 @@ const CoachingLevel = () => {
                     <Form.Control
                       type="text"
                       className="custom-select-height"
-                      placeholder="Enter level name..."
+                      placeholder="Enter level"
                       name="name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
@@ -254,11 +262,13 @@ const CoachingLevel = () => {
                 />
 
                 {totalPages > 1 && levels.length > 0 && (
+                  <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
                   />
+                  </div>
                 )}
               </>
             )}
@@ -266,6 +276,7 @@ const CoachingLevel = () => {
         </Card>
       </Col>
     </Row>
+     </>
   );
 };
 

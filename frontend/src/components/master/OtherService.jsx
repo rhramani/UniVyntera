@@ -14,6 +14,7 @@ import {
   updateOther,
 } from "../../redux/actions/Master/OtherService.action";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const Other = () => {
   const dispatch = useDispatch();
@@ -121,7 +122,7 @@ const Other = () => {
           : currentPage;
       setCurrentPage(updatedPage);
       if (canRead) {
-      fetchOther(updatedPage, itemsPerPage, search);
+        fetchOther(updatedPage, itemsPerPage, search);
       }
     } catch (error) {
       console.log("Error", error);
@@ -157,111 +158,117 @@ const Other = () => {
     },
   ];
   return (
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            <div>
-              <div className="card-title">
-                {highlightForm ? "Update Other Service" : "Add Other Service"}
-              </div>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <form onSubmit={formik.handleSubmit} className="form_main_class">
-              {(canCreate || (canUpdate && formik.values.id)) && ( 
-              <div className="form_left_section bottom-margin">
-                <div className="form-group">
-                  <Form.Label>Other Service Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    className="custom-select-height"
-                    placeholder="Enter Other Service name..."
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+    <>
+      <Pageheader mainheading="Other Service" parentfolder="Master" activepage="Other Service" />
+
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div>
+                <div className="card-title">
+                  {highlightForm ? "Update Other Service" : "Add Other Service"}
+                </div>
+              </div> */}
+            </Card.Header>
+            <Card.Body>
+              <form onSubmit={formik.handleSubmit} className="form_main_class">
+                {(canCreate || (canUpdate && formik.values.id)) && (
+                  <div className="form_left_section bottom-margin">
+                    <div className="form-group">
+                      <Form.Label>Other Service</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="name"
+                        className="custom-select-height"
+                        placeholder="Enter other service"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                      {formik.touched.name && formik.errors.name && (
+                        <div className="custom-text-danger">{formik.errors.name}</div>
+                      )}
+                    </div>
+                    <div className="form-group form-group-button">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="custom-select-height"
+                        onClick={() => setHighlightForm(false)}
+                      >
+                        {formik.values.id ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="form_right_section my-3">
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <Form.Control
+                      type="text"
+                      className="filter-height border-0"
+                      id="typehead1"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
+                  <ItemsPerPageSelect
+                    itemsPerPage={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
                   />
-                  {formik.touched.name && formik.errors.name && (
-                    <div className="custom-text-danger">{formik.errors.name}</div>
-                  )}
+                  <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
+                    <span>
+                      Total Records :<strong>&nbsp;{totalRecords}</strong>
+                    </span>
+                  </div>
                 </div>
-                <div className="form-group form-group-button">
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    className="custom-select-height"
-                    onClick={() => setHighlightForm(false)}
-                  >
-                    {formik.values.id ? "Update" : "Add"}
-                  </Button>
-                </div>
+              </form>
+
+              <div className={highlightForm ? "update-warning mb-3" : ""}>
+                {highlightForm ? "Update your information" : ""}
               </div>
-               )}
 
-              <div className="form_right_section my-3">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    id="typehead1"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </div>
-                <ItemsPerPageSelect
-                  itemsPerPage={itemsPerPage}
-                  onChange={handleItemsPerPageChange}
-                />
-                <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                  <span>
-                    Total Records :<strong>&nbsp;{totalRecords}</strong>
-                  </span>
-                </div>
-              </div>
-            </form>
-
-            <div className={highlightForm ? "update-warning mb-3" : ""}>
-              {highlightForm ? "Update your information" : ""}
-            </div>
-
-            <DataTable
-              columns={columns}
-              data={allOther}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              itemsPerPage={itemsPerPage}
-              onPageChange={setCurrentPage}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              // itemsPerPageOptions={false}
-              canEdit={canUpdate}
-              canDelete={canDelete}
-              canRead={canRead}
-            />
-
-            {totalPages > 1 && allOther.length > 0 && (
-              <Paginations
+              <DataTable
+                columns={columns}
+                data={allOther}
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                // itemsPerPageOptions={false}
+                canEdit={canUpdate}
+                canDelete={canDelete}
+                canRead={canRead}
               />
-            )}
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+
+              {totalPages > 1 && allOther.length > 0 && (
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 export default Other;

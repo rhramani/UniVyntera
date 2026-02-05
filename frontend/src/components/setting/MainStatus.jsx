@@ -178,9 +178,9 @@ const MainStatus = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div>
+              {/* <div>
                 <div className="card-title">Main Status</div>
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit}>

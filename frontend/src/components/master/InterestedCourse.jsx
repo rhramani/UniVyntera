@@ -14,6 +14,7 @@ import {
 } from "../../redux/actions/Master/InterestedCourseStatus.action";
 import DataTable from "../commonComponents/DataTable";
 import { label } from "yet-another-react-lightbox";
+import Pageheader from "../../layouts/Pageheader";
 
 const InterestedCourse = () => {
   const dispatch = useDispatch();
@@ -171,13 +172,20 @@ const InterestedCourse = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Interested Course"
+        parentfolder="Master"
+        activepage="Interested Course"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">Add Interested Course</div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit}>
@@ -293,6 +301,7 @@ const InterestedCourse = () => {
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

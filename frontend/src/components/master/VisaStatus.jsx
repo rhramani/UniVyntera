@@ -13,6 +13,7 @@ import {
   updateVisaStatus,
 } from "../../redux/actions/Master/VisaStatus.action";
 import DataTable from "../commonComponents/DataTable";
+import Pageheader from "../../layouts/Pageheader";
 
 const VisaStatus = () => {
   const dispatch = useDispatch();
@@ -167,13 +168,20 @@ const VisaStatus = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Visa Status"
+        parentfolder="Master"
+        activepage="Visa Status"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">Add Visa status</div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit}>
@@ -287,6 +295,7 @@ const VisaStatus = () => {
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

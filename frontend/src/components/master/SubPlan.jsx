@@ -18,6 +18,7 @@ import {
 } from "../../redux/actions/Master/SubPlan.action";
 import { getAllMainPlan } from "../../redux/actions/Master/MainPlan.action";
 import { countryDropdown } from "../../redux/actions/Master/Institute.action";
+import Pageheader from "../../layouts/Pageheader";
 
 const SubPlan = () => {
   const dispatch = useDispatch();
@@ -250,13 +251,20 @@ const isCoachingPlan = selectedMainPlan?.name === "Coaching";
 
 
   return (
+    <>
+      <Pageheader
+        mainheading="Sub Plan"
+        parentfolder="Plans"
+        activepage="Sub Plan"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div className="card-title">
+            {/* <div className="card-title">
               {formik.values.id ? "Update Sub Plan" : "Add Sub Plan"}
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <form onSubmit={formik.handleSubmit}>
@@ -457,7 +465,7 @@ const isCoachingPlan = selectedMainPlan?.name === "Coaching";
                           type="number"
                           name="totalAmount"
                           className="custom-select-height"
-                          placeholder="Enter Total Amount"
+                          placeholder="Enter total amount"
                           value={formik.values.totalAmount}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
@@ -532,11 +540,13 @@ const isCoachingPlan = selectedMainPlan?.name === "Coaching";
                 />
 
                 {totalPages > 1 && subPlans.length > 0 && (
+                  <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
                   />
+                  </div>
                 )}
               </>
             )}
@@ -544,6 +554,7 @@ const isCoachingPlan = selectedMainPlan?.name === "Coaching";
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

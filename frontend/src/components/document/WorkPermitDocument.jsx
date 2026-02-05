@@ -29,6 +29,7 @@ import {
   getAllWorkPermitDocument,
   updateWorkPermitDocument,
 } from "../../redux/actions/Document/WorkPermitDocument.action";
+import Pageheader from "../../layouts/Pageheader";
 
 const WorkPermitDocument = () => {
   const dispatch = useDispatch();
@@ -415,17 +416,24 @@ const WorkPermitDocument = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Work Permit Document"
+        parentfolder="Document"
+        activepage="Work Permit Document"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {formik.values.id
                   ? "Update Work document"
                   : "Add Work document"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <form onSubmit={formik.handleSubmit}>
@@ -714,16 +722,19 @@ const WorkPermitDocument = () => {
             />
 
             {totalPages > 1 && allWorkPermitDocument.length > 0 && (
+              <div className="mt-4 d-flex justify-content-end align-items-end">
               <Paginations
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
               />
+              </div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

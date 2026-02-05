@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
 import DataTable from "../commonComponents/DataTable";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const Qualification = () => {
   const dispatch = useDispatch();
@@ -167,27 +168,33 @@ const Qualification = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Qualification"
+        parentfolder="Course"
+        activepage="Qualification"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {highlightForm ? "Update qualification" : "Add qualification"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit} className="form_main_class">
               {(canCreate || (canUpdate && highlightForm)) && (
                 <div className="form_left_section">
                   <div className="form-group">
-                    <Form.Label>Qualification Name</Form.Label>
+                    <Form.Label>Qualification</Form.Label>
                     <Form.Control
                       type="text"
                       name="qualification"
                       className="custom-select-height"
-                      placeholder="Enter qualification name..."
+                      placeholder="Enter qualification"
                       value={formik.values.qualification}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -267,16 +274,19 @@ const Qualification = () => {
             />
             
             {totalPages > 1 && allQualification.length > 0 && (
-              <Paginations
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
+              <div className="mt-4 d-flex justify-content-end align-items-end">
+                <Paginations
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={(page) => setCurrentPage(page)}
+                />
+              </div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

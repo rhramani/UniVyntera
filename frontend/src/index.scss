@@ -255,3 +255,72 @@
   background: transparent !important;
   color: inherit !important;
 }
+
+/* WADaddyCredentials specific styles */
+.wa-credentials-group {
+  background-color: rgba(109, 101, 196, 0.05) !important;
+  border: 1px solid rgba(109, 101, 196, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+.wa-credentials-group .card-body {
+  padding: 1.5rem !important;
+}
+
+.wa-credentials-group h6 {
+  font-weight: 600 !important;
+  margin-bottom: 1rem !important;
+}
+
+.wa-credentials-group .form-control {
+  border: 1px solid #dee2e6 !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.wa-credentials-group .form-control:focus {
+  border-color: #6D65C4 !important;
+  box-shadow: 0 0 0 0.2rem rgba(109, 101, 196, 0.25) !important;
+}
+
+/* Secure input styles */
+.secure-input {
+  border-color: #6c757d !important;
+  background-color: #f8f9fa !important;
+}
+
+.secure-input:focus {
+  border-color: #6D65C4 !important;
+  background-color: #fff !important;
+}
+
+/* Copy and eye icon styles */
+.input-icon-group {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.input-icon-group svg {
+  cursor: pointer !important;
+  color: #6c757d !important;
+  transition: color 0.2s ease-in-out !important;
+}
+
+.input-icon-group svg:hover {
+  color: #6D65C4 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .wa-credentials-group .card-body {
+    padding: 1rem !important;
+  }
+  
+  .wa-credentials-group h6 {
+    font-size: 1rem !important;
+  }
+}

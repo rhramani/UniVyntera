@@ -29,6 +29,7 @@ import {
   getAllVisitorDocument,
   updateVisitorDocument,
 } from "../../redux/actions/Document/VisitorDocuments.action";
+import Pageheader from "../../layouts/Pageheader";
 
 const VisitorDocument = () => {
   const dispatch = useDispatch();
@@ -417,17 +418,24 @@ const VisitorDocument = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Visitor Document"
+        parentfolder="Visitor"
+        activepage="Visitor Document"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {formik.values.id
                   ? "Update Visitor Document"
                   : "Add Visitor Document"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <form onSubmit={formik.handleSubmit}>
@@ -716,16 +724,19 @@ const VisitorDocument = () => {
             />
 
             {totalPages > 1 && allTouristDocument?.length > 0 && (
+              <div className="mt-4 d-flex justify-content-end align-items-end">
               <Paginations
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
               />
+              </div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

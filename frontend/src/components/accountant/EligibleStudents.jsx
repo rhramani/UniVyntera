@@ -170,37 +170,37 @@ const EligibleStudents = () => {
             status: values.universitySideConfirmation.status,
             ...(values.universitySideConfirmation.status
               ? {
-                  commissionType:
-                    values.universitySideConfirmation.commissionType || null,
-                  ...(values.universitySideConfirmation.commissionType ===
+                commissionType:
+                  values.universitySideConfirmation.commissionType || null,
+                ...(values.universitySideConfirmation.commissionType ===
                   "Percentage"
-                    ? {
-                        commissionPercentage: values.universitySideConfirmation
+                  ? {
+                    commissionPercentage: values.universitySideConfirmation
+                      .commissionPercentage
+                      ? parseFloat(
+                        values.universitySideConfirmation
                           .commissionPercentage
-                          ? parseFloat(
-                              values.universitySideConfirmation
-                                .commissionPercentage
-                            )
-                          : null,
-                      }
-                    : { commissionPercentage: null }),
-                  ...(values.universitySideConfirmation.commissionType ===
+                      )
+                      : null,
+                  }
+                  : { commissionPercentage: null }),
+                ...(values.universitySideConfirmation.commissionType ===
                   "Amount"
-                    ? {
-                        commissionAmount: values.universitySideConfirmation
-                          .commissionAmount
-                          ? String(
-                              values.universitySideConfirmation.commissionAmount
-                            )
-                          : null,
-                      }
-                    : { commissionAmount: null }),
-                }
+                  ? {
+                    commissionAmount: values.universitySideConfirmation
+                      .commissionAmount
+                      ? String(
+                        values.universitySideConfirmation.commissionAmount
+                      )
+                      : null,
+                  }
+                  : { commissionAmount: null }),
+              }
               : {
-                  commissionType: null,
-                  commissionPercentage: null,
-                  commissionAmount: null,
-                }),
+                commissionType: null,
+                commissionPercentage: null,
+                commissionAmount: null,
+              }),
           },
         };
         await dispatch(updateStudentApplication(payload, selectedStudentId));
@@ -241,8 +241,8 @@ const EligibleStudents = () => {
               data?.universitySideConfirmation?.commissionPercentage != null
                 ? "Percentage"
                 : data?.universitySideConfirmation?.commissionAmount != null
-                ? "Amount"
-                : "",
+                  ? "Amount"
+                  : "",
             commissionPercentage:
               data?.universitySideConfirmation?.commissionPercentage || "",
             commissionAmount:
@@ -369,7 +369,7 @@ const EligibleStudents = () => {
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
-          "Something went wrong while downloading eligible."
+        "Something went wrong while downloading eligible."
       );
       console.error("Error downloading eligible:", error);
     }
@@ -906,11 +906,19 @@ const EligibleStudents = () => {
                   </div>
                 </>
               )}
-              <div className="table-responsive modern-table-wrapper">
+              <div
+                className="table-responsive modern-table-wrapper"
+                style={{
+                  borderRadius: "12px",
+                  border: "1px solid #dee2e6",
+                }}
+              >
+
                 <table
-                  className="table table-hover modern-table border table-nowrap"
-                  style={{ width: "100%", overflowX: "auto" }}
+                  className="table table-hover modern-table table-nowrap"
+                    style={{ width: "100%", overflowX: "auto" }}
                 >
+
                   <thead className="bg-light sticky-header">
                     <tr>
                       <th
@@ -986,20 +994,20 @@ const EligibleStudents = () => {
                         const instituteNames =
                           item?.interestedCourseDetails?.length > 0
                             ? item.interestedCourseDetails
-                                .map(
-                                  (course) =>
-                                    course?.institute?.instituteName || "N/A"
-                                )
-                                .join(", ")
+                              .map(
+                                (course) =>
+                                  course?.institute?.instituteName || "N/A"
+                              )
+                              .join(", ")
                             : "-";
                         const programNames =
                           item?.interestedCourseDetails?.length > 0
                             ? item.interestedCourseDetails
-                                .map(
-                                  (course) =>
-                                    course?.course?.programName || "N/A"
-                                )
-                                .join(", ")
+                              .map(
+                                (course) =>
+                                  course?.course?.programName || "N/A"
+                              )
+                              .join(", ")
                             : "-";
                         const currentStatus =
                           statusOptions.find(
@@ -1051,11 +1059,11 @@ const EligibleStudents = () => {
 
                                 return isValid
                                   ? new Date(date).toLocaleDateString("en-GB", {
-                                      day: "2-digit",
-                                      month: "2-digit",
-                                      year: "numeric",
-                                      timeZone: "UTC",
-                                    })
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                    timeZone: "UTC",
+                                  })
                                   : "–";
                               })()}
                             </td>
@@ -1091,8 +1099,8 @@ const EligibleStudents = () => {
                                     : "#ffffff";
                                   const displayStatus =
                                     item?.accountantStatus === "false" ||
-                                    item?.accountantStatus === false ||
-                                    item?.accountantStatus === ""
+                                      item?.accountantStatus === false ||
+                                      item?.accountantStatus === ""
                                       ? "New"
                                       : item?.accountantStatus || "New";
                                   return (
@@ -1196,13 +1204,13 @@ const EligibleStudents = () => {
                                 ? "Head Office"
                                 : item?.created_by_type === "B2B Admin" ||
                                   item?.created_by_type === "B2B Member"
-                                ? "B2B"
-                                : item?.created_by_type === "Branch Member" ||
-                                  item?.created_by_type === "Branch member" ||
-                                  item?.created_by_type === "Branch User" ||
-                                  item?.created_by_type === "Branch"
-                                ? "Branch"
-                                : "-"}
+                                  ? "B2B"
+                                  : item?.created_by_type === "Branch Member" ||
+                                    item?.created_by_type === "Branch member" ||
+                                    item?.created_by_type === "Branch User" ||
+                                    item?.created_by_type === "Branch"
+                                    ? "Branch"
+                                    : "-"}
                             </td>
                             <td
                               style={{
@@ -1211,10 +1219,10 @@ const EligibleStudents = () => {
                               }}
                             >
                               {item?.purposeDetails?.preferredCountry?.length >
-                              0
+                                0
                                 ? item.purposeDetails.preferredCountry.join(
-                                    ", "
-                                  )
+                                  ", "
+                                )
                                 : "-"}
                             </td>
                             <td
@@ -1239,7 +1247,7 @@ const EligibleStudents = () => {
                               }}
                             >
                               {item?.universityVerificationSent &&
-                              item?.universitySideConfirmation?.status ? (
+                                item?.universitySideConfirmation?.status ? (
                                 <CheckCircleIcon
                                   style={{ color: "#28a745" }}
                                   fontSize="small"
@@ -1276,22 +1284,21 @@ const EligibleStudents = () => {
                             >
                               {item?.interestedCourseDetails?.length > 0
                                 ? item.interestedCourseDetails
-                                    .map((course) => {
-                                      const feeAmount =
-                                        course.instituteFeePayment?.feeAmount ||
-                                        "-";
-                                      const currencyCode =
-                                        course.instituteFeePayment
-                                          ?.currencyCode;
-                                      return currencyCode
-                                        ? `${
-                                            getSymbolFromCurrency(
-                                              currencyCode
-                                            ) || currencyCode
-                                          } ${feeAmount}`
-                                        : `${feeAmount}`;
-                                    })
-                                    .join(", ")
+                                  .map((course) => {
+                                    const feeAmount =
+                                      course.instituteFeePayment?.feeAmount ||
+                                      "-";
+                                    const currencyCode =
+                                      course.instituteFeePayment
+                                        ?.currencyCode;
+                                    return currencyCode
+                                      ? `${getSymbolFromCurrency(
+                                        currencyCode
+                                      ) || currencyCode
+                                      } ${feeAmount}`
+                                      : `${feeAmount}`;
+                                  })
+                                  .join(", ")
                                 : "-"}
                             </td>
                             <td
@@ -1376,7 +1383,7 @@ const EligibleStudents = () => {
                 </table>
               </div>
               {totalPages > 1 && AdmissionsData.length > 0 && (
-                <div className="mt-4 d-flex">
+                <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -1455,10 +1462,10 @@ const EligibleStudents = () => {
                               value={
                                 formik.values.universityVerificationDate
                                   ? formatDate(
-                                      parseDate(
-                                        formik.values.universityVerificationDate
-                                      )
+                                    parseDate(
+                                      formik.values.universityVerificationDate
                                     )
+                                  )
                                   : ""
                               }
                               readOnly
@@ -1637,44 +1644,44 @@ const EligibleStudents = () => {
                               </div>
                               {formik.values.universitySideConfirmation
                                 .commissionType === "Percentage" && (
-                                <Form.Group
-                                  className="ms-3"
-                                  style={{ width: "200px" }}
-                                >
-                                  <Form.Control
-                                    type="text"
-                                    name="universitySideConfirmation.commissionPercentage"
-                                    className="custom-select-height"
-                                    value={
-                                      formik.values.universitySideConfirmation
-                                        .commissionPercentage || ""
-                                    }
-                                    onChange={formik.handleChange}
-                                    placeholder="Enter percentage"
-                                    min="0"
-                                    step="0.01"
-                                  />
-                                </Form.Group>
-                              )}
+                                  <Form.Group
+                                    className="ms-3"
+                                    style={{ width: "200px" }}
+                                  >
+                                    <Form.Control
+                                      type="text"
+                                      name="universitySideConfirmation.commissionPercentage"
+                                      className="custom-select-height"
+                                      value={
+                                        formik.values.universitySideConfirmation
+                                          .commissionPercentage || ""
+                                      }
+                                      onChange={formik.handleChange}
+                                      placeholder="Enter percentage"
+                                      min="0"
+                                      step="0.01"
+                                    />
+                                  </Form.Group>
+                                )}
                               {formik.values.universitySideConfirmation
                                 .commissionType === "Amount" && (
-                                <Form.Group
-                                  className="ms-3"
-                                  style={{ width: "200px" }}
-                                >
-                                  <Form.Control
-                                    type="text"
-                                    name="universitySideConfirmation.commissionAmount"
-                                    className="custom-select-height"
-                                    value={
-                                      formik.values.universitySideConfirmation
-                                        .commissionAmount || ""
-                                    }
-                                    onChange={formik.handleChange}
-                                    placeholder="Enter amount"
-                                  />
-                                </Form.Group>
-                              )}
+                                  <Form.Group
+                                    className="ms-3"
+                                    style={{ width: "200px" }}
+                                  >
+                                    <Form.Control
+                                      type="text"
+                                      name="universitySideConfirmation.commissionAmount"
+                                      className="custom-select-height"
+                                      value={
+                                        formik.values.universitySideConfirmation
+                                          .commissionAmount || ""
+                                      }
+                                      onChange={formik.handleChange}
+                                      placeholder="Enter amount"
+                                    />
+                                  </Form.Group>
+                                )}
                             </div>
                           </Form.Group>
                         )}

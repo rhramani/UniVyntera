@@ -153,11 +153,11 @@ const WhatsappCategory = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div>
+              {/* <div>
                 <div className="card-title">
                   Category
                 </div>
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit} className="mb-3">
@@ -169,7 +169,7 @@ const WhatsappCategory = () => {
                         <Form.Control
                           type="text"
                           className="custom-select-height"
-                          placeholder="Enter Category..."
+                          placeholder="Enter category"
                           name="name"
                           value={formik.values.name}
                           onChange={formik.handleChange}
@@ -256,11 +256,13 @@ const WhatsappCategory = () => {
               />
 
               {totalPages > 1 && wpCategory.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

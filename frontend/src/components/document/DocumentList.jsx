@@ -24,6 +24,7 @@ import {
 } from "../../redux/actions/Document/DocumentList.action";
 import { getAllDocumentType } from "../../redux/actions/Document/DocumentType.action";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const documentType = [
   { label: "Travel Document", value: "Travel Document" },
@@ -202,178 +203,187 @@ const DocumentList = () => {
     },
   ];
   return (
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            <div>
+    <>
+      <Pageheader
+        mainheading="Document List"
+        parentfolder="Assign"
+        activepage="Document List"
+      />
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div>
               <div className="card-title">
                 {highlightForm ? "Update Document List" : "Add Document List"}
               </div>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <form onSubmit={formik.handleSubmit} className="form_main_class">
-              {(canCreate || (canUpdate && formik.values.id)) && (
-                <div className="form_left_section">
-                  <div className="form-group">
-                    <Form.Label className="form-label">
-                      Document Type
-                    </Form.Label>
-                    <Select
-                      className="custom-select-height"
-                      options={allDocumentType
-                        ?.sort((a, b) => a.name.localeCompare(b.name))
-                        ?.map((type) => ({
-                          value: type._id,
-                          label: type.name,
-                        }))}
-                      value={
-                        formik.values.type
-                          ? allDocumentType
+            </div> */}
+            </Card.Header>
+            <Card.Body>
+              <form onSubmit={formik.handleSubmit} className="form_main_class">
+                {(canCreate || (canUpdate && formik.values.id)) && (
+                  <div className="form_left_section">
+                    <div className="form-group">
+                      <Form.Label className="form-label">
+                        Document Type
+                      </Form.Label>
+                      <Select
+                        className="custom-select-height"
+                        options={allDocumentType
+                          ?.sort((a, b) => a.name.localeCompare(b.name))
+                          ?.map((type) => ({
+                            value: type._id,
+                            label: type.name,
+                          }))}
+                        value={
+                          formik.values.type
+                            ? allDocumentType
                               ?.map((type) => ({
                                 value: type._id,
                                 label: type.name,
                               }))
                               .find((s) => s.value === formik.values.type)
-                          : null
-                      }
-                      onChange={(selectedOption) => {
-                        if (selectedOption) {
-                          formik.setFieldValue("type", selectedOption.value);
-                          formik.setFieldError("type", "");
-                        } else {
-                          formik.setFieldValue("type", "");
+                            : null
                         }
-                      }}
-                      isClearable
-                      isSearchable
-                      placeholder="Select Document type"
-                      classNamePrefix="custom-select"
-                      noOptionsMessage={() => "No Document Type available"}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          borderRadius: " 30px",
-                          color: "black",
-                          minHeight: "38px",
-                          width: "200px",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "black",
-                          fontSize: "13px",
-                        }),
-                      }}
-                    />
-                    {formik.touched.type && formik.errors.type && (
-                      <div className="custom-text-danger">
-                        {formik.errors.type}
-                      </div>
-                    )}
+                        onChange={(selectedOption) => {
+                          if (selectedOption) {
+                            formik.setFieldValue("type", selectedOption.value);
+                            formik.setFieldError("type", "");
+                          } else {
+                            formik.setFieldValue("type", "");
+                          }
+                        }}
+                        isClearable
+                        isSearchable
+                        placeholder="Select Document type"
+                        classNamePrefix="custom-select"
+                        noOptionsMessage={() => "No Document Type available"}
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            borderRadius: " 30px",
+                            color: "black",
+                            minHeight: "38px",
+                            width: "200px",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "black",
+                            fontSize: "13px",
+                          }),
+                        }}
+                      />
+                      {formik.touched.type && formik.errors.type && (
+                        <div className="custom-text-danger">
+                          {formik.errors.type}
+                        </div>
+                      )}
+                    </div>
+                    <div className="form-group">
+                      <Form.Label className="form-label">
+                        Document Name
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="name"
+                        className="custom-select-height"
+                        placeholder="Enter document name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                      {formik.touched.name && formik.errors.name && (
+                        <div className="custom-text-danger">
+                          {formik.errors.name}
+                        </div>
+                      )}
+                    </div>
+                    <div className="form-group form-group-button">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="custom-select-height submit-button"
+                        onClick={() => setHighlightForm(false)}
+                      >
+                        {formik.values.id ? "Update" : "Add"}
+                      </Button>
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <Form.Label className="form-label">
-                      Document Name
-                    </Form.Label>
+                )}
+                <div className="form_right_section my-3">
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
                     <Form.Control
                       type="text"
-                      name="name"
-                      className="custom-select-height"
-                      placeholder="Enter Document name..."
-                      value={formik.values.name}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      className="filter-height border-0"
+                      id="typehead1"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
                     />
-                    {formik.touched.name && formik.errors.name && (
-                      <div className="custom-text-danger">
-                        {formik.errors.name}
-                      </div>
-                    )}
                   </div>
-                  <div className="form-group form-group-button">
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      className="custom-select-height submit-button"
-                      onClick={() => setHighlightForm(false)}
-                    >
-                      {formik.values.id ? "Update" : "Add"}
-                    </Button>
-                  </div>
-                </div>
-              )}
-              <div className="form_right_section my-3">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    id="typehead1"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
+                  <ItemsPerPageSelect
+                    itemsPerPage={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
                   />
+                  <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
+                    <span
+                      className="dark_theme"
+                      style={{
+                        color: "#000000",
+                        fontSize: "13px",
+                        minWidth: "70px",
+                      }}
+                    >
+                      Total Records :
+                      <strong>{totalRecords}</strong>
+                    </span>
+                  </div>
                 </div>
-                <ItemsPerPageSelect
-                  itemsPerPage={itemsPerPage}
-                  onChange={handleItemsPerPageChange}
-                />
-                <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                  <span
-                    className="dark_theme"
-                    style={{
-                      color: "#000000",
-                      fontSize: "13px",
-                      minWidth: "70px",
-                    }}
-                  >
-                    Total Records :
-                    <strong>{totalRecords}</strong>
-                  </span>
-                </div>
+              </form>
+
+              <div className={highlightForm ? "update-warning mb-3" : ""}>
+                {highlightForm ? "Update your information" : ""}
               </div>
-            </form>
 
-            <div className={highlightForm ? "update-warning mb-3" : ""}>
-              {highlightForm ? "Update your information" : ""}
-            </div>
-
-            <DataTable
-              columns={columns}
-              data={allDocumentList}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              itemsPerPage={itemsPerPage}
-              onPageChange={setCurrentPage}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              // itemsPerPageOptions={false}
-              canEdit={canUpdate}
-              canDelete={canDelete}
-              canRead={canRead}
-            />
-
-            {totalPages > 1 && allDocumentList.length > 0 && (
-              <Paginations
+              <DataTable
+                columns={columns}
+                data={allDocumentList}
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                // itemsPerPageOptions={false}
+                canEdit={canUpdate}
+                canDelete={canDelete}
+                canRead={canRead}
               />
-            )}
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+
+              {totalPages > 1 && allDocumentList.length > 0 && (
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  /></div>
+
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 export default DocumentList;

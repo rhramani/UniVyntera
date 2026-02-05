@@ -304,14 +304,14 @@ const Tutorial = () => {
                                 <strong>Created On: </strong>
                                 {item?.createdAt
                                   ? new Date(item.createdAt).toLocaleDateString(
-                                      "en-GB",
-                                      {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                        timeZone: "UTC",
-                                      }
-                                    )
+                                    "en-GB",
+                                    {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                      timeZone: "UTC",
+                                    }
+                                  )
                                   : "N/A"}
                               </small>
                             </div>
@@ -390,11 +390,12 @@ const Tutorial = () => {
               </Modal>
 
               {totalPages > 1 && tutorials?.data?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  /></div>
               )}
             </Card.Body>
           </Card>

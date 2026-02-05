@@ -35,7 +35,7 @@ export const createFollowUpType = (payload) => {
       dispatch(createFollowUpTypeAction(res.data));
       return res;
     } catch (error) {
-      console.error("Error fetching in create Follow-Up Type:", error);
+      console.error("Error fetching in create Follow Up Type:", error);
       throw error;
     }
   };
@@ -48,7 +48,7 @@ export const updateFollowUpType = (payload, id) => {
       dispatch(updateFollowUpTypeAction(res.data));
       return res;
     } catch (error) {
-      console.error("Error fetching in update Follow-Up Type:", error);
+      console.error("Error fetching in update Follow Up Type:", error);
       throw error;
     }
   };
@@ -63,7 +63,7 @@ export const getAllFollowUpType = (page = 1, limit = 10, search = "") => {
       dispatch(getAllFollowUpTypeAction(res.data));
       return res;
     } catch (error) {
-      console.error("Error fetching in get all Follow-Up Type:", error);
+      console.error("Error fetching in get all Follow Up Type:", error);
       throw error;
     }
   };
@@ -76,7 +76,7 @@ export const deleteFollowUpType = (id) => {
       dispatch(deleteFollowUpTypeAction(res.data));
       return res;
     } catch (error) {
-      console.error("Error fetching in delete Follow-Up Type:", error);
+      console.error("Error fetching in delete Follow Up Type:", error);
       throw error;
     }
   };

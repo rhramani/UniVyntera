@@ -1328,7 +1328,7 @@ const fetchRoles = async () => {
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
               <div className="w-100 mt-2 d-flex justify-content-between align-items-center">
-                <div className="card-title">Roles Permissions</div>
+                <div className="card-title"></div>
                 <div className="d-flex gap-3">
                   <div>
                     {selectedRole &&

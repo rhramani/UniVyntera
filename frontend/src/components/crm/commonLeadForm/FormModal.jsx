@@ -1728,7 +1728,7 @@ const FormModal = ({
                           <ErrorMessage name="next_follow_up" component="div" className="text-danger" />
                         </Col>
                         <Col md={3} className="mt-3">
-                          <Form.Label>Follow-Up Type</Form.Label>
+                          <Form.Label>Follow Up Type</Form.Label>
                           <Select
                             className="custom-select-height"
                             options={followUpTypeOptions}
@@ -1738,11 +1738,11 @@ const FormModal = ({
                             onChange={(selectedOption) =>
                               setFieldValue('follow_up_type', selectedOption ? selectedOption.value : null)
                             }
-                            placeholder="Select Follow-up type"
+                            placeholder="Select Follow up type"
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No follow-up type options available'}
+                            noOptionsMessage={() => 'No follow up type options available'}
                             styles={selectStyles}
                           />
                           <ErrorMessage name="follow_up_type" component="div" className="text-danger" />

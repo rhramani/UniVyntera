@@ -17,6 +17,7 @@ import { countryDropdown } from "../../redux/actions/Master/Institute.action";
 import Select from "react-select";
 import { currencyCode } from "../../redux/actions/CourseFinder.action";
 import { toast } from "react-toastify";
+import Pageheader from "../../layouts/Pageheader";
 
 const CurrencyRate = () => {
   const dispatch = useDispatch();
@@ -225,265 +226,273 @@ const CurrencyRate = () => {
   ];
 
   return (
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            <div>
+    <>
+      <Pageheader
+        mainheading="Currency Rate"
+        parentfolder="Master"
+        activepage="Currency Rate"
+      />
+
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div>
               <div className="card-title">Currency Rate</div>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <Form onSubmit={formik.handleSubmit}>
-              <div className="d-flex flex-wrap justify-content-between gap-3 mb-3">
-                {canCreate && (
-                  <>
-                    <Button
-                      variant="primary"
-                      type="button"
-                      className="custom-select-height"
-                      onClick={handleShowUploadModal}
-                    >
-                      Add Currency Rate
-                    </Button>
-                    <div className="d-flex flex-wrap justify-content-end gap-2">
-                      <div className="d-flex align-items-end justify-content-end gap-2">
-                        <div className="ms-auto">
-                          <div className="contact-search3">
-                            <button type="button" className="btn border-0">
-                              <i
-                                className="fe fe-search fw-semibold text-muted"
-                                aria-hidden="true"
-                              ></i>
-                            </button>
-                            <Form.Control
-                              type="text"
-                              className="filter-height border-0"
-                              placeholder="Search here..."
-                              autoComplete="off"
-                              value={search}
-                              onChange={(e) => {
-                                setSearch(e.target.value);
-                              }}
-                            />
+            </div> */}
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={formik.handleSubmit}>
+                <div className="d-flex flex-wrap justify-content-between gap-3 mb-3">
+                  {canCreate && (
+                    <>
+                      <Button
+                        variant="primary"
+                        type="button"
+                        className="custom-select-height"
+                        onClick={handleShowUploadModal}
+                      >
+                        Add Currency Rate
+                      </Button>
+                      <div className="d-flex flex-wrap justify-content-end gap-2">
+                        <div className="d-flex align-items-end justify-content-end gap-2">
+                          <div className="ms-auto">
+                            <div className="contact-search3">
+                              <button type="button" className="btn border-0">
+                                <i
+                                  className="fe fe-search fw-semibold text-muted"
+                                  aria-hidden="true"
+                                ></i>
+                              </button>
+                              <Form.Control
+                                type="text"
+                                className="filter-height border-0"
+                                placeholder="Search here..."
+                                autoComplete="off"
+                                value={search}
+                                onChange={(e) => {
+                                  setSearch(e.target.value);
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
+                        {canUpload && (
+                          <>
+                            <Button
+                              variant="primary"
+                              type="button"
+                              className="custom-select-height"
+                              onClick={handleBulkUploadClick}
+                              disabled={isLoading}
+                            >
+                              <i className="fe fe-upload-cloud me-2 fs-14"></i>{" "}
+                              {isLoading
+                                ? "Uploading..."
+                                : "Currency Bulk Upload"}
+                            </Button>
+                            <input
+                              type="file"
+                              accept=".xlsx,.xls,.csv"
+                              ref={fileInputRef}
+                              style={{ display: "none" }}
+                              onChange={handleFileChange}
+                            />
+                          </>
+                        )}
                       </div>
-                      {canUpload && (
-                        <>
-                          <Button
-                            variant="primary"
-                            type="button"
-                            className="custom-select-height"
-                            onClick={handleBulkUploadClick}
-                            disabled={isLoading}
-                          >
-                            <i className="fe fe-upload-cloud me-2 fs-14"></i>{" "}
-                            {isLoading
-                              ? "Uploading..."
-                              : "Currency Bulk Upload"}
-                          </Button>
-                          <input
-                            type="file"
-                            accept=".xlsx,.xls,.csv"
-                            ref={fileInputRef}
-                            style={{ display: "none" }}
-                            onChange={handleFileChange}
-                          />
-                        </>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            </Form>
+                    </>
+                  )}
+                </div>
+              </Form>
 
-            <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
-              <Modal.Header className="form-main-heading">
-                <Modal.Title>
-                  {formik.values.id
-                    ? "Update Currency Rate"
-                    : "Add Currency Rate"}
-                </Modal.Title>
-                <AiOutlineClose
-                  size={20}
-                  style={{ cursor: "pointer", color: "white" }}
-                  onClick={handleCloseUploadModal}
-                />
-              </Modal.Header>
-              <Modal.Body>
-                <Form>
-                  <Form.Group controlId="status" className="mb-3">
-                    <Form.Label>Country</Form.Label>
-                    <Select
-                      name="country"
-                      className="custom-select-height"
-                      classNamePrefix="select"
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          borderRadius: " 30px",
-                          color: "black",
-                          minHeight: "38px",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "black",
-                          fontSize: "13px",
-                        }),
-                      }}
-                      value={
-                        formik.values.country
-                          ? {
+              <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {formik.values.id
+                      ? "Update Currency Rate"
+                      : "Add Currency Rate"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={handleCloseUploadModal}
+                  />
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Group controlId="status" className="mb-3">
+                      <Form.Label>Country</Form.Label>
+                      <Select
+                        name="country"
+                        className="custom-select-height"
+                        classNamePrefix="select"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            borderRadius: " 30px",
+                            color: "black",
+                            minHeight: "38px",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "black",
+                            fontSize: "13px",
+                          }),
+                        }}
+                        value={
+                          formik.values.country
+                            ? {
                               value: formik.values.country,
                               label: formik.values.country,
                             }
-                          : null
-                      }
-                      onChange={(option) => {
-                        formik.setFieldValue(
-                          "country",
-                          option ? option.value : ""
-                        );
-                        formik.setFieldError("country", "");
-                      }}
-                      onBlur={() => formik.setFieldTouched("country", true)}
-                      options={countries?.map((c) => ({
-                        value: c.name,
-                        label: c.name,
-                      }))}
-                      placeholder="Select Country"
-                      isClearable
-                    />
-                    {formik.touched.country && formik.errors.country && (
-                      <div className="text-danger">{formik.errors.country}</div>
-                    )}
-                  </Form.Group>
-                  <Form.Group controlId="status" className="mb-3">
-                    <Form.Label>Currency Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter Currency Name"
-                      className="custom-select-height"
-                      name="currencyName"
-                      value={formik.values.currencyName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.currencyName &&
-                      formik.errors.currencyName && (
-                        <div className="text-danger">
-                          {formik.errors.currencyName}
-                        </div>
+                            : null
+                        }
+                        onChange={(option) => {
+                          formik.setFieldValue(
+                            "country",
+                            option ? option.value : ""
+                          );
+                          formik.setFieldError("country", "");
+                        }}
+                        onBlur={() => formik.setFieldTouched("country", true)}
+                        options={countries?.map((c) => ({
+                          value: c.name,
+                          label: c.name,
+                        }))}
+                        placeholder="Select Country"
+                        isClearable
+                      />
+                      {formik.touched.country && formik.errors.country && (
+                        <div className="text-danger">{formik.errors.country}</div>
                       )}
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Currency Code</Form.Label>
-                    <Select
-                      className="custom-select-height"
-                      name="currencyCode"
-                      options={currencyCodeData?.map((code) => ({
-                        value: code.code,
-                        label: code.code,
-                      }))}
-                      value={currencyCodeData
-                        ?.map((code) => ({
+                    </Form.Group>
+                    <Form.Group controlId="status" className="mb-3">
+                      <Form.Label>Currency Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter currency name"
+                        className="custom-select-height"
+                        name="currencyName"
+                        value={formik.values.currencyName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                      {formik.touched.currencyName &&
+                        formik.errors.currencyName && (
+                          <div className="text-danger">
+                            {formik.errors.currencyName}
+                          </div>
+                        )}
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Currency Code</Form.Label>
+                      <Select
+                        className="custom-select-height"
+                        name="currencyCode"
+                        options={currencyCodeData?.map((code) => ({
                           value: code.code,
                           label: code.code,
-                        }))
-                        .find(
-                          (option) =>
-                            option.value === formik.values.currencyCode
-                        )}
-                      onChange={(option) => {
-                        formik.setFieldValue(
-                          "currencyCode",
-                          option ? option.value : ""
-                        );
-                        formik.setFieldError("currencyCode", "");
-                      }}
-                      onBlur={() =>
-                        formik.setFieldTouched("currencyCode", true)
-                      }
-                      placeholder="Select Currency"
-                      isClearable
-                      styles={{
-                        control: (base, state) => ({
-                          ...base,
-                          borderRadius: "30px",
-                          color: "black",
-                          minWidth: "160px",
-                          border: state.isFocused ? "1px" : base.border,
-                          borderColor: state.isFocused
-                            ? "#3B3665"
-                            : base.borderColor,
-                          boxShadow: state.isFocused
-                            ? "0 0 0 1px #6C63FF"
-                            : base.boxShadow,
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "black",
-                          fontSize: "13px",
-                        }),
-                      }}
-                    />
+                        }))}
+                        value={currencyCodeData
+                          ?.map((code) => ({
+                            value: code.code,
+                            label: code.code,
+                          }))
+                          .find(
+                            (option) =>
+                              option.value === formik.values.currencyCode
+                          )}
+                        onChange={(option) => {
+                          formik.setFieldValue(
+                            "currencyCode",
+                            option ? option.value : ""
+                          );
+                          formik.setFieldError("currencyCode", "");
+                        }}
+                        onBlur={() =>
+                          formik.setFieldTouched("currencyCode", true)
+                        }
+                        placeholder="Select Currency"
+                        isClearable
+                        styles={{
+                          control: (base, state) => ({
+                            ...base,
+                            borderRadius: "30px",
+                            color: "black",
+                            minWidth: "160px",
+                            border: state.isFocused ? "1px" : base.border,
+                            borderColor: state.isFocused
+                              ? "#3B3665"
+                              : base.borderColor,
+                            boxShadow: state.isFocused
+                              ? "0 0 0 1px #6C63FF"
+                              : base.boxShadow,
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "black",
+                            fontSize: "13px",
+                          }),
+                        }}
+                      />
 
-                    {formik?.touched?.currencyCode &&
-                      formik.errors.currencyCode && (
+                      {formik?.touched?.currencyCode &&
+                        formik.errors.currencyCode && (
+                          <div className="text-danger">
+                            {formik.errors.currencyCode}
+                          </div>
+                        )}
+                    </Form.Group>
+                    <Form.Group controlId="status" className="mb-3">
+                      <Form.Label>INR Value</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter INR value"
+                        className="custom-select-height"
+                        name="INRvalue"
+                        value={formik.values.INRvalue}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                      {formik.touched.INRvalue && formik.errors.INRvalue && (
                         <div className="text-danger">
-                          {formik.errors.currencyCode}
+                          {formik.errors.INRvalue}
                         </div>
                       )}
-                  </Form.Group>
-                  <Form.Group controlId="status" className="mb-3">
-                    <Form.Label>INR Value</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter INR Value"
-                      className="custom-select-height"
-                      name="INRvalue"
-                      value={formik.values.INRvalue}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.INRvalue && formik.errors.INRvalue && (
-                      <div className="text-danger">
-                        {formik.errors.INRvalue}
-                      </div>
-                    )}
-                  </Form.Group>
-                </Form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button
-                  variant="link"
-                  className="custom-add-button btn border-primary text-primary text-decoration-none"
-                  onClick={handleCloseUploadModal}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="custom-add-button"
-                  onClick={formik.handleSubmit}
-                >
-                  {formik.values.id ? "Update" : "Add"}
-                </Button>
-              </Modal.Footer>
-            </Modal>
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="link"
+                    className="custom-add-button btn border-primary text-primary text-decoration-none"
+                    onClick={handleCloseUploadModal}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    type="button"
+                    className="custom-add-button"
+                    onClick={formik.handleSubmit}
+                  >
+                    {formik.values.id ? "Update" : "Add"}
+                  </Button>
+                </Modal.Footer>
+              </Modal>
 
-            <DataTable
-              columns={columns}
-              data={currencyRate}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+              <DataTable
+                columns={columns}
+                data={currencyRate}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 

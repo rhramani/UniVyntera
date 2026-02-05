@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Row, Col, Card } from "react-bootstrap";
 import Pageheader from "../../layouts/Pageheader";
 import "react-phone-input-2/lib/bootstrap.css";
@@ -13,11 +13,15 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import usePermissions from "../commonComponents/usePermissions";
 import { countryCodeISO } from "../../utils/countryISOCode";
+import { FaPhoneAlt, FaBuilding, FaKey, FaEye, FaEyeSlash, FaCopy } from "react-icons/fa";
 
 const WADaddyCredentials = () => {
   const dispatch = useDispatch();
   const { canCreate, canUpdate, canRead } =
-    usePermissions("Wa API Integration");
+    usePermissions("Wa Daddy Credentials");
+
+  const [showAccessToken, setShowAccessToken] = useState(false);
+  const [showApiKey, setShowApiKey] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -86,20 +90,21 @@ const WADaddyCredentials = () => {
   return (
     <>
       <Pageheader
-        mainheading="Wa API Integration"
+        mainheading="Wa Daddy Credentials"
         parentfolder="Settings"
-        activepage="Wa API Integration"
+        activepage="Wa Daddy Credentials"
       />
       <Row className="mt-5 row-sm">
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card">
             <Card.Header className="border-bottom-0">
-              <div className="card-title">WhatsApp API Integration</div>
+              {/* <div className="card-title">WhatsApp API Integration</div> */}
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Facebook APP ID: <strong>*</strong></Form.Label>
+                {/* Facebook App ID - Full Width */}
+                <Col md={12} className="mb-4">
+                  <Form.Label>Facebook APP ID <strong>*</strong></Form.Label>
                   <Form.Control
                     type="text"
                     name="facebookAppId"
@@ -109,103 +114,180 @@ const WADaddyCredentials = () => {
                     onBlur={formik.handleBlur}
                     placeholder="We need your Facebook App ID for WhatsApp Template creation."
                   />
-                </Form.Group>
+                </Col>
 
-                <h5>Enter your Official WhatsApp API Credentials</h5>
-                <Row className="mb-3">
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>
-                        Registered Number (with country code) *
-                      </Form.Label>
-                      <PhoneInput
-                        country={countryCodeISO()}
-                        value={formik.values.registerdPhoneNumber}
-                        onChange={(phone, data) => {
-                          const dialCode = data.dialCode
-                            ? `+${data.dialCode}`
-                            : "";
-                          const formattedPhone = `${dialCode} ${phone.replace(
-                            data.dialCode,
-                            ""
-                          )}`.trim();
-                          formik.setFieldValue(
-                            "registerdPhoneNumber",
-                            formattedPhone
-                          );
-                        }}
-                        onBlur={formik.handleBlur}
-                        inputProps={{
-                          name: "registerdPhoneNumber",
-                          required: true,
-                          className: "form-control custom-select-height",
-                        }}
-                        inputStyle={{
-                          width: "100%",
-                          paddingLeft: "65px",
-                          borderRadius: "4px",
-                        }}
-                        buttonStyle={{
-                          marginRight: "10px",
-                        }}
-                      />
-                    </Form.Group>
+                <h5 className="mb-4">Enter your Official WhatsApp API Credentials:</h5>
+                
+                <Row className="g-4">
+                  {/* Group 1: Phone Configuration - Left Column */}
+                  <Col lg={6} md={12}>
+                    <Card className="h-100 wa-credentials-group">
+                      <Card.Body>
+                        <div className="d-flex align-items-center gap-2 mb-3">
+                          <span className="d-flex align-items-center">
+                            <FaPhoneAlt size={18} className="text-primary" />
+                          </span>
+                          <h5 className="mb-0 fs-6">
+                            Phone Configuration
+                          </h5>
+                        </div>
+
+                        
+                        <Form.Group className="mb-3">
+                          <Form.Label>
+                            Registered WhatsApp Number <strong>*</strong>
+                          </Form.Label>
+                          <PhoneInput
+                            country={countryCodeISO()}
+                            value={formik.values.registerdPhoneNumber}
+                            onChange={(phone, data) => {
+                              const dialCode = data.dialCode
+                                ? `+${data.dialCode}`
+                                : "";
+                              const formattedPhone = `${dialCode} ${phone.replace(
+                                data.dialCode,
+                                ""
+                              )}`.trim();
+                              formik.setFieldValue(
+                                "registerdPhoneNumber",
+                                formattedPhone
+                              );
+                            }}
+                            onBlur={formik.handleBlur}
+                            inputProps={{
+                              name: "registerdPhoneNumber",
+                              required: true,
+                              className: "form-control custom-select-height",
+                            }}
+                            inputStyle={{
+                              width: "100%",
+                              paddingLeft: "65px",
+                              borderRadius: "4px",
+                            }}
+                            buttonStyle={{
+                              marginRight: "8px",
+                            }}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="mb-0">
+                          <Form.Label>Phone Number ID<strong> *</strong></Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="phoneNumberId"
+                            className="custom-select-height"
+                            placeholder="Enter phone number ID"
+                            value={formik.values.phoneNumberId}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                        </Form.Group>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+
+                  {/* Group 2: Business & Security - Right Column */}
+                  <Col lg={6} md={12}>
+                    <Card className="h-100 wa-credentials-group">
+                      <Card.Body>
+                        <div className="d-flex align-items-center mb-3">
+                          <div className="me-2 text-primary">
+                            <FaBuilding size={20} />
+                          </div>
+                          <h5 className="mb-0 fs-6">Business & Security</h5>
+                        </div>
+                        
+                        <Form.Group className="mb-3">
+                          <Form.Label>WhatsApp Business Account ID<strong> *</strong></Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="wbaId"
+                            className="custom-select-height"
+                            placeholder="Enter WhatsApp business account ID"
+                            value={formik.values.wbaId}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                          <Form.Label>Permanent Access Token<strong> *</strong></Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              type={showAccessToken ? "text" : "password"}
+                              name="accessToken"
+                              className="custom-select-height pe-5 secure-input"
+                              placeholder="Enter permanent access token"
+                              value={formik.values.accessToken}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                            />
+                            <div className="position-absolute" style={{ right: '35px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}>
+                              <FaCopy 
+                                className="text-muted me-2" 
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                  navigator.clipboard.writeText(formik.values.accessToken);
+                                  toast.success("Access token copied to clipboard");
+                                }}
+                              />
+                              {showAccessToken ? 
+                                <FaEyeSlash 
+                                  className="text-muted" 
+                                  onClick={() => setShowAccessToken(false)}
+                                /> : 
+                                <FaEye 
+                                  className="text-muted" 
+                                  onClick={() => setShowAccessToken(true)}
+                                />
+                              }
+                            </div>
+                          </div>
+                        </Form.Group>
+
+                        <Form.Group className="mb-0">
+                          <Form.Label>API Key<strong> *</strong></Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              type={showApiKey ? "text" : "password"}
+                              name="apikey"
+                              className="custom-select-height pe-5 secure-input"
+                              placeholder="Enter API key"
+                              value={formik.values.apikey}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                            />
+                            <div className="position-absolute" style={{ right: '35px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}>
+                              <FaCopy 
+                                className="text-muted me-2" 
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                  navigator.clipboard.writeText(formik.values.apikey);
+                                  toast.success("API key copied to clipboard");
+                                }}
+                              />
+                              {showApiKey ? 
+                                <FaEyeSlash 
+                                  className="text-muted" 
+                                  onClick={() => setShowApiKey(false)}
+                                /> : 
+                                <FaEye 
+                                  className="text-muted" 
+                                  onClick={() => setShowApiKey(true)}
+                                />
+                              }
+                            </div>
+                          </div>
+                        </Form.Group>
+                      </Card.Body>
+                    </Card>
                   </Col>
                 </Row>
-                <Row className="mb-3">
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>Phone Number Id<strong> *</strong></Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="phoneNumberId"
-                        className="custom-select-height"
-                        value={formik.values.phoneNumberId}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>WhatsApp Business Account Id<strong> *</strong></Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="wbaId"
-                        className="custom-select-height"
-                        value={formik.values.wbaId}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Form.Group className="mb-3">
-                  <Form.Label>Permanent Access Token<strong> *</strong></Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="accessToken"
-                    className="custom-select-height"
-                    value={formik.values.accessToken}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Api Key<strong> *</strong></Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="apikey"
-                    className="custom-select-height"
-                    value={formik.values.apikey}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                </Form.Group>
-                <div className="d-flex justify-content-end">
+
+                <div className="d-flex justify-content-end mt-4">
                   <Button
                     variant="primary"
-                    className="custom-select-height"
+                    className="custom-select-height px-4"
                     type="submit"
                   >
                     Submit

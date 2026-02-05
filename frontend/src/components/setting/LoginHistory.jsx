@@ -106,7 +106,7 @@ const LoginHistory = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="card-title">Login History</div>
+              {/* <div className="card-title">Login History</div> */}
             </Card.Header>
             <Card.Body>
               <div className="d-flex flex-wrap align-items-end gap-3 mb-3">
@@ -130,7 +130,7 @@ const LoginHistory = () => {
                       fetchAllUser(selectedRoleName);
                       setCurrentPage(1);
                     }}
-                    placeholder="Select role"
+                    placeholder="Select Role"
                     isClearable
                     isSearchable
                     classNamePrefix="custom-select"
@@ -157,7 +157,7 @@ const LoginHistory = () => {
                       setUser(selectedOption ? selectedOption.value : "");
                       setCurrentPage(1);
                     }}
-                    placeholder="Select user"
+                    placeholder="Select User"
                     isClearable
                     isSearchable
                     classNamePrefix="custom-select"
@@ -207,8 +207,18 @@ const LoginHistory = () => {
               </div>
 
               {canRead && loginHistory.length > 0 ? (
-                <div className="table-responsive">
-                  <table className="table table-bordered mt-3">
+                <div
+                  className="table-responsive modern-table-wrapper"
+                  style={{
+                    borderRadius: "12px",
+                    border: "1px solid #dee2e6",
+                  }}
+                >
+
+                  <table
+                    className="table table-hover modern-table table-nowrap"
+                    style={{ width: "100%", overflowX: "auto" }}
+                  >
                     <thead>
                       <tr>
                         <th style={{ borderRight: "none", borderTop: "none" }}>
@@ -250,16 +260,18 @@ const LoginHistory = () => {
                         >
                           STATUS
                         </th>
-                        <th style={{ 
-                            borderLeft: "none",
-                            borderRight: "none",
-                            borderTop: "none", }}>
+                        <th style={{
+                          borderLeft: "none",
+                          borderRight: "none",
+                          borderTop: "none",
+                        }}>
                           LOGIN TIME
                         </th>
-                        <th style={{ 
-                            borderLeft: "none",
-                            borderRight: "none",
-                            borderTop: "none", }}>
+                        <th style={{
+                          borderLeft: "none",
+                          borderRight: "none",
+                          borderTop: "none",
+                        }}>
                           IP ADDRESS
                         </th>
                         <th style={{ borderLeft: "none", borderTop: "none" }}>
@@ -299,23 +311,23 @@ const LoginHistory = () => {
                           <td style={{ borderLeft: "none", borderRight: "none" }}>
                             {item?.loginTime
                               ? (() => {
-                                  const date = new Date(
-                                    item.loginTime
-                                  ).toLocaleDateString("en-GB", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                  });
-                                  const time = new Date(
-                                    item.loginTime
-                                  ).toLocaleTimeString("en-US", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    second: "2-digit",
-                                    hour12: true,
-                                  });
-                                  return `${date}, ${time}`;
-                                })()
+                                const date = new Date(
+                                  item.loginTime
+                                ).toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                });
+                                const time = new Date(
+                                  item.loginTime
+                                ).toLocaleTimeString("en-US", {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  second: "2-digit",
+                                  hour12: true,
+                                });
+                                return `${date}, ${time}`;
+                              })()
                               : "-"}
                           </td>
                           <td style={{ borderLeft: "none", borderRight: "none" }}>
@@ -358,12 +370,13 @@ const LoginHistory = () => {
               )}
 
               {totalPages > 1 && loginHistory.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                  className="mt-2"
-                />
+               <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

@@ -291,9 +291,9 @@ const Role = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div>
+              {/* <div>
                 <div className="card-title">Role</div>
-              </div>
+              </div> */}
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit} className="mb-3">
@@ -359,7 +359,7 @@ const Role = () => {
                         <Form.Control
                           type="text"
                           className="custom-select-height"
-                          placeholder="Enter role..."
+                          placeholder="Enter role"
                           name="name"
                           value={formik.values.name}
                           onChange={formik.handleChange}

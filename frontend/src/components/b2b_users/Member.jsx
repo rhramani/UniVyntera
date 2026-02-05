@@ -590,9 +590,9 @@ const Member = () => {
                           value={
                             formik.values.status
                               ? {
-                                  value: formik.values.status,
-                                  label: formik.values.status,
-                                }
+                                value: formik.values.status,
+                                label: formik.values.status,
+                              }
                               : null
                           }
                           onChange={(option) =>
@@ -615,26 +615,26 @@ const Member = () => {
                       {!(
                         userRole === "b2bAdmin" || userRole === "B2B Admin"
                       ) && (
-                        <Col md={6} className="mb-3">
-                          <Form.Label>B2B Admin</Form.Label>
-                          <Select
-                            name="b2bAdmin"
-                            classNamePrefix="custom-select"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                borderRadius: "30px",
-                                color: "black",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "black",
-                                fontSize: "13px",
-                              }),
-                            }}
-                            value={
-                              formik.values.b2bAdmin
-                                ? b2bAdminList
+                          <Col md={6} className="mb-3">
+                            <Form.Label>B2B Admin</Form.Label>
+                            <Select
+                              name="b2bAdmin"
+                              classNamePrefix="custom-select"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  borderRadius: "30px",
+                                  color: "black",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "black",
+                                  fontSize: "13px",
+                                }),
+                              }}
+                              value={
+                                formik.values.b2bAdmin
+                                  ? b2bAdminList
                                     ?.map((admin) => ({
                                       value: admin._id,
                                       label: admin.companyName,
@@ -643,42 +643,42 @@ const Member = () => {
                                       (option) =>
                                         option.value === formik.values.b2bAdmin
                                     ) || null
-                                : null
-                            }
-                            onChange={(option) =>
-                              formik.setFieldValue(
-                                "b2bAdmin",
-                                option ? option.value : ""
-                              )
-                            }
-                            onBlur={() =>
-                              formik.setFieldTouched("b2bAdmin", true)
-                            }
-                            options={b2bAdminList
-                              ?.filter((admin) => {
-                                if (userRole === "b2bAdmin") {
-                                  return admin._id === b2bAdminId;
-                                }
-                                return admin.companyName?.trim();
-                              })
-                              ?.sort((a, b) =>
-                                a.companyName.localeCompare(b.companyName)
-                              )
-                              ?.map((admin) => ({
-                                value: admin._id,
-                                label: admin.companyName,
-                              }))}
-                            placeholder="Select B2B Admin"
-                            isClearable
-                          />
-                          {formik.touched.b2bAdmin &&
-                            formik.errors.b2bAdmin && (
-                              <div className="text-danger">
-                                {formik.errors.b2bAdmin}
-                              </div>
-                            )}
-                        </Col>
-                      )}
+                                  : null
+                              }
+                              onChange={(option) =>
+                                formik.setFieldValue(
+                                  "b2bAdmin",
+                                  option ? option.value : ""
+                                )
+                              }
+                              onBlur={() =>
+                                formik.setFieldTouched("b2bAdmin", true)
+                              }
+                              options={b2bAdminList
+                                ?.filter((admin) => {
+                                  if (userRole === "b2bAdmin") {
+                                    return admin._id === b2bAdminId;
+                                  }
+                                  return admin.companyName?.trim();
+                                })
+                                ?.sort((a, b) =>
+                                  a.companyName.localeCompare(b.companyName)
+                                )
+                                ?.map((admin) => ({
+                                  value: admin._id,
+                                  label: admin.companyName,
+                                }))}
+                              placeholder="Select B2B Admin"
+                              isClearable
+                            />
+                            {formik.touched.b2bAdmin &&
+                              formik.errors.b2bAdmin && (
+                                <div className="text-danger">
+                                  {formik.errors.b2bAdmin}
+                                </div>
+                              )}
+                          </Col>
+                        )}
                     </Row>
                     {/* Submit Button */}
                     <div className="text-end">
@@ -712,11 +712,12 @@ const Member = () => {
               />
 
               {totalPages > 1 && memberList.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  /></div>
               )}
             </Card.Body>
           </Card>

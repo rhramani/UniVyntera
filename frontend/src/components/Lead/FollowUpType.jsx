@@ -14,6 +14,7 @@ import {
   updateFollowUpType,
 } from "../../redux/actions/Lead/FollowUpType.action";
 import usePermissions from "../commonComponents/usePermissions"; 
+import Pageheader from "../../layouts/Pageheader";
 
 const FollowUpType = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const FollowUpType = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [highlightForm, setHighlightForm] = useState(false);
 
-  const { canCreate, canRead, canUpdate, canDelete } = usePermissions("Follow-Up Type");
+  const { canCreate, canRead, canUpdate, canDelete } = usePermissions("Follow Up Type");
 
   useEffect(() => {
     if (canRead) {
@@ -49,7 +50,7 @@ const FollowUpType = () => {
       setTotalPages(responseData?.totalPages || 0);
       setTotalRecords(responseData?.totalRecords || 0);
     } catch (error) {
-      console.error("Error fetching Follow-Up Types:", error);
+      console.error("Error fetching Follow Up Types:", error);
       setAllFollowUpTypes([]);
       setTotalPages(0);
     }
@@ -61,7 +62,7 @@ const FollowUpType = () => {
       id: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Follow-up type name is required"),
+      name: Yup.string().required("Follow up type name is required"),
     }),
     validateOnBlur: false,
     validateOnChange: true,
@@ -73,12 +74,12 @@ const FollowUpType = () => {
             updateFollowUpType({ name: values?.name }, values?.id)
           );
           if (res?.data?.code === 200) {
-            toast.success("Follow-up type updated successfully");
+            toast.success("Follow up type updated successfully");
           }
         } else if (canCreate) {
           const res = await dispatch(createFollowUpType({ name: values?.name }));
           if (res?.data?.code === 201) {
-            toast.success("Follow-up type added successfully");
+            toast.success("Follow up type added successfully");
           }
         }
         resetForm();
@@ -88,7 +89,7 @@ const FollowUpType = () => {
       } catch (error) {
         console.log("Error submitting form:", error);
         toast.dismiss();
-        toast.error("Follow-up type already exists..");
+        toast.error("Follow up type already exists..");
         resetForm();
       }
     },
@@ -107,7 +108,7 @@ const FollowUpType = () => {
       toast.dismiss();
       const res = await dispatch(deleteFollowUpType(type?._id));
       if (res?.data?.code === 200) {
-        toast.success("Follow-up type deleted successfully");
+        toast.success("Follow up type deleted successfully");
       }
       const updatedPage =
         allFollowUpTypes.length === 1 && currentPage > 1
@@ -119,7 +120,7 @@ const FollowUpType = () => {
       }
     } catch (error) {
       console.log("Error", error);
-      toast.error("Failed to delete the follow-up type.");
+      toast.error("Failed to delete the follow up type.");
     }
   };
 
@@ -136,7 +137,7 @@ const FollowUpType = () => {
   }, [formik]);
 
   const columns = [
-    { label: "Follow-Up Type", key: "name" },
+    { label: "Follow Up Type", key: "name" },
     {
       label: "CREATED BY",
       render: (item) => (item.createdByName ? item?.createdByName : "-"),
@@ -148,25 +149,31 @@ const FollowUpType = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Follow Up Type"
+        parentfolder="Lead Management"
+        activepage="Follow Up Type"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div className="card-title">
-              {highlightForm ? "Update follow-up type" : "Add follow-up type"}
-            </div>
+            {/* <div className="card-title">
+              {highlightForm ? "Update follow up type" : "Add follow up type"}
+            </div> */}
           </Card.Header>
           <Card.Body>
             <form onSubmit={formik.handleSubmit} className="form_main_class">
               {(canCreate || (canUpdate && formik.values.id)) && (
                 <div className="form_left_section">
                   <div className="form-group">
-                    <Form.Label>Type Name</Form.Label>
+                    <Form.Label>Follow up Type</Form.Label>
                     <Form.Control
                       type="text"
                       name="name"
                       className="custom-select-height"
-                      placeholder="Enter follow-up type..."
+                      placeholder="Enter follow up type"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -236,16 +243,18 @@ const FollowUpType = () => {
             />
 
             {totalPages > 1 && allFollowUpTypes.length > 0 && (
-              <Paginations
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
+              <div className="mt-4 d-flex justify-content-end align-items-end">
+                      <Paginations
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      /></div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

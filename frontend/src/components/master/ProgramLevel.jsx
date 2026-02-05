@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
 import DataTable from "../commonComponents/DataTable";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const ProgramLevel = () => {
   const dispatch = useDispatch();
@@ -148,15 +149,21 @@ const ProgramLevel = () => {
     }
   };
   return (
+    <>
+      <Pageheader
+        mainheading="Program Level"
+        parentfolder="Course"
+        activepage="Program Level"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {highlightForm ? "Update Program Level" : "Add Program Level"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit} className="form_main_class">
@@ -168,7 +175,7 @@ const ProgramLevel = () => {
                       type="text"
                       name="name"
                       className="custom-select-height"
-                      placeholder="Enter program level..."
+                      placeholder="Enter program level"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -246,16 +253,18 @@ const ProgramLevel = () => {
               canRead={canRead}
             />
             {totalPages > 1 && programLevel.length > 0 && (
-              <Paginations
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
+              <div className="mt-4 d-flex justify-content-end align-items-end">
+                      <Paginations
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      /></div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+      </>
   );
 };
 

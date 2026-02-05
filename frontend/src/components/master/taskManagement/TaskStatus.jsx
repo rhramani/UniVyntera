@@ -175,7 +175,7 @@ const TaskStatus = () => {
     <>
       <Pageheader
         mainheading="Task Status"
-        parentfolder="Task Management"
+        parentfolder="Task"
         activepage="Task Status"
       />
 
@@ -183,7 +183,7 @@ const TaskStatus = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0 d-flex justify-content-between align-items-center">
-              <div className="card-title mb-0">Task Status Management</div>
+              {/* <div className="card-title mb-0">Task Status</div> */}
             </Card.Header>
 
             <Card.Body>
@@ -230,7 +230,7 @@ const TaskStatus = () => {
                   <Modal.Title>
                     {formik.values.id
                       ? "Update Task Status"
-                      : "Add New Task Status"}
+                      : "Add Task Status"}
                   </Modal.Title>
                   <AiOutlineClose
                     size={20}
@@ -242,10 +242,10 @@ const TaskStatus = () => {
                 <Modal.Body>
                   <Form onSubmit={formik.handleSubmit}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Status Name</Form.Label>
+                      <Form.Label>Status</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="e.g., To Do, In Progress, Done"
+                        placeholder="Enter status"
                         name="status"
                         value={formik.values.status}
                         onChange={formik.handleChange}

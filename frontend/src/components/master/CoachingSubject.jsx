@@ -10,6 +10,7 @@ import Select from "react-select";
 import usePermissions from "../commonComponents/usePermissions";
 import { createSubject, deleteSubjects, getAllSubject, updateSubject } from "../../redux/actions/Master/CoachingSubject.action";
 import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
+import Pageheader from "../../layouts/Pageheader";
 
 
 const CoachingSubject = () => {
@@ -147,13 +148,19 @@ const CoachingSubject = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Coaching Subject"
+        parentfolder="Coaching"
+        activepage="Coaching Subject"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div className="card-title">
+            {/* <div className="card-title">
               {isEditing ? "Update Subject" : "Add Subject"}
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit} className="form_main_class">
@@ -164,7 +171,7 @@ const CoachingSubject = () => {
                     <Form.Control
                       type="text"
                       className="custom-select-height"
-                      placeholder="Enter subject name..."
+                      placeholder="Enter subject"
                       name="name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
@@ -253,11 +260,13 @@ const CoachingSubject = () => {
                 />
 
                 {totalPages > 1 && subjects.length > 0 && (
+                  <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
                   />
+                  </div>
                 )}
               </>
             )}
@@ -265,6 +274,7 @@ const CoachingSubject = () => {
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 export default CoachingSubject;

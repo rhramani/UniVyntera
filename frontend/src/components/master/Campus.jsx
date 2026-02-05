@@ -16,6 +16,7 @@ import usePermissions from "../commonComponents/usePermissions";
 import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
 import Paginations from "../elements/Paginations";
 import Select from "react-select";
+import Pageheader from "../../layouts/Pageheader";
 
 const Campus = () => {
   const dispatch = useDispatch();
@@ -169,13 +170,19 @@ const Campus = () => {
   ];
 
   return (
+    <>
+      <Pageheader
+        mainheading="Campus"
+        parentfolder="Master"
+        activepage="Campus"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div className="card-title">
+            {/* <div className="card-title">
               {isEditing ? "Update Campus" : "Add Campus"}
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <Form onSubmit={formik.handleSubmit} className="form_main_class">
@@ -235,7 +242,7 @@ const Campus = () => {
                     <Form.Control
                       type="text"
                       className="custom-select-height"
-                      placeholder="Enter campus name..."
+                      placeholder="Enter campus"
                       name="campus"
                       value={formik.values.campus}
                       onChange={formik.handleChange}
@@ -324,11 +331,13 @@ const Campus = () => {
                 />
 
                 {totalPages > 1 && campus.length > 0 && (
-                  <Paginations
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={(page) => setCurrentPage(page)}
-                  />
+                  <div className="mt-4 d-flex justify-content-end align-items-end">
+                    <Paginations
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={(page) => setCurrentPage(page)}
+                    />
+                  </div>
                 )}
               </>
             )}
@@ -336,6 +345,7 @@ const Campus = () => {
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

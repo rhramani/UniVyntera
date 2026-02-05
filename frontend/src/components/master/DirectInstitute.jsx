@@ -47,6 +47,7 @@ import { MdCalendarToday } from "react-icons/md";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { countryCodeISO } from "../../utils/countryISOCode";
+import Pageheader from "../../layouts/Pageheader";
 
 const DirectInstitute = () => {
   const [show, setShow] = useState(false);
@@ -1276,17 +1277,23 @@ const DirectInstitute = () => {
   );
 
   return (
+    <>
+      <Pageheader
+        mainheading="Direct Institute"
+        parentfolder="Course"
+        activepage="Direct Institute"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {formik.values.id
                   ? "Update Direct Institute"
                   : "Add Direct Institute"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <div className="d-flex flex-wrap align-items-end gap-3 mb-3">
@@ -1630,7 +1637,7 @@ const DirectInstitute = () => {
                         <Form.Control
                           type="text"
                           className="custom-select-height"
-                          placeholder="Enter institute name"
+                          placeholder="Enter institute"
                           name="instituteName"
                           value={formik.values.instituteName}
                           onChange={formik.handleChange}
@@ -2078,7 +2085,7 @@ const DirectInstitute = () => {
                         <Form.Control
                           type="text"
                           className="custom-select-height"
-                          placeholder="Enter countries or 'Global Rights'"
+                          placeholder="Enter recruitment territory rights"
                           name="recruitmentTerritoryRights"
                           value={formik.values.recruitmentTerritoryRights}
                           onChange={formik.handleChange}
@@ -2752,16 +2759,18 @@ const DirectInstitute = () => {
               </Modal.Footer>
             </Modal>
             {totalPages > 1 && instituteList.length > 0 && (
-              <Paginations
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
+              <div className="mt-4 d-flex justify-content-end align-items-end">
+                      <Paginations
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                      /></div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

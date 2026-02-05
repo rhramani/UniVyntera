@@ -14,6 +14,7 @@ import {
   updateExam,
 } from "../../redux/actions/Lead/Exam.action";
 import usePermissions from "../commonComponents/usePermissions";
+import Pageheader from "../../layouts/Pageheader";
 
 const Exam = () => {
   const dispatch = useDispatch();
@@ -148,111 +149,119 @@ const Exam = () => {
     },
   ];
   return (
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            <div>
+    <>
+      <Pageheader
+        mainheading="Exam"
+        parentfolder="Lead Management"
+        activepage="Exam"
+      />
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div>
               <div className="card-title">
                 {highlightForm ? "Update Exam" : "Add Exam"}
               </div>
-            </div>
-          </Card.Header>
-          <Card.Body>
-            <form onSubmit={formik.handleSubmit} className="form_main_class bottom-margin">
-              {(canCreate || (canUpdate && formik.values.id)) && (
-                <div className="form_left_section">
-                  <div className="form-group">
-                    <Form.Label>Exam Name</Form.Label>
+            </div> */}
+            </Card.Header>
+            <Card.Body>
+              <form onSubmit={formik.handleSubmit} className="form_main_class bottom-margin">
+                {(canCreate || (canUpdate && formik.values.id)) && (
+                  <div className="form_left_section">
+                    <div className="form-group">
+                      <Form.Label>Exam</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="name"
+                        className="custom-select-height"
+                        placeholder="Enter exam"
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                      {formik.touched.name && formik.errors.name && (
+                        <div className="custom-text-danger">{formik.errors.name}</div>
+                      )}
+                    </div>
+                    <div className="form-group form-group-button">
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="custom-select-height"
+                        onClick={() => setHighlightForm(false)}
+                      >
+                        {formik.values.id ? "Update" : "Add"}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="form_right_section my-3">
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
                     <Form.Control
                       type="text"
-                      name="name"
-                      className="custom-select-height"
-                      placeholder="Enter exam name..."
-                      value={formik.values.name}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
+                      className="filter-height border-0"
+                      id="typehead1"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
                     />
-                    {formik.touched.name && formik.errors.name && (
-                      <div className="custom-text-danger">{formik.errors.name}</div>
-                    )}
                   </div>
-                  <div className="form-group form-group-button">
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      className="custom-select-height"
-                      onClick={() => setHighlightForm(false)}
-                    >
-                      {formik.values.id ? "Update" : "Add"}
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              <div className="form_right_section my-3">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    id="typehead1"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
+                  <ItemsPerPageSelect
+                    itemsPerPage={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
                   />
+                  <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
+                    <span>
+                      Total Records :<strong>&nbsp;{totalRecords}</strong>
+                    </span>
+                  </div>
                 </div>
-                <ItemsPerPageSelect
-                  itemsPerPage={itemsPerPage}
-                  onChange={handleItemsPerPageChange}
-                />
-                <div className="custom-select-height border px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                  <span>
-                    Total Records :<strong>&nbsp;{totalRecords}</strong>
-                  </span>
-                </div>
+              </form>
+
+              <div className={highlightForm ? "update-warning mb-3" : ""}>
+                {highlightForm ? "Update your information" : ""}
               </div>
-            </form>
 
-            <div className={highlightForm ? "update-warning mb-3" : ""}>
-              {highlightForm ? "Update your information" : ""}
-            </div>
-
-            <DataTable
-              columns={columns}
-              data={allExam}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              itemsPerPage={itemsPerPage}
-              onPageChange={setCurrentPage}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              // itemsPerPageOptions={false}
-              canEdit={canUpdate}
-              canDelete={canDelete}
-              canRead={canRead}
-            />
-
-            {totalPages > 1 && allExam.length > 0 && (
-              <Paginations
+              <DataTable
+                columns={columns}
+                data={allExam}
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                // itemsPerPageOptions={false}
+                canEdit={canUpdate}
+                canDelete={canDelete}
+                canRead={canRead}
               />
-            )}
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+
+              {totalPages > 1 && allExam.length > 0 && (
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  /></div>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 export default Exam;

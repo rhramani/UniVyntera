@@ -32,6 +32,7 @@ import dayjs from "dayjs";
 import { getAllRole } from "../../redux/actions/Master/Role.action";
 import { decryptData } from "../../utils/encryptionUtils";
 import { getAllBranch } from "../../redux/actions/Branch.action";
+import Pageheader from "../../layouts/Pageheader";
 
 const CoachingFaculty = () => {
   const dispatch = useDispatch();
@@ -429,15 +430,22 @@ const CoachingFaculty = () => {
   };
 
   return (
+    <>
+      <Pageheader
+        mainheading="Coaching Faculty"
+        parentfolder="Coaching"
+        activepage="Coaching Faculty"
+      />
+    
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
             <div className="w-100 d-flex justify-content-between">
               <div className="card-title">
-                {formik.values.id
+                {/* {formik.values.id
                   ? "Update Coaching Faculty"
-                  : "Add Coaching Faculty"}
+                  : "Add Coaching Faculty"} */}
               </div>
               <div className="d-flex flex-wrap align-items-center gap-2">
                 <div className="contact-search3">
@@ -603,7 +611,7 @@ const CoachingFaculty = () => {
                           type="text"
                           name="name"
                           className="custom-select-height"
-                          placeholder="Enter Name"
+                          placeholder="Enter name"
                           value={formik.values.name}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
@@ -620,7 +628,7 @@ const CoachingFaculty = () => {
                           type="email"
                           name="email"
                           className="custom-select-height"
-                          placeholder="Enter Email"
+                          placeholder="Enter email"
                           value={formik.values.email}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
@@ -641,7 +649,7 @@ const CoachingFaculty = () => {
                           <Form.Control
                             type={showPassword ? "text" : "password"}
                             className="custom-select-height"
-                            placeholder="Enter Password"
+                            placeholder="Enter password"
                             name="password"
                             value={formik.values.password}
                             onChange={formik.handleChange}
@@ -671,7 +679,7 @@ const CoachingFaculty = () => {
                           type="text"
                           name="phone"
                           className="custom-select-height"
-                          placeholder="Enter Phone Number"
+                          placeholder="Enter phone number"
                           value={formik.values.phone}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
@@ -736,7 +744,7 @@ const CoachingFaculty = () => {
                           options={batchStatusOptions}
                           value={selectedStatus}
                           classNamePrefix="custom-select"
-                          placeholder
+                          placeholder="Select Batch Status"
                           isMulti
                           onChange={(options) => {
                             const selected = options || [];
@@ -1006,11 +1014,13 @@ const CoachingFaculty = () => {
                   onPageChange={setCurrentPage}
                 />
                 {totalPages > 1 && coachingFaculties.length > 0 && (
+                  <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
                   />
+                  </div>
                 )}
               </>
             )}
@@ -1018,6 +1028,7 @@ const CoachingFaculty = () => {
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

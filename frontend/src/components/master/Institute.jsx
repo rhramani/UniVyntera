@@ -48,6 +48,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { countryCodeISO } from "../../utils/countryISOCode";
 import { getAllProgramLevel } from "../../redux/actions/Master/ProgramLevel.action";
+import Pageheader from "../../layouts/Pageheader";
 
 const Institute = () => {
   const [show, setShow] = useState(false);
@@ -1233,15 +1234,21 @@ const Institute = () => {
   );
 
   return (
+    <>
+      <Pageheader
+        mainheading="Institute"
+        parentfolder="Course"
+        activepage="Institute"
+      />
     <Row className="mt-5 row-sm">
       <Col md={12} lg={12} xl={12}>
         <Card className="custom-card transcation-crypto">
           <Card.Header className="border-bottom-0">
-            <div>
+            {/* <div>
               <div className="card-title">
                 {formik.values.id ? "Update Institute" : "Add Institute"}
               </div>
-            </div>
+            </div> */}
           </Card.Header>
           <Card.Body>
             <div className="d-flex flex-wrap align-items-end gap-3 mb-3">
@@ -1554,7 +1561,7 @@ const Institute = () => {
                         <Form.Control
                           type="text"
                           className="custom-select-height"
-                          placeholder="Enter institute name"
+                          placeholder="Enter institute"
                           name="instituteName"
                           value={formik.values.instituteName}
                           onChange={formik.handleChange}
@@ -1985,7 +1992,7 @@ const Institute = () => {
                         <Form.Control
                           type="text"
                           className="custom-select-height"
-                          placeholder="Enter countries or 'Global Rights'"
+                          placeholder="Enter recruitment territory rights"
                           name="recruitmentTerritoryRights"
                           value={formik.values.recruitmentTerritoryRights}
                           onChange={formik.handleChange}
@@ -2665,16 +2672,19 @@ const Institute = () => {
               </Modal.Footer>
             </Modal>
             {totalPages > 1 && instituteList.length > 0 && (
-              <Paginations
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
+              <div className="mt-4 d-flex justify-content-end align-items-end">
+                <Paginations
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={(page) => setCurrentPage(page)}
+                />
+              </div>
             )}
           </Card.Body>
         </Card>
       </Col>
     </Row>
+    </>
   );
 };
 

@@ -481,8 +481,8 @@ const PromotionalPPT = () => {
                     {editingItem && editingDocIndex !== null
                       ? "Update Promotional PPT"
                       : editingItem
-                      ? "Update Country"
-                      : "Add Promotional PPT"}
+                        ? "Update Country"
+                        : "Add Promotional PPT"}
                   </Modal.Title>
                   <AiOutlineClose
                     size={20}
@@ -578,8 +578,8 @@ const PromotionalPPT = () => {
                         {editingItem && editingDocIndex !== null
                           ? "Update Promotional PPT"
                           : editingItem
-                          ? "Update Country"
-                          : "Add Promotional PPT"}
+                            ? "Update Country"
+                            : "Add Promotional PPT"}
                       </Button>
                     </Modal.Footer>
                   </Form>
@@ -631,11 +631,12 @@ const PromotionalPPT = () => {
                 </Modal.Footer>
               </Modal>
               {totalPages > 1 && documents?.data?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  /></div>
               )}
             </Card.Body>
           </Card>
