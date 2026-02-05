@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Form, Row, Col, Card, Button, Modal } from "react-bootstrap";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DangerousIcon from "@mui/icons-material/Dangerous";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { AiOutlineClose } from "react-icons/ai";
-import { FaAppStore, FaBullseye } from "react-icons/fa";
 import {
   MdAccessTime,
   MdCalendarToday,
@@ -19,9 +13,16 @@ import {
   MdPersonOutline,
   MdVerifiedUser,
 } from "react-icons/md";
+import { FaAppStore, FaBullseye } from "react-icons/fa";
+import getSymbolFromCurrency from "currency-symbol-map";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DangerousIcon from "@mui/icons-material/Dangerous";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonIcon from "@mui/icons-material/Person";
 import CreateIcon from "@mui/icons-material/Create";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import { AiOutlineClose } from "react-icons/ai";
 import Pageheader from "../../layouts/Pageheader";
 import Paginations from "../elements/Paginations";
 import * as Yup from "yup";
@@ -260,7 +261,8 @@ const AllFollowup = () => {
   const [formRoleList, setFormRoleList] = useState(null);
   const [formUserList, setFormUserList] = useState([]);
   const [fullLeadAssignments, setFullLeadAssignments] = useState([]);
-  const [currentEditingAssignment, setCurrentEditingAssignment] = useState(null);
+  const [currentEditingAssignment, setCurrentEditingAssignment] =
+    useState(null);
   const [filters, setFilters] = useState({
     country: "",
     followUpType: "",
@@ -771,13 +773,13 @@ const AllFollowup = () => {
       });
     }
   };
-  
+
   const handleInterestedCourseDetailEdit = (
     values,
     instituteOptions,
     campusOptions,
     programLevelData,
-    allcourseData
+    allcourseData,
   ) => {
     const updatedData = [...formData.interestedCourseDetails];
     const updatedIndex = edit.interestedCourseIndex;
@@ -786,10 +788,18 @@ const AllFollowup = () => {
     // Create entry with updated display names
     const entryWithNames = {
       ...updatedEntry,
-      instituteName: instituteOptions.find(opt => opt.value === updatedEntry.institute)?.label || updatedEntry.institute,
-      campusName: campusOptions.find(opt => opt.value === updatedEntry.campus)?.label || updatedEntry.campus,
-      programLevelName: programLevelData.find(pl => pl._id === updatedEntry.programLevel)?.name || updatedEntry.programLevel,
-      courseName: allcourseData.find(c => c._id === updatedEntry.course)?.programName || updatedEntry.course,
+      instituteName:
+        instituteOptions.find((opt) => opt.value === updatedEntry.institute)
+          ?.label || updatedEntry.institute,
+      campusName:
+        campusOptions.find((opt) => opt.value === updatedEntry.campus)?.label ||
+        updatedEntry.campus,
+      programLevelName:
+        programLevelData.find((pl) => pl._id === updatedEntry.programLevel)
+          ?.name || updatedEntry.programLevel,
+      courseName:
+        allcourseData.find((c) => c._id === updatedEntry.course)?.programName ||
+        updatedEntry.course,
     };
 
     updatedData[updatedIndex] = entryWithNames;
@@ -813,27 +823,40 @@ const AllFollowup = () => {
     instituteOptions,
     campusOptions,
     programLevelData,
-    allcourseData
+    allcourseData,
   ) => {
     const newEntry = values.interestedCourseDetails[index.interestedCourse];
 
     if (!newEntry || !newEntry.institute || !newEntry.course) {
-      toast.error("Please fill institute and course before adding interested course.");
+      toast.error(
+        "Please fill institute and course before adding interested course.",
+      );
       return false;
     }
 
     // Create entry with display names for table display
     const entryWithNames = {
       ...newEntry,
-      instituteName: instituteOptions.find(opt => opt.value === newEntry.institute)?.label || newEntry.institute,
-      campusName: campusOptions.find(opt => opt.value === newEntry.campus)?.label || newEntry.campus,
-      programLevelName: programLevelData.find(pl => pl._id === newEntry.programLevel)?.name || newEntry.programLevel,
-      courseName: allcourseData.find(c => c._id === newEntry.course)?.programName || newEntry.course,
+      instituteName:
+        instituteOptions.find((opt) => opt.value === newEntry.institute)
+          ?.label || newEntry.institute,
+      campusName:
+        campusOptions.find((opt) => opt.value === newEntry.campus)?.label ||
+        newEntry.campus,
+      programLevelName:
+        programLevelData.find((pl) => pl._id === newEntry.programLevel)?.name ||
+        newEntry.programLevel,
+      courseName:
+        allcourseData.find((c) => c._id === newEntry.course)?.programName ||
+        newEntry.course,
     };
 
     setFormData((prevState) => ({
       ...prevState,
-      interestedCourseDetails: [...prevState.interestedCourseDetails, entryWithNames],
+      interestedCourseDetails: [
+        ...prevState.interestedCourseDetails,
+        entryWithNames,
+      ],
     }));
 
     setIndex((prev) => ({
@@ -942,16 +965,21 @@ const AllFollowup = () => {
     const { _id, ...newEntryWithoutId } = newEntry || {};
 
     // Also create the full assignment object for display
-    const roleObj = getRoleList?.data?.find(r => r._id === newEntryWithoutId.role);
-    const userObj = formUserList?.find(u => u._id === newEntryWithoutId.user);
+    const roleObj = getRoleList?.data?.find(
+      (r) => r._id === newEntryWithoutId.role,
+    );
+    const userObj = formUserList?.find((u) => u._id === newEntryWithoutId.user);
     const userFullName = userObj
-      ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() || userObj.name
+      ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() ||
+        userObj.name
       : null;
 
     const fullAssignmentObject = {
       _id: null, // New assignments don't have _id yet
       role: roleObj ? { _id: roleObj._id, name: roleObj.name } : null,
-      user: userObj ? { _id: userObj._id, name: userFullName, email: userObj.email } : null,
+      user: userObj
+        ? { _id: userObj._id, name: userFullName, email: userObj.email }
+        : null,
     };
 
     setFormData((prevState) => ({
@@ -959,7 +987,7 @@ const AllFollowup = () => {
       lead_assign: [...prevState.lead_assign, newEntryWithoutId],
     }));
 
-    setFullLeadAssignments(prev => [...prev, fullAssignmentObject]);
+    setFullLeadAssignments((prev) => [...prev, fullAssignmentObject]);
   };
 
   const handleLeadAssignmentEdit = (values) => {
@@ -977,18 +1005,21 @@ const AllFollowup = () => {
 
     // Also update fullLeadAssignments with the complete objects
     const updatedFullAssignments = [...fullLeadAssignments];
-    const roleObj = getRoleList?.data?.find(r => r._id === updatedEntry.role);
-    const userObj = formUserList?.find(u => u._id === updatedEntry.user);
+    const roleObj = getRoleList?.data?.find((r) => r._id === updatedEntry.role);
+    const userObj = formUserList?.find((u) => u._id === updatedEntry.user);
 
     // Construct user name properly like in formUserOptions
     const userFullName = userObj
-      ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() || userObj.name
+      ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() ||
+        userObj.name
       : null;
 
     updatedFullAssignments[updatedIndex] = {
       _id: updatedEntry._id,
       role: roleObj ? { _id: roleObj._id, name: roleObj.name } : null,
-      user: userObj ? { _id: userObj._id, name: userFullName, email: userObj.email } : null,
+      user: userObj
+        ? { _id: userObj._id, name: userFullName, email: userObj.email }
+        : null,
     };
 
     setFormData((prevState) => ({
@@ -1231,14 +1262,14 @@ const AllFollowup = () => {
           changedFields[key] = updated[key];
         }
       } else if (key === "interestedCourseDetails") {
-              if (!arraysEqual(original[key], updated[key])) {
-                changedFields[key] = updated[key];
-              }
-            } else if (key === "lead_assign") {
-              if (!arraysEqual(original[key], updated[key])) {
-                changedFields[key] = updated[key];
-              }
-            } else {
+        if (!arraysEqual(original[key], updated[key])) {
+          changedFields[key] = updated[key];
+        }
+      } else if (key === "lead_assign") {
+        if (!arraysEqual(original[key], updated[key])) {
+          changedFields[key] = updated[key];
+        }
+      } else {
         // Compare simple fields
         const originalVal = normalizeValue(original[key]);
         const updatedVal = normalizeValue(updated[key]);
@@ -1523,7 +1554,9 @@ const AllFollowup = () => {
 
     // Handle lead_assign changes (same as AllLeads.jsx - only ONE op per request)
     // Use formData.lead_assign instead of values.lead_assign for proper payload processing
-    const normalizedOriginalAssign = Array.isArray(originalFormData?.lead_assign)
+    const normalizedOriginalAssign = Array.isArray(
+      originalFormData?.lead_assign,
+    )
       ? originalFormData.lead_assign
       : [];
     const normalizedCurrentAssign = Array.isArray(formData.lead_assign)
@@ -1620,12 +1653,12 @@ const AllFollowup = () => {
         refused_visa_type: item.refused_visa_type,
       }));
     }
-        if (changedFields.interestedCourseDetails !== undefined) {
-          formattedData.interestedCourseDetails = values.interestedCourseDetails;
-        }
-        if (changedFields.family_work !== undefined) {
-          formattedData.family_work = values.family_work;
-        }
+    if (changedFields.interestedCourseDetails !== undefined) {
+      formattedData.interestedCourseDetails = values.interestedCourseDetails;
+    }
+    if (changedFields.family_work !== undefined) {
+      formattedData.family_work = values.family_work;
+    }
     setIsLoading(true);
     try {
       const response = await dispatch(updateLead(editId, formattedData));
@@ -2233,7 +2266,7 @@ const AllFollowup = () => {
       );
     }
   };
-const fetchAllUser = async (
+  const fetchAllUser = async (
     roleId,
     roleName,
     branchId,
@@ -2501,6 +2534,31 @@ const fetchAllUser = async (
     return found ? found.name : "N/A";
   };
 
+  const badgeThemes = [
+    {
+      bg: "#c7d2fe", // indigo-200 (quite visible)
+      border: "#a5b4fc", // indigo-300
+      role: "#4f46e5", // indigo-600 (brighter for role)
+      user: "#1e1b4b", // indigo-950
+    },
+    {
+      bg: "#a5f3fc", // cyan-200
+      border: "#67e8f9", // cyan-300
+      role: "#0891b2", // cyan-600
+      user: "#083344",
+    },
+    {
+      bg: "#bbf7d0", // green-200
+      border: "#86efac", // green-300
+      role: "#16a34a", // green-600
+      user: "#052e16",
+    },
+  ];
+
+  const storedEncryptedCurrency = decryptData(
+    localStorage.getItem("crmCurrency"),
+  );
+
   useEffect(() => {
     if (getLeadData?.data?.length > 0) {
       const uniqueBranchIds = [
@@ -2766,8 +2824,8 @@ const fetchAllUser = async (
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0 mt-2">
-              <div className="w-100 d-flex flex-wrap justify-content-between">
-                <div className="card-title">All Followup</div>
+              <div className="w-100 d-flex flex-wrap justify-content-end">
+                {/* <div className="card-title">All Followup</div> */}
                 <div className="d-flex flex-wrap align-items-center gap-2">
                   <SearchWithDropdown
                     searchOption={searchOption}
@@ -3536,31 +3594,35 @@ const fetchAllUser = async (
                 handleLeadAssignmentEdit={handleLeadAssignmentEdit}
                 handleLeadAssignmentDelete={handleLeadAssignmentDelete}
                 handleInterestedCourseDetailEdit={(
-                                  values,
-                                  instituteOptions,
-                                  campusOptions,
-                                  programLevelData,
-                                  allcourseData
-                                ) => handleInterestedCourseDetailEdit(
-                                  values,
-                                  instituteOptions,
-                                  campusOptions,
-                                  programLevelData,
-                                  allcourseData
-                                )}
-                                handleInterestedCourseSubmit={(
-                                  values,
-                                  instituteOptions,
-                                  campusOptions,
-                                  programLevelData,
-                                  allcourseData
-                                ) => handleInterestedCourseSubmit(
-                                  values,
-                                  instituteOptions,
-                                  campusOptions,
-                                  programLevelData,
-                                  allcourseData
-                                )}
+                  values,
+                  instituteOptions,
+                  campusOptions,
+                  programLevelData,
+                  allcourseData,
+                ) =>
+                  handleInterestedCourseDetailEdit(
+                    values,
+                    instituteOptions,
+                    campusOptions,
+                    programLevelData,
+                    allcourseData,
+                  )
+                }
+                handleInterestedCourseSubmit={(
+                  values,
+                  instituteOptions,
+                  campusOptions,
+                  programLevelData,
+                  allcourseData,
+                ) =>
+                  handleInterestedCourseSubmit(
+                    values,
+                    instituteOptions,
+                    campusOptions,
+                    programLevelData,
+                    allcourseData,
+                  )
+                }
                 handleInterestedCourseDelete={handleInterestedCourseDelete}
               />
 
@@ -3598,113 +3660,200 @@ const fetchAllUser = async (
                   getLeadData?.leads?.map((item, index) => (
                     <div
                       key={item._id}
-                      className="application-card bg-white border border-gray-200 rounded-lg px-4 pt-2 shadow-sm mb-3 rounded"
+                      className="application-card rounded-lg mb-4 position-relative hover-shadow"
+                      style={{
+                        transition: "all 0.3s ease",
+                        backgroundColor: "#ffffff",
+                        borderRadius: "10px",
+                        boxShadow: "rgba(0, 0, 0, 0.4) 0px 2px 8px",
+                        padding: "10px",
+                      }}
                     >
-                      <div className="application-card-1 mb-3">
-                        <div className="left-part mb-2">
-                          <div className="d-flex gap-3 align-items-center">
-                            <div
-                              className="left-part-1"
-                              onClick={() => {
-                                handleEdit(item?._id, item?.lead_role?.name);
-                                handleEditHistory(item);
-                              }}
-                              style={{
-                                cursor: "pointer",
-                                textTransform: "capitalize",
-                              }}
-                            >
-                              {item?.name || "-"}
-                            </div>
-                            {item?.isDuplicate && (
-                              <div
-                                className={
-                                  item?.isDuplicate ? "duplicate-warning" : ""
-                                }
+                      {/* --- HEADER SECTION --- */}
+                      <div
+                        className="px-4 py-3 border-bottom d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
+                        style={{ backgroundColor: "#fbfbff" }}
+                      >
+                        <div className="d-flex align-items-start gap-3">
+                          <div>
+                            <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
+                              <span
+                                className="badge border-0 fw-bold px-2 py-1 shadow-sm"
+                                style={{
+                                  fontSize: "0.7rem",
+                                  letterSpacing: "0.8px",
+                                  backgroundColor: "#5d54be",
+                                  color: "#ffffff",
+                                  borderRadius: "4px",
+                                  textTransform: "uppercase",
+                                }}
                               >
-                                Duplicate Lead
+                                {item?.leadId}
+                              </span>
+                              <h5
+                                className="mb-0 fw-bold"
+                                style={{
+                                  color: "#4B49AC",
+                                  cursor: "pointer",
+                                  letterSpacing: "-0.2px",
+                                }}
+                                onClick={() => {
+                                  handleEdit(item?._id, item?.lead_role?.name);
+                                  handleEditHistory(item);
+                                }}
+                              >
+                                {item?.name || "-"}
+                              </h5>
+                              {item?.isDuplicate && (
+                                <span
+                                  className="duplicate-warning px-2 py-1"
+                                  style={{
+                                    fontSize: "0.7rem",
+                                    borderRadius: "4px",
+                                  }}
+                                >
+                                  Duplicate Lead
+                                </span>
+                              )}
+                              {item?.deadLead && (
+                                <span
+                                  className="px-2 py-1 badge bg-danger text-white rounded-pill"
+                                  style={{
+                                    fontSize: "0.7rem",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  Inactive Lead
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Metadata Row */}
+                            {(item?.createdByName?.length > 0 ||
+                              item?.updatedByName?.length > 0 ||
+                              item?.created_by_type?.length > 0 ||
+                              item?.b2bCompany?.length > 0) && (
+                              <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
+                                {item?.created_by_type?.length > 0 && (
+                                  <div
+                                    className="d-flex align-items-center me-3"
+                                    style={{ color: "#6366f1" }}
+                                  >
+                                    <AssignmentIndIcon
+                                      className="me-1"
+                                      style={{
+                                        fontSize: "15px",
+                                        color: "#6366f1",
+                                        opacity: 0.9,
+                                      }}
+                                    />
+                                    <strong style={{ opacity: 0.8 }}>
+                                      Type
+                                    </strong>
+                                    &nbsp;:&nbsp;
+                                    <span className="fw-semibold">
+                                      {item?.created_by_type === "B2B Admin" ||
+                                      item?.created_by_type === "B2B Member" ? (
+                                        <>
+                                          B2B Partner
+                                          {item?.b2bCompany &&
+                                            ` (${item.b2bCompany})`}
+                                        </>
+                                      ) : item?.created_by_type === "user" ? (
+                                        <>
+                                          Head Office
+                                          {item?.b2bCompany &&
+                                            ` (${item.b2bCompany})`}
+                                        </>
+                                      ) : item?.created_by_type ===
+                                          "Branch Member" ||
+                                        item?.created_by_type ===
+                                          "Branch member" ? (
+                                        <>
+                                          Branch Member
+                                          {item?.branch && ` (${item.branch})`}
+                                        </>
+                                      ) : (
+                                        item?.created_by_type
+                                      )}
+                                    </span>
+                                  </div>
+                                )}
+                                {item?.createdByName?.length > 0 && (
+                                  <div
+                                    className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
+                                    style={{ color: "#7c3aed" }}
+                                  >
+                                    <PersonIcon
+                                      className="me-1"
+                                      style={{
+                                        fontSize: "15px",
+                                        color: "#7c3aed",
+                                        opacity: 0.9,
+                                      }}
+                                    />
+                                    <strong style={{ opacity: 0.8 }}>
+                                      Created By
+                                    </strong>
+                                    &nbsp;:&nbsp;
+                                    <span className="fw-semibold">
+                                      {item?.createdByName}
+                                    </span>
+                                  </div>
+                                )}
+                                {item?.updatedByName?.length > 0 && (
+                                  <div
+                                    className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
+                                    style={{ color: "#4f46e5" }}
+                                  >
+                                    <CreateIcon
+                                      className="me-1"
+                                      style={{
+                                        fontSize: "15px",
+                                        color: "#4f46e5",
+                                        opacity: 0.9,
+                                      }}
+                                    />
+                                    <strong style={{ opacity: 0.8 }}>
+                                      Updated By
+                                    </strong>
+                                    &nbsp;:&nbsp;
+                                    <span className="fw-semibold">
+                                      {item?.updatedByName}
+                                    </span>
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
-                          {(item?.createdByName?.length > 0 ||
-                            item?.updatedByName?.length > 0 ||
-                            item?.created_by_type?.length > 0 ||
-                            item?.b2bCompany?.length > 0) && (
-                            <div className="left-part-2 bg-light border-top rounded">
-                              {item?.created_by_type?.length > 0 && (
-                                <div>
-                                  <span className="left-span text-gray-6 d-flex justify-content-end align-items-center">
-                                    <AssignmentIndIcon className="me-1 left-icon" />
-                                    <strong>Type</strong>&nbsp;:&nbsp;
-                                    {item?.created_by_type === "B2B Admin" ||
-                                    item?.created_by_type === "B2B Member" ? (
-                                      <>
-                                        B2B Partner
-                                        {item?.b2bCompany &&
-                                          ` (${item.b2bCompany})`}
-                                      </>
-                                    ) : item?.created_by_type === "user" ? (
-                                      <>
-                                        Head Office
-                                        {item?.b2bCompany &&
-                                          ` (${item.b2bCompany})`}
-                                      </>
-                                    ) : item?.created_by_type ===
-                                        "Branch Member" ||
-                                      item?.created_by_type ===
-                                        "Branch member" ? (
-                                      <>
-                                        Branch Member
-                                        {item?.branch && ` (${item.branch})`}
-                                      </>
-                                    ) : (
-                                      item?.created_by_type
-                                    )}
-                                  </span>
-                                </div>
-                              )}
-                              {item?.createdByName?.length > 0 && (
-                                <div className="me-3">
-                                  <span className="left-span text-gray-6 d-flex align-items-center">
-                                    <PersonIcon className="me-1 left-icon" />
-                                    <strong>Created By</strong>&nbsp;:&nbsp;
-                                    {item?.createdByName}
-                                  </span>
-                                </div>
-                              )}
-                              {item?.updatedByName?.length > 0 && (
-                                <div className="me-3">
-                                  <span className="left-span text-gray-6 d-flex justify-content-center align-items-center">
-                                    <CreateIcon className="me-1 left-icon" />
-                                    <strong>Updated By</strong>
-                                    <strong>&nbsp;:&nbsp;</strong>
-                                    <span>{item?.updatedByName}</span>
-                                  </span>
-                                </div>
-                              )}
+                        </div>
+
+                        <div className="d-flex align-items-center gap-2 ms-auto">
+                          {item?.dueAmount > 0 && (
+                            <div className="px-3 py-1 bg-danger bg-opacity-10 border border-danger rounded-pill me-2">
+                              <span className="text-danger fw-bold small">
+                                <i className="bi bi-exclamation-circle me-1"></i>
+                                Receivable:{" "}
+                                {storedEncryptedCurrency
+                                  ? getSymbolFromCurrency(
+                                      storedEncryptedCurrency,
+                                    )
+                                  : "₹"}{" "}
+                                {Math.floor(item?.dueAmount)}
+                              </span>
                             </div>
                           )}
-                        </div>
-                        <div className="right-part d-flex align-items-center">
-                          {item?.deadLead && (
-                            <strong
-                              className="me-1"
-                              style={{
-                                letterSpacing: "0.5px",
-                                backgroundColor: "red",
-                                padding: "2px 8px 0px 8px",
-                                borderRadius: "12px",
-                                color: "#fff",
-                              }}
-                            >
-                              Inactive Lead
-                            </strong>
-                          )}
-                          <div className="d-flex">
+
+                          <div className="d-flex align-items-center gap-2">
                             <IconButton
                               aria-label="more"
-                              aria-controls={`menu-${index}`}
-                              aria-haspopup="true"
+                              className="ms-1 border shadow-sm"
+                              style={{
+                                backgroundColor: "#5d54be34",
+                                borderColor: "#5d54be34",
+                                width: "36px",
+                                height: "36px",
+                              }}
                               onClick={(e) => {
                                 setOpenDropdown(
                                   openDropdown === index ? null : index,
@@ -3712,9 +3861,11 @@ const fetchAllUser = async (
                                 setAnchorEl(e.currentTarget);
                               }}
                             >
-                              <MoreVertIcon className="three-dots-icon" />
+                              <MoreVertIcon
+                                className="three-dots-icon"
+                                style={{ color: "#5d54be", fontSize: "20px" }}
+                              />
                             </IconButton>
-
                             <Menu
                               id={`menu-${index}`}
                               anchorEl={anchorEl}
@@ -3729,7 +3880,6 @@ const fetchAllUser = async (
                                   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
                                 },
                               }}
-                              style={{ marginLeft: "-15px" }}
                             >
                               {canUpdate && (
                                 <MenuItem
@@ -3838,218 +3988,346 @@ const fetchAllUser = async (
                         </div>
                       </div>
 
-                      <div className="row">
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdDescription
-                              className="me-2"
-                              size={19}
-                              color="#4285F4"
-                            />
-                            <strong>Lead Status : </strong>
-                            <span
-                              className="lead-status"
-                              onClick={() => {
-                                if (canUpdate) {
-                                  handleEdit(item?._id, item?.lead_role?.name);
-                                  handleEditHistory(item);
-                                }
-                              }}
-                              style={{
-                                backgroundColor: getStatusColor(
-                                  item.lead_status,
-                                ),
-                                color: "#fff",
-                                padding: "2px 8px",
-                                borderRadius: "12px",
-                                cursor: "pointer",
-                              }}
-                            >
-                              {item.lead_status}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdOutlineCalendarToday
-                              className="me-2"
-                              size={19}
-                              color="#34A853"
-                            />
-                            <strong>Date : </strong>
-                            {new Date(item.next_follow_up).toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                timeZone: "UTC",
-                              },
-                            )}
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdAccessTime
-                              className="me-2"
-                              size={19}
-                              color="#FB8C00"
-                            />
-                            <strong>Time : </strong>
-                            {new Date(item.createdAt).toLocaleString("en-GB", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              hour12: true,
-                            })}
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <FaBullseye
-                              className="me-2"
-                              size={19}
-                              color="#A259FF"
-                            />
-                            <strong>Lead From : </strong>
-                            {item?.lead_form || "N/A"}
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdCall
-                              className="me-2"
-                              size={19}
-                              color="#4285F4"
-                            />
-                            <strong>Phone : </strong>
-                            {item.phone || "N/A"}
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdLocationOn
-                              className="me-2"
-                              size={19}
-                              color="#EA4335"
-                            />
-                            <strong>Location : </strong>
-                            {item.city || "N/A"}
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdPersonOutline
-                              className="me-2"
-                              size={19}
-                              color="#00796B"
-                            />
-                            <strong>Branch Lead Assign : </strong>
-                            {getBranchNameById(item?.lead_assign_Branch?._id)}
-                          </p>
-                        </div>
-
-                        <div className="col-12 col-md-4">
-                          <div>
-                            <div className="d-flex align-items-center mb-1 text-gray-6">
-                              <MdVerifiedUser
-                                className="me-2 text-warning"
-                                size={18}
+                      {/* --- CONTENT SECTION --- */}
+                      <div className="px-4 py-4">
+                        <div className="row g-4">
+                          {/* Lead Status */}
+                          <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="d-flex align-items-start gap-2">
+                              <MdDescription
+                                className="mt-1 flex-shrink-0"
+                                size={19}
+                                color="#4285F4"
                               />
-                              <strong>Lead Assign :</strong>
+                              <div>
+                                <div className="text-muted small fw-medium mb-1">
+                                  Lead Status
+                                </div>
+                                <span
+                                  className="badge border-0"
+                                  onClick={() => {
+                                    if (canUpdate) {
+                                      handleEdit(
+                                        item?._id,
+                                        item?.lead_role?.name,
+                                      );
+                                      handleEditHistory(item);
+                                    }
+                                  }}
+                                  style={{
+                                    backgroundColor: getStatusColor(
+                                      item.lead_status,
+                                    ),
+                                    color: "#fff",
+                                    padding: "6px 14px",
+                                    borderRadius: "20px",
+                                    cursor: "pointer",
+                                    fontSize: "0.75rem",
+                                    fontWeight: 600,
+                                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                                  }}
+                                >
+                                  {item.lead_status}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Date (Next Followup) */}
+                          <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="d-flex align-items-start gap-2 text-gray-6">
+                              <MdOutlineCalendarToday
+                                className="mt-1 flex-shrink-0"
+                                size={19}
+                                color="#34A853"
+                              />
+                              <div>
+                                <div className="text-muted small fw-medium mb-0">
+                                  Follow-up Date
+                                </div>
+                                <div className="fw-semibold">
+                                  {new Date(
+                                    item.next_follow_up,
+                                  ).toLocaleDateString("en-GB", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                    timeZone: "UTC",
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Time */}
+                          <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="d-flex align-items-start gap-2 text-gray-6">
+                              <MdAccessTime
+                                className="mt-1 flex-shrink-0"
+                                size={19}
+                                color="#FB8C00"
+                              />
+                              <div>
+                                <div className="text-muted small fw-medium mb-0">
+                                  Time
+                                </div>
+                                <div className="fw-semibold">
+                                  {new Date(item.createdAt).toLocaleString(
+                                    "en-GB",
+                                    {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                      hour12: true,
+                                    },
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Lead From */}
+                          <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="d-flex align-items-start gap-2 text-gray-6">
+                              <FaBullseye
+                                className="mt-1 flex-shrink-0"
+                                size={19}
+                                color="#A259FF"
+                              />
+                              <div>
+                                <div className="text-muted small fw-medium mb-0">
+                                  Lead From
+                                </div>
+                                <div className="fw-semibold">
+                                  {item?.lead_form || "N/A"}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Phone */}
+                          <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="d-flex align-items-start gap-2 text-gray-6">
+                              <MdCall
+                                className="mt-1 flex-shrink-0"
+                                size={19}
+                                color="#4285F4"
+                              />
+                              <div>
+                                <div className="text-muted small fw-medium mb-0">
+                                  Phone
+                                </div>
+                                <div
+                                  className="fw-semibold text-primary"
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  {item.phone || "N/A"}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Location */}
+                          <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="d-flex align-items-start gap-2 text-gray-6">
+                              <MdLocationOn
+                                className="mt-1 flex-shrink-0"
+                                size={19}
+                                color="#EA4335"
+                              />
+                              <div>
+                                <div className="text-muted small fw-medium mb-0">
+                                  Location
+                                </div>
+                                <div className="fw-semibold">
+                                  {item.city || "N/A"}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Branch Lead Assign */}
+                          <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="d-flex align-items-start gap-2 text-gray-6">
+                              <MdPersonOutline
+                                className="mt-1 flex-shrink-0"
+                                size={19}
+                                color="#00796B"
+                              />
+                              <div>
+                                <div className="text-muted small fw-medium mb-0">
+                                  Branch Assigned
+                                </div>
+                                <div className="fw-semibold">
+                                  {getBranchNameById(
+                                    item?.lead_assign_Branch?._id,
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Other Service */}
+                          <div className="col-12 col-sm-6 col-lg-3">
+                            <div className="d-flex align-items-start gap-2 text-gray-6">
+                              <MdEditNote
+                                className="mt-1 flex-shrink-0"
+                                size={19}
+                                color="#2A48A0"
+                              />
+                              <div>
+                                <div className="text-muted small fw-medium mb-0">
+                                  Other Service
+                                </div>
+                                <div
+                                  className="fw-semibold overflow-hidden text-truncate"
+                                  style={{ maxWidth: "200px" }}
+                                >
+                                  {item?.other_for?.length > 0
+                                    ? item.other_for
+                                        .map((serviceId) => {
+                                          const foundService = allOther?.find(
+                                            (service) =>
+                                              service?._id === serviceId,
+                                          );
+                                          return foundService?.name || "";
+                                        })
+                                        .filter(Boolean)
+                                        .join(", ")
+                                    : "N/A"}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="row g-3">
+                            {/* Counselor Assignment */}
+                            <div className="col-12 col-lg-6">
+                              <div
+                                className="p-3 border rounded-4 h-100"
+                                style={{
+                                  backgroundColor: "#ffffff",
+                                  border: "0.25px solid #e5e7eb",
+                                  boxShadow:
+                                    "rgba(0, 0, 0, 0.05) 0px 6px 24px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+                                }}
+                              >
+                                {/* Header */}
+                                <div className="d-flex align-items-center gap-2 mb-3">
+                                  <div
+                                    className="d-flex align-items-center justify-content-center rounded-circle"
+                                    style={{
+                                      width: "36px",
+                                      height: "36px",
+                                      backgroundColor: "#ffedd5",
+                                      border: "1px solid #fed7aa",
+                                    }}
+                                  >
+                                    <MdVerifiedUser
+                                      size={18}
+                                      style={{ color: "#f59e0b" }}
+                                    />
+                                  </div>
+
+                                  <div
+                                    className="fw-semibold text-uppercase"
+                                    style={{
+                                      fontSize: "0.75rem",
+                                      letterSpacing: "0.08em",
+                                      color: "#0f172a",
+                                    }}
+                                  >
+                                    Counselor Assignment
+                                  </div>
+                                </div>
+
+                                {/* Content */}
+                                {item?.lead_assign?.length > 0 ? (
+                                  <div className="d-flex flex-wrap gap-2">
+                                    {item.lead_assign.map((assign, idx) => {
+                                      const theme =
+                                        badgeThemes[idx % badgeThemes.length];
+                                      return (
+                                        <div
+                                          key={assign?._id || idx}
+                                          className="d-inline-flex align-items-center gap-1 px-3 py-2 rounded-pill border"
+                                          style={{
+                                            backgroundColor: theme.bg,
+                                            borderColor: theme.border,
+                                            fontSize: "0.85rem",
+                                          }}
+                                        >
+                                          <span
+                                            className="fw-medium"
+                                            style={{ color: theme.role }}
+                                          >
+                                            {assign?.role?.name}
+                                          </span>
+                                          <span style={{ opacity: 0.5 }}>
+                                            •
+                                          </span>
+                                          <span
+                                            className="fw-semibold"
+                                            style={{ color: theme.user }}
+                                          >
+                                            {assign?.user?.name || "Unassigned"}
+                                          </span>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                ) : (
+                                  <div className="small fst-italic text-muted">
+                                    No active assignments available.
+                                  </div>
+                                )}
+                              </div>
                             </div>
 
-                            {item?.lead_assign?.length > 0 ? (
-                              <ul className="mb-0 ps-4">
-                                {item.lead_assign.map((assign, index) => (
-                                  <li
-                                    key={assign?._id || index}
-                                    className="mb-1"
-                                    style={{ lineHeight: "1.4" }}
+                            {/* Remark */}
+                            <div className="col-12 col-lg-6">
+                              <div
+                                className="p-3 rounded-4 h-100"
+                                style={{
+                                  backgroundColor: "#f8fafc",
+                                  border: "0.25px solid #e5e7eb",
+                                  boxShadow:
+                                    "rgba(0, 0, 0, 0.04) 0px 6px 20px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+                                }}
+                              >
+                                {/* Header */}
+                                <div className="d-flex align-items-center gap-2 mb-2">
+                                  <MdChatBubble
+                                    className="text-secondary"
+                                    size={16}
+                                    style={{ opacity: 0.7 }}
+                                  />
+                                  <span
+                                    className="text-uppercase fw-bold text-muted small"
+                                    style={{
+                                      letterSpacing: "1px",
+                                      fontSize: "0.65rem",
+                                    }}
                                   >
-                                    <span className="me-1">
-                                      {assign?.role?.name}
-                                    </span>
-                                    <span>
-                                      {assign?.user?.name
-                                        ? `(${assign?.user?.name})`
-                                        : ""}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            ) : (
-                              <span className="text-muted ps-4">N/A</span>
-                            )}
+                                    {" "}
+                                    Remark{" "}
+                                  </span>
+                                </div>
+
+                                {/* Content */}
+                                <div
+                                  style={{
+                                    fontSize: "0.9rem",
+                                    lineHeight: "1.6",
+                                    color: "#1f2937",
+                                  }}
+                                >
+                                  {item?.remarks ||
+                                    "No additional remarks available."}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdEditNote
-                              className="me-2"
-                              size={19}
-                              color="#2A48A0"
-                            />
-                            <strong>Other Service : </strong>
-
-                            {item?.other_for?.length > 0
-                              ? item.other_for
-                                  .map((serviceId) => {
-                                    const foundService = allOther?.find(
-                                      (service) => service?._id === serviceId,
-                                    );
-                                    return foundService?.name || "";
-                                  })
-                                  .filter(Boolean)
-                                  .join(", ")
-                              : "N/A"}
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdChatBubble
-                              className="me-2"
-                              size={19}
-                              color="#6C757D"
-                            />
-                            <strong>Remark : </strong>
-                            {item?.remarks || "N/A"}
-                          </p>
-                        </div>
-                        {/* <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdPersonOutline
-                              className="me-2"
-                              size={19}
-                              color="#00796B"
-                            />
-                            <strong>Created By : </strong>
-                            {item?.createdByName ? item?.createdByName : "N/A"}
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdVerifiedUser
-                              className="me-2"
-                              size={19}
-                              color="#6D4C41"
-                            />
-                            <strong>Crea---ted type : </strong>
-                            {item?.created_by_type
-                              ? item?.created_by_type
-                              : "N/A"}
-                          </p>
-                        </div>
-                        <div className="col-12 col-md-4">
-                          <p className="text-gray-6">
-                            <MdEditNote
-                              className="me-2"
-                              size={19}
-                              color="#2A48A0"
-                            />
-                            <strong>Updated By : </strong>
-                            {item?.updatedByName ? item?.updatedByName : "N/A"}
-                          </p>
-                        </div> */}
                       </div>
                     </div>
                   ))

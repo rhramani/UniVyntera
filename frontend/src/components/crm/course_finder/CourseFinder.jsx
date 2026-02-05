@@ -1427,12 +1427,12 @@ const CourseFinder = () => {
                     <span style={{ color: "#ffffff" }}>Search</span>
                   </Button>
                   <Button
-                    variant="outline-secondary"
+                    variant="light"
                     className="custom-select-height2 d-flex justify-content-center align-items-center gap-2 px-5"
                     style={{
                       height: "60px",
                       borderRadius: "12px",
-                      border: "2px solid #e2e8f0",
+                      border: "2px solid #030303d3",
                       color: "#64748b",
                       fontWeight: 600,
                       fontSize: "16px",
@@ -1453,7 +1453,7 @@ const CourseFinder = () => {
                       e.target.style.borderColor = "#e2e8f0";
                       e.target.style.color = "#64748b";
                       e.target.style.boxShadow = "none";
-                    }}
+                    }}  
                   >
                     <FaUndo fontSize={16} />
                     <span>Reset</span>

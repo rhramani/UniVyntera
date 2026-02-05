@@ -88,6 +88,27 @@ const AllLeadsCard = ({
     return status?.color || "#ccc";
   };
 
+  const badgeThemes = [
+    {
+      bg: "#c7d2fe", // indigo-200 (quite visible)
+      border: "#a5b4fc", // indigo-300
+      role: "#4f46e5", // indigo-600 (brighter for role)
+      user: "#1e1b4b", // indigo-950
+    },
+    {
+      bg: "#a5f3fc", // cyan-200
+      border: "#67e8f9", // cyan-300
+      role: "#0891b2", // cyan-600
+      user: "#083344",
+    },
+    {
+      bg: "#bbf7d0", // green-200
+      border: "#86efac", // green-300
+      role: "#16a34a", // green-600
+      user: "#052e16",
+    },
+  ];
+
   return (
     <>
       <div className="application-card-container">
@@ -95,15 +116,23 @@ const AllLeadsCard = ({
           getLeadData.data.map((item, index) => (
             <div
               key={item._id}
-              className="application-card bg-white border border-gray-200 rounded-lg px-4 pt-2 shadow-sm mb-3 rounded"
+              className="application-card rounded-lg mb-4 position-relative hover-shadow"
+              style={{
+                transition: "all 0.3s ease",
+                backgroundColor: "#ffffff",
+                borderRadius: "10px",
+                boxShadow: "rgba(0, 0, 0, 0.4) 0px 2px 8px",
+                padding: "10px",
+              }}
             >
-              <div className="fw-semibold d-flex align-items-center gap-2">
-                {item?.leadId}
-              </div>
-              <div className="application-card-1 flex-wrap mb-3">
-                <div className="left-part mb-2">
-                  <div className="d-flex flex-wrap gap-2 align-items-center">
-                    {permissionName === "All Leads" && canDownload && (
+              {/* --- HEADER SECTION --- */}
+              <div
+                className="px-4 py-3 border-bottom d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
+                style={{ backgroundColor: "#fbfbff" }}
+              >
+                <div className="d-flex align-items-start gap-3">
+                  {permissionName === "All Leads" && canDownload && (
+                    <div className="mt-1">
                       <Form.Check
                         type="checkbox"
                         checked={selectedLeads.includes(item._id)}
@@ -113,608 +142,742 @@ const AllLeadsCard = ({
                         onClick={(e) => e.stopPropagation()}
                         className="custom-checkbox mb-0"
                       />
-                    )}
-                    <div
-                      className="left-part-1"
-                      onClick={() => {
-                        handleEdit(item);
-                        handleEditHistory(item);
-                        if (handleChatOpen) handleChatOpen(item);
-                      }}
-                    >
-                      {item?.name || "-"}
                     </div>
-                    {item?.isDuplicate && (
-                      <div
-                        className={item?.isDuplicate ? "duplicate-warning" : ""}
+                  )}
+                  <div>
+                    <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
+                      <span
+                        className="badge border-0 fw-bold px-2 py-1 shadow-sm"
+                        style={{
+                          fontSize: "0.7rem",
+                          letterSpacing: "0.8px",
+                          backgroundColor: "#5d54be",
+                          color: "#ffffff",
+                          borderRadius: "4px",
+                          textTransform: "uppercase",
+                        }}
                       >
-                        Duplicate Lead
-                      </div>
-                    )}
-                    {item?.dueAmount > 0 && (
-                      <div className="px-2 d-flex align-items-center bg-danger bg-opacity-10 border border-danger rounded">
-                        <span className="text-danger fw-semibold">
-                          <i className="bi bi-exclamation-circle me-2"></i>
-                          Receivable Amount:{" "}
-                          <strong>
-                            {storedEncryptedCurrency
-                              ? getSymbolFromCurrency(storedEncryptedCurrency)
-                              : "₹"}{" "}
-                            {Math.floor(item?.dueAmount)}
-                          </strong>
+                        {item?.leadId}
+                      </span>
+                      <h5
+                        className="mb-0 fw-bold"
+                        style={{
+                          color: "#4B49AC",
+                          cursor: "pointer",
+                          letterSpacing: "-0.2px",
+                        }}
+                        onClick={() => {
+                          handleEdit(item);
+                          handleEditHistory(item);
+                          if (handleChatOpen) handleChatOpen(item);
+                        }}
+                      >
+                        {item?.name || "-"}
+                      </h5>
+                      {item?.isDuplicate && (
+                        <span
+                          className="duplicate-warning px-2 py-1"
+                          style={{ fontSize: "0.7rem", borderRadius: "4px" }}
+                        >
+                          Duplicate Lead
                         </span>
+                      )}
+                      {item?.deadLead && (
+                        <span
+                          className="px-2 py-1 badge bg-danger text-white rounded-pill"
+                          style={{ fontSize: "0.7rem", fontWeight: 500 }}
+                        >
+                          Inactive Lead
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Metadata Row */}
+                    {(item?.createdByName?.length > 0 ||
+                      item?.updatedByName?.length > 0 ||
+                      item?.created_by_type?.length > 0 ||
+                      item?.b2bCompany?.length > 0) && (
+                      <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
+                        {item?.created_by_type?.length > 0 && (
+                          <div
+                            className="d-flex align-items-center me-3"
+                            style={{ color: "#6366f1" }}
+                          >
+                            <AssignmentIndIcon
+                              className="me-1"
+                              style={{
+                                fontSize: "15px",
+                                color: "#6366f1",
+                                opacity: 0.9,
+                              }}
+                            />
+                            <strong style={{ opacity: 0.8 }}>Type</strong>
+                            &nbsp;:&nbsp;
+                            <span className="fw-semibold">
+                              {item?.created_by_type === "B2B Admin" ||
+                              item?.created_by_type === "B2B Member" ? (
+                                <>
+                                  B2B Partner
+                                  {item?.b2bCompany && ` (${item.branch})`}
+                                </>
+                              ) : item?.created_by_type === "user" ? (
+                                <>
+                                  Head Office
+                                  {item?.b2bCompany && ` (${item.branch})`}
+                                </>
+                              ) : item?.created_by_type === "Branch" ||
+                                item?.created_by_type === "branch" ? (
+                                <>
+                                  Branch
+                                  {item?.createdByName &&
+                                    ` (${item.createdByName})`}
+                                </>
+                              ) : item?.created_by_type === "Branch User" ||
+                                item?.created_by_type === "Branch user" ? (
+                                <>
+                                  Branch User
+                                  {item?.branch && ` (${item.branch})`}
+                                </>
+                              ) : (
+                                item?.created_by_type
+                              )}
+                            </span>
+                          </div>
+                        )}
+                        {item?.createdByName?.length > 0 && (
+                          <div
+                            className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
+                            style={{ color: "#7c3aed" }}
+                          >
+                            <PersonIcon
+                              className="me-1"
+                              style={{
+                                fontSize: "15px",
+                                color: "#7c3aed",
+                                opacity: 0.9,
+                              }}
+                            />
+                            <strong style={{ opacity: 0.8 }}>Created By</strong>
+                            &nbsp;:&nbsp;
+                            <span className="fw-semibold">
+                              {item?.createdByName}
+                            </span>
+                          </div>
+                        )}
+                        {item?.updatedByName?.length > 0 && (
+                          <div
+                            className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
+                            style={{ color: "#4f46e5" }}
+                          >
+                            <CreateIcon
+                              className="me-1"
+                              style={{
+                                fontSize: "15px",
+                                color: "#4f46e5",
+                                opacity: 0.9,
+                              }}
+                            />
+                            <strong style={{ opacity: 0.8 }}>Updated By</strong>
+                            &nbsp;:&nbsp;
+                            <span className="fw-semibold">
+                              {item?.updatedByName}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
+                </div>
 
-                  {(item?.createdByName?.length > 0 ||
-                    item?.updatedByName?.length > 0 ||
-                    item?.created_by_type?.length > 0 ||
-                    item?.b2bCompany?.length > 0) && (
-                    <div className="left-part-2 bg-light border-top rounded">
-                      {item?.created_by_type?.length > 0 && (
-                        <div>
-                          <span className="left-span text-gray-6 d-flex justify-content-end align-items-center">
-                            <AssignmentIndIcon className="me-1 left-icon" />
-                            <strong>Type</strong>&nbsp;:&nbsp;
-                            {item?.created_by_type === "B2B Admin" ||
-                            item?.created_by_type === "B2B Member" ? (
-                              <>
-                                B2B Partner
-                                {item?.b2bCompany && ` (${item.branch})`}
-                              </>
-                            ) : item?.created_by_type === "user" ? (
-                              <>
-                                Head Office
-                                {item?.b2bCompany && ` (${item.branch})`}
-                              </>
-                            ) : item?.created_by_type === "Branch" ||
-                              item?.created_by_type === "branch" ? (
-                              <>
-                                Branch
-                                {item?.createdByName &&
-                                  ` (${item.createdByName})`}
-                              </>
-                            ) : item?.created_by_type === "Branch User" ||
-                              item?.created_by_type === "Branch user" ? (
-                              <>
-                                Branch User
-                                {item?.branch && ` (${item.branch})`}
-                              </>
-                            ) : (
-                              item?.created_by_type
-                            )}
-                          </span>
-                        </div>
-                      )}
-                      {item?.createdByName?.length > 0 && (
-                        <div className="me-3">
-                          <span className="left-span text-gray-6 d-flex align-items-center">
-                            <PersonIcon className="me-1 left-icon" />
-                            <strong>Created By</strong>&nbsp;:&nbsp;
-                            {item?.createdByName}
-                          </span>
-                        </div>
-                      )}
-                      {item?.updatedByName?.length > 0 && (
-                        <div className="me-3">
-                          <span className="left-span text-gray-6 d-flex justify-content-center align-items-center">
-                            <CreateIcon className="me-1 left-icon" />
-                            <strong>Updated By</strong>
-                            <strong>&nbsp;:&nbsp;</strong>
-                            <span>{item?.updatedByName}</span>
-                          </span>
-                        </div>
-                      )}
+                <div className="d-flex align-items-center gap-2 ms-auto">
+                  {item?.dueAmount > 0 && (
+                    <div className="px-3 py-1 bg-danger bg-opacity-10 border border-danger rounded-pill me-2">
+                      <span className="text-danger fw-bold small">
+                        <i className="bi bi-exclamation-circle me-1"></i>
+                        Receivable:{" "}
+                        {storedEncryptedCurrency
+                          ? getSymbolFromCurrency(storedEncryptedCurrency)
+                          : "₹"}{" "}
+                        {Math.floor(item?.dueAmount)}
+                      </span>
                     </div>
                   )}
-                </div>
-                <div className="right-part d-flex flex-wrap align-items-center">
-                  {item?.deadLead && (
-                    <strong
-                      className="me-3"
-                      style={{
-                        letterSpacing: "0.5px",
-                        backgroundColor: "red",
-                        padding: "2px 8px 0px 8px",
-                        borderRadius: "12px",
-                        color: "#fff",
-                      }}
-                    >
-                      Inactive Lead
-                    </strong>
-                  )}
-                  {/* <RiChatSmile2Fill
-                    size={26}
-                    style={{
-                      color: "#007bff",
-                      cursor: "pointer",
-                      marginTop: "6px",
-                      marginRight: "10px",
-                    }}
-                    onClick={() => handleChatOpen(item)}
-                  /> */}
 
-                  {(canUpdate || canCreate) &&
-                    userRole !== "B2B Admin" &&
-                    userRole !== "B2B Member" &&
-                    permissionName === "All Leads" && (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                        }}
-                      >
-                        {/* RECORDING BUTTON */}
-                        {item?.CTCCallRecording && (
+                  <div className="d-flex align-items-center gap-2">
+                    {(canUpdate || canCreate) &&
+                      userRole !== "B2B Admin" &&
+                      userRole !== "B2B Member" &&
+                      permissionName === "All Leads" && (
+                        <>
+                          {item?.CTCCallRecording && (
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                window.open(item.CTCCallRecording, "_blank");
+                              }}
+                              className="d-inline-flex align-items-center gap-1 px-3 py-2 rounded-pill shadow-sm"
+                              style={{
+                                backgroundColor: "#eaf7f1",
+                                color: "#198754",
+                                cursor: "pointer",
+                                fontSize: "0.8rem",
+                                fontWeight: 700,
+                              }}
+                            >
+                              <MdOutlinePlayCircleFilled size={18} />
+                              RECORDING
+                            </div>
+                          )}
                           <div
-                            onClick={(e) => {
+                            onClick={async (e) => {
                               e.stopPropagation();
-                              window.open(item.CTCCallRecording, "_blank");
+                              try {
+                                setIsLoading(true);
+                                const payload = { entityType: "lead" };
+                                await dispatch(
+                                  addCtcCalling(item?._id, payload),
+                                );
+                                toast.success("CTC calling initiated");
+                              } catch (error) {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Failed to initiate CTC call",
+                                );
+                              } finally {
+                                setIsLoading(false);
+                              }
                             }}
+                            className="d-inline-flex align-items-center gap-1 px-3 py-2 rounded-pill shadow-sm"
                             style={{
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: "6px",
-                              padding: "6px 12px",
-                              borderRadius: "20px",
-                              backgroundColor: "#eaf7f1",
-                              color: "#198754",
+                              backgroundColor: "#e7f1ff",
+                              color: "#0d6efd",
                               cursor: "pointer",
-                              fontWeight: 600,
+                              fontSize: "0.8rem",
+                              fontWeight: 700,
                             }}
-                            title="Listen Call Recording"
                           >
-                            <MdOutlinePlayCircleFilled size={18} />
-                            RECORDING
+                            <MdCall size={18} />
+                            CALL
                           </div>
-                        )}
-                        {/* CALL BUTTON */}
+                        </>
+                      )}
+
+                    {(canUpdate || canCreate) &&
+                      permissionName !== "Over Due Followup" && (
                         <div
-                          onClick={async (e) => {
-                            e.stopPropagation();
-                            try {
-                              setIsLoading(true);
-                              const payload = { entityType: "lead" };
-                              await dispatch(addCtcCalling(item?._id, payload));
-                              toast.success("CTC calling initiated");
-                            } catch (error) {
-                              toast.error(
-                                error?.response?.data?.message ||
-                                  "Failed to initiate CTC call",
-                              );
-                            } finally {
-                              setIsLoading(false);
-                            }
-                          }}
+                          className="ms-2 d-flex align-items-center justify-content-center border rounded-circle shadow-sm"
                           style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "8px",
-                            padding: "6px 12px",
-                            borderRadius: "20px",
-                            backgroundColor: "#e7f1ff",
-                            color: "#0d6efd",
+                            width: "36px",
+                            height: "36px",
                             cursor: "pointer",
-                            fontWeight: 600,
+                            backgroundColor: "#dcfce7", // light WhatsApp green
+                            borderColor: "#22c55e40",
+                          }}
+                          onClick={() => {
+                            setSelectedLeadName(item?.name || "");
+                            setSelectedMobileNumber(
+                              item?.phone
+                                ? item.phone.replace(/[^\d]/g, "")
+                                : "",
+                            );
+                            setIsWhatsappModalOpen(true);
                           }}
                         >
-                          <MdCall size={18} />
-                          CALL
+                          <FaWhatsapp size={20} color="#10b981" />
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                  {/* {(canUpdate || canCreate) &&
-                    permissionName === "All Leads" && (
-                      <MdCall
-                        size={26}
-                        style={{
-                          color: "#0d6efd",
-                          cursor: "pointer",
-                        }}
-                        title="CTC Call"
-                        onClick={async (e) => {
-                          e.stopPropagation();
-                          try {
-                            setIsLoading(true);
-                            const res = await dispatch(
-                              addCtcCalling(item?._id)
-                            );
-                            toast.success("CTC calling initiated");
-                          } catch (error) {
-                            toast.error(
-                              error?.response?.data?.message ||
-                                "Failed to initiate CTC call"
-                            );
-                          } finally {
-                            setIsLoading(false);
-                          }
-                        }}
+                    <IconButton
+                      aria-label="more"
+                      className="ms-1 border shadow-sm"
+                      style={{
+                        backgroundColor: "#5d54be34",
+                        borderColor: "#5d54be34",
+                        width: "36px",
+                        height: "36px",
+                      }}
+                      onClick={(e) => {
+                        setOpenDropdown(openDropdown === index ? null : index);
+                        setAnchorEl(e.currentTarget);
+                      }}
+                    >
+                      <MoreVertIcon
+                        className="three-dots-icon"
+                        style={{ color: "#  5d54be", fontSize: "20px" }}
                       />
-                    )} */}
-
-                  {(canUpdate || canCreate) &&
-                    permissionName !== "Over Due Followup" && (
-                      <FaWhatsapp
-                        size={26}
-                        style={{
-                          color: "#25D366",
-                          cursor: "pointer",
-                          marginLeft: "10px",
-                        }}
-                        onClick={() => {
-                          setSelectedLeadName(item?.name || "");
-                          setSelectedMobileNumber(
-                            item?.phone ? item.phone.replace(/[^\d]/g, "") : "",
-                          );
-                          setIsWhatsappModalOpen(true);
-                        }}
-                      />
-                    )}
-                  <IconButton
-                    aria-label="more"
-                    aria-controls={`menu-${index}`}
-                    aria-haspopup="true"
-                    onClick={(e) => {
-                      setOpenDropdown(openDropdown === index ? null : index);
-                      setAnchorEl(e.currentTarget);
-                    }}
-                  >
-                    <MoreVertIcon className="three-dots-icon" />
-                  </IconButton>
-                  <Menu
-                    id={`menu-${index}`}
-                    anchorEl={anchorEl}
-                    open={openDropdown === index}
-                    onClose={() => setOpenDropdown(null)}
-                    MenuListProps={{
-                      "aria-labelledby": `menu-${index}`,
-                    }}
-                    sx={{
-                      "& .MuiPaper-root": {
-                        minWidth: "150px",
-                        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-                      },
-                    }}
-                  >
-                    {(canUpdate || canCreate) && (
+                    </IconButton>
+                    <Menu
+                      id={`menu-${index}`}
+                      anchorEl={anchorEl}
+                      open={openDropdown === index}
+                      onClose={() => setOpenDropdown(null)}
+                      MenuListProps={{
+                        "aria-labelledby": `menu-${index}`,
+                      }}
+                      sx={{
+                        "& .MuiPaper-root": {
+                          minWidth: "150px",
+                          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                        },
+                      }}
+                    >
+                      {(canUpdate || canCreate) && (
+                        <MenuItem
+                          onClick={() => {
+                            handleEdit(item);
+                            setOpenDropdown(null);
+                            handleEditHistory(item);
+                          }}
+                        >
+                          <EditIcon
+                            fontSize="small"
+                            sx={{ mr: 1 }}
+                            className="edit-icon"
+                          />
+                          <span className="edit-action-text">Edit</span>
+                        </MenuItem>
+                      )}
+                      {canDelete && permissionName !== "Over Due Followup" && (
+                        <MenuItem
+                          onClick={() => {
+                            setSelectedItem(item);
+                            setShowDeleteModal(true);
+                            setOpenDropdown(null);
+                          }}
+                        >
+                          <DeleteIcon
+                            fontSize="small"
+                            sx={{ mr: 1 }}
+                            className="delete-icon"
+                          />
+                          <span className="delete-action-text">Delete</span>
+                        </MenuItem>
+                      )}
                       <MenuItem
                         onClick={() => {
-                          handleEdit(item);
+                          handleView(item?._id);
                           setOpenDropdown(null);
-                          handleEditHistory(item);
                         }}
                       >
-                        <EditIcon
+                        <VisibilityIcon
                           fontSize="small"
                           sx={{ mr: 1 }}
-                          className="edit-icon"
+                          className="view-icon"
                         />
-                        <span className="edit-action-text">Edit</span>
+                        <span className="view-action-text">View</span>
                       </MenuItem>
-                    )}
-                    {canDelete && permissionName !== "Over Due Followup" && (
+                      {(canCreate || canUpdate) &&
+                        (item.lead_status === "Converted" ? (
+                          <MenuItem disabled>
+                            <FaAppStore
+                              fontSize="small"
+                              className="convert-icon"
+                              style={{ marginRight: "8px" }}
+                            />
+                            <span className="convert-action-text">
+                              Already Converted
+                            </span>
+                          </MenuItem>
+                        ) : (
+                          <MenuItem
+                            onClick={() => {
+                              setOpenDropdown(null);
+                              setSelectedLead(item);
+                              setOpenModal(true);
+                            }}
+                          >
+                            <FaAppStore
+                              fontSize="small"
+                              className="convert-icon"
+                              style={{ marginRight: "8px" }}
+                            />
+                            <span className="convert-action-text">
+                              Convert to Application
+                            </span>
+                          </MenuItem>
+                        ))}
                       <MenuItem
                         onClick={() => {
-                          setSelectedItem(item);
-                          setShowDeleteModal(true);
+                          setSelectedDeadLead(item);
+                          setShowDeadLeadModal(true);
                           setOpenDropdown(null);
                         }}
+                        disabled={item?.deadLead === true}
                       >
-                        <DeleteIcon
+                        <DangerousIcon
                           fontSize="small"
                           sx={{ mr: 1 }}
                           className="delete-icon"
                         />
-                        <span className="delete-action-text">Delete</span>
+                        <span className="delete-action-text">
+                          Inactive Lead
+                        </span>
                       </MenuItem>
-                    )}
-                    <MenuItem
-                      onClick={() => {
-                        handleView(item?._id);
-                        setOpenDropdown(null);
-                      }}
-                    >
-                      <VisibilityIcon
-                        fontSize="small"
-                        sx={{ mr: 1 }}
-                        className="view-icon"
-                      />
-                      <span className="view-action-text">View</span>
-                    </MenuItem>
-                    {(canCreate || canUpdate) &&
-                      (item.lead_status === "Converted" ? (
-                        <MenuItem disabled>
-                          <FaAppStore
-                            fontSize="small"
-                            className="convert-icon"
-                            style={{ marginRight: "8px" }}
-                          />
-                          <span className="convert-action-text">
-                            Already Converted
-                          </span>
-                        </MenuItem>
-                      ) : (
+                      {permissionName !== "Over Due Followup" && (
                         <MenuItem
                           onClick={() => {
+                            setSelecteWaDaddyWhatsappdData({
+                              name: item?.name || "",
+                              mobile: item?.phone?.replace(/[^\d]/g, "") || "",
+                            });
+                            setIsWaDaddyWhatsappModalOpen(true);
                             setOpenDropdown(null);
-                            setSelectedLead(item);
-                            setOpenModal(true);
                           }}
                         >
-                          <FaAppStore
+                          <MdMessage
                             fontSize="small"
-                            className="convert-icon"
                             style={{ marginRight: "8px" }}
+                            className="wadaddy-icon"
                           />
-                          <span className="convert-action-text">
-                            Convert to Application
+                          <span className="wadaddy-action-text">
+                            Send Message
                           </span>
                         </MenuItem>
-                      ))}
-                    <MenuItem
-                      onClick={() => {
-                        setSelectedDeadLead(item);
-                        setShowDeadLeadModal(true);
-                        setOpenDropdown(null);
-                      }}
-                      disabled={item?.deadLead === true}
-                    >
-                      <DangerousIcon
-                        fontSize="small"
-                        sx={{ mr: 1 }}
-                        className="delete-icon"
-                      />
-                      <span className="delete-action-text">Inactive Lead</span>
-                    </MenuItem>
-                    {permissionName !== "Over Due Followup" && (
+                      )}
                       <MenuItem
                         onClick={() => {
-                          setSelecteWaDaddyWhatsappdData({
-                            name: item?.name || "",
-                            mobile: item?.phone?.replace(/[^\d]/g, "") || "",
+                          navigate(`/lead-track/${item._id}`, {
+                            state: {
+                              from: location.pathname,
+                              filters,
+                              selectedFilter,
+                              searchTerm,
+                              currentPage,
+                              itemsPerPage,
+                              activeView,
+                            },
                           });
-                          setIsWaDaddyWhatsappModalOpen(true);
+
                           setOpenDropdown(null);
                         }}
                       >
-                        <MdMessage
+                        <FaBullseye
                           fontSize="small"
                           style={{ marginRight: "8px" }}
-                          className="wadaddy-icon"
+                          className="leadtrack-icon"
                         />
-                        <span className="wadaddy-action-text">
-                          Send Message
-                        </span>
+                        <span className="leadtrack-action-text">History</span>
                       </MenuItem>
-                    )}
-                    <MenuItem
-                      onClick={() => {
-                        navigate(`/lead-track/${item._id}`, {
-                          state: {
-                            from: location.pathname,
-                            filters,
-                            selectedFilter,
-                            searchTerm,
-                            currentPage,
-                            itemsPerPage,
-                            activeView,
-                          },
-                        });
-
-                        setOpenDropdown(null);
-                      }}
-                    >
-                      <FaBullseye
-                        fontSize="small"
-                        style={{ marginRight: "8px" }}
-                        className="leadtrack-icon"
-                      />
-                      <span className="leadtrack-action-text">History</span>
-                    </MenuItem>
-                  </Menu>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdDescription className="me-2" size={19} color="#4285F4" />
-                    <strong>Lead Status : </strong>
-                    <span
-                      className="lead-status"
-                      onClick={() => {
-                        handleEdit(item);
-                        setOpenDropdown(null);
-                        handleEditHistory(item);
-                      }}
-                      style={{
-                        backgroundColor: getStatusColor(item.lead_status),
-                        color: "#fff",
-                        padding: "2px 8px",
-                        borderRadius: "12px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {item.lead_status}
-                    </span>
-                  </p>
-                </div>
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdOutlineCalendarToday
-                      className="me-2"
-                      size={19}
-                      color="#34A853"
-                    />
-                    <strong>Date : </strong>
-                    {new Date(item.createdAt).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                      timeZone: "UTC",
-                    })}
-                  </p>
-                </div>
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdAccessTime className="me-2" size={19} color="#FB8C00" />
-                    <strong>Time : </strong>
-                    {new Date(item.createdAt).toLocaleString("en-GB", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })}
-                  </p>
-                </div>
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <FaBullseye className="me-2" size={19} color="#A259FF" />
-                    <strong>Lead From : </strong>
-                    {item?.lead_form || "N/A"}
-                  </p>
-                </div>
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdCall className="me-2" size={19} color="#4285F4" />
-                    <strong>Phone : </strong>
-                    {item.phone || "N/A"}
-                  </p>
-                </div>
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdLocationOn className="me-2" size={19} color="#EA4335" />
-                    <strong>Location : </strong>
-                    {item.city || "N/A"}
-                  </p>
-                </div>
-                {/* {permissionName === "All Leads" || permissionName === "Allocated Leads" && (
-                  <> */}
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdPersonOutline
-                      className="me-2"
-                      size={19}
-                      color="#00796B"
-                    />
-                    <strong>Branch Lead Assign : </strong>
-                    {getBranchNameById(item?.lead_assign_Branch?._id)}
-                  </p>
-                </div>
-
-                {/* <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdVerifiedUser
-                      className="me-2"
-                      size={19}
-                      color="#FF6F00"
-                    />
-                    <strong>Lead Assign Role : </strong>
-                    {getRoleNameById(
-                      item?.lead_role,
-                      item?.lead_assign_Branch || "HEAD_OFFICE"
-                    )}
-                    {item?.lead_assign?.length > 0
-                      ? item.lead_assign
-                          .map((assign) => assign?.role?.name)
-                          .filter(Boolean)
-                          .join(", ")
-                      : "N/A"}
-                  </p>
-                </div> */}
-
-                <div className="col-12 col-md-4">
-                  <div>
-                    <div className="d-flex align-items-center mb-1 text-gray-6">
-                      <MdVerifiedUser className="me-2 text-warning" size={18} />
-                      <strong>Lead Assign :</strong>
-                    </div>
-
-                    {item?.lead_assign?.length > 0 ? (
-                      <ul className="mb-0 ps-4">
-                        {item.lead_assign.map((assign, index) => (
-                          <li
-                            key={assign?._id || index}
-                            className="mb-1"
-                            style={{ lineHeight: "1.4" }}
-                          >
-                            <span className="me-1">{assign?.role?.name}</span>
-                            <span>{assign?.user?.name ? `(${assign?.user?.name})` : ""}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <span className="text-muted ps-4">N/A</span>
-                    )}
+                    </Menu>
                   </div>
                 </div>
+              </div>
 
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdEditNote className="me-2" size={19} color="#2A48A0" />
-                    <strong>Other Service : </strong>
+              {/* --- CONTENT SECTION --- */}
+              <div className="px-4 py-4">
+                <div className="row g-4">
+                  {/* Lead Status */}
+                  <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="d-flex align-items-start gap-2">
+                      <MdDescription
+                        className="mt-1 flex-shrink-0"
+                        size={19}
+                        color="#4285F4"
+                      />
+                      <div>
+                        <div className="text-muted small fw-medium mb-1">
+                          Lead Status
+                        </div>
+                        <span
+                          className="badge border-0"
+                          onClick={() => {
+                            handleEdit(item);
+                            setOpenDropdown(null);
+                            handleEditHistory(item);
+                          }}
+                          style={{
+                            backgroundColor: getStatusColor(item.lead_status),
+                            color: "#fff",
+                            padding: "6px 14px",
+                            borderRadius: "20px",
+                            cursor: "pointer",
+                            fontSize: "0.75rem",
+                            fontWeight: 600,
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                          }}
+                        >
+                          {item.lead_status}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 
-                    {item?.other_for?.length > 0
-                      ? item.other_for
-                          .map((serviceId) => {
-                            const foundService = allOther?.find(
-                              (service) => service?._id === serviceId,
-                            );
-                            return foundService?.name || "";
-                          })
-                          .filter(Boolean)
-                          .join(", ")
-                      : "N/A"}
-                  </p>
+                  {/* Date */}
+                  <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="d-flex align-items-start gap-2 text-gray-6">
+                      <MdOutlineCalendarToday
+                        className="mt-1 flex-shrink-0"
+                        size={19}
+                        color="#34A853"
+                      />
+                      <div>
+                        <div className="text-muted small fw-medium mb-0">
+                          Date
+                        </div>
+                        <div className="fw-semibold">
+                          {new Date(item.createdAt).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              timeZone: "UTC",
+                            },
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Time */}
+                  <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="d-flex align-items-start gap-2 text-gray-6">
+                      <MdAccessTime
+                        className="mt-1 flex-shrink-0"
+                        size={19}
+                        color="#FB8C00"
+                      />
+                      <div>
+                        <div className="text-muted small fw-medium mb-0">
+                          Time
+                        </div>
+                        <div className="fw-semibold">
+                          {new Date(item.createdAt).toLocaleString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Lead From */}
+                  <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="d-flex align-items-start gap-2 text-gray-6">
+                      <FaBullseye
+                        className="mt-1 flex-shrink-0"
+                        size={19}
+                        color="#A259FF"
+                      />
+                      <div>
+                        <div className="text-muted small fw-medium mb-0">
+                          Lead From
+                        </div>
+                        <div className="fw-semibold">
+                          {item?.lead_form || "N/A"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="d-flex align-items-start gap-2 text-gray-6">
+                      <MdCall
+                        className="mt-1 flex-shrink-0"
+                        size={19}
+                        color="#4285F4"
+                      />
+                      <div>
+                        <div className="text-muted small fw-medium mb-0">
+                          Phone
+                        </div>
+                        <div
+                          className="fw-semibold text-primary"
+                          style={{ cursor: "pointer" }}
+                        >
+                          {item.phone || "N/A"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Location */}
+                  <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="d-flex align-items-start gap-2 text-gray-6">
+                      <MdLocationOn
+                        className="mt-1 flex-shrink-0"
+                        size={19}
+                        color="#EA4335"
+                      />
+                      <div>
+                        <div className="text-muted small fw-medium mb-0">
+                          Location
+                        </div>
+                        <div className="fw-semibold">{item.city || "N/A"}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Branch Lead Assign */}
+                  <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="d-flex align-items-start gap-2 text-gray-6">
+                      <MdPersonOutline
+                        className="mt-1 flex-shrink-0"
+                        size={19}
+                        color="#00796B"
+                      />
+                      <div>
+                        <div className="text-muted small fw-medium mb-0">
+                          Branch Assigned
+                        </div>
+                        <div className="fw-semibold">
+                          {getBranchNameById(item?.lead_assign_Branch?._id)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Other Service */}
+                  <div className="col-12 col-sm-6 col-lg-3">
+                    <div className="d-flex align-items-start gap-2 text-gray-6">
+                      <MdEditNote
+                        className="mt-1 flex-shrink-0"
+                        size={19}
+                        color="#2A48A0"
+                      />
+                      <div>
+                        <div className="text-muted small fw-medium mb-0">
+                          Other Service
+                        </div>
+                        <div
+                          className="fw-semibold overflow-hidden text-truncate"
+                          style={{ maxWidth: "200px" }}
+                        >
+                          {item?.other_for?.length > 0
+                            ? item.other_for
+                                .map((serviceId) => {
+                                  const foundService = allOther?.find(
+                                    (service) => service?._id === serviceId,
+                                  );
+                                  return foundService?.name || "";
+                                })
+                                .filter(Boolean)
+                                .join(", ")
+                            : "N/A"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row g-3">
+                    {/* Counselor Assignment */}
+                    <div className="col-12 col-lg-6">
+                      <div
+                        className="p-3 border rounded-4 h-100"
+                        style={{
+                          backgroundColor: "#ffffff",
+                          border: "0.25px solid #e5e7eb",
+                          boxShadow:
+                            "rgba(0, 0, 0, 0.05) 0px 6px 24px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+                        }}
+                      >
+                        {/* Header */}
+                        <div className="d-flex align-items-center gap-2 mb-3">
+                          <div
+                            className="d-flex align-items-center justify-content-center rounded-circle"
+                            style={{
+                              width: "36px",
+                              height: "36px",
+                              backgroundColor: "#ffedd5",
+                              border: "1px solid #fed7aa",
+                            }}
+                          >
+                            <MdVerifiedUser
+                              size={18}
+                              style={{ color: "#f59e0b" }}
+                            />
+                          </div>
+
+                          <div
+                            className="fw-semibold text-uppercase"
+                            style={{
+                              fontSize: "0.75rem",
+                              letterSpacing: "0.08em",
+                              color: "#0f172a",
+                            }}
+                          >
+                            Counselor Assignment
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        {item?.lead_assign?.length > 0 ? (
+                          <div className="d-flex flex-wrap gap-2">
+                            {item.lead_assign.map((assign, idx) => {
+                              const theme =
+                                badgeThemes[idx % badgeThemes.length];
+                              return (
+                                <div
+                                  key={assign?._id || idx}
+                                  className="d-inline-flex align-items-center gap-1 px-3 py-2 rounded-pill border"
+                                  style={{
+                                    backgroundColor: theme.bg,
+                                    borderColor: theme.border,
+                                    fontSize: "0.85rem",
+                                  }}
+                                >
+                                  <span
+                                    className="fw-medium"
+                                    style={{ color: theme.role }}
+                                  >
+                                    {assign?.role?.name}
+                                  </span>
+                                  <span style={{ opacity: 0.5 }}>•</span>
+                                  <span
+                                    className="fw-semibold"
+                                    style={{ color: theme.user }}
+                                  >
+                                    {assign?.user?.name || "Unassigned"}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="small fst-italic text-muted">
+                            No active assignments available.
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Remark */}
+                    <div className="col-12 col-lg-6">
+                      <div
+                        className="p-3 rounded-4 h-100"
+                        style={{
+                          backgroundColor: "#f8fafc",
+                          border: "0.25px solid #e5e7eb",
+                          boxShadow:
+                            "rgba(0, 0, 0, 0.04) 0px 6px 20px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+                        }}
+                      >
+                        {/* Header */}
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <MdChatBubble
+                          className="text-secondary"
+                            size={16}
+                            style={{ opacity: 0.7 }}
+                          />
+                         <span className="text-uppercase fw-bold text-muted small" style={{ letterSpacing: "1px", fontSize: "0.65rem" }} > Remark </span>
+                        </div>
+
+                        {/* Content */}
+                        <div
+                          style={{
+                            fontSize: "0.9rem",
+                            lineHeight: "1.6",
+                            color: "#1f2937",
+                          }}
+                        >
+                          {item?.remarks || "No additional remarks available."}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                {/* </>
-                )} */}
-
-                <div className="col-12 col-md-4">
-                  <p className="text-gray-6">
-                    <MdChatBubble className="me-2" size={19} color="#6C757D" />
-                    <strong>Remark : </strong>
-                    {item?.remarks || "N/A"}
-                  </p>
-                </div>
-                {/* {permissionName !== "All Leads" || permissionName !== "Allocated Leads" && (
-                  <>
-                    <div className="col-12 col-md-4">
-                      <p className="text-gray-6">
-                        <MdPersonOutline
-                          className="me-2"
-                          size={19}
-                          color="#00796B"
-                        />
-                        <strong>Created By : </strong>
-                        {item?.createdByName ? item?.createdByName : "N/A"}
-                      </p>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <p className="text-gray-6">
-                        <MdVerifiedUser
-                          className="me-2"
-                          size={19}
-                          color="#6D4C41"
-                        />
-                        <strong>Created type : </strong>
-                        {item?.created_by_type ? item?.created_by_type : "N/A"}
-                      </p>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <p className="text-gray-6">
-                        <MdEditNote
-                          className="me-2"
-                          size={19}
-                          color="#2A48A0"
-                        />
-                        <strong>Updated By : </strong>
-                        {item?.updatedByName ? item?.updatedByName : "N/A"}
-                      </p>
-                    </div>
-                  </>
-                )} */}
               </div>
             </div>
           ))
