@@ -42,6 +42,7 @@ const StudentInfo = ({
   countries,
   oneStudentData,
   fetchOneStudentDetails,
+  customStyles,
 }) => {
   const dispatch = useDispatch();
 
@@ -205,7 +206,7 @@ const StudentInfo = ({
                     value={selectedStudentStatus}
                     onChange={handleStudentStatusChange}
                     placeholder="Select Status"
-                    classNamePrefix="custom-select"
+                    // classNamePrefix="custom-select"
                     styles={{
                       control: (base) => ({
                         ...base,

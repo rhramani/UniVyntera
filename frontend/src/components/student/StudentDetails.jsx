@@ -2561,7 +2561,7 @@ const StudentDetails = () => {
   const customStyles = {
     control: (base) => ({
       ...base,
-      background: "linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)",
+      background: "linear-gradient(135deg,rgb(255, 255, 255) 0%,rgb(255, 255, 255) 100%)",
       border: base.isFocused ? "2px solid #053880" : "2px solid #a5b4fc",
       borderRadius: "30px",
       color: "black",
@@ -2617,8 +2617,10 @@ const StudentDetails = () => {
               <h3 className="fw-bold text-white mb-0">Student Details</h3>
 
               <h5 className="mb-0 text-white ">
-                <span className="fw-semibold opacity-100">{student?.name}</span>
-                <span className=""> ({student?.studentId})</span>
+                <span 
+                className="badge bg-white text-primary rounded-pill px-3 py-2 shadow-sm"
+                style={{ fontSize: "0.8rem" }}>{student?.name} ({student?.studentId})</span>
+                <span className=""> </span>
               </h5>
             </div>
 
@@ -2645,7 +2647,7 @@ const StudentDetails = () => {
           }}
         >
           <Card.Header className="border-bottom-0 d-flex justify-content-between">
-            <div className="card-title">Student Information</div>
+            {/* <div className="card-title">Student Information</div> */}
           </Card.Header>
 
           {isLoading && (
@@ -2680,6 +2682,7 @@ const StudentDetails = () => {
               countries={countries}
               oneStudentData={oneStudentData}
               fetchOneStudentDetails={fetchOneStudentDetails}
+              customStyles={customStyles}
             />
 
             {/* <ProgressSteps id={id} /> */}

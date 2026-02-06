@@ -824,98 +824,98 @@ const TodaysBirthdayLeads = () => {
                               item?.updatedByName?.length > 0 ||
                               item?.created_by_type?.length > 0 ||
                               item?.b2bCompany?.length > 0) && (
-                              <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
-                                {item?.created_by_type?.length > 0 && (
-                                  <div
-                                    className="d-flex align-items-center me-3"
-                                    style={{ color: "#6366f1" }}
-                                  >
-                                    <AssignmentIndIcon
-                                      className="me-1"
-                                      style={{
-                                        fontSize: "15px",
-                                        color: "#6366f1",
-                                        opacity: 0.9,
-                                      }}
-                                    />
-                                    <strong style={{ opacity: 0.8 }}>
-                                      Type
-                                    </strong>
-                                    &nbsp;:&nbsp;
-                                    <span className="fw-semibold">
-                                      {item?.created_by_type === "B2B Admin" ||
-                                      item?.created_by_type === "B2B Member" ? (
-                                        <>
-                                          B2B Partner
-                                          {item?.b2bCompany &&
-                                            ` (${item.b2bCompany})`}
-                                        </>
-                                      ) : item?.created_by_type === "user" ? (
-                                        <>
-                                          Head Office
-                                          {item?.b2bCompany &&
-                                            ` (${item.b2bCompany})`}
-                                        </>
-                                      ) : item?.created_by_type ===
-                                          "Branch Member" ||
-                                        item?.created_by_type ===
-                                          "Branch member" ? (
-                                        <>
-                                          Branch Member
-                                          {item?.branch && ` (${item.branch})`}
-                                        </>
-                                      ) : (
-                                        item?.created_by_type
-                                      )}
-                                    </span>
-                                  </div>
-                                )}
-                                {item?.createdByName?.length > 0 && (
-                                  <div
-                                    className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
-                                    style={{ color: "#7c3aed" }}
-                                  >
-                                    <PersonIcon
-                                      className="me-1"
-                                      style={{
-                                        fontSize: "15px",
-                                        color: "#7c3aed",
-                                        opacity: 0.9,
-                                      }}
-                                    />
-                                    <strong style={{ opacity: 0.8 }}>
-                                      Created By
-                                    </strong>
-                                    &nbsp;:&nbsp;
-                                    <span className="fw-semibold">
-                                      {item?.createdByName}
-                                    </span>
-                                  </div>
-                                )}
-                                {item?.updatedByName?.length > 0 && (
-                                  <div
-                                    className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
-                                    style={{ color: "#4f46e5" }}
-                                  >
-                                    <CreateIcon
-                                      className="me-1"
-                                      style={{
-                                        fontSize: "15px",
-                                        color: "#4f46e5",
-                                        opacity: 0.9,
-                                      }}
-                                    />
-                                    <strong style={{ opacity: 0.8 }}>
-                                      Updated By
-                                    </strong>
-                                    &nbsp;:&nbsp;
-                                    <span className="fw-semibold">
-                                      {item?.updatedByName}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                                <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
+                                  {item?.created_by_type?.length > 0 && (
+                                    <div
+                                      className="d-flex align-items-center me-3"
+                                    // style={{ color: "#6366f1" }}
+                                    >
+                                      <AssignmentIndIcon
+                                        className="me-1 flex-shrink-0"
+                                        size={18}
+                                        style={{
+                                          color: "#475569"
+                                        }}
+                                      />
+                                      <div className="text-muted small fw-medium mb-0">
+                                        Type
+                                      </div>
+                                      &nbsp;:&nbsp;
+                                      <span className="fw-semibold">
+                                        {item?.created_by_type === "B2B Admin" ||
+                                          item?.created_by_type === "B2B Member" ? (
+                                          <>
+                                            B2B Partner
+                                            {item?.b2bCompany && ` (${item.branch})`}
+                                          </>
+                                        ) : item?.created_by_type === "user" ? (
+                                          <>
+                                            Head Office
+                                            {item?.b2bCompany && ` (${item.branch})`}
+                                          </>
+                                        ) : item?.created_by_type === "Branch" ||
+                                          item?.created_by_type === "branch" ? (
+                                          <>
+                                            Branch
+                                            {item?.createdByName &&
+                                              ` (${item.createdByName})`}
+                                          </>
+                                        ) : item?.created_by_type === "Branch User" ||
+                                          item?.created_by_type === "Branch user" ? (
+                                          <>
+                                            Branch User
+                                            {item?.branch && ` (${item.branch})`}
+                                          </>
+                                        ) : (
+                                          item?.created_by_type
+                                        )}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {item?.createdByName?.length > 0 && (
+                                    <div
+                                      className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
+
+                                    >
+                                      <PersonIcon
+                                        className="me-1 flex-shrink-0"
+                                        size={18}
+                                        style={{
+                                          color: "#0F766E"
+                                        }}
+                                      />
+                                      <div className="text-muted small fw-medium mb-0">
+                                        Created By
+                                      </div>
+                                      &nbsp;:&nbsp;
+                                      <span className="fw-semibold">
+                                        {item?.createdByName}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {item?.updatedByName?.length > 0 && (
+                                    <div
+                                      className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
+
+                                    >
+                                      <CreateIcon
+                                        className="me-1 flex-shrink-0"
+                                        size={18}
+                                        style={{
+                                          color: "#92400E"
+                                        }}
+                                      />
+                                      <div className="text-muted small fw-medium mb-0">
+                                        Updated By
+                                      </div>
+                                      &nbsp;:&nbsp;
+                                      <span className="fw-semibold">
+                                        {item?.updatedByName}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
                           </div>
                         </div>
 

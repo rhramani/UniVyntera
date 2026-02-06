@@ -240,97 +240,98 @@ const StudentApplicationCard = ({
                         item?.updatedByName?.length > 0 ||
                         item?.created_by_type?.length > 0 ||
                         item?.b2bCompany?.length > 0) && (
-                        <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
-                          {item?.created_by_type?.length > 0 && (
-                            <div
-                              className="d-flex align-items-center me-3"
-                              style={{ color: "#6366f1" }}
-                            >
-                              <AssignmentIndIcon
-                                className="me-1"
-                                style={{
-                                  fontSize: "15px",
-                                  color: "#6366f1",
-                                  opacity: 0.9,
-                                }}
-                              />
-                              <strong style={{ opacity: 0.8 }}>Type</strong>
-                              &nbsp;:&nbsp;
-                              <span className="fw-semibold">
-                                {item?.created_by_type === "B2B Admin" ||
-                                item?.created_by_type === "B2B Member" ? (
-                                  <>
-                                    B2B Partner
-                                    {item?.b2bCompany &&
-                                      ` (${item.b2bCompany})`}
-                                  </>
-                                ) : item?.created_by_type === "user" ? (
-                                  <>
-                                    Head Office
-                                    {item?.b2bCompany &&
-                                      ` (${item.b2bCompany})`}
-                                  </>
-                                ) : item?.created_by_type === "Branch User" ||
-                                  item?.created_by_type === "Branch user" ? (
-                                  <>
-                                    Branch Member
-                                    {item?.branch && ` (${item.branch})`}
-                                  </>
-                                ) : (
-                                  <>
-                                    {item?.created_by_type}
-                                    {item?.branch && ` (${item.branch})`}
-                                  </>
-                                )}
-                              </span>
-                            </div>
-                          )}
-                          {item?.createdByName?.length > 0 && (
-                            <div
-                              className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
-                              style={{ color: "#7c3aed" }}
-                            >
-                              <PersonIcon
-                                className="me-1"
-                                style={{
-                                  fontSize: "15px",
-                                  color: "#7c3aed",
-                                  opacity: 0.9,
-                                }}
-                              />
-                              <strong style={{ opacity: 0.8 }}>
-                                Created By
-                              </strong>
-                              &nbsp;:&nbsp;
-                              <span className="fw-semibold">
-                                {item?.createdByName}
-                              </span>
-                            </div>
-                          )}
-                          {item?.updatedByName?.length > 0 && (
-                            <div
-                              className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
-                              style={{ color: "#4f46e5" }}
-                            >
-                              <CreateIcon
-                                className="me-1"
-                                style={{
-                                  fontSize: "15px",
-                                  color: "#4f46e5",
-                                  opacity: 0.9,
-                                }}
-                              />
-                              <strong style={{ opacity: 0.8 }}>
-                                Updated By
-                              </strong>
-                              &nbsp;:&nbsp;
-                              <span className="fw-semibold">
-                                {item?.updatedByName}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                          <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
+                            {item?.created_by_type?.length > 0 && (
+                              <div
+                                className="d-flex align-items-center me-3"
+                              // style={{ color: "#6366f1" }}
+                              >
+                                <AssignmentIndIcon
+                                  className="me-1 flex-shrink-0"
+                                  size={18}
+                                  style={{
+                                    color: "#475569"
+                                  }}
+                                />
+                                <div className="text-muted small fw-medium mb-0">
+                                  Type
+                                </div>
+                                &nbsp;:&nbsp;
+                                <span className="fw-semibold">
+                                  {item?.created_by_type === "B2B Admin" ||
+                                    item?.created_by_type === "B2B Member" ? (
+                                    <>
+                                      B2B Partner
+                                      {item?.b2bCompany && ` (${item.branch})`}
+                                    </>
+                                  ) : item?.created_by_type === "user" ? (
+                                    <>
+                                      Head Office
+                                      {item?.b2bCompany && ` (${item.branch})`}
+                                    </>
+                                  ) : item?.created_by_type === "Branch" ||
+                                    item?.created_by_type === "branch" ? (
+                                    <>
+                                      Branch
+                                      {item?.createdByName &&
+                                        ` (${item.createdByName})`}
+                                    </>
+                                  ) : item?.created_by_type === "Branch User" ||
+                                    item?.created_by_type === "Branch user" ? (
+                                    <>
+                                      Branch User
+                                      {item?.branch && ` (${item.branch})`}
+                                    </>
+                                  ) : (
+                                    item?.created_by_type
+                                  )}
+                                </span>
+                              </div>
+                            )}
+                            {item?.createdByName?.length > 0 && (
+                              <div
+                                className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
+
+                              >
+                                <PersonIcon
+                                  className="me-1 flex-shrink-0"
+                                  size={18}
+                                  style={{
+                                    color: "#0F766E"
+                                  }}
+                                />
+                                <div className="text-muted small fw-medium mb-0">
+                                  Created By
+                                </div>
+                                &nbsp;:&nbsp;
+                                <span className="fw-semibold">
+                                  {item?.createdByName}
+                                </span>
+                              </div>
+                            )}
+                            {item?.updatedByName?.length > 0 && (
+                              <div
+                                className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
+
+                              >
+                                <CreateIcon
+                                  className="me-1 flex-shrink-0"
+                                  size={18}
+                                  style={{
+                                    color: "#92400E"
+                                  }}
+                                />
+                                <div className="text-muted small fw-medium mb-0">
+                                  Updated By
+                                </div>
+                                &nbsp;:&nbsp;
+                                <span className="fw-semibold">
+                                  {item?.updatedByName}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
                     </div>
                   </div>
 
@@ -393,7 +394,7 @@ const StudentApplicationCard = ({
                               } catch (error) {
                                 toast.error(
                                   error?.response?.data?.message ||
-                                    "Failed to initiate CTC call",
+                                  "Failed to initiate CTC call",
                                 );
                               } finally {
                                 setIsLoading(false);
@@ -462,15 +463,15 @@ const StudentApplicationCard = ({
                                 setSelectedLeadName(item?.name || "");
                                 userRole === "Super Admin"
                                   ? setSelectedMobileNumber(
-                                      item?.b2bContact
-                                        ? item.b2bContact.replace(/[^\d]/g, "")
-                                        : item.contact.replace(/[^\d]/g, ""),
-                                    )
+                                    item?.b2bContact
+                                      ? item.b2bContact.replace(/[^\d]/g, "")
+                                      : item.contact.replace(/[^\d]/g, ""),
+                                  )
                                   : setSelectedMobileNumber(
-                                      item?.contact
-                                        ? item.contact.replace(/[^\d]/g, "")
-                                        : "",
-                                    );
+                                    item?.contact
+                                      ? item.contact.replace(/[^\d]/g, "")
+                                      : "",
+                                  );
                                 setIsWhatsappModalOpen(true);
                               }}
                             >
@@ -485,9 +486,9 @@ const StudentApplicationCard = ({
                         aria-label="more"
                         className="ms-1 border shadow-sm"
                         style={{
-                           backgroundColor: "#5d54be34",
-                        borderColor: "#5d54be34",
-                        cursor: "pointer",
+                          backgroundColor: "#5d54be34",
+                          borderColor: "#5d54be34",
+                          cursor: "pointer",
                           width: "36px",
                           height: "36px",
                         }}
@@ -945,106 +946,106 @@ const StudentApplicationCard = ({
                     {/* Allocation Section */}
                     {(item?.userAllocationDetails?.length > 0 ||
                       item?.visaAllocationDetails?.length > 0) && (
-                      <div className="col-12">
-                        <div
-                          className="p-3 rounded-lg border-0 shadow-sm"
-                          style={{
-                            background:
-                              "linear-gradient(145deg, #f8faff 0%, #f0f4ff 100%)",
-                            border: "1px solid #e2e8f0",
-                          }}
-                        >
-                          <div className="d-flex align-items-center gap-2 mb-3">
-                            <AssignmentIndIcon
-                              style={{ color: "#4f46e5", fontSize: "20px" }}
-                            />
-                            <h6
-                              className="mb-0 fw-bold text-dark"
-                              style={{ fontSize: "0.9rem" }}
-                            >
-                              Allocations
-                            </h6>
-                          </div>
-                          <div className="d-flex flex-wrap gap-3">
-                            {item?.userAllocationDetails?.map((alloc, idx) => {
-                              const theme =
-                                badgeThemes[idx % badgeThemes.length];
-                              return (
-                                <div
-                                  key={idx}
-                                  className="d-flex flex-column p-2 rounded border shadow-sm"
-                                  style={{
-                                    backgroundColor: theme.bg,
-                                    borderColor: theme.border,
-                                    minWidth: "140px",
-                                  }}
-                                >
-                                  <span
-                                    className="small fw-bold mb-1"
+                        <div className="col-12">
+                          <div
+                            className="p-3 rounded-lg border-0 shadow-sm"
+                            style={{
+                              background:
+                                "linear-gradient(145deg, #f8faff 0%, #f0f4ff 100%)",
+                              border: "1px solid #e2e8f0",
+                            }}
+                          >
+                            <div className="d-flex align-items-center gap-2 mb-3">
+                              <AssignmentIndIcon
+                                style={{ color: "#4f46e5", fontSize: "20px" }}
+                              />
+                              <h6
+                                className="mb-0 fw-bold text-dark"
+                                style={{ fontSize: "0.9rem" }}
+                              >
+                                Allocations
+                              </h6>
+                            </div>
+                            <div className="d-flex flex-wrap gap-3">
+                              {item?.userAllocationDetails?.map((alloc, idx) => {
+                                const theme =
+                                  badgeThemes[idx % badgeThemes.length];
+                                return (
+                                  <div
+                                    key={idx}
+                                    className="d-flex flex-column p-2 rounded border shadow-sm"
                                     style={{
-                                      color: theme.role,
-                                      fontSize: "0.7rem",
-                                      textTransform: "uppercase",
+                                      backgroundColor: theme.bg,
+                                      borderColor: theme.border,
+                                      minWidth: "140px",
                                     }}
                                   >
-                                    {alloc?.role?.name || "N/A"}
-                                  </span>
-                                  <span
-                                    className="fw-bold"
-                                    style={{
-                                      color: theme.user,
-                                      fontSize: "0.85rem",
-                                    }}
-                                  >
-                                    {alloc?.user?.name || "N/A"}
-                                  </span>
-                                </div>
-                              );
-                            })}
-                            {item?.visaAllocationDetails?.map((alloc, idx) => {
-                              const theme =
-                                badgeThemes[
+                                    <span
+                                      className="small fw-bold mb-1"
+                                      style={{
+                                        color: theme.role,
+                                        fontSize: "0.7rem",
+                                        textTransform: "uppercase",
+                                      }}
+                                    >
+                                      {alloc?.role?.name || "N/A"}
+                                    </span>
+                                    <span
+                                      className="fw-bold"
+                                      style={{
+                                        color: theme.user,
+                                        fontSize: "0.85rem",
+                                      }}
+                                    >
+                                      {alloc?.user?.name || "N/A"}
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                              {item?.visaAllocationDetails?.map((alloc, idx) => {
+                                const theme =
+                                  badgeThemes[
                                   (idx +
                                     (item?.userAllocationDetails?.length ||
                                       0)) %
-                                    badgeThemes.length
-                                ];
-                              return (
-                                <div
-                                  key={`visa-${idx}`}
-                                  className="d-flex flex-column p-2 rounded border shadow-sm"
-                                  style={{
-                                    backgroundColor: theme.bg,
-                                    borderColor: theme.border,
-                                    minWidth: "140px",
-                                  }}
-                                >
-                                  <span
-                                    className="small fw-bold mb-1"
+                                  badgeThemes.length
+                                  ];
+                                return (
+                                  <div
+                                    key={`visa-${idx}`}
+                                    className="d-flex flex-column p-2 rounded border shadow-sm"
                                     style={{
-                                      color: theme.role,
-                                      fontSize: "0.7rem",
-                                      textTransform: "uppercase",
+                                      backgroundColor: theme.bg,
+                                      borderColor: theme.border,
+                                      minWidth: "140px",
                                     }}
                                   >
-                                    Visa: {alloc?.role?.name || "N/A"}
-                                  </span>
-                                  <span
-                                    className="fw-bold"
-                                    style={{
-                                      color: theme.user,
-                                      fontSize: "0.85rem",
-                                    }}
-                                  >
-                                    {alloc?.user?.name || "N/A"}
-                                  </span>
-                                </div>
-                              );
-                            })}
+                                    <span
+                                      className="small fw-bold mb-1"
+                                      style={{
+                                        color: theme.role,
+                                        fontSize: "0.7rem",
+                                        textTransform: "uppercase",
+                                      }}
+                                    >
+                                      Visa: {alloc?.role?.name || "N/A"}
+                                    </span>
+                                    <span
+                                      className="fw-bold"
+                                      style={{
+                                        color: theme.user,
+                                        fontSize: "0.85rem",
+                                      }}
+                                    >
+                                      {alloc?.user?.name || "N/A"}
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
                     {/* Courses/Institutes */}
                     {item?.interestedCourseDetails?.length > 0 && (
@@ -1168,10 +1169,10 @@ const StudentApplicationCard = ({
                                         <strong>Next:</strong>{" "}
                                         {followup?.nextFollowUpDate
                                           ? formatDate(
-                                              parseDate(
-                                                followup.nextFollowUpDate,
-                                              ),
-                                            )
+                                            parseDate(
+                                              followup.nextFollowUpDate,
+                                            ),
+                                          )
                                           : "-"}
                                       </div>
                                       <div className="mb-1">

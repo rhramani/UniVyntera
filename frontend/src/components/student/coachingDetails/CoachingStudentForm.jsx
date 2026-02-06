@@ -538,7 +538,7 @@ const CoachingStudentForm = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -599,7 +599,7 @@ const CoachingStudentForm = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -646,7 +646,7 @@ const CoachingStudentForm = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: " 30px",
+                      borderRadius: " 12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -691,7 +691,7 @@ const CoachingStudentForm = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1179,7 +1179,7 @@ const CoachingStudentForm = ({
 
                     <Row>
                       <Card
-                        className="rounded-pill shadow-sm my-3"
+                        className="rounded-pill shadow-sm m-3"
                         style={{
                           backgroundColor: "#E9ECEF",
                           border: "1px solid #D3D3D3",

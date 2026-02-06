@@ -235,7 +235,7 @@ const LeadReportTable = ({
                 } catch (error) {
                   toast.error(
                     error?.response?.data?.message ||
-                      "Failed to initiate CTC call"
+                    "Failed to initiate CTC call"
                   );
                   handleClose();
                 } finally {
@@ -259,7 +259,7 @@ const LeadReportTable = ({
               setIsWaDaddyWhatsappModalOpen(true);
               handleClose();
             }}
-            // sx={{ color: "#007bff" }}
+          // sx={{ color: "#007bff" }}
           >
             <MdMessage fontSize="small" className="lead-message-icon" />
             <span className="lead-message-action-text">Send Message</span>
@@ -297,20 +297,27 @@ const LeadReportTable = ({
 
   return (
     <>
-      <div className="table-responsive">
-        <table className="text-nowrap border" style={{ tableLayout: "auto" }}>
+      <div
+        className="table-responsive modern-table-wrapper"
+        style={{
+          borderRadius: "12px",
+          border: "1px solid #dee2e6",
+        }}
+      >
+        <table
+          className="table table-hover modern-table table-nowrap"
+          style={{ width: "100%", overflowX: "auto" }}
+        >
           <thead className="text-uppercase">
             <tr>
               {tableColumns.map((col, index) => (
                 <th
                   key={index}
-                  className={`dynamic-width ${
-                    col.label === "Age" ? "center-align" : ""
-                  } ${
-                    col.label === "Actions"
+                  className={`dynamic-width ${col.label === "Age" ? "center-align" : ""
+                    } ${col.label === "Actions"
                       ? "sticky-col-right-last bg-white text-center"
                       : ""
-                  }`}
+                    }`}
                 >
                   {col.label}
                 </th>
@@ -323,9 +330,8 @@ const LeadReportTable = ({
               leadReports.map((item, index) => (
                 <tr
                   key={item._id}
-                  className={`${
-                    index % 2 === 0 ? "table-row-even" : "table-row-odd"
-                  }`}
+                  className={`${index % 2 === 0 ? "table-row-even" : "table-row-odd"
+                    }`}
                 >
                   {tableColumns.map((col, colIndex) => (
                     <td
@@ -333,17 +339,15 @@ const LeadReportTable = ({
                       className={`dynamic-width-data
                         ${col.isLongText ? "long-text" : ""}
                         ${col.label === "Age" ? "center-align" : ""}
-                        ${
-                          col.label === "Actions"
-                            ? "sticky-col-right-last text-center"
-                            : ""
+                        ${col.label === "Actions"
+                          ? "sticky-col-right-last text-center"
+                          : ""
                         }`}
                       style={{
                         verticalAlign: "middle",
                         whiteSpace: col.isLongText ? "normal" : "nowrap",
-                        backgroundColor: `${
-                          index % 2 === 0 ? "#f7f7f7" : "#ffffff"
-                        }`,
+                        // backgroundColor: `${index % 2 === 0 ? "#f7f7f7" : "#ffffff"
+                        //   }`,
                       }}
                     >
                       {col.render
