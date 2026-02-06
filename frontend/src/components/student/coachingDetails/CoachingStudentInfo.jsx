@@ -511,7 +511,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
       )}
 
       {/* Styled Student Info Card */}
-      <div className="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 mt-2">
+      <div className="card border-0 shadow-lg rounded-4 overflow-hidden mb-4 mt-2">
         <div className="form-main-heading d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center p-3 gap-3">
           <div className="d-flex flex-wrap align-items-center gap-2">
             <h5 className="mb-0 text-white fw-bold">
@@ -544,10 +544,15 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
             <Col md={6} lg={4}>
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
-                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-primary d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px" }}
+                  className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 text-primary d-flex align-items-center justify-content-center"
+                  style={{
+                    width: "52px",
+                    height: "52px",
+                    backgroundColor: "#4b49ac31",
+                    borderColor: "#4b49ac49",
+                  }}
                 >
-                  <BadgeIcon style={{ fontSize: "24px" }} />
+                  <BadgeIcon style={{ fontSize: "24px", color: "#4B49AC" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -566,10 +571,13 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
             <Col md={6} lg={4}>
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
-                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-warning d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px" }}
+                  className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 text-warning d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px",
+                     backgroundColor: "#ff9b2127",
+                    borderColor: "#ff9b213a",
+                   }}
                 >
-                  <EmailIcon style={{ fontSize: "24px" }} />
+                  <EmailIcon style={{ fontSize: "24px", color: "#ff9b21" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -579,7 +587,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                     Email Address
                   </div>
                   <div
-                    className="fw-bold text-dark text-truncate fs-6"
+                    className="fw-bold text-dark text-truncate fs-6"  
                     title={studentData?.email}
                   >
                     {studentData?.email || "N/A"}
@@ -591,10 +599,13 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
             <Col md={6} lg={4}>
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
-                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-success d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px" }}
+                  className="flex-shrink-0 p-3 rounded-4 shadow-sm me-3 text-success d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px",
+                     backgroundColor: "#5ac7883a",
+                    borderColor: "#5ac7883a",
+                   }}
                 >
-                  <PhoneIcon style={{ fontSize: "24px" }} />
+                  <PhoneIcon style={{ fontSize: "24px", color: "#5ac788" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -613,10 +624,13 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
             <Col md={6} lg={4}>
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
-                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-info d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px" }}
+                  className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 text-info d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px",
+                    backgroundColor: "#01b7ff31",
+                    borderColor: "#01b7ff31",
+                   }}
                 >
-                  <CakeIcon style={{ fontSize: "24px" }} />
+                  <CakeIcon style={{ fontSize: "24px" , color:"#01b8ff" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -635,10 +649,15 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
             <Col md={6} lg={4}>
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
-                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-danger d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px" }}
+                  className="flex-shrink-0 p-3 rounded-4 shadow-sm me-3 text-danger d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px", 
+                    backgroundColor: "#ff47561a",
+                    borderColor: "#ff47561a",
+                   }}
                 >
-                  <PublicIcon style={{ fontSize: "24px" }} />
+                  <PublicIcon style={{ fontSize: "24px",
+                    color: "#ff4757",
+                   }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -657,10 +676,13 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
             <Col md={6} lg={4}>
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
-                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-secondary d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px" }}
+                  className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 text-secondary d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px",
+                    backgroundColor: "#f1388b28",
+                    borderColor: "#f1388b3a",
+                   }}
                 >
-                  <LocationCityIcon style={{ fontSize: "24px" }} />
+                  <LocationCityIcon style={{ fontSize: "24px", color: "#f1388b" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -679,10 +701,13 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
             <Col md={6} lg={4}>
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
-                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 text-dark d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px" }}
+                  className="flex-shrink-0 p-3 rounded-4 shadow-sm me-3 text-dark d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px", 
+                    backgroundColor: "#3b48632f",
+                    borderColor: "#3b48632d",
+                   }}
                 >
-                  <HomeIcon style={{ fontSize: "24px" }} />
+                  <HomeIcon style={{ fontSize: "24px", color: "#3b4863" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -704,10 +729,13 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
             <Col md={6} lg={4}>
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
-                  className="flex-shrink-0 p-3 rounded-4 bg-white shadow-sm me-3 d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px", color: "#9C27B0" }}
+                  className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 d-flex align-items-center justify-content-center"
+                  style={{ width: "52px", height: "52px", 
+                    backgroundColor: "#9b27b01e",
+                    borderColor: "#9c27b02d",
+                  }}
                 >
-                  <SportsScoreIcon style={{ fontSize: "24px" }} />
+                  <SportsScoreIcon style={{ fontSize: "24px", color:"#9c27b0" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div

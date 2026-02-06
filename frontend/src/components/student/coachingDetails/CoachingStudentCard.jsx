@@ -11,19 +11,18 @@ import {
   MdEvent,
   MdLocationOn,
   MdPublic,
-  MdSchool,
   MdQuestionAnswer,
   MdInfoOutline,
   MdAccessTime,
   MdAppRegistration,
   MdChecklist,
   MdCoPresent,
-  MdPendingActions,
 } from "react-icons/md";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import DescriptionIcon from "@mui/icons-material/Description";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonIcon from "@mui/icons-material/Person";
 import PhoneIcon from "@mui/icons-material/Phone";
 import CreateIcon from "@mui/icons-material/Create";
@@ -46,6 +45,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { decryptData } from "../../../utils/encryptionUtils";
+import PropTypes from "prop-types";
 const CoachingStudentCard = ({
   coachingStudentData,
   currentPage,
@@ -76,7 +76,7 @@ const CoachingStudentCard = ({
     studentId: null,
   });
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   //   const isCourseEnded = (endDate) => {
@@ -116,7 +116,7 @@ const CoachingStudentCard = ({
       remarkHistory: Yup.array().of(
         Yup.object({
           remark: Yup.string().required("Remark is required"),
-        })
+        }),
       ),
     }),
     onSubmit: async (values) => {
@@ -137,13 +137,13 @@ const CoachingStudentCard = ({
         }
 
         const res = await dispatch(
-          updateStudentApplication(payload, edit.studentId)
+          updateStudentApplication(payload, edit.studentId),
         );
         if (res?.status === 200) {
           toast.success(
             edit.remarkDetails
               ? "Remark updated successfully!"
-              : "Remark added successfully!"
+              : "Remark added successfully!",
           );
           setShowRemarkModal(false);
           remarkFormik.resetForm();
@@ -161,568 +161,776 @@ const CoachingStudentCard = ({
     },
   });
 
-  const handleDeleteRemark = async (remarksId, studentId) => {
-    try {
-      const payload = { remarksId };
-      const res = await dispatch(deleteStudentApplication(payload, studentId));
-      if (res?.status === 200) {
-        toast.success("Remark deleted successfully!");
-      }
-    } catch (error) {
-      console.error("Error deleting remark:", error);
-      toast.error("Failed to delete remark");
-    }
-  };
-
   return (
     <>
       <div className="application-card-container">
         {coachingStudentData?.length > 0 ? (
-          coachingStudentData?.map((item, index) => (
-            <div
-              key={item._id}
-              className="application-card bg-white border border-gray-200 rounded-lg shadow-sm mb-3 rounded"
-            >
-              <div className="application-card-1 mb-3">
-                <div className="left-part">
-                  <div className="d-flex flex-wrap align-items-center gap-3">
-                    <div
-                      className="left-part-1"
-                      onClick={() =>
-                        navigate(`/coachingdetails/${item._id}`, {
-                          state: {
-                            currentPage,
-                            itemsPerPage,
-                            search,
-                            filters,
-                          },
-                        })
-                      }
-                      style={{
-                        cursor: "pointer",
-                      }}
-                    >
-                      {item?.name || "-"}
-                    </div>
-                    {item?.studentId && (
-                      <div className="d-flex align-items-center text-primary">
-                        <AssignmentIcon
-                          className="me-2 fixed-icon"
-                          color="#4B0082"
-                        />
-                        <strong>Student ID</strong> &nbsp;
-                        <strong> : </strong> &nbsp;
-                        {item?.studentId || "-"}
-                      </div>
-                    )}
-                    {item?.coachingDetails?.targetAchieved &&
-                      Object.values(
-                        item.coachingDetails.targetAchieved.scores || {}
-                      ).some((v) => v !== null) && (
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="tooltip-target">
-                              Target Achieved
-                            </Tooltip>
+          coachingStudentData.map((item, index) => {
+            const courseEnded = isCourseEnded(item?.coachingDetails?.endDate);
+
+            return (
+              <div
+                key={item._id}
+                className="application-card rounded-lg mb-4 position-relative hover-shadow"
+                style={{
+                  transition: "all 0.3s ease",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "10px",
+                  boxShadow: "rgba(0, 0, 0, 0.4) 0px 2px 8px",
+                  padding: "10px",
+                }}
+              >
+                {/* --- HEADER SECTION --- */}
+                <div
+                  className="px-4 py-3 border-bottom d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
+                  style={{
+                    backgroundColor: "#fbfbff",
+                    borderRadius: "10px 10px 0 0",
+                  }}
+                >
+                  <div className="d-flex align-items-start gap-3">
+                    <div>
+                      <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
+                        <span
+                          className="badge border-0 fw-bold px-2 py-1 shadow-sm"
+                          style={{
+                            fontSize: "0.7rem",
+                            letterSpacing: "0.8px",
+                            backgroundColor: "#5d54be",
+                            color: "#ffffff",
+                            borderRadius: "4px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {item?.studentId || "N/A"}
+                        </span>
+                        <h5
+                          className="mb-0 fw-bold"
+                          style={{
+                            color: "#4B49AC",
+                            cursor: "pointer",
+                            letterSpacing: "-0.2px",
+                          }}
+                          onClick={() =>
+                            navigate(`/coachingdetails/${item._id}`, {
+                              state: {
+                                currentPage,
+                                itemsPerPage,
+                                search,
+                                filters,
+                              },
+                            })
                           }
                         >
-                          <div
-                            className="d-flex align-items-center text-primary"
-                            style={{ cursor: "pointer" }}
-                          >
-                            <TaskAltIcon
-                              className="me-2 fixed-icon"
-                              style={{ color: "green", fontSize: 24 }}
-                            />
-                          </div>
-                        </OverlayTrigger>
-                      )}
-                    {item?.dueAmount > 0 && (
-                      <div className="px-3 mt-2 mt-md-0 d-flex align-items-center bg-danger bg-opacity-10 border border-danger rounded">
-                        <span className="text-danger fw-semibold">
-                          <i className="bi bi-exclamation-circle me-2"></i>
-                          Receivable Amount:{" "}
-                          <strong>
-                            {storedEncryptedCurrency
-                              ? getSymbolFromCurrency(storedEncryptedCurrency)
-                              : "₹"}{" "}
-                            {Math.floor(item?.dueAmount)}
-                          </strong>
-                        </span>
+                          {item?.name || "-"}
+                        </h5>
+                        {item?.coachingDetails?.targetAchieved &&
+                          Object.values(
+                            item.coachingDetails.targetAchieved.scores || {},
+                          ).some((v) => v !== null) && (
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={
+                                <Tooltip id="tooltip-target">
+                                  Target Achieved
+                                </Tooltip>
+                              }
+                            >
+                              <div className="ms-2">
+                                <TaskAltIcon
+                                  style={{ color: "green", fontSize: 20 }}
+                                />
+                              </div>
+                            </OverlayTrigger>
+                          )}
                       </div>
-                    )}
-                  </div>
-                  <div className="d-flex flex-wrap align-items-center gap-4">
-                    {(item?.createdByName?.length > 0 ||
-                      item?.created_by_type?.length > 0 ||
-                      item?.b2bCompany?.length > 0) && (
-                      <div className="left-part-2 bg-light border-top rounded">
-                        {item?.created_by_type?.length > 0 && (
-                          <div>
-                            <span className="left-span text-gray-6 d-flex justify-content-end align-items-center">
-                              <AssignmentIndIcon className="me-1 left-icon" />
-                              <strong>Type</strong>&nbsp;:&nbsp;
-                              {item?.created_by_type === "B2B Admin" ||
-                              item?.created_by_type === "B2B Member" ? (
-                                <>
-                                  B2B Partner{" "}
-                                  {item?.b2bCompany && `(${item?.b2bCompany})`}
-                                </>
-                              ) : item?.created_by_type === "user" ? (
-                                <>
-                                  Head Office{" "}
-                                  {item?.b2bCompany && `(${item?.b2bCompany})`}
-                                </>
-                              ) : item?.created_by_type === "Branch User" ||
-                                item?.created_by_type === "Branch user" ? (
-                                <>
-                                  Branch Member{" "}
-                                  {item?.branch && `(${item?.branch})`}
-                                </>
-                              ) : (
-                                <>
-                                  {item?.created_by_type}{" "}
-                                  {item?.branch && `(${item?.branch})`}
-                                </>
-                              )}
-                            </span>
-                          </div>
-                        )}
-                        {item?.createdByName?.length > 0 && (
-                          <div className="me-3">
-                            <span className="left-span text-gray-6 d-flex align-items-center">
-                              <PersonIcon className="me-1 left-icon" />
-                              <strong>Created By</strong>&nbsp;:&nbsp;
-                              {item?.createdByName}
-                            </span>
-                          </div>
-                        )}
-                        {item?.updatedByName?.length > 0 && (
-                          <div className="me-3">
-                            <span className="left-span text-gray-6 d-flex justify-content-center align-items-center">
-                              <CreateIcon className="me-1 left-icon" />
-                              <strong>Updated By</strong>&nbsp;:&nbsp;
-                              {item?.updatedByName}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {item?.mainStatus && (
-                      <div className="course_icon_main d-flex align-items-center gap-2">
-                        <b>Status:</b>
-                        <span
-                          style={{
-                            backgroundColor:
-                              item?.mainStatus?.color || "#09D345",
-                            color: "#fff",
-                            padding: "2px 8px",
-                            borderRadius: "12px",
-                            cursor: "pointer",
-                          }}
-                        >
-                          {item?.mainStatus ? item?.mainStatus?.name : ""}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="right-part d-flex flex-wrap align-items-center gap-2">
-                  {item?.admissionProcessRequired && (
-                    <strong
-                      style={{
-                        letterSpacing: "0.5px",
-                        backgroundColor: "#E0F7FA",
-                        color: "#006064",
-                        padding: "2px 8px",
-                        borderRadius: "12px",
-                      }}
-                    >
-                      This application is a student application
-                    </strong>
-                  )}
-                  {isCourseEnded(item?.coachingDetails?.endDate) && (
-                    <strong
-                      style={{
-                        letterSpacing: "0.5px",
-                        backgroundColor: "red",
-                        padding: "2px 8px",
-                        borderRadius: "12px",
-                        color: "#fff",
-                      }}
-                    >
-                      Course Duration Closed
-                    </strong>
-                  )}
-                  <button
-                    className="d-flex align-items-center bg-primary text-white border-0 gap-1"
-                    style={{
-                      borderRadius: "20px",
-                      padding: "4px 10px",
-                    }}
-                    onClick={() => {
-                      setEdit({
-                        remarkDetails: false,
-                        remarkDetailsIndex: 0,
-                        remarkDetailsObj: null,
-                        studentId: item._id,
-                      });
-                      remarkFormik.resetForm();
-                      setShowRemarkModal(true);
-                      setOpenDropdown(null);
-                    }}
-                  >
-                    <FaPlus style={{ fontSize: "10px" }} /> Remark
-                  </button>
-                  <IconButton
-                    aria-label="more"
-                    aria-controls={`menu-${index}`}
-                    aria-haspopup="true"
-                    onClick={(e) => {
-                      setOpenDropdown(openDropdown === index ? null : index);
-                      setAnchorEl(e.currentTarget);
-                    }}
-                  >
-                    <MoreVertIcon className="three-dots-icon" />
-                  </IconButton>
-                  <Menu
-                    id={`menu-${index}`}
-                    anchorEl={anchorEl}
-                    open={openDropdown === index}
-                    onClose={() => setOpenDropdown(null)}
-                    MenuListProps={{
-                      "aria-labelledby": `menu-${index}`,
-                    }}
-                    sx={{
-                      "& .MuiPaper-root": {
-                        minWidth: "150px",
-                        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-                      },
-                    }}
-                  >
-                    {canUpdate && (
-                      <MenuItem
-                        key="edit"
-                        onClick={() => {
-                          handleEdit(item);
-                          setOpenDropdown(null);
-                        }}
-                      >
-                        <EditIcon
-                          fontSize="small"
-                          sx={{ mr: 1 }}
-                          className="edit-icon"
-                        />
-                        <span className="edit-action-text">Edit</span>
-                      </MenuItem>
-                    )}
-                    {canDelete && (
-                      <MenuItem
-                        key="delete"
-                        onClick={() => {
-                          setSelectedItem(item);
-                          setShowDeleteModal(true);
-                          setOpenDropdown(null);
-                        }}
-                      >
-                        <DeleteIcon
-                          fontSize="small"
-                          sx={{ mr: 1 }}
-                          className="delete-icon"
-                        />
-                        <span className="delete-action-text">Delete</span>
-                      </MenuItem>
-                    )}
-                    {canRead && (
-                      <MenuItem
-                        key="view"
-                        onClick={() =>
-                          navigate(`/coachingdetails/${item._id}`, {
-                            state: {
-                              currentPage,
-                              itemsPerPage,
-                              search,
-                              filters,
-                            },
-                          })
-                        }
-                      >
-                        <VisibilityIcon
-                          fontSize="small"
-                          sx={{ mr: 1 }}
-                          className="view-icon"
-                        />
-                        <span className="view-action-text">View</span>
-                      </MenuItem>
-                    )}
-                    {canRead && (
-                      <MenuItem
-                        onClick={() => {
-                          handleViewAttendance(item);
-                          setOpenDropdown(null);
-                        }}
-                      >
-                        <DescriptionIcon
-                          fontSize="small"
-                          sx={{ mr: 1 }}
-                          className="attendance-icon"
-                        />
-                        <span className="attendance-action-text">
-                          View Attendance
-                        </span>
-                      </MenuItem>
-                    )}
-                    {userRole !== "B2B Admin" && userRole !== "B2B Member" && (
-                      <MenuItem
-                        onClick={() => {
-                          handleConvertToApplication(item);
-                          setOpenDropdown(null);
-                        }}
-                        key="converttocoaching"
-                      >
-                        <AutorenewIcon
-                          fontSize="small"
-                          sx={{ mr: 1 }}
-                          className="coaching-icon"
-                        />
-                        <span className="coaching-action-text">
-                          Convert to Application
-                        </span>
-                      </MenuItem>
-                    )}
-                  </Menu>
-                </div>
-              </div>
-              <div className="font-sizes d-flex flex-wrap justify-content-between mb-3">
-                <div className="d-flex flex-wrap">
-                  <div className="course_icon_main d-flex me-5 align-items-center gap-2">
-                    <span>
-                      <EmailIcon fontSize="small" className="course_icon_1" />
-                    </span>
-                    {item?.email || "-"}
-                  </div>
-                  {userRole === "Super Admin" &&
-                    ((item?.b2bContact && item?.b2bContact !== "na") ||
-                      (item?.contact && item?.contact !== "na")) && (
-                      <div className="course_icon_main d-flex me-5 align-items-center gap-2">
-                        <span>
-                          <PhoneIcon
-                            fontSize="small"
-                            className="course_icon_1"
-                          />
-                        </span>
-                        {userRole === "Super Admin"
-                          ? item?.b2bContact
-                            ? item.b2bContact
-                            : item?.contact
-                          : item?.contact || "-"}
-                      </div>
-                    )}
-                  {item?.coachingDetails?.targetedScore && (
-                    <div className="course_icon_main d-flex me-5 align-items-center gap-2">
-                      <span>
-                        <SportsScoreIcon
-                          fontSize="small"
-                          className="course_icon_1"
-                          style={{ color: "#f44336", fontSize: "20px" }}
-                        />
-                      </span>
-                      {item?.coachingDetails?.targetedScore || "-"}
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="row font-sizes row-margin">
-                {item?.coachingDetails?.city && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdLocationOn
-                        className="me-2 fixed-icon"
-                        color="#EA4335"
-                      />
-                      <strong>Location</strong>&nbsp;:&nbsp;
-                      {item?.coachingDetails?.city}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.remarkHistory?.length > 0 && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdQuestionAnswer
-                        className="me-2 fixed-icon"
-                        color="#2A48A0"
-                      />
-                      <strong>Remark</strong>&nbsp;:&nbsp;
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={
-                          <Tooltip id={`tooltip-remark`}>
-                            {item.coachingDetails.remarkHistory[
-                              item.coachingDetails.remarkHistory.length - 1
-                            ]?.remarks || "-"}
-                          </Tooltip>
-                        }
-                      >
-                        <span
-                          className="text-truncate"
-                          style={{
-                            maxWidth: "200px",
-                            display: "inline-block",
-                            verticalAlign: "middle",
-                            cursor: "pointer",
-                          }}
-                        >
-                          {item.coachingDetails.remarkHistory[
-                            item.coachingDetails.remarkHistory.length - 1
-                          ]?.remarks || "-"}
-                        </span>
-                      </OverlayTrigger>
-                    </p>
-                  </div>
-                )}
-                {item?.purposeDetails?.preferredCountry?.length > 0 && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex align-items-center text-gray-6">
-                      <span className="d-flex">
-                        <MdPublic className="me-2 fixed-icon" color="#6D4C41" />
-                        <strong>Preferred Country</strong>&nbsp;:&nbsp;
-                      </span>
-                      <span className="d-flex flex-wrap gap-2">
-                        {item?.purposeDetails?.preferredCountry?.map(
-                          (country, idx) => {
-                            const name = country || "N/A";
-                            const { bg, text } = getColors(name);
-                            return (
-                              <span
-                                key={idx}
-                                className="px-2 py-1 rounded"
+
+                      {/* Metadata Row */}
+                      {(item?.createdByName?.length > 0 ||
+                        item?.updatedByName?.length > 0 ||
+                        item?.created_by_type?.length > 0 ||
+                        item?.b2bCompany?.length > 0) && (
+                        <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
+                          {item?.created_by_type?.length > 0 && (
+                            <div
+                              className="d-flex align-items-center me-3"
+                              style={{ color: "#6366f1" }}
+                            >
+                              <AssignmentIndIcon
+                                className="me-1"
                                 style={{
-                                  backgroundColor: bg,
-                                  color: text,
-                                  fontSize: "13px",
-                                  fontWeight: 500,
+                                  fontSize: "15px",
+                                  color: "#6366f1",
+                                  opacity: 0.9,
+                                }}
+                              />
+                              <strong style={{ opacity: 0.8 }}>Type</strong>
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
+                                {item?.created_by_type === "B2B Admin" ||
+                                item?.created_by_type === "B2B Member" ? (
+                                  <>
+                                    B2B Partner{" "}
+                                    {item?.b2bCompany &&
+                                      `(${item?.b2bCompany})`}
+                                  </>
+                                ) : item?.created_by_type === "user" ? (
+                                  <>
+                                    Head Office{" "}
+                                    {item?.b2bCompany &&
+                                      `(${item?.b2bCompany})`}
+                                  </>
+                                ) : item?.created_by_type === "Branch User" ||
+                                  item?.created_by_type === "Branch user" ? (
+                                  <>
+                                    Branch Member{" "}
+                                    {item?.branch && `(${item?.branch})`}
+                                  </>
+                                ) : (
+                                  <>
+                                    {item?.created_by_type}{" "}
+                                    {item?.branch && `(${item?.branch})`}
+                                  </>
+                                )}
+                              </span>
+                            </div>
+                          )}
+                          {item?.createdByName?.length > 0 && (
+                            <div
+                              className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
+                              style={{ color: "#7c3aed" }}
+                            >
+                              <PersonIcon
+                                className="me-1"
+                                style={{
+                                  fontSize: "15px",
+                                  color: "#7c3aed",
+                                  opacity: 0.9,
+                                }}
+                              />
+                              <strong style={{ opacity: 0.8 }}>
+                                Created By
+                              </strong>
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
+                                {item?.createdByName}
+                              </span>
+                            </div>
+                          )}
+                          {item?.updatedByName?.length > 0 && (
+                            <div
+                              className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
+                              style={{ color: "#4f46e5" }}
+                            >
+                              <CreateIcon
+                                className="me-1"
+                                style={{
+                                  fontSize: "15px",
+                                  color: "#4f46e5",
+                                  opacity: 0.9,
+                                }}
+                              />
+                              <strong style={{ opacity: 0.8 }}>
+                                Updated By
+                              </strong>
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
+                                {item?.updatedByName}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="d-flex flex-wrap align-items-center  justify-content-end  gap-2 ms-md-auto ">
+                    {item?.dueAmount > 0 && (
+                      <div
+                        className="px-2 px-md-3 py-1 text-white rounded-pill shadow-sm d-flex justify-content-end  align-items-center gap-2"
+                        style={{
+                          fontSize: "0.8rem",
+                          backgroundColor: "#dc3545",
+                          border: "1px solid #dc3545",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <i className="bi bi-exclamation-circle"></i>
+                        <span className="fw-bold">
+                          Receivable:{" "}
+                          {storedEncryptedCurrency
+                            ? getSymbolFromCurrency(storedEncryptedCurrency)
+                            : "₹"}{" "}
+                          {Math.floor(item?.dueAmount)}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="d-flex align-items-center order-1 order-md-2 gap-2">
+                      <button
+                        className="btn btn-sm btn-primary rounded-pill px-3 d-flex align-items-center gap-1"
+                        style={{ height: "36px", fontSize: "0.85rem" }}
+                        onClick={() => {
+                          setEdit({
+                            remarkDetails: false,
+                            remarkDetailsIndex: 0,
+                            remarkDetailsObj: null,
+                            studentId: item._id,
+                          });
+                          remarkFormik.resetForm();
+                          setShowRemarkModal(true);
+                          setOpenDropdown(null);
+                        }}
+                      >
+                        <FaPlus style={{ fontSize: "10px" }} /> Remark
+                      </button>
+
+                      <IconButton
+                        aria-label="more"
+                        className="ms-1 border shadow-sm"
+                        style={{
+                          backgroundColor: "#5d54be34",
+                          borderColor: "#5d54be34",
+                          cursor: "pointer",
+                          width: "36px",
+                          height: "36px",
+                        }}
+                        aria-controls={`menu-${index}`}
+                        aria-haspopup="true"
+                        onClick={(e) => {
+                          setOpenDropdown(
+                            openDropdown === index ? null : index,
+                          );
+                          setAnchorEl(e.currentTarget);
+                        }}
+                      >
+                        <MoreVertIcon
+                          className="three-dots-icon"
+                          style={{ color: "#5d54be", fontSize: "20px" }}
+                        />
+                      </IconButton>
+
+                      <Menu
+                        id={`menu-${index}`}
+                        anchorEl={anchorEl}
+                        open={openDropdown === index}
+                        onClose={() => setOpenDropdown(null)}
+                        MenuListProps={{
+                          "aria-labelledby": `menu-${index}`,
+                        }}
+                        sx={{
+                          "& .MuiPaper-root": {
+                            minWidth: "150px",
+                            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                          },
+                        }}
+                      >
+                        {canUpdate && (
+                          <MenuItem
+                            key="edit"
+                            onClick={() => {
+                              handleEdit(item);
+                              setOpenDropdown(null);
+                            }}
+                          >
+                            <EditIcon
+                              fontSize="small"
+                              sx={{ mr: 1 }}
+                              className="edit-icon"
+                            />
+                            <span className="edit-action-text">Edit</span>
+                          </MenuItem>
+                        )}
+                        {canDelete && (
+                          <MenuItem
+                            key="delete"
+                            onClick={() => {
+                              setSelectedItem(item);
+                              setShowDeleteModal(true);
+                              setOpenDropdown(null);
+                            }}
+                          >
+                            <DeleteIcon
+                              fontSize="small"
+                              sx={{ mr: 1 }}
+                              className="delete-icon"
+                            />
+                            <span className="delete-action-text">Delete</span>
+                          </MenuItem>
+                        )}
+                        {canRead && (
+                          <MenuItem
+                            key="view"
+                            onClick={() =>
+                              navigate(`/coachingdetails/${item._id}`, {
+                                state: {
+                                  currentPage,
+                                  itemsPerPage,
+                                  search,
+                                  filters,
+                                },
+                              })
+                            }
+                          >
+                            <VisibilityIcon
+                              fontSize="small"
+                              sx={{ mr: 1 }}
+                              className="view-icon"
+                            />
+                            <span className="view-action-text">View</span>
+                          </MenuItem>
+                        )}
+                        {canRead && (
+                          <MenuItem
+                            onClick={() => {
+                              handleViewAttendance(item);
+                              setOpenDropdown(null);
+                            }}
+                          >
+                            <DescriptionIcon
+                              fontSize="small"
+                              sx={{ mr: 1 }}
+                              className="attendance-icon"
+                            />
+                            <span className="attendance-action-text">
+                              View Attendance
+                            </span>
+                          </MenuItem>
+                        )}
+                        {userRole !== "B2B Admin" &&
+                          userRole !== "B2B Member" && (
+                            <MenuItem
+                              onClick={() => {
+                                handleConvertToApplication(item);
+                                setOpenDropdown(null);
+                              }}
+                              key="converttocoaching"
+                            >
+                              <AutorenewIcon
+                                fontSize="small"
+                                sx={{ mr: 1 }}
+                                className="coaching-icon"
+                              />
+                              <span className="coaching-action-text">
+                                Convert to Application
+                              </span>
+                            </MenuItem>
+                          )}
+                      </Menu>
+                    </div>
+                  </div>
+                </div>
+
+                {/* --- CONTENT SECTION --- */}
+                <div className="px-4 py-4">
+                  <div className="row g-4">
+                    {/* Status, Note & Alert - Rich Layout */}
+                    {(item?.mainStatus ||
+                      item?.admissionProcessRequired ||
+                      courseEnded) && (
+                      <div className="col-12">
+                        <div
+                          className="d-inline-flex flex-column flex-md-row flex-wrap gap-3 p-3 bg-light border border-light"
+                          style={{
+                            borderRadius: "12px",
+                            width: "fit-content",
+                            maxWidth: "100%",
+                          }}
+                        >
+                          {item?.mainStatus && (
+                            <div
+                              className={`d-flex align-items-center gap-3 pe-md-4 mb-2 mb-md-0 ${
+                                item?.admissionProcessRequired || courseEnded
+                                  ? "border-md-end border-light"
+                                  : ""
+                              }`}
+                            >
+                              <div
+                                className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                                style={{
+                                  backgroundColor: "#4b49ac31",
+                                  borderColor: "#4b49ac49",
                                 }}
                               >
-                                {name}
-                              </span>
-                            );
-                          }
-                        )}
-                      </span>
-                    </p>
+                                <AssignmentIcon
+                                  style={{ fontSize: "20px", color: "#4B49AC" }}
+                                />
+                              </div>
+                              <div>
+                                <div className="text-muted small fw-medium mb-1">
+                                  Status
+                                </div>
+                                <span
+                                  className="badge border-0"
+                                  style={{
+                                    backgroundColor:
+                                      item?.mainStatus?.color || "#5d54be",
+                                    color: "#fff",
+                                    padding: "6px 14px",
+                                    borderRadius: "20px",
+                                    fontSize: "0.75rem",
+                                    fontWeight: 600,
+                                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                                  }}
+                                >
+                                  {item.mainStatus.name}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          {item?.admissionProcessRequired && (
+                            <div
+                              className={`d-flex align-items-center gap-3 mb-2 mb-md-0 ${
+                                courseEnded
+                                  ? "pe-md-4 border-md-end border-light"
+                                  : ""
+                              }`}
+                            >
+                              <div
+                                className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                                style={{
+                                  backgroundColor: "#0061643a",
+                                  borderColor: "#0061643a",
+                                }}
+                              >
+                                <MdInfoOutline size={20} color="#006064" />
+                              </div>
+                              <div>
+                                <div className="text-muted small fw-medium mb-1">
+                                  Note
+                                </div>
+                                <span
+                                  className="badge border-0"
+                                  style={{
+                                    backgroundColor: "#e0f7fa",
+                                    color: "#006064",
+                                    padding: "6px 14px",
+                                    borderRadius: "20px",
+                                    fontSize: "0.75rem",
+                                    fontWeight: 600,
+                                    border: "1px solid #b2ebf2",
+                                  }}
+                                >
+                                  Direct Student Application
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          {courseEnded && (
+                            <div className="d-flex align-items-center gap-3">
+                              <div
+                                className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                                style={{
+                                  backgroundColor: "#ef44442c",
+                                  borderColor: "#ef44442c",
+                                }}
+                              >
+                                <MdAccessTime size={20} color="#ef4444" />
+                              </div>
+                              <div>
+                                <div className="text-muted small fw-medium mb-1">
+                                  Alert
+                                </div>
+                                <span
+                                  className="badge border-0"
+                                  style={{
+                                    backgroundColor: "#fee2e2",
+                                    color: "#ef4444",
+                                    padding: "6px 14px",
+                                    borderRadius: "20px",
+                                    fontSize: "0.75rem",
+                                    fontWeight: 600,
+                                    border: "1px solid #fecaca",
+                                  }}
+                                >
+                                  Course Duration Closed
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Email */}
+                    <div className="col-12 col-sm-6 col-lg-3">
+                      <div className="d-flex align-items-start gap-2 text-gray-6">
+                        <EmailIcon
+                          className="mt-1 flex-shrink-0"
+                          style={{ fontSize: "19px", color: "#EA4335" }}
+                        />
+                        <div style={{ wordBreak: "break-all" }}>
+                          <div className="text-muted small fw-medium mb-1">
+                            Email
+                          </div>
+                          <div className="fw-semibold">
+                            {item?.email || "-"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Phone */}
+                    <div className="col-12 col-sm-6 col-lg-3">
+                      <div className="d-flex align-items-start gap-2 text-gray-6">
+                        <PhoneIcon
+                          className="mt-1 flex-shrink-0"
+                          style={{ fontSize: "19px", color: "#34A853" }}
+                        />
+                        <div>
+                          <div className="text-muted small fw-medium mb-1">
+                            Phone
+                          </div>
+                          <div className="fw-semibold">
+                            {userRole === "Super Admin"
+                              ? item?.b2bContact || item?.contact || "-"
+                              : item?.contact || "-"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Location */}
+                    {item?.coachingDetails?.city && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdLocationOn
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#EA4335"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Location
+                            </div>
+                            <div className="fw-semibold">
+                              {item?.coachingDetails?.city}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Register For */}
+                    {item?.coachingDetails?.registerFor && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdAppRegistration
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#6366f1"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Register For
+                            </div>
+                            <div className="fw-semibold">
+                              {item?.coachingDetails?.registerFor?.name}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Requirement */}
+                    {item?.coachingDetails?.coachingRequirement && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdChecklist
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#8b5cf6"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Requirement
+                            </div>
+                            <div className="fw-semibold">
+                              {item?.coachingDetails?.coachingRequirement?.name}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Target Score */}
+                    {item?.coachingDetails?.targetedScore && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <SportsScoreIcon
+                            className="mt-1 flex-shrink-0"
+                            style={{ fontSize: "19px", color: "#f43f5e" }}
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Target Score
+                            </div>
+                            <div className="fw-semibold">
+                              {item?.coachingDetails?.targetedScore}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Batch */}
+                    <div className="col-12 col-sm-6 col-lg-3">
+                      <div className="d-flex align-items-start gap-2 text-gray-6">
+                        <MdEvent
+                          className="mt-1 flex-shrink-0"
+                          size={19}
+                          color="#059669"
+                        />
+                        <div>
+                          <div className="text-muted small fw-medium mb-1">
+                            Batch
+                          </div>
+                          <div className="fw-semibold">
+                            {item?.coachingDetails?.startDate
+                              ? formatDate(
+                                  parseDate(item.coachingDetails.startDate),
+                                )
+                              : "-"}
+                            {" to "}
+                            {item?.coachingDetails?.endDate
+                              ? formatDate(
+                                  parseDate(item.coachingDetails.endDate),
+                                )
+                              : "-"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Timing */}
+                    {item?.coachingDetails?.batchTiming && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdAccessTime
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#d97706"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Timing
+                            </div>
+                            <div className="fw-semibold">
+                              {item.coachingDetails.batchTiming}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Faculty */}
+                    {item?.coachingDetails?.batchFaculty && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdCoPresent
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#0288d1"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Faculty
+                            </div>
+                            <div className="fw-semibold">
+                              {item.coachingDetails.batchFaculty?.name}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Preferred Countries Tags */}
+                    {item?.purposeDetails?.preferredCountry?.length > 0 && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdPublic
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#64748b"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Preferred Countries
+                            </div>
+                            <div className="d-flex flex-wrap gap-1 mt-1">
+                              {item?.purposeDetails?.preferredCountry?.map(
+                                (country, idx) => {
+                                  const { bg, text } = getColors(
+                                    country || "N/A",
+                                  );
+                                  return (
+                                    <span
+                                      key={idx}
+                                      className="px-2 py-0.5 rounded fw-medium"
+                                      style={{
+                                        backgroundColor: bg,
+                                        color: text,
+                                        fontSize: "11px",
+                                      }}
+                                    >
+                                      {country}
+                                    </span>
+                                  );
+                                },
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Latest Remark */}
+                    {item?.coachingDetails?.remarkHistory?.length > 0 && (
+                      <div className="col-12">
+                        <div className="p-3 bg-light rounded border border-dashed d-flex align-items-start gap-2">
+                          <MdQuestionAnswer
+                            style={{
+                              fontSize: "18px",
+                              color: "#4f46e5",
+                              marginTop: "2px",
+                              flexShrink: 0,
+                            }}
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Latest Remark
+                            </div>
+                            <p className="mb-0 small text-dark fw-medium">
+                              {
+                                item.coachingDetails.remarkHistory[
+                                  item.coachingDetails.remarkHistory.length - 1
+                                ]?.remarks
+                              }
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-                {item?.coachingDetails?.registerFor && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdAppRegistration
-                        className="me-2 fixed-icon"
-                        color="#2A48A0"
-                      />
-                      <strong>Register For</strong>&nbsp;:&nbsp;
-                      {item?.coachingDetails?.registerFor?.name}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.coachingRequirement && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdChecklist
-                        className="me-2 fixed-icon"
-                        color="#2A48A0"
-                      />
-                      <strong>Coaching Requirement</strong>&nbsp;:&nbsp;
-                      {item?.coachingDetails?.coachingRequirement?.name}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.startDate && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdEvent className="me-2 fixed-icon" color="#00796B" />
-                      <strong>Start Date</strong>&nbsp;:&nbsp;
-                      {formatDate(parseDate(item?.coachingDetails?.startDate))}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.endDate && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdEvent className="me-2 fixed-icon" color="#00796B" />
-                      <strong>End Date</strong>&nbsp;:&nbsp;
-                      {formatDate(parseDate(item?.coachingDetails?.endDate))}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.batchStatus && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdPendingActions
-                        className="me-2 fixed-icon"
-                        color="#0288D1"
-                      />
-                      <strong>Batch Status</strong>&nbsp;:&nbsp;
-                      {item?.coachingDetails?.batchStatus}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.batchFaculty && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdCoPresent
-                        className="me-2 fixed-icon"
-                        color="#0288D1"
-                      />
-                      <strong>Batch Faculty</strong>&nbsp;:&nbsp;
-                      {item?.coachingDetails?.batchFaculty?.name}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.batchTiming && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdAccessTime
-                        className="me-2 fixed-icon"
-                        color="#34A853"
-                      />
-                      <strong>Batch Timing</strong>&nbsp;:&nbsp;
-                      {item?.coachingDetails?.batchTiming}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.examRegistrationDate && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdEvent className="me-2 fixed-icon" color="#00796B" />
-                      <strong>Exam Registration Date</strong>
-                      &nbsp;:&nbsp;
-                      {formatDate(
-                        parseDate(item?.coachingDetails?.examRegistrationDate)
-                      )}
-                    </p>
-                  </div>
-                )}
-                {item?.coachingDetails?.remarks && (
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdQuestionAnswer
-                        className="me-2 fixed-icon"
-                        color="#2A48A0"
-                      />
-                      <strong>Remarks</strong>&nbsp;:&nbsp;
-                      {item?.coachingDetails?.remarks}
-                    </p>
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
-          <div className="text-center d-flex text-gray-6-600">
-            {!canRead
-              ? "You do not have permission to view this Data"
-              : "No data available"}
+          <div className="text-center py-5 bg-white rounded shadow-sm">
+            <div className="mb-3">
+              <MdInfoOutline size={48} color="#cbd5e1" />
+            </div>
+            <h5 className="text-muted">
+              {!canRead ? "Access Denied" : "No Coaching Data Found"}
+            </h5>
+            <p className="text-secondary small">
+              {!canRead
+                ? "You do not have permission to view coaching records."
+                : "Try adjusting your filters or search criteria."}
+            </p>
           </div>
         )}
       </div>
@@ -796,6 +1004,25 @@ const CoachingStudentCard = ({
       </Modal>
     </>
   );
+};
+
+CoachingStudentCard.propTypes = {
+  coachingStudentData: PropTypes.array,
+  currentPage: PropTypes.number,
+  itemsPerPage: PropTypes.number,
+  search: PropTypes.string,
+  filters: PropTypes.object,
+  canRead: PropTypes.bool,
+  parseDate: PropTypes.func,
+  formatDate: PropTypes.func,
+  canUpdate: PropTypes.bool,
+  canDelete: PropTypes.bool,
+  userRole: PropTypes.string,
+  handleEdit: PropTypes.func,
+  setSelectedItem: PropTypes.func,
+  setShowDeleteModal: PropTypes.func,
+  handleViewAttendance: PropTypes.func,
+  handleConvertToApplication: PropTypes.func,
 };
 
 export default CoachingStudentCard;
