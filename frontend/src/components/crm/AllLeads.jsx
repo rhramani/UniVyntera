@@ -3410,12 +3410,13 @@ const AllLeads = () => {
               />
 
               {totalPages > 1 && getLeadData?.data?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => changePage(page)}
-                  isLoading={isLoading}
-                />
+                     <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

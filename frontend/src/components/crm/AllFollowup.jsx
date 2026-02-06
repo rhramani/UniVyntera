@@ -4393,11 +4393,13 @@ const AllFollowup = () => {
               </Modal>
 
               {totalPages > 1 && getLeadData?.leads?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                     <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

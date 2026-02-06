@@ -1,4 +1,3 @@
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
@@ -11,24 +10,26 @@ import CreateIcon from "@mui/icons-material/Create";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import { RiChatSmile2Fill } from "react-icons/ri";
-import { MdCalendarToday, MdMessage } from "react-icons/md";
 import { decryptData } from "../../../utils/encryptionUtils";
 import { FaAppStore, FaBullseye, FaWhatsapp } from "react-icons/fa";
 import {
+  MdDescription,
+  MdEvent,
+  MdOutlineCalendarToday,
+  MdPublic,
+  MdSchool,
+  MdVerifiedUser,
+  MdLocationOn,
   MdFace,
   MdCake,
-  MdLocationOn,
-  MdQuestionAnswer,
-  MdPublic,
-  MdEvent,
-  MdSchool,
-  MdMenuBook,
   MdCall,
   MdOutlinePlayCircleFilled,
+  MdQuestionAnswer,
+  MdMessage,
 } from "react-icons/md";
 import { useState } from "react";
-import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Form } from "react-bootstrap";
+import { useNavigate, useLocation } from "react-router-dom";
 import ConvertToCoaching from "./ConvertToCoaching";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { addCtcCalling } from "../../../redux/actions/Lead.action";
@@ -72,6 +73,7 @@ const StudentApplicationCard = ({
   dispatch,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [showFollowUps, setShowFollowUps] = useState({});
@@ -82,6 +84,27 @@ const StudentApplicationCard = ({
   const storedEncryptedCurrency = decryptData(
     localStorage.getItem("crmCurrency"),
   );
+
+  const badgeThemes = [
+    {
+      bg: "#c7d2fe", // indigo-200
+      border: "#a5b4fc", // indigo-300
+      role: "#4f46e5", // indigo-600
+      user: "#1e1b4b", // indigo-950
+    },
+    {
+      bg: "#a5f3fc", // cyan-200
+      border: "#67e8f9", // cyan-300
+      role: "#0891b2", // cyan-600
+      user: "#083344",
+    },
+    {
+      bg: "#bbf7d0", // green-200
+      border: "#86efac", // green-300
+      role: "#16a34a", // green-600
+      user: "#052e16",
+    },
+  ];
 
   const getColors = (name) => {
     const index =
@@ -128,130 +151,112 @@ const StudentApplicationCard = ({
             return (
               <div
                 key={item._id}
-                className="application-card bg-white border border-gray-200 rounded-lg shadow-sm mb-3 rounded"
+                className="application-card rounded-lg mb-4 position-relative hover-shadow"
+                style={{
+                  transition: "all 0.3s ease",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "10px",
+                  boxShadow: "rgba(0, 0, 0, 0.4) 0px 2px 8px",
+                  padding: "10px",
+                }}
               >
-                <div className="application-card-1 mb-3">
-                  <div className="left-part">
-                    <div className="d-flex flex-wrap align-items-center gap-3">
-                      <div
-                        className="left-part-1"
-                        onClick={() =>
-                          navigate(`/student-details/${item._id}`, {
-                            state: {
-                              selectedBranch,
-                              mainStatus,
-                              search,
-                              currentPage,
-                              itemsPerPage,
-                              showAll,
-                              selectedCountry,
-                              followUpDate,
-                              selectedB2BAdmin,
-                              updatedOnDate,
-                              selectedRole,
-                              selectedUser,
-                              startDate,
-                              endDate,
-                            },
-                          })
-                        }
-                      >
-                        {item?.name || "-"}
-                      </div>
-                      {item?.studentId && (
-                        <div className="d-flex flex-wrap align-items-center text-primary">
-                          <AssignmentIcon
-                            className="me-2 fixed-icon"
-                            color="#4B0082"
-                          />
-                          <strong>Student ID</strong> &nbsp;
-                          <strong> : </strong> &nbsp;
-                          {item?.studentId || "-"}
-                        </div>
-                      )}
-                      {item?.otherCountriesApplied &&
-                        item?.otherCountriesApplied?.length > 0 && (
-                          <div className="text-primary d-flex align-items-center">
-                            {/* Label (no gap applied here) */}
-                            <strong>Other Country :</strong>
-
-                            {/* Chips only (gap applied here) */}
-                            <div
-                              style={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: "4px",
-                                marginLeft: "6px",
-                              }}
-                            >
+                {/* --- HEADER SECTION --- */}
+                <div
+                  className="px-4 py-3 border-bottom d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
+                  style={{ backgroundColor: "#fbfbff" }}
+                >
+                  <div className="d-flex align-items-start gap-3">
+                    <div>
+                      <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
+                        <span
+                          className="badge border-0 fw-bold px-2 py-1 shadow-sm"
+                          style={{
+                            fontSize: "0.7rem",
+                            letterSpacing: "0.8px",
+                            backgroundColor: "#5d54be",
+                            color: "#ffffff",
+                            borderRadius: "4px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {item?.studentId || "N/A"}
+                        </span>
+                        <h5
+                          className="mb-0 fw-bold"
+                          style={{
+                            color: "#4B49AC",
+                            cursor: "pointer",
+                            letterSpacing: "-0.2px",
+                          }}
+                          onClick={() =>
+                            navigate(`/student-details/${item._id}`, {
+                              state: {
+                                selectedBranch,
+                                mainStatus,
+                                search,
+                                currentPage,
+                                itemsPerPage,
+                                showAll,
+                                selectedCountry,
+                                followUpDate,
+                                selectedB2BAdmin,
+                                updatedOnDate,
+                                selectedRole,
+                                selectedUser,
+                                startDate,
+                                endDate,
+                              },
+                            })
+                          }
+                        >
+                          {item?.name || "-"}
+                        </h5>
+                        {item?.otherCountriesApplied &&
+                          item?.otherCountriesApplied?.length > 0 && (
+                            <div className="d-flex flex-wrap gap-1 ms-2">
                               {item.otherCountriesApplied.map((c) => (
                                 <span
                                   key={c._id}
-                                  onClick={() =>
-                                    navigate(`/student-details/${c._id}`, {
-                                      state: {
-                                        selectedBranch,
-                                        mainStatus,
-                                        search,
-                                        currentPage,
-                                        itemsPerPage,
-                                        showAll,
-                                        selectedCountry,
-                                        followUpDate,
-                                        selectedB2BAdmin,
-                                        updatedOnDate,
-                                        selectedRole,
-                                        selectedUser,
-                                        startDate,
-                                        endDate,
-                                      },
-                                    })
-                                  }
+                                  className="badge rounded-pill"
                                   style={{
                                     backgroundColor: "#053880",
                                     color: "#fff",
-                                    padding: "2px 10px",
-                                    borderRadius: "14px",
-                                    fontSize: "0.875rem",
-                                    whiteSpace: "nowrap",
+                                    fontSize: "0.7rem",
                                     cursor: "pointer",
                                   }}
-                                  title="View student details"
+                                  onClick={() =>
+                                    navigate(`/student-details/${c._id}`)
+                                  }
                                 >
                                   {c.country}
                                 </span>
                               ))}
                             </div>
-                          </div>
-                        )}
+                          )}
+                      </div>
 
-                      {item?.dueAmount > 0 && (
-                        <div className="px-3 mt-2 mt-md-0 d-flex align-items-center bg-danger bg-opacity-10 border border-danger rounded">
-                          <span className="text-danger fw-semibold">
-                            <i className="bi bi-exclamation-circle me-2"></i>
-                            Receivable Amount:{" "}
-                            <strong>
-                              {storedEncryptedCurrency
-                                ? getSymbolFromCurrency(storedEncryptedCurrency)
-                                : "₹"}{" "}
-                              {Math.floor(item?.dueAmount)}
-                            </strong>
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="d-flex flex-wrap align-items-center gap-4">
+                      {/* Metadata Row */}
                       {(item?.createdByName?.length > 0 ||
-                        item?.purposeDetails?.updatedByName?.length > 0 ||
+                        item?.updatedByName?.length > 0 ||
                         item?.created_by_type?.length > 0 ||
                         item?.b2bCompany?.length > 0) && (
-                        <div className="left-part-2 bg-light border-top rounded">
+                        <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
                           {item?.created_by_type?.length > 0 && (
-                            <div>
-                              <span className="left-span text-gray-6 d-flex justify-content-end align-items-center">
-                                <AssignmentIndIcon className="me-1 left-icon" />
-                                <strong>Type</strong>&nbsp;:&nbsp;
+                            <div
+                              className="d-flex align-items-center me-3"
+                              style={{ color: "#6366f1" }}
+                            >
+                              <AssignmentIndIcon
+                                className="me-1"
+                                style={{
+                                  fontSize: "15px",
+                                  color: "#6366f1",
+                                  opacity: 0.9,
+                                }}
+                              />
+                              <strong style={{ opacity: 0.8 }}>Type</strong>
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
                                 {item?.created_by_type === "B2B Admin" ||
                                 item?.created_by_type === "B2B Member" ? (
                                   <>
@@ -281,85 +286,101 @@ const StudentApplicationCard = ({
                             </div>
                           )}
                           {item?.createdByName?.length > 0 && (
-                            <div className="me-3">
-                              <span className="left-span text-gray-6 d-flex align-items-center">
-                                <PersonIcon className="me-1 left-icon" />
-                                <strong>Created By</strong>&nbsp;:&nbsp;
+                            <div
+                              className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
+                              style={{ color: "#7c3aed" }}
+                            >
+                              <PersonIcon
+                                className="me-1"
+                                style={{
+                                  fontSize: "15px",
+                                  color: "#7c3aed",
+                                  opacity: 0.9,
+                                }}
+                              />
+                              <strong style={{ opacity: 0.8 }}>
+                                Created By
+                              </strong>
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
                                 {item?.createdByName}
                               </span>
                             </div>
                           )}
                           {item?.updatedByName?.length > 0 && (
-                            <div className="me-3">
-                              <span className="left-span text-gray-6 d-flex justify-content-center align-items-center">
-                                <CreateIcon className="me-1 left-icon" />
-                                <strong>Updated By</strong>
-                                <strong>&nbsp;:&nbsp;</strong>
-                                <span>{item?.updatedByName}</span>
+                            <div
+                              className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
+                              style={{ color: "#4f46e5" }}
+                            >
+                              <CreateIcon
+                                className="me-1"
+                                style={{
+                                  fontSize: "15px",
+                                  color: "#4f46e5",
+                                  opacity: 0.9,
+                                }}
+                              />
+                              <strong style={{ opacity: 0.8 }}>
+                                Updated By
+                              </strong>
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
+                                {item?.updatedByName}
                               </span>
                             </div>
                           )}
                         </div>
                       )}
-                      {item?.mainStatus && (
-                        <div className="course_icon_main d-flex align-items-center gap-2">
-                          <b>Status:</b>
-                          <span
-                            style={{
-                              backgroundColor:
-                                item?.mainStatus?.color || "#09D345 ",
-                              color: "#fff",
-                              padding: "2px 8px",
-                              borderRadius: "12px",
-                              cursor: "pointer",
-                            }}
-                          >
-                            {item?.mainStatus ? item.mainStatus?.name : ""}
-                          </span>
-                        </div>
-                      )}
-                      {item?.visaApplicationDetails?.status && (
-                        <div className="course_icon_main d-flex align-items-center gap-2">
-                          <b>Visa Status:</b>
-                          <span
-                            style={{
-                              backgroundColor: "#4DB6AC ",
-                              color: "#fff",
-                              padding: "2px 8px",
-                              borderRadius: "12px",
-                              cursor: "pointer",
-                            }}
-                          >
-                            {item?.visaApplicationDetails
-                              ? item.visaApplicationDetails?.status
-                              : ""}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </div>
 
-                  <div className="right-part d-flex flex-wrap flex-column justify-content-start align-items-end gap-2">
-                    <div className="d-flex flex-wrap first-div align-items-center">
+                  <div className="d-flex align-items-center gap-2 ms-auto">
+                    {item?.dueAmount > 0 && (
+                      <div className="px-3 py-1 bg-danger bg-opacity-10 border border-danger rounded-pill me-2">
+                        <span className="text-danger fw-bold small">
+                          <i className="bi bi-exclamation-circle me-1"></i>
+                          Receivable:{" "}
+                          {storedEncryptedCurrency
+                            ? getSymbolFromCurrency(storedEncryptedCurrency)
+                            : "₹"}{" "}
+                          {Math.floor(item?.dueAmount)}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="d-flex align-items-center gap-2">
                       {userRole !== "B2B Admin" &&
                         userRole !== "B2B Member" &&
                         item?.CTCCallRecording && (
-                          <button
-                            type="button"
+                          <IconButton
+                            className="ms-1 border shadow-sm"
+                            style={{
+                              backgroundColor: "#e0f2fe",
+                              borderColor: "#bae6fd",
+                              width: "36px",
+                              height: "36px",
+                            }}
                             onClick={(e) => {
                               e.stopPropagation();
                               window.open(item?.CTCCallRecording, "_blank");
                             }}
-                            className="recording-pill-btn"
                           >
-                            <MdOutlinePlayCircleFilled size={16} />
-                            <span>RECORDING</span>
-                          </button>
+                            <MdOutlinePlayCircleFilled
+                              style={{ color: "#0369a1", fontSize: "20px" }}
+                            />
+                          </IconButton>
                         )}
                       {userRole !== "B2B Admin" &&
                         userRole !== "B2B Member" && (
-                          <button
-                            type="button"
+                          <IconButton
+                            className="ms-1 border shadow-sm"
+                            style={{
+                              backgroundColor: "#15803c36",
+                              color: "#15803c3a",
+                              cursor: "pointer",
+                              width: "36px",
+                              height: "36px",
+                            }}
                             onClick={async (e) => {
                               e.stopPropagation();
                               try {
@@ -378,84 +399,98 @@ const StudentApplicationCard = ({
                                 setIsLoading(false);
                               }
                             }}
-                            className="call-pill-btn"
                           >
-                            <MdCall size={16} />
-                            <span>CALL</span>
-                          </button>
+                            <MdCall
+                              style={{ color: "#15803d", fontSize: "20px" }}
+                            />
+                          </IconButton>
                         )}
 
-                      <RiChatSmile2Fill
-                        size={26}
+                      <IconButton
+                        className="ms-1 border shadow-sm"
                         style={{
-                          color: "#007bff",
+                          backgroundColor: "#007bff33",
+                          borderColor: "#007bff33",
                           cursor: "pointer",
-                          marginTop: "6px",
-                          marginRight: "10px",
+                          width: "36px",
+                          height: "36px",
                         }}
                         onClick={() => handleChatOpen(item)}
-                      />
-                      {(canUpdate || canCreate) && (
-                        <>
-                          {userRole !== "B2B Admin" &&
-                            userRole !== "B2B Member" && (
-                              <>
-                                <MdMessage
-                                  size={26}
-                                  style={{
-                                    color: "#ff9800",
-                                    cursor: "pointer",
-                                    marginTop: "6px",
-                                    marginRight: "10px",
-                                  }}
-                                  onClick={() => {
-                                    setSelecteWaDaddyWhatsappdData({
-                                      name: item?.name || "",
-                                      mobile:
-                                        item?.contact?.replace(/[^\d]/g, "") ||
-                                        "",
-                                    });
-                                    setIsWaDaddyWhatsappModalOpen(true);
-                                  }}
-                                />
+                      >
+                        <RiChatSmile2Fill
+                          style={{ color: "#007bff", fontSize: "20px" }}
+                        />
+                      </IconButton>
 
-                                <FaWhatsapp
-                                  size={26}
-                                  style={{
-                                    color: "#25D366",
-                                    cursor: "pointer",
-                                    marginTop: "6px",
-                                  }}
-                                  onClick={() => {
-                                    setSelectedLeadName(item?.name || "");
-                                    userRole === "Super Admin"
-                                      ? setSelectedMobileNumber(
-                                          item?.b2bContact
-                                            ? item.b2bContact.replace(
-                                                /[^\d]/g,
-                                                "",
-                                              )
-                                            : item.contact.replace(
-                                                /[^\d]/g,
-                                                "",
-                                              ),
-                                        )
-                                      : setSelectedMobileNumber(
-                                          item?.contact
-                                            ? item.contact.replace(/[^\d]/g, "")
-                                            : "",
-                                        );
-                                    setIsWhatsappModalOpen(true);
-                                  }}
-                                />
-                              </>
-                            )}
-                        </>
-                      )}
+                      {(canUpdate || canCreate) &&
+                        userRole !== "B2B Admin" &&
+                        userRole !== "B2B Member" && (
+                          <>
+                            <IconButton
+                              className="ms-1 border shadow-sm"
+                              style={{
+                                backgroundColor: "#f9741634",
+                                borderColor: "#f9741634",
+                                cursor: "pointer",
+                                width: "36px",
+                                height: "36px",
+                              }}
+                              onClick={() => {
+                                setSelecteWaDaddyWhatsappdData({
+                                  name: item?.name || "",
+                                  mobile:
+                                    item?.contact?.replace(/[^\d]/g, "") || "",
+                                });
+                                setIsWaDaddyWhatsappModalOpen(true);
+                              }}
+                            >
+                              <MdMessage
+                                style={{ color: "#f97316", fontSize: "20px" }}
+                              />
+                            </IconButton>
+
+                            <IconButton
+                              className="ms-1 border shadow-sm"
+                              style={{
+                                cursor: "pointer",
+                                backgroundColor: "#dcfce7",
+                                borderColor: "#22c55e40",
+                                width: "36px",
+                                height: "36px",
+                              }}
+                              onClick={() => {
+                                setSelectedLeadName(item?.name || "");
+                                userRole === "Super Admin"
+                                  ? setSelectedMobileNumber(
+                                      item?.b2bContact
+                                        ? item.b2bContact.replace(/[^\d]/g, "")
+                                        : item.contact.replace(/[^\d]/g, ""),
+                                    )
+                                  : setSelectedMobileNumber(
+                                      item?.contact
+                                        ? item.contact.replace(/[^\d]/g, "")
+                                        : "",
+                                    );
+                                setIsWhatsappModalOpen(true);
+                              }}
+                            >
+                              <FaWhatsapp
+                                style={{ color: "#22c55e", fontSize: "20px" }}
+                              />
+                            </IconButton>
+                          </>
+                        )}
+
                       <IconButton
                         aria-label="more"
-                        aria-controls={`menu-${index}`}
-                        aria-haspopup="true"
+                        className="ms-1 border shadow-sm"
+                        style={{
+                           backgroundColor: "#5d54be34",
+                        borderColor: "#5d54be34",
+                        cursor: "pointer",
+                          width: "36px",
+                          height: "36px",
+                        }}
                         onClick={(e) => {
                           setOpenDropdown(
                             openDropdown === index ? null : index,
@@ -463,7 +498,7 @@ const StudentApplicationCard = ({
                           setAnchorEl(e.currentTarget);
                         }}
                       >
-                        <MoreVertIcon className="three-dots-icon" />
+                        <MoreVertIcon className="three-dots-icon" style={{ color: "#5d54be", fontSize: "20px" }} />
                       </IconButton>
                       <Menu
                         id={`menu-${index}`}
@@ -625,422 +660,560 @@ const StudentApplicationCard = ({
                           )}
                       </Menu>
                     </div>
-                    <div className="first-div">
-                      {item?.coachingDetails?.coachingRequired && (
-                        <strong
-                          style={{
-                            letterSpacing: "0.5px",
-                            backgroundColor: "#E0F7FA",
-                            color: "#006064",
-                            padding: "2px 8px",
-                            borderRadius: "12px",
-                            marginTop: "6px",
-                            marginRight: "10px",
-                          }}
-                        >
-                          This application is a coaching application
-                        </strong>
-                      )}
-                    </div>
                   </div>
                 </div>
 
-                <div className="first-div-1">
-                  {item?.coachingDetails?.coachingRequired && (
-                    <strong
-                      style={{
-                        letterSpacing: "0.5px",
-                        backgroundColor: "#E0F7FA",
-                        color: "#006064",
-                        padding: "2px 8px",
-                        borderRadius: "12px",
-                        marginTop: "6px",
-                        marginRight: "10px",
-                        fontSize: "11px",
-                      }}
-                    >
-                      This application is a coaching application
-                    </strong>
-                  )}
-                </div>
-
-                <div className="font-sizes d-flex flex-wrap justify-content-between my-3">
-                  <div className="d-flex flex-wrap">
-                    <div className="course_icon_main d-flex me-5 align-items-center gap-2">
-                      <span>
-                        <EmailIcon fontSize="small" className="course_icon_1" />
-                      </span>
-                      {item?.email || "-"}
-                    </div>
-                    {userRole === "Super Admin" &&
-                      ((item?.b2bContact && item.b2bContact !== "na") ||
-                        (item?.contact && item.contact !== "na")) && (
-                        <div className="course_icon_main d-flex me-5 align-items-center gap-2">
-                          <span>
-                            <PhoneIcon
-                              fontSize="small"
-                              className="course_icon_1"
-                            />
+                {/* --- CONTENT SECTION --- */}
+                <div className="px-4 py-4">
+                  <div className="row g-4">
+                    {/* Status */}
+                    <div className="col-12 col-sm-6 col-lg-3">
+                      <div className="d-flex align-items-start gap-2">
+                        <MdDescription
+                          className="mt-1 flex-shrink-0"
+                          size={19}
+                          color="#4285F4"
+                        />
+                        <div>
+                          <div className="text-muted small fw-medium mb-1">
+                            Status
+                          </div>
+                          <span
+                            className="badge border-0"
+                            style={{
+                              backgroundColor:
+                                item?.mainStatus?.color || "#09D345",
+                              color: "#fff",
+                              padding: "6px 14px",
+                              borderRadius: "20px",
+                              fontSize: "0.75rem",
+                              fontWeight: 600,
+                              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                            }}
+                          >
+                            {item?.mainStatus?.name || "N/A"}
                           </span>
-                          {userRole === "Super Admin"
-                            ? item?.b2bContact
-                              ? item.b2bContact // + when remove : .replace(/[^\d]/g, "")
-                              : item?.contact
-                            : item?.contact
-                              ? item.contact
-                              : "-"}
                         </div>
-                      )}
-                  </div>
-                </div>
-
-                <div className="row font-sizes row-margin">
-                  <div className="col-12 col-md-4 p-0">
-                    <p className="d-flex text-gray-6">
-                      <MdCalendarToday
-                        className="me-2 fixed-icon"
-                        color="#34A853"
-                      />
-                      <strong>Created Date</strong>
-                      <strong>&nbsp;:&nbsp;</strong>
-                      {new Date(item?.createdAt).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        timeZone: "UTC",
-                      })}
-                    </p>
-                  </div>
-
-                  {item?.DOB?.length > 0 && (
-                    <div className="col-12 col-md-4 p-0">
-                      <p className="d-flex text-gray-6">
-                        <MdCake className="me-2 fixed-icon" color="#FB8C00" />
-                        <strong>DOB</strong>
-                        <strong>&nbsp;:&nbsp;</strong>
-                        {formatDate(parseDate(item.DOB))}
-                      </p>
+                      </div>
                     </div>
-                  )}
 
-                  {item?.gender?.length > 0 && (
-                    <div className="col-12 col-md-4 p-0">
-                      <p className="d-flex text-gray-6">
-                        <MdFace className="me-2 fixed-icon" color="#6C757D" />
-                        <strong>Gender</strong>
-                        <strong>&nbsp;:&nbsp;</strong>
-                        {item?.gender}
-                      </p>
-                    </div>
-                  )}
-
-                  {(item?.city || item?.state || item?.country) && (
-                    <div className="col-12 col-md-4 p-0">
-                      <p className="d-flex text-gray-6">
-                        <MdLocationOn
-                          className="me-2 fixed-icon"
-                          color="#EA4335"
-                        />
-                        <strong>Location</strong>
-                        <strong>&nbsp;:&nbsp;</strong>
-                        {[item?.city, item?.state, item?.country]
-                          .filter(Boolean)
-                          .join(", ")}
-                      </p>
-                    </div>
-                  )}
-
-                  {item?.purposeDetails?.inquiryFor?.name?.length > 0 && (
-                    <div className="col-12 col-md-4 p-0">
-                      <p className="d-flex text-gray-6">
-                        <MdQuestionAnswer
-                          className="me-2 fixed-icon"
-                          color="#2A48A0"
-                        />
-                        <strong>Inquiry For</strong>
-                        <strong>&nbsp;:&nbsp;</strong>
-                        {item?.purposeDetails?.inquiryFor?.name}
-                      </p>
-                    </div>
-                  )}
-
-                  {item?.purposeDetails?.preferredCountry?.length > 0 && (
-                    <div className="col-12 col-md-4 p-0">
-                      <p className="d-flex align-items-center text-gray-6">
-                        <span className="d-flex">
-                          <MdPublic
-                            className="me-2 fixed-icon"
-                            color="#6D4C41"
+                    {/* Visa Status */}
+                    {item?.visaApplicationDetails?.status && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2">
+                          <MdVerifiedUser
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#4DB6AC"
                           />
-                          <strong>Preferred Country</strong>
-                          <strong>&nbsp;:&nbsp;</strong>
-                        </span>
-                        <span className="d-flex flex-wrap gap-2">
-                          {item.purposeDetails.preferredCountry.map(
-                            (country, idx) => {
-                              const name = country || "N/A";
-                              const { bg, text } = getColors(name);
-                              return (
-                                <span
-                                  key={idx}
-                                  className="px-2 py-1 rounded"
-                                  style={{
-                                    backgroundColor: bg,
-                                    color: text,
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {name}
-                                </span>
-                              );
-                            },
-                          )}
-                        </span>
-                      </p>
-                    </div>
-                  )}
-
-                  {item?.purposeDetails &&
-                    item.purposeDetails.intakeYear?.length > 0 && (
-                      <div className="col-12 col-md-4 p-0">
-                        <p className="d-flex text-gray-6">
-                          <MdEvent className="me-2" size={19} color="#00796B" />
-                          <strong>Intake Year</strong>
-                          <strong>&nbsp;:&nbsp;</strong>
-                          {item?.purposeDetails?.intakeYear?.join(", ") || "-"}
-                        </p>
+                          <div>
+                            <div className="text-muted small fw-medium mb-1">
+                              Visa Status
+                            </div>
+                            <span
+                              className="badge border-0"
+                              style={{
+                                backgroundColor: "#4DB6AC",
+                                color: "#fff",
+                                padding: "6px 14px",
+                                borderRadius: "20px",
+                                fontSize: "0.75rem",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {item.visaApplicationDetails.status}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     )}
 
-                  {item?.interestedCourseDetails?.length > 0 && (
-                    <div className="col-12 col-md-4 p-0">
-                      <div className="d-flex text-gray-6">
-                        <MdSchool className="me-2 fixed-icon" color="#0288D1" />
-                        <strong>Institute</strong>
-                        <strong>&nbsp;:&nbsp;</strong>
-                        <ul>
-                          {/* ul class : (truncate) hover */}
-                          {item.interestedCourseDetails.map((course, index) => (
-                            <li key={index}>
-                              {`${course?.institute?.instituteName} - ${course?.campus?.campus}` ||
-                                "N/A"}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-
-                  {item?.interestedCourseDetails?.length > 0 && (
-                    <div className="col-12 col-md-4 p-0">
-                      <div className="d-flex text-gray-6">
-                        <MdMenuBook
-                          className="me-2 fixed-icon"
-                          color="#5E35B1"
+                    {/* Email */}
+                    <div className="col-12 col-sm-6 col-lg-3">
+                      <div className="d-flex align-items-start gap-2 text-gray-6">
+                        <EmailIcon
+                          className="mt-1 flex-shrink-0"
+                          style={{ fontSize: "19px", color: "#EA4335" }}
                         />
-                        <strong>Course</strong>
-                        <strong>&nbsp;:&nbsp;</strong>
-                        <ul>
-                          {/* ul class : (truncate) hover */}
-                          {item.interestedCourseDetails.map((course, index) => {
-                            const statusObj = interestedCourseStatus.find(
-                              (status) => status?.name === course?.status,
-                            );
-                            const bgColor = statusObj?.color || "#0b3c8c";
-                            return (
-                              <li key={index}>
-                                <span style={{ position: "relative" }}>
-                                  {course?.course?.programName || "N/A"}
-                                  <span
-                                    style={{
-                                      fontSize: "13.5px",
-                                      letterSpacing: "0.5px",
-                                      backgroundColor: bgColor,
-                                      padding: "2px 8px",
-                                      borderRadius: "12px",
-                                      color: "#FFFFFF",
-                                      margin: "0px 0px 5px 8px",
-                                      position: "static",
-                                      whiteSpace: "nowrap",
-                                      display: "inline-block",
-                                      zIndex: 10,
-                                    }}
-                                  >
-                                    {course?.status || "New"}
-                                  </span>
-                                </span>
-                              </li>
-                            );
-                          })}
-                        </ul>
+                        <div style={{ wordBreak: "break-all" }}>
+                          <div className="text-muted small fw-medium mb-0">
+                            Email
+                          </div>
+                          <div className="fw-semibold">
+                            {item?.email || "-"}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  )}
-                  {/* <div className="col-12 col-md-4 p-0">
-                    <div className="d-flex text-gray-6"></div>
-                  </div> */}
-                  {item?.userAllocationDetails?.length > 0 && (
-                    <div className="col-12 col-md-4 p-0">
-                      <div className="d-flex text-gray-6">
-                        <AssignmentIndIcon
-                          className="me-2 fixed-icon"
-                          sx={{ color: "#6A1B9A" }}
-                        />
-                        <strong>User Allocation</strong>
-                        <strong>&nbsp;:&nbsp;</strong>
-                        <ul>
-                          {item.userAllocationDetails.map((alloc, index) => (
-                            <li key={index}>
-                              {`${alloc?.user?.name || "N/A"} (${
-                                alloc?.role?.name || "N/A"
-                              })`}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
 
-                  {item?.visaAllocationDetails?.length > 0 && (
-                    <div className="col-12 col-md-4 p-0">
-                      <div className="d-flex text-gray-6">
-                        <AssignmentIcon
-                          className="me-2 fixed-icon"
-                          sx={{ color: "#0277BD" }}
-                        />
-                        <strong>Visa Allocation</strong>
-                        <strong>&nbsp;:&nbsp;</strong>
-                        <ul>
-                          {item.visaAllocationDetails.map((alloc, index) => (
-                            <li key={index}>
-                              {`${alloc?.user?.name || "N/A"} (${
-                                alloc?.role?.name || "N/A"
-                              })`}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-
-                  {userRole !== "Student" && userRole !== "LeadStudent" && (
-                    <Form.Check
-                      type="checkbox"
-                      label="Show Follow Up"
-                      id={`followup-checkbox-${index}`}
-                      className="custom-checkbox cursor-pointer"
-                      checked={showFollowUps[index] || false}
-                      onChange={() => {
-                        setShowFollowUps((prev) => ({
-                          ...prev,
-                          [index]: !prev[index],
-                        }));
-                      }}
-                    />
-                  )}
-
-                  {showFollowUps[index] && item?.followUps && (
-                    <div className="row g-1">
-                      {Object.entries(item.followUps).map(([key, followup]) => {
-                        const title = key
-                          .replace(/([A-Z])/g, " $1")
-                          .replace(/^./, (str) => str.toUpperCase());
-
-                        const statusColors = {
-                          Pending: "#F4B400",
-                          Processing: "#1E88E5",
-                          Closed: "#43A047",
-                        };
-
-                        return (
-                          <div className="col-12 col-md-6" key={followup._id}>
-                            <div
-                              className="p-3 border rounded shadow-sm h-100"
-                              style={{
-                                backgroundColor: "#fff",
-                                borderLeft: `4px solid ${
-                                  statusColors[followup?.status] || "#9E9E9E"
-                                }`,
-                              }}
-                            >
-                              <div className="d-flex justify-content-between align-items-start">
-                                <div>
-                                  <h6
-                                    style={{
-                                      fontSize: "14px",
-                                      fontWeight: 600,
-                                      margin: 0,
-                                    }}
-                                  >
-                                    {title}
-                                  </h6>
-                                  <span
-                                    style={{
-                                      fontSize: "12px",
-                                      padding: "2px 8px",
-                                      backgroundColor:
-                                        statusColors[followup?.status] ||
-                                        "#9E9E9E",
-                                      color: "#fff",
-                                      borderRadius: "10px",
-                                    }}
-                                  >
-                                    {followup?.status || "-"}
-                                  </span>
-                                </div>
+                    {/* Phone */}
+                    {userRole === "Super Admin" &&
+                      ((item?.b2bContact && item.b2bContact !== "na") ||
+                        (item?.contact && item.contact !== "na")) && (
+                        <div className="col-12 col-sm-6 col-lg-3">
+                          <div className="d-flex align-items-start gap-2 text-gray-6">
+                            <PhoneIcon
+                              className="mt-1 flex-shrink-0"
+                              style={{ fontSize: "19px", color: "#34A853" }}
+                            />
+                            <div>
+                              <div className="text-muted small fw-medium mb-0">
+                                Phone
                               </div>
-                              <div
-                                className="mt-2"
-                                style={{
-                                  fontSize: "13px",
-                                  color: "#555",
-                                }}
-                              >
-                                <p className="mb-1">
-                                  <strong>Next Follow-up:</strong>{" "}
-                                  {followup?.nextFollowUpDate
-                                    ? formatDate(
-                                        parseDate(followup.nextFollowUpDate),
-                                      )
-                                    : "-"}
-                                </p>
-                                <p className="mb-1">
-                                  <strong>Remarks:</strong>{" "}
-                                  {followup?.remarks || "-"}
-                                </p>
-                                {followup?.updatedByName && (
-                                  <p className="mb-0">
-                                    <strong>Updated By:</strong>{" "}
-                                    {followup.updatedByName}
-                                  </p>
-                                )}
-                                {title === "Document Details" &&
-                                  nearestDeadline && (
-                                    <p
-                                      style={{ color: "red", fontWeight: 400 }}
-                                    >
-                                      <strong>Document Deadline:</strong>{" "}
-                                      {nearestDeadline.deadline.toLocaleDateString(
-                                        "en-GB",
-                                      )}
-                                      <span
-                                        style={{
-                                          color: "#000",
-                                          marginLeft: "3px",
-                                        }}
-                                      >
-                                        ({nearestDeadline.resolvedDocumentName})
-                                      </span>
-                                    </p>
-                                  )}
+                              <div className="fw-semibold">
+                                {userRole === "Super Admin"
+                                  ? item?.b2bContact || item?.contact
+                                  : item?.contact || "-"}
                               </div>
                             </div>
                           </div>
-                        );
-                      })}
+                        </div>
+                      )}
+
+                    {/* Created Date */}
+                    <div className="col-12 col-sm-6 col-lg-3">
+                      <div className="d-flex align-items-start gap-2 text-gray-6">
+                        <MdOutlineCalendarToday
+                          className="mt-1 flex-shrink-0"
+                          size={19}
+                          color="#34A853"
+                        />
+                        <div>
+                          <div className="text-muted small fw-medium mb-0">
+                            Created Date
+                          </div>
+                          <div className="fw-semibold">
+                            {new Date(item?.createdAt).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                                timeZone: "UTC",
+                              },
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  )}
+
+                    {/* DOB */}
+                    {item?.DOB?.length > 0 && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdCake
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#FB8C00"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-0">
+                              DOB
+                            </div>
+                            <div className="fw-semibold">
+                              {formatDate(parseDate(item.DOB))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Gender */}
+                    {item?.gender?.length > 0 && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdFace
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#6C757D"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-0">
+                              Gender
+                            </div>
+                            <div className="fw-semibold">{item?.gender}</div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Location */}
+                    {(item?.city || item?.state || item?.country) && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdLocationOn
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#EA4335"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-0">
+                              Location
+                            </div>
+                            <div className="fw-semibold">
+                              {[item?.city, item?.state, item?.country]
+                                .filter(Boolean)
+                                .join(", ")}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Inquiry For */}
+                    {item?.purposeDetails?.inquiryFor?.name?.length > 0 && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdQuestionAnswer
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#2A48A0"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-0">
+                              Inquiry For
+                            </div>
+                            <div className="fw-semibold">
+                              {item?.purposeDetails?.inquiryFor?.name}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Preferred Country */}
+                    {item?.purposeDetails?.preferredCountry?.length > 0 && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdPublic
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#6D4C41"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-0">
+                              Preferred Country
+                            </div>
+                            <div className="d-flex flex-wrap gap-1 mt-1">
+                              {item.purposeDetails.preferredCountry.map(
+                                (country, idx) => {
+                                  const { bg, text } = getColors(
+                                    country || "N/A",
+                                  );
+                                  return (
+                                    <span
+                                      key={idx}
+                                      className="px-2 py-0.5 rounded fw-medium"
+                                      style={{
+                                        backgroundColor: bg,
+                                        color: text,
+                                        fontSize: "11px",
+                                      }}
+                                    >
+                                      {country}
+                                    </span>
+                                  );
+                                },
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Intake Year */}
+                    {item?.purposeDetails?.intakeYear?.length > 0 && (
+                      <div className="col-12 col-sm-6 col-lg-3">
+                        <div className="d-flex align-items-start gap-2 text-gray-6">
+                          <MdEvent
+                            className="mt-1 flex-shrink-0"
+                            size={19}
+                            color="#00796B"
+                          />
+                          <div>
+                            <div className="text-muted small fw-medium mb-0">
+                              Intake Year
+                            </div>
+                            <div className="fw-semibold">
+                              {item.purposeDetails.intakeYear.join(", ")}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Allocation Section */}
+                    {(item?.userAllocationDetails?.length > 0 ||
+                      item?.visaAllocationDetails?.length > 0) && (
+                      <div className="col-12">
+                        <div
+                          className="p-3 rounded-lg border-0 shadow-sm"
+                          style={{
+                            background:
+                              "linear-gradient(145deg, #f8faff 0%, #f0f4ff 100%)",
+                            border: "1px solid #e2e8f0",
+                          }}
+                        >
+                          <div className="d-flex align-items-center gap-2 mb-3">
+                            <AssignmentIndIcon
+                              style={{ color: "#4f46e5", fontSize: "20px" }}
+                            />
+                            <h6
+                              className="mb-0 fw-bold text-dark"
+                              style={{ fontSize: "0.9rem" }}
+                            >
+                              Allocations
+                            </h6>
+                          </div>
+                          <div className="d-flex flex-wrap gap-3">
+                            {item?.userAllocationDetails?.map((alloc, idx) => {
+                              const theme =
+                                badgeThemes[idx % badgeThemes.length];
+                              return (
+                                <div
+                                  key={idx}
+                                  className="d-flex flex-column p-2 rounded border shadow-sm"
+                                  style={{
+                                    backgroundColor: theme.bg,
+                                    borderColor: theme.border,
+                                    minWidth: "140px",
+                                  }}
+                                >
+                                  <span
+                                    className="small fw-bold mb-1"
+                                    style={{
+                                      color: theme.role,
+                                      fontSize: "0.7rem",
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    {alloc?.role?.name || "N/A"}
+                                  </span>
+                                  <span
+                                    className="fw-bold"
+                                    style={{
+                                      color: theme.user,
+                                      fontSize: "0.85rem",
+                                    }}
+                                  >
+                                    {alloc?.user?.name || "N/A"}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                            {item?.visaAllocationDetails?.map((alloc, idx) => {
+                              const theme =
+                                badgeThemes[
+                                  (idx +
+                                    (item?.userAllocationDetails?.length ||
+                                      0)) %
+                                    badgeThemes.length
+                                ];
+                              return (
+                                <div
+                                  key={`visa-${idx}`}
+                                  className="d-flex flex-column p-2 rounded border shadow-sm"
+                                  style={{
+                                    backgroundColor: theme.bg,
+                                    borderColor: theme.border,
+                                    minWidth: "140px",
+                                  }}
+                                >
+                                  <span
+                                    className="small fw-bold mb-1"
+                                    style={{
+                                      color: theme.role,
+                                      fontSize: "0.7rem",
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    Visa: {alloc?.role?.name || "N/A"}
+                                  </span>
+                                  <span
+                                    className="fw-bold"
+                                    style={{
+                                      color: theme.user,
+                                      fontSize: "0.85rem",
+                                    }}
+                                  >
+                                    {alloc?.user?.name || "N/A"}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Courses/Institutes */}
+                    {item?.interestedCourseDetails?.length > 0 && (
+                      <div className="col-12 mt-3">
+                        <div className="d-flex flex-column gap-3">
+                          {item.interestedCourseDetails.map((course, idx) => {
+                            const statusObj = interestedCourseStatus.find(
+                              (s) => s?.name === course?.status,
+                            );
+                            return (
+                              <div
+                                key={idx}
+                                className="d-flex align-items-center gap-3 p-2 rounded bg-light border-start border-4 border-primary"
+                              >
+                                <div className="p-2 bg-white rounded shadow-sm">
+                                  <MdSchool size={20} color="#0288D1" />
+                                </div>
+                                <div className="flex-grow-1">
+                                  <div
+                                    className="fw-bold text-dark"
+                                    style={{ fontSize: "0.9rem" }}
+                                  >
+                                    {course?.course?.programName || "N/A"}
+                                  </div>
+                                  <div className="text-muted small">
+                                    {course?.institute?.instituteName} -{" "}
+                                    {course?.campus?.campus}
+                                  </div>
+                                </div>
+                                <span
+                                  className="badge"
+                                  style={{
+                                    backgroundColor:
+                                      statusObj?.color || "#5d54be",
+                                    fontSize: "0.7rem",
+                                    padding: "6px 12px",
+                                    borderRadius: "12px",
+                                  }}
+                                >
+                                  {course?.status || "New"}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Follow Up Checkbox */}
+                    {userRole !== "Student" && userRole !== "LeadStudent" && (
+                      <div className="col-12 mt-3">
+                        <div className="d-flex align-items-center gap-2 p-2 bg-light rounded border border-dashed">
+                          <Form.Check
+                            type="checkbox"
+                            label={
+                              <span className="fw-semibold small">
+                                Show Follow Up Records
+                              </span>
+                            }
+                            id={`followup-checkbox-${index}`}
+                            className="custom-checkbox cursor-pointer mb-0"
+                            checked={showFollowUps[index] || false}
+                            onChange={() => {
+                              setShowFollowUps((prev) => ({
+                                ...prev,
+                                [index]: !prev[index],
+                              }));
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Follow Ups Display */}
+                    {showFollowUps[index] && item?.followUps && (
+                      <div className="col-12 mt-3">
+                        <div className="row g-3">
+                          {Object.entries(item.followUps).map(
+                            ([key, followup]) => {
+                              const title = key
+                                .replace(/([A-Z])/g, " $1")
+                                .replace(/^./, (str) => str.toUpperCase());
+                              const statusColors = {
+                                Pending: "#F4B400",
+                                Processing: "#1E88E5",
+                                Closed: "#43A047",
+                              };
+
+                              return (
+                                <div
+                                  className="col-12 col-md-6"
+                                  key={followup._id}
+                                >
+                                  <div
+                                    className="p-3 border rounded shadow-sm h-100 bg-white"
+                                    style={{
+                                      borderLeft: `4px solid ${statusColors[followup?.status] || "#9E9E9E"}`,
+                                    }}
+                                  >
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                      <h6
+                                        className="mb-0 fw-bold"
+                                        style={{ fontSize: "0.85rem" }}
+                                      >
+                                        {title}
+                                      </h6>
+                                      <span
+                                        className="badge"
+                                        style={{
+                                          backgroundColor:
+                                            statusColors[followup?.status] ||
+                                            "#9E9E9E",
+                                          fontSize: "0.65rem",
+                                        }}
+                                      >
+                                        {followup?.status || "-"}
+                                      </span>
+                                    </div>
+                                    <div className="small text-muted">
+                                      <div className="mb-1">
+                                        <strong>Next:</strong>{" "}
+                                        {followup?.nextFollowUpDate
+                                          ? formatDate(
+                                              parseDate(
+                                                followup.nextFollowUpDate,
+                                              ),
+                                            )
+                                          : "-"}
+                                      </div>
+                                      <div className="mb-1">
+                                        <strong>Remarks:</strong>{" "}
+                                        {followup?.remarks || "-"}
+                                      </div>
+                                      {followup?.updatedByName && (
+                                        <div>
+                                          <strong>Updated By:</strong>{" "}
+                                          {followup.updatedByName}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            },
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Document Deadline Alert */}
+                    {nearestDeadline && (
+                      <div className="col-12 mt-3">
+                        <div className="alert alert-danger d-flex align-items-center gap-2 mb-0 py-2 px-3">
+                          <i className="bi bi-calendar-x-fill text-danger fs-5"></i>
+                          <div className="small">
+                            <strong className="text-danger">
+                              Document Deadline:
+                            </strong>{" "}
+                            {nearestDeadline.deadline.toLocaleDateString(
+                              "en-GB",
+                            )}
+                            <span className="ms-2 opacity-75">
+                              ({nearestDeadline.resolvedDocumentName})
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );

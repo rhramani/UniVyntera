@@ -398,8 +398,8 @@ const PastStudentAttendance = () => {
       <Row className="mt-5 row-sm">
         <Col md={12}>
           <Card className="custom-card transcation-crypto">
-            <Card.Header className="border-bottom-0 d-flex justify-content-between align-items-center">
-              <div className="card-title">Past Attendance</div>
+            <Card.Header className="border-bottom-0 d-flex justify-content-end align-items-center">
+              {/* <div className="card-title">Past Attendance</div> */}
               <div className="d-flex align-items-center gap-2 flex-wrap">
                 <Button
                   variant="light"
@@ -1008,11 +1008,13 @@ const PastStudentAttendance = () => {
                   })}
                 </div>
                 {totalPages > 1 && studentsData?.length > 0 && (
-                  <Paginations
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={(page) => setCurrentPage(page)}
-                  />
+                  <div className="d-flex justify-content-end mt-3">
+                    <Paginations
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={(page) => setCurrentPage(page)}
+                    />
+                  </div>
                 )}
               </div>
             </Card.Body>

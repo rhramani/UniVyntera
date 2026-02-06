@@ -393,6 +393,7 @@ const AllLeadsCard = ({
                       style={{
                         backgroundColor: "#5d54be34",
                         borderColor: "#5d54be34",
+                        cursor: "pointer",
                         width: "36px",
                         height: "36px",
                       }}
@@ -403,7 +404,7 @@ const AllLeadsCard = ({
                     >
                       <MoreVertIcon
                         className="three-dots-icon"
-                        style={{ color: "#  5d54be", fontSize: "20px" }}
+                        style={{ color: "#5d54be", fontSize: "20px" }}
                       />
                     </IconButton>
                     <Menu

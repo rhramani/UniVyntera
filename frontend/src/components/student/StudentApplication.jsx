@@ -1266,8 +1266,8 @@ const StudentApplication = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="w-100 d-flex flex-wrap justify-content-between">
-                <div className="card-title">Student Application</div>
+              <div className="w-100 d-flex flex-wrap justify-content-end">
+                {/* <div className="card-title">Student Application</div> */}
 
                 <div className="d-flex flex-wrap align-items-center gap-2">
                   {userRole !== "LeadStudent" && (
@@ -1560,11 +1560,13 @@ const StudentApplication = () => {
               </Modal>
 
               {totalPages > 1 && allStudentApplication.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                     <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

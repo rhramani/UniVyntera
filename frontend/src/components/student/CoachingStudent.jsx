@@ -1257,8 +1257,8 @@ const CoachingStudent = () => {
       <Row className="mt-5 row-sm">
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
-            <Card.Header className="border-bottom-0 d-flex justify-content-between">
-              <div className="card-title">Coaching Students</div>
+            <Card.Header className="border-bottom-0 d-flex justify-content-end">
+              {/* <div className="card-title">Coaching Students</div> */}
               <div className="d-flex flex-wrap align-items-center gap-2">
                 <div className="filter-item">
                   <div className="contact-search3">
@@ -1776,11 +1776,13 @@ const CoachingStudent = () => {
                 handleConvertToApplication={handleConvertToApplication}
               />
               {totalPages > 1 && coachingStudentData?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                   <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>  
               )}
             </Card.Body>
           </Card>

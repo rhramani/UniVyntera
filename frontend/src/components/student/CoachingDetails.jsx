@@ -1119,6 +1119,7 @@ const CoachingDetails = () => {
             backgroundColor: "rgba(0, 0, 0, 0.6)",
             display: "flex",
             justifyContent: "center",
+           
             alignItems: "center",
             zIndex: 2000,
           }}
@@ -1148,6 +1149,7 @@ const CoachingDetails = () => {
         className="custom-card transcation-crypto mb-0"
         style={{
           minHeight: "94vh",
+          padding: "0 20px",
           borderTopLeftRadius: "0",
           borderTopRightRadius: "0",
         }}
