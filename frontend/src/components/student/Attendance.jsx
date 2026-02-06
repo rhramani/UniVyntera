@@ -108,7 +108,7 @@ const Attendance = () => {
       try {
         toast.dismiss();
         const student = coachingStudents?.find(
-          (s) => s?._id === values?.student
+          (s) => s?._id === values?.student,
         );
         const studentName = student ? student?.name : "Unknown Student";
         const attendanceStatus = values?.status ? "present" : "absent";
@@ -121,7 +121,7 @@ const Attendance = () => {
               filters.endDate,
               filters.studentId,
               currentPage,
-              itemsPerPage
+              itemsPerPage,
             );
           }
         }
@@ -150,7 +150,7 @@ const Attendance = () => {
 
   const getAttendanceStatus = (student, date) => {
     const record = attendance?.find(
-      (r) => r?.student === student && r?.date === date
+      (r) => r?.student === student && r?.date === date,
     );
     return record || { status: null, remarks: "" };
   };
@@ -158,7 +158,7 @@ const Attendance = () => {
   const setLocalStatus = (student, date, nextStatus, remarks = "") => {
     setAttendance((prev) => {
       const filtered = prev.filter(
-        (r) => !(r.student === student && r.date === date)
+        (r) => !(r.student === student && r.date === date),
       );
       if (nextStatus === null) return filtered;
       return [...filtered, { student, date, status: nextStatus, remarks }];
@@ -184,7 +184,7 @@ const Attendance = () => {
           filters.endDate,
           filters.studentId,
           currentPage,
-          itemsPerPage
+          itemsPerPage,
         );
       }
     } catch (err) {
@@ -239,12 +239,12 @@ const Attendance = () => {
     endDate = filters.endDate,
     studentId = filters.studentId,
     page = 1,
-    limit = itemsPerPage
+    limit = itemsPerPage,
   ) => {
     try {
       setLoading(true);
       const response = await dispatch(
-        getAllAttendence(startDate, endDate, studentId, page, limit)
+        getAllAttendence(startDate, endDate, studentId, page, limit),
       );
       const students = response?.data?.data?.data || [];
       setStudentsData(students);
@@ -278,7 +278,7 @@ const Attendance = () => {
         filters.endDate,
         filters.studentId,
         currentPage,
-        itemsPerPage
+        itemsPerPage,
       );
     }
   }, [canRead, filters, itemsPerPage, currentPage]);
@@ -287,7 +287,7 @@ const Attendance = () => {
     try {
       setLoading(true);
       const response = await dispatch(
-        getCoachingStudent(1, 10000000, "", "", "", "", "", "")
+        getCoachingStudent(1, 10000000, "", "", "", "", "", ""),
       );
       setCoachingStudents(response?.data?.data?.data || []);
     } catch (error) {
@@ -399,8 +399,8 @@ const Attendance = () => {
       <Row className="mt-5 row-sm">
         <Col md={12}>
           <Card className="custom-card transcation-crypto">
-            <Card.Header className="border-bottom-0 d-flex justify-content-between align-items-center">
-              <div className="card-title">Attendance</div>
+            <Card.Header className="border-bottom-0 d-flex justify-content-end align-items-center">
+              {/* <div className="card-title">Attendance</div> */}
               <div className="d-flex align-items-center gap-2 flex-wrap">
                 <Button
                   variant="light"
@@ -680,9 +680,9 @@ const Attendance = () => {
                       styles={selectStyles}
                       value={
                         studentsOptions.find(
-                          (option) => option.value === filters.studentId
+                          (option) => option.value === filters.studentId,
                         ) || null
-                      } 
+                      }
                       onChange={(selected) => {
                         setFilters((prev) => ({
                           ...prev,
@@ -732,8 +732,8 @@ const Attendance = () => {
                             date <=
                               new Date(
                                 getMondayOfWeek(new Date()).setDate(
-                                  getMondayOfWeek(new Date()).getDate() + 6
-                                )
+                                  getMondayOfWeek(new Date()).getDate() + 6,
+                                ),
                               );
                           return (
                             <th key={date} className="text-center">
@@ -773,7 +773,7 @@ const Attendance = () => {
                                 .split("T")[0];
                               const { status, remarks } = getAttendanceStatus(
                                 sid,
-                                dateString
+                                dateString,
                               );
                               const today = new Date();
                               const todayStr = today
@@ -805,20 +805,20 @@ const Attendance = () => {
                                         <div
                                           style={getButtonStyle(
                                             null,
-                                            "present"
+                                            "present",
                                           )}
                                           onClick={() => {
                                             setLocalStatus(
                                               sid,
                                               dateString,
                                               "present",
-                                              ""
+                                              "",
                                             );
                                             submitAttendance(
                                               sid,
                                               dateString,
                                               true,
-                                              ""
+                                              "",
                                             );
                                           }}
                                           aria-label={`Mark ${
@@ -849,7 +849,7 @@ const Attendance = () => {
                                       <div
                                         style={getButtonStyle(
                                           status,
-                                          "present"
+                                          "present",
                                         )}
                                         onClick={() => {
                                           setPendingAbsent({
@@ -884,20 +884,20 @@ const Attendance = () => {
                                         <div
                                           style={getButtonStyle(
                                             status,
-                                            "absent"
+                                            "absent",
                                           )}
                                           onClick={() => {
                                             setLocalStatus(
                                               sid,
                                               dateString,
                                               "present",
-                                              ""
+                                              "",
                                             );
                                             submitAttendance(
                                               sid,
                                               dateString,
                                               true,
-                                              ""
+                                              "",
                                             );
                                           }}
                                           aria-label={`Change ${
@@ -922,8 +922,8 @@ const Attendance = () => {
                     {!canRead
                       ? "You do not have permission to view this Data"
                       : loading
-                      ? "Loading..."
-                      : "No data available"}
+                        ? "Loading..."
+                        : "No data available"}
                   </div>
                 )}
                 <div className="d-flex gap-4 mt-3 flex-wrap justify-content-center">
@@ -1008,11 +1008,13 @@ const Attendance = () => {
                   })}
                 </div>
                 {totalPages > 1 && studentsData?.length > 0 && (
-                  <Paginations
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={(page) => setCurrentPage(page)}
-                  />
+                  <div className="mt-4 d-flex justify-content-end align-items-end">
+                    <Paginations
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={(page) => setCurrentPage(page)}
+                    />
+                  </div>
                 )}
               </div>
             </Card.Body>

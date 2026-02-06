@@ -1078,8 +1078,8 @@ const VisitorApplication = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="w-100 d-flex justify-content-between">
-                <div className="card-title">Visitor Applications</div>
+              <div className="w-100 d-flex justify-content-end">
+                {/* <div className="card-title">Visitor Applications</div> */}
                 <div className="d-flex flex-wrap align-items-center gap-2">
                     <div className="filter-item">
                       <div className="contact-search3">
@@ -1698,11 +1698,13 @@ const VisitorApplication = () => {
               </Modal>
 
               {totalPages > 1 && allVisitorApplication?.length > 0 && (
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
+                 <div className="d-flex justify-content-end mt-3">
+                    <Paginations
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={(page) => setCurrentPage(page)}
+                    />
+                  </div>
               )}
             </Card.Body>
           </Card>
