@@ -67,9 +67,15 @@ const Dialpad = () => {
           <Form.Control
             type="text"
             value={number}
+            maxLength={12}
             placeholder="Enter phone number..."
             className="dialer-input-premium border-0 shadow-none text-center"
-            readOnly
+            onChange={(e) => {
+              const val = e.target.value;
+              if (/^[0-9*#]*$/.test(val)) {
+                setNumber(val);
+              }
+            }}
           />
           <div className="display-actions">
             {number && (

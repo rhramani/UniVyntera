@@ -535,7 +535,7 @@ const CourseFinder = () => {
     }
   }, [currentPage, itemsPerPage, appliedFilters, hasSearched]);
 
-  useEffect(() => {}, [courseFinderData]);
+  useEffect(() => { }, [courseFinderData]);
 
   useEffect(() => {
     fetchAllInstitute();
@@ -863,9 +863,9 @@ const CourseFinder = () => {
         // Convert comma-separated disciplineArea to array
         const formattedDisciplineArea = values.disciplineArea
           ? values.disciplineArea
-              .split(",")
-              .map((item) => item.trim())
-              .filter((item) => item.length > 0)
+            .split(",")
+            .map((item) => item.trim())
+            .filter((item) => item.length > 0)
           : [];
 
         const submitData = {
@@ -1222,11 +1222,10 @@ const CourseFinder = () => {
     // Check if inrValue is valid
     if (isNaN(inrValue)) return "Invalid conversion";
 
-    return `${storedEncryptedCurrency ? storedEncryptedCurrency : "INR"} Value: ${
-      storedEncryptedCurrency
+    return `${storedEncryptedCurrency ? storedEncryptedCurrency : "INR"} Value: ${storedEncryptedCurrency
         ? getSymbolFromCurrency(storedEncryptedCurrency)
         : "₹"
-    }${inrValue.toLocaleString("en-IN")}`;
+      }${inrValue.toLocaleString("en-IN")}`;
   };
 
   const customStyle = {
@@ -1256,9 +1255,9 @@ const CourseFinder = () => {
       <div className="d-flex justify-content-between align-items-center">
         <div>
           <Pageheader
-            mainheading="Course"
+            mainheading="Course Finder"
             parentfolder="Home"
-            activepage="Course"
+            activepage="Course Finder"
           />
         </div>
         <div style={{ minWidth: "100px" }}>
@@ -1303,12 +1302,12 @@ const CourseFinder = () => {
             style={{
               background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
               borderRadius: "16px",
-              padding: "1.5rem",
+              padding: "16px",
               border: "2px solid #dbeafe",
             }}
           >
-            <Row className="align-items-center g-4">
-              <Col xs={12} lg={9}>
+            <Row className="align-items-center g-2">
+              <Col xs={12} lg={9} className="mb-2 mb-lg-0">
                 <div style={{ position: "relative" }}>
                   <Form.Control
                     type="text"
@@ -1391,11 +1390,11 @@ const CourseFinder = () => {
                   )}
                 </div>
               </Col>
-              <Col xs={12} lg={3}>
-                <div className="d-flex gap-3">
+              <Col xs={12} lg={3} >
+                <div className="d-flex flex-column flex-lg-row gap-2 w-100">
                   <Button
-                variant="primary"
-                className="custom-select-height2 d-flex justify-content-center align-items-center gap-2 px-5"
+                    variant="primary"
+                    className="custom-select-height2 d-flex justify-content-center align-items-center gap-2 w-100"
                     style={{
                       height: "45px",
                       borderRadius: "12px",
@@ -1428,7 +1427,7 @@ const CourseFinder = () => {
                   </Button>
                   <Button
                     variant="light"
-                    className="custom-select-height2 d-flex justify-content-center align-items-center gap-2 px-5"
+                    className="custom-select-height2 d-flex justify-content-center align-items-center gap-2 w-100"
                     style={{
                       height: "60px",
                       borderRadius: "12px",
@@ -1453,7 +1452,7 @@ const CourseFinder = () => {
                       e.target.style.borderColor = "#e2e8f0";
                       e.target.style.color = "#64748b";
                       e.target.style.boxShadow = "none";
-                    }}  
+                    }}
                   >
                     <FaUndo fontSize={16} />
                     <span>Reset</span>
@@ -1488,8 +1487,8 @@ const CourseFinder = () => {
                 Location & Institution Filters
               </h5>
             </div>
-            <Row className="g-4">
-              <Col xs={12} sm={6} md={3}>
+            <Row className="g-3 g-lg-4">
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label
                   className="course_finder_filter mb-1"
                   style={{ fontWeight: 500 }}
@@ -1513,7 +1512,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label className="course_finder_filter">State</Form.Label>
                 <Select
                   id="state-select"
@@ -1536,7 +1535,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label
                   className="course_finder_filter mb-1"
                   style={{ fontWeight: 500 }}
@@ -1581,7 +1580,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label
                   className="course_finder_filter mb-1"
                   style={{ fontWeight: 500 }}
@@ -1643,8 +1642,8 @@ const CourseFinder = () => {
                 Advanced Course Filters
               </h5>
             </div>
-            <Row className="g-4">
-              <Col xs={12} sm={6} md={3}>
+            <Row className="g-3 g-lg-4">
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label className="course_finder_filter">
                   Program Level
                 </Form.Label>
@@ -1673,7 +1672,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label className="course_finder_filter">
                   Study Area
                 </Form.Label>
@@ -1705,7 +1704,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label className="course_finder_filter">
                   Discipline Area
                 </Form.Label>
@@ -1734,7 +1733,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label className="course_finder_filter">
                   Requirements
                 </Form.Label>
@@ -1764,7 +1763,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label className="course_finder_filter">Year</Form.Label>
                 <Select
                   id="year-select"
@@ -1774,9 +1773,9 @@ const CourseFinder = () => {
                   value={
                     selectedYear && selectedYear.length > 0
                       ? selectedYear.map((year) => ({
-                          value: year,
-                          label: year.toString(),
-                        }))
+                        value: year,
+                        label: year.toString(),
+                      }))
                       : []
                   }
                   classNamePrefix="custom-select"
@@ -1788,7 +1787,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label className="course_finder_filter">Months</Form.Label>
                 <Select
                   id="months-select"
@@ -1805,7 +1804,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label className="course_finder_filter">
                   Duration
                 </Form.Label>
@@ -1824,7 +1823,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={3}>
+              <Col xs={12} sm={6} md={6} lg={3}>
                 <Form.Label
                   className="course_finder_filter"
                   style={{ fontWeight: 500 }}
@@ -1844,7 +1843,7 @@ const CourseFinder = () => {
                   style={customStyle2}
                 />
               </Col>
-              <Col xs={12} sm={6} md={6}>
+              <Col xs={12} sm={6} md={6} lg={6}>
                 <Form.Label className="course_finder_filter">
                   Score Out Of
                 </Form.Label>
@@ -1866,7 +1865,7 @@ const CourseFinder = () => {
                   styles={customStyle}
                 />
               </Col>
-              <Col xs={12} sm={6} md={6}>
+              <Col xs={12} sm={6} md={6} lg={6}>
                 <Form.Label className="course_finder_filter">Score</Form.Label>
                 <Form.Control
                   type="text"

@@ -170,11 +170,11 @@ const DashboardTabs = ({
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.querySelector("svg").style.color =
-                      "#053880";
+                      "#5D54BE";
                   }}
                 >
                   <ArrowBackIosNewIcon
-                    style={{ fontSize: "20px", color: "#053880" }}
+                    style={{ fontSize: "20px", color: "#5D54BE" }}
                   />
                 </div>
               )}
@@ -207,10 +207,10 @@ const DashboardTabs = ({
                     style={{
                       fontSize: "16px",
                       fontWeight: activeTab === tab.key ? "600" : "400",
-                      color: activeTab === tab.key ? "#053880" : "#000000",
+                      color: activeTab === tab.key ? "#5D54BE" : "#000000",
                       textDecoration: "underline",
                       textDecorationColor:
-                        activeTab === tab.key ? "#053880" : "#d0d0d0",
+                        activeTab === tab.key ? "#5D54BE" : "#d0d0d0",
                       textDecorationThickness: "2px",
                       textUnderlineOffset: "4px",
                       cursor: isTabAccessible(tab.key)
@@ -224,17 +224,17 @@ const DashboardTabs = ({
                     onMouseEnter={(e) => {
                       if (isTabAccessible(tab.key)) {
                         e.target.style.color =
-                          activeTab === tab.key ? "#1f4da0" : "#053880";
+                          activeTab === tab.key ? "#1f4da0" : "#5D54BE";
                         e.target.style.textDecorationColor =
-                          activeTab === tab.key ? "#1f4da0" : "#053880";
+                          activeTab === tab.key ? "#1f4da0" : "#5D54BE";
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (isTabAccessible(tab.key)) {
                         e.target.style.color =
-                          activeTab === tab.key ? "#053880" : "#000000";
+                          activeTab === tab.key ? "#5D54BE" : "#000000";
                         e.target.style.textDecorationColor =
-                          activeTab === tab.key ? "#053880" : "#d0d0d0";
+                          activeTab === tab.key ? "#5D54BE" : "#d0d0d0";
                       }
                     }}
                   >
@@ -260,11 +260,11 @@ const DashboardTabs = ({
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.querySelector("svg").style.color =
-                      "#053880";
+                      "#5D54BE";
                   }}
                 >
                   <ArrowForwardIosIcon
-                    style={{ fontSize: "20px", color: "#053880" }}
+                    style={{ fontSize: "20px", color: "#5D54BE" }}
                   />
                 </div>
               )}
