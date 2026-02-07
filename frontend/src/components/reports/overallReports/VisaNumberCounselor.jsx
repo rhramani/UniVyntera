@@ -204,9 +204,9 @@ const VisaNumberCounselor = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="w-100 d-flex flex-wrap justify-content-between">
+              <div className="w-100 d-flex flex-wrap justify-content-end">
                 <div className="d-flex justify-content-between">
-                  <div className="card-title">Visa Number Counselor Report</div>
+                  {/* <div className="card-title">Visa Number Counselor Report</div> */}
                 </div>
                 <div className="d-flex flex-wrap align-items-center gap-2">
                 <div className="contact-search3">

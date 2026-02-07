@@ -5,6 +5,7 @@ import { AiOutlineClose, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FolderIcon from "@mui/icons-material/Folder";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -302,7 +303,7 @@ const PromotionalMeterials = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="card-title">Promotional Materials</div>
+              {/* <div className="card-title">Promotional Materials</div> */}
             </Card.Header>
             <Card.Body>
               <div className="d-flex mb-3 justify-content-between">
@@ -366,77 +367,59 @@ const PromotionalMeterials = () => {
                         key={item._id || index}
                         className="mb-4"
                       >
-                        <div className="d-flex justify-content-between align-items-center mb-3 p-3 border rounded shadow-sm">
+                        <div className="premium-country-card">
                           <Link
-                            // to={`/document-details/${item._id}`}
                             to={`/promotional-folder/${item._id}`}
-                            className="clickable-country d-flex align-items-center text-primary fw-bold text-decoration-underline-hover gap-2"
+                            className="premium-country-link"
                             title="Click to view documents"
                           >
-                            <ReactCountryFlag
-                              countryCode={countryCode}
-                              svg
-                              style={{
-                                width: "1em",
-                                height: "1em",
-                              }}
-                              title={item?.country || "Unknown"}
-                            />
-                            {item?.country || "-"}
+                            <div className="country-card-flag-wrapper">
+                              <ReactCountryFlag
+                                countryCode={countryCode}
+                                svg
+                                style={{
+                                  width: "1.2em",
+                                  height: "1.2em",
+                                  borderRadius: "4px",
+                                }}
+                                title={item?.country || "Unknown"}
+                              />
+                            </div>
+                            <div className="country-card-content">
+                              <div className="country-card-name">
+                                {item?.country || "-"}
+                              </div>
+                              <div className="country-card-doc-count">
+                                <FolderIcon
+                                  style={{ fontSize: "16px", color: "#6c5ffc" }}
+                                />
+                                <span>
+                                  {item?.documents?.length || 0} Documents
+                                </span>
+                              </div>
+                            </div>
                           </Link>
-                          {/* <span
-                          onClick={() => handleShowDocumentsModal(item)}
-                          style={{ cursor: "pointer" }}
-                          className="clickable-country text-primary fw-bold text-decoration-underline-hover"
-                          title="Click to view documents"
-                        >
-                          {item?.country || "-"}
-                        </span> */}
-                          {/* <div>
-                          <h3 className="mb-3">{item?.country || "-"}</h3>
-                          <div className="mb-2">
-                            <strong>Country:</strong> {item?.country || "-"}
-                          </div>
-                          <div className="mb-2">
-                            <strong>Documents:</strong>{" "}
-                            {item?.documents?.length > 0
-                              ? item.documents
-                                  .map((doc) => doc.name || "-")
-                                  .join(", ")
-                              : "-"}
-                          </div>
-                          <div className="mb-3">
-                            {item?.documents?.length > 0 && canUpdate ? (
-                              <Button
-                                variant="primary"
-                                className="custom-select-height"
-                                onClick={() => handleShowDocumentsModal(item)}
-                              >
-                                View Documents
-                              </Button>
-                            ) : (
-                              <span className="text-muted">No documents</span>
-                            )}
-                          </div>
-                        </div> */}
-                          <div className="d-flex gap-2">
+
+                          <div className="country-card-actions mt-3">
                             {canUpdate && (
                               <span
                                 className="icon-border edit-icon"
                                 onClick={() => handleShowUploadModal(item)}
+                                title="Edit Country"
                               >
-                                <EditIcon />
+                                <EditIcon fontSize="small" />
                               </span>
                             )}
                             {canDelete && (
                               <span
-                                className="icon-border delete-icon"
+                                className="icon-border delete-icon ms-auto"
                                 onClick={() => {
                                   setSelectedItem({ item, docIndex: null });
                                   setShowDeleteModal(true);
                                 }}
+                                title="Delete Material"
                               >
-                                <DeleteIcon />
+                                <DeleteIcon fontSize="small" />
                               </span>
                             )}
                           </div>

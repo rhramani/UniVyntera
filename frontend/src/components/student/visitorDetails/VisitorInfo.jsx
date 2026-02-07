@@ -93,33 +93,55 @@ const VisitorInfo = ({
   };
 
   return (
-    <div className="my-4 student-info-container">
-      <Row>
-        <div className="d-flex justify-content-between mb-3">
-          <h3 className="text-primary">{`${visitor?.name} (${visitor?.visitorId})`}</h3>
-          <div className="d-flex align-items-center gap-3">
-            <RiChatSmile2Fill
-              size={26}
-              style={{
-                color: "#007bff",
-                cursor: "pointer",
-              }}
-              onClick={() => handleChatOpen(visitor)}
-              // onClick={() =>
-              //   navigate(`/student-chat/${item._id}`)
-              // }
-            />
+    <>
+      <Card className="border-0 shadow-lg rounded-4 overflow-hidden mb-4 mt-2 premium-student-card">
+        <Card.Header className="form-main-heading p-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div className="d-flex align-items-center gap-3 flex-grow-1">
+            <div
+              className="avatar-initial rounded-circle bg-primary-transparent text-primary d-flex align-items-center justify-content-center fw-bold fs-4"
+              style={{ width: "50px", height: "50px" }}
+            >
+              {visitor?.name?.charAt(0) || "V"}
+            </div>
+            <div>
+              <h4 className="mb-0 fw-bold d-flex align-items-center text-primary gap-2">
+                {visitor?.name}
+                <span
+                  className="badge text-white text-primary rounded-pill px-3 py-2 shadow-sm"
+                  style={{ fontSize: "0.8rem", backgroundColor: "#6b63c3" }}
+                >
+                  {visitor?.visitorId}
+                </span>
+              </h4>
+            </div>
+          </div>
+          <div className="d-flex align-items-center gap-2 flex-wrap ms-auto">
+            {userRole !== "Student" && userRole !== "LeadStudent" && (
+              <div
+                className="action-icon-btn text-primary"
+                title="Chat with Visitor"
+                onClick={() => handleChatOpen(visitor)}
+              >
+                <RiChatSmile2Fill
+                  size={26}
+                  style={{
+                    color: "#007bff",
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
+            )}
+
             {userRole !== "B2B Admin" &&
               userRole !== "B2B Member" &&
               userRole !== "Branch" &&
               userType !== "Branch User" && (
-                <div className="d-flex justify-content-end">
+                <div className="status-select-wrapper">
                   <Select
                     options={visitorStatusOptions}
                     value={selectedVisitorStatus}
                     onChange={handleVisitorStatusChange}
                     placeholder="Select Status"
-                    classNamePrefix="custom-select"
                     styles={{
                       control: (base) => ({
                         ...base,
@@ -129,124 +151,237 @@ const VisitorInfo = ({
                       }),
                       placeholder: (base) => ({
                         ...base,
-                        color: "black",
+                        color: "#64748b",
                         fontSize: "13px",
                       }),
                     }}
                   />
                 </div>
               )}
+
             {(canUpdate || canCreate) && (
               <Button
                 variant="primary"
                 className="custom-select-height"
                 onClick={() => setShowVisitorInfoModal(true)}
+                style={{
+                  transition: "all 0.2s",
+                  whiteSpace: "nowrap",
+                  height: "40px",
+                }}
               >
-                <EditIcon style={{ fontSize: "16px" }} /> Edit Profile
+                <EditIcon style={{ fontSize: "16px" }} className="me-1 mb-1" />{" "}
+                Edit Profile
               </Button>
             )}
           </div>
-        </div>
-        {/* <Col md={4}>
-           <p className="student-info-item d-flex text-gray-6">
-             <BadgeIcon
-               className="me-2 fixed-icon"
-               style={{ color: "#0288D1", fontSize: "20px" }}
-             />
-             <strong className="info-label">Name</strong>
-             <strong>&nbsp;:&nbsp;</strong>
-             {visitor.name || "N/A"}
-           </p>
-         </Col> */}
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <EmailIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#FB8C00", fontSize: "20px" }}
-            />
-            <strong className="info-label">Email</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {visitor?.email || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <PhoneIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#34A853", fontSize: "20px" }}
-            />
-            <strong className="info-label">Mobile Number</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {visitor?.contact || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <CakeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#FB8C00", fontSize: "20px" }}
-            />
-            <strong className="info-label">DOB</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {formatDate(parseDate(visitor.DOB))}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <PublicIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#EA4335", fontSize: "20px" }}
-            />
-            <strong className="info-label">Country</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {visitor?.country || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <LocationCityIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#6C757D", fontSize: "20px" }}
-            />
-            <strong className="info-label">City</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {visitor?.city || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <FlagIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#6D4C41", fontSize: "20px" }}
-            />
-            <strong className="info-label">Preferred Country</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {visitor?.preferredCountry || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <HomeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#5E35B1", fontSize: "20px" }}
-            />
-            <strong className="info-label">Address</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {visitor?.address || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <BadgeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#2A48A0", fontSize: "20px" }}
-            />
-            <strong className="info-label">Passport Number</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {visitor?.passportNumber || "N/A"}
-          </p>
-        </Col>
-      </Row>
+        </Card.Header>
+
+        <Card.Body className="p-4 bg-white">
+          <Row className="g-4">
+            <Col md={6} lg={4} xl={3}>
+              <div className="detail-card">
+                <div className="detail-icon-wrapper bg-orange-light text-orange">
+                  <EmailIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="detail-content">
+                  <label>Email Address</label>
+                  <div className="value text-truncate" title={visitor?.email}>
+                    {visitor?.email || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4} xl={3}>
+              <div className="detail-card">
+                <div className="detail-icon-wrapper bg-green-light text-green">
+                  <PhoneIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="detail-content">
+                  <label>Mobile Number</label>
+                  <div className="value">{visitor?.contact || "N/A"}</div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4} xl={3}>
+              <div className="detail-card">
+                <div className="detail-icon-wrapper bg-pink-light text-pink">
+                  <CakeIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="detail-content">
+                  <label>Date of Birth</label>
+                  <div className="value">
+                    {visitor?.DOB ? formatDate(parseDate(visitor.DOB)) : "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4} xl={3}>
+              <div className="detail-card">
+                <div className="detail-icon-wrapper bg-blue-light text-primary">
+                  <PublicIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="detail-content">
+                  <label>Citizenship</label>
+                  <div className="value">{visitor?.country || "N/A"}</div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4} xl={3}>
+              <div className="detail-card">
+                <div className="detail-icon-wrapper bg-gray-light text-secondary">
+                  <LocationCityIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="detail-content">
+                  <label>Current City</label>
+                  <div className="value">{visitor?.city || "N/A"}</div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4} xl={3}>
+              <div className="detail-card">
+                <div className="detail-icon-wrapper bg-brown-light text-brown">
+                  <FlagIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="detail-content">
+                  <label>Preferred Destination</label>
+                  <div className="value text-truncate">
+                    {visitor?.preferredCountry || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4} xl={3}>
+              <div className="detail-card">
+                <div className="detail-icon-wrapper bg-purple-light text-purple">
+                  <HomeIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="detail-content">
+                  <label>Address</label>
+                  <div className="value text-truncate" title={visitor?.address}>
+                    {visitor?.address || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col md={6} lg={4} xl={3}>
+              <div className="detail-card">
+                <div className="detail-icon-wrapper bg-indigo-light text-indigo">
+                  <BadgeIcon style={{ fontSize: "24px" }} />
+                </div>
+                <div className="detail-content">
+                  <label>Passport Number</label>
+                  <div className="value" title={visitor?.passportNumber}>
+                    {visitor?.passportNumber || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Card.Body>
+
+        <style>{`
+        .premium-student-card {
+          border: 1px solid #f1f5f9 !important;
+        }
+        .bg-primary-transparent {
+          background-color: rgba(108, 95, 252, 0.1) !important;
+        }
+        .bg-light-soft {
+          background-color: #f8fafc;
+        }
+        .bg-blue-light { background-color: #eff6ff; }
+        .bg-orange-light { background-color: #fff7ed; }
+        .bg-green-light { background-color: #f0fdf4; }
+        .bg-pink-light { background-color: #fdf2f8; }
+        .bg-red-light { background-color: #fef2f2; }
+        .bg-gray-light { background-color: #f1f5f9; }
+        .bg-brown-light { background-color: #fefce8; }
+        .bg-purple-light { background-color: #faf5ff; }
+        .bg-indigo-light { background-color: #eef2ff; }
+        
+        .text-orange { color: #f97316; }
+        .text-green { color: #22c55e; }
+        .text-pink { color: #ec4899; }
+        .text-brown { color: #854d0e; }
+        .text-purple { color: #a855f7; }
+        .text-indigo { color: #6366f1; }
+
+        .action-icon-btn {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .action-icon-btn:hover {
+          transform: translateY(-2px);
+          filter: brightness(0.95);
+        }
+
+        .border-dashed {
+          border-style: dashed !important;
+        }
+
+        .detail-card {
+          display: flex;
+          align-items: center;
+          padding: 1rem;
+          border-radius: 1rem;
+          background-color: #f8fafc;
+          border: 1px solid #e2e8f0;
+          height: 100%;
+          transition: all 0.2s;
+        }
+        .detail-card:hover {
+          background-color: #ffffff;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          transform: translateY(-2px);
+          border-color: #cbd5e1;
+        }
+        .detail-icon-wrapper {
+          width: 52px;
+          height: 52px;
+          min-width: 52px;
+          border-radius: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 1rem;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .detail-content label {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #64748b;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 2px;
+        }
+        .detail-content .value {
+          font-weight: 700;
+          color: #1e293b;
+          font-size: 14px;
+          line-height: 1.2;
+        }
+
+        .custom-select-height {
+          height: 40px;
+        }
+      `}</style>
+      </Card>
+
       {showChat && chatVisitor && (
         <div className="studentApplicationChat">
           <div className="chat-card">
@@ -545,7 +680,7 @@ const VisitorInfo = ({
           </Form>
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 };
 

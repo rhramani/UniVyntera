@@ -1,23 +1,22 @@
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { countryDropdown } from "../../../redux/actions/Master/Institute.action";
 import usePermissions from "../../commonComponents/usePermissions";
 import {
   deletePromotionalTutorial,
-  getAllPromotionalTutorial,
   getOnePromotionalTutorial,
   updatePromotionalTutorial,
   createSubPromotionalTutorial,
 } from "../../../redux/actions/promotionalTutorial.action";
-import Select from "react-select";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 
 const PromotionalTutorialDetails = () => {
   const dispatch = useDispatch();
@@ -26,7 +25,6 @@ const PromotionalTutorialDetails = () => {
   const [selectedDocuments, setSelectedDocuments] = useState([]);
   const [editingItem, setEditingItem] = useState(null);
   const [editingDocIndex, setEditingDocIndex] = useState(null);
-  const [countries, setCountries] = useState([]);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -34,31 +32,28 @@ const PromotionalTutorialDetails = () => {
   const { canCreate, canUpdate, canDelete, canRead } =
     usePermissions("Webinar");
 
-  const fetchData = async (searchTerm = "") => {
-    try {
-      const res = await dispatch(getOnePromotionalTutorial(id, searchTerm));
-      if (res?.status === 200) {
-        const item = res?.data?.data;
-        setEditingItem(item);
-        setSelectedDocuments(item || []);
+  const fetchData = useCallback(
+    async (searchTerm = "") => {
+      try {
+        const res = await dispatch(getOnePromotionalTutorial(id, searchTerm));
+        if (res?.status === 200) {
+          const item = res?.data?.data;
+          setEditingItem(item);
+          setSelectedDocuments(item || []);
+        }
+      } catch (error) {
+        console.error("Fetch Webinar error:", error);
+        toast.error(error.response?.data?.message || "Failed to fetch Webinar");
       }
-    } catch (error) {
-      console.error("Fetch Webinar error:", error);
-      toast.error(error.response?.data?.message || "Failed to fetch Webinar");
-    }
-  };
-
-  const fetchCountries = async () => {
-    const res = await dispatch(countryDropdown());
-    setCountries(res?.data?.data || []);
-  };
+    },
+    [dispatch, id],
+  );
 
   useEffect(() => {
-    fetchCountries();
     if (canRead) {
       fetchData(search);
     }
-  }, [dispatch, id, search]);
+  }, [dispatch, id, search, canRead, fetchData]);
 
   const handleShowUploadModal = (item, docIndex = null) => {
     setEditingItem(item);
@@ -149,31 +144,6 @@ const PromotionalTutorialDetails = () => {
     },
   });
 
-  const getEmbedUrl = (url) => {
-    try {
-      if (!url) throw new Error("URL is missing");
-      const urlObj = new URL(url);
-      let embedUrl = url;
-
-      if (
-        urlObj.hostname.includes("youtube.com") ||
-        urlObj.hostname.includes("youtu.be")
-      ) {
-        const videoId =
-          urlObj.searchParams.get("v") || url.split("/").pop().split("?")[0];
-        embedUrl = `https://www.youtube.com/embed/${videoId}`;
-      } else if (urlObj.hostname.includes("vimeo.com")) {
-        const videoId = url.split("/").pop();
-        embedUrl = `https://player.vimeo.com/video/${videoId}`;
-      }
-
-      return embedUrl;
-    } catch (error) {
-      console.error("Invalid URL:", error);
-      return "";
-    }
-  };
-
   const handleDelete = async (item, docIndex) => {
     try {
       const videoId = item.videos[docIndex]._id;
@@ -196,242 +166,184 @@ const PromotionalTutorialDetails = () => {
   return (
     <>
       <div>
-        <div
-          style={{
-            backgroundColor: "#5D54BE",
-            width: "100%",
-            padding: "10px 20px",
-            position: "sticky",
-            top: 0,
-            zIndex: 3,
-            color: "white",
-            fontSize: "18px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <span>Promotional Webinar Details</span>
-          <Button
-            variant="link"
-            onClick={() => {
-              navigate("/promotionaltutorial/webinar");
-            }}
-            style={{ color: "white" }}
-          >
-            <AiOutlineClose size={20} />
-          </Button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "20px",
-            backgroundColor: "#F5F6FA",
-          }}
-        >
-          <div className="d-flex gap-3 align-items-center justify-content-between w-100">
-            <div>
-              <h2
-                style={{
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  color: "#000",
-                  margin: 0,
-                }}
-              >
-                Promotional Webinar for{" "}
-                <span className="text-primary text-decoration-underline">
-                  {editingItem?.country || ""}
-                </span>
-              </h2>
-            </div>
-            <div className="d-flex gap-4">
-              {canRead && (
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="custom-select-height h-6"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                    }}
-                  />
-                </div>
-              )}
-              {canCreate && (
-                <Button
-                  className="custom-select-height px-3"
-                  onClick={() => handleShowUploadModal(editingItem)}
-                >
-                  Add Promotional Webinar
-                </Button>
-              )}
-            </div>
+        <div className="form-main-heading w-100 p-3 position-sticky top-0 z-3">
+          <div className="d-flex justify-content-between align-items-center">
+            <h3>Promotional Webinar Details</h3>
+            <Button
+              variant="link"
+              onClick={() => navigate("/promotionaltutorial/webinar")}
+              className="text-light"
+            >
+              <AiOutlineClose size={20} />
+            </Button>
           </div>
         </div>
-        <Row style={{ padding: "0 20px", backgroundColor: "#F5F6FA" }}>
-          {selectedDocuments?.videos?.length > 0 ? (
-            selectedDocuments?.videos?.map((doc, index) => (
-              <Col
-                md={6}
-                lg={4}
-                xl={3}
-                key={doc._id}
-                style={{ marginBottom: "20px" }}
-              >
-                <Card
-                  style={{
-                    borderRadius: "15px",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                    overflow: "hidden",
-                    border: "none",
-                  }}
-                >
-                  <Card.Body style={{ padding: "15px" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginBottom: "10px",
-                      }}
+        <Row className="mt-3 p-4 row-sm">
+          <Col md={12} lg={12} xl={12}>
+            <Card className="custom-card transcation-crypto">
+              <Card.Header className="border-bottom-0 d-flex justify-content-between">
+                <div className="card-title d-flex align-items-center gap-2">
+                  <i className="bi bi-play-circle text-primary fs-4"></i>
+                  <span>Promotional Webinar for</span>
+                  <span className="text-primary fw-bold">
+                    {editingItem?.country || "-"}
+                  </span>
+                </div>
+                <div className="d-flex gap-4">
+                  {canRead && (
+                    <div className="contact-search3">
+                      <button type="button" className="btn border-0">
+                        <i
+                          className="fe fe-search fw-semibold text-muted"
+                          aria-hidden="true"
+                        ></i>
+                      </button>
+                      <Form.Control
+                        type="text"
+                        className="custom-select-height h-6"
+                        placeholder="Search here..."
+                        autoComplete="off"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                      />
+                    </div>
+                  )}
+                  {canCreate && (
+                    <Button
+                      className="custom-select-height px-3"
+                      onClick={() => handleShowUploadModal(editingItem)}
                     >
-                      <span
-                        style={{
-                          fontSize: "14px",
-                          color: "#4B3C88",
-                          fontWeight: "bold",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {doc.name || ""}
-                      </span>
-                    </div>
-                    <div>
-                      {doc.urls && doc.urls[0]?.link ? (
-                        <>
-                          {/* <iframe
-                            style={{
-                              width: "100%",
-                              height: "150px",
-                              borderRadius: "10px",
-                            }}
-                            src={getEmbedUrl(doc.urls[0].link)}
-                            allowFullScreen
-                            title="Tutorial Video"
-                          ></iframe> */}
-                          {doc.urls[0].link && (
-                            <Button
-                              variant="primary"
-                              style={{
-                                marginTop: "10px",
-                                backgroundColor: "#4B3C88",
-                                border: "none",
-                                borderRadius: "5px",
-                                padding: "5px 15px",
-                              }}
-                              onClick={() =>
-                                window.open(doc.urls[0].link, "_blank")
-                              }
-                            >
-                              Open Webinar
-                            </Button>
+                      Add Promotional Webinar
+                    </Button>
+                  )}
+                </div>
+              </Card.Header>
+              <Card.Body>
+                {selectedDocuments?.videos?.length > 0 ? (
+                  <div className="table-responsive">
+                    <table className="modern-premium-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "60px" }}>No</th>
+                          <th>Webinar Name</th>
+                          <th>Created info</th>
+                          <th className="text-center">View</th>
+                          {(canUpdate || canDelete) && (
+                            <th className="text-center">Actions</th>
                           )}
-                        </>
-                      ) : (
-                        <p style={{ color: "#6c757d", textAlign: "center" }}>
-                          Video URL not available
-                        </p>
-                      )}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <div className="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                          <small>
-                            <strong>Created By: </strong>
-                            {selectedDocuments?.createdByName || "Unknown"}
-                          </small>
-                          <br />
-                          <small>
-                            <strong>Created On: </strong>
-                            {selectedDocuments?.createdAt
-                              ? new Date(
-                                  selectedDocuments.createdAt,
-                                ).toLocaleDateString("en-GB", {
-                                  day: "2-digit",
-                                  month: "2-digit",
-                                  year: "numeric",
-                                  timeZone: "UTC",
-                                })
-                              : "N/A"}
-                          </small>
-                        </div>
-                      </div>
-                      {(canUpdate || canDelete) && (
-                        <div style={{ display: "flex", gap: "10px" }}>
-                          {canUpdate && (
-                            <span
-                              className="icon-border edit-icon"
-                              onClick={() =>
-                                handleShowUploadModal(editingItem, index)
-                              }
-                            >
-                              <EditIcon />
-                            </span>
-                          )}
-                          {canDelete && (
-                            <span
-                              className="icon-border delete-icon"
-                              onClick={() => {
-                                setSelectedItem({
-                                  item: editingItem,
-                                  docIndex: index,
-                                });
-                                setShowDeleteModal(true);
-                              }}
-                            >
-                              <DeleteIcon />
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))
-          ) : (
-            <Col>
-              <p
-                style={{
-                  textAlign: "center",
-                  color: "#6c757d",
-                  padding: "40px 0",
-                }}
-              >
-                {!canRead
-                  ? "You do not have permission to view this Data"
-                  : "No documents available"}
-              </p>
-            </Col>
-          )}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedDocuments?.videos?.map((doc, index) => (
+                          <tr key={doc._id}>
+                            <td className="fw-semibold text-muted">
+                              {index + 1}
+                            </td>
+                            <td>
+                              <div className="d-flex align-items-center gap-3">
+                                <div
+                                  className="file-icon-bg d-flex align-items-center justify-content-center"
+                                  style={{
+                                    width: "35px",
+                                    height: "35px",
+                                    borderRadius: "8px",
+                                    background: "#f8fafc",
+                                  }}
+                                >
+                                  <OndemandVideoIcon
+                                    style={{
+                                      fontSize: "20px",
+                                      color: "#6c5ffc",
+                                    }}
+                                  />
+                                </div>
+                                <span className="fw-bold text-dark">
+                                  {doc.name || "Webinar"}
+                                </span>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="d-flex flex-column">
+                                <span className="text-muted small">
+                                  <strong>By:</strong>{" "}
+                                  {selectedDocuments?.createdByName ||
+                                    "Unknown"}
+                                </span>
+                                <span
+                                  className="text-muted extra-small"
+                                  style={{ fontSize: "10px" }}
+                                >
+                                  <strong>On:</strong>{" "}
+                                  {selectedDocuments?.createdAt
+                                    ? new Date(
+                                        selectedDocuments.createdAt,
+                                      ).toLocaleDateString("en-GB")
+                                    : "N/A"}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="text-center">
+                              {doc.urls && doc.urls[0]?.link ? (
+                                <button
+                                  className="icon-border view-icon"
+                                  onClick={() =>
+                                    window.open(doc.urls[0].link, "_blank")
+                                  }
+                                  title="Open Webinar"
+                                >
+                                  <VisibilityIcon
+                                    style={{ fontSize: "18px" }}
+                                  />
+                                </button>
+                              ) : (
+                                <span className="text-muted small">No URL</span>
+                              )}
+                            </td>
+                            <td className="text-center">
+                              <div className="d-flex justify-content-center gap-2">
+                                {canUpdate && (
+                                  <button
+                                    className="icon-border edit-icon"
+                                    title="Edit"
+                                    onClick={() =>
+                                      handleShowUploadModal(editingItem, index)
+                                    }
+                                  >
+                                    <EditIcon style={{ fontSize: "18px" }} />
+                                  </button>
+                                )}
+                                {canDelete && (
+                                  <button
+                                    className="icon-border delete-icon"
+                                    title="Delete"
+                                    onClick={() => {
+                                      setSelectedItem({
+                                        item: editingItem,
+                                        docIndex: index,
+                                      });
+                                      setShowDeleteModal(true);
+                                    }}
+                                  >
+                                    <DeleteIcon style={{ fontSize: "18px" }} />
+                                  </button>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="text-center text-muted py-4">
+                    {!canRead
+                      ? "You do not have permission to view this Data"
+                      : "No webinars available"}
+                  </div>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
 
         <Modal

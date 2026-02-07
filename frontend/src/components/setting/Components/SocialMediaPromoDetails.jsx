@@ -1,8 +1,12 @@
-import { Button, Card, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import DownloadIcon from "@mui/icons-material/Download";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import CampaignIcon from "@mui/icons-material/Campaign";
 import { AiOutlineClose, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
@@ -36,46 +40,50 @@ const SocialMediaPromoDetails = () => {
     "Social Media Promotions",
   );
 
-  const fetchData = async (searchTerm = "") => {
-    try {
-      const res = await dispatch(getOneSocialMediaPromotion(id, searchTerm));
-      if (res?.status === 200) {
-        const item = res.data.data;
-        setEditingItem(item);
-        setSelectedDocuments(item || []);
+  const fetchData = useCallback(
+    async (searchTerm = "") => {
+      try {
+        const res = await dispatch(getOneSocialMediaPromotion(id, searchTerm));
+        if (res?.status === 200) {
+          const item = res.data.data;
+          setEditingItem(item);
+          setSelectedDocuments(item || []);
 
-        // Flatten the documents into a list of files, including fileId
-        const files = item.documents.flatMap((doc, docIndex) =>
-          doc.urls.map((url, urlIndex) => ({
-            docIndex,
-            urlIndex,
-            name: doc.name,
-            url: url.link,
-            docId: doc._id,
-            fileId: url._id, // Store the _id from the urls array
-          })),
+          const files = item.documents.flatMap((doc, docIndex) =>
+            doc.urls.map((url, urlIndex) => ({
+              docIndex,
+              urlIndex,
+              name: doc.name,
+              url: url.link,
+              docId: doc._id,
+              fileId: url._id,
+            })),
+          );
+          setFlattenedFiles(files);
+        } else {
+          toast.error("No documents found for this country");
+        }
+      } catch (error) {
+        console.error("Fetch documents error:", error);
+        toast.error(
+          error.response?.data?.message || "Failed to fetch documents",
         );
-        setFlattenedFiles(files);
-      } else {
-        toast.error("No documents found for this country");
       }
-    } catch (error) {
-      console.error("Fetch documents error:", error);
-      toast.error(error.response?.data?.message || "Failed to fetch documents");
-    }
-  };
+    },
+    [dispatch, id],
+  );
 
-  const fetchCountries = async () => {
+  const fetchCountries = useCallback(async () => {
     const res = await dispatch(countryDropdown());
     setCountries(res?.data?.data || []);
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchCountries();
     if (canRead) {
       fetchData(search);
     }
-  }, [dispatch, id, search]);
+  }, [id, search, canRead, fetchData, fetchCountries]);
 
   const handleShowUploadModal = (item, docIndex = null) => {
     setEditingItem(item);
@@ -247,7 +255,7 @@ const SocialMediaPromoDetails = () => {
         </div>
       )}
       <div>
-        <div className="form-main-heading w-100 p-2 position-sticky top-0 z-3">
+        <div className="form-main-heading w-100 p-3 position-sticky top-0 z-3">
           <div className="d-flex justify-content-between align-items-center">
             <h3>Social Media Promotion Details</h3>
             <Button
@@ -259,17 +267,18 @@ const SocialMediaPromoDetails = () => {
             </Button>
           </div>
         </div>
-        <Row className="mt-5 row-sm">
+        <Row className="mt-3 p-4 row-sm">
           <Col md={12} lg={12} xl={12}>
             <Card className="custom-card transcation-crypto">
-              <Card.Header className="border-bottom-0 d-flex justify-content-between">
-                <div className="card-title">
-                  Social Media Promotion for{" "}
-                  <span className="text-primary text-decoration-underline">
+              <Card.Header className="border-bottom-0 d-flex justify-content-between align-items-center">
+                <div className="card-title d-flex align-items-center gap-2">
+                  <CampaignIcon className="text-primary fs-4" />
+                  <span>Social Media Promotion for</span>
+                  <span className="text-primary fw-bold">
                     {editingItem?.country || "-"}
                   </span>
                 </div>
-                <div className="d-flex gap-4">
+                <div className="d-flex gap-3">
                   {canRead && (
                     <div className="contact-search3">
                       <button type="button" className="btn border-0">
@@ -284,9 +293,7 @@ const SocialMediaPromoDetails = () => {
                         placeholder="Search here..."
                         autoComplete="off"
                         value={search}
-                        onChange={(e) => {
-                          setSearch(e.target.value);
-                        }}
+                        onChange={(e) => setSearch(e.target.value)}
                       />
                     </div>
                   )}
@@ -294,6 +301,7 @@ const SocialMediaPromoDetails = () => {
                     <Button
                       className="custom-select-height px-3"
                       onClick={() => handleShowUploadModal(editingItem)}
+                      style={{ borderRadius: "10px" }}
                     >
                       Add Social Media Promotion
                     </Button>
@@ -302,99 +310,118 @@ const SocialMediaPromoDetails = () => {
               </Card.Header>
               <Card.Body>
                 {flattenedFiles.length > 0 ? (
-                  <Table
-                    responsive
-                    className="align-middle shadow-sm table-hover rounded"
-                  >
-                    <thead className="bg-light">
-                      <tr className="text-dark">
-                        <th style={{ marginLeft: "100px" }}>No</th>
-                        <th className="text-start">Promotion Name</th>
-                        <th className="text-start">Created by</th>
-                        <th className="text-center">View</th>
-                        <th className="text-center">Download</th>
-                        {(canUpdate || canDelete) && (
-                          <th className="text-center">Actions</th>
-                        )}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {flattenedFiles.map((file, index) => (
-                        <tr key={`${file.docId}-${file.urlIndex}`}>
-                          <td style={{ fontWeight: "500" }}>{index + 1}</td>
-                          <td className="text-start">
-                            <span style={{ fontWeight: "500" }}>
-                              {file.name || "Promotion"}
-                            </span>
-                          </td>
-                          <td className="text-start">
-                            <span style={{ fontWeight: "500" }}>
-                              {selectedDocuments.updatedByName || "-"}
-                            </span>
-                          </td>
-                          <td className="text-center">
-                            <a
-                              href={`${BASEURL}${file.url}` || "#"}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn btn-sm btn-success px-3 rounded-4"
-                            >
-                              View
-                            </a>
-                          </td>
-                          <td className="text-center">
-                            <Button
-                              variant="info"
-                              size="sm"
-                              className="px-3 rounded-4"
-                              onClick={() =>
-                                handleDownload(file.url, file.name)
-                              }
-                            >
-                              <DownloadIcon />
-                              Download
-                            </Button>
-                          </td>
-                          <td className="text-center">
-                            <div className="d-flex justify-content-center gap-2">
-                              {canUpdate && (
-                                <Button
-                                  variant="primary"
-                                  size="sm"
-                                  title="Edit"
-                                  onClick={() =>
-                                    handleShowUploadModal(
-                                      editingItem,
-                                      file.docIndex,
-                                    )
-                                  }
-                                >
-                                  <AiOutlineEdit size={16} />
-                                </Button>
-                              )}
-                              {canDelete && (
-                                <Button
-                                  variant="danger"
-                                  size="sm"
-                                  title="Delete"
-                                  onClick={() => {
-                                    setSelectedItem({
-                                      item: editingItem,
-                                      docIndex: file.docIndex,
-                                      fileId: file.fileId, // Pass the fileId to the modal
-                                    });
-                                    setShowDeleteModal(true);
+                  <div className="table-responsive">
+                    <table className="modern-premium-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "60px" }}>No</th>
+                          <th>Promotion Name</th>
+                          <th>Created info</th>
+                          <th className="text-center">View</th>
+                          <th className="text-center">Download</th>
+                          {(canUpdate || canDelete) && (
+                            <th className="text-center">Actions</th>
+                          )}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {flattenedFiles.map((file, index) => (
+                          <tr key={`${file.docId}-${file.urlIndex}`}>
+                            <td className="fw-semibold text-muted">
+                              {index + 1}
+                            </td>
+                            <td>
+                              <div className="d-flex align-items-center gap-3">
+                                <div
+                                  className="file-icon-bg d-flex align-items-center justify-content-center"
+                                  style={{
+                                    width: "35px",
+                                    height: "35px",
+                                    borderRadius: "8px",
+                                    background: "#f8fafc",
                                   }}
                                 >
-                                  <AiOutlineDelete size={16} />
-                                </Button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                                  <CampaignIcon
+                                    style={{
+                                      fontSize: "20px",
+                                      color: "#6c5ffc",
+                                    }}
+                                  />
+                                </div>
+                                <span className="fw-bold text-dark">
+                                  {file.name || "Promotion"}
+                                </span>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="d-flex flex-column">
+                                <span className="text-muted small">
+                                  <strong>By:</strong>{" "}
+                                  {selectedDocuments.updatedByName || "-"}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="text-center">
+                              <button
+                                className="icon-border view-icon"
+                                onClick={() =>
+                                  window.open(`${BASEURL}${file.url}`, "_blank")
+                                }
+                                title="View Promotion"
+                              >
+                                <VisibilityIcon fontSize="small" />
+                              </button>
+                            </td>
+                            <td className="text-center">
+                              <button
+                                className="icon-border download-icon "
+                                onClick={() =>
+                                  handleDownload(file.url, file.name)
+                                }
+                                title="Download Promotion"
+                              >
+                                <DownloadIcon fontSize="small" />
+                              </button>
+                            </td>
+                            <td className="text-center">
+                              <div className="d-flex justify-content-center gap-2">
+                                {canUpdate && (
+                                  <button
+                                    className="icon-border edit-icon "
+                                    title="Edit"
+                                    onClick={() =>
+                                      handleShowUploadModal(
+                                        editingItem,
+                                        file.docIndex,
+                                      )
+                                    }
+                                  >
+                                    <EditIcon fontSize="small" />
+                                  </button>
+                                )}
+                                {canDelete && (
+                                  <button
+                                    className="icon-border delete-icon "
+                                    title="Delete"
+                                    onClick={() => {
+                                      setSelectedItem({
+                                        item: editingItem,
+                                        docIndex: file.docIndex,
+                                        fileId: file.fileId,
+                                      });
+                                      setShowDeleteModal(true);
+                                    }}
+                                  >
+                                    <DeleteIcon fontSize="small" />
+                                  </button>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
                   <div className="text-center text-muted py-4">
                     {!canRead

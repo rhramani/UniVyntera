@@ -42,9 +42,9 @@ const SmallDialpad = () => {
   };
 
   return (
-    <Card className="border-0 shadow-sm h-100 rich-dialer-premium overflow-hidden">
+    <Card className="border-0 shadow-sm h-100 small-dialer-premium overflow-hidden">
       {/* HEADER SECTION */}
-      <div className="dialer-header p-3 d-flex justify-content-between align-items-center">
+      <div className="small-dialer-header d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <div className="icon-box-sm bg-primary-transparent me-2">
             <DialpadIcon className="text-primary fs-18" />
@@ -62,14 +62,14 @@ const SmallDialpad = () => {
       </div>
 
       {/* DISPLAY SECTION */}
-      <div className="dialer-display-area p-3">
-        <div className="display-glass shadow-inner">
+      <div className="small-dialer-display-area">
+        <div className="small-display-glass shadow-inner">
           <Form.Control
             type="text"
             value={number}
             maxLength={12}
             placeholder="Enter phone number..."
-            className="dialer-input-premium border-0 shadow-none text-center"
+            className="small-dialer-input border-0 shadow-none text-center"
             onChange={(e) => {
               const val = e.target.value;
               if (/^[0-9*#]*$/.test(val)) {
@@ -89,12 +89,12 @@ const SmallDialpad = () => {
 
       {/* KEYPAD SECTION */}
       <Card.Body className="p-3 pt-0">
-        <div className="dialer-grid">
+        <div className="small-dialer-grid">
           {keys.map((key) => (
             <button
               key={key.num}
               type="button"
-              className="premium-key-btn"
+              className="small-premium-key-btn"
               onClick={() => handleClick(key.num)}
             >
               <span className="num">{key.num}</span>
@@ -106,7 +106,7 @@ const SmallDialpad = () => {
         {/* FOOTER ACTIONS */}
         <div className="d-flex align-items-center gap-3 mt-3">
           <Button
-            className="call-btn-premium flex-grow-1 shadow-lg border-0"
+            className="small-call-btn flex-grow-1 shadow-lg border-0"
             onClick={handleCall}
           >
             <div className="d-flex align-items-center justify-content-center">
@@ -117,7 +117,7 @@ const SmallDialpad = () => {
 
           <Button
             variant="light"
-            className="backspace-btn-premium border shadow-sm"
+            className="small-backspace-btn border shadow-sm"
             onClick={handleBackspace}
             disabled={!number}
           >

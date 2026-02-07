@@ -2613,7 +2613,7 @@ const StudentDetails = () => {
   return (
     <>
       <div>
-        <div className="form-main-heading w-100 p-2 position-sticky top-0 z-3">
+        <div className="form-main-heading w-100 p-3 position-sticky top-0 z-3">
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex gap-3 align-items-center">
               <h3 className="fw-bold text-white mb-0">Student Details</h3>

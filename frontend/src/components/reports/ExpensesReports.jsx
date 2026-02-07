@@ -297,8 +297,8 @@ const ExpensesReports = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="w-100 d-flex flex-wrap justify-content-between">
-                <div className="card-title">Expenses Report</div>
+              <div className="w-100 d-flex flex-wrap justify-content-end">
+                {/* <div className="card-title">Expenses Report</div> */}
                 <div className="d-flex flex-wrap align-items-center gap-2">
                 <div className="contact-search3">
                   <button type="button" className="btn border-0">

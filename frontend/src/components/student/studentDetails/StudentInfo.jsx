@@ -172,219 +172,407 @@ const StudentInfo = ({
   };
 
   return (
-    <div className="my-4 student-info-container">
-      <Row>
-        <div className="d-flex justify-content-between mb-3">
-          <h3 className="text-primary">{`${student?.name} (${student?.studentId})`}</h3>
-          <div className="d-flex align-items-center gap-3">
+    <Card className="border-0 shadow-lg rounded-4 overflow-hidden mb-4 mt-2 premium-student-card">
+      <Card.Header className="form-main-heading p-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div className="d-flex align-items-center gap-3 flex-grow-1">
+          <div
+            className="avatar-initial rounded-circle bg-primary-transparent text-primary d-flex align-items-center justify-content-center fw-bold fs-4"
+            style={{ width: "50px", height: "50px" }}
+          >
+            {student?.name?.charAt(0) || "S"}
+          </div>
+          <div>
+            <h4 className="mb-0 fw-bold d-flex align-items-center text-primary gap-2">
+              {student?.name}
+              <span
+                className="badge text-white text-primary rounded-pill px-3 py-2 shadow-sm"
+                style={{ fontSize: "0.8rem", backgroundColor: "#6b63c3" }}
+              >
+                {student?.studentId}
+              </span>
+            </h4>
             {student?.interestedCourseDetails?.length === 0 && (
               <div className="text-danger">
                 Please select a course from the Course Selection tab to proceed.
               </div>
             )}
-            {userRole !== "Student" && userRole !== "LeadStudent" && (
-              <RiChatSmile2Fill
-                size={26}
-                style={{
-                  color: "#007bff",
-                  cursor: "pointer",
-                }}
-                onClick={() => handleChatOpen(student)}
-                // onClick={() =>
-                //   navigate(`/student-chat/${item._id}`)
-                // }
-              />
-            )}
-            {userRole !== "B2B Admin" &&
-              userRole !== "B2B Member" &&
-              userRole !== "Branch" &&
-              userType !== "Branch User" &&
-              userRole !== "Student" &&
-              userRole !== "LeadStudent" && (
-                <div className="d-flex justify-content-end">
-                  <Select
-                    options={studentStatusOptions}
-                    value={selectedStudentStatus}
-                    onChange={handleStudentStatusChange}
-                    placeholder="Select Status"
-                    // classNamePrefix="custom-select"
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        borderRadius: "12px",
-                        color: "black",
-                        width: "150px",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "black",
-                        fontSize: "13px",
-                      }),
-                    }}
-                  />
-                </div>
-              )}
-            {(canUpdate || canCreate) && (
-              <Button
-                variant="primary"
-                className="custom-select-height"
-                onClick={() => setShowStudentInfoModal(true)}
-              >
-                <EditIcon style={{ fontSize: "16px" }} /> Edit Profile
-              </Button>
-            )}
           </div>
         </div>
-        {/* <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <BadgeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#0288D1", fontSize: "20px" }}
-            />
-            <strong className="info-label">Name</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {student.name || "N/A"}
-          </p>
-        </Col> */}
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <EmailIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#FB8C00", fontSize: "20px" }}
-            />
-            <strong className="info-label">Email</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {student.email || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <PhoneIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#34A853", fontSize: "20px" }}
-            />
-            <strong className="info-label">Mobile Number</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {student.contact || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <CakeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#FB8C00", fontSize: "20px" }}
-            />
-            <strong className="info-label">DOB</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {formatDate(parseDate(student.DOB))}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <PublicIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#EA4335", fontSize: "20px" }}
-            />
-            <strong className="info-label">Country</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {student.country || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <LocationCityIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#6C757D", fontSize: "20px" }}
-            />
-            <strong className="info-label">City</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {student.city || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <FlagIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#6D4C41", fontSize: "20px" }}
-            />
-            <strong className="info-label">Preferred Country</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {student.purposeDetails?.preferredCountry?.join(", ") || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <HomeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#5E35B1", fontSize: "20px" }}
-            />
-            <strong className="info-label">Address</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {student.address || "N/A"}
-          </p>
-        </Col>
-        <Col md={4}>
-          <p className="student-info-item d-flex text-gray-6">
-            <BadgeIcon
-              className="me-2 fixed-icon"
-              style={{ color: "#2A48A0", fontSize: "20px" }}
-            />
-            <strong className="info-label">Passport Number</strong>
-            <strong>&nbsp;:&nbsp;</strong>
-            {student.passportNumber || "N/A"}
-          </p>
-        </Col>
-      </Row>
-      <Row>
-        {/* ============ Agreement By Agency ============ */}
-        <Col md={student?.agreementByAgency ? 4 : 6} className="mb-3">
-          <Form.Label>Agreement By Agency</Form.Label>
-          <Form.Control
-            type="file"
-            accept=".pdf,.jpg,.jpeg,.png"
-            className="custom-select-height"
-            ref={agencyAgreementRef}
-            onChange={(e) => handleAgreementUpload(e, "agreementByAgency")}
-            disabled={userRole === "Student" || userRole === "LeadStudent"}
-          />
-        </Col>
-
-        {student?.agreementByAgency && (
-          <Col md={2} className="mb-3 d-flex align-items-end">
-            <Button
-              variant="primary"
-              className="custom-select-height"
-              onClick={() => downloadFile(student.agreementByAgency)}
+        <div className="d-flex align-items-center gap-2 flex-wrap ms-auto">
+          {userRole !== "Student" && userRole !== "LeadStudent" && (
+            <div
+              className="action-icon-btn  text-primary"
+              title="Chat with Student"
+              onClick={() => handleChatOpen(student)}
             >
-              Download
-            </Button>
-          </Col>
-        )}
+              <RiChatSmile2Fill size={26} style={{
+                color: "#007bff",
+                cursor: "pointer",
+              }} />
+            </div>
+          )}
 
-        {/* ============ Agreement By Student ============ */}
-        <Col md={student?.agreementByStudent ? 4 : 6} className="mb-3">
-          <Form.Label>Agreement By Student</Form.Label>
-          <Form.Control
-            type="file"
-            accept=".pdf,.jpg,.jpeg,.png"
-            className="custom-select-height"
-            ref={studentAgreementRef}
-            onChange={(e) => handleAgreementUpload(e, "agreementByStudent")}
-          />
-        </Col>
+          {userRole !== "B2B Admin" &&
+            userRole !== "B2B Member" &&
+            userRole !== "Branch" &&
+            userType !== "Branch User" &&
+            userRole !== "Student" &&
+            userRole !== "LeadStudent" && (
+              <div className="status-select-wrapper">
+                <Select
+                  options={studentStatusOptions}
+                  value={selectedStudentStatus}
+                  onChange={handleStudentStatusChange}
+                  placeholder="Select Status"
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                     borderRadius: "12px",
+                        color: "black",
+                        width: "150px",
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: "#64748b",
+                      fontSize: "13px",
+                    }),
+                  }}
+                />
+              </div>
+            )}
 
-        {student?.agreementByStudent && (
-          <Col md={2} className="mb-3 d-flex align-items-end">
+          {(canUpdate || canCreate) && (
             <Button
-              variant="primary"
-              className="custom-select-height"
-              onClick={() => downloadFile(student.agreementByStudent)}
+                 variant="primary"
+                className="custom-select-height"
+              onClick={() => setShowStudentInfoModal(true)}
+              style={{
+                transition: "all 0.2s",
+                whiteSpace: "nowrap",
+                height: "40px",
+              }}
             >
-              Download
+              <EditIcon style={{ fontSize: "16px" }} className="me-1 mb-1" />{" "}
+              Edit Profile
             </Button>
+          )}
+        </div>
+      </Card.Header>
+
+      <Card.Body className="p-4 bg-white">
+        <Row className="g-4">
+          <Col md={6} lg={4} xl={3}>
+            <div className="detail-card">
+              <div className="detail-icon-wrapper bg-orange-light text-orange">
+                <EmailIcon style={{ fontSize: "24px" }} />
+              </div>
+              <div className="detail-content">
+                <label>Email Address</label>
+                <div className="value text-truncate" title={student?.email}>
+                  {student?.email || "N/A"}
+                </div>
+              </div>
+            </div>
           </Col>
-        )}
-      </Row>
+
+          <Col md={6} lg={4} xl={3}>
+            <div className="detail-card">
+              <div className="detail-icon-wrapper bg-green-light text-green">
+                <PhoneIcon style={{ fontSize: "24px" }} />
+              </div>
+              <div className="detail-content">
+                <label>Mobile Number</label>
+                <div className="value">{student?.contact || "N/A"}</div>
+              </div>
+            </div>
+          </Col>
+
+          <Col md={6} lg={4} xl={3}>
+            <div className="detail-card">
+              <div className="detail-icon-wrapper bg-pink-light text-pink">
+                <CakeIcon style={{ fontSize: "24px" }} />
+              </div>
+              <div className="detail-content">
+                <label>Date of Birth</label>
+                <div className="value">
+                  {student?.DOB ? formatDate(parseDate(student.DOB)) : "N/A"}
+                </div>
+              </div>
+            </div>
+          </Col>
+
+          <Col md={6} lg={4} xl={3}>
+            <div className="detail-card">
+              <div className="detail-icon-wrapper bg-blue-light text-primary">
+                <PublicIcon style={{ fontSize: "24px" }} />
+              </div>
+              <div className="detail-content">
+                <label>Citizenship</label>
+                <div className="value">{student?.country || "N/A"}</div>
+              </div>
+            </div>
+          </Col>
+
+          <Col md={6} lg={4} xl={3}>
+            <div className="detail-card">
+              <div className="detail-icon-wrapper bg-gray-light text-secondary">
+                <LocationCityIcon style={{ fontSize: "24px" }} />
+              </div>
+              <div className="detail-content">
+                <label>Current City</label>
+                <div className="value">{student?.city || "N/A"}</div>
+              </div>
+            </div>
+          </Col>
+
+          <Col md={6} lg={4} xl={3}>
+            <div className="detail-card">
+              <div className="detail-icon-wrapper bg-brown-light text-brown">
+                <FlagIcon style={{ fontSize: "24px" }} />
+              </div>
+              <div className="detail-content">
+                <label>Preferred Destination</label>
+                <div className="value text-truncate">
+                  {student?.purposeDetails?.preferredCountry?.join(", ") ||
+                    "N/A"}
+                </div>
+              </div>
+            </div>
+          </Col>
+
+          <Col md={6} lg={4} xl={3}>
+            <div className="detail-card">
+              <div className="detail-icon-wrapper bg-purple-light text-purple">
+                <HomeIcon style={{ fontSize: "24px" }} />
+              </div>
+              <div className="detail-content">
+                <label>Residential Address</label>
+                <div className="value text-truncate" title={student?.address}>
+                  {student?.address || "N/A"}
+                </div>
+              </div>
+            </div>
+          </Col>
+
+          <Col md={6} lg={4} xl={3}>
+            <div className="detail-card">
+              <div className="detail-icon-wrapper bg-indigo-light text-indigo">
+                <BadgeIcon style={{ fontSize: "24px" }} />
+              </div>
+              <div className="detail-content">
+                <label>Passport Number</label>
+                <div className="value">{student?.passportNumber || "N/A"}</div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+
+        <div className="mt-4 pt-2">
+          <Row className="g-4">
+            <Col md={6}>
+              <div className="agreement-upload-box p-3 rounded-4 border bg-white shadow-xs">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div className="d-flex align-items-center gap-2">
+                    <div className="icon-sm bg-light rounded text-primary">
+                      <MdCalendarToday size={16} />
+                    </div>
+                    <span className="fw-bold text-dark">
+                      Agreement By Agency
+                    </span>
+                  </div>
+                  {student?.agreementByAgency && (
+                    <span
+                      className="download-badge"
+                      onClick={() => downloadFile(student.agreementByAgency)}
+                    >
+                      <i className="bi bi-download me-1"></i> Download
+                    </span>
+                  )}
+                </div>
+                <Form.Control
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  className="modern-file-input"
+                  ref={agencyAgreementRef}
+                  onChange={(e) =>
+                    handleAgreementUpload(e, "agreementByAgency")
+                  }
+                  disabled={
+                    userRole === "Student" || userRole === "LeadStudent"
+                  }
+                />
+              </div>
+            </Col>
+
+            <Col md={6}>
+              <div className="agreement-upload-box p-3 rounded-4 border bg-white shadow-xs">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div className="d-flex align-items-center gap-2">
+                    <div className="icon-sm bg-light rounded text-primary">
+                      <MdCalendarToday size={16} />
+                    </div>
+                    <span className="fw-bold text-dark">
+                      Agreement By Student
+                    </span>
+                  </div>
+                  {student?.agreementByStudent && (
+                    <span
+                      className="download-badge"
+                      onClick={() => downloadFile(student.agreementByStudent)}
+                    >
+                      <i className="bi bi-download me-1"></i> Download
+                    </span>
+                  )}
+                </div>
+                <Form.Control
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  className="modern-file-input"
+                  ref={studentAgreementRef}
+                  onChange={(e) =>
+                    handleAgreementUpload(e, "agreementByStudent")
+                  }
+                />
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </Card.Body>
+
+      <style>{`
+        .premium-student-card {
+          border: 1px solid #f1f5f9 !important;
+        }
+        .bg-primary-transparent {
+          background-color: rgba(108, 95, 252, 0.1) !important;
+        }
+        .bg-light-soft {
+          background-color: #f8fafc;
+        }
+        .bg-blue-light { background-color: #eff6ff; }
+        .bg-orange-light { background-color: #fff7ed; }
+        .bg-green-light { background-color: #f0fdf4; }
+        .bg-pink-light { background-color: #fdf2f8; }
+        .bg-red-light { background-color: #fef2f2; }
+        .bg-gray-light { background-color: #f1f5f9; }
+        .bg-brown-light { background-color: #fefce8; }
+        .bg-purple-light { background-color: #faf5ff; }
+        .bg-indigo-light { background-color: #eef2ff; }
+        
+        .text-orange { color: #f97316; }
+        .text-green { color: #22c55e; }
+        .text-pink { color: #ec4899; }
+        .text-brown { color: #854d0e; }
+        .text-purple { color: #a855f7; }
+        .text-indigo { color: #6366f1; }
+
+        .action-icon-btn {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .action-icon-btn:hover {
+          transform: translateY(-2px);
+          filter: brightness(0.95);
+        }
+
+        .border-dashed {
+          border-style: dashed !important;
+        }
+
+        .detail-card {
+          display: flex;
+          align-items: center;
+          padding: 1rem;
+          border-radius: 1rem;
+          background-color: #f8fafc;
+          border: 1px solid #e2e8f0;
+          height: 100%;
+          transition: all 0.2s;
+        }
+        .detail-card:hover {
+          background-color: #ffffff;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          transform: translateY(-2px);
+          border-color: #cbd5e1;
+        }
+        .detail-icon-wrapper {
+          width: 52px;
+          height: 52px;
+          min-width: 52px;
+          border-radius: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 1rem;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .detail-content label {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #64748b;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 2px;
+        }
+        .detail-content .value {
+          font-weight: 700;
+          color: #1e293b;
+          font-size: 14px;
+          line-height: 1.2;
+        }
+
+        .agreement-upload-box {
+          transition: all 0.3s;
+        }
+        .agreement-upload-box:hover {
+          border-color: #6c5ffc !important;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+        }
+        .icon-sm {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .download-badge {
+          font-size: 11px;
+          font-weight: 700;
+          color: #6c5ffc;
+          background: rgba(108, 95, 252, 0.1);
+          padding: 4px 10px;
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .download-badge:hover {
+          background: #6c5ffc;
+          color: white;
+        }
+        .modern-file-input {
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
+          font-size: 12px;
+          padding: 6px 12px;
+          background: #f8fafc;
+        }
+        .modern-file-input::file-selector-button {
+          background: #e2e8f0;
+          border: none;
+          border-radius: 4px;
+          padding: 2px 8px;
+          margin-right: 10px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      `}</style>
 
       {showChat && chatStudent && (
         <div className="studentApplicationChat">
@@ -410,9 +598,12 @@ const StudentInfo = ({
         }}
         size="lg"
         centered
+        className="premium-modal"
       >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title>Update Student Information</Modal.Title>
+        <Modal.Header className="form-main-heading p-4">
+          <Modal.Title className="fw-bold text-white">
+            Update Student Information
+          </Modal.Title>
           <AiOutlineClose
             size={20}
             style={{ cursor: "pointer", color: "white" }}
@@ -422,35 +613,33 @@ const StudentInfo = ({
             }}
           />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="p-4">
           <Form onSubmit={studentInfoFormik.handleSubmit}>
-            <Row>
-              <Col md={6} className="mb-3">
-                <Form.Label>Name</Form.Label>
+            <Row className="g-3">
+              <Col md={6}>
+                <Form.Label className="fw-semibold">Name</Form.Label>
                 <Form.Control
                   type="text"
                   name="name"
-                  className="custom-select-height"
+                  className="custom-select-height rounded-3"
                   placeholder="Enter Name"
                   value={studentInfoFormik.values.name}
                   onChange={studentInfoFormik.handleChange}
-                  onBlur={studentInfoFormik.handleBlur}
                 />
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Label>Email</Form.Label>
+              <Col md={6}>
+                <Form.Label className="fw-semibold">Email</Form.Label>
                 <Form.Control
                   type="email"
                   name="email"
-                  className="custom-select-height"
+                  className="custom-select-height rounded-3"
                   placeholder="Enter Email"
                   value={studentInfoFormik.values.email}
                   onChange={studentInfoFormik.handleChange}
-                  onBlur={studentInfoFormik.handleBlur}
                 />
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Label>Mobile Number</Form.Label>
+              <Col md={6}>
+                <Form.Label className="fw-semibold">Mobile Number</Form.Label>
                 <PhoneInput
                   country={countryCodeISO()}
                   value={studentInfoFormik.values.contact}
@@ -463,29 +652,20 @@ const StudentInfo = ({
 
                     studentInfoFormik.setFieldValue("contact", formattedPhone);
                   }}
-                  onBlur={studentInfoFormik.handleBlur}
                   inputProps={{
                     name: "contact",
                     required: true,
-                    className: "form-control custom-select-height",
+                    className: "form-control custom-select-height rounded-3",
                   }}
-                  inputStyle={{
-                    width: "100%",
-                    paddingLeft: "65px",
-                    borderRadius: "4px",
-                  }}
-                  buttonStyle={{
-                    marginRight: "10px",
-                  }}
+                  inputStyle={{ width: "100%", paddingLeft: "65px" }}
                 />
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Label>Date of Birth</Form.Label>
-                <div style={{ position: "relative" }}>
+              <Col md={6}>
+                <Form.Label className="fw-semibold">Date of Birth</Form.Label>
+                <div className="position-relative">
                   <Form.Control
                     type="text"
-                    name="DOB"
-                    className="custom-select-height"
+                    className="custom-select-height rounded-3 cursor-pointer bg-white"
                     placeholder="dd/mm/yyyy"
                     value={
                       studentInfoFormik.values.DOB
@@ -493,61 +673,29 @@ const StudentInfo = ({
                         : ""
                     }
                     readOnly
-                    ref={dobInputRef}
-                    onClick={() => {
-                      if (studentInfoFormik.values.DOB) {
-                        setDOBValue(parseDate(studentInfoFormik.values.DOB));
-                      }
-                      setShowDOBCalendar((show) => !show);
-                    }}
-                    style={{ cursor: "pointer", backgroundColor: "#fff" }}
+                    onClick={() => setShowDOBCalendar(!showDOBCalendar)}
                   />
-                  <MdCalendarToday
-                    style={{
-                      position: "absolute",
-                      right: 10,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      color: "#888",
-                      pointerEvents: "none",
-                    }}
-                    size={20}
-                  />
+                  <MdCalendarToday className="position-absolute end-0 top-50 translate-middle-y me-3 text-muted" />
                   {showDOBCalendar && (
                     <div
-                      style={{
-                        position: "absolute",
-                        top: "100%",
-                        left: "0",
-                        zIndex: 9999,
-                        background: "#fff",
-                        boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                        borderRadius: "8px",
-                        marginTop: "4px",
-                        width: 300,
-                        minWidth: 300,
-                        maxWidth: 300,
-                      }}
+                      className="position-absolute z-index-modal top-100 start-0 mt-1 shadow-lg bg-white rounded-3 overflow-hidden"
+                      style={{ width: "300px" }}
                     >
                       <Calendar
-                        className="form-control m-0 p-0 border-0"
-                        onChange={(selectedDate) => {
-                          setDOBValue(selectedDate);
-                          const formatted = formatDate(selectedDate);
-                          studentInfoFormik.setFieldValue("DOB", formatted);
+                        onChange={(d) => {
+                          studentInfoFormik.setFieldValue("DOB", formatDate(d));
                           setShowDOBCalendar(false);
                         }}
-                        value={dobValue}
+                        value={parseDate(studentInfoFormik.values.DOB)}
                         locale="en-GB"
                       />
                     </div>
                   )}
                 </div>
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Label>Country</Form.Label>
+              <Col md={6}>
+                <Form.Label className="fw-semibold">Country</Form.Label>
                 <Select
-                  className="custom-select-height"
                   options={countries?.map((c) => ({
                     value: c.name,
                     label: c.name,
@@ -560,134 +708,98 @@ const StudentInfo = ({
                         }
                       : null
                   }
-                  onChange={(selectedOption) => {
-                    studentInfoFormik.setFieldValue(
-                      "country",
-                      selectedOption ? selectedOption.value : "",
-                    );
-                  }}
-                  placeholder="Select Country"
-                  isClearable
-                  isSearchable
-                  classNamePrefix="custom-select"
-                  noOptionsMessage={() => "No countries available"}
+                  onChange={(opt) =>
+                    studentInfoFormik.setFieldValue("country", opt?.value || "")
+                  }
                   styles={{
-                    control: (base) => ({
-                      ...base,
-                      borderRadius: "12px",
-                      color: "black",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "black",
-                      fontSize: "13px",
+                    control: (b) => ({
+                      ...b,
+                      borderRadius: "10px",
+                      minHeight: "45px",
                     }),
                   }}
                 />
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Label>City</Form.Label>
+              <Col md={6}>
+                <Form.Label className="fw-semibold">City</Form.Label>
                 <Form.Control
                   type="text"
                   name="city"
-                  className="custom-select-height"
+                  className="custom-select-height rounded-3"
                   placeholder="Enter City"
                   value={studentInfoFormik.values.city}
                   onChange={studentInfoFormik.handleChange}
-                  onBlur={studentInfoFormik.handleBlur}
                 />
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Label>Address</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="address"
-                  className="custom-select-height"
-                  placeholder="Enter Address"
-                  value={studentInfoFormik.values.address}
-                  onChange={studentInfoFormik.handleChange}
-                  onBlur={studentInfoFormik.handleBlur}
-                />
-              </Col>
-              <Col md={6} className="mb-3">
-                <Form.Label>Passport Number</Form.Label>
+              <Col md={6}>
+                <Form.Label className="fw-semibold">Passport Number</Form.Label>
                 <Form.Control
                   type="text"
                   name="passportNumber"
-                  className="custom-select-height"
+                  className="custom-select-height rounded-3"
                   placeholder="Enter Passport Number"
                   value={studentInfoFormik.values.passportNumber}
                   onChange={studentInfoFormik.handleChange}
-                  onBlur={studentInfoFormik.handleBlur}
                 />
-                {studentInfoFormik.touched.passportNumber &&
-                  studentInfoFormik.errors.passportNumber && (
-                    <div className="text-danger">
-                      {studentInfoFormik.errors.passportNumber}
-                    </div>
-                  )}
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Label>Preferred Country</Form.Label>
+              <Col md={6}>
+                <Form.Label className="fw-semibold">
+                  Preferred Country
+                </Form.Label>
                 <Select
-                  className="custom-select-height"
+                  isMulti
                   options={countries?.map((c) => ({
                     value: c.name,
                     label: c.name,
                   }))}
                   value={
-                    studentInfoFormik.values.purposeDetails?.preferredCountry
-                      ?.length > 0
-                      ? studentInfoFormik.values.purposeDetails?.preferredCountry.map(
-                          (country) => ({
-                            value: country,
-                            label: country,
-                          }),
-                        )
-                      : []
+                    studentInfoFormik.values.purposeDetails?.preferredCountry?.map(
+                      (c) => ({ value: c, label: c }),
+                    ) || []
                   }
-                  onChange={(selectedOptions) => {
-                    const selectedValues = selectedOptions
-                      ? [selectedOptions.value]
-                      : [];
+                  onChange={(opts) =>
                     studentInfoFormik.setFieldValue(
                       "purposeDetails.preferredCountry",
-                      selectedValues,
-                    );
-                  }}
-                  placeholder="Select Country"
-                  isClearable
-                  isSearchable
-                  classNamePrefix="custom-select"
-                  noOptionsMessage={() => "No countries available"}
+                      opts?.map((o) => o.value) || [],
+                    )
+                  }
                   styles={{
-                    control: (base) => ({
-                      ...base,
-                      borderRadius: "12px",
-                      color: "black",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "black",
-                      fontSize: "13px",
+                    control: (b) => ({
+                      ...b,
+                      borderRadius: "10px",
+                      minHeight: "45px",
                     }),
                   }}
                 />
               </Col>
+              <Col md={12}>
+                <Form.Label className="fw-semibold">
+                  Residential Address
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={2}
+                  name="address"
+                  className="rounded-3"
+                  placeholder="Enter Address"
+                  value={studentInfoFormik.values.address}
+                  onChange={studentInfoFormik.handleChange}
+                />
+              </Col>
             </Row>
-            <div className="text-end mt-3">
+            <div className="text-end mt-4">
               <Button
                 variant="primary"
-                className="custom-select-height"
+                className="rounded-pill px-5 fw-bold shadow-sm"
                 type="submit"
               >
-                Update Student Information
+                Update Profile
               </Button>
             </div>
           </Form>
         </Modal.Body>
       </Modal>
-    </div>
+    </Card>
   );
 };
 

@@ -907,17 +907,23 @@ const Announcements = () => {
       />
       <Row className="mt-3 mt-md-5 row-sm">
         <Col xs={12}>
-          <Card className="custom-card transcation-crypto">
-            <Card.Header className="border-bottom-0">
-              <div className="card-title">Announcements</div>
+          <Card className="premium-announcement-card shadow-lg mb-4">
+            <Card.Header className="premium-announcement-header">
+              <div className="card-title">
+                <i className="bi bi-megaphone-fill me-2"></i>
+                Create New Announcement
+              </div>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="p-4 p-md-5">
               {(canCreate || canUpdate) && (
-                <Form onSubmit={formik.handleSubmit} className="mb-3">
-                  <Row className="g-3 mb-3">
-                    <Col md={12}>
+                <Form onSubmit={formik.handleSubmit}>
+                  <Row className="g-4 mb-4">
+                    <Col md={6}>
                       <Form.Group controlId="type">
-                        <Form.Label>Type of Contact</Form.Label>
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-people-fill text-primary"></i>
+                          Target Audience
+                        </Form.Label>
                         <Select
                           name="type"
                           options={typeOptions}
@@ -926,12 +932,10 @@ const Announcements = () => {
                           )}
                           isMulti
                           onChange={(selectedOption) => {
-                            formik.setFieldValue(
-                              "type",
-                              selectedOption
-                                ? selectedOption.map((option) => option.value)
-                                : [],
-                            );
+                            const newTypes = selectedOption
+                              ? selectedOption.map((option) => option.value)
+                              : [];
+                            formik.setFieldValue("type", newTypes);
 
                             const needsEmail = newTypes.some((t) =>
                               ["Inhouse", "B2B", "Branch"].includes(t),
@@ -943,53 +947,70 @@ const Announcements = () => {
                           }}
                           onBlur={() => formik.setFieldTouched("type", true)}
                           placeholder="Select Type"
-                          classNamePrefix="custom-select"
+                          classNamePrefix="premium-select"
                           styles={{
-                            control: (base) => ({
+                            control: (base, state) => ({
                               ...base,
                               borderRadius: "12px",
-                              color: "black",
+                              borderColor: state.isFocused
+                                ? "#6c5ffc"
+                                : "#e2e8f0",
+                              background: "#f8fafc",
+                              minHeight: "48px",
+                              height: "auto",
+                              boxShadow: state.isFocused
+                                ? "0 0 0 4px rgba(108, 95, 252, 0.1)"
+                                : "none",
+                              "&:hover": {
+                                borderColor: "#6c5ffc",
+                              },
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "black",
-                              fontSize: "13px",
+                              color: "#64748b",
+                              fontSize: "14px",
                             }),
                           }}
                         />
                         {formik.touched.type && formik.errors.type && (
-                          <div className="text-danger">
+                          <div className="text-danger small mt-1">
                             {formik.errors.type}
                           </div>
                         )}
                       </Form.Group>
                     </Col>
-                    <Col md={12}>
+                    <Col md={6}>
                       <Form.Group controlId="individualEmail">
-                        <Form.Label>Individual Email</Form.Label>
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-envelope-at-fill text-primary"></i>
+                          Individual Email (Optional)
+                        </Form.Label>
                         <Form.Control
                           type="email"
                           name="individualEmail"
-                          placeholder="Enter individual email"
+                          placeholder="name@example.com"
                           value={formik.values.individualEmail}
                           onChange={formik.handleChange}
                           onBlur={() =>
                             formik.setFieldTouched("individualEmail", true)
                           }
-                          className="custom-select-height"
+                          className="premium-form-control"
                         />
                         {formik.touched.individualEmail &&
                           formik.errors.individualEmail && (
-                            <div className="text-danger">
+                            <div className="text-danger small mt-1">
                               {formik.errors.individualEmail}
                             </div>
                           )}
                       </Form.Group>
                     </Col>
 
-                    <Col md={12}>
+                    <Col md={6}>
                       <Form.Group controlId="categories">
-                        <Form.Label>Categories</Form.Label>
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-tags-fill text-primary"></i>
+                          Categories
+                        </Form.Label>
                         <Select
                           name="categories"
                           options={categoryOptions}
@@ -1009,45 +1030,61 @@ const Announcements = () => {
                             formik.setFieldTouched("categories", true)
                           }
                           placeholder="Select Categories"
-                          classNamePrefix="custom-select"
+                          classNamePrefix="premium-select"
                           isDisabled={
                             !formik.values.type.includes("ClientMail")
                           }
                           styles={{
-                            control: (base) => ({
+                            control: (base, state) => ({
                               ...base,
                               borderRadius: "12px",
-                              color: "black",
+                              borderColor: state.isFocused
+                                ? "#6c5ffc"
+                                : "#e2e8f0",
+                              background: state.isDisabled
+                                ? "#f1f5f9"
+                                : "#f8fafc",
+                              minHeight: "48px",
+                              height: "auto",
+                              boxShadow: state.isFocused
+                                ? "0 0 0 4px rgba(108, 95, 252, 0.1)"
+                                : "none",
+                              "&:hover": {
+                                borderColor: "#6c5ffc",
+                              },
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "black",
-                              fontSize: "13px",
+                              color: "#64748b",
+                              fontSize: "14px",
                             }),
                           }}
                         />
                         {formik.touched.categories &&
                           formik.errors.categories && (
-                            <div className="text-danger">
+                            <div className="text-danger small mt-1">
                               {formik.errors.categories}
                             </div>
                           )}
                       </Form.Group>
                     </Col>
-                    <Col md={12}>
+                    <Col md={6}>
                       <Form.Group controlId="subject">
-                        <Form.Label>Subject</Form.Label>
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-type-h1 text-primary"></i>
+                          Subject
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           name="subject"
-                          placeholder="Enter subject"
+                          placeholder="Announcement Title"
                           value={formik.values.subject}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          className="custom-select-height"
+                          className="premium-form-control"
                         />
                         {formik.touched.subject && formik.errors.subject && (
-                          <div className="text-danger">
+                          <div className="text-danger small mt-1">
                             {formik.errors.subject}
                           </div>
                         )}
@@ -1055,12 +1092,12 @@ const Announcements = () => {
                     </Col>
                     <Col md={12}>
                       <Form.Group controlId="message">
-                        <Form.Label>Message</Form.Label>
-                        <div
-                          ref={editorRef}
-                          className="message-editor-container"
-                        >
-                          <div className="gmail-toolbar">
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-card-text text-primary"></i>
+                          Message Content
+                        </Form.Label>
+                        <div ref={editorRef} className="premium-editor-wrapper">
+                          <div className="premium-gmail-toolbar">
                             <button
                               type="button"
                               onClick={() => document.execCommand("undo")}
@@ -1250,10 +1287,11 @@ const Announcements = () => {
                           <div
                             contentEditable
                             suppressContentEditableWarning
-                            className="custom-text-editor"
+                            className="premium-text-editor"
                             dir="ltr"
                             onInput={handleEditorInput}
                             onClick={handleEditorClick}
+                            placeholder="Type your announcement here..."
                           />
                           {showOptions && selectedImage && (
                             <div
@@ -1304,33 +1342,53 @@ const Announcements = () => {
                     </Col>
                     <Col md={12}>
                       <Form.Group controlId="fileUrl">
-                        <Form.Label>File Attachment</Form.Label>
-                        <Form.Control
-                          type="file"
-                          name="fileUrl"
-                          onChange={handleFileChange}
-                          onBlur={formik.handleBlur}
-                          className="custom-select-height"
-                        />
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-cloud-arrow-up-fill text-primary"></i>
+                          Official Document Attachment
+                        </Form.Label>
+                        <div
+                          className="file-attachment-zone"
+                          onClick={() =>
+                            document.getElementById("fileUrl").click()
+                          }
+                        >
+                          <i className="bi bi-file-earmark-plus fs-2 text-muted mb-2 d-block"></i>
+                          <span className="text-muted small">
+                            {formik.values.fileUrl
+                              ? formik.values.fileUrl.name
+                              : "Click to upload or drag and drop files here"}
+                          </span>
+                          <Form.Control
+                            type="file"
+                            id="fileUrl"
+                            name="fileUrl"
+                            onChange={handleFileChange}
+                            onBlur={formik.handleBlur}
+                            className="d-none"
+                          />
+                        </div>
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row className="mb-3">
-                    <Col className="d-flex justify-content-center justify-content-md-end">
-                      <Button
-                        variant="primary"
-                        type="submit"
-                        style={{ width: "150px", borderRadius: "12px" }}
-                      >
-                        Send
-                      </Button>
-                    </Col>
-                  </Row>
+                  <div className="d-flex justify-content-end align-items-center gap-3 mb-3">
+                    <Button
+                      variant="light"
+                      type="button"
+                      onClick={() => formik.resetForm()}
+                      style={{ borderRadius: "12px", padding: "12px 25px" }}
+                    >
+                      Clear Form
+                    </Button>
+                    <Button className="premium-send-btn" type="submit">
+                      <i className="bi bi-send-fill me-2"></i>
+                      Publish Announcement
+                    </Button>
+                  </div>
                 </Form>
               )}
 
               {canRead && (
-                <div className="form_right_section mb-3">
+                <div className="form_right_section mb-3 mt-5">
                   <div className="contact-search3">
                     <button type="button" className="btn border-0">
                       <i

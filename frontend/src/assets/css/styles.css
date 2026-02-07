@@ -57196,3 +57196,404 @@ th.sticky-col-right-2 {
     height: 50px;
   }
 }
+
+/* Compact Dialer for Dashboard */
+.small-dialer-premium {
+  border-radius: 15px !important;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.small-dialer-header {
+  padding: 12px 15px !important;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.small-dialer-display-area {
+  padding: 12px 15px !important;
+  background: #fbfbfb;
+}
+
+.small-display-glass {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.small-dialer-input {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #1e293b;
+  letter-spacing: 1.5px;
+  height: 32px;
+  background: transparent !important;
+}
+
+.small-dialer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 0 5px;
+}
+
+.small-premium-key-btn {
+  height: 42px;
+  border: 1px solid #f1f5f9;
+  background: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.small-premium-key-btn:hover {
+  background: #f8fafc;
+  border-color: #6259ca;
+  transform: translateY(-1px);
+}
+
+.small-premium-key-btn .num {
+  font-size: 16px;
+  font-weight: 700;
+  color: #334155;
+  line-height: 1;
+}
+
+.small-premium-key-btn .sub {
+  font-size: 7px;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.small-call-btn {
+  background: linear-gradient(45deg, #22c55e, #16a34a) !important;
+  height: 40px;
+  border-radius: 20px !important;
+  transition: all 0.3s ease;
+}
+
+.small-call-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.small-backspace-btn {
+  height: 40px;
+  width: 46px;
+  padding: 0 !important;
+  border-radius: 10px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Premium Announcement Form Styles */
+.premium-announcement-card {
+  border-radius: 20px !important;
+  border: none !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.premium-announcement-header {
+  background: linear-gradient(135deg, #6c5ffc 0%, #4e44e7 100%);
+  padding: 25px !important;
+  border: none !important;
+}
+
+.premium-announcement-header .card-title {
+  color: #ffffff !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.announcement-form-label {
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.announcement-form-label i {
+  color: #6c5ffc;
+  font-size: 1.1rem;
+}
+
+.premium-input-group {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.premium-form-control {
+  border-radius: 12px !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 12px 16px !important;
+  font-size: 0.95rem !important;
+  transition: all 0.3s ease !important;
+  background-color: #f8fafc !important;
+}
+
+.premium-form-control:focus {
+  border-color: #6c5ffc !important;
+  box-shadow: 0 0 0 4px rgba(108, 95, 252, 0.1) !important;
+  background-color: #ffffff !important;
+}
+
+/* Rich Text Editor Premium Styling */
+.premium-editor-wrapper {
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.premium-editor-wrapper:focus-within {
+  border-color: #6c5ffc;
+  box-shadow: 0 0 0 4px rgba(108, 95, 252, 0.1);
+}
+
+.premium-gmail-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 10px 15px;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.premium-gmail-toolbar button, 
+.premium-gmail-toolbar label,
+.premium-gmail-toolbar .react-select-container {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px !important;
+  color: #64748b;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.premium-gmail-toolbar button:hover,
+.premium-gmail-toolbar label:hover {
+  background-color: #e2e8f0;
+  color: #6c5ffc;
+}
+
+.premium-gmail-toolbar .react-select-container {
+  width: auto !important;
+  min-width: 100px;
+}
+
+.premium-text-editor {
+  min-height: 250px;
+  padding: 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #1e293b;
+  outline: none;
+}
+
+.premium-send-btn {
+  background: linear-gradient(135deg, #6c5ffc 0%, #4e44e7 100%) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 12px 30px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(108, 95, 252, 0.3) !important;
+}
+
+.premium-send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(108, 95, 252, 0.4) !important;
+}
+
+.premium-send-btn:active {
+  transform: translateY(0);
+}
+
+.file-attachment-zone {
+  border: 2px dashed #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.file-attachment-zone:hover {
+  border-color: #6c5ffc;
+  background: #f1f5f9;
+}
+
+/* Premium Select Overrides to remove scroll */
+.premium-select__control {
+  min-height: 48px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.premium-select__value-container {
+  overflow: visible !important;
+  max-height: none !important;
+  padding: 2px 8px !important;
+}
+
+.premium-select__indicators-container {
+  height: auto !important;
+}
+
+/* Premium Country Card Styles */
+.premium-country-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.premium-country-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(108, 95, 252, 0.12);
+  border-color: #6c5ffc;
+}
+
+.country-card-flag-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.premium-country-card:hover .country-card-flag-wrapper {
+  background: #eff6ff;
+  transform: scale(1.1);
+}
+
+.country-card-content {
+  flex-grow: 1;
+}
+
+.country-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.premium-country-card:hover .country-card-name {
+  color: #6c5ffc;
+}
+
+.country-card-actions {
+  display: flex;
+  gap: 8px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.premium-country-card:hover .country-card-actions {
+  opacity: 1;
+}
+
+.country-card-doc-count {
+  font-size: 0.8rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.premium-country-link {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* Modern Premium Table Styles */
+.modern-premium-table {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  width: 100%;
+}
+
+.modern-premium-table thead th {
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 12px 20px;
+  border: none;
+}
+
+.modern-premium-table tbody tr {
+  background: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.modern-premium-table tbody tr:hover {
+  background: #f8fafc;
+  box-shadow: 0 4px 12px rgba(108, 95, 252, 0.08);
+  z-index: 1;
+}
+
+.modern-premium-table tbody td {
+  padding: 16px 20px;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.modern-premium-table tbody td:first-child {
+  border-left: 1px solid #f1f5f9;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.modern-premium-table tbody td:last-child {
+  border-right: 1px solid #f1f5f9;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+

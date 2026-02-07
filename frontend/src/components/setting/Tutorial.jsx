@@ -1,6 +1,6 @@
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,13 +9,21 @@ import {
   deleteTutorial,
   getAllTutorial,
 } from "../../redux/actions/Tutorial.action";
-import { AiOutlineClose } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineVideoCamera,
+  AiOutlineLink,
+  AiOutlineUser,
+  AiOutlineCalendar,
+  AiOutlineCloudUpload,
+  AiOutlineSearch,
+} from "react-icons/ai";
 import usePermissions from "../commonComponents/usePermissions";
 import Paginations from "../elements/Paginations";
 import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
 import Pageheader from "../../layouts/Pageheader";
+import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
-
 const Tutorial = () => {
   const dispatch = useDispatch();
   const [tutorials, setTutorials] = useState([]);
@@ -30,31 +38,32 @@ const Tutorial = () => {
   const { canCreate, canRead, canUpdate, canDelete } =
     usePermissions("CRM Tutorials");
 
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const fetchTutorials = useCallback(
+    async (page = 1, limit = itemsPerPage, searchTerm = "") => {
+      try {
+        const res = await dispatch(getAllTutorial(page, limit, searchTerm));
+        if (res?.status === 200) {
+          setTutorials(res?.data?.data || { data: [] });
+          setTotalRecords(res?.data?.data?.totalRecords || 0);
+          setTotalPages(res?.data?.data?.totalPages || 0);
+        }
+      } catch (error) {
+        setTotalRecords(0);
+        setTotalPages(0);
+        console.error("Fetch tutorials error:", error);
+        toast.error("Failed to fetch tutorials.");
+      }
+    },
+    [dispatch, itemsPerPage],
+  );
+
   useEffect(() => {
     if (canRead) {
       fetchTutorials(currentPage, itemsPerPage, search);
     }
-  }, [dispatch, canRead, currentPage, itemsPerPage, search]);
-
-  const fetchTutorials = async (
-    page = 1,
-    limit = itemsPerPage,
-    searchTerm = "",
-  ) => {
-    try {
-      const res = await dispatch(getAllTutorial(page, limit, searchTerm));
-      if (res?.status === 200) {
-        setTutorials(res?.data?.data || []);
-        setTotalRecords(res?.data?.data?.totalRecords || 0);
-        setTotalPages(res?.data?.data?.totalPages || 0);
-      }
-    } catch (error) {
-      setTotalRecords(0);
-      setTotalPages(0);
-      console.error("Fetch tutorials error:", error);
-      toast.error("Failed to fetch tutorials.");
-    }
-  };
+  }, [canRead, currentPage, itemsPerPage, search, fetchTutorials]);
 
   const handleItemsPerPageChange = (newItemsPerPage) => {
     setItemsPerPage(newItemsPerPage);
@@ -84,6 +93,7 @@ const Tutorial = () => {
           if (res?.status === 201) {
             toast.success("Tutorial added successfully!");
             formik.resetForm();
+            setShowAddModal(false);
           }
         }
         if (canRead) {
@@ -99,7 +109,14 @@ const Tutorial = () => {
     },
   });
 
-  const handleCloseUploadModal = () => {
+  const handleShowAddModal = () => setShowAddModal(true);
+
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+    formik.resetForm();
+  };
+
+  const handleCloseDeleteModal = () => {
     setShowDeleteModal(false);
     setSelectedItem(null);
   };
@@ -165,190 +182,426 @@ const Tutorial = () => {
       />
       <Row className="mt-5 row-sm">
         <Col md={12} lg={12} xl={12}>
-          <Card className="custom-card transcation-crypto">
-            <Card.Header className="border-bottom-0">
-              <div>
-                <div className="card-title">CRM Tutorial</div>
+          <Card className="custom-card transcation-crypto overflow-hidden">
+            <Card.Header className="border-bottom-0 p-4">
+              <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 w-100">
+                <div>
+                  {canCreate && (
+                    <Button
+                      variant="primary"
+                      className="custom-select-height px-4 d-flex align-items-center gap-2 fw-bold"
+                      onClick={handleShowAddModal}
+                      style={{ borderRadius: "10px" }}
+                    >
+                      <AiOutlineCloudUpload size={18} />
+                      Add Tutorial
+                    </Button>
+                  )}
+                </div>
+
+                <div className="d-flex flex-wrap gap-3 align-items-center">
+                  {canRead && (
+                    <div className="contact-search3">
+                      <button type="button" className="btn border-0">
+                        <AiOutlineSearch
+                          className="fw-semibold text-muted"
+                          size={18}
+                        />
+                      </button>
+                      <Form.Control
+                        type="text"
+                        className="filter-height border-0"
+                        placeholder="Search tutorials..."
+                        autoComplete="off"
+                        value={search}
+                        onChange={(e) => {
+                          setSearch(e.target.value);
+                          setCurrentPage(1);
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  <ItemsPerPageSelect
+                    itemsPerPage={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
+                  />
+
+                  <div className="custom-select-height total-records px-3 d-flex align-items-center h-6 border rounded bg-light">
+                    <span className="text-muted small">
+                      Total:{" "}
+                      <strong className="text-dark">{totalRecords}</strong>
+                    </span>
+                  </div>
+                </div>
               </div>
             </Card.Header>
-            <Card.Body>
-              <Form onSubmit={formik.handleSubmit}>
-                {canCreate && (
-                  <div className="w-100 form_left_section d-flex justify-content-between gap-3 mb-3 align-items-end">
-                    <div className="d-flex flex-wrap gap-3 align-items-end">
-                      <Form.Group controlId="name" style={{ width: "200px" }}>
-                        <Form.Label>Tutorial Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="name"
-                          className="custom-select-height"
-                          value={formik.values.name}
-                          onChange={formik.handleChange}
-                          placeholder="Enter Name"
-                          autoCapitalize="off"
-                          isInvalid={formik.touched.name && formik.errors.name}
-                        />
-                        {formik.touched.name && formik.errors.name && (
-                          <div className="custom-text-danger">
-                            {formik.errors.name}
-                          </div>
-                        )}
-                      </Form.Group>
 
-                      <Form.Group controlId="url" style={{ width: "200px" }}>
-                        <Form.Label>Tutorial URL</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="url"
-                          className="custom-select-height"
-                          value={formik.values.url}
-                          onChange={formik.handleChange}
-                          placeholder="Enter URL (e.g., YouTube, Google Drive link)"
-                          autoCapitalize="off"
-                          isInvalid={formik.touched.url && formik.errors.url}
-                        />
-                        {formik.touched.url && formik.errors.url && (
-                          <div className="custom-text-danger">
-                            {formik.errors.url}
-                          </div>
-                        )}
-                      </Form.Group>
-
-                      {canCreate && (
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="custom-select-height"
-                        >
-                          Add CRM Tutorial
-                        </Button>
-                      )}
-                    </div>
-                    <div className="d-flex flex-wrap gap-3 align-items-end">
-                      <div className="contact-search3">
-                        <button type="button" className="btn border-0">
-                          <i
-                            className="fe fe-search fw-semibold text-muted"
-                            aria-hidden="true"
-                          ></i>
-                        </button>
-                        <Form.Control
-                          type="text"
-                          className="filter-height border-0"
-                          placeholder="Search here..."
-                          autoComplete="off"
-                          value={search}
-                          onChange={(e) => {
-                            setSearch(e.target.value);
-                            setCurrentPage(1);
-                          }}
-                        />
-                      </div>
-
-                      <ItemsPerPageSelect
-                        itemsPerPage={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                      />
-
-                      <div className="custom-select-height total-records px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                        <span>
-                          Total Records: <strong>{totalRecords}</strong>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </Form>
-
-              <Row className="mt-3">
+            <Card.Body className="p-4">
+              <Row className="g-4">
                 {tutorials?.data?.length > 0 ? (
                   tutorials?.data?.map((item) => (
-                    <Col md={6} lg={4} xl={3} key={item._id} className="mb-3">
-                      <Card className="shadow-sm rounded-4 tutorial-card">
-                        <Card.Body>
-                          {canRead && (
-                            <>
-                              <Card.Title>
-                                {item?.name ? item?.name : "Tutorial Video"}
-                              </Card.Title>
-                              <Card.Text className="tutorial-content">
-                                {isGoogleDriveLink(item.url) ? (
-                                  <Button
-                                    variant="primary"
-                                    onClick={() =>
-                                      window.open(item.url, "_blank")
-                                    }
-                                    className="mb-2"
-                                  >
-                                    Open Google Drive
-                                  </Button>
-                                ) : (
-                                  <span className="embed-responsive embed-responsive-16by9">
-                                    <iframe
-                                      className="embed-responsive-item"
-                                      src={getEmbedUrl(item.url)}
-                                      allowFullScreen
-                                      title="Tutorial Video"
-                                      style={{ width: "100%", height: "200px" }}
-                                    ></iframe>
-                                  </span>
-                                )}
-                              </Card.Text>
-                            </>
-                          )}
-                          <div className="d-flex justify-content-between align-items-center mb-2">
-                            <div>
-                              <small>
-                                <strong>Created By: </strong>
-                                {item?.createdByName || "Unknown"}
-                              </small>
-                              <br />
-                              <small>
-                                <strong>Created On: </strong>
-                                {item?.createdAt
-                                  ? new Date(item.createdAt).toLocaleDateString(
-                                      "en-GB",
-                                      {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                        timeZone: "UTC",
-                                      },
-                                    )
-                                  : "N/A"}
-                              </small>
-                            </div>
-                            {canDelete && (
+                    <Col md={6} lg={4} xl={4} key={item._id}>
+                      <div className="premium-tutorial-card p-0 rounded-4 border-0 shadow-sm h-100 bg-white overflow-hidden transition-all hover-translate-y">
+                        <div
+                          className="tutorial-video-wrapper position-relative"
+                          style={{ height: "220px", background: "#f8fafc" }}
+                        >
+                          {isGoogleDriveLink(item.url) ? (
+                            <div className="d-flex flex-column align-items-center justify-content-center h-100 gap-3">
+                              <div
+                                className="icon-border bg-primary-transparent text-primary shadow-sm"
+                                style={{ width: "64px", height: "64px" }}
+                              >
+                                <AiOutlineLink size={28} />
+                              </div>
                               <Button
-                                variant="danger"
+                                variant="primary"
+                                onClick={() => window.open(item.url, "_blank")}
+                                className="rounded-pill px-4 btn-sm fw-bold shadow-sm"
+                              >
+                                Open Google Drive
+                              </Button>
+                            </div>
+                          ) : (
+                            <iframe
+                              className="w-100 h-100 border-0"
+                              src={getEmbedUrl(item.url)}
+                              allowFullScreen
+                              title={item.name}
+                            ></iframe>
+                          )}
+                          <div className="position-absolute top-0 end-0 p-3">
+                            <div className="badge bg-blur-white text-primary rounded-pill px-3 py-2 shadow-sm d-flex align-items-center gap-2">
+                              <div className="pulse-dot"></div>
+                              <span className="small fw-bold letter-spacing-1">
+                                VIDEO
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          className="p-4 d-flex flex-column"
+                          style={{ minHeight: "160px" }}
+                        >
+                          <div className="d-flex justify-content-between align-items-start mb-3">
+                            <h5
+                              className="fw-bold text-dark mb-0 line-clamp-1 flex-grow-1 me-2"
+                              title={item?.name}
+                            >
+                              {item?.name || "Untitled Tutorial"}
+                            </h5>
+                            {canDelete && (
+                              <span
+                                className="icon-border delete-icon"
+                                title="Delete"
                                 size="sm"
                                 onClick={() => {
                                   setSelectedItem(item);
                                   setShowDeleteModal(true);
                                 }}
                               >
-                                Delete
-                              </Button>
+                                <DeleteIcon style={{ fontSize: "18px" }} />
+                              </span>
                             )}
                           </div>
-                        </Card.Body>
-                      </Card>
+
+                          <div className="tutorial-meta pt-3 border-top d-flex justify-content-between align-items-center mt-3">
+                            <div className="d-flex align-items-center gap-2">
+                              <div
+                                className="avatar text-primary rounded-pill d-flex align-items-center justify-content-center"
+                                style={{
+                                  width: "32px",
+                                  height: "32px",
+                                  backgroundColor: "#5d54be4f",
+                                }}
+                              >
+                                <AiOutlineUser size={14} />
+                              </div>
+                              <div className="d-flex flex-column">
+                                <span
+                                  className="text-muted text-uppercase"
+                                  style={{
+                                    fontSize: "9px",
+                                    fontWeight: "700",
+                                    letterSpacing: "0.5px",
+                                  }}
+                                >
+                                  Author
+                                </span>
+                                <span
+                                  className="small fw-bold text-dark text-truncate"
+                                  style={{ maxWidth: "80px" }}
+                                >
+                                  {item?.createdByName || "Admin"}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="d-flex align-items-center gap-2 text-end">
+                              <div className="d-flex flex-column">
+                                <span
+                                  className="text-muted text-uppercase"
+                                  style={{
+                                    fontSize: "9px",
+                                    fontWeight: "700",
+                                    letterSpacing: "0.5px",
+                                  }}
+                                >
+                                  Published
+                                </span>
+                                <span className="small fw-bold text-dark">
+                                  {item?.createdAt
+                                    ? new Date(
+                                        item.createdAt,
+                                      ).toLocaleDateString("en-GB")
+                                    : "N/A"}
+                                </span>
+                              </div>
+                              <div
+                                className="avatar bg-light text-muted rounded-pill d-flex align-items-center justify-content-center"
+                                style={{ width: "32px", height: "32px" }}
+                              >
+                                <AiOutlineCalendar size={14} />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </Col>
                   ))
                 ) : (
-                  <Col>
-                    <p className="text-center">
-                      {!canRead
-                        ? "You do not have permission to view this Data"
-                        : "No data available"}
-                    </p>
+                  <Col xs={12}>
+                    <div className="text-center py-5 rounded-4 bg-light border border-dashed">
+                      <div className="mb-3 text-muted opacity-50">
+                        <AiOutlineVideoCamera size={48} />
+                      </div>
+                      <h5 className="text-muted fw-semibold">
+                        {!canRead
+                          ? "Access restricted. Please contact administrator."
+                          : "No tutorials found. Add your first video above!"}
+                      </h5>
+                    </div>
                   </Col>
                 )}
               </Row>
 
+              {/* Add Tutorial Modal */}
+              <Modal
+                show={showAddModal}
+                onHide={handleCloseAddModal}
+                centered
+                size="lg"
+                className="premium-modal"
+              >
+                <Modal.Header className="form-main-heading p-4">
+                  <Modal.Title className="fw-bold text-white d-flex align-items-center gap-2">
+                    <AiOutlineVideoCamera />
+                    Add New CRM Tutorial
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={handleCloseAddModal}
+                  />
+                </Modal.Header>
+                <Modal.Body className="p-4">
+                  <Form onSubmit={formik.handleSubmit}>
+                    <Row className="g-4">
+                      <Col md={12}>
+                        <Form.Group controlId="name">
+                          <Form.Label className="fw-semibold mb-2">
+                            Tutorial Name
+                          </Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              className="custom-select-height ps-5 rounded-3 border-light shadow-sm"
+                              value={formik.values.name}
+                              onChange={formik.handleChange}
+                              placeholder="e.g., How to manage leads"
+                              autoFocus
+                              isInvalid={
+                                formik.touched.name && formik.errors.name
+                              }
+                            />
+                            <AiOutlineVideoCamera
+                              className="position-absolute translate-middle-y top-50 start-0 ms-3 text-primary"
+                              size={18}
+                            />
+                          </div>
+                          {formik.touched.name && formik.errors.name && (
+                            <Form.Control.Feedback type="invalid">
+                              {formik.errors.name}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </Col>
+
+                      <Col md={12}>
+                        <Form.Group controlId="url">
+                          <Form.Label className="fw-semibold mb-2">
+                            Tutorial / Video URL
+                          </Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              type="text"
+                              name="url"
+                              className="custom-select-height ps-5 rounded-3 border-light shadow-sm"
+                              value={formik.values.url}
+                              onChange={formik.handleChange}
+                              placeholder="YouTube link, Drive link, etc."
+                              isInvalid={
+                                formik.touched.url && formik.errors.url
+                              }
+                            />
+                            <AiOutlineLink
+                              className="position-absolute translate-middle-y top-50 start-0 ms-3 text-primary"
+                              size={18}
+                            />
+                          </div>
+                          <Form.Text className="text-muted small mt-2">
+                            Enter a valid URL for the video or document.
+                          </Form.Text>
+                          {formik.touched.url && formik.errors.url && (
+                            <Form.Control.Feedback type="invalid">
+                              {formik.errors.url}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer className="border-0 p-4 pt-0">
+                  <Button
+                    variant="light"
+                    className="rounded-pill px-4 fw-bold"
+                    onClick={handleCloseAddModal}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    className="rounded-pill px-4 fw-bold shadow-sm"
+                    onClick={formik.handleSubmit}
+                  >
+                    Add Tutorial
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+
+              {/* Add Tutorial Modal */}
+              <Modal
+                show={showAddModal}
+                onHide={handleCloseAddModal}
+                centered
+                size="lg"
+                className="premium-modal"
+              >
+                <Modal.Header className="form-main-heading p-4">
+                  <Modal.Title className="fw-bold text-white d-flex align-items-center gap-2">
+                    <AiOutlineVideoCamera />
+                    Add New CRM Tutorial
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={handleCloseAddModal}
+                  />
+                </Modal.Header>
+                <Modal.Body className="p-4">
+                  <Form onSubmit={formik.handleSubmit}>
+                    <Row className="g-4">
+                      <Col md={12}>
+                        <Form.Group controlId="name">
+                          <Form.Label className="fw-semibold mb-2">
+                            Tutorial Name
+                          </Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              type="text"
+                              name="name"
+                              className="custom-select-height ps-5 rounded-3 border-light shadow-sm"
+                              value={formik.values.name}
+                              onChange={formik.handleChange}
+                              placeholder="e.g., How to manage leads"
+                              autoFocus
+                              isInvalid={
+                                formik.touched.name && formik.errors.name
+                              }
+                            />
+                            <AiOutlineVideoCamera
+                              className="position-absolute translate-middle-y top-50 start-0 ms-3 text-primary"
+                              size={18}
+                            />
+                          </div>
+                          {formik.touched.name && formik.errors.name && (
+                            <Form.Control.Feedback type="invalid">
+                              {formik.errors.name}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </Col>
+
+                      <Col md={12}>
+                        <Form.Group controlId="url">
+                          <Form.Label className="fw-semibold mb-2">
+                            Tutorial / Video URL
+                          </Form.Label>
+                          <div className="position-relative">
+                            <Form.Control
+                              type="text"
+                              name="url"
+                              className="custom-select-height ps-5 rounded-3 border-light shadow-sm"
+                              value={formik.values.url}
+                              onChange={formik.handleChange}
+                              placeholder="YouTube link, Drive link, etc."
+                              isInvalid={
+                                formik.touched.url && formik.errors.url
+                              }
+                            />
+                            <AiOutlineLink
+                              className="position-absolute translate-middle-y top-50 start-0 ms-3 text-primary"
+                              size={18}
+                            />
+                          </div>
+                          <Form.Text className="text-muted small mt-2">
+                            Enter a valid URL for the video or document.
+                          </Form.Text>
+                          {formik.touched.url && formik.errors.url && (
+                            <Form.Control.Feedback type="invalid">
+                              {formik.errors.url}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer className="border-0 p-4 pt-0">
+                  <Button
+                    variant="light"
+                    className="rounded-pill px-4 fw-bold"
+                    onClick={handleCloseAddModal}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    className="rounded-pill px-4 fw-bold shadow-sm"
+                    onClick={formik.handleSubmit}
+                  >
+                    Add Tutorial
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+
               <DeleteConfirmModal
                 show={showDeleteModal}
-                onHide={handleCloseUploadModal}
+                onHide={handleCloseDeleteModal}
                 onConfirm={() => {
                   handleDelete(selectedItem);
                   setShowDeleteModal(false);
@@ -368,6 +621,55 @@ const Tutorial = () => {
           </Card>
         </Col>
       </Row>
+
+      <style>{`
+        .hover-translate-y:hover {
+          transform: translateY(-8px);
+        }
+        .bg-blur-white {
+          background: rgba(255, 255, 255, 0.8) !important;
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .letter-spacing-1 {
+          letter-spacing: 1px;
+        }
+        .line-clamp-1 {
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .bg-primary-transparent {
+          background-color: rgba(108, 95, 252, 0.1) !important;
+        }
+        .pulse-dot {
+          width: 8px;
+          height: 8px;
+          background-color: #6c5ffc;
+          border-radius: 50%;
+          display: inline-block;
+          animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(108, 95, 252, 0.7); }
+          70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(108, 95, 252, 0); }
+          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(108, 95, 252, 0); }
+        }
+        .premium-tutorial-card {
+          border-radius: 20px !important;
+          border: 1px solid #e2e8f0 !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .premium-tutorial-card:hover {
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        }
+        .premium-modal .modal-content {
+          border: none;
+          border-radius: 20px;
+          overflow: hidden;
+        }
+      `}</style>
     </>
   );
 };

@@ -1212,7 +1212,8 @@ const Dashboard = () => {
                       <Card
                         className="custom-card h-100 border-0 shadow-sm overflow-visible"
                         style={{
-                          background: "#5D54BE",
+                          background:
+                            "linear-gradient(45deg, #6259ca, #8e85ef)",
                         }}
                       >
                         <Card.Body className="p-3">
@@ -1231,7 +1232,7 @@ const Dashboard = () => {
                             </div>
 
                             <div className="flex-grow-1">
-                              <p className="mb-1 text-white-50 fs-11 fw-bold text-uppercase letter-spacing-1">
+                              <p className="mb-1 text-white-50 fs-10 fw-bold text-uppercase letter-spacing-1">
                                 Workspace
                               </p>
 
@@ -2451,8 +2452,8 @@ const Dashboard = () => {
                   />
                 </Col>
 
-                <Col sm={12} lg={6} xl={6}>
-                  <Card className="custom-card overflow-hidden">
+                <Col sm={12} lg={6} xl={6} className="mb-4">
+                  <Card className="custom-card h-100 overflow-hidden shadow-sm border-0">
                     <Card.Header>
                       <label className="main-content-label my-2">
                         Total Applications vs Offer Letters
@@ -2468,250 +2469,236 @@ const Dashboard = () => {
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col sm={12} md={12} lg={6} xl={6}>
-                  <Row className="g-3 d-flex">
-                    <Col xs={12} md={12} lg={12} xl={12}>
-                      <Card className="custom-card h-100 shadow-sm border-0 overflow-hidden">
-                        <Card.Header className="pt-4 px-4 border-bottom-0 bg-transparent">
-                          <div>
-                            <label className="main-content-label mb-1">
-                              Counselor Tasks Today
-                            </label>
-                            <span className="d-block fs-12 text-muted fw-medium">
-                              Follow-up activities snapshot
-                            </span>
-                          </div>
-                        </Card.Header>
+                <Col sm={12} md={12} lg={6} xl={6} className="mb-4">
+                  <Card className="custom-card h-100 shadow-sm border-0 overflow-hidden">
+                    <Card.Header className="pt-4 px-4 border-bottom-0 bg-transparent">
+                      <div>
+                        <label className="main-content-label mb-1">
+                          Counselor Tasks Today
+                        </label>
+                        <span className="d-block fs-12 text-muted fw-medium">
+                          Follow-up activities snapshot
+                        </span>
+                      </div>
+                    </Card.Header>
 
-                        <Card.Body className="px-4 py-2">
-                          <Row className="align-items-center">
-                            {/* Left Stats Section */}
-                            <Col xs={6} md={6} lg={6} xl={6}>
-                              <div className="d-flex flex-column justify-content-center h-100">
-                                <p className="text-muted text-uppercase fs-11 fw-bold letter-spacing-1 mb-1">
-                                  Follow-ups Due
-                                </p>
-                                <h2 className="display-6 fw-bold text-dark mb-2">
-                                  {dashboardData?.todaysLeadFollowup || 0}
-                                </h2>
-                                <div
-                                  className="d-flex align-items-center text-muted fs-12 bg-light p-2 rounded-2"
-                                  style={{ width: "fit-content" }}
-                                >
-                                  <i className="bi bi-calendar3 me-2 text-primary"></i>
-                                  <span className="fw-medium">
-                                    {new Date().toLocaleDateString("en-US", {
-                                      month: "long",
-                                      day: "numeric",
-                                      year: "numeric",
-                                    })}
-                                  </span>
-                                </div>
-                              </div>
-                            </Col>
-
-                            {/* Right Chart Section */}
-                            <Col xs={6} md={6} lg={6} xl={6}>
-                              <div
-                                className="position-relative d-flex justify-content-center align-items-center"
-                                style={{ height: "140px" }}
-                              >
-                                <div
-                                  style={{ width: "110px", height: "110px" }}
-                                >
-                                  <Doughnut
-                                    data={counselorTasksData}
-                                    options={counselorTasksOptions}
-                                  />
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        </Card.Body>
-
-                        {/* Moved Legend to the end (Bottom) */}
-                        <Card.Footer className="bg-light border-0 py-3 px-4 d-flex justify-content-end gap-3">
-                          <div className="d-flex align-items-center gap-2">
-                            <span
-                              className="rounded-circle"
-                              style={{
-                                width: "10px",
-                                height: "10px",
-                                backgroundColor: "#6c5ffc", // Zokep Purple
-                                boxShadow: "0 0 5px rgba(108, 95, 252, 0.4)",
-                              }}
-                            ></span>
-                            <span className="fs-12 text-dark fw-bold">
-                              Done
-                            </span>
-                          </div>
-                          <div className="d-flex align-items-center gap-2">
-                            <span
-                              className="rounded-circle"
-                              style={{
-                                width: "10px",
-                                height: "10px",
-                                backgroundColor: "#cbd5e1", // Rich Slate/Pending color
-                              }}
-                            ></span>
-                            <span className="fs-12 text-muted fw-bold">
-                              Pending
-                            </span>
-                          </div>
-                        </Card.Footer>
-                      </Card>
-                    </Col>
-
-                    <Col xs={12} md={12} lg={12} xl={12}>
-                      <Card className="custom-card h-100 shadow-sm border-0">
-                        <Card.Header className="pt-4 px-4 border-bottom-0 bg-transparent">
-                          <div className="mb-2">
-                            <label
-                              className="main-content-label mb-1"
-                              style={{ letterSpacing: "-0.3px" }}
+                    <Card.Body className="px-4 py-2 d-flex flex-column justify-content-center">
+                      <Row className="align-items-center flex-grow-1">
+                        {/* Left Stats Section */}
+                        <Col xs={6} md={6} lg={6} xl={6}>
+                          <div className="d-flex flex-column justify-content-center h-100">
+                            <p className="text-muted text-uppercase fs-11 fw-bold letter-spacing-1 mb-1">
+                              Follow-ups Due
+                            </p>
+                            <h2 className="display-6 fw-bold text-dark mb-2">
+                              {dashboardData?.todaysLeadFollowup || 0}
+                            </h2>
+                            <div
+                              className="d-flex align-items-center text-muted fs-12 bg-light p-2 rounded-2"
+                              style={{ width: "fit-content" }}
                             >
-                              Top Inquiries Sources
-                            </label>
-                            <span className="d-block fs-12 text-muted fw-medium">
-                              Highest performing channels
-                            </span>
+                              <i className="bi bi-calendar3 me-2 text-primary"></i>
+                              <span className="fw-medium">
+                                {new Date().toLocaleDateString("en-US", {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                })}
+                              </span>
+                            </div>
                           </div>
-                        </Card.Header>
-                        <Card.Body className="px-4 pb-4 pt-2">
+                        </Col>
+
+                        {/* Right Chart Section */}
+                        <Col xs={6} md={6} lg={6} xl={6}>
                           <div
-                            className="custom-v-scrollbar" // Added custom class for scrollbar styling
-                            style={{
-                              maxHeight: "180px",
-                              overflowY: "auto",
-                              overflowX: "hidden",
-                              paddingRight: "8px",
-                            }}
+                            className="position-relative d-flex justify-content-center align-items-center"
+                            style={{ height: "180px" }}
                           >
-                            {topInquiries.length > 0 ? (
-                              <div className="d-flex flex-column gap-4">
-                                {" "}
-                                {/* Increased gap for more "breathability" */}
-                                {topInquiries.map((source, index) => (
-                                  <div key={index} className="w-100">
-                                    <div className="d-flex justify-content-between align-items-center mb-2">
-                                      <div className="d-flex align-items-center gap-3 overflow-hidden">
-                                        {/* Refined Rank Circle */}
-                                        <div
-                                          className="d-flex align-items-center justify-content-center rounded-circle fw-bold"
-                                          style={{
-                                            minWidth: "26px",
-                                            width: "26px",
-                                            height: "26px",
-                                            fontSize: "11px",
-                                            backgroundColor:
-                                              index === 0
-                                                ? "rgba(108, 95, 252, 0.1)"
-                                                : "#f8fafc",
-                                            color:
-                                              index === 0
-                                                ? "#6c5ffc"
-                                                : "#64748b",
-                                            border:
-                                              index === 0
-                                                ? "1px solid rgba(108, 95, 252, 0.2)"
-                                                : "1px solid #e2e8f0",
-                                          }}
-                                        >
-                                          {index + 1}
-                                        </div>
-                                        <OverlayTrigger
-                                          placement="top"
-                                          overlay={
-                                            <Tooltip>
-                                              {source.lead_from}
-                                            </Tooltip>
-                                          }
-                                        >
-                                          <span
-                                            className="text-dark fs-13 fw-bold text-truncate"
-                                            style={{
-                                              opacity: 0.85,
-                                              cursor: "pointer",
-                                            }}
-                                          >
-                                            {source.lead_from}
-                                          </span>
-                                        </OverlayTrigger>
-                                      </div>
+                            <div style={{ width: "135px", height: "135px" }}>
+                              <Doughnut
+                                data={counselorTasksData}
+                                options={counselorTasksOptions}
+                              />
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </Card.Body>
 
-                                      <div className="d-flex align-items-center gap-2">
-                                        <span
-                                          className="fw-bold fs-13 text-dark"
-                                          style={{
-                                            fontFamily: "Inter, sans-serif",
-                                          }}
-                                        >
-                                          {source.percentage.toFixed(1)}%
-                                        </span>
-                                        {/* Sleeker Badge */}
-                                        <span
-                                          className="badge rounded-pill px-2 py-1 fs-10 fw-bold d-flex align-items-center"
-                                          style={{
-                                            backgroundColor:
-                                              source.percentage >= 5
-                                                ? "#ecfdf5"
-                                                : "#fef2f2",
-                                            color:
-                                              source.percentage >= 5
-                                                ? "#059669"
-                                                : "#dc2626",
-                                            border: `1px solid ${source.percentage >= 5 ? "#10b98133" : "#ef444433"}`,
-                                          }}
-                                        >
-                                          <i
-                                            className={`bi bi-graph-${source.percentage >= 5 ? "up" : "down"} me-1`}
-                                          ></i>
-                                          {source.percentage >= 5
-                                            ? "High"
-                                            : "Low"}
-                                        </span>
-                                      </div>
-                                    </div>
+                    {/* Moved Legend to the end (Bottom) */}
+                    <Card.Footer className="bg-light border-0 py-3 px-4 d-flex justify-content-end gap-3">
+                      <div className="d-flex align-items-center gap-2">
+                        <span
+                          className="rounded-circle"
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            backgroundColor: "#6c5ffc", // Zokep Purple
+                            boxShadow: "0 0 5px rgba(108, 95, 252, 0.4)",
+                          }}
+                        ></span>
+                        <span className="fs-12 text-dark fw-bold">Done</span>
+                      </div>
+                      <div className="d-flex align-items-center gap-2">
+                        <span
+                          className="rounded-circle"
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            backgroundColor: "#cbd5e1", // Rich Slate/Pending color
+                          }}
+                        ></span>
+                        <span className="fs-12 text-muted fw-bold">
+                          Pending
+                        </span>
+                      </div>
+                    </Card.Footer>
+                  </Card>
+                </Col>
 
-                                    {/* Slimmer, more sophisticated Progress Bar */}
+                <Col xs={12} md={12} lg={12} xl={12} className="mt-4">
+                  <Card className="custom-card h-100 shadow-sm border-0">
+                    <Card.Header className="pt-4 px-4 border-bottom-0 bg-transparent">
+                      <div className="mb-2">
+                        <label
+                          className="main-content-label mb-1"
+                          style={{ letterSpacing: "-0.3px" }}
+                        >
+                          Top Inquiries Sources
+                        </label>
+                        <span className="d-block fs-12 text-muted fw-medium">
+                          Highest performing channels
+                        </span>
+                      </div>
+                    </Card.Header>
+                    <Card.Body className="px-4 pb-4 pt-2">
+                      <div
+                        className="custom-v-scrollbar" // Added custom class for scrollbar styling
+                        style={{
+                          maxHeight: "180px",
+                          overflowY: "auto",
+                          overflowX: "hidden",
+                          paddingRight: "8px",
+                        }}
+                      >
+                        {topInquiries.length > 0 ? (
+                          <div className="d-flex flex-column gap-4">
+                            {" "}
+                            {/* Increased gap for more "breathability" */}
+                            {topInquiries.map((source, index) => (
+                              <div key={index} className="w-100">
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                  <div className="d-flex align-items-center gap-3 overflow-hidden">
+                                    {/* Refined Rank Circle */}
                                     <div
-                                      className="progress rounded-pill"
+                                      className="d-flex align-items-center justify-content-center rounded-circle fw-bold"
                                       style={{
-                                        height: "6px",
-                                        backgroundColor: "#f1f5f9",
+                                        minWidth: "26px",
+                                        width: "26px",
+                                        height: "26px",
+                                        fontSize: "11px",
+                                        backgroundColor:
+                                          index === 0
+                                            ? "rgba(108, 95, 252, 0.1)"
+                                            : "#f8fafc",
+                                        color:
+                                          index === 0 ? "#6c5ffc" : "#64748b",
+                                        border:
+                                          index === 0
+                                            ? "1px solid rgba(108, 95, 252, 0.2)"
+                                            : "1px solid #e2e8f0",
                                       }}
                                     >
-                                      <div
-                                        className="progress-bar rounded-pill"
-                                        role="progressbar"
-                                        style={{
-                                          width: `${Math.min(source.percentage * 1.5, 100)}%`,
-                                          backgroundColor:
-                                            index === 0
-                                              ? "#6c5ffc"
-                                              : index === 1
-                                                ? "#0ea5e9"
-                                                : "#f59e0b",
-                                          transition: "width 1s ease-in-out",
-                                        }}
-                                      ></div>
+                                      {index + 1}
                                     </div>
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip>{source.lead_from}</Tooltip>
+                                      }
+                                    >
+                                      <span
+                                        className="text-dark fs-13 fw-bold text-truncate"
+                                        style={{
+                                          opacity: 0.85,
+                                          cursor: "pointer",
+                                        }}
+                                      >
+                                        {source.lead_from}
+                                      </span>
+                                    </OverlayTrigger>
                                   </div>
-                                ))}
+
+                                  <div className="d-flex align-items-center gap-2">
+                                    <span
+                                      className="fw-bold fs-13 text-dark"
+                                      style={{
+                                        fontFamily: "Inter, sans-serif",
+                                      }}
+                                    >
+                                      {source.percentage.toFixed(1)}%
+                                    </span>
+                                    {/* Sleeker Badge */}
+                                    <span
+                                      className="badge rounded-pill px-2 py-1 fs-10 fw-bold d-flex align-items-center"
+                                      style={{
+                                        backgroundColor:
+                                          source.percentage >= 5
+                                            ? "#ecfdf5"
+                                            : "#fef2f2",
+                                        color:
+                                          source.percentage >= 5
+                                            ? "#059669"
+                                            : "#dc2626",
+                                        border: `1px solid ${source.percentage >= 5 ? "#10b98133" : "#ef444433"}`,
+                                      }}
+                                    >
+                                      <i
+                                        className={`bi bi-graph-${source.percentage >= 5 ? "up" : "down"} me-1`}
+                                      ></i>
+                                      {source.percentage >= 5 ? "High" : "Low"}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                {/* Slimmer, more sophisticated Progress Bar */}
+                                <div
+                                  className="progress rounded-pill"
+                                  style={{
+                                    height: "6px",
+                                    backgroundColor: "#f1f5f9",
+                                  }}
+                                >
+                                  <div
+                                    className="progress-bar rounded-pill"
+                                    role="progressbar"
+                                    style={{
+                                      width: `${Math.min(source.percentage * 1.5, 100)}%`,
+                                      backgroundColor:
+                                        index === 0
+                                          ? "#6c5ffc"
+                                          : index === 1
+                                            ? "#0ea5e9"
+                                            : "#f59e0b",
+                                      transition: "width 1s ease-in-out",
+                                    }}
+                                  ></div>
+                                </div>
                               </div>
-                            ) : (
-                              <div className="d-flex flex-column align-items-center justify-content-center h-100 text-muted py-5">
-                                <i className="bi bi-bar-chart-line fs-1 mb-2 opacity-25"></i>
-                                <span className="fs-13 fw-medium">
-                                  No data available
-                                </span>
-                              </div>
-                            )}
+                            ))}
                           </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  </Row>
+                        ) : (
+                          <div className="d-flex flex-column align-items-center justify-content-center h-100 text-muted py-5">
+                            <i className="bi bi-bar-chart-line fs-1 mb-2 opacity-25"></i>
+                            <span className="fs-13 fw-medium">
+                              No data available
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </Card.Body>
+                  </Card>
                 </Col>
               </>
             )}
