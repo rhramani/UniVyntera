@@ -169,11 +169,11 @@ const Announcements = () => {
     page = 1,
     limit = itemsPerPage,
     searchTerm = "",
-    role = userRole
+    role = userRole,
   ) => {
     try {
       const res = await dispatch(
-        getAnnouncement(page, limit, searchTerm, role)
+        getAnnouncement(page, limit, searchTerm, role),
       );
       if (res?.status === 200) {
         const responseData = res?.data?.data || {};
@@ -199,7 +199,7 @@ const Announcements = () => {
           categories.map((category) => ({
             value: category._id,
             label: category.name || category.title || "Unnamed Category",
-          }))
+          })),
         );
       }
     } catch (error) {
@@ -340,7 +340,7 @@ const Announcements = () => {
         if (file.type.startsWith("image/") || file.type === "application/pdf") {
           const newTab = window.open();
           newTab.document.write(
-            `<iframe src="${fileUrl}" width="100%" height="100%" style="border:none;"></iframe>`
+            `<iframe src="${fileUrl}" width="100%" height="100%" style="border:none;"></iframe>`,
           );
         } else {
           const blob = new Blob([event.target.result], { type: file.type });
@@ -438,9 +438,7 @@ const Announcements = () => {
     },
     validationSchema: Yup.object({
       type: Yup.array().min(1, "At least one type is required"),
-      individualEmail: Yup.string()
-        .email("Invalid email format")
-        .nullable(),
+      individualEmail: Yup.string().email("Invalid email format").nullable(),
       subject: Yup.string().required("Subject is required"),
       message: Yup.string().test(
         "message-or-media",
@@ -448,7 +446,7 @@ const Announcements = () => {
         function (value) {
           const { messageImage, messageFile } = this.parent;
           return value || messageImage || messageFile;
-        }
+        },
       ),
       categories: Yup.array().nullable(),
     }),
@@ -484,11 +482,12 @@ const Announcements = () => {
           fileUrl =
             uploadRes?.data?.fileUrl || uploadRes?.data?.fileId
               ? (uploadRes.data.fileUrl || uploadRes.data.fileId).startsWith(
-                "http"
-              )
+                  "http",
+                )
                 ? uploadRes.data.fileUrl || uploadRes.data.fileId
-                : `${BASEURL}/${uploadRes.data.fileUrl || uploadRes.data.fileId
-                }`
+                : `${BASEURL}/${
+                    uploadRes.data.fileUrl || uploadRes.data.fileId
+                  }`
               : null;
         }
 
@@ -499,7 +498,7 @@ const Announcements = () => {
         let fileUrlUsed = false;
 
         const fileImages = editorContent.querySelectorAll(
-          'img[data-file-image="true"]'
+          'img[data-file-image="true"]',
         );
         if (fileImages.length > 0) {
           fileImages.forEach((img) => {
@@ -524,8 +523,9 @@ const Announcements = () => {
             const imageLink = document.createElement("a");
             imageLink.href = imageUrl;
             imageLink.target = "_blank";
-            imageLink.textContent = `Click to view ${messageImage?.name || "image"
-              }`;
+            imageLink.textContent = `Click to view ${
+              messageImage?.name || "image"
+            }`;
             fragment.appendChild(document.createTextNode(" "));
             fragment.appendChild(imageLink);
           }
@@ -534,8 +534,9 @@ const Announcements = () => {
             const fileLink = document.createElement("a");
             fileLink.href = fileUrl;
             fileLink.target = "_blank";
-            fileLink.textContent = `Click to view ${messageFile?.name || "file"
-              }`;
+            fileLink.textContent = `Click to view ${
+              messageFile?.name || "file"
+            }`;
             fragment.appendChild(document.createTextNode(" "));
             fragment.appendChild(fileLink);
           }
@@ -552,7 +553,10 @@ const Announcements = () => {
         values.type.forEach((typeValue) => {
           announcementFormData.append("type", typeValue);
         });
-        announcementFormData.append("individualEmail", values.individualEmail || "");
+        announcementFormData.append(
+          "individualEmail",
+          values.individualEmail || "",
+        );
         announcementFormData.append("subject", values.subject);
         announcementFormData.append("message", cleanedMessage);
         values.categories.forEach((category) => {
@@ -577,23 +581,23 @@ const Announcements = () => {
           formik.setFieldValue("fileUrl", null);
 
           const fileInput = document.querySelector(
-            'input[type="file"][accept="image/*,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/csv,application/zip"]'
+            'input[type="file"][accept="image/*,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/csv,application/zip"]',
           );
           if (fileInput) fileInput.value = "";
           const imageInput = document.querySelector(
-            'input[type="file"][accept="image/*"]'
+            'input[type="file"][accept="image/*"]',
           );
           if (imageInput) imageInput.value = "";
           const formFileInput = document.querySelector(
-            'input[type="file"][name="fileUrl"]'
+            'input[type="file"][name="fileUrl"]',
           );
           if (formFileInput) formFileInput.value = "";
 
           const bgColorInput = document.querySelector(
-            'input[type="color"][title="Background Color"]'
+            'input[type="color"][title="Background Color"]',
           );
           const textColorInput = document.querySelector(
-            'input[type="color"][title="Text Color"]'
+            'input[type="color"][title="Text Color"]',
           );
           if (bgColorInput) bgColorInput.value = "#ffffff";
           if (textColorInput) textColorInput.value = "#000000";
@@ -609,7 +613,7 @@ const Announcements = () => {
       } catch (error) {
         console.error("Error submitting announcement:", error);
         toast.error(
-          error?.response?.data?.message || "Failed to send announcement"
+          error?.response?.data?.message || "Failed to send announcement",
         );
       } finally {
         setIsLoading(false);
@@ -721,7 +725,7 @@ const Announcements = () => {
       document.execCommand("fontName", false, selectedOption.value);
       formik.setFieldValue(
         "message",
-        editorRef.current.querySelector("[contentEditable]").innerHTML
+        editorRef.current.querySelector("[contentEditable]").innerHTML,
       );
       saveCursorPosition();
     }
@@ -733,7 +737,7 @@ const Announcements = () => {
       document.execCommand("fontSize", false, selectedOption.value);
       formik.setFieldValue(
         "message",
-        editorRef.current.querySelector("[contentEditable]").innerHTML
+        editorRef.current.querySelector("[contentEditable]").innerHTML,
       );
       saveCursorPosition();
     }
@@ -796,25 +800,25 @@ const Announcements = () => {
       render: (item) =>
         item.createdAt
           ? (() => {
-            const date = new Date(item.createdAt).toLocaleDateString(
-              "en-GB",
-              {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              }
-            );
-            const time = new Date(item.createdAt).toLocaleTimeString(
-              "en-US",
-              {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: true,
-              }
-            );
-            return `${date}, ${time}`;
-          })()
+              const date = new Date(item.createdAt).toLocaleDateString(
+                "en-GB",
+                {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                },
+              );
+              const time = new Date(item.createdAt).toLocaleTimeString(
+                "en-US",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hour12: true,
+                },
+              );
+              return `${date}, ${time}`;
+            })()
           : "-",
     },
   ];
@@ -855,24 +859,24 @@ const Announcements = () => {
 
   const columns = canDelete
     ? [
-      ...baseColumns,
-      {
-        label: "Action",
-        key: "actions",
-        render: (item) => (
-          <span
-            className="icon-border delete-icon ms-2"
-            onClick={() => {
-              setSelectedItem(item._id);
-              setShowDeleteModal(true);
-            }}
-            title="Delete"
-          >
-            <DeleteIcon />
-          </span>
-        ),
-      },
-    ]
+        ...baseColumns,
+        {
+          label: "Action",
+          key: "actions",
+          render: (item) => (
+            <span
+              className="icon-border delete-icon ms-2"
+              onClick={() => {
+                setSelectedItem(item._id);
+                setShowDeleteModal(true);
+              }}
+              title="Delete"
+            >
+              <DeleteIcon />
+            </span>
+          ),
+        },
+      ]
     : baseColumns;
 
   return (
@@ -902,34 +906,38 @@ const Announcements = () => {
       />
       <Row className="mt-3 mt-md-5 row-sm">
         <Col xs={12}>
-          <Card className="custom-card transcation-crypto">
-            <Card.Header className="border-bottom-0">
-              <div className="card-title">Announcements</div>
+          <Card className="premium-announcement-card shadow-lg mb-4">
+            <Card.Header className="premium-announcement-header">
+              <div className="card-title">
+                <i className="bi bi-megaphone-fill me-2"></i>
+                Create New Announcement
+              </div>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="p-4 p-md-5">
               {(canCreate || canUpdate) && (
-                <Form onSubmit={formik.handleSubmit} className="mb-3">
-                  <Row className="g-3 mb-3">
-                    <Col md={12}>
+                <Form onSubmit={formik.handleSubmit}>
+                  <Row className="g-4 mb-4">
+                    <Col md={6}>
                       <Form.Group controlId="type">
-                        <Form.Label>Type of Contact</Form.Label>
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-people-fill text-primary"></i>
+                          Target Audience
+                        </Form.Label>
                         <Select
                           name="type"
                           options={typeOptions}
                           value={typeOptions.filter((option) =>
-                            formik.values.type.includes(option.value)
+                            formik.values.type.includes(option.value),
                           )}
                           isMulti
                           onChange={(selectedOption) => {
-                            formik.setFieldValue(
-                              "type",
-                              selectedOption
-                                ? selectedOption.map((option) => option.value)
-                                : []
-                            )
+                            const newTypes = selectedOption
+                              ? selectedOption.map((option) => option.value)
+                              : [];
+                            formik.setFieldValue("type", newTypes);
 
                             const needsEmail = newTypes.some((t) =>
-                              ["Inhouse", "B2B", "Branch"].includes(t)
+                              ["Inhouse", "B2B", "Branch"].includes(t),
                             );
                             if (!needsEmail) {
                               formik.setFieldValue("individualEmail", "");
@@ -938,53 +946,75 @@ const Announcements = () => {
                           }}
                           onBlur={() => formik.setFieldTouched("type", true)}
                           placeholder="Select Type"
-                          classNamePrefix="custom-select"
+                          classNamePrefix="premium-select"
                           styles={{
-                            control: (base) => ({
+                            control: (base, state) => ({
                               ...base,
-                              borderRadius: "30px",
-                              color: "black",
+                              borderRadius: "12px",
+                              borderColor: state.isFocused
+                                ? "#6c5ffc"
+                                : "#e2e8f0",
+                              background: "#f8fafc",
+                              minHeight: "48px",
+                              height: "auto",
+                              boxShadow: state.isFocused
+                                ? "0 0 0 4px rgba(108, 95, 252, 0.1)"
+                                : "none",
+                              "&:hover": {
+                                borderColor: "#6c5ffc",
+                              },
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "black",
-                              fontSize: "13px",
+                              color: "#64748b",
+                              fontSize: "14px",
                             }),
                           }}
                         />
                         {formik.touched.type && formik.errors.type && (
-                          <div className="text-danger">
+                          <div className="text-danger small mt-1">
                             {formik.errors.type}
                           </div>
                         )}
                       </Form.Group>
                     </Col>
-                    <Col md={12}>
+                    <Col md={6}>
                       <Form.Group controlId="individualEmail">
-                        <Form.Label>Individual Email</Form.Label>
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-envelope-at-fill text-primary"></i>
+                          Individual Email (Optional)
+                        </Form.Label>
                         <Form.Control
                           type="email"
                           name="individualEmail"
-                          placeholder="Enter individual email"
+                          placeholder="name@example.com"
                           value={formik.values.individualEmail}
                           onChange={formik.handleChange}
-                          onBlur={() => formik.setFieldTouched("individualEmail", true)}
-                          className="custom-select-height"
+                          onBlur={() =>
+                            formik.setFieldTouched("individualEmail", true)
+                          }
+                          className="premium-form-control"
                         />
-                        {formik.touched.individualEmail && formik.errors.individualEmail && (
-                          <div className="text-danger">{formik.errors.individualEmail}</div>
-                        )}
+                        {formik.touched.individualEmail &&
+                          formik.errors.individualEmail && (
+                            <div className="text-danger small mt-1">
+                              {formik.errors.individualEmail}
+                            </div>
+                          )}
                       </Form.Group>
                     </Col>
 
-                    <Col md={12}>
+                    <Col md={6}>
                       <Form.Group controlId="categories">
-                        <Form.Label>Categories</Form.Label>
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-tags-fill text-primary"></i>
+                          Categories
+                        </Form.Label>
                         <Select
                           name="categories"
                           options={categoryOptions}
                           value={categoryOptions.filter((option) =>
-                            formik.values.categories.includes(option.value)
+                            formik.values.categories.includes(option.value),
                           )}
                           isMulti
                           onChange={(selectedOption) =>
@@ -992,50 +1022,68 @@ const Announcements = () => {
                               "categories",
                               selectedOption
                                 ? selectedOption.map((option) => option.value)
-                                : []
+                                : [],
                             )
                           }
                           onBlur={() =>
                             formik.setFieldTouched("categories", true)
                           }
                           placeholder="Select Categories"
-                          classNamePrefix="custom-select"
-                          isDisabled={!formik.values.type.includes("ClientMail")}
+                          classNamePrefix="premium-select"
+                          isDisabled={
+                            !formik.values.type.includes("ClientMail")
+                          }
                           styles={{
-                            control: (base) => ({
+                            control: (base, state) => ({
                               ...base,
-                              borderRadius: "30px",
-                              color: "black",
+                              borderRadius: "12px",
+                              borderColor: state.isFocused
+                                ? "#6c5ffc"
+                                : "#e2e8f0",
+                              background: state.isDisabled
+                                ? "#f1f5f9"
+                                : "#f8fafc",
+                              minHeight: "48px",
+                              height: "auto",
+                              boxShadow: state.isFocused
+                                ? "0 0 0 4px rgba(108, 95, 252, 0.1)"
+                                : "none",
+                              "&:hover": {
+                                borderColor: "#6c5ffc",
+                              },
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "black",
-                              fontSize: "13px",
+                              color: "#64748b",
+                              fontSize: "14px",
                             }),
                           }}
                         />
                         {formik.touched.categories &&
                           formik.errors.categories && (
-                            <div className="text-danger">
+                            <div className="text-danger small mt-1">
                               {formik.errors.categories}
                             </div>
                           )}
                       </Form.Group>
                     </Col>
-                    <Col md={12}>
+                    <Col md={6}>
                       <Form.Group controlId="subject">
-                        <Form.Label>Subject</Form.Label>
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-type-h1 text-primary"></i>
+                          Subject
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           name="subject"
-                          placeholder="Enter subject"
+                          placeholder="Announcement Title"
                           value={formik.values.subject}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          className="custom-select-height"
+                          className="premium-form-control"
                         />
                         {formik.touched.subject && formik.errors.subject && (
-                          <div className="text-danger">
+                          <div className="text-danger small mt-1">
                             {formik.errors.subject}
                           </div>
                         )}
@@ -1043,12 +1091,12 @@ const Announcements = () => {
                     </Col>
                     <Col md={12}>
                       <Form.Group controlId="message">
-                        <Form.Label>Message</Form.Label>
-                        <div
-                          ref={editorRef}
-                          className="message-editor-container"
-                        >
-                          <div className="gmail-toolbar">
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-card-text text-primary"></i>
+                          Message Content
+                        </Form.Label>
+                        <div ref={editorRef} className="premium-editor-wrapper">
+                          <div className="premium-gmail-toolbar">
                             <button
                               type="button"
                               onClick={() => document.execCommand("undo")}
@@ -1166,7 +1214,7 @@ const Announcements = () => {
                                     document.execCommand(
                                       "hiliteColor",
                                       false,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   data-tooltip="Background Color"
@@ -1188,7 +1236,7 @@ const Announcements = () => {
                                     document.execCommand(
                                       "foreColor",
                                       false,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   data-tooltip="Text Color"
@@ -1238,10 +1286,11 @@ const Announcements = () => {
                           <div
                             contentEditable
                             suppressContentEditableWarning
-                            className="custom-text-editor"
+                            className="premium-text-editor"
                             dir="ltr"
                             onInput={handleEditorInput}
                             onClick={handleEditorClick}
+                            placeholder="Type your announcement here..."
                           />
                           {showOptions && selectedImage && (
                             <div
@@ -1280,7 +1329,7 @@ const Announcements = () => {
                                   height={350}
                                 />
                               </div>,
-                              document.body
+                              document.body,
                             )}
                         </div>
                         {formik.touched.message && formik.errors.message && (
@@ -1292,33 +1341,53 @@ const Announcements = () => {
                     </Col>
                     <Col md={12}>
                       <Form.Group controlId="fileUrl">
-                        <Form.Label>File Attachment</Form.Label>
-                        <Form.Control
-                          type="file"
-                          name="fileUrl"
-                          onChange={handleFileChange}
-                          onBlur={formik.handleBlur}
-                          className="custom-select-height"
-                        />
+                        <Form.Label className="announcement-form-label">
+                          <i className="bi bi-cloud-arrow-up-fill text-primary"></i>
+                          Official Document Attachment
+                        </Form.Label>
+                        <div
+                          className="file-attachment-zone"
+                          onClick={() =>
+                            document.getElementById("fileUrl").click()
+                          }
+                        >
+                          <i className="bi bi-file-earmark-plus fs-2 text-muted mb-2 d-block"></i>
+                          <span className="text-muted small">
+                            {formik.values.fileUrl
+                              ? formik.values.fileUrl.name
+                              : "Click to upload or drag and drop files here"}
+                          </span>
+                          <Form.Control
+                            type="file"
+                            id="fileUrl"
+                            name="fileUrl"
+                            onChange={handleFileChange}
+                            onBlur={formik.handleBlur}
+                            className="d-none"
+                          />
+                        </div>
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row className="mb-3">
-                    <Col className="d-flex justify-content-center justify-content-md-end">
-                      <Button
-                        variant="primary"
-                        type="submit"
-                        style={{ width: "150px", borderRadius: "12px" }}
-                      >
-                        Send
-                      </Button>
-                    </Col>
-                  </Row>
+                  <div className="d-flex justify-content-end align-items-center gap-3 mb-3">
+                    <Button
+                      variant="light"
+                      type="button"
+                      onClick={() => formik.resetForm()}
+                      style={{ borderRadius: "12px", padding: "12px 25px" }}
+                    >
+                      Clear Form
+                    </Button>
+                    <Button className="premium-send-btn" type="submit">
+                      <i className="bi bi-send-fill me-2"></i>
+                      Publish Announcement
+                    </Button>
+                  </div>
                 </Form>
               )}
 
               {canRead && (
-                <div className="form_right_section mb-3">
+                <div className="form_right_section mb-3 mt-5">
                   <div className="contact-search3">
                     <button type="button" className="btn border-0">
                       <i
@@ -1354,11 +1423,13 @@ const Announcements = () => {
 
               {canRead ? (
                 <>
-                  <div className="table-responsive modern-table-wrapper"
+                  <div
+                    className="table-responsive modern-table-wrapper"
                     style={{
                       borderRadius: "12px",
                       border: "1px solid #dee2e6",
-                    }}>
+                    }}
+                  >
                     <table
                       className="table table-hover modern-table table-nowrap"
                       style={{ tableLayout: "auto" }}
@@ -1388,8 +1459,8 @@ const Announcements = () => {
                                 <td className="No-column fw-semibold">
                                   {currentPage && itemsPerPage
                                     ? index +
-                                    1 +
-                                    (currentPage - 1) * itemsPerPage
+                                      1 +
+                                      (currentPage - 1) * itemsPerPage
                                     : index + 1}
                                 </td>
                                 {columns?.map((col, colIndex) => (

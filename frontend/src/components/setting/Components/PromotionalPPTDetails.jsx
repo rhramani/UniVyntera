@@ -1,8 +1,12 @@
-import { Button, Card, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import DownloadIcon from "@mui/icons-material/Download";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import PresentToAllIcon from "@mui/icons-material/PresentToAll";
 import { AiOutlineClose, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
@@ -34,46 +38,50 @@ const PromotionalPPTDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { canUpdate, canDelete, canRead, canCreate } = usePermissions("PPT");
 
-  const fetchData = async (searchTerm = "") => {
-    try {
-      const res = await dispatch(getOnePromotionalPpt(id, searchTerm));
-      if (res?.status === 200) {
-        const item = res.data.data;
-        setEditingItem(item);
-        setSelectedDocuments(item || []);
+  const fetchData = useCallback(
+    async (searchTerm = "") => {
+      try {
+        const res = await dispatch(getOnePromotionalPpt(id, searchTerm));
+        if (res?.status === 200) {
+          const item = res.data.data;
+          setEditingItem(item);
+          setSelectedDocuments(item || []);
 
-        // Flatten the documents into a list of files, including fileId
-        const files = item.documents.flatMap((doc, docIndex) =>
-          doc.urls.map((url, urlIndex) => ({
-            docIndex,
-            urlIndex,
-            name: doc.name,
-            url: url.link,
-            docId: doc._id,
-            fileId: url._id, // Store the _id from the urls array
-          }))
+          const files = item.documents.flatMap((doc, docIndex) =>
+            doc.urls.map((url, urlIndex) => ({
+              docIndex,
+              urlIndex,
+              name: doc.name,
+              url: url.link,
+              docId: doc._id,
+              fileId: url._id,
+            })),
+          );
+          setFlattenedFiles(files);
+        } else {
+          toast.error("No documents found for this country");
+        }
+      } catch (error) {
+        console.error("Fetch documents error:", error);
+        toast.error(
+          error.response?.data?.message || "Failed to fetch documents",
         );
-        setFlattenedFiles(files);
-      } else {
-        toast.error("No documents found for this country");
       }
-    } catch (error) {
-      console.error("Fetch documents error:", error);
-      toast.error(error.response?.data?.message || "Failed to fetch documents");
-    }
-  };
+    },
+    [dispatch, id],
+  );
 
-  const fetchCountries = async () => {
+  const fetchCountries = useCallback(async () => {
     const res = await dispatch(countryDropdown());
     setCountries(res?.data?.data || []);
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchCountries();
     if (canRead) {
       fetchData(search);
     }
-  }, [dispatch, id, search]);
+  }, [id, search, canRead, fetchData, fetchCountries]);
 
   const handleShowUploadModal = (item, docIndex = null) => {
     setEditingItem(item);
@@ -141,11 +149,11 @@ const PromotionalPPTDetails = () => {
         ) {
           const docId = editingItem.documents[editingDocIndex]._id;
           res = await dispatch(
-            updatePromotionalPpt(editingItem._id, docId, formData)
+            updatePromotionalPpt(editingItem._id, docId, formData),
           );
         } else {
           res = await dispatch(
-            createSubPromotionalPpt(editingItem._id, formData)
+            createSubPromotionalPpt(editingItem._id, formData),
           );
         }
 
@@ -153,7 +161,7 @@ const PromotionalPPTDetails = () => {
           toast.success(
             editingDocIndex !== null
               ? "PPT updated successfully!"
-              : "PPTs added successfully!"
+              : "PPTs added successfully!",
           );
           if (canRead) {
             await fetchData(search);
@@ -176,17 +184,17 @@ const PromotionalPPTDetails = () => {
       const fullUrl = fileUrl.startsWith("http")
         ? fileUrl
         : `${BASEURL}${fileUrl}`;
-  
+
       const cleanFileName =
         fileName.replace(/[^a-zA-Z0-9._-]/g, "_") || "document";
       const fileExtension = fullUrl.split(".").pop() || "pdf";
       const downloadFileName = `${cleanFileName}.${fileExtension}`;
-  
+
       const response = await fetch(fullUrl);
       if (!response.ok) {
         throw new Error("Failed to fetch the file");
       }
-  
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -196,7 +204,7 @@ const PromotionalPPTDetails = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-  
+
       toast.success("Document downloaded successfully");
     } catch (error) {
       console.error("Download error:", error);
@@ -243,7 +251,7 @@ const PromotionalPPTDetails = () => {
         </div>
       )}
       <div>
-        <div className="form-main-heading w-100 p-2 position-sticky top-0 z-3">
+        <div className="form-main-heading w-100 p-3 position-sticky top-0 z-3">
           <div className="d-flex justify-content-between align-items-center">
             <h3>Promotional PPT Details</h3>
             <Button
@@ -255,17 +263,18 @@ const PromotionalPPTDetails = () => {
             </Button>
           </div>
         </div>
-        <Row className="mt-5 row-sm">
+        <Row className="mt-3 p-4 row-sm">
           <Col md={12} lg={12} xl={12}>
             <Card className="custom-card transcation-crypto">
-              <Card.Header className="border-bottom-0 d-flex justify-content-between">
-                <div className="card-title">
-                  Promotional PPT for{" "}
-                  <span className="text-primary text-decoration-underline">
+              <Card.Header className="border-bottom-0 d-flex justify-content-between align-items-center">
+                <div className="card-title d-flex align-items-center gap-2">
+                  <PresentToAllIcon className="text-primary fs-4" />
+                  <span>Promotional PPT for</span>
+                  <span className="text-primary fw-bold">
                     {editingItem?.country || "-"}
                   </span>
                 </div>
-                <div className="d-flex gap-4">
+                <div className="d-flex gap-3">
                   {canRead && (
                     <div className="contact-search3">
                       <button type="button" className="btn border-0">
@@ -280,9 +289,7 @@ const PromotionalPPTDetails = () => {
                         placeholder="Search here..."
                         autoComplete="off"
                         value={search}
-                        onChange={(e) => {
-                          setSearch(e.target.value);
-                        }}
+                        onChange={(e) => setSearch(e.target.value)}
                       />
                     </div>
                   )}
@@ -290,6 +297,7 @@ const PromotionalPPTDetails = () => {
                     <Button
                       className="custom-select-height px-3"
                       onClick={() => handleShowUploadModal(editingItem)}
+                      style={{ borderRadius: "10px" }}
                     >
                       Add Promotional PPT
                     </Button>
@@ -298,99 +306,118 @@ const PromotionalPPTDetails = () => {
               </Card.Header>
               <Card.Body>
                 {flattenedFiles.length > 0 ? (
-                  <Table
-                    responsive
-                    className="align-middle shadow-sm table-hover rounded"
-                  >
-                    <thead className="bg-light">
-                      <tr className="text-dark">
-                        <th style={{ marginLeft: "100px" }}>No</th>
-                        <th className="text-start">PPT Name</th>
-                        <th className="text-start">Created by</th>
-                        <th className="text-center">View</th>
-                        <th className="text-center">Download</th>
-                        {(canUpdate || canDelete) && (
-                          <th className="text-center">Actions</th>
-                        )}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {flattenedFiles.map((file, index) => (
-                        <tr key={`${file.docId}-${file.urlIndex}`}>
-                          <td style={{ fontWeight: "500" }}>{index + 1}</td>
-                          <td className="text-start">
-                            <span style={{ fontWeight: "500" }}>
-                              {file.name || "PPT"}
-                            </span>
-                          </td>
-                          <td className="text-start">
-                            <span style={{ fontWeight: "500" }}>
-                              {selectedDocuments.updatedByName || "-"}
-                            </span>
-                          </td>
-                          <td className="text-center">
-                            <a
-                              href={`${BASEURL}${file.url}` || "#"}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn btn-sm btn-success px-3 rounded-4"
-                            >
-                              View
-                            </a>
-                          </td>
-                          <td className="text-center">
-                            <Button
-                              variant="info"
-                              size="sm"
-                              className="px-3 rounded-4"
-                              onClick={() =>
-                                handleDownload(file.url, file.name)
-                              }
-                            >
-                              <DownloadIcon />
-                              Download
-                            </Button>
-                          </td>
-                          <td className="text-center">
-                            <div className="d-flex justify-content-center gap-2">
-                              {canUpdate && (
-                                <Button
-                                  variant="primary"
-                                  size="sm"
-                                  title="Edit"
-                                  onClick={() =>
-                                    handleShowUploadModal(
-                                      editingItem,
-                                      file.docIndex
-                                    )
-                                  }
-                                >
-                                  <AiOutlineEdit size={16} />
-                                </Button>
-                              )}
-                              {canDelete && (
-                                <Button
-                                  variant="danger"
-                                  size="sm"
-                                  title="Delete"
-                                  onClick={() => {
-                                    setSelectedItem({
-                                      item: editingItem,
-                                      docIndex: file.docIndex,
-                                      fileId: file.fileId, // Pass the fileId to the modal
-                                    });
-                                    setShowDeleteModal(true);
+                  <div className="table-responsive">
+                    <table className="modern-premium-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "60px" }}>No</th>
+                          <th>PPT Name</th>
+                          <th>Created info</th>
+                          <th className="text-center">View</th>
+                          <th className="text-center">Download</th>
+                          {(canUpdate || canDelete) && (
+                            <th className="text-center">Actions</th>
+                          )}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {flattenedFiles.map((file, index) => (
+                          <tr key={`${file.docId}-${file.urlIndex}`}>
+                            <td className="fw-semibold text-muted">
+                              {index + 1}
+                            </td>
+                            <td>
+                              <div className="d-flex align-items-center gap-3">
+                                <div
+                                  className="file-icon-bg d-flex align-items-center justify-content-center"
+                                  style={{
+                                    width: "35px",
+                                    height: "35px",
+                                    borderRadius: "8px",
+                                    background: "#f8fafc",
                                   }}
                                 >
-                                  <AiOutlineDelete size={16} />
-                                </Button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                                  <PresentToAllIcon
+                                    style={{
+                                      fontSize: "20px",
+                                      color: "#6c5ffc",
+                                    }}
+                                  />
+                                </div>
+                                <span className="fw-bold text-dark">
+                                  {file.name || "PPT"}
+                                </span>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="d-flex flex-column">
+                                <span className="text-muted small">
+                                  <strong>By:</strong>{" "}
+                                  {selectedDocuments.updatedByName || "-"}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="text-center">
+                              <span
+                                className="icon-border view-icon"
+                                onClick={() =>
+                                  window.open(`${BASEURL}${file.url}`, "_blank")
+                                }
+                                title="View PPT"
+                              >
+                                <VisibilityIcon fontSize="small" />
+                              </span>
+                            </td>
+                            <td className="text-center">
+                              <span
+                                className="icon-border download-icon "
+                                onClick={() =>
+                                  handleDownload(file.url, file.name)
+                                }
+                                title="Download PPT"
+                              >
+                                <DownloadIcon fontSize="small" />
+                              </span>
+                            </td>
+                            <td className="text-center">
+                              <div className="d-flex justify-content-center gap-2">
+                                {canUpdate && (
+                                  <span
+                                    className="icon-border edit-icon"
+                                    title="Edit"
+                                    onClick={() =>
+                                      handleShowUploadModal(
+                                        editingItem,
+                                        file.docIndex,
+                                      )
+                                    }
+                                  >
+                                    <EditIcon fontSize="small" />
+                                  </span>
+                                )}
+                                {canDelete && (
+                                  <span
+                                    className="icon-border delete-icon"
+                                    title="Delete"
+                                    onClick={() => {
+                                      setSelectedItem({
+                                        item: editingItem,
+                                        docIndex: file.docIndex,
+                                        fileId: file.fileId,
+                                      });
+                                      setShowDeleteModal(true);
+                                    }}
+                                  >
+                                    <DeleteIcon fontSize="small" />
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
                   <div className="text-center text-muted py-4">
                     {!canRead
@@ -474,7 +501,7 @@ const PromotionalPPTDetails = () => {
                     const maxSize = 10 * 1024 * 1024; // 10MB
 
                     const hasOversizedFile = files.some(
-                      (file) => file.size > maxSize
+                      (file) => file.size > maxSize,
                     );
                     if (hasOversizedFile) {
                       toast.error("File size must be less than 10MB");
@@ -484,7 +511,7 @@ const PromotionalPPTDetails = () => {
 
                     formik.setFieldValue(
                       "documents",
-                      event.currentTarget.files
+                      event.currentTarget.files,
                     );
                   }}
                   isInvalid={

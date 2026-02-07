@@ -567,8 +567,8 @@ const EducationLoanInquiry = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="d-flex align-items-center justify-content-between w-100">
-                <div className="card-title">Education Loan Inquiry</div>
+              <div className="d-flex align-items-center justify-content-end w-100">
+                {/* <div className="card-title">Education Loan Inquiry</div> */}
 
                 {canCreate && (
                   <Button

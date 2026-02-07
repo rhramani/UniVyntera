@@ -148,7 +148,7 @@ const WhatsAppTemplates = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="card-title">Templates</div>
+              {/* <div className="card-title">Templates</div> */}
             </Card.Header>
             <Card.Body>
               <div className="d-flex justify-content-end align-items-center mb-3 gap-2">

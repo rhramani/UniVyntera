@@ -15,6 +15,7 @@ import {
 import usePermissions from "../../commonComponents/usePermissions";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FolderIcon from "@mui/icons-material/Folder";
 
 const PromotionalDocFolder = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const PromotionalDocFolder = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [search, setSearch] = useState("");
   const { canUpdate, canDelete, canRead, canCreate } = usePermissions(
-    "Promotional Materials"
+    "Promotional Materials",
   );
 
   const fetchData = async (searchTerm = "") => {
@@ -101,7 +102,7 @@ const PromotionalDocFolder = () => {
         ) {
           const docId = editingItem.documents[editingDocIndex]._id;
           res = await dispatch(
-            updatePromotionalDoc(editingItem._id, docId, "", formData)
+            updatePromotionalDoc(editingItem._id, docId, "", formData),
           );
         } else {
           res = await dispatch(createFolder(editingItem._id, payload));
@@ -147,7 +148,7 @@ const PromotionalDocFolder = () => {
   return (
     <>
       <div>
-        <div className="form-main-heading w-100 p-2 position-sticky top-0 z-3">
+        <div className="form-main-heading w-100 p-3  position-sticky top-0 z-3">
           <div className="d-flex justify-content-between align-items-center">
             <h3>Promotional Folder Details</h3>
             <Button
@@ -159,7 +160,7 @@ const PromotionalDocFolder = () => {
             </Button>
           </div>
         </div>
-        <Row className="mt-5 row-sm">
+        <Row className="mt-3 row-sm p-4">
           <Col md={12} lg={12} xl={12}>
             <Card className="custom-card transcation-crypto">
               <Card.Header className="border-bottom-0 d-flex justify-content-between">
@@ -203,29 +204,42 @@ const PromotionalDocFolder = () => {
                   {editingItem?.documents?.length > 0 ? (
                     editingItem.documents.map((doc, index) => (
                       <Col md={6} lg={4} xl={3} key={doc._id} className="mb-4">
-                        <div className="d-flex justify-content-between align-items-center mb-3 p-3 border rounded shadow-sm">
+                        <div className="premium-country-card">
                           <Link
                             to={`/document-details/${id}`}
                             state={{ folderName: doc.folderName }}
-                            className="clickable-country d-flex align-items-center text-primary fw-bold text-decoration-underline-hover gap-2"
+                            className="premium-country-link"
                             title="Click to view folder details"
                           >
-                            {doc.folderName || "Folder"}
+                            <div className="country-card-flag-wrapper">
+                              <FolderIcon
+                                style={{ fontSize: "28px", color: "#6c5ffc" }}
+                              />
+                            </div>
+                            <div className="country-card-content">
+                              <div className="country-card-name">
+                                {doc.folderName || "Folder"}
+                              </div>
+                              <div className="country-card-doc-count">
+                                <span>Click to view files</span>
+                              </div>
+                            </div>
                           </Link>
-                          <div className="d-flex gap-2">
+                          <div className="country-card-actions mt-3">
                             {canUpdate && (
                               <span
                                 className="icon-border edit-icon"
                                 onClick={() =>
                                   handleShowUploadModal(editingItem, index)
                                 }
+                                title="Edit Folder"
                               >
-                                <EditIcon />
+                                <EditIcon fontSize="small" />
                               </span>
                             )}
                             {canDelete && (
                               <span
-                                className="icon-border delete-icon"
+                                className="icon-border delete-icon ms-auto"
                                 onClick={() => {
                                   setSelectedItem({
                                     item: editingItem,
@@ -233,8 +247,9 @@ const PromotionalDocFolder = () => {
                                   });
                                   setShowDeleteModal(true);
                                 }}
+                                title="Delete Folder"
                               >
-                                <DeleteIcon />
+                                <DeleteIcon fontSize="small" />
                               </span>
                             )}
                           </div>
