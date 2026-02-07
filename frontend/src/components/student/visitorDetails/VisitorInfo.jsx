@@ -123,7 +123,7 @@ const VisitorInfo = ({
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                         width: "150px",
                       }),
@@ -319,7 +319,7 @@ const VisitorInfo = ({
                     const dialCode = data.dialCode ? `+${data.dialCode}` : "";
                     const formattedPhone = `${dialCode} ${contact.replace(
                       data.dialCode,
-                      ""
+                      "",
                     )}`.trim();
 
                     visitorInfoFormik.setFieldValue("contact", formattedPhone);
@@ -424,7 +424,7 @@ const VisitorInfo = ({
                   onChange={(selectedOption) => {
                     visitorInfoFormik.setFieldValue(
                       "country",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                   }}
                   placeholder="Select Country"
@@ -435,7 +435,7 @@ const VisitorInfo = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -510,7 +510,7 @@ const VisitorInfo = ({
                       : [];
                     visitorInfoFormik.setFieldValue(
                       "preferredCountry",
-                      selectedValues
+                      selectedValues,
                     );
                   }}
                   placeholder="Select Country"
@@ -521,7 +521,7 @@ const VisitorInfo = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({

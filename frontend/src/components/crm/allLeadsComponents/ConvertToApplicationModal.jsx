@@ -115,15 +115,17 @@ const ConvertToApplicationModal = ({
           label:
             branchList.find(
               (b) =>
-                b._id === (userType === "Branch User" ? branchUserId : branchID)
+                b._id ===
+                (userType === "Branch User" ? branchUserId : branchID),
             )?.branchName ||
             branchList.find(
               (b) =>
-                b._id === (userType === "Branch User" ? branchUserId : branchID)
+                b._id ===
+                (userType === "Branch User" ? branchUserId : branchID),
             )?.name ||
             "Branch",
         }
-      : { value: "HeadOffice", label: "Head Office" }
+      : { value: "HeadOffice", label: "Head Office" },
   );
 
   const branchOptions = [
@@ -192,8 +194,8 @@ const ConvertToApplicationModal = ({
           showAll,
           userType === "Branch User"
             ? branchUserId
-            : branchId || (userRole === "Branch" ? branchID : "")
-        )
+            : branchId || (userRole === "Branch" ? branchID : ""),
+        ),
       );
       if (res?.status === 200) {
         setCoachingFaculties(res?.data?.data?.data || []);
@@ -209,7 +211,7 @@ const ConvertToApplicationModal = ({
   const fetchCoachingFaculties = async (
     batchStatus,
     branchValue = "",
-    showAll = false
+    showAll = false,
   ) => {
     try {
       const finalBranchId =
@@ -217,11 +219,11 @@ const ConvertToApplicationModal = ({
         (userType === "Branch User"
           ? branchUserId
           : userRole === "Branch"
-          ? branchID
-          : "");
+            ? branchID
+            : "");
 
       const res = await dispatch(
-        getAllCoachingFaculty(1, 1000, "", batchStatus, showAll, finalBranchId)
+        getAllCoachingFaculty(1, 1000, "", batchStatus, showAll, finalBranchId),
       );
       const responseData = res?.data?.data || {};
       if (res?.status === 200) {
@@ -292,7 +294,7 @@ const ConvertToApplicationModal = ({
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -326,11 +328,11 @@ const ConvertToApplicationModal = ({
     limit = itemsPerPage,
     searchTerm = "",
     mainPlanId = "",
-    country = ""
+    country = "",
   ) => {
     try {
       const res = await dispatch(
-        getAllSubPlan(page, limit, searchTerm, mainPlanId, country)
+        getAllSubPlan(page, limit, searchTerm, mainPlanId, country),
       );
       const responseData = res?.data?.data || {};
       return responseData?.data || [];
@@ -430,7 +432,7 @@ const ConvertToApplicationModal = ({
               listening: Yup.number().nullable(),
               total: Yup.number().nullable(),
             }),
-          })
+          }),
         )
         .nullable(),
       remarks: Yup.string().nullable(),
@@ -545,7 +547,7 @@ const ConvertToApplicationModal = ({
             date: Yup.date().required("Date is required"),
             document: Yup.mixed().required("Document is required"),
             remarks: Yup.string().nullable(),
-          })
+          }),
         )
         .when(["visitorApplication", "type"], {
           is: (visitorApplication, type) =>
@@ -646,7 +648,7 @@ const ConvertToApplicationModal = ({
     newEntries.splice(index, 1);
     convertToApplicationFormik.setFieldValue(
       "categoryDetails.entries",
-      newEntries
+      newEntries,
     );
   };
 
@@ -654,8 +656,8 @@ const ConvertToApplicationModal = ({
     userRole === "Branch"
       ? branchID
       : userType === "Branch User"
-      ? branchUserId
-      : null;
+        ? branchUserId
+        : null;
 
   const convertToApplicationFormik = useFormik({
     initialValues: {
@@ -734,7 +736,7 @@ const ConvertToApplicationModal = ({
         !values.visitorApplication
       ) {
         toast.error(
-          "Please select at least one: Student Application, Coaching Required or Visitor Application"
+          "Please select at least one: Student Application, Coaching Required or Visitor Application",
         );
         return;
       }
@@ -749,77 +751,77 @@ const ConvertToApplicationModal = ({
       // Coaching Data
       formData.append(
         "coachingData[coachingRequired]",
-        values.coachingData.coachingRequired
+        values.coachingData.coachingRequired,
       );
       formData.append("coachingData[city]", values.coachingData.city);
       formData.append("coachingData[startDate]", values.coachingData.startDate);
       formData.append("coachingData[endDate]", values.coachingData.endDate);
       formData.append(
         "coachingData[registerFor]",
-        values.coachingData.registerFor || ""
+        values.coachingData.registerFor || "",
       );
       formData.append(
         "coachingData[coachingRequirement]",
-        values.coachingData.coachingRequirement || ""
+        values.coachingData.coachingRequirement || "",
       );
       formData.append("coachingData[branch]", values.coachingData.branch);
       formData.append(
         "coachingData[batchStatus]",
-        values.coachingData.batchStatus
+        values.coachingData.batchStatus,
       );
       formData.append(
         "coachingData[batchFaculty]",
-        values.coachingData.batchFaculty || ""
+        values.coachingData.batchFaculty || "",
       );
       formData.append(
         "coachingData[batchTiming]",
-        values.coachingData.batchTiming
+        values.coachingData.batchTiming,
       );
       formData.append(
         "coachingData[examRegistrationDate]",
-        values.coachingData.examRegistrationDate
+        values.coachingData.examRegistrationDate,
       );
       formData.append(
         "coachingData[targetedScore]",
-        values.coachingData.targetedScore
+        values.coachingData.targetedScore,
       );
       formData.append(
         "coachingData[hasGivenExam]",
-        values.coachingData.hasGivenExam
+        values.coachingData.hasGivenExam,
       );
       formData.append(
         "coachingData[remarks]",
-        values.coachingData.remarks || ""
+        values.coachingData.remarks || "",
       );
 
       const coachingMainPlan = mainPlans.find(
-        (plan) => plan.name.toLowerCase() === "coaching"
+        (plan) => plan.name.toLowerCase() === "coaching",
       );
       formData.append(
         "coachingData[invoice][mainPlan]",
-        coachingMainPlan?._id || ""
+        coachingMainPlan?._id || "",
       );
       if (values.coachingData.subPlan) {
         formData.append(
           "coachingData[invoice][subPlan]",
-          values.coachingData.subPlan
+          values.coachingData.subPlan,
         );
       }
       formData.append(
         "coachingData[invoice][amount]",
-        values.coachingData.amount || ""
+        values.coachingData.amount || "",
       );
       formData.append(
         "coachingData[invoice][discount]",
-        values.coachingData.discount || ""
+        values.coachingData.discount || "",
       );
       formData.append(
         "coachingData[invoice][discountAmount]",
-        values.coachingData.discountAmount || ""
+        values.coachingData.discountAmount || "",
       );
       formData.append(
         "coachingData[invoice][payableAmount]",
-        values.coachingData.payableAmount || ""
+        values.coachingData.payableAmount || "",
       );
 
       if (
@@ -828,56 +830,56 @@ const ConvertToApplicationModal = ({
       ) {
         formData.append(
           `coachingData[invoice][paidAmount][0][amount]`,
-          values.coachingData.paidAmount.amount || ""
+          values.coachingData.paidAmount.amount || "",
         );
         formData.append(
           `coachingData[invoice][paidAmount][0][date]`,
-          values.coachingData.paidAmount.date || new Date().toISOString()
+          values.coachingData.paidAmount.date || new Date().toISOString(),
         );
         formData.append(
           `coachingData[invoice][paidAmount][0][bank]`,
-          values.coachingData.paidAmount.bank || ""
+          values.coachingData.paidAmount.bank || "",
         );
         formData.append(
           `coachingData[invoice][paidAmount][0][paymentMode]`,
-          values.coachingData.paidAmount.paymentMode || ""
+          values.coachingData.paidAmount.paymentMode || "",
         );
       }
 
       formData.append(
         "coachingData[invoice][dueAmount]",
-        values.coachingData.dueAmount || ""
+        values.coachingData.dueAmount || "",
       );
       formData.append(
         "coachingData[invoice][paymentType]",
-        values.coachingData.paymentType || ""
+        values.coachingData.paymentType || "",
       );
 
       if (values.coachingData.hasGivenExam && values.coachingData.examDetails) {
         values.coachingData.examDetails.forEach((exam, index) => {
           formData.append(
             `coachingData[examDetails][${index}][examName]`,
-            exam.examName
+            exam.examName,
           );
           formData.append(
             `coachingData[examDetails][${index}][scores][reading]`,
-            exam.scores.reading || ""
+            exam.scores.reading || "",
           );
           formData.append(
             `coachingData[examDetails][${index}][scores][writing]`,
-            exam.scores.writing || ""
+            exam.scores.writing || "",
           );
           formData.append(
             `coachingData[examDetails][${index}][scores][speaking]`,
-            exam.scores.speaking || ""
+            exam.scores.speaking || "",
           );
           formData.append(
             `coachingData[examDetails][${index}][scores][listening]`,
-            exam.scores.listening || ""
+            exam.scores.listening || "",
           );
           formData.append(
             `coachingData[examDetails][${index}][scores][total]`,
-            exam.scores.total || ""
+            exam.scores.total || "",
           );
 
           if (exam.scoreFile) {
@@ -893,33 +895,33 @@ const ConvertToApplicationModal = ({
         formData.append("admissionProcess", values.admissionProcess);
         if (values.admissionProcess) {
           const admissionMainPlan = mainPlans.find(
-            (plan) => plan.name.toLowerCase() === "student admission"
+            (plan) => plan.name.toLowerCase() === "student admission",
           );
           formData.append(
             "admissionData[invoice][mainPlan]",
-            admissionMainPlan?._id || ""
+            admissionMainPlan?._id || "",
           );
           if (values.admissionData.subPlan) {
             formData.append(
               "admissionData[invoice][subPlan]",
-              values.admissionData.subPlan
+              values.admissionData.subPlan,
             );
           }
           formData.append(
             "admissionData[invoice][amount]",
-            values.admissionData.amount || ""
+            values.admissionData.amount || "",
           );
           formData.append(
             "admissionData[invoice][discount]",
-            values.admissionData.discount || ""
+            values.admissionData.discount || "",
           );
           formData.append(
             "admissionData[invoice][discountAmount]",
-            values.admissionData.discountAmount || ""
+            values.admissionData.discountAmount || "",
           );
           formData.append(
             "admissionData[invoice][payableAmount]",
-            values.admissionData.payableAmount || ""
+            values.admissionData.payableAmount || "",
           );
           if (
             values.admissionData.paidAmount?.amount &&
@@ -927,28 +929,28 @@ const ConvertToApplicationModal = ({
           ) {
             formData.append(
               `admissionData[invoice][paidAmount][0][amount]`,
-              values.admissionData.paidAmount.amount || ""
+              values.admissionData.paidAmount.amount || "",
             );
             formData.append(
               `admissionData[invoice][paidAmount][0][date]`,
-              values.admissionData.paidAmount.date || new Date().toISOString()
+              values.admissionData.paidAmount.date || new Date().toISOString(),
             );
             formData.append(
               `admissionData[invoice][paidAmount][0][bank]`,
-              values.admissionData.paidAmount.bank || ""
+              values.admissionData.paidAmount.bank || "",
             );
             formData.append(
               `admissionData[invoice][paidAmount][0][paymentMode]`,
-              values.admissionData.paidAmount.paymentMode || ""
+              values.admissionData.paidAmount.paymentMode || "",
             );
           }
           formData.append(
             "admissionData[invoice][dueAmount]",
-            values.admissionData.dueAmount || ""
+            values.admissionData.dueAmount || "",
           );
           formData.append(
             "admissionData[invoice][paymentType]",
-            values.admissionData.paymentType || ""
+            values.admissionData.paymentType || "",
           );
         }
       }
@@ -968,15 +970,15 @@ const ConvertToApplicationModal = ({
               formData.append(`categoryDetails[${index}][type]`, type);
               formData.append(
                 `categoryDetails[${index}][country]`,
-                entry.country || ""
+                entry.country || "",
               );
               formData.append(
                 `categoryDetails[${index}][date]`,
-                entry.date ? toISODate(parseDate(entry.date)) : ""
+                entry.date ? toISODate(parseDate(entry.date)) : "",
               );
               formData.append(
                 `categoryDetails[${index}][remarks]`,
-                entry.remarks || ""
+                entry.remarks || "",
               );
               if (entry.document) {
                 formData.append("categoryDoc", entry.document);
@@ -1020,25 +1022,25 @@ const ConvertToApplicationModal = ({
 
       try {
         const convertResponse = await dispatch(
-          convertToApplication(selectedLead?._id, formData)
+          convertToApplication(selectedLead?._id, formData),
         );
         if (convertResponse?.status === 200) {
           toast.success("Lead converted successfully");
           const statusRes = await dispatch(getAllLeadStatus());
           const statusList = statusRes?.data?.data || [];
           const convertedStatus = statusList.find(
-            (status) => status?.name?.toLowerCase() === "converted"
+            (status) => status?.name?.toLowerCase() === "converted",
           );
           if (!convertedStatus) {
             const createStatusRes = await dispatch(
-              createLeadStatus({ name: "Converted" })
+              createLeadStatus({ name: "Converted" }),
             );
             if (createStatusRes?.status === 200) {
               toast.success("Converted status created");
             }
           } else {
             const updateStatusRes = await dispatch(
-              updateLeadStatus({ name: "Converted" }, convertedStatus?._id)
+              updateLeadStatus({ name: "Converted" }, convertedStatus?._id),
             );
             if (updateStatusRes?.status === 200) {
               toast.success("Converted status updated");
@@ -1054,7 +1056,7 @@ const ConvertToApplicationModal = ({
               : [selectedLead.country_interested],
           };
           const updateResponse = await dispatch(
-            updateLead(selectedLead?._id, updatedLeadData)
+            updateLead(selectedLead?._id, updatedLeadData),
           );
           if (updateResponse?.status === 200) {
             if (convertPage === "allleads") {
@@ -1126,7 +1128,7 @@ const ConvertToApplicationModal = ({
                   filters.showAll,
                   filters.assignRole,
                   filters.assignId,
-                  filters.leadActivity
+                  filters.leadActivity,
                 );
               }
             } else if (convertPage === "allfollowup") {
@@ -1145,7 +1147,7 @@ const ConvertToApplicationModal = ({
                   filters.branchId,
                   filters.showAll,
                   filters.assignRole,
-                  filters.assignId
+                  filters.assignId,
                 );
               }
             } else if (convertPage === "todaysbirthdayleads") {
@@ -1154,7 +1156,7 @@ const ConvertToApplicationModal = ({
                   currentPage,
                   itemsPerPage,
                   search,
-                  filters.date
+                  filters.date,
                 );
               }
             } else {
@@ -1192,7 +1194,7 @@ const ConvertToApplicationModal = ({
           setOpenModal(false);
         } else {
           toast.error(
-            convertResponse?.data?.message || "Failed to convert lead"
+            convertResponse?.data?.message || "Failed to convert lead",
           );
         }
       } catch (error) {
@@ -1216,13 +1218,13 @@ const ConvertToApplicationModal = ({
     }
 
     const coachingPlan = mainPlans.find(
-      (plan) => plan.name.toLowerCase() === mainPlanId
+      (plan) => plan.name.toLowerCase() === mainPlanId,
     );
     const studentAdmissionPlan = mainPlans.find(
-      (plan) => plan.name.toLowerCase() === mainPlanId
+      (plan) => plan.name.toLowerCase() === mainPlanId,
     );
     const visitorPlan = mainPlans.find(
-      (plan) => plan.name.toLowerCase() === mainPlanId
+      (plan) => plan.name.toLowerCase() === mainPlanId,
     );
 
     const preferredCountryValue =
@@ -1237,7 +1239,7 @@ const ConvertToApplicationModal = ({
             itemsPerPage,
             "",
             coachingPlan._id,
-            ""
+            "",
           );
           setCoachingSubPlans(subPlansData);
         }
@@ -1251,7 +1253,7 @@ const ConvertToApplicationModal = ({
             itemsPerPage,
             "",
             studentAdmissionPlan._id,
-            preferredCountryValue
+            preferredCountryValue,
           );
           setAdmissionSubPlans(subPlansData);
         }
@@ -1265,7 +1267,7 @@ const ConvertToApplicationModal = ({
             itemsPerPage,
             "",
             visitorPlan._id,
-            preferredCountryValue
+            preferredCountryValue,
           );
           setVisitorSubPlans(subPlansData);
         }
@@ -1285,7 +1287,7 @@ const ConvertToApplicationModal = ({
 
       if (convertToApplicationFormik.values.coachingData.coachingRequired) {
         const coachingPlan = mainPlans.find(
-          (plan) => plan.name.toLowerCase() === "coaching"
+          (plan) => plan.name.toLowerCase() === "coaching",
         );
         if (coachingPlan) {
           const subPlansData = await fetchSubPlans(
@@ -1293,7 +1295,7 @@ const ConvertToApplicationModal = ({
             itemsPerPage,
             "",
             coachingPlan._id,
-            ""
+            "",
           );
           setCoachingSubPlans(subPlansData);
           convertToApplicationFormik.setFieldValue("coachingData.subPlan", "");
@@ -1303,7 +1305,7 @@ const ConvertToApplicationModal = ({
 
       if (convertToApplicationFormik.values.admissionProcess) {
         const studentAdmissionPlan = mainPlans.find(
-          (plan) => plan.name.toLowerCase() === "student admission"
+          (plan) => plan.name.toLowerCase() === "student admission",
         );
         if (studentAdmissionPlan) {
           const subPlansData = await fetchSubPlans(
@@ -1311,7 +1313,7 @@ const ConvertToApplicationModal = ({
             itemsPerPage,
             "",
             studentAdmissionPlan._id,
-            preferredCountryValue
+            preferredCountryValue,
           );
           setAdmissionSubPlans(subPlansData);
           convertToApplicationFormik.setFieldValue("admissionData.subPlan", "");
@@ -1321,7 +1323,7 @@ const ConvertToApplicationModal = ({
 
       if (convertToApplicationFormik.values.visitorApplication) {
         const visitorPlan = mainPlans.find(
-          (plan) => plan.name.toLowerCase() === "visitor"
+          (plan) => plan.name.toLowerCase() === "visitor",
         );
         if (visitorPlan) {
           const subPlansData = await fetchSubPlans(
@@ -1329,16 +1331,16 @@ const ConvertToApplicationModal = ({
             itemsPerPage,
             "",
             visitorPlan._id,
-            preferredCountryValue
+            preferredCountryValue,
           );
           setVisitorSubPlans(subPlansData);
           convertToApplicationFormik.setFieldValue(
             "categoryDetails.subPlan",
-            ""
+            "",
           );
           convertToApplicationFormik.setFieldValue(
             "categoryDetails.amount",
-            ""
+            "",
           );
         }
       }
@@ -1361,7 +1363,7 @@ const ConvertToApplicationModal = ({
         const totalAmount = subPlan?.data?.data?.totalAmount || "";
         convertToApplicationFormik.setFieldValue(
           `${section}.amount`,
-          totalAmount.toString()
+          totalAmount.toString(),
         );
       } catch (error) {
         console.error(`Error fetching sub-plan for ${section}:`, error);
@@ -1375,12 +1377,12 @@ const ConvertToApplicationModal = ({
       convertToApplicationFormik.values.coachingData.subPlan !== coachingSubPlan
     ) {
       setCoachingSubPlan(
-        convertToApplicationFormik.values.coachingData.subPlan
+        convertToApplicationFormik.values.coachingData.subPlan,
       );
       if (convertToApplicationFormik.values.coachingData.subPlan) {
         setAmountForSection(
           convertToApplicationFormik.values.coachingData.subPlan,
-          "coachingData"
+          "coachingData",
         );
       }
     }
@@ -1390,12 +1392,12 @@ const ConvertToApplicationModal = ({
       admissionSubPlan
     ) {
       setAdmissionSubPlan(
-        convertToApplicationFormik.values.admissionData?.subPlan
+        convertToApplicationFormik.values.admissionData?.subPlan,
       );
       if (convertToApplicationFormik.values.admissionData?.subPlan) {
         setAmountForSection(
           convertToApplicationFormik.values.admissionData.subPlan,
-          "admissionData"
+          "admissionData",
         );
       }
     }
@@ -1405,12 +1407,12 @@ const ConvertToApplicationModal = ({
       visitorSubPlan
     ) {
       setVisitorSubPlan(
-        convertToApplicationFormik.values.categoryDetails.subPlan
+        convertToApplicationFormik.values.categoryDetails.subPlan,
       );
       if (convertToApplicationFormik.values.categoryDetails.subPlan) {
         setAmountForSection(
           convertToApplicationFormik.values.categoryDetails.subPlan,
-          "categoryDetails"
+          "categoryDetails",
         );
       }
     }
@@ -1456,14 +1458,14 @@ const ConvertToApplicationModal = ({
       // -------- Update Formik --------
       convertToApplicationFormik.setFieldValue(
         `${section}.payableAmount`,
-        Math.max(0, payableAmount).toFixed(2)
+        Math.max(0, payableAmount).toFixed(2),
       );
       convertToApplicationFormik.setFieldValue(
         `${section}.dueAmount`,
-        dueAmount.toFixed(2)
+        dueAmount.toFixed(2),
       );
     },
-    [convertToApplicationFormik]
+    [convertToApplicationFormik],
   );
 
   // Debounced calculation effect
@@ -1607,7 +1609,7 @@ const ConvertToApplicationModal = ({
                   onChange={(selectedOption) =>
                     convertToApplicationFormik.setFieldValue(
                       "preferredCountry",
-                      selectedOption?.value || ""
+                      selectedOption?.value || "",
                     )
                   }
                   value={preferredCountries
@@ -1615,7 +1617,7 @@ const ConvertToApplicationModal = ({
                     .find(
                       (option) =>
                         option.value ===
-                        convertToApplicationFormik.values.preferredCountry
+                        convertToApplicationFormik.values.preferredCountry,
                     )}
                   placeholder="Select Country"
                   isClearable
@@ -1665,11 +1667,11 @@ const ConvertToApplicationModal = ({
                       onChange={async (e) => {
                         convertToApplicationFormik.setFieldValue(
                           "coachingData.coachingRequired",
-                          e.target.checked
+                          e.target.checked,
                         );
                         await handleCheckboxChange(
                           "coaching",
-                          e.target.checked
+                          e.target.checked,
                         );
                       }}
                     />
@@ -1690,11 +1692,11 @@ const ConvertToApplicationModal = ({
                       onChange={async (e) => {
                         convertToApplicationFormik.setFieldValue(
                           "admissionProcess",
-                          e.target.checked
+                          e.target.checked,
                         );
                         handleCheckboxChange(
                           "student admission",
-                          e.target.checked
+                          e.target.checked,
                         );
                       }}
                     />
@@ -1715,7 +1717,7 @@ const ConvertToApplicationModal = ({
                       onChange={async (e) => {
                         convertToApplicationFormik.setFieldValue(
                           "visitorApplication",
-                          e.target.checked
+                          e.target.checked,
                         );
                         handleCheckboxChange("visitor", e.target.checked);
                       }}
@@ -1760,8 +1762,8 @@ const ConvertToApplicationModal = ({
                               ? formatDate(
                                   parseDate(
                                     convertToApplicationFormik.values
-                                      .coachingData.startDate
-                                  )
+                                      .coachingData.startDate,
+                                  ),
                                 )
                               : ""
                           }
@@ -1769,7 +1771,7 @@ const ConvertToApplicationModal = ({
                           ref={coachingStartDateInputRef}
                           onClick={() =>
                             setShowCoachingStartDateCalendar(
-                              !showCoachingStartDateCalendar
+                              !showCoachingStartDateCalendar,
                             )
                           }
                           style={{ cursor: "pointer" }}
@@ -1808,7 +1810,7 @@ const ConvertToApplicationModal = ({
                               onChange={(selectedDate) => {
                                 convertToApplicationFormik.setFieldValue(
                                   "coachingData.startDate",
-                                  toISODate(selectedDate)
+                                  toISODate(selectedDate),
                                 );
                                 setShowCoachingStartDateCalendar(false);
                               }}
@@ -1817,7 +1819,7 @@ const ConvertToApplicationModal = ({
                                   .startDate
                                   ? parseDate(
                                       convertToApplicationFormik.values
-                                        .coachingData.startDate
+                                        .coachingData.startDate,
                                     )
                                   : new Date()
                               }
@@ -1846,8 +1848,8 @@ const ConvertToApplicationModal = ({
                               ? formatDate(
                                   parseDate(
                                     convertToApplicationFormik.values
-                                      .coachingData.endDate
-                                  )
+                                      .coachingData.endDate,
+                                  ),
                                 )
                               : ""
                           }
@@ -1855,7 +1857,7 @@ const ConvertToApplicationModal = ({
                           ref={coachingEndDateInputRef}
                           onClick={() =>
                             setShowCoachingEndDateCalendar(
-                              !showCoachingEndDateCalendar
+                              !showCoachingEndDateCalendar,
                             )
                           }
                           style={{ cursor: "pointer" }}
@@ -1894,7 +1896,7 @@ const ConvertToApplicationModal = ({
                               onChange={(selectedDate) => {
                                 convertToApplicationFormik.setFieldValue(
                                   "coachingData.endDate",
-                                  toISODate(selectedDate)
+                                  toISODate(selectedDate),
                                 );
                                 setShowCoachingEndDateCalendar(false);
                               }}
@@ -1903,7 +1905,7 @@ const ConvertToApplicationModal = ({
                                   .endDate
                                   ? parseDate(
                                       convertToApplicationFormik.values
-                                        .coachingData.endDate
+                                        .coachingData.endDate,
                                     )
                                   : new Date()
                               }
@@ -1926,14 +1928,14 @@ const ConvertToApplicationModal = ({
                         onChange={(selectedOption) =>
                           convertToApplicationFormik.setFieldValue(
                             "coachingData.registerFor",
-                            selectedOption?.value || ""
+                            selectedOption?.value || "",
                           )
                         }
                         value={studentRegisterForOptions.find(
                           (option) =>
                             option.value ===
                             convertToApplicationFormik.values.coachingData
-                              .registerFor
+                              .registerFor,
                         )}
                         classNamePrefix="custom-select"
                         placeholder="Select Register For"
@@ -1953,14 +1955,14 @@ const ConvertToApplicationModal = ({
                         onChange={(selectedOption) =>
                           convertToApplicationFormik.setFieldValue(
                             "coachingData.coachingRequirement",
-                            selectedOption?.value || ""
+                            selectedOption?.value || "",
                           )
                         }
                         value={coachingRequirementsOptions.find(
                           (option) =>
                             option.value ===
                             convertToApplicationFormik.values.coachingData
-                              .coachingRequirement
+                              .coachingRequirement,
                         )}
                         classNamePrefix="custom-select"
                         placeholder="Select Requirement"
@@ -1980,7 +1982,7 @@ const ConvertToApplicationModal = ({
                         onChange={(selectedOption) => {
                           convertToApplicationFormik.setFieldValue(
                             "coachingData.batchStatus",
-                            selectedOption?.value || ""
+                            selectedOption?.value || "",
                           );
 
                           // ✅ current selected branch from formik
@@ -1989,19 +1991,19 @@ const ConvertToApplicationModal = ({
                               .branch || "";
                           fetchCoachingFaculties(
                             selectedOption?.value || "",
-                            branchValue
+                            branchValue,
                           );
                           fetchBatchTimes(
                             convertToApplicationFormik.values.coachingData
                               .batchFaculty || "",
-                            selectedOption?.value || ""
+                            selectedOption?.value || "",
                           );
                         }}
                         value={batchStatusOptions.find(
                           (option) =>
                             option.value ===
                             convertToApplicationFormik.values.coachingData
-                              .batchStatus
+                              .batchStatus,
                         )}
                         classNamePrefix="custom-select"
                         placeholder="Select Batches Status"
@@ -2032,26 +2034,26 @@ const ConvertToApplicationModal = ({
 
                             convertToApplicationFormik.setFieldValue(
                               "coachingData.branch",
-                              branchValue
+                              branchValue,
                             );
 
                             fetchCoachingFaculties(
                               convertToApplicationFormik.values.coachingData
                                 .batchStatus || "",
-                              branchValue || ""
+                              branchValue || "",
                             );
                           }}
                           value={
                             convertToApplicationFormik.values.coachingData
                               .branch === null
                               ? branchOptions.find(
-                                  (opt) => opt.value === "HeadOffice"
+                                  (opt) => opt.value === "HeadOffice",
                                 )
                               : branchOptions.find(
                                   (opt) =>
                                     opt.value ===
                                     convertToApplicationFormik.values
-                                      .coachingData.branch
+                                      .coachingData.branch,
                                 )
                           }
                           classNamePrefix="custom-select"
@@ -2073,19 +2075,19 @@ const ConvertToApplicationModal = ({
                           onChange={(selectedOption) => {
                             convertToApplicationFormik.setFieldValue(
                               "coachingData.batchFaculty",
-                              selectedOption?.value || ""
+                              selectedOption?.value || "",
                             );
                             fetchBatchTimes(
                               selectedOption?.value || "",
                               convertToApplicationFormik.values.coachingData
-                                .batchStatus || ""
+                                .batchStatus || "",
                             );
                           }}
                           value={coachingFacultiesOptions.find(
                             (option) =>
                               option.value ===
                               convertToApplicationFormik.values.coachingData
-                                .batchFaculty
+                                .batchFaculty,
                           )}
                           classNamePrefix="custom-select"
                           placeholder="Select Faculty"
@@ -2106,14 +2108,14 @@ const ConvertToApplicationModal = ({
                         onChange={(selectedOption) =>
                           convertToApplicationFormik.setFieldValue(
                             "coachingData.batchTiming",
-                            selectedOption?.value || ""
+                            selectedOption?.value || "",
                           )
                         }
                         value={batchTimesOptions?.find(
                           (option) =>
                             option.value ===
                             convertToApplicationFormik.values.coachingData
-                              .batchTiming
+                              .batchTiming,
                         )}
                         classNamePrefix="custom-select"
                         placeholder="Select Timing"
@@ -2139,8 +2141,8 @@ const ConvertToApplicationModal = ({
                               ? formatDate(
                                   parseDate(
                                     convertToApplicationFormik.values
-                                      .coachingData.examRegistrationDate
-                                  )
+                                      .coachingData.examRegistrationDate,
+                                  ),
                                 )
                               : ""
                           }
@@ -2185,7 +2187,7 @@ const ConvertToApplicationModal = ({
                               onChange={(selectedDate) => {
                                 convertToApplicationFormik.setFieldValue(
                                   "coachingData.examRegistrationDate",
-                                  toISODate(selectedDate)
+                                  toISODate(selectedDate),
                                 );
                                 setShowExamDateCalendar(false);
                               }}
@@ -2194,7 +2196,7 @@ const ConvertToApplicationModal = ({
                                   .examRegistrationDate
                                   ? parseDate(
                                       convertToApplicationFormik.values
-                                        .coachingData.examRegistrationDate
+                                        .coachingData.examRegistrationDate,
                                     )
                                   : new Date()
                               }
@@ -2259,7 +2261,7 @@ const ConvertToApplicationModal = ({
                         onChange={(selectedOption) =>
                           convertToApplicationFormik.setFieldValue(
                             "coachingData.hasGivenExam",
-                            selectedOption?.value === true
+                            selectedOption?.value === true,
                           )
                         }
                         value={hasClientLanguage.find(
@@ -2268,7 +2270,7 @@ const ConvertToApplicationModal = ({
                             (convertToApplicationFormik.values.coachingData
                               .hasGivenExam
                               ? true
-                              : false)
+                              : false),
                         )}
                         classNamePrefix="custom-select"
                         placeholder="Select Language Exam"
@@ -2348,7 +2350,7 @@ const ConvertToApplicationModal = ({
                                     onChange={(event) => {
                                       convertToApplicationFormik.setFieldValue(
                                         `coachingData.examDetails[${index}].scoreFile`,
-                                        event.currentTarget.files[0]
+                                        event.currentTarget.files[0],
                                       );
                                     }}
                                     onBlur={
@@ -2437,7 +2439,7 @@ const ConvertToApplicationModal = ({
                                       updatedExams.splice(index, 1);
                                       convertToApplicationFormik.setFieldValue(
                                         "coachingData.examDetails",
-                                        updatedExams
+                                        updatedExams,
                                       );
                                     }}
                                   >
@@ -2447,7 +2449,7 @@ const ConvertToApplicationModal = ({
                               )}
                             </Row>
                           </div>
-                        )
+                        ),
                       )}
                       <Col md={12} className="mb-3">
                         <Button
@@ -2497,27 +2499,27 @@ const ConvertToApplicationModal = ({
                               (option) =>
                                 option.value ===
                                 convertToApplicationFormik.values.coachingData
-                                  .subPlan
+                                  .subPlan,
                             )}
                           onChange={(option) => {
                             const subPlanValue = option?.value || "";
                             convertToApplicationFormik.setFieldValue(
                               "coachingData.subPlan",
-                              subPlanValue
+                              subPlanValue,
                             );
 
                             if (!subPlanValue) {
                               convertToApplicationFormik.setFieldValue(
                                 "coachingData.amount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "coachingData.payableAmount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "coachingData.dueAmount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "coachingData.paidAmount",
@@ -2526,7 +2528,7 @@ const ConvertToApplicationModal = ({
                                   date: "",
                                   bank: "",
                                   paymentMode: "",
-                                }
+                                },
                               );
                             }
                           }}
@@ -2668,7 +2670,7 @@ const ConvertToApplicationModal = ({
                               handlePaidAmountChange(
                                 "amount",
                                 e.target.value,
-                                "coachingData"
+                                "coachingData",
                               )
                             }
                             className="custom-select-height"
@@ -2697,14 +2699,14 @@ const ConvertToApplicationModal = ({
                                 (option) =>
                                   option.value ===
                                   convertToApplicationFormik.values.coachingData
-                                    .paidAmount?.paymentMode
+                                    .paidAmount?.paymentMode,
                               ) || null
                             }
                             onChange={(option) =>
                               handlePaidAmountChange(
                                 "paymentMode",
                                 option ? option.value : "",
-                                "coachingData"
+                                "coachingData",
                               )
                             }
                             placeholder="Select payment mode"
@@ -2739,14 +2741,14 @@ const ConvertToApplicationModal = ({
                                   (option) =>
                                     option.value ===
                                     convertToApplicationFormik.values
-                                      .coachingData.paidAmount?.bank
+                                      .coachingData.paidAmount?.bank,
                                 ) || null
                               }
                               onChange={(option) =>
                                 handlePaidAmountChange(
                                   "bank",
                                   option ? option.value : "",
-                                  "coachingData"
+                                  "coachingData",
                                 )
                               }
                               placeholder="Select bank"
@@ -2838,27 +2840,27 @@ const ConvertToApplicationModal = ({
                               (option) =>
                                 option.value ===
                                 convertToApplicationFormik.values.admissionData
-                                  .subPlan
+                                  .subPlan,
                             )}
                           onChange={(option) => {
                             const subPlanValue = option?.value || "";
                             convertToApplicationFormik.setFieldValue(
                               "admissionData.subPlan",
-                              subPlanValue
+                              subPlanValue,
                             );
 
                             if (!subPlanValue) {
                               convertToApplicationFormik.setFieldValue(
                                 "admissionData.amount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "admissionData.payableAmount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "admissionData.dueAmount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "admissionData.paidAmount",
@@ -2867,7 +2869,7 @@ const ConvertToApplicationModal = ({
                                   date: "",
                                   bank: "",
                                   paymentMode: "",
-                                }
+                                },
                               );
                             }
                           }}
@@ -3009,7 +3011,7 @@ const ConvertToApplicationModal = ({
                               handlePaidAmountChange(
                                 "amount",
                                 e.target.value,
-                                "admissionData"
+                                "admissionData",
                               )
                             }
                             className="custom-select-height"
@@ -3038,14 +3040,14 @@ const ConvertToApplicationModal = ({
                                 (option) =>
                                   option.value ===
                                   convertToApplicationFormik.values
-                                    .admissionData.paidAmount?.paymentMode
+                                    .admissionData.paidAmount?.paymentMode,
                               ) || null
                             }
                             onChange={(option) =>
                               handlePaidAmountChange(
                                 "paymentMode",
                                 option ? option.value : "",
-                                "admissionData"
+                                "admissionData",
                               )
                             }
                             placeholder="Select payment mode"
@@ -3080,14 +3082,14 @@ const ConvertToApplicationModal = ({
                                   (option) =>
                                     option.value ===
                                     convertToApplicationFormik.values
-                                      .admissionData.paidAmount?.bank
+                                      .admissionData.paidAmount?.bank,
                                 ) || null
                               }
                               onChange={(option) =>
                                 handlePaidAmountChange(
                                   "bank",
                                   option ? option.value : "",
-                                  "admissionData"
+                                  "admissionData",
                                 )
                               }
                               placeholder="Select bank"
@@ -3177,27 +3179,27 @@ const ConvertToApplicationModal = ({
                               (option) =>
                                 option.value ===
                                 convertToApplicationFormik.values
-                                  .categoryDetails.subPlan
+                                  .categoryDetails.subPlan,
                             )}
                           onChange={(option) => {
                             const subPlanValue = option?.value || "";
                             convertToApplicationFormik.setFieldValue(
                               "categoryDetails.subPlan",
-                              subPlanValue
+                              subPlanValue,
                             );
 
                             if (!subPlanValue) {
                               convertToApplicationFormik.setFieldValue(
                                 "categoryDetails.amount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "categoryDetails.payableAmount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "categoryDetails.dueAmount",
-                                ""
+                                "",
                               );
                               convertToApplicationFormik.setFieldValue(
                                 "categoryDetails.paidAmount",
@@ -3206,7 +3208,7 @@ const ConvertToApplicationModal = ({
                                   date: "",
                                   bank: "",
                                   paymentMode: "",
-                                }
+                                },
                               );
                             }
                           }}
@@ -3348,7 +3350,7 @@ const ConvertToApplicationModal = ({
                               handlePaidAmountChange(
                                 "amount",
                                 e.target.value,
-                                "categoryDetails"
+                                "categoryDetails",
                               )
                             }
                             className="custom-select-height"
@@ -3377,14 +3379,14 @@ const ConvertToApplicationModal = ({
                                 (option) =>
                                   option.value ===
                                   convertToApplicationFormik.values
-                                    .categoryDetails.paidAmount?.paymentMode
+                                    .categoryDetails.paidAmount?.paymentMode,
                               ) || null
                             }
                             onChange={(option) =>
                               handlePaidAmountChange(
                                 "paymentMode",
                                 option ? option.value : "",
-                                "categoryDetails"
+                                "categoryDetails",
                               )
                             }
                             placeholder="Select payment mode"
@@ -3419,14 +3421,14 @@ const ConvertToApplicationModal = ({
                                   (option) =>
                                     option.value ===
                                     convertToApplicationFormik.values
-                                      .categoryDetails.paidAmount?.bank
+                                      .categoryDetails.paidAmount?.bank,
                                 ) || null
                               }
                               onChange={(option) =>
                                 handlePaidAmountChange(
                                   "bank",
                                   option ? option.value : "",
-                                  "categoryDetails"
+                                  "categoryDetails",
                                 )
                               }
                               placeholder="Select bank"
@@ -3492,7 +3494,7 @@ const ConvertToApplicationModal = ({
 
                               convertToApplicationFormik.setFieldValue(
                                 "categoryDetails.type",
-                                newType
+                                newType,
                               );
                               if (
                                 newType !== "Renewal" &&
@@ -3500,7 +3502,7 @@ const ConvertToApplicationModal = ({
                               ) {
                                 convertToApplicationFormik.setFieldValue(
                                   "categoryDetails.entries",
-                                  []
+                                  [],
                                 );
                               } else if (
                                 convertToApplicationFormik.values
@@ -3513,7 +3515,7 @@ const ConvertToApplicationModal = ({
                               (option) =>
                                 option.value ===
                                 convertToApplicationFormik.values
-                                  .categoryDetails?.type
+                                  .categoryDetails?.type,
                             )}
                             classNamePrefix="custom-select"
                             placeholder="Select Category"
@@ -3571,7 +3573,7 @@ const ConvertToApplicationModal = ({
                                         onChange={(option) =>
                                           convertToApplicationFormik.setFieldValue(
                                             `categoryDetails.entries[${index}].country`,
-                                            option ? option.value : ""
+                                            option ? option.value : "",
                                           )
                                         }
                                         placeholder="Select Country"
@@ -3618,7 +3620,7 @@ const ConvertToApplicationModal = ({
                                             (prev) => ({
                                               ...prev,
                                               [index]: !prev[index],
-                                            })
+                                            }),
                                           )
                                         }
                                         ref={visitorProcessRenewalDateInputRef}
@@ -3662,13 +3664,13 @@ const ConvertToApplicationModal = ({
                                             onChange={(selectedDate) => {
                                               convertToApplicationFormik.setFieldValue(
                                                 `categoryDetails.entries[${index}].date`,
-                                                toISODate(selectedDate)
+                                                toISODate(selectedDate),
                                               );
                                               setShowVisitorProcessRenewalDateCalendar(
                                                 (prev) => ({
                                                   ...prev,
                                                   [index]: false,
-                                                })
+                                                }),
                                               );
                                             }}
                                             value={
@@ -3711,7 +3713,7 @@ const ConvertToApplicationModal = ({
                                       onChange={(event) =>
                                         convertToApplicationFormik.setFieldValue(
                                           `categoryDetails.entries[${index}].document`,
-                                          event.currentTarget.files[0]
+                                          event.currentTarget.files[0],
                                         )
                                       }
                                       onBlur={
@@ -3764,7 +3766,7 @@ const ConvertToApplicationModal = ({
                                     </Col>
                                   )}
                                 </Row>
-                              )
+                              ),
                             )}
 
                             <Row>

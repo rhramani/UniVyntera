@@ -41,9 +41,8 @@ const PendingB2BInvoice = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCommissionAmount, setTotalCommissionAmount] = useState(0);
   const [b2BPendingCountryList, setB2BPendingCountryList] = useState([]);
-  const { canRead, canCreate, canUpdate, canDelete, canDownload } = usePermissions(
-    "Pending B2B Invoice"
-  );
+  const { canRead, canCreate, canUpdate, canDelete, canDownload } =
+    usePermissions("Pending B2B Invoice");
 
   const userRole = decryptData(localStorage.getItem("role"));
   const [showStartDateCalendar, setShowStartDateCalendar] = useState(false);
@@ -65,7 +64,7 @@ const PendingB2BInvoice = () => {
   const [branchList, setBranchList] = useState([]);
   const [b2BList, setB2BList] = useState([]);
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   const b2bListOptions = b2BList?.map((b2b) => ({
@@ -115,14 +114,14 @@ const PendingB2BInvoice = () => {
       ? parseFloat(
           item.interestedCourseDetails[0].instituteFeePayment.feeAmount
             .toString()
-            .replace(/,/g, "")
+            .replace(/,/g, ""),
         )
       : 0;
     // University Commission calculation
     const universityCommissionType =
       item?.universitySideConfirmation?.commissionType;
     const universityCommissionPercent = parseFloat(
-      item?.universitySideConfirmation?.commissionPercentage || 0
+      item?.universitySideConfirmation?.commissionPercentage || 0,
     );
     const universityCommissionAmount =
       universityCommissionType === "Percentage"
@@ -132,14 +131,14 @@ const PendingB2BInvoice = () => {
     const b2bCommissionType =
       item?.universityPaymentReceived?.b2bCommission?.commissionType;
     const b2bCommissionPercent = parseFloat(
-      item?.universityPaymentReceived?.b2bCommission?.commissionPercentage || 0
+      item?.universityPaymentReceived?.b2bCommission?.commissionPercentage || 0,
     );
     const b2bCommissionAmount =
       b2bCommissionType === "Percentage"
         ? (universityCommissionAmount * b2bCommissionPercent) / 100
         : parseFloat(
             item?.universityPaymentReceived?.b2bCommission?.commissionAmount ||
-              0
+              0,
           );
 
     return {
@@ -164,7 +163,7 @@ const PendingB2BInvoice = () => {
             month: "2-digit",
             year: "numeric",
             timeZone: "UTC",
-          }
+          },
         ),
     },
     {
@@ -243,7 +242,7 @@ const PendingB2BInvoice = () => {
               backgroundColor: item?.mainStatus?.color,
               color: item?.mainStatus ? "#ffffff" : "#000000",
               padding: "1px 8px",
-              borderRadius: "30px",
+              borderRadius: "12px",
               display: "inline-block",
             }}
           >
@@ -263,7 +262,7 @@ const PendingB2BInvoice = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => {
                 const instituteName = detail?.institute?.instituteName || "-";
@@ -291,7 +290,7 @@ const PendingB2BInvoice = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.course?.programName || "-")
               .join(", ")
@@ -313,7 +312,7 @@ const PendingB2BInvoice = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeYear || "-")
               .join(", ")
@@ -342,7 +341,7 @@ const PendingB2BInvoice = () => {
     b2bId = filters.b2bId?.value || "",
     branchId = filters.branchId || "",
     showAll = filters.showAll,
-    type = filters.type?.value || ""
+    type = filters.type?.value || "",
   ) => {
     try {
       const res = await dispatch(
@@ -356,8 +355,8 @@ const PendingB2BInvoice = () => {
           b2bId,
           branchId,
           showAll,
-          type
-        )
+          type,
+        ),
       );
       const data = res?.data?.data?.data || [];
       setPartnerPendingB2BInvoice(data);
@@ -388,7 +387,7 @@ const PendingB2BInvoice = () => {
         filters.b2bId?.value,
         filters.branchId,
         filters.showAll,
-        filters.type?.value
+        filters.type?.value,
       );
     }
   }, [currentPage, itemsPerPage, search, canRead, filters]);
@@ -487,8 +486,8 @@ const PendingB2BInvoice = () => {
           filters.b2bId?.value || "",
           filters.branchId || "",
           filters.showAll,
-          filters.type?.value || ""
-        )
+          filters.type?.value || "",
+        ),
       );
       const dataToExport = res?.data?.data?.data || [];
 
@@ -581,25 +580,25 @@ const PendingB2BInvoice = () => {
               <div className="w-100 d-flex flex-wrap justify-content-between">
                 <div className="card-title">Pending B2B Invoice Report</div>
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                    <div className="contact-search3">
-                      <button type="button" className="btn border-0">
-                        <i
-                          className="fe fe-search fw-semibold text-muted"
-                          aria-hidden="true"
-                        ></i>
-                      </button>
-                      <Form.Control
-                        type="text"
-                        className="filter-height border-0"
-                        placeholder="Search here..."
-                        autoComplete="off"
-                        value={search}
-                        onChange={(e) => {
-                          setSearch(e.target.value);
-                          setCurrentPage(1);
-                        }}
-                      />
-                    </div>
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <Form.Control
+                      type="text"
+                      className="filter-height border-0"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
                   {partnerPendingB2BInvoice?.length > 0 && canDownload && (
                     <Button
                       variant="primary"
@@ -814,72 +813,72 @@ const PendingB2BInvoice = () => {
                       </div>
                     </div>
                     {userRole !== "Branch" && (
-                    <div className="filter-item">
-                      <Form.Label>Branch</Form.Label>
-                      <Select
-                        className="filter-height"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            fontSize: "13px",
-                            minHeight: "38px",
-                          }),
-                        }}
-                        placeholder="Select Branch"
-                        classNamePrefix="custom-select"
-                        options={[
-                          { value: "all", label: "All" },
-                          { value: "", label: "Head Office" },
-                          ...(Array.isArray(branchList)
-                            ? branchList
-                                .filter((branch) => {
-                                  if (userRole === "Branch") {
-                                    return branch._id === filters.branchId;
-                                  }
-                                  return (
-                                    branch.name && branch.name.trim() !== ""
-                                  );
-                                })
-                                .sort((a, b) => a.name.localeCompare(b.name))
-                                .map((branch) => ({
-                                  value: branch._id,
-                                  label: branch.name,
-                                }))
-                            : []),
-                        ]}
-                        value={
-                          filters.branchId !== null &&
-                          filters.branchId !== undefined
-                            ? {
-                                value: filters.showAll
-                                  ? "all"
-                                  : filters.branchId,
-                                label: filters.showAll
-                                  ? "All"
-                                  : filters.branchId === ""
-                                  ? "Head Office"
-                                  : branchList.find(
-                                      (branch) =>
-                                        branch._id === filters.branchId
-                                    )?.name || "Select Branch",
-                              }
-                            : null
-                        }
-                        onChange={(selectedOption) => {
-                          const newBranchId =
-                            selectedOption?.value === "all"
-                              ? ""
-                              : selectedOption?.value || "";
-                          const newShowAll = selectedOption?.value === "all";
-                          setFilters({
-                            ...filters,
-                            branchId: newBranchId,
-                            showAll: newShowAll,
-                          });
-                          setCurrentPage(1);
-                        }}
-                      />
-                    </div>                      
+                      <div className="filter-item">
+                        <Form.Label>Branch</Form.Label>
+                        <Select
+                          className="filter-height"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              fontSize: "13px",
+                              minHeight: "38px",
+                            }),
+                          }}
+                          placeholder="Select Branch"
+                          classNamePrefix="custom-select"
+                          options={[
+                            { value: "all", label: "All" },
+                            { value: "", label: "Head Office" },
+                            ...(Array.isArray(branchList)
+                              ? branchList
+                                  .filter((branch) => {
+                                    if (userRole === "Branch") {
+                                      return branch._id === filters.branchId;
+                                    }
+                                    return (
+                                      branch.name && branch.name.trim() !== ""
+                                    );
+                                  })
+                                  .sort((a, b) => a.name.localeCompare(b.name))
+                                  .map((branch) => ({
+                                    value: branch._id,
+                                    label: branch.name,
+                                  }))
+                              : []),
+                          ]}
+                          value={
+                            filters.branchId !== null &&
+                            filters.branchId !== undefined
+                              ? {
+                                  value: filters.showAll
+                                    ? "all"
+                                    : filters.branchId,
+                                  label: filters.showAll
+                                    ? "All"
+                                    : filters.branchId === ""
+                                      ? "Head Office"
+                                      : branchList.find(
+                                          (branch) =>
+                                            branch._id === filters.branchId,
+                                        )?.name || "Select Branch",
+                                }
+                              : null
+                          }
+                          onChange={(selectedOption) => {
+                            const newBranchId =
+                              selectedOption?.value === "all"
+                                ? ""
+                                : selectedOption?.value || "";
+                            const newShowAll = selectedOption?.value === "all";
+                            setFilters({
+                              ...filters,
+                              branchId: newBranchId,
+                              showAll: newShowAll,
+                            });
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </div>
                     )}
                     <div className="filter-item">
                       <Form.Label>Country</Form.Label>
@@ -981,11 +980,13 @@ const PendingB2BInvoice = () => {
                 </>
               )}
 
-              <div className="table-responsive modern-table-wrapper"
+              <div
+                className="table-responsive modern-table-wrapper"
                 style={{
                   borderRadius: "12px",
                   border: "1px solid #dee2e6",
-                }}>
+                }}
+              >
                 <table
                   className="table table-hover modern-table table-nowrap"
                   style={{ tableLayout: "auto" }}

@@ -19,6 +19,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Confetti from "react-confetti";
 import logo from "../../assets/images/brand-logos/sidebar_logo1.png";
 import CreatableSelect from "react-select/creatable";
+import { countryCodeISO } from "../../utils/countryISOCode";
 
 const B2BAdminForm = () => {
   const [countries, setCountries] = useState([]);
@@ -121,10 +122,10 @@ const B2BAdminForm = () => {
       try {
         toast.dismiss();
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         const formattedValues = {
@@ -202,7 +203,12 @@ const B2BAdminForm = () => {
         <Card className="thank-you-card animate__animated animate__fadeIn">
           <Card.Body className="text-center">
             <CheckCircleOutlineIcon
-              sx={{ width: "100%", fontSize: 60, color: "#28a745", marginBottom: "20px" }}
+              sx={{
+                width: "100%",
+                fontSize: 60,
+                color: "#28a745",
+                marginBottom: "20px",
+              }}
             />
             <h4 className="thank-you-title">Thank You!</h4>
             <p className="thank-you-message">
@@ -226,7 +232,7 @@ const B2BAdminForm = () => {
 
   return (
     <div className="b2b-admin-form-container">
-      <div className="logo-container mb-4">
+      {/* <div className="logo-container mb-4">
         <img
           src={logo}
           alt="Company Logo"
@@ -236,7 +242,7 @@ const B2BAdminForm = () => {
             objectFit: "contain",
           }}
         />
-      </div>
+      </div> */}
 
       <Card className="b2b-admin-card">
         <Card.Header className="b2b-card-header">
@@ -264,7 +270,7 @@ const B2BAdminForm = () => {
                     value={formik.values.companyName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    className={`rounded-30 ${
+                    className={`custom-select-height ${
                       formik.touched.companyName && formik.errors.companyName
                         ? "is-invalid"
                         : ""
@@ -285,7 +291,7 @@ const B2BAdminForm = () => {
                   <Form.Control
                     type="text"
                     name="contactPerson"
-                    className="rounded-30"
+                    className="custom-select-height"
                     placeholder="Enter Contact Person"
                     value={formik.values.contactPerson}
                     onChange={formik.handleChange}
@@ -297,29 +303,30 @@ const B2BAdminForm = () => {
                 <Form.Group>
                   <Form.Label className="b2b-form-label">Phone</Form.Label>
                   <PhoneInput
-                    country={"in"}
+                    country={countryCodeISO()}
                     value={formik.values.phone}
                     onChange={(phone, data) => {
                       const dialCode = data.dialCode ? `+${data.dialCode}` : "";
                       const formattedPhone = `${dialCode} ${phone.replace(
                         data.dialCode,
-                        ""
+                        "",
                       )}`.trim();
+
                       formik.setFieldValue("phone", formattedPhone);
                     }}
                     onBlur={formik.handleBlur}
                     inputProps={{
                       name: "phone",
                       required: true,
-                      className: "b2b-form-control",
+                      className: "form-control custom-select-height",
                     }}
                     inputStyle={{
                       width: "100%",
                       paddingLeft: "65px",
-                      borderRadius: "30px",
+                      borderRadius: "4px",
                     }}
                     buttonStyle={{
-                      borderRadius: "8px 0 0 8px",
+                      marginRight: "10px",
                     }}
                   />
                   {formik.touched.phone && formik.errors.phone && (
@@ -337,7 +344,7 @@ const B2BAdminForm = () => {
                   <Form.Control
                     type="file"
                     name="logo"
-                    className="rounded-30"
+                    className="custom-select-height"
                     accept="image/*"
                     onChange={(event) => {
                       const file = event.currentTarget.files[0];
@@ -362,7 +369,7 @@ const B2BAdminForm = () => {
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    className={`rounded-30 ${
+                    className={`custom-select-height ${
                       formik.touched.email && formik.errors.email
                         ? "is-invalid"
                         : ""
@@ -386,7 +393,7 @@ const B2BAdminForm = () => {
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      className="rounded-30"
+                      className="custom-select-height"
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
@@ -423,7 +430,7 @@ const B2BAdminForm = () => {
                         ? option[0]
                         : option;
                       const isValid = countries?.some(
-                        (c) => c.isoCode === selectedOption?.value
+                        (c) => c.isoCode === selectedOption?.value,
                       );
                       if (isValid) {
                         handleCountryChange(selectedOption.value);
@@ -441,23 +448,34 @@ const B2BAdminForm = () => {
                         : ""
                     }
                     styles={{
-                      control: (base) => ({
+                      control: (base, state) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         borderColor:
                           formik.touched.country && formik.errors.country
                             ? "#dc3545"
-                            : base.borderColor,
-                        "&:hover": { borderColor: "#0052cc" },
+                            : state.isFocused
+                              ? "#5D54BE"
+                              : base.borderColor,
+                        "&:hover": { borderColor: "#5D54BE" },
+                        boxShadow: state.isFocused
+                          ? "0 0 0 3px rgba(93, 84, 190, 0.1)"
+                          : "none",
                       }),
                       placeholder: (base) => ({
                         ...base,
                         color: "#6c757d",
                         fontSize: "0.9rem",
                       }),
-                      option: (base) => ({
+                      option: (base, state) => ({
                         ...base,
                         fontSize: "0.9rem",
+                        backgroundColor: state.isSelected
+                          ? "#5D54BE"
+                          : state.isFocused
+                            ? "#f0ebf8"
+                            : "white",
+                        color: state.isSelected ? "white" : "black",
                       }),
                     }}
                   />
@@ -491,13 +509,13 @@ const B2BAdminForm = () => {
                         ? option[0]
                         : option;
                       const isValid = stateDropDown?.some(
-                        (s) => s.isoCode === selectedOption?.value
+                        (s) => s.isoCode === selectedOption?.value,
                       );
                       if (isValid) {
                         formik.setFieldValue("state", selectedOption.value);
                         handleStateChange(
                           formik.values.country,
-                          selectedOption.value
+                          selectedOption.value,
                         );
                         formik.setFieldError("state", "");
                       } else {
@@ -513,23 +531,34 @@ const B2BAdminForm = () => {
                         : ""
                     }
                     styles={{
-                      control: (base) => ({
+                      control: (base, state) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         borderColor:
                           formik.touched.state && formik.errors.state
                             ? "#dc3545"
-                            : base.borderColor,
-                        "&:hover": { borderColor: "#0052cc" },
+                            : state.isFocused
+                              ? "#5D54BE"
+                              : base.borderColor,
+                        "&:hover": { borderColor: "#5D54BE" },
+                        boxShadow: state.isFocused
+                          ? "0 0 0 3px rgba(93, 84, 190, 0.1)"
+                          : "none",
                       }),
                       placeholder: (base) => ({
                         ...base,
                         color: "#6c757d",
                         fontSize: "0.9rem",
                       }),
-                      option: (base) => ({
+                      option: (base, state) => ({
                         ...base,
                         fontSize: "0.9rem",
+                        backgroundColor: state.isSelected
+                          ? "#5D54BE"
+                          : state.isFocused
+                            ? "#f0ebf8"
+                            : "white",
+                        color: state.isSelected ? "white" : "black",
                       }),
                     }}
                   />
@@ -591,23 +620,34 @@ const B2BAdminForm = () => {
                         : ""
                     }
                     styles={{
-                      control: (base) => ({
+                      control: (base, state) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         borderColor:
                           formik.touched.city && formik.errors.city
                             ? "#dc3545"
-                            : base.borderColor,
-                        "&:hover": { borderColor: "#0052cc" },
+                            : state.isFocused
+                              ? "#5D54BE"
+                              : base.borderColor,
+                        "&:hover": { borderColor: "#5D54BE" },
+                        boxShadow: state.isFocused
+                          ? "0 0 0 3px rgba(93, 84, 190, 0.1)"
+                          : "none",
                       }),
                       placeholder: (base) => ({
                         ...base,
                         color: "#6c757d",
                         fontSize: "0.9rem",
                       }),
-                      option: (base) => ({
+                      option: (base, state) => ({
                         ...base,
                         fontSize: "0.9rem",
+                        backgroundColor: state.isSelected
+                          ? "#5D54BE"
+                          : state.isFocused
+                            ? "#f0ebf8"
+                            : "white",
+                        color: state.isSelected ? "white" : "black",
                       }),
                     }}
                   />
@@ -624,7 +664,7 @@ const B2BAdminForm = () => {
                   <Form.Control
                     type="text"
                     name="websiteUrl"
-                    className="rounded-30"
+                    className="custom-select-height"
                     placeholder="Enter Website URL"
                     value={formik.values.websiteUrl}
                     onChange={formik.handleChange}
@@ -642,7 +682,7 @@ const B2BAdminForm = () => {
                     value={formik.values.GST_VAT}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    className={`rounded-30 ${
+                    className={`custom-select-height ${
                       formik.touched.GST_VAT && formik.errors.GST_VAT
                         ? "is-invalid"
                         : ""
@@ -669,7 +709,7 @@ const B2BAdminForm = () => {
                       <Form.Control
                         type="text"
                         name="bankName"
-                        className="rounded-30"
+                        className="custom-select-height"
                         placeholder="Enter Bank Name"
                         value={formik.values.bankName}
                         onChange={formik.handleChange}
@@ -685,7 +725,7 @@ const B2BAdminForm = () => {
                       <Form.Control
                         type="text"
                         name="accountNumber"
-                        className="rounded-30"
+                        className="custom-select-height"
                         placeholder="Enter Account Number"
                         value={formik.values.accountNumber}
                         onChange={formik.handleChange}
@@ -701,7 +741,7 @@ const B2BAdminForm = () => {
                       <Form.Control
                         type="text"
                         name="branch"
-                        className="rounded-30"
+                        className="custom-select-height"
                         placeholder="Enter Branch Address"
                         value={formik.values.branch}
                         onChange={formik.handleChange}
@@ -712,12 +752,13 @@ const B2BAdminForm = () => {
                   <Col md={6} lg={5}>
                     <Form.Group>
                       <Form.Label className="b2b-form-label">
-                        IFSC/SWIFT Code (IFSC for India, SWIFT for Other Countries)
+                        IFSC/SWIFT Code (IFSC for India, SWIFT for Other
+                        Countries)
                       </Form.Label>
                       <Form.Control
                         type="text"
                         name="ifscCode"
-                        className="rounded-30"
+                        className="custom-select-height"
                         placeholder="Enter IFSC Code"
                         value={formik.values.ifscCode}
                         onChange={formik.handleChange}
@@ -733,7 +774,7 @@ const B2BAdminForm = () => {
                       <Form.Control
                         type="file"
                         name="cancelCheque"
-                        className="rounded-30"
+                        className="custom-select-height"
                         accept="image/*"
                         onChange={(event) => {
                           const file = event.currentTarget.files[0];

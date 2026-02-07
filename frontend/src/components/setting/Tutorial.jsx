@@ -14,6 +14,7 @@ import usePermissions from "../commonComponents/usePermissions";
 import Paginations from "../elements/Paginations";
 import ItemsPerPageSelect from "../commonComponents/ItemsPerPageSelect";
 import Pageheader from "../../layouts/Pageheader";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const Tutorial = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Tutorial = () => {
   const fetchTutorials = async (
     page = 1,
     limit = itemsPerPage,
-    searchTerm = ""
+    searchTerm = "",
   ) => {
     try {
       const res = await dispatch(getAllTutorial(page, limit, searchTerm));
@@ -92,7 +93,7 @@ const Tutorial = () => {
       } catch (error) {
         console.error("Submit error:", error);
         toast.error(
-          error.response?.data?.message || "Error submitting tutorial!"
+          error.response?.data?.message || "Error submitting tutorial!",
         );
       }
     },
@@ -267,7 +268,9 @@ const Tutorial = () => {
                         <Card.Body>
                           {canRead && (
                             <>
-                              <Card.Title>{item?.name ? item?.name : "Tutorial Video"}</Card.Title>
+                              <Card.Title>
+                                {item?.name ? item?.name : "Tutorial Video"}
+                              </Card.Title>
                               <Card.Text className="tutorial-content">
                                 {isGoogleDriveLink(item.url) ? (
                                   <Button
@@ -304,14 +307,14 @@ const Tutorial = () => {
                                 <strong>Created On: </strong>
                                 {item?.createdAt
                                   ? new Date(item.createdAt).toLocaleDateString(
-                                    "en-GB",
-                                    {
-                                      day: "2-digit",
-                                      month: "2-digit",
-                                      year: "numeric",
-                                      timeZone: "UTC",
-                                    }
-                                  )
+                                      "en-GB",
+                                      {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                        timeZone: "UTC",
+                                      },
+                                    )
                                   : "N/A"}
                               </small>
                             </div>
@@ -343,51 +346,14 @@ const Tutorial = () => {
                 )}
               </Row>
 
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={handleCloseUploadModal}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={handleCloseUploadModal}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={handleCloseUploadModal}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItem);
-                      setShowDeleteModal(false);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => {
+                  handleDelete(selectedItem);
+                  setShowDeleteModal(false);
+                }}
+              />
 
               {totalPages > 1 && tutorials?.data?.length > 0 && (
                 <div className="mt-4 d-flex justify-content-end align-items-end">
@@ -395,7 +361,8 @@ const Tutorial = () => {
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
-                  /></div>
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

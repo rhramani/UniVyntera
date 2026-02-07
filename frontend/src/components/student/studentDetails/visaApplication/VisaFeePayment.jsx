@@ -50,7 +50,7 @@ const VisaFeePayment = ({
 }) => {
   const { canCreate, canUpdate } = usePermissions(
     "Student Applications",
-    "Visa Application"
+    "Visa Application",
   );
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -73,7 +73,7 @@ const VisaFeePayment = ({
   const handleVisaFeePaymentSubmit = async (
     values,
     resetForm,
-    formikInstance
+    formikInstance,
   ) => {
     const isFileUploaded = !!values.file;
     const isPaymentInfoProvided = values.paymentDetails || values.status;
@@ -93,7 +93,7 @@ const VisaFeePayment = ({
           "Visa Fee Payment",
           values.file,
           resetForm,
-          formikInstance
+          formikInstance,
         );
         uploadSuccess = uploadResult.success;
         documentDetails = uploadResult.documentDetails;
@@ -114,7 +114,7 @@ const VisaFeePayment = ({
         const res = await dispatch(
           mode === "student"
             ? updateStudentApplication(payload, id)
-            : updateVisitorApplication(payload, id)
+            : updateVisitorApplication(payload, id),
         );
         if (res?.status !== 200) {
           toast.error(res?.data?.message || "Error updating payment details");
@@ -141,7 +141,7 @@ const VisaFeePayment = ({
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -220,7 +220,8 @@ const VisaFeePayment = ({
                   }
                   disabled={
                     visaFeePaymentFilePaths?.length > 0 ||
-                    userRole === "Student" || userRole === "LeadStudent"
+                    userRole === "Student" ||
+                    userRole === "LeadStudent"
                   }
                 />
               </Col>
@@ -235,9 +236,14 @@ const VisaFeePayment = ({
                   onChange={visaFeePaymentFormik.handleChange}
                   onBlur={visaFeePaymentFormik.handleBlur}
                   style={{
-                    cursor: userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "",
+                    cursor:
+                      userRole === "Student" || userRole === "LeadStudent"
+                        ? "not-allowed"
+                        : "",
                   }}
-                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                  disabled={
+                    userRole === "Student" || userRole === "LeadStudent"
+                  }
                 />
               </Col>
               <Col md={4} className="mb-3">
@@ -248,14 +254,14 @@ const VisaFeePayment = ({
                     visaFeePaymentFormik.values.status
                       ? visaFeePaymentStatusOptions.find(
                           (option) =>
-                            option.value === visaFeePaymentFormik.values.status
+                            option.value === visaFeePaymentFormik.values.status,
                         )
                       : null
                   }
                   onChange={(selectedOption) =>
                     visaFeePaymentFormik.setFieldValue(
                       "status",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     )
                   }
                   onBlur={() => visaFeePaymentFormik.handleBlur("status")}
@@ -264,7 +270,7 @@ const VisaFeePayment = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -274,22 +280,26 @@ const VisaFeePayment = ({
                     }),
                   }}
                   isClearable
-                  isDisabled={userRole === "Student" || userRole === "LeadStudent"}
+                  isDisabled={
+                    userRole === "Student" || userRole === "LeadStudent"
+                  }
                 />
               </Col>
             </Row>
-            {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-              <div className="d-flex justify-content-end me-3">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="custom-select-height"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Submitting..." : "Submit"}
-                </Button>
-              </div>
-            )}
+            {userRole !== "Student" &&
+              userRole !== "LeadStudent" &&
+              (canCreate || canUpdate) && (
+                <div className="d-flex justify-content-end me-3">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="custom-select-height"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Submitting..." : "Submit"}
+                  </Button>
+                </div>
+              )}
           </Form>
         </div>
         {visaFeePaymentFilePaths?.length > 0 && (
@@ -321,7 +331,7 @@ const VisaFeePayment = ({
                         sendPendingDocumentMain(id, selectedDocumentNames);
                       } else {
                         toast.error(
-                          "Please select at least one document to send via mail."
+                          "Please select at least one document to send via mail.",
                         );
                       }
                     }}
@@ -351,7 +361,8 @@ const VisaFeePayment = ({
                             )} */}
                     {userRole !== "B2B Admin" &&
                       userRole !== "B2B Member" &&
-                      userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                      userRole !== "Student" &&
+                      userRole !== "LeadStudent" && <th>Document Pendency</th>}
                     <th>Sr No</th>
                     <th>Document Name</th>
                     <th>Upload File</th>
@@ -410,7 +421,8 @@ const VisaFeePayment = ({
                                     )} */}
                             {userRole !== "B2B Admin" &&
                               userRole !== "B2B Member" &&
-                              userRole !== "Student" && userRole !== "LeadStudent" && (
+                              userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
                                 <td>
                                   <div className="form-check form-switch custom-toggle-button me-0">
                                     <input
@@ -418,12 +430,12 @@ const VisaFeePayment = ({
                                       type="checkbox"
                                       id={`toggle-${doc._id}-${index}`}
                                       checked={selectedDocsIds?.includes(
-                                        `${doc._id}-${index}`
+                                        `${doc._id}-${index}`,
                                       )}
                                       onChange={() =>
                                         handleCheckboxChangeId(
                                           `${doc._id}-${index}`,
-                                          docName
+                                          docName,
                                         )
                                       }
                                     />
@@ -446,11 +458,14 @@ const VisaFeePayment = ({
                                       e,
                                       index,
                                       doc._id,
-                                      docName
+                                      docName,
                                     )
                                   }
                                   className="custom-select-height"
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                 />
                               )}
                             </td>
@@ -481,7 +496,7 @@ const VisaFeePayment = ({
                                       ?.pop();
                                     handleSingleDocumentDownload(
                                       filePath,
-                                      fileName
+                                      fileName,
                                     );
                                   }}
                                 >
@@ -500,7 +515,7 @@ const VisaFeePayment = ({
                                     cursor: "pointer",
                                     color: "#fff",
                                     backgroundColor: getStatusColor(
-                                      doc.status || "unverified"
+                                      doc.status || "unverified",
                                     ),
                                     border: "none",
                                     borderRadius: "4px",
@@ -509,17 +524,20 @@ const VisaFeePayment = ({
                                     width: "100px",
                                     fontSize: "14px",
                                   }}
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                   onClick={() => {
                                     setSelectedStatus(
                                       statusOptions.find(
                                         (opt) =>
                                           opt.value ===
-                                          (doc.status || "unverified")
+                                          (doc.status || "unverified"),
                                       ) ||
                                         statusOptions.find(
-                                          (opt) => opt.value === "unverified"
-                                        )
+                                          (opt) => opt.value === "unverified",
+                                        ),
                                     );
                                     setRemarks(doc.remarks || "");
                                     setSelectedDocId(doc._id);
@@ -567,27 +585,28 @@ const VisaFeePayment = ({
                             <td>
                               {doc.createdAt
                                 ? new Date(doc.createdAt).toLocaleDateString(
-                                    "en-GB"
+                                    "en-GB",
                                   )
                                 : "-"}
                             </td>
                             <td>{doc.remarks || "-"}</td>
-                            {userRole !== "Student" && userRole !== "LeadStudent" && (
-                              <td className="sticky-col-right-last">
-                                <Button
-                                  variant="link"
-                                  className="text-danger"
-                                  style={{ fontSize: "18px" }}
-                                  onClick={() => {
-                                    setSelectedItem(doc._id);
-                                    setShowDeleteModal(true);
-                                  }}
-                                  title="Delete"
-                                >
-                                  <FaTrashAlt />
-                                </Button>
-                              </td>
-                            )}
+                            {userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
+                                <td className="sticky-col-right-last">
+                                  <Button
+                                    variant="link"
+                                    className="text-danger"
+                                    style={{ fontSize: "18px" }}
+                                    onClick={() => {
+                                      setSelectedItem(doc._id);
+                                      setShowDeleteModal(true);
+                                    }}
+                                    title="Delete"
+                                  >
+                                    <FaTrashAlt />
+                                  </Button>
+                                </td>
+                              )}
                           </tr>
                         );
                       })
@@ -625,7 +644,7 @@ const VisaFeePayment = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({

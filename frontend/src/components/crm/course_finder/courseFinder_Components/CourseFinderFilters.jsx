@@ -6,7 +6,7 @@ const CourseFinderFilters = () => {
       {/* {canRead && ( */}
       <div
         className="small-device-adjust p-3 mb-4 bg-light rounded"
-        style={{ border: "1px solid #053880", overflow: "visible" }}
+        style={{ border: "1px solid #5D54BE", overflow: "visible" }}
       >
         {/* Combined input and buttons in a single flex row */}
         <Row className="align-items-end g-2 px-2 mb-2">
@@ -144,7 +144,7 @@ const CourseFinderFilters = () => {
                   ...base,
                   minHeight: "45px",
                   padding: "0 10px",
-                  borderRadius: "30px",
+                  borderRadius: "12px",
                   borderColor: "#b5bcc4",
                   fontSize: "15px",
                 }),
@@ -270,10 +270,10 @@ const CourseFinderFilters = () => {
                 new Map(
                   instituteDataByCountry
                     ?.sort((a, b) =>
-                      a.instituteName.localeCompare(b.instituteName)
+                      a.instituteName.localeCompare(b.instituteName),
                     )
-                    ?.map((institute) => [institute.instituteName, institute]) // use name as key
-                ).values()
+                    ?.map((institute) => [institute.instituteName, institute]), // use name as key
+                ).values(),
               ).map((institute) => ({
                 value: institute._id,
                 label: institute.instituteName,
@@ -284,7 +284,7 @@ const CourseFinderFilters = () => {
                 if (selectedOptions && selectedOptions.length > 0) {
                   // Fetch campuses for all selected institutes
                   const instituteNames = selectedOptions.map(
-                    (option) => option.label
+                    (option) => option.label,
                   );
                   fetchAllCampusByInstitute(instituteNames, "");
                 } else {
@@ -397,7 +397,7 @@ const CourseFinderFilters = () => {
           </div>
         )}
         {showFilterModal && (
-          <hr style={{ margin: "16px 0", borderTop: "1px solid #053880" }} />
+          <hr style={{ margin: "16px 0", borderTop: "1px solid #5D54BE" }} />
         )}
         <div
           className={`transition-container ${showFilterModal ? "show" : ""} ${
@@ -426,7 +426,7 @@ const CourseFinderFilters = () => {
                   setSelectedProgramLevel(
                     selectedOptions
                       ? selectedOptions.map((opt) => opt.value)
-                      : []
+                      : [],
                   );
                 }}
                 classNamePrefix="custom-select"
@@ -577,13 +577,13 @@ const CourseFinderFilters = () => {
                   setSelectedDisciplineArea(
                     selectedOptions
                       ? selectedOptions.map((opt) => opt.value)
-                      : []
+                      : [],
                   );
                   // setLoadedRecords(12);
                   setCurrentPage(1);
                 }}
                 value={disciplineAreaOptions.filter((opt) =>
-                  selectedDisciplineArea.includes(opt.value)
+                  selectedDisciplineArea.includes(opt.value),
                 )}
                 classNamePrefix="custom-select"
                 placeholder="Select Discipline Area"
@@ -659,7 +659,7 @@ const CourseFinderFilters = () => {
                   setFilterRequirements(
                     selectedOptions
                       ? selectedOptions.map((opt) => opt.value)
-                      : []
+                      : [],
                   );
                   // setLoadedRecords(12);
                   setCurrentPage(1);
@@ -954,7 +954,7 @@ const CourseFinderFilters = () => {
                   setScoreOutOf(selected?.value);
                 }}
                 value={scoreOutOfOptions.filter(
-                  (score) => score.value === scoreOutOf
+                  (score) => score.value === scoreOutOf,
                 )}
                 classNamePrefix="custom-select"
                 placeholder="Select Duration"

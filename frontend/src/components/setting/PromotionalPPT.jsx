@@ -21,6 +21,7 @@ import {
 import ReactCountryFlag from "react-country-flag";
 import Paginations from "../elements/Paginations";
 import Select from "react-select";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const PromotionalPPT = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const PromotionalPPT = () => {
   const fetchDocuments = async (
     page = 1,
     limit = itemsPerPage,
-    searchTerm = ""
+    searchTerm = "",
   ) => {
     try {
       const res = await dispatch(getAllPromotionalPpt(page, limit, searchTerm));
@@ -57,7 +58,7 @@ const PromotionalPPT = () => {
         setDocuments(newDocuments);
         if (showDocumentsModal && editingItem) {
           const updatedItem = newDocuments.find(
-            (doc) => doc._id === editingItem._id
+            (doc) => doc._id === editingItem._id,
           );
           setSelectedDocuments(updatedItem?.documents || []);
         }
@@ -168,7 +169,7 @@ const PromotionalPPT = () => {
             }
             const docId = editingItem.documents[editingDocIndex]._id;
             res = await dispatch(
-              updatePromotionalPpt(editingItem._id, docId, formData)
+              updatePromotionalPpt(editingItem._id, docId, formData),
             );
             if (res?.status === 200) {
               toast.success("Promotional PPT updated successfully!");
@@ -178,7 +179,7 @@ const PromotionalPPT = () => {
               }
               if (showDocumentsModal) {
                 const updatedItem = documents.find(
-                  (doc) => doc._id === editingItem._id
+                  (doc) => doc._id === editingItem._id,
                 );
                 setSelectedDocuments(updatedItem?.documents || []);
               }
@@ -187,7 +188,7 @@ const PromotionalPPT = () => {
             }
           } else {
             res = await dispatch(
-              updatePromotionalPpt(editingItem._id, "", formData)
+              updatePromotionalPpt(editingItem._id, "", formData),
             );
             if (res?.status === 200) {
               toast.success("Country updated successfully!");
@@ -236,7 +237,7 @@ const PromotionalPPT = () => {
     } catch (error) {
       console.error("Delete error:", error);
       toast.error(
-        error.response?.data?.message || "Failed to delete document."
+        error.response?.data?.message || "Failed to delete document.",
       );
     }
     handleCloseDeleteModal();
@@ -306,7 +307,7 @@ const PromotionalPPT = () => {
                 {documents?.data?.length > 0 ? (
                   documents?.data?.filter(Boolean).map((item, index) => {
                     const country = countries.find(
-                      (c) => c.name === item?.country
+                      (c) => c.name === item?.country,
                     );
                     const countryCode = country ? country.isoCode : "";
                     return (
@@ -533,7 +534,7 @@ const PromotionalPPT = () => {
                           if (selectedOption) {
                             formik.setFieldValue(
                               "country",
-                              selectedOption.value
+                              selectedOption.value,
                             );
                             formik.setFieldError("country", "");
                           } else {
@@ -565,7 +566,7 @@ const PromotionalPPT = () => {
                       <Button
                         variant="link"
                         className="border-primary text-primary text-decoration-none"
-                        style={{ borderRadius: "30px" }}
+                        style={{ borderRadius: "12px" }}
                         onClick={handleCloseUploadModal}
                       >
                         Cancel
@@ -586,57 +587,19 @@ const PromotionalPPT = () => {
                 </Modal.Body>
               </Modal>
 
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={handleCloseDeleteModal}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={handleCloseDeleteModal}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={handleCloseDeleteModal}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDeleteItem(selectedItem.item);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => handleDeleteItem(selectedItem.item)}
+              />
               {totalPages > 1 && documents?.data?.length > 0 && (
                 <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
-                  /></div>
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

@@ -124,7 +124,7 @@ const StudentInfo = ({
 
     try {
       const res = await dispatch(
-        updateStudentApplication(formData, student._id)
+        updateStudentApplication(formData, student._id),
       );
 
       if (res?.status === 200) {
@@ -199,7 +199,8 @@ const StudentInfo = ({
               userRole !== "B2B Member" &&
               userRole !== "Branch" &&
               userType !== "Branch User" &&
-              userRole !== "Student" && userRole !== "LeadStudent" && (
+              userRole !== "Student" &&
+              userRole !== "LeadStudent" && (
                 <div className="d-flex justify-content-end">
                   <Select
                     options={studentStatusOptions}
@@ -210,7 +211,7 @@ const StudentInfo = ({
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                         width: "150px",
                       }),
@@ -359,7 +360,7 @@ const StudentInfo = ({
             </Button>
           </Col>
         )}
-        
+
         {/* ============ Agreement By Student ============ */}
         <Col md={student?.agreementByStudent ? 4 : 6} className="mb-3">
           <Form.Label>Agreement By Student</Form.Label>
@@ -457,7 +458,7 @@ const StudentInfo = ({
                     const dialCode = data.dialCode ? `+${data.dialCode}` : "";
                     const formattedPhone = `${dialCode} ${contact.replace(
                       data.dialCode,
-                      ""
+                      "",
                     )}`.trim();
 
                     studentInfoFormik.setFieldValue("contact", formattedPhone);
@@ -562,7 +563,7 @@ const StudentInfo = ({
                   onChange={(selectedOption) => {
                     studentInfoFormik.setFieldValue(
                       "country",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                   }}
                   placeholder="Select Country"
@@ -573,7 +574,7 @@ const StudentInfo = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -641,7 +642,7 @@ const StudentInfo = ({
                           (country) => ({
                             value: country,
                             label: country,
-                          })
+                          }),
                         )
                       : []
                   }
@@ -651,7 +652,7 @@ const StudentInfo = ({
                       : [];
                     studentInfoFormik.setFieldValue(
                       "purposeDetails.preferredCountry",
-                      selectedValues
+                      selectedValues,
                     );
                   }}
                   placeholder="Select Country"
@@ -662,7 +663,7 @@ const StudentInfo = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({

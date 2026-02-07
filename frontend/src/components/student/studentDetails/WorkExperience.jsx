@@ -48,14 +48,14 @@ const WorkExperience = ({
   selectedFile,
   mode,
   fetchOneVisitorDetails,
-  userRole
+  userRole,
 }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showWorkModal, setShowWorkModal] = useState(false);
   const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
     "Student Applications",
-        "Personal Details"
+    "Personal Details",
   );
 
   const workExperienceFormik = useFormik({
@@ -90,7 +90,7 @@ const WorkExperience = ({
     if (
       !newWork ||
       Object.values(newWork).every(
-        (val) => !val || val.toString().trim() === ""
+        (val) => !val || val.toString().trim() === "",
       )
     ) {
       toast.error("Please fill at least one field before submitting.");
@@ -146,7 +146,7 @@ const WorkExperience = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(formData, id)
-          : updateVisitorApplication(formData, id)
+          : updateVisitorApplication(formData, id),
       );
 
       if (res?.status === 200) {
@@ -174,7 +174,7 @@ const WorkExperience = ({
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error adding work experience"
+        error?.response?.data?.message || "Error adding work experience",
       );
     } finally {
       setIsLoading(false);
@@ -195,7 +195,7 @@ const WorkExperience = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(payload, id)
-          : updateVisitorApplication(payload, id)
+          : updateVisitorApplication(payload, id),
       );
 
       if (res?.status === 200) {
@@ -227,7 +227,7 @@ const WorkExperience = ({
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error updating work experience"
+        error?.response?.data?.message || "Error updating work experience",
       );
     } finally {
       setIsLoading(false);
@@ -250,7 +250,7 @@ const WorkExperience = ({
       const res = await dispatch(
         mode === "student"
           ? deleteStudentApplication(payload, id)
-          : deleteVisitorApplication(payload, id)
+          : deleteVisitorApplication(payload, id),
       );
       if (res?.status === 200) {
         if (res?.data?.data?.message) {
@@ -261,7 +261,7 @@ const WorkExperience = ({
         setFormData((prev) => ({
           ...prev,
           workExperience: prev.workExperience.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         if (edit.workExperience && edit.workExperienceIndex === indexToDelete) {
@@ -282,7 +282,7 @@ const WorkExperience = ({
     } catch (error) {
       console.error("Error deleting work experience:", error);
       toast.error(
-        error?.response?.data?.message || "Error deleting work experience"
+        error?.response?.data?.message || "Error deleting work experience",
       );
     }
   };
@@ -306,7 +306,11 @@ const WorkExperience = ({
               fontSize: "14px",
             }}
             onClick={() =>
-              window.open(`${BASEURL}/${item.fileUrl}`, "_blank", "noopener,noreferrer")
+              window.open(
+                `${BASEURL}/${item.fileUrl}`,
+                "_blank",
+                "noopener,noreferrer",
+              )
             }
           >
             <VisibilityIcon className="me-1" style={{ fontSize: "16px" }} />
@@ -343,23 +347,25 @@ const WorkExperience = ({
       <div className="my-5 p-4 bg-light rounded shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5>Work Experience</h5>
-           {userRole !== "Student" && userRole !== "LeadStudent" && canCreate &&  ( 
-          <Button
-            variant="primary"
-            className="custom-select-height"
-            onClick={() => {
-              workExperienceFormik.resetForm();
-              setEdit((prev) => ({
-                ...prev,
-                workExperience: false,
-                workExperienceIndex: 0,
-              }));
-              setShowWorkModal(true);
-            }}
-          >
-            Add New
-          </Button>
-           )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            canCreate && (
+              <Button
+                variant="primary"
+                className="custom-select-height"
+                onClick={() => {
+                  workExperienceFormik.resetForm();
+                  setEdit((prev) => ({
+                    ...prev,
+                    workExperience: false,
+                    workExperienceIndex: 0,
+                  }));
+                  setShowWorkModal(true);
+                }}
+              >
+                Add New
+              </Button>
+            )}
         </div>
         <Modal
           show={showWorkModal}
@@ -479,7 +485,7 @@ const WorkExperience = ({
                         styles={{
                           control: (base) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                           }),
                           placeholder: (base) => ({
@@ -503,7 +509,7 @@ const WorkExperience = ({
                         styles={{
                           control: (base) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                           }),
                           placeholder: (base) => ({

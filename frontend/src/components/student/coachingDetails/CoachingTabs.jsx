@@ -97,7 +97,7 @@ const CoachingTabs = ({
                 }}
               >
                 <ArrowBackIosNewIcon
-                  style={{ fontSize: "14px", color: "#053880" }}
+                  style={{ fontSize: "14px", color: "#5D54BE" }}
                 />
               </div>
             )}
@@ -124,7 +124,7 @@ const CoachingTabs = ({
                     }
                     .tab-item:hover:not(.active) {
                       background-color: #f8f9fa !important;
-                      color: #053880 !important;
+                      color: #5D54BE !important;
                     }
                   `}
               </style>
@@ -143,7 +143,7 @@ const CoachingTabs = ({
                       selectedPersonalSection === section.key ? "700" : "500",
                     backgroundColor:
                       selectedPersonalSection === section.key
-                        ? "#053880"
+                        ? "#5D54BE"
                         : "transparent",
                     color:
                       selectedPersonalSection === section.key
@@ -175,7 +175,7 @@ const CoachingTabs = ({
                 }}
               >
                 <ArrowForwardIosIcon
-                  style={{ fontSize: "14px", color: "#053880" }}
+                  style={{ fontSize: "14px", color: "#5D54BE" }}
                 />
               </div>
             )}

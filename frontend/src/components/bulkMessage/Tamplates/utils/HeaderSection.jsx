@@ -20,7 +20,7 @@ const HeaderSection = ({
   const customStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -113,8 +113,8 @@ const HeaderSection = ({
                     type === "image"
                       ? TemplatePicture
                       : type === "video"
-                      ? TemplateVideo
-                      : TemplateDocs
+                        ? TemplateVideo
+                        : TemplateDocs
                   }
                   className="img-fluid mt-3 mb-1 mx-auto"
                   style={{ width: "200px" }}

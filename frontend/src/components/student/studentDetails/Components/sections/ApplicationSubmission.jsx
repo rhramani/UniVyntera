@@ -43,7 +43,7 @@ const ApplicationSubmission = ({
   setShowStatusModal,
   statusOptions,
   handleUpdateApplicationStatus,
-  sendPendingDocumentMain
+  sendPendingDocumentMain,
 }) => {
   const [proofUploadStatus, setProofUploadStatus] = useState("");
   const [applicationSubmissionFilePaths, setApplicationSubmissionFilePaths] =
@@ -86,7 +86,7 @@ const ApplicationSubmission = ({
         const documentDetails = await handleDocumentUpload(
           "Application Submission Form",
           [values.proofDocument],
-          applicationSubmissionFormik
+          applicationSubmissionFormik,
         );
 
         if (!documentDetails) {
@@ -128,7 +128,7 @@ const ApplicationSubmission = ({
         setFormData((prev) => ({
           ...prev,
           interestedCourseDetails: prev.interestedCourseDetails.map(
-            (item, idx) => (idx === updatedIndex ? updatedCourse : item)
+            (item, idx) => (idx === updatedIndex ? updatedCourse : item),
           ),
         }));
 
@@ -136,7 +136,7 @@ const ApplicationSubmission = ({
         await fetchStudentData();
       } else {
         toast.error(
-          res?.data?.message || "Error updating application submission"
+          res?.data?.message || "Error updating application submission",
         );
       }
     } catch (error) {
@@ -153,16 +153,16 @@ const ApplicationSubmission = ({
       // Application Submission Form
       const documentOption =
         documentStatusOptions?.find(
-          (opt) => opt.value === currentDocumentStatus
+          (opt) => opt.value === currentDocumentStatus,
         ) || documentStatusOptions[0];
       setProofUploadStatus(documentOption);
       interestedCourseFormik.setFieldValue(
         "applicationSubmissionForm",
-        documentOption.value
+        documentOption.value,
       );
       applicationSubmissionFormik.setFieldValue(
         "applicationSubmissionRemarks",
-        localCourses[0]?.applicationSubmissionRemarks || ""
+        localCourses[0]?.applicationSubmissionRemarks || "",
       );
     }
   }, [localCourses]);
@@ -172,7 +172,7 @@ const ApplicationSubmission = ({
       const appSubmissionPaths = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Application Submission Form"]
+        ["Application Submission Form"],
       );
       setApplicationSubmissionFilePaths(appSubmissionPaths);
 
@@ -180,7 +180,7 @@ const ApplicationSubmission = ({
         setProofUploadStatus({ value: "Uploaded", label: "Uploaded" });
         interestedCourseFormik.setFieldValue(
           "applicationSubmissionForm",
-          "Uploaded"
+          "Uploaded",
         );
       }
     }
@@ -210,18 +210,18 @@ const ApplicationSubmission = ({
                 setProofUploadStatus(option);
                 interestedCourseFormik.setFieldValue(
                   "applicationSubmissionForm",
-                  option.value
+                  option.value,
                 );
                 handleUpdateApplicationStatus(
                   "applicationSubmissionForm",
-                  option.value
+                  option.value,
                 );
               }}
               placeholder="Select Status"
               styles={{
                 control: (base) => ({
                   ...base,
-                  borderRadius: "30px",
+                  borderRadius: "12px",
                   color: "black",
                 }),
                 placeholder: (base) => ({
@@ -257,7 +257,7 @@ const ApplicationSubmission = ({
                   onChange={(e) =>
                     applicationSubmissionFormik.setFieldValue(
                       "proofDocument",
-                      e.currentTarget.files[0]
+                      e.currentTarget.files[0],
                     )
                   }
                 />
@@ -276,7 +276,11 @@ const ApplicationSubmission = ({
                   onChange={applicationSubmissionFormik.handleChange}
                   placeholder="Enter remarks"
                   className="custom-select-height"
-                  disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                  disabled={
+                    isRestrictedRole ||
+                    userRole === "Student" ||
+                    userRole === "LeadStudent"
+                  }
                 />
               </Col>
             </Row>
@@ -362,7 +366,7 @@ const ApplicationSubmission = ({
                       sendPendingDocumentMain(id, selectedDocumentNames);
                     } else {
                       toast.error(
-                        "Please select at least one document to send via mail."
+                        "Please select at least one document to send via mail.",
                       );
                     }
                   }}
@@ -391,7 +395,8 @@ const ApplicationSubmission = ({
                               )} */}
                   {userRole !== "B2B Admin" &&
                     userRole !== "B2B Member" &&
-                    userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                    userRole !== "Student" &&
+                    userRole !== "LeadStudent" && <th>Document Pendency</th>}
                   <th>Sr No</th>
                   <th>Document Name</th>
                   <th>Upload File</th>
@@ -452,7 +457,8 @@ const ApplicationSubmission = ({
                                       )} */}
                           {userRole !== "B2B Admin" &&
                             userRole !== "B2B Member" &&
-                            userRole !== "Student" && userRole !== "LeadStudent" && (
+                            userRole !== "Student" &&
+                            userRole !== "LeadStudent" && (
                               <td>
                                 <div className="form-check form-switch custom-toggle-button me-0">
                                   <input
@@ -460,12 +466,12 @@ const ApplicationSubmission = ({
                                     type="checkbox"
                                     id={`toggle-${doc._id}-${index}`}
                                     checked={selectedDocsIds?.includes(
-                                      `${doc._id}-${index}`
+                                      `${doc._id}-${index}`,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChangeId(
                                         `${doc._id}-${index}`,
-                                        docName
+                                        docName,
                                       )
                                     }
                                   />
@@ -488,11 +494,14 @@ const ApplicationSubmission = ({
                                     e,
                                     index,
                                     doc._id,
-                                    docName
+                                    docName,
                                   )
                                 }
                                 className="custom-select-height"
-                                disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                disabled={
+                                  userRole === "Student" ||
+                                  userRole === "LeadStudent"
+                                }
                               />
                             )}
                           </td>
@@ -523,7 +532,7 @@ const ApplicationSubmission = ({
 
                                   handleSingleDocumentDownload(
                                     filePath,
-                                    fileName
+                                    fileName,
                                   );
                                 }}
                                 // disabled={isRestrictedRoleForDownload}
@@ -543,7 +552,7 @@ const ApplicationSubmission = ({
                                   cursor: "pointer",
                                   color: "#fff",
                                   backgroundColor: getStatusColor(
-                                    doc.status || "unverified"
+                                    doc.status || "unverified",
                                   ),
                                   border: "none",
                                   borderRadius: "4px",
@@ -557,18 +566,20 @@ const ApplicationSubmission = ({
                                     statusOptions.find(
                                       (opt) =>
                                         opt.value ===
-                                        (doc.status || "unverified")
+                                        (doc.status || "unverified"),
                                     ) ||
                                       statusOptions.find(
-                                        (opt) => opt.value === "unverified"
-                                      )
+                                        (opt) => opt.value === "unverified",
+                                      ),
                                   );
                                   setRemarks(doc.remarks || "");
                                   setSelectedDocId(doc._id);
                                   setShowStatusModal(true);
                                 }}
                                 disabled={
-                                  isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"
+                                  isRestrictedRole ||
+                                  userRole === "Student" ||
+                                  userRole === "LeadStudent"
                                 }
                               >
                                 {(doc.status === "verified" ||
@@ -606,28 +617,29 @@ const ApplicationSubmission = ({
                           <td>
                             {doc.createdAt
                               ? new Date(doc.createdAt).toLocaleDateString(
-                                  "en-GB"
+                                  "en-GB",
                                 )
                               : "-"}
                           </td>
                           <td>{doc.remarks || "-"}</td>
-                          {userRole !== "Student" &&  userRole !== "LeadStudent" && (
-                            <td className="sticky-col-right-last">
-                              <Button
-                                variant="link"
-                                className="text-danger"
-                                style={{ fontSize: "18px" }}
-                                onClick={() => {
-                                  setSelectedItem(doc._id);
-                                  setShowDeleteModal(true);
-                                }}
-                                title="Delete"
-                                disabled={isRestrictedRole}
-                              >
-                                <FaTrashAlt />
-                              </Button>
-                            </td>
-                          )}
+                          {userRole !== "Student" &&
+                            userRole !== "LeadStudent" && (
+                              <td className="sticky-col-right-last">
+                                <Button
+                                  variant="link"
+                                  className="text-danger"
+                                  style={{ fontSize: "18px" }}
+                                  onClick={() => {
+                                    setSelectedItem(doc._id);
+                                    setShowDeleteModal(true);
+                                  }}
+                                  title="Delete"
+                                  disabled={isRestrictedRole}
+                                >
+                                  <FaTrashAlt />
+                                </Button>
+                              </td>
+                            )}
                         </tr>
                       );
                     })

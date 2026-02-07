@@ -121,7 +121,7 @@ const validationSchema = Yup.object({
         overall: Yup.number(),
         duolingoScore: Yup.number(),
       }),
-    })
+    }),
   ),
 
   education_details: Yup.array().of(
@@ -133,7 +133,7 @@ const validationSchema = Yup.object({
       score: Yup.string(),
       institution: Yup.string(),
       backlogs: Yup.number(),
-    })
+    }),
   ),
 });
 
@@ -421,8 +421,8 @@ const AddLeads = () => {
 
   useEffect(() => {
     if (getLeadData) {
-      setCurrentPage(getLeadData.currentPage),
-        setTotalPages(getLeadData.totalPages);
+      (setCurrentPage(getLeadData.currentPage),
+        setTotalPages(getLeadData.totalPages));
     }
   }, [getLeadData]);
 
@@ -532,7 +532,7 @@ const AddLeads = () => {
 
   const handleDeleteEvaluation = (indexToDelete) => {
     const updatedEvaluations = formData.education_evaluation.filter(
-      (_, index) => index !== indexToDelete
+      (_, index) => index !== indexToDelete,
     );
 
     setFormData((prevState) => ({
@@ -553,7 +553,7 @@ const AddLeads = () => {
 
   const handleDeleteEvaluationDetail = (indexToDelete) => {
     const updatedEvaluations = formData.education_details.filter(
-      (_, index) => index !== indexToDelete
+      (_, index) => index !== indexToDelete,
     );
 
     setFormData((prevState) => ({
@@ -593,15 +593,15 @@ const AddLeads = () => {
     const currentIndex = edit.educationDetails
       ? edit.educationDetailsIndex
       : edit.educationDetails
-      ? edit.educationDetailsIndex
-      : index.educationDetails;
+        ? edit.educationDetailsIndex
+        : index.educationDetails;
     const newEvaluation =
       values.education_details[
         edit.educationDetails
           ? edit.educationDetailsIndex
           : edit.educationDetails
-          ? edit.educationDetailsIndex
-          : index.educationDetails
+            ? edit.educationDetailsIndex
+            : index.educationDetails
       ];
 
     const currentEntry = currentData[currentIndex];
@@ -710,7 +710,7 @@ const AddLeads = () => {
 
     const formattedData = {
       ...restValues,
-      visa_refused: values.visa_refused === "yes" ? true : false, 
+      visa_refused: values.visa_refused === "yes" ? true : false,
       refused_years: refused_years?.map((year) => Number(year)) || [],
       work_year: Number(values.work_year) || 0,
       education_evaluation: (education_evaluation || []).map((item) => ({
@@ -794,7 +794,7 @@ const AddLeads = () => {
     if (getLeadDataById?.data) {
       const lead = getLeadDataById.data;
       const cleanedEducationEvaluation = Array.isArray(
-        lead.education_evaluation
+        lead.education_evaluation,
       )
         ? lead.education_evaluation.filter((item) => {
             const scores = item.scores || {};
@@ -912,7 +912,7 @@ const AddLeads = () => {
 
         link.setAttribute(
           "download",
-          `Leads-${new Date().toISOString().slice(0, 10)}.csv`
+          `Leads-${new Date().toISOString().slice(0, 10)}.csv`,
         );
         document.body.appendChild(link);
         link.click();
@@ -944,7 +944,7 @@ const AddLeads = () => {
     }
 
     const formData = new FormData();
-    formData.append("file", selectedFile); 
+    formData.append("file", selectedFile);
 
     try {
       const response = await dispatch(insertMany(formData));
@@ -973,8 +973,8 @@ const AddLeads = () => {
       .then((response) => {
         if (response?.data) {
           setGetLeadDataById(response.data);
-          setSelectedLead(response.data); 
-          setShowViewModal(true); 
+          setSelectedLead(response.data);
+          setShowViewModal(true);
         } else {
           toast.error("Failed to fetch lead data");
         }
@@ -987,7 +987,7 @@ const AddLeads = () => {
 
   const handleCloseViewModal = () => {
     setShowViewModal(false);
-    setSelectedLead(null); 
+    setSelectedLead(null);
   };
 
   const handleEditHistory = (id) => {
@@ -996,7 +996,7 @@ const AddLeads = () => {
         .then((response) => {
           if (response?.data) {
             setEditHistoryData(response?.data?.data);
-            setShowHistory(true); 
+            setShowHistory(true);
           } else {
             toast.error("Failed to fetch lead data");
           }
@@ -1074,9 +1074,9 @@ const AddLeads = () => {
   };
   const getStatusColor = (statusName) => {
     const status = leadStatus.find(
-      (item) => item.name.toLowerCase() === statusName?.toLowerCase()
+      (item) => item.name.toLowerCase() === statusName?.toLowerCase(),
     );
-    return status?.color || "#ccc"; 
+    return status?.color || "#ccc";
   };
   const fetchAllUser = async (roleName) => {
     try {
@@ -1091,7 +1091,7 @@ const AddLeads = () => {
   const handleConvertToApplication = async (item, country) => {
     try {
       const convertResponse = await dispatch(
-        convertToApplication(item?._id, country)
+        convertToApplication(item?._id, country),
       );
 
       if (convertResponse?.status === 200) {
@@ -1101,13 +1101,13 @@ const AddLeads = () => {
         const statusList = statusRes?.data?.data || [];
 
         const convertedStatus = statusList.find(
-          (status) => status?.name?.toLowerCase() === "converted"
+          (status) => status?.name?.toLowerCase() === "converted",
         );
         if (!convertedStatus) {
           const createStatusRes = await dispatch(
             createLeadStatus({
               name: "Converted",
-            })
+            }),
           );
 
           if (createStatusRes?.status === 200) {
@@ -1119,8 +1119,8 @@ const AddLeads = () => {
               {
                 name: "Converted",
               },
-              convertedStatus?._id
-            )
+              convertedStatus?._id,
+            ),
           );
 
           if (updateStatusRes?.status === 200) {
@@ -1137,7 +1137,7 @@ const AddLeads = () => {
         };
 
         const updateResponse = await dispatch(
-          updateLead(item?._id, updatedLeadData)
+          updateLead(item?._id, updatedLeadData),
         );
 
         if (updateResponse?.status === 200) {
@@ -1389,7 +1389,7 @@ const AddLeads = () => {
                                   const formattedPhone =
                                     `${dialCode} ${phone.replace(
                                       data.dialCode,
-                                      ""
+                                      "",
                                     )}`.trim();
                                   setFieldValue("phone", formattedPhone);
                                 }}
@@ -1426,11 +1426,11 @@ const AddLeads = () => {
                                   const formattedPhone =
                                     `${dialCode} ${phone.replace(
                                       data.dialCode,
-                                      ""
+                                      "",
                                     )}`.trim();
                                   setFieldValue(
                                     "alternate_contact",
-                                    formattedPhone
+                                    formattedPhone,
                                   );
                                 }}
                                 inputProps={{
@@ -1589,7 +1589,7 @@ const AddLeads = () => {
                                   // }
                                   const selectedRole =
                                     getAllRollList?.data?.find(
-                                      (role) => role._id === selectedRoleId
+                                      (role) => role._id === selectedRoleId,
                                     );
                                   if (selectedRole) {
                                     fetchAllUser(selectedRole.name);
@@ -1600,7 +1600,7 @@ const AddLeads = () => {
                                 <option value="">Select option</option>
                                 {getAllRollList?.data
                                   ?.filter(
-                                    (role) => role.name !== "Super Admin"
+                                    (role) => role.name !== "Super Admin",
                                   )
                                   .map((data, i) => (
                                     <option key={i} value={data?._id}>
@@ -1679,7 +1679,7 @@ const AddLeads = () => {
                                 onChange={(e) =>
                                   setFieldValue(
                                     "source_of_reference",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 value={values.source_of_reference}
@@ -1700,7 +1700,7 @@ const AddLeads = () => {
                                 onChange={(e) =>
                                   setFieldValue(
                                     "office_use_only",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 value={values.office_use_only}
@@ -1725,7 +1725,7 @@ const AddLeads = () => {
                                 onChange={(e) =>
                                   setFieldValue(
                                     "next_follow_up",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className="custom-select-height"
@@ -1860,7 +1860,7 @@ const AddLeads = () => {
                                 onChange={(e) =>
                                   setFieldValue(
                                     "lead_followup_remark",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 value={values.lead_followup_remark}
@@ -1894,7 +1894,7 @@ const AddLeads = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() =>
                               setShowEducationCourseInfo(
-                                !showEducationCourseInfo
+                                !showEducationCourseInfo,
                               )
                             }
                           >
@@ -1919,7 +1919,7 @@ const AddLeads = () => {
                                     value={
                                       values.country_interested
                                         ? (Array.isArray(
-                                            values.country_interested
+                                            values.country_interested,
                                           )
                                             ? values.country_interested
                                             : [values.country_interested]
@@ -1932,11 +1932,11 @@ const AddLeads = () => {
                                     onChange={(selectedOptions) => {
                                       const selected = selectedOptions || [];
                                       const selectedValues = selected.map(
-                                        (opt) => opt.value
+                                        (opt) => opt.value,
                                       );
                                       setFieldValue(
                                         "country_interested",
-                                        selectedValues
+                                        selectedValues,
                                       );
                                     }}
                                     placeholder="Select Country"
@@ -1950,7 +1950,7 @@ const AddLeads = () => {
                                     styles={{
                                       control: (base) => ({
                                         ...base,
-                                        borderRadius: "30px",
+                                        borderRadius: "12px",
                                         color: "black",
                                       }),
                                       placeholder: (base) => ({
@@ -1995,7 +1995,7 @@ const AddLeads = () => {
                                       ?.flatMap((course) =>
                                         course
                                           .split(",")
-                                          .map((part) => part.trim())
+                                          .map((part) => part.trim()),
                                       )
                                       .map((course, i) => (
                                         <option key={i} value={course}>
@@ -2074,7 +2074,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "english_proficiency",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.english_proficiency}
@@ -2113,7 +2113,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "how_much_in_bank",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.how_much_in_bank}
@@ -2155,7 +2155,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "occupation_father",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.occupation_father}
@@ -2176,7 +2176,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "occupation_mother",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.occupation_mother}
@@ -2197,7 +2197,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "work_experience",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.work_experience}
@@ -2274,7 +2274,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "visited_countries",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.visited_countries}
@@ -2296,7 +2296,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "visit_count",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.visit_count}
@@ -2339,7 +2339,7 @@ const AddLeads = () => {
                                       onChange={(e) =>
                                         setFieldValue(
                                           "visa_refused",
-                                          e.target.value
+                                          e.target.value,
                                         )
                                       }
                                       checked={values.visa_refused === "yes"}
@@ -2354,7 +2354,7 @@ const AddLeads = () => {
                                       onChange={(e) =>
                                         setFieldValue(
                                           "visa_refused",
-                                          e.target.value
+                                          e.target.value,
                                         )
                                       }
                                       checked={values.visa_refused === "no"}
@@ -2378,7 +2378,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refused_country",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.refused_country}
@@ -2399,7 +2399,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refused_times",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.refused_times}
@@ -2420,7 +2420,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refused_years",
-                                        e.target.value.split(",")
+                                        e.target.value.split(","),
                                       )
                                     }
                                     value={values.refused_years}
@@ -2442,7 +2442,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refused_visa_type",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={values.refused_visa_type}
@@ -2466,7 +2466,7 @@ const AddLeads = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() =>
                               setShowEducationEvaluation(
-                                !showEducationEvaluation
+                                !showEducationEvaluation,
                               )
                             }
                           >
@@ -2505,7 +2505,7 @@ const AddLeads = () => {
                                             ? edit.educationEvaluationIndex
                                             : index.educationEvaluation
                                         }].test_name`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                   >
@@ -2534,7 +2534,7 @@ const AddLeads = () => {
                                             ? edit.educationEvaluationIndex
                                             : index.educationEvaluation
                                         }].scores.listen`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2564,7 +2564,7 @@ const AddLeads = () => {
                                             ? edit.educationEvaluationIndex
                                             : index.educationEvaluation
                                         }].scores.read`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2594,7 +2594,7 @@ const AddLeads = () => {
                                             ? edit.educationEvaluationIndex
                                             : index.educationEvaluation
                                         }].scores.write`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2624,7 +2624,7 @@ const AddLeads = () => {
                                             ? edit.educationEvaluationIndex
                                             : index.educationEvaluation
                                         }].scores.speak`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2654,7 +2654,7 @@ const AddLeads = () => {
                                             ? edit.educationEvaluationIndex
                                             : index.educationEvaluation
                                         }].scores.overall`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2689,7 +2689,7 @@ const AddLeads = () => {
                                               ? edit.educationEvaluationIndex
                                               : index.educationEvaluation
                                           }].scores.duolingoScore`,
-                                          e.target.value
+                                          e.target.value,
                                         )
                                       }
                                       value={
@@ -2791,7 +2791,7 @@ const AddLeads = () => {
                                                       <DeleteIcon
                                                         onClick={() =>
                                                           handleDeleteEvaluation(
-                                                            i
+                                                            i,
                                                           )
                                                         }
                                                       />
@@ -2799,7 +2799,7 @@ const AddLeads = () => {
                                                   </div>
                                                 </td>
                                               </tr>
-                                            )
+                                            ),
                                           )}
                                         </tbody>
                                       </Table>
@@ -2847,7 +2847,7 @@ const AddLeads = () => {
                                             ? edit.educationDetailsIndex
                                             : index.educationDetails
                                         }].degree`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2884,7 +2884,7 @@ const AddLeads = () => {
                                             ? edit.educationDetailsIndex
                                             : index.educationDetails
                                         }].stream`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2916,7 +2916,7 @@ const AddLeads = () => {
                                             ? edit.educationDetailsIndex
                                             : index.educationDetails
                                         }].moi`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2946,7 +2946,7 @@ const AddLeads = () => {
                                             ? edit.educationDetailsIndex
                                             : index.educationDetails
                                         }].year`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -2976,7 +2976,7 @@ const AddLeads = () => {
                                             ? edit.educationDetailsIndex
                                             : index.educationDetails
                                         }].score`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -3006,7 +3006,7 @@ const AddLeads = () => {
                                             ? edit.educationDetailsIndex
                                             : index.educationDetails
                                         }].institution`,
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     value={
@@ -3041,7 +3041,7 @@ const AddLeads = () => {
                                               ? edit.educationDetailsIndex
                                               : index.educationDetails
                                           }].backlogs`,
-                                          e.target.value
+                                          e.target.value,
                                         )
                                       }
                                       value={
@@ -3128,7 +3128,7 @@ const AddLeads = () => {
                                                     <DeleteIcon
                                                       onClick={() =>
                                                         handleDeleteEvaluationDetail(
-                                                          i
+                                                          i,
                                                         )
                                                       }
                                                     />
@@ -3136,7 +3136,7 @@ const AddLeads = () => {
                                                 </div>
                                               </td>
                                             </tr>
-                                          )
+                                          ),
                                         )}
                                       </tbody>
                                     </Table>
@@ -3172,7 +3172,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refer_friend.name",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     className="custom-select-height"
@@ -3195,11 +3195,11 @@ const AddLeads = () => {
                                       const formattedPhone =
                                         `${dialCode} ${phone.replace(
                                           data.dialCode,
-                                          ""
+                                          "",
                                         )}`.trim();
                                       setFieldValue(
                                         "refer_friend.phone",
-                                        formattedPhone
+                                        formattedPhone,
                                       );
                                     }}
                                     inputProps={{
@@ -3232,7 +3232,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refer_friend.email",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     className="custom-select-height"
@@ -3255,7 +3255,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refer_friend.suggested_countries",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     className="custom-select-height"
@@ -3276,7 +3276,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refer_friend.courses",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     className="custom-select-height"
@@ -3297,7 +3297,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "refer_friend.response",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                     className="custom-select-height"
@@ -3338,7 +3338,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "reviews.reception_greetings",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                   >
@@ -3364,7 +3364,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "reviews.counsellor_explanation",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                   >
@@ -3385,7 +3385,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "reviews.hospitality",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                   >
@@ -3408,7 +3408,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "reviews.hygiene_cleanliness",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                   >
@@ -3429,7 +3429,7 @@ const AddLeads = () => {
                                     onChange={(e) =>
                                       setFieldValue(
                                         "reviews.team_response",
-                                        e.target.value
+                                        e.target.value,
                                       )
                                     }
                                   >
@@ -3477,7 +3477,7 @@ const AddLeads = () => {
                                         <tr key={index}>
                                           <td className="fw-semibold">
                                             {new Date(
-                                              item.createdAt
+                                              item.createdAt,
                                             ).toLocaleDateString(`en-GB`, {
                                               day: "2-digit",
                                               month: "2-digit",
@@ -3585,7 +3585,7 @@ const AddLeads = () => {
                           <strong>Date of Birth:</strong>{" "}
                           {getLeadDataById?.data?.dateofbirth
                             ? new Date(
-                                getLeadDataById?.data?.dateofbirth
+                                getLeadDataById?.data?.dateofbirth,
                               ).toLocaleDateString()
                             : "N/A"}
                         </Col>
@@ -3625,7 +3625,7 @@ const AddLeads = () => {
                           <strong>Next Follow-up:</strong>{" "}
                           {getLeadDataById?.data?.next_follow_up
                             ? new Date(
-                                getLeadDataById?.data?.next_follow_up
+                                getLeadDataById?.data?.next_follow_up,
                               ).toLocaleDateString()
                             : "N/A"}
                         </Col>
@@ -3814,7 +3814,7 @@ const AddLeads = () => {
                                   <td>{data.scores?.overall || "N/A"}</td>
                                   <td>{data.scores?.duolingoScore || "N/A"}</td>
                                 </tr>
-                              )
+                              ),
                             )}
                           </tbody>
                         </Table>
@@ -3848,7 +3848,7 @@ const AddLeads = () => {
                                   <td>{detail.institution || "N/A"}</td>
                                   <td>{detail.backlogs || "N/A"}</td>
                                 </tr>
-                              )
+                              ),
                             )}
                           </tbody>
                         </Table>
@@ -3978,7 +3978,7 @@ const AddLeads = () => {
                       onClick={() => {
                         handleConvertToApplication(
                           selectedLead,
-                          preferredCountry
+                          preferredCountry,
                         );
                         setOpenModal(false);
                       }}
@@ -4047,7 +4047,7 @@ const AddLeads = () => {
                                 month: "2-digit",
                                 year: "numeric",
                                 timeZone: "UTC",
-                              }
+                              },
                             )}
                           </td>
                           <td className="fw-semibold dynamic-width">
@@ -4074,7 +4074,7 @@ const AddLeads = () => {
                             <span
                               style={{
                                 backgroundColor: getStatusColor(
-                                  item.lead_status
+                                  item.lead_status,
                                 ),
                                 color: "#fff",
                               }}
@@ -4129,7 +4129,7 @@ const AddLeads = () => {
                                 aria-haspopup="true"
                                 onClick={(e) => {
                                   setOpenDropdown(
-                                    openDropdown === index ? null : index
+                                    openDropdown === index ? null : index,
                                   );
                                   setAnchorEl(e.currentTarget);
                                 }}

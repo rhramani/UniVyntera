@@ -127,7 +127,7 @@ const InstituteFeePayment = ({
       (!otherDocFile || otherDocFile.length === 0)
     ) {
       toast.error(
-        "Please upload at least one payment document for this fee status."
+        "Please upload at least one payment document for this fee status.",
       );
       return;
     }
@@ -144,7 +144,7 @@ const InstituteFeePayment = ({
         documentDetails = await handleDocumentUpload(
           otherDocName,
           otherDocFile,
-          instituteFeePaymentFormik
+          instituteFeePaymentFormik,
         );
         if (!documentDetails) {
           setIsLoading(false);
@@ -204,7 +204,7 @@ const InstituteFeePayment = ({
         setFormData({
           ...formData,
           interestedCourseDetails: formData.interestedCourseDetails.map(
-            (item, index) => (index === updatedIndex ? updatedCourse : item)
+            (item, index) => (index === updatedIndex ? updatedCourse : item),
           ),
         });
 
@@ -212,7 +212,7 @@ const InstituteFeePayment = ({
         setOtherDocName("");
         setOtherDocFile(null);
         const paymentDocumentInput = document.querySelector(
-          'input[name="paymentDocument"]'
+          'input[name="paymentDocument"]',
         );
         if (paymentDocumentInput) {
           paymentDocumentInput.value = "";
@@ -221,13 +221,14 @@ const InstituteFeePayment = ({
         await fetchStudentData();
       } else {
         toast.error(
-          res?.data?.message || "Error updating institute fee payment"
+          res?.data?.message || "Error updating institute fee payment",
         );
       }
     } catch (error) {
       console.error("Error updating institute fee payment:", error);
       toast.error(
-        error?.response?.data?.message || "Error updating institute fee payment"
+        error?.response?.data?.message ||
+          "Error updating institute fee payment",
       );
     } finally {
       setIsLoading(false);
@@ -241,7 +242,7 @@ const InstituteFeePayment = ({
       const feePaymentPaths = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Fee Payment Proof"]
+        ["Fee Payment Proof"],
       );
 
       setFeePaymentFilePaths(feePaymentPaths);
@@ -253,35 +254,35 @@ const InstituteFeePayment = ({
       // Institute Fee Payment
       instituteFeePaymentFormik.setFieldValue(
         "paymentType",
-        localCourses[0]?.instituteFeePayment?.paymentType || ""
+        localCourses[0]?.instituteFeePayment?.paymentType || "",
       );
       instituteFeePaymentFormik.setFieldValue(
         "feeAmount",
-        localCourses[0]?.instituteFeePayment?.feeAmount || ""
+        localCourses[0]?.instituteFeePayment?.feeAmount || "",
       );
       instituteFeePaymentFormik.setFieldValue(
         "paidAmount",
-        localCourses[0]?.instituteFeePayment?.paidAmount || ""
+        localCourses[0]?.instituteFeePayment?.paidAmount || "",
       );
       instituteFeePaymentFormik.setFieldValue(
         "dueAmount",
-        localCourses[0]?.instituteFeePayment?.dueAmount || ""
+        localCourses[0]?.instituteFeePayment?.dueAmount || "",
       );
       instituteFeePaymentFormik.setFieldValue(
         "feeStatus",
-        localCourses[0]?.instituteFeePayment?.feeStatus || ""
+        localCourses[0]?.instituteFeePayment?.feeStatus || "",
       );
       instituteFeePaymentFormik.setFieldValue(
         "currencyCode",
-        localCourses[0]?.instituteFeePayment?.currencyCode || ""
+        localCourses[0]?.instituteFeePayment?.currencyCode || "",
       );
       instituteFeePaymentFormik.setFieldValue(
         "remarks",
-        localCourses[0]?.instituteFeePayment?.remarks || ""
+        localCourses[0]?.instituteFeePayment?.remarks || "",
       );
       instituteFeePaymentFormik.setFieldValue(
         "feeDeadline",
-        localCourses[0]?.instituteFeePayment?.feeDeadline || ""
+        localCourses[0]?.instituteFeePayment?.feeDeadline || "",
       );
     }
   }, [localCourses]);
@@ -384,7 +385,11 @@ const InstituteFeePayment = ({
                       // localStorage.setItem("paymentType", encryptedValue);
                     }}
                     onBlur={instituteFeePaymentFormik.handleBlur}
-                    disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      isRestrictedRole ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
+                    }
                   />
                   <Button
                     variant="primary"
@@ -396,17 +401,17 @@ const InstituteFeePayment = ({
                         if (res?.status === 200) {
                           toast.success(
                             res?.data?.message ||
-                              "Fee payment reminder sent successfully"
+                              "Fee payment reminder sent successfully",
                           );
                         } else {
                           toast.error(
-                            res?.data?.message || "Failed to send reminder"
+                            res?.data?.message || "Failed to send reminder",
                           );
                         }
                       } catch (error) {
                         console.error("Reminder error:", error);
                         toast.error(
-                          "Something went wrong while sending reminder"
+                          "Something went wrong while sending reminder",
                         );
                       }
                     }}
@@ -440,7 +445,7 @@ const InstituteFeePayment = ({
                   value={feeStatusOptions.find(
                     (option) =>
                       option.value ===
-                      instituteFeePaymentFormik.values.feeStatus
+                      instituteFeePaymentFormik.values.feeStatus,
                   )}
                   onChange={(selectedOption) => {
                     const value = selectedOption ? selectedOption.value : "";
@@ -448,7 +453,7 @@ const InstituteFeePayment = ({
                     if (value === "Pending") {
                       instituteFeePaymentFormik.setFieldValue(
                         "paymentDocument",
-                        null
+                        null,
                       );
                       setOtherDocFile(null);
                       setOtherDocName("");
@@ -462,7 +467,7 @@ const InstituteFeePayment = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -471,7 +476,11 @@ const InstituteFeePayment = ({
                       fontSize: "13px",
                     }),
                   }}
-                  isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                  isDisabled={
+                    isRestrictedRole ||
+                    userRole === "Student" ||
+                    userRole === "LeadStudent"
+                  }
                 />
               </Col>
               <Col md={4} className="mb-3">
@@ -507,13 +516,13 @@ const InstituteFeePayment = ({
                       const validFiles = Array.from(files).filter((file) => {
                         if (!allowedTypes.includes(file.type)) {
                           toast.error(
-                            `File ${file.name} is not a valid file type`
+                            `File ${file.name} is not a valid file type`,
                           );
                           return false;
                         }
                         if (file.size > 5 * 1024 * 1024) {
                           toast.error(
-                            `File ${file.name} must be less than 5MB`
+                            `File ${file.name} must be less than 5MB`,
                           );
                           return false;
                         }
@@ -524,14 +533,14 @@ const InstituteFeePayment = ({
                         setOtherDocFile(validFiles);
                         instituteFeePaymentFormik.setFieldValue(
                           "paymentDocument",
-                          validFiles
+                          validFiles,
                         );
                         setOtherDocName("Fee Payment Proof");
                       } else {
                         setOtherDocFile(null);
                         instituteFeePaymentFormik.setFieldValue(
                           "paymentDocument",
-                          null
+                          null,
                         );
                         setOtherDocName("");
                       }
@@ -539,7 +548,7 @@ const InstituteFeePayment = ({
                       setOtherDocFile(null);
                       instituteFeePaymentFormik.setFieldValue(
                         "paymentDocument",
-                        null
+                        null,
                       );
                       setOtherDocName("");
                     }
@@ -547,7 +556,11 @@ const InstituteFeePayment = ({
                   onBlur={() =>
                     instituteFeePaymentFormik.handleBlur("paymentDocument")
                   }
-                  disabled={userRole === "Student" || userRole === "LeadStudent" || isRestrictedRole}
+                  disabled={
+                    userRole === "Student" ||
+                    userRole === "LeadStudent" ||
+                    isRestrictedRole
+                  }
                 />
                 {instituteFeePaymentFormik.errors.paymentDocument &&
                   instituteFeePaymentFormik.touched.paymentDocument && (
@@ -594,12 +607,12 @@ const InstituteFeePayment = ({
                         .find(
                           (option) =>
                             option.value ===
-                            instituteFeePaymentFormik.values.currencyCode
+                            instituteFeePaymentFormik.values.currencyCode,
                         )}
                       onChange={(selectedOption) =>
                         instituteFeePaymentFormik.setFieldValue(
                           "currencyCode",
-                          selectedOption ? selectedOption.value : ""
+                          selectedOption ? selectedOption.value : "",
                         )
                       }
                       placeholder="Select Currency"
@@ -607,7 +620,7 @@ const InstituteFeePayment = ({
                       styles={{
                         control: (base, state) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                           minWidth: "160px",
                           border: state.isFocused ? "1px" : base.border,
@@ -624,7 +637,11 @@ const InstituteFeePayment = ({
                           fontSize: "13px",
                         }),
                       }}
-                      isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      isDisabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                   </Col>
                   <Col md={4} className="mb-3">
@@ -637,7 +654,11 @@ const InstituteFeePayment = ({
                       onBlur={instituteFeePaymentFormik.handleBlur}
                       placeholder="Enter Fee Amount"
                       className="custom-select-height"
-                      disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                   </Col>
                   <Col md={4} className="mb-3">
@@ -650,7 +671,11 @@ const InstituteFeePayment = ({
                       onBlur={instituteFeePaymentFormik.handleBlur}
                       placeholder="Enter Paid Amount"
                       className="custom-select-height"
-                      disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                   </Col>
                   <Col md={4} className="mb-3">
@@ -677,7 +702,11 @@ const InstituteFeePayment = ({
                       onBlur={instituteFeePaymentFormik.handleBlur}
                       placeholder="Enter Remarks"
                       // className="custom-select-height"
-                      disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                   </Col>
                 </>
@@ -693,8 +722,8 @@ const InstituteFeePayment = ({
                         instituteFeePaymentFormik.values.feeDeadline
                           ? formatDate(
                               parseDate(
-                                instituteFeePaymentFormik.values.feeDeadline
-                              )
+                                instituteFeePaymentFormik.values.feeDeadline,
+                              ),
                             )
                           : ""
                       }
@@ -702,11 +731,15 @@ const InstituteFeePayment = ({
                       onClick={() => setShowFeeDeadlineCalendar(true)}
                       style={{
                         cursor:
-                          userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                          userRole === "Student" || userRole === "LeadStudent"
+                            ? "not-allowed"
+                            : "pointer",
                         paddingRight: "40px",
                       }}
                       className="custom-select-height"
-                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        userRole === "Student" || userRole === "LeadStudent"
+                      }
                     />
                     <MdCalendarToday
                       style={{
@@ -738,13 +771,13 @@ const InstituteFeePayment = ({
                           onChange={(date) => {
                             instituteFeePaymentFormik.setFieldValue(
                               "feeDeadline",
-                              toISODate(date)
+                              toISODate(date),
                             );
                             setShowFeeDeadlineCalendar(false);
                           }}
                           value={
                             parseDate(
-                              instituteFeePaymentFormik.values.feeDeadline
+                              instituteFeePaymentFormik.values.feeDeadline,
                             ) || null
                           }
                           locale="en-GB"
@@ -755,18 +788,20 @@ const InstituteFeePayment = ({
                 </Form.Group>
               </Col>
             </Row>
-            {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-              <div className="d-flex justify-content-end me-3">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="custom-select-height"
-                  disabled={isLoading || isRestrictedRole}
-                >
-                  {isLoading ? "Submitting..." : "Submit"}
-                </Button>
-              </div>
-            )}
+            {userRole !== "Student" &&
+              userRole !== "LeadStudent" &&
+              (canCreate || canUpdate) && (
+                <div className="d-flex justify-content-end me-3">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="custom-select-height"
+                    disabled={isLoading || isRestrictedRole}
+                  >
+                    {isLoading ? "Submitting..." : "Submit"}
+                  </Button>
+                </div>
+              )}
           </Form>
         </div>
         {feePaymentFilePaths?.length > 0 && (
@@ -781,7 +816,7 @@ const InstituteFeePayment = ({
                     onClick={() =>
                       handleAllDownloadDocument(
                         id,
-                        selectedIds[selectedSection]
+                        selectedIds[selectedSection],
                       )
                     }
                     disabled={isRestrictedRole}
@@ -799,7 +834,7 @@ const InstituteFeePayment = ({
                         sendPendingDocumentMain(id, selectedDocumentNames);
                       } else {
                         toast.error(
-                          "Please select at least one document to send via mail."
+                          "Please select at least one document to send via mail.",
                         );
                       }
                     }}
@@ -828,7 +863,8 @@ const InstituteFeePayment = ({
                           )} */}
                     {userRole !== "B2B Admin" &&
                       userRole !== "B2B Member" &&
-                      userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                      userRole !== "Student" &&
+                      userRole !== "LeadStudent" && <th>Document Pendency</th>}
                     <th>Sr No</th>
                     <th>Document Name</th>
                     <th>Upload File</th>
@@ -889,7 +925,8 @@ const InstituteFeePayment = ({
                                   )} */}
                             {userRole !== "B2B Admin" &&
                               userRole !== "B2B Member" &&
-                              userRole !== "Student" && userRole !== "LeadStudent" && (
+                              userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
                                 <td>
                                   <div className="form-check form-switch custom-toggle-button me-0">
                                     <input
@@ -897,12 +934,12 @@ const InstituteFeePayment = ({
                                       type="checkbox"
                                       id={`toggle-${doc._id}-${index}`}
                                       checked={selectedDocsIds?.includes(
-                                        `${doc._id}-${index}`
+                                        `${doc._id}-${index}`,
                                       )}
                                       onChange={() =>
                                         handleCheckboxChangeId(
                                           `${doc._id}-${index}`,
-                                          docName
+                                          docName,
                                         )
                                       }
                                     />
@@ -925,11 +962,14 @@ const InstituteFeePayment = ({
                                       e,
                                       index,
                                       doc._id,
-                                      docName
+                                      docName,
                                     )
                                   }
                                   className="custom-select-height"
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                 />
                               )}
                             </td>
@@ -962,7 +1002,7 @@ const InstituteFeePayment = ({
 
                                     handleSingleDocumentDownload(
                                       filePath,
-                                      fileName
+                                      fileName,
                                     );
                                   }}
                                   disabled={isRestrictedRole}
@@ -982,7 +1022,7 @@ const InstituteFeePayment = ({
                                     cursor: "pointer",
                                     color: "#fff",
                                     backgroundColor: getStatusColor(
-                                      doc.status || "unverified"
+                                      doc.status || "unverified",
                                     ),
                                     border: "none",
                                     borderRadius: "4px",
@@ -996,18 +1036,20 @@ const InstituteFeePayment = ({
                                       statusOptions.find(
                                         (opt) =>
                                           opt.value ===
-                                          (doc.status || "unverified")
+                                          (doc.status || "unverified"),
                                       ) ||
                                         statusOptions.find(
-                                          (opt) => opt.value === "unverified"
-                                        )
+                                          (opt) => opt.value === "unverified",
+                                        ),
                                     );
                                     setRemarks(doc.remarks || "");
                                     setSelectedDocId(doc._id);
                                     setShowStatusModal(true);
                                   }}
                                   disabled={
-                                    isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"
+                                    isRestrictedRole ||
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
                                   }
                                 >
                                   {(doc.status === "verified" ||
@@ -1045,30 +1087,31 @@ const InstituteFeePayment = ({
                             <td>
                               {doc.createdAt
                                 ? new Date(doc.createdAt).toLocaleDateString(
-                                    "en-GB"
+                                    "en-GB",
                                   )
                                 : "-"}
                             </td>
                             <td>{doc.remarks || "-"}</td>
-                            {userRole !== "Student" && userRole !== "LeadStudent" && (
-                              <td className="sticky-col-right-last">
-                                {canDelete && (
-                                  <Button
-                                    variant="link"
-                                    className="text-danger"
-                                    style={{ fontSize: "18px" }}
-                                    onClick={() => {
-                                      setSelectedItem(doc._id);
-                                      setShowDeleteModal(true);
-                                    }}
-                                    title="Delete"
-                                    disabled={isRestrictedRole}
-                                  >
-                                    <FaTrashAlt />
-                                  </Button>
-                                )}
-                              </td>
-                            )}
+                            {userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
+                                <td className="sticky-col-right-last">
+                                  {canDelete && (
+                                    <Button
+                                      variant="link"
+                                      className="text-danger"
+                                      style={{ fontSize: "18px" }}
+                                      onClick={() => {
+                                        setSelectedItem(doc._id);
+                                        setShowDeleteModal(true);
+                                      }}
+                                      title="Delete"
+                                      disabled={isRestrictedRole}
+                                    >
+                                      <FaTrashAlt />
+                                    </Button>
+                                  )}
+                                </td>
+                              )}
                           </tr>
                         );
                       })

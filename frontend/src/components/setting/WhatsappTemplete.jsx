@@ -69,11 +69,11 @@ const WhatsappTemplete = () => {
     page = 1,
     limit = itemsPerPage,
     search = "",
-    category = ""
+    category = "",
   ) => {
     try {
       const res = await dispatch(
-        getAllWpTemplate(page, limit, search, category)
+        getAllWpTemplate(page, limit, search, category),
       );
       const responseData = res?.data?.data;
       setWpTemplate(responseData?.data || []);
@@ -117,7 +117,7 @@ const WhatsappTemplete = () => {
           const res = await dispatch(createWpTemplate(values));
           if (res?.data?.code === 201) {
             toast.success(
-              res?.data?.data?.message || "Template added successfully"
+              res?.data?.data?.message || "Template added successfully",
             );
           }
         }
@@ -128,7 +128,7 @@ const WhatsappTemplete = () => {
             currentPage,
             itemsPerPage,
             search,
-            selectedCategory
+            selectedCategory,
           );
         }
       } catch (error) {
@@ -169,7 +169,7 @@ const WhatsappTemplete = () => {
             currentPage,
             itemsPerPage,
             search,
-            selectedCategory
+            selectedCategory,
           );
         }
       } catch (error) {
@@ -205,7 +205,7 @@ const WhatsappTemplete = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -265,19 +265,19 @@ const WhatsappTemplete = () => {
                           value={
                             categoryOptions
                               ? categoryOptions
-                                .map((option) => ({
-                                  value: option._id,
-                                  label: option.name,
-                                }))
-                                .find(
-                                  (option) =>
-                                    option.value === selectedCategory
-                                ) || null
+                                  .map((option) => ({
+                                    value: option._id,
+                                    label: option.name,
+                                  }))
+                                  .find(
+                                    (option) =>
+                                      option.value === selectedCategory,
+                                  ) || null
                               : null
                           }
                           onChange={(selectedOption) => {
                             setSelectedCategory(
-                              selectedOption ? selectedOption.value : ""
+                              selectedOption ? selectedOption.value : "",
                             );
                             setCurrentPage(1);
                           }}
@@ -331,9 +331,7 @@ const WhatsappTemplete = () => {
               <Modal show={showUploadModal} onHide={handleCloseUploadModal}>
                 <Modal.Header className="form-main-heading">
                   <Modal.Title>
-                    {formik.values.id
-                      ? "Update Template"
-                      : "Add Template"}
+                    {formik.values.id ? "Update Template" : "Add Template"}
                   </Modal.Title>
                   <AiOutlineClose
                     size={20}
@@ -357,21 +355,21 @@ const WhatsappTemplete = () => {
                           value={
                             categoryOptions
                               ? categoryOptions
-                                .map((option) => ({
-                                  value: option._id,
-                                  label: option.name,
-                                }))
-                                .find(
-                                  (option) =>
-                                    option.value === formik.values.category
-                                ) || null
+                                  .map((option) => ({
+                                    value: option._id,
+                                    label: option.name,
+                                  }))
+                                  .find(
+                                    (option) =>
+                                      option.value === formik.values.category,
+                                  ) || null
                               : null
                           }
                           onChange={(selectedOption) => {
                             if (selectedOption) {
                               formik.setFieldValue(
                                 "category",
-                                selectedOption.value
+                                selectedOption.value,
                               );
                               formik.setFieldError("category", "");
                             } else {

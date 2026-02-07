@@ -15,36 +15,36 @@ import { updateStudentApplication } from "../../../redux/actions/Student/Student
 import { getAllBankingDetails } from "../../../redux/actions/Master/Banking.action";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import Calendar from "react-calendar"; 
+import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-  const formatDate = (date) => {
-    if (!date) return "";
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
+const formatDate = (date) => {
+  if (!date) return "";
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
 
-  const parseDate = (dateStr) => {
-    if (!dateStr) return null;
-    if (dateStr.includes("/")) {
-      const [day, month, year] = dateStr.split("/");
-      return new Date(`${year}-${month}-${day}`);
-    }
-    if (dateStr.includes("-")) {
-      return new Date(dateStr);
-    }
-    return null;
-  };
+const parseDate = (dateStr) => {
+  if (!dateStr) return null;
+  if (dateStr.includes("/")) {
+    const [day, month, year] = dateStr.split("/");
+    return new Date(`${year}-${month}-${day}`);
+  }
+  if (dateStr.includes("-")) {
+    return new Date(dateStr);
+  }
+  return null;
+};
 
-  const toISODate = (date) => {
-    if (!date) return "";
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+const toISODate = (date) => {
+  if (!date) return "";
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 const convertToApplicationSchema = Yup.object({
   invoice: Yup.object({
@@ -60,7 +60,7 @@ const convertToApplicationSchema = Yup.object({
           date: Yup.string().nullable(),
           bank: Yup.string().nullable(),
           paymentMode: Yup.string().required("Payment Mode is required"),
-        })
+        }),
       )
       .min(1, "At least one Receive Amount is required"),
     dueAmount: Yup.string(),
@@ -106,7 +106,7 @@ const ConvertToApplication = ({
     onSubmit: async (values) => {
       try {
         const studentPlan = mainPlans.find(
-          (plan) => plan.name.toLowerCase() === "student admission"
+          (plan) => plan.name.toLowerCase() === "student admission",
         );
 
         const invoicePayload = {
@@ -132,26 +132,29 @@ const ConvertToApplication = ({
         };
 
         const invoiceResponse = await dispatch(
-          createGenerateInvoice(invoicePayload)
+          createGenerateInvoice(invoicePayload),
         );
         if (invoiceResponse?.status !== 201) {
           throw new Error(
-            invoiceResponse?.data?.message || "Failed to create invoice"
+            invoiceResponse?.data?.message || "Failed to create invoice",
           );
         }
 
         const formData = new FormData();
-        formData.append("admissionProcessRequired", values.admissionProcessRequired);
+        formData.append(
+          "admissionProcessRequired",
+          values.admissionProcessRequired,
+        );
 
         const convertResponse = await dispatch(
-          updateStudentApplication(formData, selectedForApplication._id)
+          updateStudentApplication(formData, selectedForApplication._id),
         );
         if (convertResponse?.status === 200) {
           toast.success("Application converted successfully");
           setShowConvertModal(false);
         } else {
           throw new Error(
-            convertResponse?.data?.message || "Failed to convert lead"
+            convertResponse?.data?.message || "Failed to convert lead",
           );
         }
       } catch (err) {
@@ -165,11 +168,11 @@ const ConvertToApplication = ({
     page = 1,
     limit = 1000,
     searchTerm = "",
-    mainPlanId = ""
+    mainPlanId = "",
   ) => {
     try {
       const res = await dispatch(
-        getAllSubPlan(page, limit, searchTerm, mainPlanId)
+        getAllSubPlan(page, limit, searchTerm, mainPlanId),
       );
       const responseData = res?.data?.data || {};
       setStudentSubPlans(responseData?.data || []);
@@ -218,13 +221,13 @@ const ConvertToApplication = ({
     const totalPaid =
       values.paidAmount?.reduce(
         (sum, entry) => sum + (parseFloat(entry.amount) || 0),
-        0
+        0,
       ) || 0;
     const dueAmount = Math.max(0, payableAmount - totalPaid);
 
     formik.setFieldValue(
       "invoice.payableAmount",
-      Math.max(0, payableAmount).toFixed(2)
+      Math.max(0, payableAmount).toFixed(2),
     );
     formik.setFieldValue("invoice.dueAmount", dueAmount.toFixed(2));
   }, [formik]);
@@ -269,7 +272,7 @@ const ConvertToApplication = ({
   useEffect(() => {
     const refetchSubPlans = async () => {
       const studentPlan = mainPlans.find(
-        (plan) => plan.name.toLowerCase() === "student admission"
+        (plan) => plan.name.toLowerCase() === "student admission",
       );
 
       if (studentPlan?._id) {
@@ -336,7 +339,7 @@ const ConvertToApplication = ({
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -380,7 +383,8 @@ const ConvertToApplication = ({
                   value={studentSubPlans
                     ?.map((sp) => ({ value: sp._id, label: sp.name }))
                     .find(
-                      (option) => option.value === formik.values.invoice.subPlan
+                      (option) =>
+                        option.value === formik.values.invoice.subPlan,
                     )}
                   onChange={(option) => {
                     const subPlanValue = option?.value || "";
@@ -509,7 +513,7 @@ const ConvertToApplication = ({
                         0,
                         "amount",
                         e.target.value,
-                        "invoice"
+                        "invoice",
                       )
                     }
                     className="custom-select-height"
@@ -535,8 +539,8 @@ const ConvertToApplication = ({
                         formik.values.invoice.paidAmount[0]?.date
                           ? formatDate(
                               parseDate(
-                                formik.values.invoice.paidAmount[0].date
-                              )
+                                formik.values.invoice.paidAmount[0].date,
+                              ),
                             )
                           : ""
                       }
@@ -548,7 +552,7 @@ const ConvertToApplication = ({
                       onClick={() => {
                         if (formik.values.invoice.paidAmount[0]?.date) {
                           setPaidDateValue(
-                            parseDate(formik.values.invoice.paidAmount[0].date)
+                            parseDate(formik.values.invoice.paidAmount[0].date),
                           );
                         }
                         setShowPaidDateCalendar(true);
@@ -624,7 +628,7 @@ const ConvertToApplication = ({
                               0,
                               "date",
                               toISODate(selectedDate),
-                              "invoice"
+                              "invoice",
                             );
                             setPaidDateValue(selectedDate);
                             setShowPaidDateCalendar(false);
@@ -653,7 +657,7 @@ const ConvertToApplication = ({
                       paymentModeOptions.find(
                         (option) =>
                           option.value ===
-                          formik.values.invoice.paidAmount[0]?.paymentMode
+                          formik.values.invoice.paidAmount[0]?.paymentMode,
                       ) || null
                     }
                     onChange={(option) =>
@@ -661,7 +665,7 @@ const ConvertToApplication = ({
                         0,
                         "paymentMode",
                         option ? option.value : "",
-                        "invoice"
+                        "invoice",
                       )
                     }
                     placeholder="Select payment mode"
@@ -688,7 +692,7 @@ const ConvertToApplication = ({
                         bankOptions.find(
                           (option) =>
                             option.value ===
-                            formik.values.invoice.paidAmount[0]?.bank
+                            formik.values.invoice.paidAmount[0]?.bank,
                         ) || null
                       }
                       onChange={(option) =>
@@ -696,7 +700,7 @@ const ConvertToApplication = ({
                           0,
                           "bank",
                           option ? option.value : null,
-                          "invoice"
+                          "invoice",
                         )
                       }
                       placeholder="Select bank"

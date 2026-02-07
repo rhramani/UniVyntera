@@ -47,6 +47,7 @@ import {
 import WaDaddyWhatsAppModal from "../crm/commonLeadForm/WaDaddyWhatsAppModal";
 import StudentApplicationForm from "./studentDetails/StudentApplicationForm";
 import StudentApplicationCard from "./studentDetails/StudentApplicationCard";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const SingleStudentApplication = () => {
   const { socket } = useSocket();
@@ -95,7 +96,7 @@ const SingleStudentApplication = () => {
   const userType = decryptData(localStorage.getItem("userType"));
   const userId = decryptData(localStorage.getItem("userId"));
   const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
-    "Student Applications"
+    "Student Applications",
   );
 
   // course
@@ -314,7 +315,7 @@ const SingleStudentApplication = () => {
   }, [canRead]);
 
   const studentPlan = mainPlans.find(
-    (plan) => plan.name.toLowerCase() === "student admission"
+    (plan) => plan.name.toLowerCase() === "student admission",
   );
 
   const fetchMainPlans = async () => {
@@ -337,12 +338,12 @@ const SingleStudentApplication = () => {
     limit = 10,
     searchTerm = "",
     mainPlanId = studentPlan?._id,
-    preferredCountry = ""
+    preferredCountry = "",
   ) => {
     if (!mainPlanId) return;
     try {
       const res = await dispatch(
-        getAllSubPlan(page, limit, searchTerm, mainPlanId, preferredCountry)
+        getAllSubPlan(page, limit, searchTerm, mainPlanId, preferredCountry),
       );
       const responseData = res?.data?.data || {};
       setStudentSubPlans(responseData?.data || []);
@@ -464,7 +465,7 @@ const SingleStudentApplication = () => {
                 date: Yup.string().nullable(),
                 bank: Yup.string().nullable(),
                 paymentMode: Yup.string(),
-              })
+              }),
             ),
           otherwise: () => Yup.array().nullable(),
         }),
@@ -484,10 +485,10 @@ const SingleStudentApplication = () => {
       try {
         toast.dismiss();
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         const processedPaidAmount =
@@ -501,7 +502,7 @@ const SingleStudentApplication = () => {
         const admissionInvoiceData = {
           mainPlan:
             mainPlans.find(
-              (plan) => plan.name.toLowerCase() === "student admission"
+              (plan) => plan.name.toLowerCase() === "student admission",
             )?._id || null,
           subPlan: values.invoice.subPlan || null,
           amount: values.invoice.amount || "",
@@ -534,7 +535,7 @@ const SingleStudentApplication = () => {
 
         if (values.id && canUpdate) {
           const res = await dispatch(
-            updateStudentApplication(formattedValues, values.id)
+            updateStudentApplication(formattedValues, values.id),
           );
           if (res?.status === 200) {
             if (res?.data?.data?.data?.message) {
@@ -631,20 +632,20 @@ const SingleStudentApplication = () => {
       const totalPaid =
         values.paidAmount?.reduce(
           (sum, entry) => sum + (parseFloat(entry.amount) || 0),
-          0
+          0,
         ) || 0;
       const dueAmount = payableAmount - totalPaid;
 
       formik.setFieldValue(
         `${section}.payableAmount`,
-        Math.max(0, payableAmount).toFixed(2)
+        Math.max(0, payableAmount).toFixed(2),
       );
       formik.setFieldValue(
         `${section}.dueAmount`,
-        Math.max(0, dueAmount).toFixed(2)
+        Math.max(0, dueAmount).toFixed(2),
       );
     },
-    [formik]
+    [formik],
   );
 
   useEffect(() => {
@@ -668,7 +669,7 @@ const SingleStudentApplication = () => {
     const cityName = item.city;
 
     const selectedCountry = countries.find(
-      (c) => c.name.trim() === countryName
+      (c) => c.name.trim() === countryName,
     );
     const countryIsoCode = selectedCountry?.isoCode;
 
@@ -684,7 +685,7 @@ const SingleStudentApplication = () => {
     }
 
     const selectedState = fetchedStates.find(
-      (s) => s.name.trim() === stateName
+      (s) => s.name.trim() === stateName,
     );
     const stateIsoCode = selectedState?.isoCode;
 
@@ -695,7 +696,7 @@ const SingleStudentApplication = () => {
     let fetchedCities = [];
     if (stateIsoCode) {
       const cityRes = await dispatch(
-        cityDropdown(countryIsoCode, stateIsoCode)
+        cityDropdown(countryIsoCode, stateIsoCode),
       );
       fetchedCities = cityRes?.data?.data || [];
       setCityDropDownList(fetchedCities);
@@ -746,7 +747,7 @@ const SingleStudentApplication = () => {
 
     try {
       const res = await dispatch(
-        studentApplicationClone(selectedStudent?._id, "", countryName)
+        studentApplicationClone(selectedStudent?._id, "", countryName),
       );
 
       if (res?.status === 200) {
@@ -848,15 +849,16 @@ const SingleStudentApplication = () => {
               <div className="w-100 d-flex justify-content-between">
                 <div className="card-title">Student Application</div>
                 <div>
-                  {canCreate && (userRole === "Student" || userRole === "LeadStudent") && (
-                    <Button
-                      variant="primary"
-                      className="custom-select-height"
-                      onClick={handleShow}
-                    >
-                      Add Student Application
-                    </Button>
-                  )}
+                  {canCreate &&
+                    (userRole === "Student" || userRole === "LeadStudent") && (
+                      <Button
+                        variant="primary"
+                        className="custom-select-height"
+                        onClick={handleShow}
+                      >
+                        Add Student Application
+                      </Button>
+                    )}
                   {showNotifications && (
                     <div
                       className="position-absolute bg-white border rounded shadow-sm p-3"
@@ -889,7 +891,7 @@ const SingleStudentApplication = () => {
                           .reverse()
                           .map((notif, index) => {
                             const student = allStudentApplication?.find(
-                              (s) => s._id === notif.studentId
+                              (s) => s._id === notif.studentId,
                             );
                             return (
                               <div
@@ -991,7 +993,7 @@ const SingleStudentApplication = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -1079,51 +1081,11 @@ const SingleStudentApplication = () => {
                 data={selectedWaDaddyWhatsappData}
               />
 
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={() => setShowDeleteModal(false)}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={() => setShowDeleteModal(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItem);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => handleDelete(selectedItem)}
+              />
 
               <Modal
                 show={showIntakeModal}
@@ -1245,17 +1207,20 @@ const SingleStudentApplication = () => {
 
                       try {
                         const res = await dispatch(
-                          updateStudentApplication(formattedValues, userId)
+                          updateStudentApplication(formattedValues, userId),
                         );
                         if (res?.status === 200) {
                           toast.success(
-                            "Student Application updated successfully"
+                            "Student Application updated successfully",
                           );
                           fetchAllStudentApplication();
                         }
                       } catch (err) {
                         console.error("Auto-update failed:", err);
-                        toast.error(error?.response?.data?.message || "Failed to update with course details");
+                        toast.error(
+                          error?.response?.data?.message ||
+                            "Failed to update with course details",
+                        );
                       } finally {
                         setShowIntakeModal(false);
                         navigate(location.pathname, { replace: true });

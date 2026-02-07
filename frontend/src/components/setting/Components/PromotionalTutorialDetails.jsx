@@ -31,7 +31,8 @@ const PromotionalTutorialDetails = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [search, setSearch] = useState("");
-  const { canCreate, canUpdate, canDelete, canRead } = usePermissions("Webinar");
+  const { canCreate, canUpdate, canDelete, canRead } =
+    usePermissions("Webinar");
 
   const fetchData = async (searchTerm = "") => {
     try {
@@ -109,7 +110,12 @@ const PromotionalTutorialDetails = () => {
             urls: [values.url],
           };
           res = await dispatch(
-            updatePromotionalTutorial(editingItem._id, videoId, fileId, payload)
+            updatePromotionalTutorial(
+              editingItem._id,
+              videoId,
+              fileId,
+              payload,
+            ),
           );
         } else {
           // Create new tutorial
@@ -118,7 +124,7 @@ const PromotionalTutorialDetails = () => {
             urls: [values.url],
           };
           res = await dispatch(
-            createSubPromotionalTutorial(editingItem._id, payload)
+            createSubPromotionalTutorial(editingItem._id, payload),
           );
         }
 
@@ -126,7 +132,7 @@ const PromotionalTutorialDetails = () => {
           toast.success(
             editingDocIndex !== null
               ? "Promotional Webinar updated successfully!"
-              : "Promotional Webinar added successfully!"
+              : "Promotional Webinar added successfully!",
           );
           if (canRead) {
             await fetchData(search);
@@ -137,7 +143,7 @@ const PromotionalTutorialDetails = () => {
         console.error("Error:", error.response?.data || error);
         toast.error(
           error.response?.data?.message ||
-            `Failed to ${editingDocIndex !== null ? "update" : "add"} Webinar`
+            `Failed to ${editingDocIndex !== null ? "update" : "add"} Webinar`,
         );
       }
     },
@@ -192,7 +198,7 @@ const PromotionalTutorialDetails = () => {
       <div>
         <div
           style={{
-            backgroundColor: "#053880",
+            backgroundColor: "#5D54BE",
             width: "100%",
             padding: "10px 20px",
             position: "sticky",
@@ -367,7 +373,7 @@ const PromotionalTutorialDetails = () => {
                             <strong>Created On: </strong>
                             {selectedDocuments?.createdAt
                               ? new Date(
-                                  selectedDocuments.createdAt
+                                  selectedDocuments.createdAt,
                                 ).toLocaleDateString("en-GB", {
                                   day: "2-digit",
                                   month: "2-digit",
@@ -436,7 +442,9 @@ const PromotionalTutorialDetails = () => {
         >
           <Modal.Header className="form-main-heading">
             <Modal.Title>
-              {editingDocIndex !== null ? "Update Promotional Webinar" : "Add Promotional Webinar"}
+              {editingDocIndex !== null
+                ? "Update Promotional Webinar"
+                : "Add Promotional Webinar"}
             </Modal.Title>
             <AiOutlineClose
               size={20}
@@ -487,7 +495,7 @@ const PromotionalTutorialDetails = () => {
                     border: "1px solid #4B3C88",
                     color: "#4B3C88",
                     textDecoration: "none",
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     padding: "5px 20px",
                   }}
                   onClick={handleCloseUploadModal}
@@ -500,7 +508,7 @@ const PromotionalTutorialDetails = () => {
                   style={{
                     backgroundColor: "#4B3C88",
                     border: "none",
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     padding: "5px 20px",
                   }}
                 >
@@ -514,31 +522,43 @@ const PromotionalTutorialDetails = () => {
         </Modal>
 
         <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} centered>
-          <Modal.Header className="form-main-heading">
-            <Modal.Title style={{ fontWeight: "600" }}>
+          <Modal.Header
+            className="border-0"
+            style={{
+              background: "linear-gradient(90deg, #dc2626, #ef4444)",
+              borderTopLeftRadius: "12px",
+              borderTopRightRadius: "12px",
+            }}
+          >
+            <Modal.Title className="fw-semibold text-white">
               Confirm Deletion
             </Modal.Title>
             <AiOutlineClose
-              size={20}
+              size={18}
               style={{ cursor: "pointer", color: "white" }}
               onClick={handleCloseDeleteModal}
             />
           </Modal.Header>
           <Modal.Body style={{ textAlign: "center", padding: "40px 0" }}>
             <div
+              className="d-flex align-items-center justify-content-center mx-auto mb-3"
               style={{
-                color: "#FF0000",
-                fontSize: "48px",
-                marginBottom: "20px",
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                background: "#fee2e2",
+                color: "#dc2626",
+                fontSize: "32px",
               }}
             >
               <i className="bi bi-exclamation-triangle-fill"></i>
             </div>
-            <p style={{ marginBottom: "5px", fontWeight: "600" }}>
-              Are you sure you want to delete this Webinar?
+
+            <p className="mb-1 fw-semibold fs-5">
+              Are you sure you want to proceed with deletion?
             </p>
-            <small style={{ color: "#6c757d" }}>
-              This action cannot be undone.
+            <small className="text-muted text-white">
+              You won’t be able to undo this action.
             </small>
           </Modal.Body>
           <Modal.Footer
@@ -557,7 +577,12 @@ const PromotionalTutorialDetails = () => {
               Cancel
             </Button>
             <Button
-              className="btn-delete-confirm"
+              className="px-4 text-white"
+              style={{
+                borderRadius: "8px",
+                background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                border: "none",
+              }}
               onClick={() => {
                 handleDelete(selectedItem.item, selectedItem.docIndex);
               }}

@@ -36,19 +36,19 @@ const VisitorTabs = ({
   const { id } = useParams();
   const personalPermissions = usePermissions(
     "Visitor Applications",
-    "Personal Details"
+    "Personal Details",
   );
   const documentPermissions = usePermissions(
     "Visitor Applications",
-    "Document"
+    "Document",
   );
   const visaApplicationPermissions = usePermissions(
     "Visitor Applications",
-    "Visa Application"
+    "Visa Application",
   );
   const accountantPermissions = usePermissions(
     "Visitor Applications",
-    "Accountant"
+    "Accountant",
   );
 
   const personalSections = [
@@ -75,14 +75,14 @@ const VisitorTabs = ({
         ...documentTypes
           .filter(
             (docType) =>
-              !["Visa Documents", "RG Documents"].includes(docType?.type?.name)
+              !["Visa Documents", "RG Documents"].includes(docType?.type?.name),
           )
           .map((docType, index) => {
             const docTypeName = docType?.type?.name || `UnnamedType_${index}`;
             const docPermissions = usePermissions(
               "Visitor Applications",
               "Document",
-              docTypeName
+              docTypeName,
             );
             return {
               key: docTypeName,
@@ -101,7 +101,7 @@ const VisitorTabs = ({
               : usePermissions(
                   "Visitor Applications",
                   "Document",
-                  "Other Documents"
+                  "Other Documents",
                 ).canShow,
         },
       ].filter((docType) => docType.canShow),
@@ -121,7 +121,7 @@ const VisitorTabs = ({
               : usePermissions(
                   "Visitor Applications",
                   "Document",
-                  "RG Documents"
+                  "RG Documents",
                 ).canShow,
         },
         {
@@ -133,7 +133,7 @@ const VisitorTabs = ({
               : usePermissions(
                   "Visitor Applications",
                   "Document",
-                  "Visa Documents"
+                  "Visa Documents",
                 ).canShow,
         },
       ].filter((docType) => docType.canShow),
@@ -216,7 +216,7 @@ const VisitorTabs = ({
     }
 
     const lastSubmittedIndex = Math.max(
-      ...submittedTabs.map((tab) => mainTabs.findIndex((t) => t.key === tab))
+      ...submittedTabs.map((tab) => mainTabs.findIndex((t) => t.key === tab)),
     );
 
     const currentTabIndex = mainTabs.findIndex((tab) => tab.key === tabKey);
@@ -310,7 +310,7 @@ const VisitorTabs = ({
               padding: "10px",
               paddingBottom: "30px",
               boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)",
-              borderBottom: "4px solid #053880",
+              borderBottom: "4px solid #5D54BE",
             }}
           >
             <Nav
@@ -329,7 +329,7 @@ const VisitorTabs = ({
                         : !isTabAccessible(tab.key)
                     }
                     style={{
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       margin: "0 5px",
                       padding: "12px 25px",
                       fontWeight: activeTab === tab.key ? "600" : "500",
@@ -338,14 +338,14 @@ const VisitorTabs = ({
                         activeTab === tab.key
                           ? "#fff"
                           : isTabAccessible(tab.key) || tab.key === "accountant"
-                          ? "#333"
-                          : "#aaa",
+                            ? "#333"
+                            : "#aaa",
                       backgroundColor:
                         activeTab === tab.key
-                          ? "#053880"
+                          ? "#5D54BE"
                           : isTabAccessible(tab.key) || tab.key === "accountant"
-                          ? "#fff"
-                          : "#f5f5f5",
+                            ? "#fff"
+                            : "#f5f5f5",
                       border: "none",
                       transition: "all 0.3s ease",
                       boxShadow:
@@ -376,7 +376,7 @@ const VisitorTabs = ({
                         tab.key === "accountant"
                       ) {
                         e.target.style.backgroundColor =
-                          activeTab === tab.key ? "#053880" : "#fff";
+                          activeTab === tab.key ? "#5D54BE" : "#fff";
                         e.target.style.boxShadow =
                           activeTab === tab.key
                             ? "0 3px 8px rgba(113, 105, 207, 0.3)"
@@ -396,7 +396,7 @@ const VisitorTabs = ({
                           height: "0",
                           borderLeft: "8px solid transparent",
                           borderRight: "8px solid transparent",
-                          borderTop: "8px solid #053880",
+                          borderTop: "8px solid #5D54BE",
                         }}
                       />
                     )} */}
@@ -436,12 +436,12 @@ const VisitorTabs = ({
                           selectedDocCategory === category.key ? "600" : "400",
                         color:
                           selectedDocCategory === category.key
-                            ? "#053880"
+                            ? "#5D54BE"
                             : "#000000",
                         textDecoration: "underline",
                         textDecorationColor:
                           selectedDocCategory === category.key
-                            ? "#053880"
+                            ? "#5D54BE"
                             : "#d0d0d0",
                         textDecorationThickness: "2px",
                         textUnderlineOffset: "4px",
@@ -461,22 +461,22 @@ const VisitorTabs = ({
                           e.target.style.color =
                             selectedDocCategory === category.key
                               ? "#1f4da0"
-                              : "#053880";
+                              : "#5D54BE";
                           e.target.style.textDecorationColor =
                             selectedDocCategory === category.key
                               ? "#1f4da0"
-                              : "#053880";
+                              : "#5D54BE";
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (isTabAccessible("document")) {
                           e.target.style.color =
                             selectedDocCategory === category.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#000000";
                           e.target.style.textDecorationColor =
                             selectedDocCategory === category.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#d0d0d0";
                         }
                       }}
@@ -505,13 +505,13 @@ const VisitorTabs = ({
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.querySelector("svg").style.color =
-                        "#053880";
+                        "#5D54BE";
                     }}
                   >
                     <ArrowBackIosNewIcon
                       style={{
                         fontSize: "20px",
-                        color: "#053880",
+                        color: "#5D54BE",
                       }}
                     />
                   </div>
@@ -544,7 +544,7 @@ const VisitorTabs = ({
                           handleSubTabClick(
                             "personal",
                             section.key,
-                            onPersonalSectionSelect
+                            onPersonalSectionSelect,
                           )
                         }
                         style={{
@@ -555,12 +555,12 @@ const VisitorTabs = ({
                               : "400",
                           color:
                             selectedPersonalSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#000000",
                           textDecoration: "underline",
                           textDecorationColor:
                             selectedPersonalSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#d0d0d0",
                           textDecorationThickness: "2px",
                           textUnderlineOffset: "4px",
@@ -580,22 +580,22 @@ const VisitorTabs = ({
                             e.target.style.color =
                               selectedPersonalSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                             e.target.style.textDecorationColor =
                               selectedPersonalSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (isTabAccessible("personal")) {
                             e.target.style.color =
                               selectedPersonalSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#000000";
                             e.target.style.textDecorationColor =
                               selectedPersonalSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#d0d0d0";
                           }
                         }}
@@ -610,7 +610,7 @@ const VisitorTabs = ({
                             transform: "translateX(-50%)",
                             width: "6px",
                             height: "6px",
-                            backgroundColor: "#053880",
+                            backgroundColor: "#5D54BE",
                             borderRadius: "50%",
                           }}
                         />
@@ -660,7 +660,7 @@ const VisitorTabs = ({
                                 handleSubTabClick(
                                   "document",
                                   docType.key,
-                                  onDocumentTypeSelect
+                                  onDocumentTypeSelect,
                                 )
                               }
                               style={{
@@ -671,12 +671,12 @@ const VisitorTabs = ({
                                     : "400",
                                 color:
                                   selectedDocType === docType.key
-                                    ? "#053880"
+                                    ? "#5D54BE"
                                     : "#000000",
                                 textDecoration: "underline",
                                 textDecorationColor:
                                   selectedDocType === docType.key
-                                    ? "#053880"
+                                    ? "#5D54BE"
                                     : "#d0d0d0",
                                 textDecorationThickness: "2px",
                                 textUnderlineOffset: "4px",
@@ -695,22 +695,22 @@ const VisitorTabs = ({
                                   e.target.style.color =
                                     selectedDocType === docType.key
                                       ? "#1f4da0"
-                                      : "#053880";
+                                      : "#5D54BE";
                                   e.target.style.textDecorationColor =
                                     selectedDocType === docType.key
                                       ? "#1f4da0"
-                                      : "#053880";
+                                      : "#5D54BE";
                                 }
                               }}
                               onMouseLeave={(e) => {
                                 if (isTabAccessible("document")) {
                                   e.target.style.color =
                                     selectedDocType === docType.key
-                                      ? "#053880"
+                                      ? "#5D54BE"
                                       : "#000000";
                                   e.target.style.textDecorationColor =
                                     selectedDocType === docType.key
-                                      ? "#053880"
+                                      ? "#5D54BE"
                                       : "#d0d0d0";
                                 }
                               }}
@@ -729,7 +729,7 @@ const VisitorTabs = ({
                           handleSubTabClick(
                             "visaApplication",
                             section.key,
-                            onVisaSectionSelect
+                            onVisaSectionSelect,
                           )
                         }
                         style={{
@@ -738,12 +738,12 @@ const VisitorTabs = ({
                             selectedVisaSection === section.key ? "600" : "400",
                           color:
                             selectedVisaSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#000000",
                           textDecoration: "underline",
                           textDecorationColor:
                             selectedVisaSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#d0d0d0",
                           textDecorationThickness: "2px",
                           textUnderlineOffset: "4px",
@@ -763,22 +763,22 @@ const VisitorTabs = ({
                             e.target.style.color =
                               selectedVisaSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                             e.target.style.textDecorationColor =
                               selectedVisaSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (isTabAccessible("visaApplication")) {
                             e.target.style.color =
                               selectedVisaSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#000000";
                             e.target.style.textDecorationColor =
                               selectedVisaSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#d0d0d0";
                           }
                         }}
@@ -793,7 +793,7 @@ const VisitorTabs = ({
                             transform: "translateX(-50%)",
                             width: "6px",
                             height: "6px",
-                            backgroundColor: "#053880",
+                            backgroundColor: "#5D54BE",
                             borderRadius: "50%",
                           }}
                         />
@@ -808,7 +808,7 @@ const VisitorTabs = ({
                           handleSubTabClick(
                             "accountant",
                             section.key,
-                            onAccountantSelect
+                            onAccountantSelect,
                           )
                         }
                         style={{
@@ -819,12 +819,12 @@ const VisitorTabs = ({
                               : "400",
                           color:
                             selectedAccountantSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#000000",
                           textDecoration: "underline",
                           textDecorationColor:
                             selectedAccountantSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#d0d0d0",
                           textDecorationThickness: "2px",
                           textUnderlineOffset: "4px",
@@ -844,22 +844,22 @@ const VisitorTabs = ({
                             e.target.style.color =
                               selectedAccountantSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                             e.target.style.textDecorationColor =
                               selectedAccountantSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (isTabAccessible("accountant")) {
                             e.target.style.color =
                               selectedAccountantSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#000000";
                             e.target.style.textDecorationColor =
                               selectedAccountantSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#d0d0d0";
                           }
                         }}
@@ -874,7 +874,7 @@ const VisitorTabs = ({
                             transform: "translateX(-50%)",
                             width: "6px",
                             height: "6px",
-                            backgroundColor: "#053880",
+                            backgroundColor: "#5D54BE",
                             borderRadius: "50%",
                           }}
                         />
@@ -900,13 +900,13 @@ const VisitorTabs = ({
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.querySelector("svg").style.color =
-                        "#053880";
+                        "#5D54BE";
                     }}
                   >
                     <ArrowForwardIosIcon
                       style={{
                         fontSize: "20px",
-                        color: "#053880",
+                        color: "#5D54BE",
                       }}
                     />
                   </div>
@@ -936,7 +936,7 @@ const VisitorTabs = ({
                       // styles={{
                       //   control: (base) => ({
                       //     ...base,
-                      //     borderRadius: "30px",
+                      //     borderRadius: "12px",
                       //     color: "black",
                       //   }),
                       //   placeholder: (base) => ({

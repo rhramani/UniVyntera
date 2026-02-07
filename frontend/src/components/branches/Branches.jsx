@@ -33,6 +33,7 @@ import PhoneInput from "react-phone-input-2";
 import usePermissions from "../commonComponents/usePermissions";
 import ViewModal from "../commonComponents/ViewModal";
 import { countryCodeISO } from "../../utils/countryISOCode";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const Branches = () => {
   const [show, setShow] = useState(false);
@@ -101,7 +102,7 @@ const Branches = () => {
   const fetchAllBranches = async (
     page = 1,
     limit = itemsPerPage,
-    search = ""
+    search = "",
   ) => {
     try {
       const res = await dispatch(getAllBranch(page, limit, search));
@@ -168,10 +169,10 @@ const Branches = () => {
       try {
         toast.dismiss();
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         const payload = {
@@ -394,7 +395,7 @@ const Branches = () => {
       const cityName = item.city;
 
       const selectedCountry = countries.find(
-        (c) => c.name.trim() === countryName
+        (c) => c.name.trim() === countryName,
       );
       const countryIsoCode = selectedCountry?.isoCode;
 
@@ -410,7 +411,7 @@ const Branches = () => {
       }
 
       const selectedState = fetchedStates.find(
-        (s) => s.name.trim() === stateName
+        (s) => s.name.trim() === stateName,
       );
       const stateIsoCode = selectedState?.isoCode;
 
@@ -421,7 +422,7 @@ const Branches = () => {
       let fetchedCities = [];
       if (stateIsoCode) {
         const cityRes = await dispatch(
-          cityDropdown(countryIsoCode, stateIsoCode)
+          cityDropdown(countryIsoCode, stateIsoCode),
         );
         fetchedCities = cityRes?.data?.data || [];
         setCityDropDownList(fetchedCities);
@@ -594,7 +595,7 @@ const Branches = () => {
                               : "";
                             const formattedPhone = `${dialCode} ${phone.replace(
                               data.dialCode,
-                              ""
+                              "",
                             )}`.trim();
 
                             formik.setFieldValue("phone", formattedPhone);
@@ -681,15 +682,15 @@ const Branches = () => {
                           value={
                             formik.values.status
                               ? {
-                                value: formik.values.status,
-                                label: formik.values.status,
-                              }
+                                  value: formik.values.status,
+                                  label: formik.values.status,
+                                }
                               : null
                           }
                           onChange={(option) =>
                             formik.setFieldValue(
                               "status",
-                              option ? option.value : ""
+                              option ? option.value : "",
                             )
                           }
                           onBlur={() => formik.setFieldTouched("status", true)}
@@ -737,13 +738,13 @@ const Branches = () => {
                               : option;
 
                             const isValid = countries?.some(
-                              (c) => c.isoCode === selectedOption?.value
+                              (c) => c.isoCode === selectedOption?.value,
                             );
                             if (isValid) {
                               handleCountryChange(selectedOption.value);
                               formik.setFieldValue(
                                 "country",
-                                selectedOption.value
+                                selectedOption.value,
                               );
                               formik.setFieldError("country", "");
                             } else {
@@ -784,13 +785,13 @@ const Branches = () => {
                           value={
                             formik.values.state
                               ? stateDropDown
-                                ?.map((state) => ({
-                                  value: state.isoCode,
-                                  label: state.name,
-                                }))
-                                .filter(
-                                  (s) => s.value === formik.values.state
-                                )
+                                  ?.map((state) => ({
+                                    value: state.isoCode,
+                                    label: state.name,
+                                  }))
+                                  .filter(
+                                    (s) => s.value === formik.values.state,
+                                  )
                               : []
                           }
                           onChange={(option) => {
@@ -799,17 +800,17 @@ const Branches = () => {
                               : option;
 
                             const isValid = stateDropDown?.some(
-                              (s) => s.isoCode === selectedOption?.value
+                              (s) => s.isoCode === selectedOption?.value,
                             );
 
                             if (isValid) {
                               formik.setFieldValue(
                                 "state",
-                                selectedOption.value
+                                selectedOption.value,
                               );
                               handleStateChange(
                                 formik.values.country,
-                                selectedOption.value
+                                selectedOption.value,
                               );
                               formik.setFieldError("state", "");
                             } else {
@@ -851,14 +852,14 @@ const Branches = () => {
                           value={
                             formik.values.city
                               ? cityDropDownList
-                                ?.map((city) => {
-                                  const name =
-                                    typeof city === "string"
-                                      ? city
-                                      : city.name;
-                                  return { value: name, label: name };
-                                })
-                                .filter((c) => c.value === formik.values.city)
+                                  ?.map((city) => {
+                                    const name =
+                                      typeof city === "string"
+                                        ? city
+                                        : city.name;
+                                    return { value: name, label: name };
+                                  })
+                                  .filter((c) => c.value === formik.values.city)
                               : []
                           }
                           onChange={(selectedOption) => {
@@ -930,51 +931,14 @@ const Branches = () => {
                 fields={branchSections}
               />
 
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={() => setShowDeleteModal(false)}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>{" "}
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={() => setShowDeleteModal(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItem);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => {
+                  handleDelete(selectedItem);
+                  setShowDeleteModal(false);
+                }}
+              />
 
               <DataTable
                 columns={columns}
@@ -999,7 +963,8 @@ const Branches = () => {
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
-                  /></div>
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

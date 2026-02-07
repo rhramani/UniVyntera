@@ -51,6 +51,7 @@ import CloneStudentApplication from "./studentDetails/CloneStudentApplication";
 import { BASEURL } from "../../baseUrl";
 import SearchWithDropdown from "../commonComponents/SearchWithDropdown";
 import StudentApplicationFilters from "./StudentApplicationFilters";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const searchOption = [
   { label: "Everything", value: "" },
@@ -156,7 +157,7 @@ const StudentApplication = () => {
       const matchedBranch = branchList.find(
         (b) =>
           b._id === selectedBranchFromUrl ||
-          b.name?.toLowerCase() === selectedBranchFromUrl.toLowerCase()
+          b.name?.toLowerCase() === selectedBranchFromUrl.toLowerCase(),
       );
       if (matchedBranch) {
         branchValue = matchedBranch._id;
@@ -187,7 +188,7 @@ const StudentApplication = () => {
         selectedRole,
         selectedUser || "",
         startDate,
-        endDate
+        endDate,
       );
     }
 
@@ -347,7 +348,7 @@ const StudentApplication = () => {
           selectedRole,
           selectedUser || "",
           startDate,
-          endDate
+          endDate,
         );
 
         setTimeout(() => {
@@ -432,7 +433,7 @@ const StudentApplication = () => {
     role = "",
     user = "",
     startDate = "",
-    endDate = ""
+    endDate = "",
   ) => {
     try {
       let res;
@@ -455,8 +456,8 @@ const StudentApplication = () => {
             role,
             user,
             startDate,
-            endDate
-          )
+            endDate,
+          ),
         );
       }
       if (userRole === "Student") {
@@ -505,7 +506,7 @@ const StudentApplication = () => {
         selectedRole,
         selectedUser || "",
         startDate,
-        endDate
+        endDate,
       );
     }
   }, [
@@ -529,7 +530,7 @@ const StudentApplication = () => {
   useEffect(() => {
     if (studentStatusOptions.length > 0 && mainStatus) {
       const matchingOption = studentStatusOptions.find(
-        (option) => option.value === mainStatus.value
+        (option) => option.value === mainStatus.value,
       );
       if (!matchingOption) {
         setMainStatus(null);
@@ -538,7 +539,7 @@ const StudentApplication = () => {
   }, [studentStatusOptions]);
 
   const studentPlan = mainPlans.find(
-    (plan) => plan.name.toLowerCase() === "student admission"
+    (plan) => plan.name.toLowerCase() === "student admission",
   );
 
   const fetchMainPlans = async () => {
@@ -561,12 +562,12 @@ const StudentApplication = () => {
     limit = itemsPerPage,
     searchTerm = "",
     mainPlanId = studentPlan._id,
-    preferredCountry = ""
+    preferredCountry = "",
   ) => {
     if (!mainPlanId) return;
     try {
       const res = await dispatch(
-        getAllSubPlan(page, limit, searchTerm, mainPlanId, preferredCountry)
+        getAllSubPlan(page, limit, searchTerm, mainPlanId, preferredCountry),
       );
       const responseData = res?.data?.data || {};
       setStudentSubPlans(responseData?.data);
@@ -586,7 +587,7 @@ const StudentApplication = () => {
     if (oneCourseData?.university?.country && preferredCountries.length > 0) {
       const countryName = oneCourseData.university.country;
       const matchingCountry = preferredCountries.find(
-        (c) => c.name.toLowerCase() === countryName.toLowerCase()
+        (c) => c.name.toLowerCase() === countryName.toLowerCase(),
       );
 
       if (matchingCountry) {
@@ -600,7 +601,7 @@ const StudentApplication = () => {
             itemsPerPage,
             "",
             studentPlan._id,
-            matchingCountry.name
+            matchingCountry.name,
           );
         }
       }
@@ -715,7 +716,7 @@ const StudentApplication = () => {
                 date: Yup.string().nullable(),
                 bank: Yup.string().nullable(),
                 paymentMode: Yup.string(),
-              })
+              }),
             ),
           otherwise: () => Yup.array().nullable(),
         }),
@@ -735,10 +736,10 @@ const StudentApplication = () => {
       try {
         toast.dismiss();
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         const processedPaidAmount =
@@ -752,7 +753,7 @@ const StudentApplication = () => {
         const admissionInvoiceData = {
           mainPlan:
             mainPlans.find(
-              (plan) => plan.name.toLowerCase() === "student admission"
+              (plan) => plan.name.toLowerCase() === "student admission",
             )?._id || null,
           subPlan: values.invoice.subPlan || null,
           amount: values.invoice.amount || "",
@@ -798,7 +799,7 @@ const StudentApplication = () => {
 
         if (values.id && canUpdate) {
           const res = await dispatch(
-            updateStudentApplication(formattedValues, values.id)
+            updateStudentApplication(formattedValues, values.id),
           );
           if (res?.status === 200) {
             if (res?.data?.data?.data?.message) {
@@ -838,7 +839,7 @@ const StudentApplication = () => {
             selectedRole,
             selectedUser || "",
             startDate,
-            endDate
+            endDate,
           );
         }
       } catch (error) {
@@ -925,7 +926,7 @@ const StudentApplication = () => {
       const totalPaid =
         values.paidAmount?.reduce(
           (sum, entry) => sum + (parseFloat(entry.amount) || 0),
-          0
+          0,
         ) || 0;
 
       const dueAmount = payableAmount - totalPaid;
@@ -933,14 +934,14 @@ const StudentApplication = () => {
       // -------- Update Formik --------
       formik.setFieldValue(
         `${section}.payableAmount`,
-        Math.max(0, payableAmount).toFixed(2)
+        Math.max(0, payableAmount).toFixed(2),
       );
       formik.setFieldValue(
         `${section}.dueAmount`,
-        Math.max(0, dueAmount).toFixed(2)
+        Math.max(0, dueAmount).toFixed(2),
       );
     },
-    [formik]
+    [formik],
   );
 
   useEffect(() => {
@@ -966,7 +967,7 @@ const StudentApplication = () => {
     const cityName = item.city;
 
     const selectedCountry = countries.find(
-      (c) => c.name.trim() === countryName
+      (c) => c.name.trim() === countryName,
     );
     const countryIsoCode = selectedCountry?.isoCode;
 
@@ -982,7 +983,7 @@ const StudentApplication = () => {
     }
 
     const selectedState = fetchedStates.find(
-      (s) => s.name.trim() === stateName
+      (s) => s.name.trim() === stateName,
     );
     const stateIsoCode = selectedState?.isoCode;
 
@@ -993,7 +994,7 @@ const StudentApplication = () => {
     let fetchedCities = [];
     if (stateIsoCode) {
       const cityRes = await dispatch(
-        cityDropdown(countryIsoCode, stateIsoCode)
+        cityDropdown(countryIsoCode, stateIsoCode),
       );
       fetchedCities = cityRes?.data?.data || [];
       setCityDropDownList(fetchedCities);
@@ -1004,7 +1005,7 @@ const StudentApplication = () => {
     }
 
     const selectedStatus = studentStatusOptions.find(
-      (option) => option.value === item.mainStatus?._id
+      (option) => option.value === item.mainStatus?._id,
     );
     setMainStatus(selectedStatus || null);
 
@@ -1052,7 +1053,7 @@ const StudentApplication = () => {
           selectedRole,
           selectedUser || "",
           startDate,
-          endDate
+          endDate,
         );
       }
       setShowDeleteModal(false);
@@ -1097,7 +1098,7 @@ const StudentApplication = () => {
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
-          "Something went wrong while downloading applications."
+          "Something went wrong while downloading applications.",
       );
       console.error("Error downloading applications:", error);
     }
@@ -1125,7 +1126,7 @@ const StudentApplication = () => {
       const admissionInvoiceData = {
         mainPlan:
           mainPlans.find(
-            (plan) => plan.name.toLowerCase() === "student admission"
+            (plan) => plan.name.toLowerCase() === "student admission",
           )?._id || null,
         subPlan: values.invoice.subPlan || null,
         amount: values.invoice.amount || "",
@@ -1148,8 +1149,8 @@ const StudentApplication = () => {
         studentApplicationClone(
           selectedStudent?._id,
           countryName,
-          formattedValues
-        )
+          formattedValues,
+        ),
       );
 
       if (res?.status === 200) {
@@ -1176,12 +1177,13 @@ const StudentApplication = () => {
           selectedRole,
           selectedUser || "",
           startDate,
-          endDate
+          endDate,
         );
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Failed to clone student application."
+        error?.response?.data?.message ||
+          "Failed to clone student application.",
       );
     }
   };
@@ -1330,7 +1332,7 @@ const StudentApplication = () => {
                           .reverse()
                           .map((notif, index) => {
                             const student = allStudentApplication?.find(
-                              (s) => s._id === notif.studentId
+                              (s) => s._id === notif.studentId,
                             );
                             return (
                               <div
@@ -1513,54 +1515,14 @@ const StudentApplication = () => {
                 data={selectedWaDaddyWhatsappData}
               />
 
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={() => setShowDeleteModal(false)}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={() => setShowDeleteModal(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItem);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => handleDelete(selectedItem)}
+              />
 
               {totalPages > 1 && allStudentApplication.length > 0 && (
-                     <div className="mt-4 d-flex justify-content-end align-items-end">
+                <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}

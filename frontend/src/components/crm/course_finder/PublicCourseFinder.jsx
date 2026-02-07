@@ -75,6 +75,7 @@ import { decryptData } from "../../../utils/encryptionUtils";
 import { getAllCurrencyRate } from "../../../redux/actions/Master/CurrencyRate.action";
 import ALLImages from "../../../common/Imagedata";
 import Paginations from "../../elements/Paginations";
+import DeleteConfirmModal from "../../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const PublicCourseFinder = () => {
   const navigate = useNavigate();
@@ -158,7 +159,7 @@ const PublicCourseFinder = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   const concentrations = Array.from(
@@ -172,8 +173,8 @@ const PublicCourseFinder = () => {
           values.push(item.programName.trim());
         }
         return values;
-      })
-    )
+      }),
+    ),
   );
 
   const scoreOutOfOptions = [
@@ -195,11 +196,11 @@ const PublicCourseFinder = () => {
       item
         .split(/\s+/)
         .map((word) => word.trim())
-        .filter((word) => word.toLowerCase().includes(inputValue))
+        .filter((word) => word.toLowerCase().includes(inputValue)),
     );
 
     const phraseSuggestions = concentrations.filter((item) =>
-      item.toLowerCase().includes(inputValue)
+      item.toLowerCase().includes(inputValue),
     );
 
     const allSuggestions = [
@@ -471,7 +472,7 @@ const PublicCourseFinder = () => {
 
   const intakeYearList = Array.from(
     { length: 20 },
-    (_, index) => new Date().getFullYear() + index
+    (_, index) => new Date().getFullYear() + index,
   );
 
   const closeModal = () => {
@@ -522,7 +523,7 @@ const PublicCourseFinder = () => {
     if (selectedStudyArea) {
       fetchDependentFilter(
         selectedCountry?.map((option) => option.label) || [],
-        selectedStudyArea
+        selectedStudyArea,
       );
     }
   }, [selectedStudyArea]);
@@ -541,7 +542,7 @@ const PublicCourseFinder = () => {
           !showModal && filters.requirements ? filters.requirements : [],
       };
       const res = await dispatch(
-        getAllCourseFinder(page, limit, filterPayload)
+        getAllCourseFinder(page, limit, filterPayload),
       );
       const responseData = res?.data?.data;
       setRelexFilterMsg(responseData?.message);
@@ -602,7 +603,7 @@ const PublicCourseFinder = () => {
 
       if (filters.selectedInstitute?.length > 0) {
         const instituteNames = filters.selectedInstitute.map(
-          (inst) => inst.label
+          (inst) => inst.label,
         );
         fetchAllCampusByInstitute(instituteNames, "");
       }
@@ -610,7 +611,7 @@ const PublicCourseFinder = () => {
       fetchAllCourseFinder(
         filters.currentPage,
         itemsPerPage,
-        filters.appliedFilters || {}
+        filters.appliedFilters || {},
       );
 
       navigate(location.pathname, { replace: true, state: {} });
@@ -689,7 +690,7 @@ const PublicCourseFinder = () => {
     fetchAllStates(countryCodes);
     fetchAllInstituteByCountry(
       countryNames || selectedCountry?.map((option) => option.label),
-      selectedState?.label
+      selectedState?.label,
     );
     fetchDependentFilter(countryNames);
     // setLoadedRecords(12);
@@ -725,7 +726,7 @@ const PublicCourseFinder = () => {
       }
       // Remove duplicates based on state isoCode
       const uniqueStates = Array.from(
-        new Map(allStates.map((state) => [state.isoCode, state])).values()
+        new Map(allStates.map((state) => [state.isoCode, state])).values(),
       );
       setStates(uniqueStates);
     } catch (err) {
@@ -742,7 +743,7 @@ const PublicCourseFinder = () => {
 
     fetchAllInstituteByCountry(
       selectedCountry?.map((c) => c.label) || [],
-      stateLabels
+      stateLabels,
     );
     // setLoadedRecords(12);
     setCurrentPage(1);
@@ -755,7 +756,7 @@ const PublicCourseFinder = () => {
 
   const fetchAllInstituteByCountry = async (country, state) => {
     const response = await dispatch(
-      getAllInstitute(1, 5000, "", country, state)
+      getAllInstitute(1, 5000, "", country, state),
     );
     const responseData = response?.data?.data?.data;
     setInstituteDataByCountry(responseData);
@@ -766,14 +767,14 @@ const PublicCourseFinder = () => {
       let allCampuses = [];
       for (const instituteName of instituteNames) {
         const response = await dispatch(
-          instituteWiseCampusDropdown(instituteName, "")
+          instituteWiseCampusDropdown(instituteName, ""),
         );
         const responseData = response?.data?.data || [];
         allCampuses = [...allCampuses, ...responseData];
       }
       // Remove duplicates based on campus ID
       const uniqueCampuses = Array.from(
-        new Map(allCampuses.map((campus) => [campus._id, campus])).values()
+        new Map(allCampuses.map((campus) => [campus._id, campus])).values(),
       );
       setCampusDataByInstitute(uniqueCampuses);
     } catch (error) {
@@ -944,7 +945,7 @@ const PublicCourseFinder = () => {
       try {
         toast.dismiss();
         const formattedRequirements = selectedRequirements.map(
-          (req) => req._id
+          (req) => req._id,
         );
 
         const formattedIntakes = intakeList.map((intake) => ({
@@ -965,7 +966,7 @@ const PublicCourseFinder = () => {
           status: values.status || "Active",
           requirements: formattedRequirements,
           intakes: formattedIntakes.filter((item) =>
-            selectedIntake.includes(item.month)
+            selectedIntake.includes(item.month),
           ),
           tags: selectedTags.map((tag) => tag._id),
           disciplineArea: formattedDisciplineArea,
@@ -1026,7 +1027,7 @@ const PublicCourseFinder = () => {
   useEffect(() => {
     if (durationData.length > 0 && formik.values.duration?.length > 0) {
       const preSelected = durationData.filter((option) =>
-        formik.values.duration.includes(option.value)
+        formik.values.duration.includes(option.value),
       );
       setSelectedDuration(preSelected);
     }
@@ -1038,7 +1039,7 @@ const PublicCourseFinder = () => {
     setSelectedUniversities(
       item.university
         ? [{ _id: item.university._id, name: item.university.instituteName }]
-        : []
+        : [],
     );
 
     const intakes = item.intakes || [];
@@ -1248,12 +1249,12 @@ const PublicCourseFinder = () => {
           Array.isArray(option)
             ? option
             : typeof option === "string"
-            ? option.split(",")
-            : []
+              ? option.split(",")
+              : [],
         )
         .map((item) => item.trim())
-        .filter(Boolean)
-    )
+        .filter(Boolean),
+    ),
   ).map((option) => ({
     value: option,
     label: option,
@@ -1261,8 +1262,8 @@ const PublicCourseFinder = () => {
 
   const studyAreaOptions = Array.from(
     new Set(
-      (studyAreaOption || []).map((option) => option.trim()).filter(Boolean)
-    )
+      (studyAreaOption || []).map((option) => option.trim()).filter(Boolean),
+    ),
   ).map((option) => ({
     value: option,
     label: option,
@@ -1285,7 +1286,7 @@ const PublicCourseFinder = () => {
     if (!currencyRate || !currencyRate.length)
       return "Conversion rate not found!";
     const rateObj = currencyRate.find(
-      (rate) => rate.currencyCode === currencyCode
+      (rate) => rate.currencyCode === currencyCode,
     );
     if (!rateObj || !rateObj.INRvalue) return "Conversion rate not found!";
 
@@ -1314,1096 +1315,683 @@ const PublicCourseFinder = () => {
     }${inrValue.toLocaleString("en-IN")}`;
   };
 
+  const customStyle = {
+    control: (base) => ({
+      ...base,
+      height: "45px",
+      minHeight: "45px",
+      padding: "0 0 0 5px",
+      // borderColor: '#b5bcc4',
+      fontSize: "15px",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#000000",
+    }),
+  };
+
+  const customStyle2 = {
+    height: 45,
+    minHeight: 45,
+    padding: "0 10px",
+    borderRadius: "12px",
+  };
+
   return (
     <Fragment>
       <div className="mx-4">
         <div className="d-flex justify-content-between align-items-center">
           <div>
             <Pageheader
-              mainheading="Course"
+              mainheading="Course Finder"
               parentfolder="Home"
-              activepage="Course"
+              activepage="Course Finder"
             />
           </div>
         </div>
 
         {/* {canRead && ( */}
         <div
-          className="small-device-adjust p-3 mb-4 bg-light rounded"
-          style={{ border: "1px solid #053880", overflow: "visible" }}
+          className="mb-4"
+          style={{
+            backgroundColor: "#ffffff",
+            borderRadius: "16px",
+            padding: "2rem",
+            boxShadow: "0 4px 24px rgba(0, 0, 0, 0.05)",
+            border: "1px solid #f1f5f9",
+          }}
         >
-          {/* Combined input and buttons in a single flex row */}
-          <Row className="align-items-end g-2 px-2 mb-2">
-            {/* <Col> */}
-            <div className="filter-section gap-2">
-              <Form.Group
-                controlId="studyArea"
-                style={{ flex: 1, position: "relative" }}
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="What would you like to study?"
-                  name="studyArea"
-                  className="w-100 rounded-5 search-input-light text-capitalize"
-                  autoComplete="off"
-                  style={{
-                    height: "45px",
-                    borderColor: "#b5bcc4",
-                    padding: "10px",
-                    minWidth: "230px",
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = "#007BFF";
-                    handleInputFocus();
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = "#b5bcc4";
-                    handleInputBlur();
-                  }}
-                  value={searchText}
-                  onChange={handleStudyAreaInputChange}
-                  ref={inputRef}
-                />
-                {isSuggestionsVisible && suggestions.length > 0 && (
-                  <div
-                    className="suggestions-container"
-                    style={{
-                      position: "absolute",
-                      top: "100%",
-                      left: 0,
-                      right: 0,
-                      background: "#fff",
-                      border: "0.5px solid #b5bcc4",
-                      borderRadius: "10px",
-                      maxHeight: "150px",
-                      overflowY: "auto",
-                      zIndex: 1000,
-                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                      marginTop: "5px",
-                    }}
-                  >
-                    {suggestions.map((word, index) => (
+          {/* Header Section */}
+          <div className="mb-6">
+            <h2
+              className="mb-2"
+              style={{ fontSize: "1.5rem", fontWeight: 700, color: "#1e293b" }}
+            >
+              Find Your Perfect Course
+            </h2>
+          </div>
+
+          {/* Search Bar with Gradient Background */}
+          <div className="mb-6" style={{ position: "relative" }}>
+            <div
+              style={{
+                background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
+                borderRadius: "16px",
+                padding: "16px",
+                border: "2px solid #dbeafe",
+              }}
+            >
+              <Row className="align-items-center g-2">
+                <Col xs={12} lg={9} className="mb-2 mb-lg-0">
+                  <div style={{ position: "relative" }}>
+                    <Form.Control
+                      type="text"
+                      placeholder="What course are you interested in?"
+                      name="studyArea"
+                      className="custom-select-height2 w-100 search-input-light text-capitalize"
+                      autoComplete="off"
+                      style={{
+                        height: "45px",
+                        border: "2px solid #dbeafe",
+                        padding: "0 24px",
+                        fontSize: "16px",
+                        borderRadius: "12px",
+                        backgroundColor: "#ffffff",
+                        fontWeight: 500,
+                        boxShadow: "0 2px 8px rgba(219, 234, 254, 0.2)",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "#3b82f6";
+                        e.target.style.boxShadow =
+                          "0 0 0 3px rgba(59, 130, 246, 0.1)";
+                        handleInputFocus();
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "#dbeafe";
+                        e.target.style.boxShadow =
+                          "0 2px 8px rgba(219, 234, 254, 0.2)";
+                        handleInputBlur();
+                      }}
+                      value={searchText}
+                      onChange={handleStudyAreaInputChange}
+                      ref={inputRef}
+                    />
+                    {isSuggestionsVisible && suggestions.length > 0 && (
                       <div
-                        key={`${word}-${index}`}
-                        className="suggestion-item"
+                        className="suggestions-container"
                         style={{
-                          padding: "8px 12px",
-                          cursor: "pointer",
-                          backgroundColor: "#fff",
-                          // borderBottom: "1px solid #f0f0f0",
+                          position: "absolute",
+                          top: "100%",
+                          left: 0,
+                          right: 0,
+                          background: "#ffffff",
+                          border: "1px solid #dbeafe",
+                          borderRadius: "12px",
+                          maxHeight: "280px",
+                          overflowY: "auto",
+                          zIndex: 1000,
+                          boxShadow: "0 10px 40px rgba(0, 0, 0, 0.1)",
+                          marginTop: "8px",
                         }}
-                        onMouseDown={() => handleSuggestionClick(word)}
-                        onMouseEnter={(e) =>
-                          (e.target.style.backgroundColor = "#DEEBFF")
-                        }
-                        onMouseLeave={(e) =>
-                          (e.target.style.backgroundColor = "#fff")
-                        }
                       >
-                        {word}
+                        {suggestions.map((word, index) => (
+                          <div
+                            key={`${word}-${index}`}
+                            className="suggestion-item"
+                            style={{
+                              padding: "14px 20px",
+                              cursor: "pointer",
+                              backgroundColor: "#ffffff",
+                              borderBottom:
+                                index < suggestions.length - 1
+                                  ? "1px solid #f1f5f9"
+                                  : "none",
+                              fontSize: "15px",
+                              color: "#1e293b",
+                              fontWeight: 500,
+                            }}
+                            onMouseDown={() => handleSuggestionClick(word)}
+                            onMouseEnter={(e) =>
+                              (e.target.style.backgroundColor = "#eff6ff")
+                            }
+                            onMouseLeave={(e) =>
+                              (e.target.style.backgroundColor = "#ffffff")
+                            }
+                          >
+                            {word}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
                   </div>
-                )}
-              </Form.Group>
-              <div className="d-flex flex-wrap justify-content-end gap-2">
-                <Button
-                  variant="primary"
-                  className="rounded-5 d-flex justify-content-center align-items-center gap-2 px-5"
-                  style={{ height: "45px", fontSize: "16px" }}
-                  onClick={() => {
-                    setShowFilterModal(false);
-                    const hasValidFilters = handleCourseSearch();
-                    if (hasValidFilters) {
-                      setShowSlider(true);
-                    }
-                    setTimeout(() => {
-                      setShowButton(true);
-                    }, 300);
-                  }}
-                >
-                  <FaSearch fontSize={14} />
-                  <span>Search</span>
-                </Button>
-                <Button
-                  variant="link"
-                  className="border-primary text-primary text-decoration-none rounded-5 d-flex justify-content-center align-items-center gap-2 px-5"
-                  style={{ height: "45px", fontSize: "16px" }}
-                  onClick={() => {
-                    resetFilters();
-                    setShowSlider(false);
-                  }}
-                >
-                  <FaUndo fontSize={14} />
-                  Reset
-                </Button>
-              </div>
+                </Col>
+                <Col xs={12} lg={3}>
+                  <div className="d-flex flex-column flex-lg-row gap-2 w-100">
+                    <Button
+                      variant="primary"
+                      className="custom-select-height2 d-flex justify-content-center align-items-center gap-2 w-100"
+                      style={{
+                        height: "45px",
+                        borderRadius: "12px",
+                        border: "none",
+                        fontWeight: 600,
+                        fontSize: "16px",
+                        boxShadow: "0 4px 16px rgba(59, 130, 246, 0.3)",
+                        transition: "all 0.2s ease-in-out",
+                      }}
+                      onClick={() => {
+                        setShowFilterModal(false);
+                        const hasValidFilters = handleCourseSearch();
+                        if (hasValidFilters) {
+                          setShowSlider(true);
+                        }
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = "translateY(-2px)";
+                        e.target.style.boxShadow =
+                          "0 6px 20px rgba(59, 130, 246, 0.4)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = "translateY(0)";
+                        e.target.style.boxShadow =
+                          "0 4px 16px rgba(59, 130, 246, 0.3)";
+                      }}
+                    >
+                      <FaSearch fontSize={16} style={{ color: "#ffffff" }} />
+                      <span style={{ color: "#ffffff" }}>Search</span>
+                    </Button>
+                    <Button
+                      variant="light"
+                      className="custom-select-height2 d-flex justify-content-center align-items-center gap-2 w-100"
+                      style={{
+                        height: "60px",
+                        borderRadius: "12px",
+                        border: "2px solid #030303d3",
+                        color: "#64748b",
+                        fontWeight: 600,
+                        fontSize: "16px",
+                        backgroundColor: "#ffffff",
+                        transition: "all 0.2s ease-in-out",
+                      }}
+                      onClick={() => {
+                        resetFilters();
+                        setShowSlider(false);
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.borderColor = "#cbd5e1";
+                        e.target.style.color = "#475569";
+                        e.target.style.boxShadow =
+                          "0 4px 12px rgba(0, 0, 0, 0.05)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.borderColor = "#e2e8f0";
+                        e.target.style.color = "#64748b";
+                        e.target.style.boxShadow = "none";
+                      }}
+                    >
+                      <FaUndo fontSize={16} />
+                      <span>Reset</span>
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
             </div>
-            {/* </Col> */}
-          </Row>
+          </div>
 
-          <Row className="align-items-end g-2 px-2">
-            <Col xs={12} sm={3} md={3}>
-              <Form.Label
-                className="course_finder_filter mb-1"
-                style={{ fontWeight: 500 }}
-              >
-                Country
-              </Form.Label>
-              <Select
-                id="country-select"
-                options={countries
-                  ?.sort((a, b) => a.name.localeCompare(b.name))
-                  ?.map((country) => ({
-                    value: country.isoCode,
-                    label: country.name,
-                  }))}
-                onChange={handleCountryChange}
-                isMulti
-                value={selectedCountry}
-                placeholder="Select Country"
-                isClearable
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    minHeight: "45px",
-                    padding: "0 10px",
-                    borderRadius: "30px",
-                    borderColor: "#b5bcc4",
-                    fontSize: "15px",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#000",
-                    fontSize: "15px",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    fontSize: "16px",
-                    margin: "4px 2px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    flexWrap: "wrap",
-                    padding: "2px",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    fontSize: "16px",
-                    marginTop: "2px",
-                    width: "100%",
-                    position: "absolute",
-                    zIndex: 9999,
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    maxHeight: "200px",
-                    overflowY: "auto",
-                  }),
-                }}
-              />
-            </Col>
-            <Col xs={12} sm={3} md={3}>
-              <Form.Label className="course_finder_filter">State</Form.Label>
-              <Select
-                id="state-select"
-                options={states
-                  ?.sort((a, b) => a.name.localeCompare(b.name))
-                  ?.map((state) => ({
-                    value: state.isoCode,
-                    label: state.name,
-                  }))}
-                // onChange={(selectedOptions) => {
-                //   setSelectedState(selectedOptions || []);
-                //   fetchAllInstituteByCountry(
-                //     selectedCountry?.map((c) => c.label),
-                //     selectedOptions?.map((s) => s.label) || []
-                //   );
-                //   setLoadedRecords(12);
-                // }}
-                onChange={handleStateChange}
-                isMulti
-                value={selectedState}
-                classNamePrefix="custom-select"
-                placeholder="Select State"
-                isClearable
-                menuPortalTarget={
-                  typeof window !== "undefined" ? document.body : null
-                }
-                menuPosition="fixed"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: 50,
-                    minHeight: 50,
-                    padding: "0 10px",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    minHeight: 48,
-                    paddingTop: 6,
-                    paddingBottom: 6,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: 12,
-                    padding: "2px 8px",
-                    margin: "2px 4px",
-                    fontSize: 14,
-                    color: "#333",
-                    display: "flex",
-                    alignItems: "center",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "#333",
-                    fontWeight: 500,
-                    padding: 0,
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#888",
-                    ":hover": {
-                      backgroundColor: "#e0e0e0",
-                      color: "#222",
-                    },
-                  }),
-                  menuPortal: (base) => ({
-                    ...base,
-                    zIndex: 9999,
-                  }),
-                }}
-              />
-            </Col>
-            <Col xs={12} sm={3} md={3}>
-              <Form.Label
-                className="course_finder_filter mb-1"
-                style={{ fontWeight: 500 }}
-              >
-                Institute
-              </Form.Label>
-              <Select
-                id="institute-select"
-                options={Array.from(
-                  new Map(
-                    instituteDataByCountry
-                      ?.sort((a, b) =>
-                        a.instituteName.localeCompare(b.instituteName)
-                      )
-                      ?.map((institute) => [institute.instituteName, institute]) // use name as key
-                  ).values()
-                ).map((institute) => ({
-                  value: institute._id,
-                  label: institute.instituteName,
-                }))}
-                onChange={(selectedOptions) => {
-                  setSelectedInstitute(selectedOptions || []);
-                  setCampus([]); // Clear campus selection when institute changes
-                  if (selectedOptions && selectedOptions.length > 0) {
-                    // Fetch campuses for all selected institutes
-                    const instituteNames = selectedOptions.map(
-                      (option) => option.label
-                    );
-                    fetchAllCampusByInstitute(instituteNames, "");
-                  } else {
-                    setCampusDataByInstitute([]);
-                  }
-                  // setLoadedRecords(12);
-                  setCurrentPage(1);
-                }}
-                // onChange={handleInstituteChange}
-                isMulti
-                value={selectedInstitute}
-                isClearable
-                classNamePrefix="custom-select"
-                placeholder="Select Institute"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: "45px",
-                    minHeight: "45px",
-                    padding: "0 0 0 5px",
-                    borderRadius: "25px",
-                    borderColor: "#b5bcc4",
-                    fontSize: "15px",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#000000",
-                  }),
-                }}
-              />
-            </Col>
-            <Col xs={12} sm={3} md={3}>
-              <Form.Label
-                className="course_finder_filter mb-1"
-                style={{ fontWeight: 500 }}
-              >
-                Campus
-              </Form.Label>
-              <Select
-                id="campus-select"
-                options={campusDataByInstitute
-                  ?.sort((a, b) => a.campus.localeCompare(b.campus))
-                  ?.map((campus) => ({
-                    value: campus._id,
-                    label: campus.campus,
-                  }))}
-                onChange={(selectedOptions) => {
-                  const campusIds = selectedOptions
-                    ? selectedOptions.map((option) => option.value)
-                    : [];
-                  setCampus(campusIds);
-                  // setLoadedRecords(12);
-                  setCurrentPage(1);
-                }}
-                // onChange={handleCampusChange}
-                isMulti
-                value={campusDataByInstitute
-                  ?.map((c) => ({
-                    value: c._id,
-                    label: c.campus,
-                  }))
-                  .filter((c) => campus.includes(c.value))}
-                placeholder="Select Campus"
-                isClearable
-                classNamePrefix="custom-select"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: "45px",
-                    minHeight: "45px",
-                    padding: "0 0 0 5px",
-                    borderRadius: "25px",
-                    borderColor: "#b5bcc4",
-                    fontSize: "15px",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#000000",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    zIndex: 10000,
-                  }),
-                }}
-              />
-            </Col>
-          </Row>
-
-          {showButton && (
-            <div className="d-flex justify-content-center mt-3">
-              <Button
-                variant="primary"
-                className="rounded-5"
-                style={{
-                  width: "200px",
-                  height: "45px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "16px",
-                }}
-                onClick={() => {
-                  setShowFilterModal(true);
-                  setShowButton(false);
-                }}
-              >
-                Advance Search
-                <FaChevronDown size={20} style={{ marginLeft: "12px" }} />
-              </Button>
-            </div>
-          )}
+          {/* Basic filters - Country, State, Institute, Campus */}
           {showFilterModal && (
-            <hr style={{ margin: "16px 0", borderTop: "1px solid #053880" }} />
+            <div
+              style={{
+                background: "#f8fafc",
+                borderRadius: "12px",
+                padding: "1.5rem",
+                border: "1px solid #e2e8f0",
+                marginBottom: "1.5rem",
+                marginTop: "1.5rem",
+              }}
+            >
+              <div className="mb-3">
+                <h5
+                  style={{
+                    fontSize: "1rem",
+                    fontWeight: 600,
+                    color: "#1e293b",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Location & Institution Filters
+                </h5>
+              </div>
+              <Row className="g-3 g-lg-4">
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label
+                    className="course_finder_filter mb-1"
+                    style={{ fontWeight: 500 }}
+                  >
+                    Country
+                  </Form.Label>
+                  <Select
+                    id="country-select"
+                    options={countries
+                      ?.sort((a, b) => a.name.localeCompare(b.name))
+                      ?.map((country) => ({
+                        value: country.isoCode,
+                        label: country.name,
+                      }))}
+                    onChange={handleCountryChange}
+                    isMulti
+                    value={selectedCountry}
+                    placeholder="Select Country"
+                    isClearable
+                    classNamePrefix="custom-select"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label className="course_finder_filter">
+                    State
+                  </Form.Label>
+                  <Select
+                    id="state-select"
+                    options={states
+                      ?.sort((a, b) => a.name.localeCompare(b.name))
+                      ?.map((state) => ({
+                        value: state.isoCode,
+                        label: state.name,
+                      }))}
+                    onChange={handleStateChange}
+                    isMulti
+                    value={selectedState}
+                    classNamePrefix="custom-select"
+                    placeholder="Select State"
+                    isClearable
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label
+                    className="course_finder_filter mb-1"
+                    style={{ fontWeight: 500 }}
+                  >
+                    Institute
+                  </Form.Label>
+                  <Select
+                    id="institute-select"
+                    options={Array.from(
+                      new Map(
+                        instituteDataByCountry
+                          ?.sort((a, b) =>
+                            a.instituteName.localeCompare(b.instituteName),
+                          )
+                          ?.map((institute) => [
+                            institute.instituteName,
+                            institute,
+                          ]),
+                      ).values(),
+                    ).map((institute) => ({
+                      value: institute._id,
+                      label: institute.instituteName,
+                    }))}
+                    onChange={(selectedOptions) => {
+                      setSelectedInstitute(selectedOptions || []);
+                      setCampus([]);
+                      if (selectedOptions && selectedOptions.length > 0) {
+                        const instituteNames = selectedOptions.map(
+                          (option) => option.label,
+                        );
+                        fetchAllCampusByInstitute(instituteNames, "");
+                      } else {
+                        setCampusDataByInstitute([]);
+                      }
+                      setCurrentPage(1);
+                    }}
+                    isMulti
+                    value={selectedInstitute}
+                    isClearable
+                    classNamePrefix="custom-select"
+                    placeholder="Select Institute"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label
+                    className="course_finder_filter mb-1"
+                    style={{ fontWeight: 500 }}
+                  >
+                    Campus
+                  </Form.Label>
+                  <Select
+                    id="campus-select"
+                    options={campusDataByInstitute
+                      ?.sort((a, b) => a.campus.localeCompare(b.campus))
+                      ?.map((campus) => ({
+                        value: campus._id,
+                        label: campus.campus,
+                      }))}
+                    onChange={(selectedOptions) => {
+                      const campusIds = selectedOptions
+                        ? selectedOptions.map((option) => option.value)
+                        : [];
+                      setCampus(campusIds);
+                      setCurrentPage(1);
+                    }}
+                    isMulti
+                    value={campusDataByInstitute
+                      ?.map((c) => ({
+                        value: c._id,
+                        label: c.campus,
+                      }))
+                      .filter((c) => campus.includes(c.value))}
+                    placeholder="Select Campus"
+                    isClearable
+                    classNamePrefix="custom-select"
+                    styles={customStyle}
+                  />
+                </Col>
+              </Row>
+            </div>
           )}
-          <div
-            className={`transition-container ${showFilterModal ? "show" : ""} ${
-              isDropdownOpen ? "drop" : ""
-            }`}
-          >
-            {/* Row 1 */}
-            <Row
-              className="g-2 px-2 mt-1 w-100 rounded"
-              style={{ transition: "min-height 0.2s" }}
+
+          {/* Advanced filters section - Same UI as Location & Institution Filters */}
+          {showFilterModal && (
+            <div
+              style={{
+                background: "#f8fafc",
+                borderRadius: "12px",
+                padding: "1.5rem",
+                border: "1px solid #cbd5e1",
+                marginTop: "1.5rem",
+              }}
             >
-              <Col md={3}>
-                <Form.Label className="course_finder_filter">
-                  Program Level
-                </Form.Label>
-                <Select
-                  isMulti
-                  options={studyLevelData
-                    ?.sort((a, b) => a.name.localeCompare(b.name))
-                    ?.map((level) => ({ value: level._id, label: level.name }))}
-                  value={studyLevelData
-                    ?.sort((a, b) => a.name.localeCompare(b.name))
-                    ?.map((level) => ({ value: level._id, label: level.name }))
-                    .filter((opt) => selectedProgramLevel.includes(opt.value))}
-                  onChange={(selectedOptions) => {
-                    setSelectedProgramLevel(
-                      selectedOptions
+              <div className="mb-3">
+                <h5
+                  style={{
+                    fontSize: "1rem",
+                    fontWeight: 600,
+                    color: "#1e293b",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Advanced Course Filters
+                </h5>
+              </div>
+              <Row className="g-3 g-lg-4">
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label className="course_finder_filter">
+                    Program Level
+                  </Form.Label>
+                  <Select
+                    isMulti
+                    options={studyLevelData
+                      ?.sort((a, b) => a.name.localeCompare(b.name))
+                      ?.map((level) => ({
+                        value: level._id,
+                        label: level.name,
+                      }))}
+                    value={studyLevelData
+                      ?.sort((a, b) => a.name.localeCompare(b.name))
+                      ?.map((level) => ({
+                        value: level._id,
+                        label: level.name,
+                      }))
+                      .filter((opt) =>
+                        selectedProgramLevel.includes(opt.value),
+                      )}
+                    onChange={(selectedOptions) => {
+                      setSelectedProgramLevel(
+                        selectedOptions
+                          ? selectedOptions.map((opt) => opt.value)
+                          : [],
+                      );
+                    }}
+                    classNamePrefix="custom-select"
+                    placeholder="Select Program Level"
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label className="course_finder_filter">
+                    Study Area
+                  </Form.Label>
+                  <Select
+                    id="study-area-select"
+                    options={studyAreaOption?.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                    isMulti
+                    onChange={(selectedOptions) => {
+                      const values = selectedOptions
                         ? selectedOptions.map((opt) => opt.value)
+                        : [];
+                      setSelectedStudyArea(values);
+                      setCurrentPage(1);
+                    }}
+                    value={selectedStudyArea.map((area) => ({
+                      value: area,
+                      label: area,
+                    }))}
+                    classNamePrefix="custom-select"
+                    placeholder="Select Study Area"
+                    isClearable
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label className="course_finder_filter">
+                    Discipline Area
+                  </Form.Label>
+                  <Select
+                    id="descilline-area-select"
+                    options={disciplineAreaOptions}
+                    isMulti
+                    onChange={(selectedOptions) => {
+                      setSelectedDisciplineArea(
+                        selectedOptions
+                          ? selectedOptions.map((opt) => opt.value)
+                          : [],
+                      );
+                      setCurrentPage(1);
+                    }}
+                    value={disciplineAreaOptions.filter((opt) =>
+                      selectedDisciplineArea.includes(opt.value),
+                    )}
+                    classNamePrefix="custom-select"
+                    placeholder="Select Discipline Area"
+                    isClearable
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label className="course_finder_filter">
+                    Requirements
+                  </Form.Label>
+                  <Select
+                    isMulti
+                    options={requirementsData?.map((req) => ({
+                      value: req._id,
+                      label: req.name,
+                    }))}
+                    value={requirementsData
+                      ?.map((req) => ({ value: req._id, label: req.name }))
+                      .filter((opt) => filterRequirements.includes(opt.value))}
+                    onChange={(selectedOptions) => {
+                      setFilterRequirements(
+                        selectedOptions
+                          ? selectedOptions.map((opt) => opt.value)
+                          : [],
+                      );
+                      setCurrentPage(1);
+                    }}
+                    classNamePrefix="custom-select"
+                    placeholder="Select Requirements"
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label className="course_finder_filter">Year</Form.Label>
+                  <Select
+                    id="year-select"
+                    options={yearOptions}
+                    onChange={handleYearChange}
+                    isMulti
+                    value={
+                      selectedYear && selectedYear.length > 0
+                        ? selectedYear.map((year) => ({
+                            value: year,
+                            label: year.toString(),
+                          }))
                         : []
-                    );
-                  }}
-                  classNamePrefix="custom-select"
-                  placeholder="Select Program Level"
-                  menuPortalTarget={
-                    typeof window !== "undefined" ? document.body : null
-                  }
-                  menuPosition="fixed"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      minHeight: 48,
-                      paddingTop: 6,
-                      paddingBottom: 6,
-                      paddingLeft: 8,
-                      paddingRight: 8,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                    }),
-                    multiValue: (base) => ({
-                      ...base,
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: 12,
-                      padding: "2px 8px",
-                      margin: "2px 4px",
-                      fontSize: 14,
-                      color: "#333",
-                      display: "flex",
-                      alignItems: "center",
-                    }),
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      color: "#333",
-                      fontWeight: 500,
-                      padding: 0,
-                    }),
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      color: "#888",
-                      ":hover": {
-                        backgroundColor: "#e0e0e0",
-                        color: "#222",
-                      },
-                    }),
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
-              </Col>
-              <Col md={3}>
-                <Form.Label className="course_finder_filter">
-                  Study Area
-                </Form.Label>
-                <Select
-                  id="study-area-select"
-                  options={studyAreaOption?.map((option) => ({
-                    value: option,
-                    label: option,
-                  }))}
-                  isMulti
-                  onChange={(selectedOptions) => {
-                    const values = selectedOptions
-                      ? selectedOptions.map((opt) => opt.value)
-                      : [];
-                    setSelectedStudyArea(values);
-                    // setLoadedRecords(12);
-                    setCurrentPage(1);
-                  }}
-                  value={selectedStudyArea.map((area) => ({
-                    value: area,
-                    label: area,
-                  }))}
-                  classNamePrefix="custom-select"
-                  placeholder="Select Study Area"
-                  isClearable
-                  menuPortalTarget={
-                    typeof window !== "undefined" ? document.body : null
-                  }
-                  menuPosition="fixed"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      minHeight: 48,
-                      paddingTop: 6,
-                      paddingBottom: 6,
-                      paddingLeft: 8,
-                      paddingRight: 8,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                    }),
-                    multiValue: (base) => ({
-                      ...base,
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: 12,
-                      padding: "2px 8px",
-                      margin: "2px 4px",
-                      fontSize: 14,
-                      color: "#333",
-                      display: "flex",
-                      alignItems: "center",
-                    }),
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      color: "#333",
-                      fontWeight: 500,
-                      padding: 0,
-                    }),
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      color: "#888",
-                      ":hover": {
-                        backgroundColor: "#e0e0e0",
-                        color: "#222",
-                      },
-                    }),
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
-              </Col>
-              <Col md={3}>
-                <Form.Label className="course_finder_filter">
-                  Discipline Area
-                </Form.Label>
-                <Select
-                  id="descilline-area-select"
-                  options={disciplineAreaOptions}
-                  isMulti
-                  onChange={(selectedOptions) => {
-                    setSelectedDisciplineArea(
-                      selectedOptions
-                        ? selectedOptions.map((opt) => opt.value)
-                        : []
-                    );
-                    // setLoadedRecords(12);
-                    setCurrentPage(1);
-                  }}
-                  value={disciplineAreaOptions.filter((opt) =>
-                    selectedDisciplineArea.includes(opt.value)
-                  )}
-                  classNamePrefix="custom-select"
-                  placeholder="Select Discipline Area"
-                  isClearable
-                  menuPortalTarget={
-                    typeof window !== "undefined" ? document.body : null
-                  }
-                  menuPosition="fixed"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      minHeight: 48,
-                      paddingTop: 6,
-                      paddingBottom: 6,
-                      paddingLeft: 8,
-                      paddingRight: 8,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                    }),
-                    multiValue: (base) => ({
-                      ...base,
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: 12,
-                      padding: "2px 8px",
-                      margin: "2px 4px",
-                      fontSize: 14,
-                      color: "#333",
-                      display: "flex",
-                      alignItems: "center",
-                    }),
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      color: "#333",
-                      fontWeight: 500,
-                      padding: 0,
-                    }),
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      color: "#888",
-                      ":hover": {
-                        backgroundColor: "#e0e0e0",
-                        color: "#222",
-                      },
-                    }),
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
-              </Col>
-              <Col md={3}>
-                <Form.Label className="course_finder_filter">
-                  Requirements
-                </Form.Label>
-                <Select
-                  isMulti
-                  options={requirementsData?.map((req) => ({
-                    value: req._id,
-                    label: req.name,
-                  }))}
-                  value={requirementsData
-                    ?.map((req) => ({ value: req._id, label: req.name }))
-                    .filter((opt) => filterRequirements.includes(opt.value))}
-                  onChange={(selectedOptions) => {
-                    setFilterRequirements(
-                      selectedOptions
-                        ? selectedOptions.map((opt) => opt.value)
-                        : []
-                    );
-                    // setLoadedRecords(12);
-                    setCurrentPage(1);
-                  }}
-                  classNamePrefix="custom-select"
-                  placeholder="Select Requirements"
-                  menuPortalTarget={
-                    typeof window !== "undefined" ? document.body : null
-                  }
-                  menuPosition="fixed"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      minHeight: 48,
-                      paddingTop: 6,
-                      paddingBottom: 6,
-                      paddingLeft: 8,
-                      paddingRight: 8,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                    }),
-                    multiValue: (base) => ({
-                      ...base,
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: 12,
-                      padding: "2px 8px",
-                      margin: "2px 4px",
-                      fontSize: 14,
-                      color: "#333",
-                      display: "flex",
-                      alignItems: "center",
-                    }),
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      color: "#333",
-                      fontWeight: 500,
-                      padding: 0,
-                    }),
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      color: "#888",
-                      ":hover": {
-                        backgroundColor: "#e0e0e0",
-                        color: "#222",
-                      },
-                    }),
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
-              </Col>
-            </Row>
-            {/* Row 2 */}
-            <Row
-              className="g-2 px-2 mt-1 w-100 rounded"
-              style={{ transition: "min-height 0.2s" }}
-            >
-              <Col md={3}>
-                <Form.Label className="course_finder_filter">Year</Form.Label>
-                <Select
-                  id="year-select"
-                  className="custom-select-height"
-                  options={yearOptions}
-                  onChange={handleYearChange}
-                  isMulti
-                  value={
-                    selectedYear && selectedYear.length > 0
-                      ? selectedYear.map((year) => ({
-                          value: year,
-                          label: year.toString(),
-                        }))
-                      : []
-                  }
-                  classNamePrefix="custom-select"
-                  placeholder="Select Year"
-                  menuPortalTarget={
-                    typeof window !== "undefined" ? document.body : null
-                  }
-                  menuPosition="fixed"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      minHeight: 48,
-                      paddingTop: 6,
-                      paddingBottom: 6,
-                      paddingLeft: 8,
-                      paddingRight: 8,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                    }),
-                    multiValue: (base) => ({
-                      ...base,
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: 12,
-                      padding: "2px 8px",
-                      margin: "2px 4px",
-                      fontSize: 14,
-                      color: "#333",
-                      display: "flex",
-                      alignItems: "center",
-                    }),
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      color: "#333",
-                      fontWeight: 500,
-                      padding: 0,
-                    }),
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      color: "#888",
-                      ":hover": {
-                        backgroundColor: "#e0e0e0",
-                        color: "#222",
-                      },
-                    }),
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
-              </Col>
-              <Col md={3}>
-                <Form.Label className="course_finder_filter">Months</Form.Label>
-                <Select
-                  id="months-select"
-                  className="custom-select-height"
-                  options={month}
-                  isMulti
-                  onChange={handleCheckboxChange}
-                  value={selectedMonths}
-                  classNamePrefix="custom-select"
-                  placeholder="Select Months"
-                  menuPortalTarget={
-                    typeof window !== "undefined" ? document.body : null
-                  }
-                  menuPosition="fixed"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      minHeight: 48,
-                      paddingTop: 6,
-                      paddingBottom: 6,
-                      paddingLeft: 8,
-                      paddingRight: 8,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                    }),
-                    multiValue: (base) => ({
-                      ...base,
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: 12,
-                      padding: "2px 8px",
-                      margin: "2px 4px",
-                      fontSize: 14,
-                      color: "#333",
-                      display: "flex",
-                      alignItems: "center",
-                    }),
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      color: "#333",
-                      fontWeight: 500,
-                      padding: 0,
-                    }),
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      color: "#888",
-                      ":hover": {
-                        backgroundColor: "#e0e0e0",
-                        color: "#222",
-                      },
-                    }),
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
-              </Col>
-              <Col md={3}>
-                <Form.Label className="course_finder_filter">
-                  Duration
-                </Form.Label>
-                <Select
-                  id="duration-select"
-                  options={durationData}
-                  isMulti
-                  onChange={handleDurationChange}
-                  value={selectedDuration}
-                  classNamePrefix="custom-select"
-                  placeholder="Select Duration"
-                  menuPortalTarget={
-                    typeof window !== "undefined" ? document.body : null
-                  }
-                  menuPosition="fixed"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      minHeight: 48,
-                      paddingTop: 6,
-                      paddingBottom: 6,
-                      paddingLeft: 8,
-                      paddingRight: 8,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                    }),
-                    multiValue: (base) => ({
-                      ...base,
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: 12,
-                      padding: "2px 8px",
-                      margin: "2px 4px",
-                      fontSize: 14,
-                      color: "#333",
-                      display: "flex",
-                      alignItems: "center",
-                    }),
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      color: "#333",
-                      fontWeight: 500,
-                      padding: 0,
-                    }),
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      color: "#888",
-                      ":hover": {
-                        backgroundColor: "#e0e0e0",
-                        color: "#222",
-                      },
-                    }),
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
-              </Col>
-              <Col md={3}>
-                <Form.Label className="course_finder_filter">
-                  Backlog
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  value={backlog}
-                  onChange={(e) => {
-                    setBacklog(e.target.value);
-                    // setLoadedRecords(12);
-                    setCurrentPage(1);
-                  }}
-                  name="backlog"
-                  placeholder="Search Backlog"
-                  className="w-100 rounded-5 search-input-light"
-                  style={{ height: 50, minHeight: 50, padding: "0 10px" }}
-                />
-              </Col>
-              <Col md={6}>
-                <Form.Label className="course_finder_filter">
-                  Score Out Of
-                </Form.Label>
-                <Select
-                  id="duration-select"
-                  options={scoreOutOfOptions}
-                  onChange={(selected) => {
-                    setScoreOutOf(selected?.value);
-                  }}
-                  value={scoreOutOfOptions.filter(
-                    (score) => score.value === scoreOutOf
-                  )}
-                  classNamePrefix="custom-select"
-                  placeholder="Select Duration"
-                  menuPortalTarget={
-                    typeof window !== "undefined" ? document.body : null
-                  }
-                  menuPosition="fixed"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                    valueContainer: (base) => ({
-                      ...base,
-                      minHeight: 48,
-                      paddingTop: 6,
-                      paddingBottom: 6,
-                      paddingLeft: 8,
-                      paddingRight: 8,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                    }),
-                    multiValue: (base) => ({
-                      ...base,
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: 12,
-                      padding: "2px 8px",
-                      margin: "2px 4px",
-                      fontSize: 14,
-                      color: "#333",
-                      display: "flex",
-                      alignItems: "center",
-                    }),
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      color: "#333",
-                      fontWeight: 500,
-                      padding: 0,
-                    }),
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      color: "#888",
-                      ":hover": {
-                        backgroundColor: "#e0e0e0",
-                        color: "#222",
-                      },
-                    }),
-                    menuPortal: (base) => ({
-                      ...base,
-                      zIndex: 9999,
-                    }),
-                  }}
-                />
-              </Col>
-              <Col md={6}>
-                <Form.Label className="course_finder_filter">Score</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={score}
-                  onChange={(e) => {
-                    setScore(e.target.value);
-                    // setLoadedRecords(12);
-                    setCurrentPage(1);
-                  }}
-                  name="score"
-                  placeholder="Search Score"
-                  className="w-100 rounded-5 search-input-light"
-                  style={{ height: 50, minHeight: 50, padding: "0 10px" }}
-                />
-              </Col>
-              {/* <Col md={3}>
-                <Form.Label className="course_finder_filter">ESL/ELP Available</Form.Label>
-                <Select
-                  id="esl-elp-select"
-                  options={options}
-                  onChange={(selectedOption) => {
-                    setEslElpAvailable(
-                      selectedOption ? selectedOption.value : ""
-                    );
-                  }}
-                  value={
-                    options.find((opt) => opt.value === eslElpAvailable) ||
-                    null
-                  }
-                  classNamePrefix="custom-select"
-                  placeholder="Select available ESL/ELP"
-                  isClearable
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 50,
-                      minHeight: 50,
-                      padding: "0 10px",
-                    }),
-                  }}
-                />
-              </Col> */}
-            </Row>
-            {/* Row 3 */}
-            <Row
-              className="g-2 px-2 mt-1 w-100 rounded"
-              style={{ transition: "min-height 0.2s" }}
-            ></Row>
+                    }
+                    classNamePrefix="custom-select"
+                    placeholder="Select Year"
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label className="course_finder_filter">
+                    Months
+                  </Form.Label>
+                  <Select
+                    id="months-select"
+                    options={month}
+                    isMulti
+                    onChange={handleCheckboxChange}
+                    value={selectedMonths}
+                    classNamePrefix="custom-select"
+                    placeholder="Select Months"
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label className="course_finder_filter">
+                    Duration
+                  </Form.Label>
+                  <Select
+                    id="duration-select"
+                    options={durationData}
+                    isMulti
+                    onChange={handleDurationChange}
+                    value={selectedDuration}
+                    classNamePrefix="custom-select"
+                    placeholder="Select Duration"
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={3}>
+                  <Form.Label
+                    className="course_finder_filter"
+                    style={{ fontWeight: 500 }}
+                  >
+                    Backlog
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={backlog}
+                    onChange={(e) => {
+                      setBacklog(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    name="backlog"
+                    placeholder="Search Backlog"
+                    className="w-100"
+                    style={customStyle2}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={6}>
+                  <Form.Label className="course_finder_filter">
+                    Score Out Of
+                  </Form.Label>
+                  <Select
+                    id="score-out-of-select"
+                    options={scoreOutOfOptions}
+                    onChange={(selected) => {
+                      setScoreOutOf(selected?.value);
+                    }}
+                    value={scoreOutOfOptions.filter(
+                      (score) => score.value === scoreOutOf,
+                    )}
+                    classNamePrefix="custom-select"
+                    placeholder="Select Duration"
+                    menuPortalTarget={
+                      typeof window !== "undefined" ? document.body : null
+                    }
+                    menuPosition="fixed"
+                    styles={customStyle}
+                  />
+                </Col>
+                <Col xs={12} sm={6} md={6} lg={6}>
+                  <Form.Label className="course_finder_filter">
+                    Score
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={score}
+                    onChange={(e) => {
+                      setScore(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    name="score"
+                    placeholder="Search Score"
+                    className="w-100"
+                    style={customStyle2}
+                  />
+                </Col>
+              </Row>
+            </div>
+          )}
+
+          {/* Filter Toggle at bottom */}
+          <div className="mt-4 align-items-center">
             <div className="d-flex justify-content-center">
               <Button
-                variant="link"
-                className="text-primary"
+                variant={showFilterModal ? "danger" : "primary"}
+                className="px-3 py-2"
+                style={{
+                  borderRadius: "12px",
+                  fontWeight: 600,
+                  fontSize: "16px",
+                  border: "none",
+                  boxShadow: "0 4px 16px rgba(59, 130, 246, 0.3)",
+                  transition: "all 0.2s ease-in-out",
+                }}
                 onClick={() => {
-                  setShowFilterModal(false);
-                  setTimeout(() => {
-                    setShowButton(true);
-                  }, 300);
+                  setShowFilterModal(!showFilterModal);
                 }}
               >
-                <FaChevronUp
-                  size={24}
-                  className={`${isDropdownOpen ? "chevron" : ""}`}
-                />
+                {showFilterModal ? "Hide Filters" : "Show Filters"}
               </Button>
             </div>
           </div>
@@ -2476,7 +2064,7 @@ const PublicCourseFinder = () => {
                         setSelectedUniversities(selected);
                         formik.setFieldValue(
                           "university",
-                          selected.map((item) => item._id)
+                          selected.map((item) => item._id),
                         );
                       }}
                       value={
@@ -2656,18 +2244,18 @@ const PublicCourseFinder = () => {
                       placeholder="Select Score Out Of"
                       className="custom-select-height"
                       value={scoreOutOfOptions.find(
-                        (opt) => opt.value === formik.values.scoreOutOf
+                        (opt) => opt.value === formik.values.scoreOutOf,
                       )}
                       onChange={(selectedOption) => {
                         formik.setFieldValue(
                           "scoreOutOf",
-                          selectedOption ? selectedOption.value : ""
+                          selectedOption ? selectedOption.value : "",
                         );
                       }}
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                         }),
                         placeholder: (base) => ({
@@ -2704,7 +2292,7 @@ const PublicCourseFinder = () => {
                         setSelectedStudyLevel(selected);
                         formik.setFieldValue(
                           "studyLevel",
-                          selected.map((item) => item._id)
+                          selected.map((item) => item._id),
                         );
                       }}
                       value={selectedStudyLevel.map((level) => ({
@@ -2742,7 +2330,7 @@ const PublicCourseFinder = () => {
                         setSelectedRequirements(selected);
                         formik.setFieldValue(
                           "requirements",
-                          selected.map((item) => item._id)
+                          selected.map((item) => item._id),
                         );
                       }}
                       value={selectedRequirements.map((req) => ({
@@ -2799,7 +2387,7 @@ const PublicCourseFinder = () => {
                         setSelectedTags(selected);
                         formik.setFieldValue(
                           "tags",
-                          selected.map((item) => item._id)
+                          selected.map((item) => item._id),
                         );
                       }}
                       value={selectedTags.map((tag) => ({
@@ -2942,8 +2530,8 @@ const PublicCourseFinder = () => {
                                 formik.setFieldValue(
                                   "intakes",
                                   updatedIntakes.filter((item) =>
-                                    selectedIntake.includes(item.month)
-                                  )
+                                    selectedIntake.includes(item.month),
+                                  ),
                                 );
                               }}
                               className="me-2"
@@ -2968,7 +2556,7 @@ const PublicCourseFinder = () => {
                                 let updated = [];
                                 if (selectedIntake.includes(intake)) {
                                   updated = selectedIntake.filter(
-                                    (item) => item !== intake
+                                    (item) => item !== intake,
                                   );
                                 } else {
                                   updated = [...selectedIntake, intake];
@@ -2984,8 +2572,8 @@ const PublicCourseFinder = () => {
                                 formik.setFieldValue(
                                   "intakes",
                                   updatedIntakes.filter((item) =>
-                                    updated.includes(item.month)
-                                  )
+                                    updated.includes(item.month),
+                                  ),
                                 );
                               }}
                             >
@@ -3016,12 +2604,12 @@ const PublicCourseFinder = () => {
                         }))
                         .find(
                           (option) =>
-                            option.value === formik.values.currencyCode
+                            option.value === formik.values.currencyCode,
                         )}
                       onChange={(selectedOption) =>
                         formik.setFieldValue(
                           "currencyCode",
-                          selectedOption ? selectedOption.value : ""
+                          selectedOption ? selectedOption.value : "",
                         )
                       }
                       placeholder="Select Currency"
@@ -3029,7 +2617,7 @@ const PublicCourseFinder = () => {
                       styles={{
                         control: (base, state) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                           minWidth: "160px",
                           border: state.isFocused ? "1px" : base.border,
@@ -3037,7 +2625,7 @@ const PublicCourseFinder = () => {
                             ? "#3B3665"
                             : base.borderColor,
                           boxShadow: state.isFocused
-                            ? "0 0 0 1px #053880"
+                            ? "0 0 0 1px #5D54BE"
                             : base.boxShadow,
                         }),
                         placeholder: (base) => ({
@@ -3215,7 +2803,7 @@ const PublicCourseFinder = () => {
                           : "";
                         formik.setFieldValue(
                           "englishProficiencyExamWaiver",
-                          value
+                          value,
                         );
                       }}
                       value={
@@ -3328,21 +2916,23 @@ const PublicCourseFinder = () => {
         </Modal>
 
         <div className="d-flex flex-wrap justify-content-end gap-2">
-          {userRole !== "Student" && userRole !== "LeadStudent" && canDownload && (
-            <button
-              type="button"
-              className="custom-select-height btn btn-primary btn-icon-text d-inline-flex align-items-center mb-2"
-              style={{
-                pointerEvents: "auto",
-                position: "relative",
-                whiteSpace: "nowrap",
-              }}
-              onClick={courseDownload}
-            >
-              <i className="fe fe-download-cloud me-2 fs-14"></i> Download
-              Report
-            </button>
-          )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            canDownload && (
+              <button
+                type="button"
+                className="custom-select-height btn btn-primary btn-icon-text d-inline-flex align-items-center mb-2"
+                style={{
+                  pointerEvents: "auto",
+                  position: "relative",
+                  whiteSpace: "nowrap",
+                }}
+                onClick={courseDownload}
+              >
+                <i className="fe fe-download-cloud me-2 fs-14"></i> Download
+                Report
+              </button>
+            )}
           {userRole === "Super Admin" && (
             <button
               type="button"
@@ -3361,14 +2951,39 @@ const PublicCourseFinder = () => {
 
         <Row className="row-sm">
           <Col md={12} lg={12} xl={12}>
-            <Card className="custom-card transcation-crypto">
-              <Card.Header className="border-bottom-0">
-                <div className="w-100 d-flex justify-content-between align-items-center">
-                  <div className="card-title w-50">Course Finder</div>
-                  <div className="d-flex align-items-center justify-content-between gap-4">
-                    {showSlider && (
-                      <div>
-                        <Box sx={{ width: 300 }}>
+            <Card
+              className="custom-card transcation-crypto"
+              style={{
+                background: "white",
+                border: "1px solid #e2e8f0",
+                boxShadow: "0 8px 32px rgba(107, 92, 231, 0.1)",
+                borderRadius: "16px",
+                overflow: "hidden",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+              }}
+            >
+              <Card.Header
+                className="border-bottom-0"
+                style={{
+                  background: "transparent",
+                  borderRadius: "16px 16px 0 0",
+                  borderBottom: "1px solid #e2e8f0",
+                  padding: "20px",
+                }}
+              >
+                <div className="w-100">
+                  {showSlider && (
+                    <div className="mb-4 mb-md-3">
+                      <div
+                        className="bg-white p-3 p-md-4"
+                        style={{
+                          borderRadius: "12px",
+                          maxWidth: "100%",
+                          boxShadow: "0 4px 12px rgba(107, 92, 231, 0.15)",
+                          border: "1px solid #e2e8f0",
+                        }}
+                      >
+                        <Box sx={{ width: "100%" }}>
                           <Slider
                             getAriaLabel={() => "Range"}
                             value={[minPrice, maxPrice]}
@@ -3376,15 +2991,31 @@ const PublicCourseFinder = () => {
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}
                             max={100000}
+                            sx={{
+                              "& .MuiSlider-track": {
+                                background:
+                                  "linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
+                              },
+                              "& .MuiSlider-thumb": {
+                                background:
+                                  "linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
+                              },
+                            }}
                           />
-                          <div className="d-flex gap-2">
+                          <div className="d-flex flex-row flex-sm-row gap-2 mt-2">
                             <TextField
                               label="Min"
                               type="number"
                               value={minPrice}
                               onChange={handleMinChange}
                               size="small"
-                              sx={{ width: 100 }}
+                              sx={{
+                                width: "100%",
+                                maxWidth: "120px",
+                                "& .MuiOutlinedInput-root": {
+                                  background: "#f8fafc",
+                                },
+                              }}
                             />
                             <TextField
                               label="Max"
@@ -3392,85 +3023,79 @@ const PublicCourseFinder = () => {
                               value={maxPrice}
                               onChange={handleMaxChange}
                               size="small"
-                              sx={{ width: 100 }}
+                              sx={{
+                                width: "100%",
+                                maxWidth: "120px",
+                                "& .MuiOutlinedInput-root": {
+                                  background: "#f8fafc",
+                                },
+                              }}
                             />
                           </div>
                         </Box>
                       </div>
-                    )}
-                    <div className="custom-select-height total-records px-3 mt-2 mt-md-0 d-flex align-items-center h-6 w-15">
-                      <span style={{ whiteSpace: "nowrap" }}>
-                        Total Records: <strong>{totalRecords}</strong>
-                      </span>
+                    </div>
+                  )}
+
+                  <div className="d-flex flex-column flex-lg-row justify-content-between align-items-stretch gap-3">
+                    <div className="d-flex flex-wrap justify-content-start justify-content-lg-start gap-2 w-100 w-lg-auto"></div>
+                    {/* Total Records - Left aligned on large screens, full width on mobile */}
+                    <div className="d-flex justify-content-end justify-content-lg-end">
+                      <div
+                        className="custom-select-height total-records px-4 py-2 d-flex align-items-center"
+                        style={{
+                          background: "#e0e7ff",
+                          borderRadius: "20px",
+                          color: "#6B5CE7",
+                          fontWeight: "500",
+                          minWidth: "fit-content",
+                          height: "fit-content",
+                        }}
+                      >
+                        <span style={{ whiteSpace: "nowrap" }}>
+                          Total Records: <strong>{totalRecords}</strong>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </Card.Header>
-              <Card.Body>
-                <div>
+              <Card.Body style={{ padding: "25px" }}>
+                <div className="mb-4">
                   {hasSearched &&
                     relexFilterMsg &&
                     relexFilterMsg !== "Courses fetched successfully" &&
                     relexFilterMsg !== "No matching courses found." && (
-                      // <div
-                      //   className="text-muted mt-1 update-warning mb-3"
-                      //   style={{ fontSize: "14px" }}
-                      // >
-                      //   {relexFilterMsg}
-                      // </div>
                       <div
+                        className="alert alert-info d-flex align-items-center"
+                        role="alert"
                         style={{
-                          padding: "10px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          background:
+                            "linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)",
+                          border: "1px solid #fbbf24",
+                          borderRadius: "12px",
+                          padding: "15px 20px",
                         }}
                       >
                         <div
-                          className="card"
+                          className="d-flex align-items-center"
                           style={{
-                            border: "1px solid #FFD600",
-                            borderRadius: "10px",
-                            padding: "10px",
-                            display: "flex",
+                            width: "24px",
+                            height: "24px",
+                            background: "#f59e0b",
+                            color: "white",
+                            borderRadius: "50%",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            justifyContent: "center",
                             alignItems: "center",
-                            justifyContent: "space-between",
-                            backgroundColor: "#FFF9C4",
-                            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                            marginRight: "12px",
                           }}
                         >
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
-                            <div
-                              style={{
-                                backgroundColor: "#FFD600",
-                                color: "#333",
-                                borderRadius: "50%",
-                                width: "18px",
-                                height: "18px",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                marginRight: "10px",
-                                fontSize: "14px",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              !
-                            </div>
-                            <div>
-                              <h5
-                                style={{
-                                  margin: 0,
-                                  fontSize: "14px",
-                                  fontWeight: "bold",
-                                }}
-                              >
-                                {relexFilterMsg}
-                              </h5>
-                            </div>
-                          </div>
+                          !
+                        </div>
+                        <div>
+                          <strong>{relexFilterMsg}</strong>
                         </div>
                       </div>
                     )}
@@ -3482,27 +3107,62 @@ const PublicCourseFinder = () => {
                           <div key={index} className="col">
                             <div
                               className="card h-100 border-0 course_card"
-                              style={{ position: "relative" }}
+                              style={{
+                                position: "relative",
+                                background: "#fff",
+                                borderRadius: "16px",
+                                overflow: "hidden",
+                                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
+                                transition:
+                                  "transform 0.3s ease, box-shadow 0.3s ease",
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.transform =
+                                  "translateY(-5px)";
+                                e.currentTarget.style.boxShadow =
+                                  "0 20px 40px rgba(0, 0, 0, 0.1)";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.transform =
+                                  "translateY(0)";
+                                e.currentTarget.style.boxShadow =
+                                  "0 10px 25px rgba(0, 0, 0, 0.15)";
+                              }}
                             >
+                              {item?.status === "Inactive" && (
+                                <div
+                                  className="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-end rounded-bottom"
+                                  style={{ zIndex: 10 }}
+                                >
+                                  Course Unavailable
+                                </div>
+                              )}
                               <div className="card-body">
-                                {item?.status === "Inactive" && (
-                                  <div className="notification-unavailable">
-                                    Course Unavailable
-                                  </div>
-                                )}
-                                <div className="d-flex justify-content-between align-items-center mb-2 gap-2">
-                                  <div className="d-flex align-items-center gap-3">
-                                    <div className="university-logo-main">
+                                <div className="d-flex justify-content-between align-items-start mb-3 gap-2">
+                                  <div className="d-flex align-items-center gap-3 flex-grow-1">
+                                    <div
+                                      className="university-logo-main"
+                                      style={{
+                                        minWidth: "60px",
+                                        minHeight: "60px",
+                                      }}
+                                    >
                                       <img
                                         src={`${REACT_APP_API_URL}/${item?.university?.profile?.replace(
                                           /\\/g,
-                                          "/"
+                                          "/",
                                         )}`}
                                         alt="University Logo"
-                                        className="university-logo"
+                                        className="university-logo rounded-circle"
+                                        style={{
+                                          width: "60px",
+                                          height: "60px",
+                                          objectFit: "cover",
+                                          // border: "2px solid #e2e8f0",
+                                        }}
                                       />
                                     </div>
-                                    <div className="tooltip-wrapper">
+                                    <div className="flex-grow-1">
                                       <OverlayTrigger
                                         placement="top"
                                         overlay={
@@ -3512,92 +3172,99 @@ const PublicCourseFinder = () => {
                                           </Tooltip>
                                         }
                                       >
-                                        <span
-                                          className="institute_name text-dark"
+                                        <h6
+                                          className="institute_name text-dark mb-1"
                                           style={{
-                                            fontSize: "17px",
+                                            fontSize: "16px",
+                                            fontWeight: "600",
                                             cursor: "pointer",
+                                            lineHeight: 1.3,
                                           }}
                                         >
-                                          <strong>
-                                            {item?.university?.instituteName ||
-                                              "-"}
-                                          </strong>
-                                        </span>
+                                          {item?.university?.instituteName ||
+                                            "-"}
+                                        </h6>
                                       </OverlayTrigger>
+                                      <span className="text-muted small">
+                                        {item?.studyLevel[0]?.name || "-"}
+                                      </span>
                                     </div>
                                   </div>
-                                  <div className="d-flex align-items-center">
-                                    {userRole !== "Student" && userRole !== "LeadStudent" && (
-                                      <div className="form-check form-switch custom-toggle-button me-0">
-                                        <input
-                                          className="form-check-input three-dots-icon"
-                                          type="checkbox"
-                                          id={`toggle-${index}`}
-                                          checked={selectedIds.includes(
-                                            item._id
-                                          )}
-                                          onChange={() =>
-                                            handleCheckboxChangeId(item?._id)
-                                          }
-                                        />
-                                      </div>
-                                    )}
-                                  </div>
+                                  {/* <div className="d-flex align-items-center gap-2">
+                                    {userRole !== "Student" &&
+                                      userRole !== "LeadStudent" && (
+                                        <div className="form-check form-switch custom-toggle-button me-0">
+                                          <input
+                                            className="form-check-input three-dots-icon"
+                                            type="checkbox"
+                                            id={`toggle-${index}`}
+                                            checked={selectedIds.includes(
+                                              item._id,
+                                            )}
+                                            onChange={() =>
+                                              handleCheckboxChangeId(item?._id)
+                                            }
+                                          />
+                                        </div>
+                                      )}
+                                  </div> */}
                                 </div>
-                                <div className="program-name-wrapper">
-                                  <span
-                                    className="text-primary"
-                                    style={{
-                                      fontSize: "18px",
-                                      color: "#053880",
-                                    }}
-                                  >
-                                    {item?.studyLevel[0]?.name || "-"}
+                                <h5
+                                  className="course_program_title text-primary mb-3"
+                                  onClick={() => handleView(item)}
+                                  style={{
+                                    fontSize: "18px",
+                                    fontWeight: "600",
+                                    cursor: "pointer",
+                                    color: "#6B5CE7",
+                                    transition: "color 0.2s ease",
+                                  }}
+                                  onMouseEnter={(e) =>
+                                    (e.target.style.color = "#7B68EE")
+                                  }
+                                  onMouseLeave={(e) =>
+                                    (e.target.style.color = "#6B5CE7")
+                                  }
+                                >
+                                  {item?.programName || "-"}
+                                </h5>
+                                <div className="d-flex align-items-center mb-3 text-muted small">
+                                  <span className="me-1">
+                                    <PublicIcon
+                                      className="course_icon_1"
+                                      style={{
+                                        fontSize: "16px",
+                                        verticalAlign: "middle",
+                                      }}
+                                    />
                                   </span>
-                                  <h5
-                                    className="course_program_title text-primary mb-3"
-                                    onClick={() => handleView(item)}
-                                  >
-                                    {item?.programName || "-"}
-                                  </h5>
-                                </div>
-                                <div className="d-flex flex-wrap justify-content-between mb-3">
-                                  <div className="d-flex">
-                                    <span className="me-1">
-                                      <PublicIcon className="course_icon_1" />
-                                    </span>
-                                    <span
-                                      className="text-muted"
-                                      style={{ fontSize: "18px" }}
-                                    >
-                                      {item?.university?.country || "-"}
-                                      {item?.university?.state
-                                        ? `, ${item?.university?.state}`
-                                        : ""}
-                                      {item?.university?.city
-                                        ? `, ${item?.university?.city}`
-                                        : ""}
-                                    </span>
-                                  </div>
+                                  <span className="text-capitalize">
+                                    {item?.university?.country || "-"}
+                                    {item?.university?.state
+                                      ? `, ${item?.university?.state}`
+                                      : ""}
+                                    {item?.university?.city
+                                      ? `, ${item?.university?.city}`
+                                      : ""}
+                                  </span>
                                 </div>
 
-                                <div className="tag-pill-container">
+                                <div className="tag-pill-container mb-3">
                                   {item?.tags?.length > 0 &&
                                     item?.tags?.map((tag) => (
                                       <span
                                         key={tag._id}
-                                        className="tag-pill d-inline-flex align-items-center me-2 mb-2 gap-1"
+                                        className="tag-pill d-inline-flex align-items-center me-2 mb-2 gap-1 px-3 py-1"
                                         style={{
                                           backgroundColor: hexToRgba(
-                                            tag.color || "#d0e2ff",
-                                            0.2
+                                            tag.color || "#667eea",
+                                            0.1,
                                           ),
                                           borderRadius: "20px",
-                                          padding: "2px 8px",
-                                          fontSize: "13px",
+                                          fontSize: "12px",
                                           fontWeight: 500,
-                                          color: tag.color || "#000",
+                                          color: tag.color || "#667eea",
+                                          border: `1px solid ${hexToRgba(tag.color || "#667eea", 0.3)}`,
                                         }}
                                       >
                                         {getIconForTag(tag)}
@@ -3606,174 +3273,225 @@ const PublicCourseFinder = () => {
                                     ))}
                                 </div>
 
-                                <div className="horizontal_line mb-3"></div>
-                                <p className="course_card_main">
-                                  <span className="span-1">
-                                    Application Fee&nbsp;:&nbsp;
-                                  </span>
-                                  <span className="span-2">
-                                    {item.applicationFee &&
-                                    item.currencyCode ? (
-                                      <>
-                                        {getSymbolFromCurrency(
-                                          item.currencyCode
-                                        ) || item.currencyCode}
-                                        &nbsp;
-                                        {new Intl.NumberFormat().format(
+                                <div className="mb-3">
+                                  <div className="d-flex justify-content-between align-items-center mb-1">
+                                    <span
+                                      className="fw-bold"
+                                      // style={{ fontWeight: "500" }}
+                                    >
+                                      Application Fee:
+                                    </span>
+                                    <span
+                                      className="text-muted"
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      {item.applicationFee &&
+                                      item.currencyCode ? (
+                                        <>
+                                          {getSymbolFromCurrency(
+                                            item.currencyCode,
+                                          ) || item.currencyCode}
+                                          &nbsp;
+                                          {new Intl.NumberFormat().format(
+                                            Number(
+                                              String(
+                                                item.applicationFee,
+                                              ).replace(/,/g, ""),
+                                            ),
+                                          )}
+                                        </>
+                                      ) : item.applicationFee ? (
+                                        new Intl.NumberFormat().format(
                                           Number(
                                             String(item.applicationFee).replace(
                                               /,/g,
-                                              ""
-                                            )
-                                          )
-                                        )}
-                                      </>
-                                    ) : item.applicationFee ? (
-                                      new Intl.NumberFormat().format(
-                                        Number(
-                                          String(item.applicationFee).replace(
-                                            /,/g,
-                                            ""
-                                          )
+                                              "",
+                                            ),
+                                          ),
                                         )
-                                      )
-                                    ) : (
-                                      "N/A"
-                                    )}
-                                  </span>
-                                </p>
+                                      ) : (
+                                        "N/A"
+                                      )}
+                                    </span>
+                                  </div>
 
-                                <p className="course_card_main">
-                                  <span className="span-1">
-                                    Yearly Tuition Fee :{" "}
-                                  </span>
-                                  <span
-                                    className="span-2"
-                                    style={{
-                                      position: "relative",
-                                      display: "inline-block",
-                                    }}
-                                  >
-                                    {item.yearlyTuitionFee &&
-                                    item.currencyCode ? (
-                                      <>
-                                        {getSymbolFromCurrency(
-                                          item.currencyCode
-                                        ) || item.currencyCode}
-                                        &nbsp;
-                                        {new Intl.NumberFormat().format(
-                                          Number(
-                                            String(
-                                              item.yearlyTuitionFee
-                                            ).replace(/,/g, "")
-                                          )
-                                        )}
-                                        <OverlayTrigger
-                                          placement="top"
-                                          overlay={
-                                            <Tooltip>
-                                              {getINRValue(
+                                  <div className="d-flex justify-content-between align-items-center mb-1">
+                                    <span
+                                      className="fw-bold"
+                                      // style={{ fontWeight: "500" }}
+                                    >
+                                      Yearly Tuition Fee:
+                                    </span>
+                                    <span
+                                      className="text-muted"
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      {item.yearlyTuitionFee &&
+                                      item.currencyCode ? (
+                                        <>
+                                          {getSymbolFromCurrency(
+                                            item.currencyCode,
+                                          ) || item.currencyCode}
+                                          &nbsp;
+                                          {new Intl.NumberFormat().format(
+                                            Number(
+                                              String(
                                                 item.yearlyTuitionFee,
-                                                item.currencyCode
-                                              )}
-                                            </Tooltip>
-                                          }
-                                        >
-                                          <span
-                                            style={{
-                                              position: "absolute",
-                                              top: "-11px",
-                                              right: "-5px",
-                                              cursor: "pointer",
-                                            }}
+                                              ).replace(/,/g, ""),
+                                            ),
+                                          )}
+                                          <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                              <Tooltip>
+                                                {getINRValue(
+                                                  item.yearlyTuitionFee,
+                                                  item.currencyCode,
+                                                )}
+                                              </Tooltip>
+                                            }
                                           >
-                                            <img
-                                              src={ALLImages("course1")}
-                                              height="15px"
-                                              width="15px"
-                                              style={{ marginBottom: "15px" }}
-                                              alt=""
-                                            />
-                                          </span>
-                                        </OverlayTrigger>
-                                      </>
-                                    ) : item.yearlyTuitionFee ? (
-                                      <>
-                                        {new Intl.NumberFormat().format(
-                                          Number(
-                                            String(
-                                              item.yearlyTuitionFee
-                                            ).replace(/,/g, "")
-                                          )
-                                        )}
-                                      </>
-                                    ) : (
-                                      "N/A"
-                                    )}
-                                  </span>
-                                </p>
+                                            <span
+                                              style={{
+                                                position: "relative",
+                                                display: "inline-block",
+                                                marginLeft: "8px",
+                                                cursor: "pointer",
+                                              }}
+                                            >
+                                              <img
+                                                src={ALLImages("course1")}
+                                                height="16px"
+                                                width="16px"
+                                                alt="INR"
+                                                style={{ opacity: 0.7 }}
+                                              />
+                                            </span>
+                                          </OverlayTrigger>
+                                        </>
+                                      ) : item.yearlyTuitionFee ? (
+                                        <>
+                                          {new Intl.NumberFormat().format(
+                                            Number(
+                                              String(
+                                                item.yearlyTuitionFee,
+                                              ).replace(/,/g, ""),
+                                            ),
+                                          )}
+                                        </>
+                                      ) : (
+                                        "N/A"
+                                      )}
+                                    </span>
+                                  </div>
 
-                                <p className="course_card_main">
-                                  <span className="span-1">
-                                    Duration&nbsp;:&nbsp;
-                                  </span>
-                                  <span className="span-2">
-                                    {item?.duration || "N/A"}
-                                  </span>
-                                </p>
-                                <p className="course_card_main">
-                                  <span className="span-1">
-                                    Intake Months&nbsp;:&nbsp;
-                                  </span>
-                                  <span className="span-2">
-                                    {item?.intakes && item.intakes.length > 0
-                                      ? item.intakes
-                                          .map((intake) => intake.month)
-                                          .join(", ")
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                                <p className="course_card_main">
-                                  <span className="span-1">
-                                    Intake Years&nbsp;:&nbsp;
-                                  </span>
-                                  <span className="span-2">
-                                    {item?.intakeYear &&
-                                    item.intakeYear.length > 0
-                                      ? item.intakeYear.join(", ")
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                                <p className="course_card_main text-gray-6 bg-light-purple text-dark px-2 py-1 rounded">
-                                  <span className="span-1">
-                                    Level&nbsp;:&nbsp;
-                                  </span>
-                                  <span className="span-2">
-                                    {item?.studyLevel?.length > 0
-                                      ? item.studyLevel
-                                          .map((level) => level.name)
-                                          .join(", ")
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                                <p className="course_card_main text-gray-6 mb-3 text-dark px-2 py-1 rounded">
-                                  <span className="span-1">
-                                    Requirements&nbsp;:&nbsp;
-                                  </span>
-                                  <span className="span-2 d-flex flex-wrap gap-2">
-                                    {item?.requirements?.length > 0
-                                      ? item.requirements.map((req, idx) => {
+                                  <div className="d-flex justify-content-between align-items-center mb-1">
+                                    <span
+                                      className="fw-bold"
+                                      // style={{ fontWeight: "500" }}
+                                    >
+                                      Duration:
+                                    </span>
+                                    <span
+                                      className="text-muted"
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      {item?.duration || "N/A"}
+                                    </span>
+                                  </div>
+
+                                  <div className="d-flex justify-content-between align-items-center mb-1">
+                                    <span
+                                      className="fw-bold"
+                                      // style={{ fontWeight: "500" }}
+                                    >
+                                      Intake Months:
+                                    </span>
+                                    <span
+                                      className="text-muted"
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      {item?.intakes && item.intakes.length > 0
+                                        ? item.intakes
+                                            .map((intake) => intake.month)
+                                            .join(", ")
+                                        : "N/A"}
+                                    </span>
+                                  </div>
+
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <span
+                                      className="fw-bold"
+                                      // style={{ fontWeight: "500" }}
+                                    >
+                                      Intake Years:
+                                    </span>
+                                    <span
+                                      className="text-muted"
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      {item?.intakeYear &&
+                                      item.intakeYear.length > 0
+                                        ? item.intakeYear.join(", ")
+                                        : "N/A"}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div
+                                  className="mb-3 p-3 rounded-lg"
+                                  style={{ background: "#f8fafc" }}
+                                >
+                                  <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
+                                    <span
+                                      className="fw-bold"
+                                      style={{
+                                        minWidth: "70px",
+                                        fontSize: "14px",
+                                      }}
+                                    >
+                                      Level:
+                                    </span>
+                                    <span
+                                      className="text-muted"
+                                      style={{
+                                        fontSize: "14px",
+                                        lineHeight: "1.5",
+                                        textAlign: "right",
+                                        flex: 1,
+                                      }}
+                                    >
+                                      {item?.studyLevel?.length > 0
+                                        ? item.studyLevel
+                                            .map((level) => level.name)
+                                            .join(", ")
+                                        : "N/A"}
+                                    </span>
+                                  </div>
+
+                                  <div>
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                      <span
+                                        className="fw-bold"
+                                        // style={{ fontWeight: "500" }}
+                                      >
+                                        Requirements:
+                                      </span>
+                                    </div>
+                                    <div className="d-flex flex-wrap gap-2">
+                                      {item?.requirements?.length > 0 ? (
+                                        item.requirements.map((req, idx) => {
                                           const name = req?.name || "N/A";
                                           const { bg, text } =
                                             getColorForRequirement(name);
                                           return (
                                             <span
                                               key={idx}
-                                              className="px-2 py-1 rounded"
+                                              className="px-3 py-1 rounded"
                                               style={{
                                                 backgroundColor: bg,
                                                 color: text,
-                                                fontSize: "13px",
+                                                fontSize: "14px",
                                                 fontWeight: 500,
                                               }}
                                             >
@@ -3781,27 +3499,28 @@ const PublicCourseFinder = () => {
                                             </span>
                                           );
                                         })
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                                <div className="horizontal_line"></div>
-                                <div className="d-flex justify-content-between align-items-center mt-3">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: "20px",
-                                    }}
-                                  >
+                                      ) : (
+                                        <span className="text-muted small">
+                                          N/A
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="d-flex flex-wrap justify-content-between align-items-center mt-3 gap-2">
+                                  <div className="d-flex align-items-center gap-3">
                                     {item.websiteUrl && (
                                       <a
                                         href={item.websiteUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        className="text-decoration-none"
+                                        style={{ color: "#00b2c5" }}
                                       >
                                         <FaGlobe
                                           style={{
-                                            fontSize: "24px",
-                                            color: "#00b2c5",
+                                            fontSize: "20px",
                                           }}
                                         />
                                       </a>
@@ -3811,14 +3530,12 @@ const PublicCourseFinder = () => {
                                         href={item.university?.youtubeLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        className="text-decoration-none"
+                                        style={{ color: "#FF0033" }}
                                       >
                                         <FaYoutube
                                           style={{
-                                            fontSize: "26px",
-                                            color: "white",
-                                            background: "#FF0033",
-                                            borderRadius: "50%",
-                                            padding: "5px",
+                                            fontSize: "22px",
                                           }}
                                         />
                                       </a>
@@ -3828,21 +3545,39 @@ const PublicCourseFinder = () => {
                                         href={item.university?.galleryLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        className="text-decoration-none"
+                                        style={{ color: "#E1306C" }}
                                       >
                                         <FaInstagram
                                           className="instagram-icon"
                                           style={{
-                                            fontSize: "26px",
-                                            color: "#E1306C",
+                                            fontSize: "22px",
                                           }}
                                         />
                                       </a>
                                     )}
                                   </div>
-                                  <div>
+                                  <div className="d-flex flex-wrap gap-2">
                                     <button
                                       className="btn btn-outline-primary rounded_button"
                                       onClick={() => handleView(item)}
+                                      style={{
+                                        border: "1px solid #6B5CE7",
+                                        color: "#6B5CE7",
+                                        borderRadius: "8px",
+                                        padding: "8px 16px",
+                                        fontWeight: "500",
+                                        transition: "all 0.2s ease",
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        e.target.style.background = "#4f46e5";
+                                        e.target.style.color = "white";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.target.style.background =
+                                          "transparent";
+                                        e.target.style.color = "#4f46e5";
+                                      }}
                                     >
                                       Details
                                     </button>
@@ -3853,58 +3588,29 @@ const PublicCourseFinder = () => {
                           </div>
                         ))
                       : !isLoading && (
-                          <div className="w-100 d-flex justify-content-center">
-                            No data available
+                          <div className="w-100 d-flex justify-content-center align-items-center py-5">
+                            <div className="text-center">
+                              <div
+                                className="mb-3"
+                                style={{ fontSize: "3rem", color: "#cbd5e1" }}
+                              >
+                                📚
+                              </div>
+                              <h5 className="text-muted">No courses found</h5>
+                              <p className="text-muted">
+                                Try adjusting your search criteria
+                              </p>
+                            </div>
                           </div>
                         )}
                   </div>
                 </div>
 
-                <Modal
+                <DeleteConfirmModal
                   show={showDeleteModal}
                   onHide={() => setShowDeleteModal(false)}
-                  centered
-                >
-                  <Modal.Header className="form-main-heading">
-                    <Modal.Title className="fw-semibold">
-                      Confirm Deletion
-                    </Modal.Title>
-                    <AiOutlineClose
-                      size={20}
-                      style={{ cursor: "pointer", color: "white" }}
-                      onClick={() => setShowDeleteModal(false)}
-                    />
-                  </Modal.Header>
-                  <Modal.Body className="text-center py-4">
-                    <div className="text-danger text-primary fs-1 mb-3">
-                      <i className="bi bi-exclamation-triangle-fill"></i>
-                    </div>
-                    <p className="mb-1 fw-semibold">
-                      Are you sure you want to delete this item?
-                    </p>
-                    <small className="text-muted">
-                      This action cannot be undone.
-                    </small>
-                  </Modal.Body>
-
-                  <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                    <Button
-                      variant="light"
-                      className="btn-cancel-delete px-4"
-                      onClick={() => setShowDeleteModal(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      className="btn-delete-confirm"
-                      onClick={() => {
-                        handleDelete(selectedItem);
-                      }}
-                    >
-                      <i className="bi bi-trash-fill me-2"></i>Delete
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+                  onConfirm={() => handleDelete(selectedItem)}
+                />
 
                 <LoadMoreButton
                   isLoading={isLoading}

@@ -535,7 +535,7 @@ const CourseFinder = () => {
     }
   }, [currentPage, itemsPerPage, appliedFilters, hasSearched]);
 
-  useEffect(() => { }, [courseFinderData]);
+  useEffect(() => {}, [courseFinderData]);
 
   useEffect(() => {
     fetchAllInstitute();
@@ -863,9 +863,9 @@ const CourseFinder = () => {
         // Convert comma-separated disciplineArea to array
         const formattedDisciplineArea = values.disciplineArea
           ? values.disciplineArea
-            .split(",")
-            .map((item) => item.trim())
-            .filter((item) => item.length > 0)
+              .split(",")
+              .map((item) => item.trim())
+              .filter((item) => item.length > 0)
           : [];
 
         const submitData = {
@@ -1222,10 +1222,11 @@ const CourseFinder = () => {
     // Check if inrValue is valid
     if (isNaN(inrValue)) return "Invalid conversion";
 
-    return `${storedEncryptedCurrency ? storedEncryptedCurrency : "INR"} Value: ${storedEncryptedCurrency
+    return `${storedEncryptedCurrency ? storedEncryptedCurrency : "INR"} Value: ${
+      storedEncryptedCurrency
         ? getSymbolFromCurrency(storedEncryptedCurrency)
         : "₹"
-      }${inrValue.toLocaleString("en-IN")}`;
+    }${inrValue.toLocaleString("en-IN")}`;
   };
 
   const customStyle = {
@@ -1390,7 +1391,7 @@ const CourseFinder = () => {
                   )}
                 </div>
               </Col>
-              <Col xs={12} lg={3} >
+              <Col xs={12} lg={3}>
                 <div className="d-flex flex-column flex-lg-row gap-2 w-100">
                   <Button
                     variant="primary"
@@ -1773,9 +1774,9 @@ const CourseFinder = () => {
                   value={
                     selectedYear && selectedYear.length > 0
                       ? selectedYear.map((year) => ({
-                        value: year,
-                        label: year.toString(),
-                      }))
+                          value: year,
+                          label: year.toString(),
+                        }))
                       : []
                   }
                   classNamePrefix="custom-select"
@@ -1938,8 +1939,6 @@ const CourseFinder = () => {
         showInput={showInput}
         scoreOutOfOptions={scoreOutOfOptions}
       />
-
-
 
       <CourseFinderCard
         showSlider={showSlider}

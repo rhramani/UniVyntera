@@ -41,7 +41,7 @@ const VisitorFormModal = ({
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px", 
+      borderRadius: "12px", 
       color: "black",
     }),
     placeholder: (base) => ({
@@ -360,7 +360,7 @@ const VisitorFormModal = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -421,7 +421,7 @@ const VisitorFormModal = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -468,7 +468,7 @@ const VisitorFormModal = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: " 30px",
+                      borderRadius: " 12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -513,7 +513,7 @@ const VisitorFormModal = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -577,7 +577,7 @@ const VisitorFormModal = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -934,7 +934,7 @@ const VisitorFormModal = ({
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                         }),
                         placeholder: (base) => ({

@@ -98,7 +98,7 @@ const RpDecision = ({
           "PIC Decision",
           values.picUpload,
           resetForm,
-          rpDecisionFormik
+          rpDecisionFormik,
         );
         uploadSuccess = uploadResult.success;
         documentDetails = uploadResult.documentDetails;
@@ -130,7 +130,7 @@ const RpDecision = ({
         const res = await dispatch(
           mode === "student"
             ? updateStudentApplication(payload, id)
-            : updateVisitorApplication(payload, id)
+            : updateVisitorApplication(payload, id),
         );
         if (res?.status !== 200) {
           console.error("API response error:", res?.data);
@@ -166,11 +166,11 @@ const RpDecision = ({
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process RP Decision request. Please try again."
+          "Failed to process RP Decision request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -255,8 +255,8 @@ const RpDecision = ({
                           ? formatDate(
                               parseDate(
                                 rpDecisionFormik.values.RP_decisionDate
-                                  .issueDate
-                              )
+                                  .issueDate,
+                              ),
                             )
                           : ""
                       }
@@ -266,18 +266,22 @@ const RpDecision = ({
                         if (rpDecisionFormik.values.RP_decisionDate.issueDate) {
                           setRPIssueDateValue(
                             parseDate(
-                              rpDecisionFormik.values.RP_decisionDate.issueDate
-                            )
+                              rpDecisionFormik.values.RP_decisionDate.issueDate,
+                            ),
                           );
                         }
                         setShowRPIssueDateCalendar((show) => !show);
                       }}
                       style={{
                         cursor:
-                          userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                          userRole === "Student" || userRole === "LeadStudent"
+                            ? "not-allowed"
+                            : "pointer",
                         backgroundColor: "#fff",
                       }}
-                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        userRole === "Student" || userRole === "LeadStudent"
+                      }
                     />
                     <MdCalendarToday
                       style={{
@@ -312,7 +316,7 @@ const RpDecision = ({
                             setRPIssueDateValue(selectedDate);
                             rpDecisionFormik.setFieldValue(
                               "RP_decisionDate.issueDate",
-                              formatDate(selectedDate)
+                              formatDate(selectedDate),
                             );
                             setShowRPIssueDateCalendar(false);
                           }}
@@ -337,8 +341,8 @@ const RpDecision = ({
                         rpDecisionFormik.values.RP_decisionDate.endDate
                           ? formatDate(
                               parseDate(
-                                rpDecisionFormik.values.RP_decisionDate.endDate
-                              )
+                                rpDecisionFormik.values.RP_decisionDate.endDate,
+                              ),
                             )
                           : ""
                       }
@@ -348,18 +352,22 @@ const RpDecision = ({
                         if (rpDecisionFormik.values.RP_decisionDate.endDate) {
                           setRPEndDateValue(
                             parseDate(
-                              rpDecisionFormik.values.RP_decisionDate.endDate
-                            )
+                              rpDecisionFormik.values.RP_decisionDate.endDate,
+                            ),
                           );
                         }
                         setShowRPEndDateCalendar((show) => !show);
                       }}
                       style={{
                         cursor:
-                          userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                          userRole === "Student" || userRole === "LeadStudent"
+                            ? "not-allowed"
+                            : "pointer",
                         backgroundColor: "#fff",
                       }}
-                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        userRole === "Student" || userRole === "LeadStudent"
+                      }
                     />
                     <MdCalendarToday
                       style={{
@@ -394,7 +402,7 @@ const RpDecision = ({
                             setRPEndDateValue(selectedDate);
                             rpDecisionFormik.setFieldValue(
                               "RP_decisionDate.endDate",
-                              formatDate(selectedDate)
+                              formatDate(selectedDate),
                             );
                             setShowRPEndDateCalendar(false);
                           }}
@@ -419,9 +427,13 @@ const RpDecision = ({
                     className="rounded-4"
                     style={{
                       cursor:
-                        userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                        userRole === "Student" || userRole === "LeadStudent"
+                          ? "not-allowed"
+                          : "pointer",
                     }}
-                    disabled={userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -437,7 +449,9 @@ const RpDecision = ({
                       rpDecisionFormik.setFieldTouched("picUpload", true)
                     }
                     disabled={
-                      rpDecisionFilePaths?.length > 0 || userRole === "Student" || userRole === "LeadStudent"
+                      rpDecisionFilePaths?.length > 0 ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
                     }
                   />
                 </Form.Group>
@@ -500,7 +514,7 @@ const RpDecision = ({
                         sendPendingDocumentMain(id, selectedDocumentNames);
                       } else {
                         toast.error(
-                          "Please select at least one document to send via mail."
+                          "Please select at least one document to send via mail.",
                         );
                       }
                     }}
@@ -530,7 +544,8 @@ const RpDecision = ({
                                                               )} */}
                     {userRole !== "B2B Admin" &&
                       userRole !== "B2B Member" &&
-                      userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                      userRole !== "Student" &&
+                      userRole !== "LeadStudent" && <th>Document Pendency</th>}
                     <th>Sr No</th>
                     <th>Document Name</th>
                     <th>Upload File</th>
@@ -589,7 +604,8 @@ const RpDecision = ({
                                                         )} */}
                             {userRole !== "B2B Admin" &&
                               userRole !== "B2B Member" &&
-                              userRole !== "Student" && userRole !== "LeadStudent" && (
+                              userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
                                 <td>
                                   <div className="form-check form-switch custom-toggle-button me-0">
                                     <input
@@ -597,12 +613,12 @@ const RpDecision = ({
                                       type="checkbox"
                                       id={`toggle-${doc._id}-${index}`}
                                       checked={selectedDocsIds?.includes(
-                                        `${doc._id}-${index}`
+                                        `${doc._id}-${index}`,
                                       )}
                                       onChange={() =>
                                         handleCheckboxChangeId(
                                           `${doc._id}-${index}`,
-                                          docName
+                                          docName,
                                         )
                                       }
                                     />
@@ -625,11 +641,14 @@ const RpDecision = ({
                                       e,
                                       index,
                                       doc._id,
-                                      docName
+                                      docName,
                                     )
                                   }
                                   className="custom-select-height"
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                 />
                               )}
                             </td>
@@ -644,7 +663,7 @@ const RpDecision = ({
                                     height: "32px",
                                     width: "100px",
                                   }}
-                                   onClick={(e) => {
+                                  onClick={(e) => {
                                     e.preventDefault();
                                     // const fileName =
                                     //   doc.filePath?.split("/")?.pop() ||
@@ -655,8 +674,13 @@ const RpDecision = ({
                                     //   fileName
                                     // );
                                     const filePath = doc?.filePath;
-                                          const fileName = filePath?.split("/")?.pop();
-                                          handleSingleDocumentDownload(filePath, fileName);
+                                    const fileName = filePath
+                                      ?.split("/")
+                                      ?.pop();
+                                    handleSingleDocumentDownload(
+                                      filePath,
+                                      fileName,
+                                    );
                                   }}
                                 >
                                   <DownloadIcon />
@@ -674,7 +698,7 @@ const RpDecision = ({
                                     cursor: "pointer",
                                     color: "#fff",
                                     backgroundColor: getStatusColor(
-                                      doc.status || "unverified"
+                                      doc.status || "unverified",
                                     ),
                                     border: "none",
                                     borderRadius: "4px",
@@ -683,17 +707,20 @@ const RpDecision = ({
                                     width: "100px",
                                     fontSize: "14px",
                                   }}
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                   onClick={() => {
                                     setSelectedStatus(
                                       statusOptions.find(
                                         (opt) =>
                                           opt.value ===
-                                          (doc.status || "unverified")
+                                          (doc.status || "unverified"),
                                       ) ||
                                         statusOptions.find(
-                                          (opt) => opt.value === "unverified"
-                                        )
+                                          (opt) => opt.value === "unverified",
+                                        ),
                                     );
                                     setRemarks(doc.remarks || "");
                                     setSelectedDocId(doc._id);
@@ -741,27 +768,28 @@ const RpDecision = ({
                             <td>
                               {doc.createdAt
                                 ? new Date(doc.createdAt).toLocaleDateString(
-                                    "en-GB"
+                                    "en-GB",
                                   )
                                 : "-"}
                             </td>
                             <td>{doc.remarks || "-"}</td>
-                            {userRole !== "Student" && userRole !== "LeadStudent" && (
-                              <td className="sticky-col-right-last">
-                                <Button
-                                  variant="link"
-                                  className="text-danger"
-                                  style={{ fontSize: "18px" }}
-                                  onClick={() => {
-                                    setSelectedItem(doc._id);
-                                    setShowDeleteModal(true);
-                                  }}
-                                  title="Delete"
-                                >
-                                  <FaTrashAlt />
-                                </Button>
-                              </td>
-                            )}
+                            {userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
+                                <td className="sticky-col-right-last">
+                                  <Button
+                                    variant="link"
+                                    className="text-danger"
+                                    style={{ fontSize: "18px" }}
+                                    onClick={() => {
+                                      setSelectedItem(doc._id);
+                                      setShowDeleteModal(true);
+                                    }}
+                                    title="Delete"
+                                  >
+                                    <FaTrashAlt />
+                                  </Button>
+                                </td>
+                              )}
                           </tr>
                         );
                       })
@@ -799,7 +827,7 @@ const RpDecision = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({

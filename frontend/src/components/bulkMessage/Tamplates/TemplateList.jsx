@@ -1,6 +1,7 @@
-import TemplateCard from './TemplateCard';
-import { Modal, Button } from 'react-bootstrap';
-import { AiOutlineClose } from 'react-icons/ai';
+import TemplateCard from "./TemplateCard";
+import { Modal, Button } from "react-bootstrap";
+import { AiOutlineClose } from "react-icons/ai";
+import DeleteConfirmModal from "../commonDeleteModal/DeleteConfirmModal";
 
 const TemplateList = ({
   templates,
@@ -33,41 +34,11 @@ const TemplateList = ({
       </div>
 
       {isOpen && (
-        <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
-          <Modal.Header className="form-main-heading">
-            <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-            <AiOutlineClose
-              size={20}
-              style={{ cursor: 'pointer', color: 'white' }}
-              onClick={() => setIsOpen(false)}
-            />
-          </Modal.Header>
-          <Modal.Body className="text-center py-4">
-            <div className="text-danger text-primary fs-1 mb-3">
-              <i className="bi bi-exclamation-triangle-fill"></i>
-            </div>
-            <p className="mb-1 fw-semibold">Are you sure you want to delete this item?</p>
-            <small className="text-muted">This action cannot be undone.</small>
-          </Modal.Body>
-          <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-            <Button
-              variant="light"
-              className="btn-cancel-delete px-4"
-              onClick={() => setIsOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="btn-delete-confirm"
-              onClick={() => {
-                handleConfirmDelete();
-                setIsOpen(false);
-              }}
-            >
-              <i className="bi bi-trash-fill me-2"></i>Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <DeleteConfirmModal
+          show={isOpen}
+          onHide={() => setIsOpen(false)}
+          onConfirm={handleConfirmDelete}
+        />
       )}
     </>
   );

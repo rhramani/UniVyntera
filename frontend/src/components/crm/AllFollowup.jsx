@@ -531,7 +531,7 @@ const AllFollowup = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -561,9 +561,9 @@ const AllFollowup = () => {
       : index.educationEvaluation;
     const newEvaluation =
       values.education_evaluation[
-      edit.educationEvaluation
-        ? edit.educationEvaluationIndex
-        : index.educationEvaluation
+        edit.educationEvaluation
+          ? edit.educationEvaluationIndex
+          : index.educationEvaluation
       ];
 
     const currentEntry = currentData[currentIndex];
@@ -680,11 +680,11 @@ const AllFollowup = () => {
         : index.educationDetails;
     const newEvaluation =
       values.education_details[
-      edit.educationDetails
-        ? edit.educationDetailsIndex
-        : edit.educationDetails
+        edit.educationDetails
           ? edit.educationDetailsIndex
-          : index.educationDetails
+          : edit.educationDetails
+            ? edit.educationDetailsIndex
+            : index.educationDetails
       ];
 
     const currentEntry = currentData[currentIndex];
@@ -738,7 +738,7 @@ const AllFollowup = () => {
       : index.familyWork;
     const newEntry =
       values.family_work[
-      edit.familyWork ? edit.familyWorkIndex : index.familyWork
+        edit.familyWork ? edit.familyWorkIndex : index.familyWork
       ];
     const currentEntry = currentData[currentIndex];
 
@@ -950,7 +950,7 @@ const AllFollowup = () => {
       : index.leadAssignment;
     const newEntry =
       values.lead_assign[
-      edit.leadAssignment ? edit.leadAssignmentIndex : index.leadAssignment
+        edit.leadAssignment ? edit.leadAssignmentIndex : index.leadAssignment
       ];
     const currentEntry = currentData[currentIndex];
 
@@ -971,7 +971,7 @@ const AllFollowup = () => {
     const userObj = formUserList?.find((u) => u._id === newEntryWithoutId.user);
     const userFullName = userObj
       ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() ||
-      userObj.name
+        userObj.name
       : null;
 
     const fullAssignmentObject = {
@@ -1011,7 +1011,7 @@ const AllFollowup = () => {
     // Construct user name properly like in formUserOptions
     const userFullName = userObj
       ? `${userObj.firstName || ""} ${userObj.lastName || ""}`.trim() ||
-      userObj.name
+        userObj.name
       : null;
 
     updatedFullAssignments[updatedIndex] = {
@@ -1342,38 +1342,38 @@ const AllFollowup = () => {
       lead_assign_Branch: originalData.lead_assign_Branch || null,
       lead_assign:
         Array.isArray(originalData.lead_assign) &&
-          originalData.lead_assign.length > 0
+        originalData.lead_assign.length > 0
           ? originalData.lead_assign.map((item) => {
-            let roleId = "";
-            let userId = "";
+              let roleId = "";
+              let userId = "";
 
-            if (item.role) {
-              roleId =
-                typeof item.role === "string"
-                  ? item.role
-                  : item.role._id || item.role.toString();
-            }
+              if (item.role) {
+                roleId =
+                  typeof item.role === "string"
+                    ? item.role
+                    : item.role._id || item.role.toString();
+              }
 
-            if (item.user) {
-              userId =
-                typeof item.user === "string"
-                  ? item.user
-                  : item.user._id || item.user.toString();
-            }
+              if (item.user) {
+                userId =
+                  typeof item.user === "string"
+                    ? item.user
+                    : item.user._id || item.user.toString();
+              }
 
-            if (typeof roleId === "string") {
-              roleId = roleId.replace(/^"+|"+$/g, "");
-            }
-            if (typeof userId === "string") {
-              userId = userId.replace(/^"+|"+$/g, "");
-            }
+              if (typeof roleId === "string") {
+                roleId = roleId.replace(/^"+|"+$/g, "");
+              }
+              if (typeof userId === "string") {
+                userId = userId.replace(/^"+|"+$/g, "");
+              }
 
-            return {
-              _id: item._id || null, // Preserve _id for tracking existing entries
-              role: roleId,
-              user: userId,
-            };
-          })
+              return {
+                _id: item._id || null, // Preserve _id for tracking existing entries
+                role: roleId,
+                user: userId,
+              };
+            })
           : [],
       refer_friend: {
         name: originalData.refer_friend?.name || "",
@@ -1733,7 +1733,7 @@ const AllFollowup = () => {
     });
   };
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const initializeRoles = async () => {
@@ -1770,74 +1770,74 @@ const AllFollowup = () => {
         lead.education_evaluation,
       )
         ? lead.education_evaluation.filter((item) => {
-          const scores = item.scores || {};
-          return (
-            item.test_name?.trim() ||
-            scores.listen ||
-            scores.read ||
-            scores.write ||
-            scores.speak ||
-            scores.overall
-          );
-        })
+            const scores = item.scores || {};
+            return (
+              item.test_name?.trim() ||
+              scores.listen ||
+              scores.read ||
+              scores.write ||
+              scores.speak ||
+              scores.overall
+            );
+          })
         : [];
 
       const cleanedEducationDetails = Array.isArray(lead.education_details)
         ? lead.education_details.filter((item) => {
-          return (
-            item.degree?.trim() ||
-            item.stream?.trim() ||
-            item.moi?.trim() ||
-            item.year ||
-            item.score ||
-            item.institution?.trim() ||
-            item.backlogs
-          );
-        })
+            return (
+              item.degree?.trim() ||
+              item.stream?.trim() ||
+              item.moi?.trim() ||
+              item.year ||
+              item.score ||
+              item.institution?.trim() ||
+              item.backlogs
+            );
+          })
         : [];
 
       const cleanedFamilyWork = Array.isArray(lead.family_work)
         ? lead.family_work.filter((item) => {
-          return (
-            item.occupation_father?.trim() ||
-            item.occupation?.trim() ||
-            // item.occupation_mother?.trim() ||
-            item.work_experience ||
-            item.work_post ||
-            item.work_year
-          );
-        })
+            return (
+              item.occupation_father?.trim() ||
+              item.occupation?.trim() ||
+              // item.occupation_mother?.trim() ||
+              item.work_experience ||
+              item.work_post ||
+              item.work_year
+            );
+          })
         : [];
 
       const cleanedInterestedCourseDetails = Array.isArray(
         lead.interestedCourseDetails,
       )
         ? lead.interestedCourseDetails.filter((item) => {
-          return (
-            item.institute ||
-            item.campus ||
-            item.programLevel ||
-            item.course ||
-            item.intakeMonth ||
-            item.intakeYear ||
-            item.remarks
-          );
-        })
+            return (
+              item.institute ||
+              item.campus ||
+              item.programLevel ||
+              item.course ||
+              item.intakeMonth ||
+              item.intakeYear ||
+              item.remarks
+            );
+          })
         : [];
 
       const cleanedVisaInfo = Array.isArray(lead.visa_info)
         ? lead.visa_info.filter((item) => {
-          return (
-            item.visited_countries?.trim() ||
-            item.visit_count ||
-            item.visa_type?.trim() ||
-            item.visa_refused ||
-            item.refused_country?.trim() ||
-            item.refused_times ||
-            (item.refused_years && item.refused_years.length > 0) ||
-            item.refused_visa_type?.trim()
-          );
-        })
+            return (
+              item.visited_countries?.trim() ||
+              item.visit_count ||
+              item.visa_type?.trim() ||
+              item.visa_refused ||
+              item.refused_country?.trim() ||
+              item.refused_times ||
+              (item.refused_years && item.refused_years.length > 0) ||
+              item.refused_visa_type?.trim()
+            );
+          })
         : [];
 
       setFormData({
@@ -1889,38 +1889,38 @@ const AllFollowup = () => {
         lead_assign:
           Array.isArray(lead.lead_assign) && lead.lead_assign.length > 0
             ? lead.lead_assign.map((item) => {
-              // Extract role and user IDs properly - handle both object and string formats
-              let roleId = "";
-              let userId = "";
+                // Extract role and user IDs properly - handle both object and string formats
+                let roleId = "";
+                let userId = "";
 
-              if (item.role) {
-                roleId =
-                  typeof item.role === "string"
-                    ? item.role
-                    : item.role._id || item.role.toString();
-              }
+                if (item.role) {
+                  roleId =
+                    typeof item.role === "string"
+                      ? item.role
+                      : item.role._id || item.role.toString();
+                }
 
-              if (item.user) {
-                userId =
-                  typeof item.user === "string"
-                    ? item.user
-                    : item.user._id || item.user.toString();
-              }
+                if (item.user) {
+                  userId =
+                    typeof item.user === "string"
+                      ? item.user
+                      : item.user._id || item.user.toString();
+                }
 
-              // Clean any escaped quotes
-              if (typeof roleId === "string") {
-                roleId = roleId.replace(/^"+|"+$/g, "");
-              }
-              if (typeof userId === "string") {
-                userId = userId.replace(/^"+|"+$/g, "");
-              }
+                // Clean any escaped quotes
+                if (typeof roleId === "string") {
+                  roleId = roleId.replace(/^"+|"+$/g, "");
+                }
+                if (typeof userId === "string") {
+                  userId = userId.replace(/^"+|"+$/g, "");
+                }
 
-              return {
-                _id: item._id || null, // Preserve _id for tracking existing entries
-                role: roleId,
-                user: userId,
-              };
-            })
+                return {
+                  _id: item._id || null, // Preserve _id for tracking existing entries
+                  role: roleId,
+                  user: userId,
+                };
+              })
             : [],
         refer_friend: {
           name: lead.refer_friend?.name || "",
@@ -3205,12 +3205,12 @@ const AllFollowup = () => {
                       value={
                         filters.country
                           ? {
-                            value: filters.country,
-                            label:
-                              leadCountries.find(
-                                (c) => c === filters.country,
-                              ) || filters.country,
-                          }
+                              value: filters.country,
+                              label:
+                                leadCountries.find(
+                                  (c) => c === filters.country,
+                                ) || filters.country,
+                            }
                           : null
                       }
                       onChange={(selected) => {
@@ -3239,8 +3239,8 @@ const AllFollowup = () => {
                       value={
                         filters.followUpType
                           ? followUpTypeOptions.find(
-                            (option) => option.value === filters.followUpType,
-                          )
+                              (option) => option.value === filters.followUpType,
+                            )
                           : null
                       }
                       onChange={(selected) => {
@@ -3264,7 +3264,7 @@ const AllFollowup = () => {
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                         }),
                         placeholder: (base) => ({
@@ -3277,9 +3277,9 @@ const AllFollowup = () => {
                       value={
                         filters.status
                           ? {
-                            value: filters.status,
-                            label: filters.status,
-                          }
+                              value: filters.status,
+                              label: filters.status,
+                            }
                           : null
                       }
                       onChange={(option) => {
@@ -3314,9 +3314,9 @@ const AllFollowup = () => {
                       value={
                         filters.subStatus
                           ? {
-                            value: filters.subStatus,
-                            label: filters.subStatus,
-                          }
+                              value: filters.subStatus,
+                              label: filters.subStatus,
+                            }
                           : null
                       }
                       onChange={(option) => {
@@ -3342,9 +3342,9 @@ const AllFollowup = () => {
                       value={
                         leadFrom?.includes(filters.lead_from)
                           ? {
-                            value: filters.lead_from,
-                            label: filters.lead_from,
-                          }
+                              value: filters.lead_from,
+                              label: filters.lead_from,
+                            }
                           : null
                       }
                       onChange={(selected) => {
@@ -3357,9 +3357,9 @@ const AllFollowup = () => {
                       options={
                         leadFrom?.length > 0
                           ? leadFrom?.map((item) => ({
-                            value: item,
-                            label: item,
-                          }))
+                              value: item,
+                              label: item,
+                            }))
                           : []
                       }
                       placeholder="Select From"
@@ -3378,9 +3378,9 @@ const AllFollowup = () => {
                       value={
                         filters.leadActivity
                           ? {
-                            value: filters.leadActivity,
-                            label: filters.leadActivity,
-                          }
+                              value: filters.leadActivity,
+                              label: filters.leadActivity,
+                            }
                           : null
                       }
                       onChange={(option) => {
@@ -3733,98 +3733,96 @@ const AllFollowup = () => {
                               item?.updatedByName?.length > 0 ||
                               item?.created_by_type?.length > 0 ||
                               item?.b2bCompany?.length > 0) && (
-                                <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
-                                  {item?.created_by_type?.length > 0 && (
-                                    <div
-                                      className="d-flex align-items-center me-3"
+                              <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
+                                {item?.created_by_type?.length > 0 && (
+                                  <div
+                                    className="d-flex align-items-center me-3"
                                     // style={{ color: "#6366f1" }}
-                                    >
-                                      <AssignmentIndIcon
-                                        className="me-1 flex-shrink-0"
-                                        size={18}
-                                        style={{
-                                          color: "#475569"
-                                        }}
-                                      />
-                                      <div className="text-muted small fw-medium mb-0">
-                                        Type
-                                      </div>
-                                      &nbsp;:&nbsp;
-                                      <span className="fw-semibold">
-                                        {item?.created_by_type === "B2B Admin" ||
-                                          item?.created_by_type === "B2B Member" ? (
-                                          <>
-                                            B2B Partner
-                                            {item?.b2bCompany && ` (${item.branch})`}
-                                          </>
-                                        ) : item?.created_by_type === "user" ? (
-                                          <>
-                                            Head Office
-                                            {item?.b2bCompany && ` (${item.branch})`}
-                                          </>
-                                        ) : item?.created_by_type === "Branch" ||
-                                          item?.created_by_type === "branch" ? (
-                                          <>
-                                            Branch
-                                            {item?.createdByName &&
-                                              ` (${item.createdByName})`}
-                                          </>
-                                        ) : item?.created_by_type === "Branch User" ||
-                                          item?.created_by_type === "Branch user" ? (
-                                          <>
-                                            Branch User
-                                            {item?.branch && ` (${item.branch})`}
-                                          </>
-                                        ) : (
-                                          item?.created_by_type
-                                        )}
-                                      </span>
+                                  >
+                                    <AssignmentIndIcon
+                                      className="me-1 flex-shrink-0"
+                                      size={18}
+                                      style={{
+                                        color: "#475569",
+                                      }}
+                                    />
+                                    <div className="text-muted small fw-medium mb-0">
+                                      Type
                                     </div>
-                                  )}
-                                  {item?.createdByName?.length > 0 && (
-                                    <div
-                                      className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
-
-                                    >
-                                      <PersonIcon
-                                        className="me-1 flex-shrink-0"
-                                        size={18}
-                                        style={{
-                                          color: "#0F766E"
-                                        }}
-                                      />
-                                      <div className="text-muted small fw-medium mb-0">
-                                        Created By
-                                      </div>
-                                      &nbsp;:&nbsp;
-                                      <span className="fw-semibold">
-                                        {item?.createdByName}
-                                      </span>
+                                    &nbsp;:&nbsp;
+                                    <span className="fw-semibold">
+                                      {item?.created_by_type === "B2B Admin" ||
+                                      item?.created_by_type === "B2B Member" ? (
+                                        <>
+                                          B2B Partner
+                                          {item?.b2bCompany &&
+                                            ` (${item.branch})`}
+                                        </>
+                                      ) : item?.created_by_type === "user" ? (
+                                        <>
+                                          Head Office
+                                          {item?.b2bCompany &&
+                                            ` (${item.branch})`}
+                                        </>
+                                      ) : item?.created_by_type === "Branch" ||
+                                        item?.created_by_type === "branch" ? (
+                                        <>
+                                          Branch
+                                          {item?.createdByName &&
+                                            ` (${item.createdByName})`}
+                                        </>
+                                      ) : item?.created_by_type ===
+                                          "Branch User" ||
+                                        item?.created_by_type ===
+                                          "Branch user" ? (
+                                        <>
+                                          Branch User
+                                          {item?.branch && ` (${item.branch})`}
+                                        </>
+                                      ) : (
+                                        item?.created_by_type
+                                      )}
+                                    </span>
+                                  </div>
+                                )}
+                                {item?.createdByName?.length > 0 && (
+                                  <div className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex">
+                                    <PersonIcon
+                                      className="me-1 flex-shrink-0"
+                                      size={18}
+                                      style={{
+                                        color: "#0F766E",
+                                      }}
+                                    />
+                                    <div className="text-muted small fw-medium mb-0">
+                                      Created By
                                     </div>
-                                  )}
-                                  {item?.updatedByName?.length > 0 && (
-                                    <div
-                                      className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
-
-                                    >
-                                      <CreateIcon
-                                        className="me-1 flex-shrink-0"
-                                        size={18}
-                                        style={{
-                                          color: "#92400E"
-                                        }}
-                                      />
-                                      <div className="text-muted small fw-medium mb-0">
-                                        Updated By
-                                      </div>
-                                      &nbsp;:&nbsp;
-                                      <span className="fw-semibold">
-                                        {item?.updatedByName}
-                                      </span>
+                                    &nbsp;:&nbsp;
+                                    <span className="fw-semibold">
+                                      {item?.createdByName}
+                                    </span>
+                                  </div>
+                                )}
+                                {item?.updatedByName?.length > 0 && (
+                                  <div className="d-flex align-items-center border-start ps-3 d-none d-md-flex">
+                                    <CreateIcon
+                                      className="me-1 flex-shrink-0"
+                                      size={18}
+                                      style={{
+                                        color: "#92400E",
+                                      }}
+                                    />
+                                    <div className="text-muted small fw-medium mb-0">
+                                      Updated By
                                     </div>
-                                  )}
-                                </div>
-                              )}
+                                    &nbsp;:&nbsp;
+                                    <span className="fw-semibold">
+                                      {item?.updatedByName}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -3836,8 +3834,8 @@ const AllFollowup = () => {
                                 Receivable:{" "}
                                 {storedEncryptedCurrency
                                   ? getSymbolFromCurrency(
-                                    storedEncryptedCurrency,
-                                  )
+                                      storedEncryptedCurrency,
+                                    )
                                   : "₹"}{" "}
                                 {Math.floor(item?.dueAmount)}
                               </span>
@@ -4116,9 +4114,7 @@ const AllFollowup = () => {
                                 <div className="text-muted small fw-medium mb-0">
                                   Phone
                                 </div>
-                                <div
-                                  className="fw-semibold"
-                                >
+                                <div className="fw-semibold">
                                   {item.phone || "N/A"}
                                 </div>
                               </div>
@@ -4183,15 +4179,15 @@ const AllFollowup = () => {
                                 >
                                   {item?.other_for?.length > 0
                                     ? item.other_for
-                                      .map((serviceId) => {
-                                        const foundService = allOther?.find(
-                                          (service) =>
-                                            service?._id === serviceId,
-                                        );
-                                        return foundService?.name || "";
-                                      })
-                                      .filter(Boolean)
-                                      .join(", ")
+                                        .map((serviceId) => {
+                                          const foundService = allOther?.find(
+                                            (service) =>
+                                              service?._id === serviceId,
+                                          );
+                                          return foundService?.name || "";
+                                        })
+                                        .filter(Boolean)
+                                        .join(", ")
                                     : "N/A"}
                                 </div>
                               </div>

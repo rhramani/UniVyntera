@@ -408,7 +408,7 @@ const Signin = () => {
   const renderInactiveUI = () => (
     <div
       style={{
-        backgroundColor: "#EAEDF7", // Light background for the page
+        backgroundColor: "#5D54BE", // Light background for the page
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
@@ -435,7 +435,7 @@ const Signin = () => {
                   style={{
                     fontSize: "32px",
                     fontWeight: "700",
-                    color: "#ff0000ff", // Deep blue for title
+                    color: "#5D54BE", // Deep blue for title
                     marginBottom: "15px",
                   }}
                 >
@@ -457,20 +457,14 @@ const Signin = () => {
                 <Button
                   href="mailto:support@zokepcrm.com"
                   style={{
-                    backgroundColor: "#053880", // Deep blue button
-                    borderColor: "#053880",
+                    backgroundColor: "#5D54BE", // Deep blue button
+                    borderColor: "#5D54BE",
                     fontSize: "16px",
                     fontWeight: "500",
                     padding: "10px 20px",
                     borderRadius: "8px",
                     transition: "background-color 0.3s ease",
                   }}
-                  onMouseOver={
-                    (e) => (e.target.style.backgroundColor = "#042B66") // Darker blue on hover
-                  }
-                  onMouseOut={(e) =>
-                    (e.target.style.backgroundColor = "#053880")
-                  }
                 >
                   Contact Support
                 </Button>
@@ -486,7 +480,7 @@ const Signin = () => {
                   <a
                     href="mailto:support@zokepcrm.com"
                     style={{
-                      color: "#053880",
+                      color: "#5D54BE",
                       textDecoration: "none",
                       fontWeight: "500",
                     }}

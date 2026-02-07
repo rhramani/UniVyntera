@@ -56,6 +56,7 @@ import CallIcon from "@mui/icons-material/Call";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 import { addCtcCalling } from "../../redux/actions/Lead.action";
 import { decryptData } from "../../utils/encryptionUtils";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const convertToDDMMYYYY = (dateStr) => {
   if (!dateStr) return "";
@@ -185,7 +186,7 @@ const B2BAdmin = () => {
   }, []);
 
   useEffect(() => {
-    if (showViewModal) {
+    if (showViewModal || showDeleteModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -193,7 +194,7 @@ const B2BAdmin = () => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [showViewModal]);
+  }, [showViewModal, showDeleteModal]);
 
   const fetchAllAdmin = async (
     page = 1,
@@ -201,11 +202,11 @@ const B2BAdmin = () => {
     search = "",
     status = "",
     country = "",
-    subscription = false
+    subscription = false,
   ) => {
     try {
       const res = await dispatch(
-        getAllB2BAdmin(page, limit, search, status, country, subscription)
+        getAllB2BAdmin(page, limit, search, status, country, subscription),
       );
       const responseData = res?.data?.data;
       if (responseData?.data?.length === 0) {
@@ -233,7 +234,7 @@ const B2BAdmin = () => {
         search,
         statusFilter,
         countryFilter,
-        subscriptionFilter
+        subscriptionFilter,
       );
     }
   };
@@ -246,7 +247,7 @@ const B2BAdmin = () => {
         search,
         statusFilter,
         countryFilter,
-        subscriptionFilter
+        subscriptionFilter,
       );
     }
   }, [currentPage, search, statusFilter, countryFilter, subscriptionFilter]);
@@ -317,10 +318,10 @@ const B2BAdmin = () => {
       try {
         toast.dismiss();
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         const formattedValues = {
@@ -379,7 +380,7 @@ const B2BAdmin = () => {
             search,
             statusFilter,
             countryFilter,
-            subscriptionFilter
+            subscriptionFilter,
           );
         }
       } catch (error) {
@@ -439,7 +440,7 @@ const B2BAdmin = () => {
             search,
             statusFilter,
             countryFilter,
-            subscriptionFilter
+            subscriptionFilter,
           );
         }
       } catch (error) {
@@ -577,7 +578,7 @@ const B2BAdmin = () => {
           search,
           statusFilter,
           countryFilter,
-          subscriptionFilter
+          subscriptionFilter,
         );
       }
     } catch (error) {
@@ -586,7 +587,7 @@ const B2BAdmin = () => {
   };
 
   const hasAnyRecording = adminList?.some(
-    (item) => item?.CTCCallRecording && item?.CTCCallRecording !== ""
+    (item) => item?.CTCCallRecording && item?.CTCCallRecording !== "",
   );
 
   const columns = [
@@ -671,8 +672,9 @@ const B2BAdmin = () => {
       label: "Status",
       render: (item) => (
         <Button
-          className={`d-flex justify-content-center align-items-center gap-2 rounded-4 ${item.status === "Active" ? "active-status" : "inactive-status"
-            }`}
+          className={`d-flex justify-content-center align-items-center gap-2 rounded-4 ${
+            item.status === "Active" ? "active-status" : "inactive-status"
+          }`}
           size="sm"
           onClick={() => handleStatusToggle(item)}
           style={{ minWidth: "80px" }}
@@ -714,64 +716,64 @@ const B2BAdmin = () => {
     },
     ...(userRole !== "B2B Member"
       ? [
-        ...(hasAnyRecording
-          ? [
-            {
-              label: "Recording",
-              key: "ctcRecording",
-              className: "sticky-col-right-1",
-              headerClassName: "sticky-col-right-1",
-              render: (item) =>
-                item?.CTCCallRecording ? (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.open(item.CTCCallRecording, "_blank");
-                    }}
-                    className="recording-pill-btn"
-                  >
-                    <MdOutlinePlayCircleFilled size={16} />
-                    <span>RECORDING</span>
-                  </button>
-                ) : (
-                  "-"
-                ),
-            },
-          ]
-          : []),
-        {
-          label: "CTC Call",
-          key: "ctcCall",
-          className: "sticky-col-right-2",
-          headerClassName: "sticky-col-right-2",
-          render: (item) => (
-            <button
-              type="button"
-              onClick={async (e) => {
-                e.stopPropagation();
-                try {
-                  setIsLoading(true);
-                  const payload = { entityType: "b2b" };
-                  await dispatch(addCtcCalling(item?._id, payload));
-                  toast.success("CTC calling initiated");
-                } catch (error) {
-                  toast.error(
-                    error?.response?.data?.message ||
-                    "Failed to initiate CTC call"
-                  );
-                } finally {
-                  setIsLoading(false);
-                }
-              }}
-              className="call-pill-btn"
-            >
-              <MdCall size={16} />
-              <span>CALL</span>
-            </button>
-          ),
-        },
-      ]
+          ...(hasAnyRecording
+            ? [
+                {
+                  label: "Recording",
+                  key: "ctcRecording",
+                  className: "sticky-col-right-1",
+                  headerClassName: "sticky-col-right-1",
+                  render: (item) =>
+                    item?.CTCCallRecording ? (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(item.CTCCallRecording, "_blank");
+                        }}
+                        className="recording-pill-btn"
+                      >
+                        <MdOutlinePlayCircleFilled size={16} />
+                        <span>RECORDING</span>
+                      </button>
+                    ) : (
+                      "-"
+                    ),
+                },
+              ]
+            : []),
+          {
+            label: "CTC Call",
+            key: "ctcCall",
+            className: "sticky-col-right-2",
+            headerClassName: "sticky-col-right-2",
+            render: (item) => (
+              <button
+                type="button"
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  try {
+                    setIsLoading(true);
+                    const payload = { entityType: "b2b" };
+                    await dispatch(addCtcCalling(item?._id, payload));
+                    toast.success("CTC calling initiated");
+                  } catch (error) {
+                    toast.error(
+                      error?.response?.data?.message ||
+                        "Failed to initiate CTC call",
+                    );
+                  } finally {
+                    setIsLoading(false);
+                  }
+                }}
+                className="call-pill-btn"
+              >
+                <MdCall size={16} />
+                <span>CALL</span>
+              </button>
+            ),
+          },
+        ]
       : []),
   ];
 
@@ -893,7 +895,7 @@ const B2BAdmin = () => {
       const cityName = item.city;
 
       const selectedCountry = countries.find(
-        (c) => c.name.trim() === countryName
+        (c) => c.name.trim() === countryName,
       );
       const countryIsoCode = selectedCountry?.isoCode;
 
@@ -909,7 +911,7 @@ const B2BAdmin = () => {
       }
 
       const selectedState = fetchedStates.find(
-        (s) => s.name.trim() === stateName
+        (s) => s.name.trim() === stateName,
       );
       const stateIsoCode = selectedState?.isoCode;
 
@@ -920,7 +922,7 @@ const B2BAdmin = () => {
       let fetchedCities = [];
       if (stateIsoCode) {
         const cityRes = await dispatch(
-          cityDropdown(countryIsoCode, stateIsoCode)
+          cityDropdown(countryIsoCode, stateIsoCode),
         );
         fetchedCities = cityRes?.data?.data || [];
         setCityDropDownList(fetchedCities);
@@ -1045,7 +1047,7 @@ const B2BAdmin = () => {
           search,
           statusFilter,
           countryFilter,
-          subscriptionFilter
+          subscriptionFilter,
         );
       }
     } catch (error) {
@@ -1060,8 +1062,8 @@ const B2BAdmin = () => {
           search,
           statusFilter,
           countryFilter,
-          subscriptionFilter
-        )
+          subscriptionFilter,
+        ),
       );
 
       if (res?.data?.status && res?.data?.fileUrl) {
@@ -1163,11 +1165,11 @@ const B2BAdmin = () => {
                   <Select
                     options={statusOptions}
                     value={statusOptions.find(
-                      (option) => option.value === statusFilter
+                      (option) => option.value === statusFilter,
                     )}
                     onChange={(selectedOption) => {
                       setStatusFilter(
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       );
                       setCurrentPage(1);
                     }}
@@ -1197,7 +1199,7 @@ const B2BAdmin = () => {
                     }))}
                     onChange={(selectedOption) => {
                       setCountryFilter(
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       );
                       setCurrentPage(1);
                     }}
@@ -1228,11 +1230,11 @@ const B2BAdmin = () => {
                   <Select
                     options={subscriptionOptions}
                     value={subscriptionOptions.find(
-                      (option) => option.value === subscriptionFilter
+                      (option) => option.value === subscriptionFilter,
                     )}
                     onChange={(selectedOption) => {
                       setSubscriptionFilter(
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       );
                       setCurrentPage(1);
                     }}
@@ -1395,7 +1397,7 @@ const B2BAdmin = () => {
                               : "";
                             const formattedPhone = `${dialCode} ${phone.replace(
                               data.dialCode,
-                              ""
+                              "",
                             )}`.trim();
 
                             formik.setFieldValue("phone", formattedPhone);
@@ -1547,15 +1549,15 @@ const B2BAdmin = () => {
                           value={
                             formik.values.status
                               ? {
-                                value: formik.values.status,
-                                label: formik.values.status,
-                              }
+                                  value: formik.values.status,
+                                  label: formik.values.status,
+                                }
                               : null
                           }
                           onChange={(option) =>
                             formik.setFieldValue(
                               "status",
-                              option ? option.value : ""
+                              option ? option.value : "",
                             )
                           }
                           onBlur={() => formik.setFieldTouched("status", true)}
@@ -1709,13 +1711,13 @@ const B2BAdmin = () => {
                               : option;
 
                             const isValid = countries?.some(
-                              (c) => c.isoCode === selectedOption?.value
+                              (c) => c.isoCode === selectedOption?.value,
                             );
                             if (isValid) {
                               handleCountryChange(selectedOption.value);
                               formik.setFieldValue(
                                 "country",
-                                selectedOption.value
+                                selectedOption.value,
                               );
                               formik.setFieldError("country", "");
                             } else {
@@ -1756,13 +1758,13 @@ const B2BAdmin = () => {
                           value={
                             formik.values.state
                               ? stateDropDown
-                                ?.map((state) => ({
-                                  value: state.isoCode,
-                                  label: state.name,
-                                }))
-                                .filter(
-                                  (s) => s.value === formik.values.state
-                                )
+                                  ?.map((state) => ({
+                                    value: state.isoCode,
+                                    label: state.name,
+                                  }))
+                                  .filter(
+                                    (s) => s.value === formik.values.state,
+                                  )
                               : []
                           }
                           onChange={(option) => {
@@ -1771,17 +1773,17 @@ const B2BAdmin = () => {
                               : option;
 
                             const isValid = stateDropDown?.some(
-                              (s) => s.isoCode === selectedOption?.value
+                              (s) => s.isoCode === selectedOption?.value,
                             );
 
                             if (isValid) {
                               formik.setFieldValue(
                                 "state",
-                                selectedOption.value
+                                selectedOption.value,
                               );
                               handleStateChange(
                                 formik.values.country,
-                                selectedOption.value
+                                selectedOption.value,
                               );
                               formik.setFieldError("state", "");
                             } else {
@@ -1823,11 +1825,11 @@ const B2BAdmin = () => {
                           value={
                             formik.values.city
                               ? [
-                                {
-                                  value: formik.values.city,
-                                  label: formik.values.city,
-                                },
-                              ]
+                                  {
+                                    value: formik.values.city,
+                                    label: formik.values.city,
+                                  },
+                                ]
                               : []
                           }
                           onChange={(selectedOption) => {
@@ -1880,15 +1882,17 @@ const B2BAdmin = () => {
                                 setAgreementStartValue(
                                   formik.values.agreementStartDate.includes("/")
                                     ? (() => {
-                                      const [day, month, year] =
-                                        formik.values.agreementStartDate.split(
-                                          "/"
+                                        const [day, month, year] =
+                                          formik.values.agreementStartDate.split(
+                                            "/",
+                                          );
+                                        return new Date(
+                                          `${year}-${month}-${day}`,
                                         );
-                                      return new Date(
-                                        `${year}-${month}-${day}`
-                                      );
-                                    })()
-                                    : new Date(formik.values.agreementStartDate)
+                                      })()
+                                    : new Date(
+                                        formik.values.agreementStartDate,
+                                      ),
                                 );
                               }
                               setShowAgreementEndCalendar(false);
@@ -1938,7 +1942,7 @@ const B2BAdmin = () => {
                                   setAgreementStartValue(selectedDate);
                                   formik.setFieldValue(
                                     "agreementStartDate",
-                                    formatDate(selectedDate)
+                                    formatDate(selectedDate),
                                   );
                                   setShowAgreementStartCalendar(false);
                                 }}
@@ -1967,15 +1971,15 @@ const B2BAdmin = () => {
                                 setAgreementEndValue(
                                   formik.values.agreementEndDate.includes("/")
                                     ? (() => {
-                                      const [day, month, year] =
-                                        formik.values.agreementEndDate.split(
-                                          "/"
+                                        const [day, month, year] =
+                                          formik.values.agreementEndDate.split(
+                                            "/",
+                                          );
+                                        return new Date(
+                                          `${year}-${month}-${day}`,
                                         );
-                                      return new Date(
-                                        `${year}-${month}-${day}`
-                                      );
-                                    })()
-                                    : new Date(formik.values.agreementEndDate)
+                                      })()
+                                    : new Date(formik.values.agreementEndDate),
                                 );
                               }
                               setShowAgreementStartCalendar(false);
@@ -2024,7 +2028,7 @@ const B2BAdmin = () => {
                                   setAgreementEndValue(selectedDate);
                                   formik.setFieldValue(
                                     "agreementEndDate",
-                                    formatDate(selectedDate)
+                                    formatDate(selectedDate),
                                   );
                                   setShowAgreementEndCalendar(false);
                                 }}
@@ -2063,8 +2067,9 @@ const B2BAdmin = () => {
                     </Row>
 
                     <div
-                      className={`section-wrapper ${isDropdownOpen ? "dropdown-open" : ""
-                        }`}
+                      className={`section-wrapper ${
+                        isDropdownOpen ? "dropdown-open" : ""
+                      }`}
                     >
                       <h5
                         className="form-heading p-2 d-flex justify-content-between"
@@ -2234,51 +2239,14 @@ const B2BAdmin = () => {
                 data={selectedItemData}
                 fields={b2bSections}
               />
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={() => setShowDeleteModal(false)}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>{" "}
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={() => setShowDeleteModal(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItemData);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => {
+                  handleDelete(selectedItemData);
+                  setShowDeleteModal(false);
+                }}
+              />
 
               <DataTable
                 columns={columns}
@@ -2303,7 +2271,8 @@ const B2BAdmin = () => {
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
-                  /></div>
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

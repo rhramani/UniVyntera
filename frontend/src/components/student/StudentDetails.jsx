@@ -123,6 +123,7 @@ import StudentVisaByUs from "./studentDetails/StudentVisaByUs";
 import StudentVisaOutCome from "./studentDetails/StudentVisaOutCome";
 import { BASEURL, REACT_APP_API_URL } from "../../baseUrl";
 import { getAllBranch } from "../../redux/actions/Branch.action";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const formatDate = (date) => {
   if (!date) return "";
@@ -2561,9 +2562,10 @@ const StudentDetails = () => {
   const customStyles = {
     control: (base) => ({
       ...base,
-      background: "linear-gradient(135deg,rgb(255, 255, 255) 0%,rgb(255, 255, 255) 100%)",
-      border: base.isFocused ? "2px solid #053880" : "2px solid #a5b4fc",
-      borderRadius: "30px",
+      background:
+        "linear-gradient(135deg,rgb(255, 255, 255) 0%,rgb(255, 255, 255) 100%)",
+      border: base.isFocused ? "2px solid #5D54BE" : "2px solid #a5b4fc",
+      borderRadius: "12px",
       color: "black",
       minWidth: "140px !important",
     }),
@@ -2580,9 +2582,9 @@ const StudentDetails = () => {
     }),
     dropdownIndicator: (base, state) => ({
       ...base,
-      color: state.isFocused ? "#053880" : "#a5b4fc",
+      color: state.isFocused ? "#5D54BE" : "#a5b4fc",
       "&:hover": {
-        color: "#053880",
+        color: "#5D54BE",
       },
     }),
     indicatorSeparator: (base) => ({
@@ -2592,7 +2594,7 @@ const StudentDetails = () => {
     option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected
-        ? "#053880"
+        ? "#5D54BE"
         : state.isFocused
           ? "#e0e7ff"
           : "white",
@@ -2617,9 +2619,12 @@ const StudentDetails = () => {
               <h3 className="fw-bold text-white mb-0">Student Details</h3>
 
               <h5 className="mb-0 text-white ">
-                <span 
-                className="badge bg-white text-primary rounded-pill px-3 py-2 shadow-sm"
-                style={{ fontSize: "0.8rem" }}>{student?.name} ({student?.studentId})</span>
+                <span
+                  className="badge bg-white text-primary rounded-pill px-3 py-2 shadow-sm"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  {student?.name} ({student?.studentId})
+                </span>
                 <span className=""> </span>
               </h5>
             </div>
@@ -2937,7 +2942,7 @@ const StudentDetails = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -4111,47 +4116,14 @@ const StudentDetails = () => {
         </Card>
       </div>
 
-      <Modal
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleRemoveDocument(selectedItem);
-              setShowDeleteModal(false);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => {
+          handleRemoveDocument(selectedItem);
+          setShowDeleteModal(false);
+        }}
+      />
     </>
   );
 };

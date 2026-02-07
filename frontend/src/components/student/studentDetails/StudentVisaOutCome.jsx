@@ -63,7 +63,7 @@ const StudentVisaOutCome = ({
                       ? visaOutcomeTrackingStatusOptions.find(
                           (option) =>
                             option.value ===
-                            visaOutcomeFormik.values.visaOutcomeStatus
+                            visaOutcomeFormik.values.visaOutcomeStatus,
                         )
                       : null
                   }
@@ -71,7 +71,7 @@ const StudentVisaOutCome = ({
                     const newValue = selectedOption ? selectedOption.value : "";
                     visaOutcomeFormik.setFieldValue(
                       "visaOutcomeStatus",
-                      newValue
+                      newValue,
                     );
                   }}
                   onBlur={() =>
@@ -82,7 +82,7 @@ const StudentVisaOutCome = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -91,7 +91,9 @@ const StudentVisaOutCome = ({
                       fontSize: "13px",
                     }),
                   }}
-                  isDisabled={userRole === "Student" || userRole === "LeadStudent"}
+                  isDisabled={
+                    userRole === "Student" || userRole === "LeadStudent"
+                  }
                 />
               </Form.Group>
             </Col>

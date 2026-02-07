@@ -36,7 +36,7 @@ const PromotionalDocDetails = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [search, setSearch] = useState("");
   const { canUpdate, canDelete, canRead, canCreate } = usePermissions(
-    "Promotional Materials"
+    "Promotional Materials",
   );
 
   const fetchData = async (searchTerm = "") => {
@@ -49,9 +49,9 @@ const PromotionalDocDetails = () => {
 
         const filteredDocuments = folderName
           ? item.documents.filter(
-            (folder) =>
-              folder.folderName.toLowerCase() === folderName.toLowerCase()
-          )
+              (folder) =>
+                folder.folderName.toLowerCase() === folderName.toLowerCase(),
+            )
           : item.documents;
 
         if (folderName && filteredDocuments.length === 0) {
@@ -62,16 +62,16 @@ const PromotionalDocDetails = () => {
         const files = filteredDocuments.flatMap((folder, folderIndex) =>
           folder.materials.flatMap((doc) =>
             doc.urls.map((url, urlIndex) => ({
-              materialKey: materialCounter++, 
+              materialKey: materialCounter++,
               folderIndex,
               name: doc.name,
               url: url.link,
               docId: folder._id,
-              materialId: doc._id, 
-              fileId: url._id, 
+              materialId: doc._id,
+              fileId: url._id,
               folderName: folder.folderName,
-            }))
-          )
+            })),
+          ),
         );
         setFlattenedFiles(files);
       } else {
@@ -84,37 +84,37 @@ const PromotionalDocDetails = () => {
   };
 
   const handleDownload = async (fileUrl, fileName) => {
-  try {
-    const fullUrl = fileUrl.startsWith("http")
-      ? fileUrl
-      : `${BASEURL}${fileUrl}`;
+    try {
+      const fullUrl = fileUrl.startsWith("http")
+        ? fileUrl
+        : `${BASEURL}${fileUrl}`;
 
-    const cleanFileName =
-      fileName.replace(/[^a-zA-Z0-9._-]/g, "_") || "document";
-    const fileExtension = fullUrl.split(".").pop() || "pdf";
-    const downloadFileName = `${cleanFileName}.${fileExtension}`;
+      const cleanFileName =
+        fileName.replace(/[^a-zA-Z0-9._-]/g, "_") || "document";
+      const fileExtension = fullUrl.split(".").pop() || "pdf";
+      const downloadFileName = `${cleanFileName}.${fileExtension}`;
 
-    const response = await fetch(fullUrl);
-    if (!response.ok) {
-      throw new Error("Failed to fetch the file");
+      const response = await fetch(fullUrl);
+      if (!response.ok) {
+        throw new Error("Failed to fetch the file");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = downloadFileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Document downloaded successfully");
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("Failed to download the file");
     }
-
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = downloadFileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-
-    toast.success("Document downloaded successfully");
-  } catch (error) {
-    console.error("Download error:", error);
-    toast.error("Failed to download the file");
-  }
-};
+  };
 
   const fetchCountries = async () => {
     const res = await dispatch(countryDropdown());
@@ -135,8 +135,8 @@ const PromotionalDocDetails = () => {
     const selectedFile = flattenedFiles.find((file) => file.fileId === fileId);
 
     if (selectedFile) {
-      setEditingFileId(selectedFile.materialId); 
-      setEditingDocIndex(selectedFile.materialKey); 
+      setEditingFileId(selectedFile.materialId);
+      setEditingDocIndex(selectedFile.materialKey);
       formik.setValues({
         country: item.country || "",
         name: selectedFile.name || "",
@@ -204,7 +204,7 @@ const PromotionalDocDetails = () => {
         let res;
         if (editingDocIndex !== null) {
           const selectedFile = flattenedFiles.find(
-            (file) => file.materialKey === editingDocIndex
+            (file) => file.materialKey === editingDocIndex,
           );
           if (!selectedFile) {
             throw new Error("Selected material not found");
@@ -212,11 +212,11 @@ const PromotionalDocDetails = () => {
           const docId = selectedFile.docId;
           const materialId = selectedFile.materialId;
           res = await dispatch(
-            updatePromotionalDoc(editingItem._id, docId, materialId, formData)
+            updatePromotionalDoc(editingItem._id, docId, materialId, formData),
           );
         } else {
           res = await dispatch(
-            createSubPromotionalDoc(editingItem._id, formData)
+            createSubPromotionalDoc(editingItem._id, formData),
           );
         }
 
@@ -224,7 +224,7 @@ const PromotionalDocDetails = () => {
           toast.success(
             editingDocIndex !== null
               ? "Promotional Material updated successfully!"
-              : "Promotional Materials added successfully!"
+              : "Promotional Materials added successfully!",
           );
           if (canRead) {
             await fetchData(search);
@@ -237,7 +237,7 @@ const PromotionalDocDetails = () => {
         console.error("Upload error:", error.response?.data || error);
         toast.error(
           error.response?.data?.message || "Failed to process document",
-          { autoClose: 5000 }
+          { autoClose: 5000 },
         );
       } finally {
         setIsLoading(false);
@@ -248,14 +248,14 @@ const PromotionalDocDetails = () => {
   const handleDelete = async (item, materialKey, fileId) => {
     try {
       const file = flattenedFiles.find(
-        (file) => file.fileId === fileId && file.materialKey === materialKey
+        (file) => file.fileId === fileId && file.materialKey === materialKey,
       );
       if (!file) {
         throw new Error("File not found");
       }
 
       const res = await dispatch(
-        deletePromotionalDoc(item._id, file.docId, fileId)
+        deletePromotionalDoc(item._id, file.docId, fileId),
       );
       if (res?.status === 200) {
         toast.success("File deleted successfully");
@@ -410,7 +410,7 @@ const PromotionalDocDetails = () => {
                                     handleShowUploadModal(
                                       editingItem,
                                       file.materialKey,
-                                      file.fileId
+                                      file.fileId,
                                     )
                                   }
                                 >
@@ -497,7 +497,7 @@ const PromotionalDocDetails = () => {
                   onChange={(event) => {
                     formik.setFieldValue(
                       "documents",
-                      event.currentTarget.files
+                      event.currentTarget.files,
                     );
                   }}
                   isInvalid={
@@ -514,7 +514,7 @@ const PromotionalDocDetails = () => {
                 <Button
                   variant="link"
                   className="border-primary text-primary text-decoration-none"
-                  style={{ borderRadius: "30px" }}
+                  style={{ borderRadius: "12px" }}
                   onClick={handleCloseUploadModal}
                 >
                   Cancel
@@ -534,38 +534,65 @@ const PromotionalDocDetails = () => {
         </Modal>
 
         <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} centered>
-          <Modal.Header className="form-main-heading">
-            <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
+          <Modal.Header
+            className="border-0"
+            style={{
+              background: "linear-gradient(90deg, #dc2626, #ef4444)",
+              borderTopLeftRadius: "12px",
+              borderTopRightRadius: "12px",
+            }}
+          >
+            <Modal.Title className="fw-semibold text-white">
+              Confirm Deletion
+            </Modal.Title>
             <AiOutlineClose
-              size={20}
+              size={18}
               style={{ cursor: "pointer", color: "white" }}
               onClick={handleCloseDeleteModal}
             />
           </Modal.Header>
           <Modal.Body className="text-center py-4">
-            <div className="text-danger text-primary fs-1 mb-3">
+            <div
+              className="d-flex align-items-center justify-content-center mx-auto mb-3"
+              style={{
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                background: "#fee2e2",
+                color: "#dc2626",
+                fontSize: "32px",
+              }}
+            >
               <i className="bi bi-exclamation-triangle-fill"></i>
             </div>
-            <p className="mb-1 fw-semibold">
-              Are you sure you want to delete this file?
+
+            <p className="mb-1 fw-semibold fs-5">
+              Are you sure you want to proceed with deletion?
             </p>
-            <small className="text-muted">This action cannot be undone.</small>
+            <small className="text-muted">
+              You won’t be able to undo this action.
+            </small>
           </Modal.Body>
           <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
             <Button
               variant="light"
-              className="btn-cancel-delete px-4"
+              className="px-4"
               onClick={handleCloseDeleteModal}
             >
               Cancel
             </Button>
             <Button
-              className="btn-delete-confirm"
+              className="px-4 text-white"
+              style={{
+                borderRadius: "8px",
+                background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                border: "none",
+              }}
               onClick={() => {
                 handleDelete(
                   selectedItem.item,
                   selectedItem.materialKey,
-                  selectedItem.fileId
+                  selectedItem.fileId,
                 );
               }}
             >

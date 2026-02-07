@@ -15,6 +15,7 @@ import {
 import ItemsPerPageSelect from "../../commonComponents/ItemsPerPageSelect";
 import Paginations from "../../elements/Paginations";
 import DataTable from "../../commonComponents/DataTable";
+import DeleteConfirmModal from "../commonDeleteModal/DeleteConfirmModal";
 
 const ContactList = ({
   selectedContacts,
@@ -55,7 +56,7 @@ const ContactList = ({
           page: currentPage,
           limit: itemsPerPage,
           search,
-        })
+        }),
       );
 
       if (res?.status === 200) {
@@ -82,7 +83,7 @@ const ContactList = ({
 
   useEffect(() => {
     setSelectedContacts((prev) =>
-      prev.filter((id) => contacts.some((c) => c._id === id))
+      prev.filter((id) => contacts.some((c) => c._id === id)),
     );
   }, [contacts, setSelectedContacts]);
 
@@ -212,7 +213,7 @@ const ContactList = ({
                       }
                       indeterminate={
                         selectedContacts?.length > 0 &&
-                          selectedContacts?.length < contacts?.length
+                        selectedContacts?.length < contacts?.length
                           ? "true"
                           : ""
                       }
@@ -338,45 +339,14 @@ const ContactList = ({
         )}
 
         {/* Delete Confirmation Modal */}
-        <Modal
+        <DeleteConfirmModal
           show={showDeleteModal}
           onHide={() => setShowDeleteModal(false)}
-          centered
-        >
-          <Modal.Header className="form-main-heading">
-            <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-            <AiOutlineClose
-              size={20}
-              style={{ cursor: "pointer", color: "white" }}
-              onClick={() => setShowDeleteModal(false)}
-            />
-          </Modal.Header>
-          <Modal.Body className="text-center py-4">
-            <div className="text-danger fs-1 mb-3">
-              <i className="bi bi-exclamation-triangle-fill"></i>
-            </div>
-            <p className="mb-1 fw-semibold">
-              Are you sure you want to delete this contact?
-            </p>
-            <small className="text-muted">This action cannot be undone.</small>
-          </Modal.Body>
-          <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-            <Button
-              variant="light"
-              className="btn-cancel-delete px-4"
-              onClick={() => setShowDeleteModal(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="danger"
-              className="btn-delete-confirm"
-              onClick={confirmDelete}
-            >
-              <i className="bi bi-trash-fill me-2"></i>Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
+          onConfirm={() => {
+            confirmDelete();
+            setShowDeleteModal(false);
+          }}
+        />
       </Card.Body>
     </>
   );

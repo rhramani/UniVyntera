@@ -211,7 +211,7 @@ const PublicLeadForm = () => {
           overall: Yup.number(),
           duolingoScore: Yup.number(),
         }),
-      })
+      }),
     ),
     education_details: Yup.array().of(
       Yup.object({
@@ -222,7 +222,7 @@ const PublicLeadForm = () => {
         score: Yup.string(),
         institution: Yup.string(),
         backlogs: Yup.number(),
-      })
+      }),
     ),
   });
 
@@ -476,7 +476,7 @@ const PublicLeadForm = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       borderColor: "#ced4da",
       "&:hover": { borderColor: "#0052cc" },
     }),
@@ -574,7 +574,7 @@ const PublicLeadForm = () => {
 
   return (
     <div className="b2b-admin-form-container">
-      <div className="logo-container mb-4">
+      {/* <div className="logo-container mb-4">
         <img
           src={logo}
           alt="Company Logo"
@@ -584,7 +584,7 @@ const PublicLeadForm = () => {
             objectFit: "contain",
           }}
         />
-      </div>
+      </div> */}
       <Card className="b2b-admin-card">
         <Card.Header className="b2b-card-header">
           <h4 className="form-card-title">Create Lead</h4>
@@ -671,7 +671,7 @@ const PublicLeadForm = () => {
                           onChange={(selectedOption) => {
                             setFieldValue(
                               "country",
-                              selectedOption ? selectedOption.value : ""
+                              selectedOption ? selectedOption.value : "",
                             );
                           }}
                           placeholder="Select Country"
@@ -737,7 +737,7 @@ const PublicLeadForm = () => {
                               : "";
                             const formattedPhone = `${dialCode} ${phone.replace(
                               data.dialCode,
-                              ""
+                              "",
                             )}`.trim();
                             setFieldValue("phone", formattedPhone);
                           }}
@@ -768,13 +768,13 @@ const PublicLeadForm = () => {
                           options={genderOptions}
                           value={
                             genderOptions.find(
-                              (option) => option.value === values.gender
+                              (option) => option.value === values.gender,
                             ) || null
                           }
                           onChange={(selectedOption) =>
                             setFieldValue(
                               "gender",
-                              selectedOption ? selectedOption.value : ""
+                              selectedOption ? selectedOption.value : "",
                             )
                           }
                           placeholder="Select Gender"
@@ -807,7 +807,7 @@ const PublicLeadForm = () => {
                             ref={dobInputRef}
                             onClick={() => {
                               setDobValue(
-                                parseDate(values.dateofbirth) || new Date()
+                                parseDate(values.dateofbirth) || new Date(),
                               );
                               setShowDobCalendar((show) => !show);
                             }}
@@ -851,10 +851,10 @@ const PublicLeadForm = () => {
                                   setDobValue(selectedDate);
                                   const yyyy = selectedDate.getFullYear();
                                   const mm = String(
-                                    selectedDate.getMonth() + 1
+                                    selectedDate.getMonth() + 1,
                                   ).padStart(2, "0");
                                   const dd = String(
-                                    selectedDate.getDate()
+                                    selectedDate.getDate(),
                                   ).padStart(2, "0");
                                   const dobString = `${yyyy}-${mm}-${dd}`;
                                   setFieldValue("dateofbirth", dobString);
@@ -919,7 +919,7 @@ const PublicLeadForm = () => {
                                   value: values.inquiry_for,
                                   label:
                                     allInquiry?.find(
-                                      (type) => type._id === values.inquiry_for
+                                      (type) => type._id === values.inquiry_for,
                                     )?.name || "",
                                 }
                               : null
@@ -927,7 +927,7 @@ const PublicLeadForm = () => {
                           onChange={(selectedOption) => {
                             setFieldValue(
                               "inquiry_for",
-                              selectedOption ? selectedOption.value : ""
+                              selectedOption ? selectedOption.value : "",
                             );
                           }}
                           placeholder="Select Inquiry Type"
@@ -938,7 +938,7 @@ const PublicLeadForm = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({

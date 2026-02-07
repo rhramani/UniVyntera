@@ -37,6 +37,7 @@ import { getAllBankingDetails } from "../../redux/actions/Master/Banking.action"
 import { getAllConfigurations } from "../../redux/actions/Configuration.action";
 import { BASEURL } from "../../baseUrl";
 import { decryptData } from "../../utils/encryptionUtils";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const ApplicationFeesInvoices = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -79,7 +80,7 @@ const ApplicationFeesInvoices = () => {
     usePermissions("Application Fees Invoice");
 
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   const [filters, setFilters] = useState({
@@ -205,7 +206,7 @@ const ApplicationFeesInvoices = () => {
             !student.payable ||
             !student.paymentMode ||
             !student.status ||
-            ""
+            "",
         )
       ) {
         toast.error("All fields are required");
@@ -260,7 +261,7 @@ const ApplicationFeesInvoices = () => {
           toast.success(
             values.id
               ? "Invoice updated successfully!"
-              : "Invoice created successfully!"
+              : "Invoice created successfully!",
           );
           handleCloseModal();
           if (canRead) {
@@ -271,22 +272,22 @@ const ApplicationFeesInvoices = () => {
               filterB2B?.value || "",
               filters.startDate,
               filters.endDate,
-              filters.status?.value || ""
+              filters.status?.value || "",
             );
           }
           resetForm();
         } else {
           toast.error(
-            values.id ? "Failed to update invoice" : "Failed to create invoice"
+            values.id ? "Failed to update invoice" : "Failed to create invoice",
           );
         }
       } catch (error) {
         console.error("Error creating/updating invoice:", error);
         toast.error(
           error?.response?.data?.message ||
-          (values.id
-            ? "Failed to update invoice"
-            : "Failed to create invoice")
+            (values.id
+              ? "Failed to update invoice"
+              : "Failed to create invoice"),
         );
       } finally {
         setSubmitting(false);
@@ -357,7 +358,7 @@ const ApplicationFeesInvoices = () => {
             filterB2B?.value || "",
             filters.startDate,
             filters.endDate,
-            filters.status?.value || ""
+            filters.status?.value || "",
           );
         }
       } else {
@@ -376,7 +377,7 @@ const ApplicationFeesInvoices = () => {
     b2bId = filterB2B?.value || "",
     startDate = filters.startDate,
     endDate = filters.endDate,
-    status = filters.status
+    status = filters.status,
   ) => {
     try {
       const res = await dispatch(
@@ -387,8 +388,8 @@ const ApplicationFeesInvoices = () => {
           b2bId,
           startDate,
           endDate,
-          status
-        )
+          status,
+        ),
       );
       if (res?.status === 200) {
         const responseData = res?.data?.message || {};
@@ -512,7 +513,7 @@ const ApplicationFeesInvoices = () => {
     } else {
       if (selectedInvoices.length > 0) {
         invoicesToExport = invoiceData.filter((item) =>
-          selectedInvoices.includes(item._id)
+          selectedInvoices.includes(item._id),
         );
       } else {
         invoicesToExport = invoiceData;
@@ -528,7 +529,7 @@ const ApplicationFeesInvoices = () => {
 
       if (singleInvoice) {
         const b2bCompany = b2bList.find(
-          (b2b) => b2b._id === singleInvoice.b2b._id
+          (b2b) => b2b._id === singleInvoice.b2b._id,
         );
         const customerName = b2bCompany ? b2bCompany.companyName : "";
 
@@ -617,7 +618,10 @@ const ApplicationFeesInvoices = () => {
         // const res = await dispatch(getAllSetting());
         const res = await dispatch(getAllConfigurations());
         if (res?.status === 200 && res.data.message[0].invoiceLogo) {
-          setDashboardLogo(`${BASEURL}/${res.data.message[0].invoiceLogo}` || ALLImages("logo1"));
+          setDashboardLogo(
+            `${BASEURL}/${res.data.message[0].invoiceLogo}` ||
+              ALLImages("logo1"),
+          );
         }
       }
     } catch (error) {
@@ -651,7 +655,7 @@ const ApplicationFeesInvoices = () => {
         filterB2B?.value || "",
         filters.startDate,
         filters.endDate,
-        filters.status?.value || ""
+        filters.status?.value || "",
       );
     }
   }, [canRead, currentPage, itemsPerPage, search, filterB2B, filters]);
@@ -667,7 +671,7 @@ const ApplicationFeesInvoices = () => {
         filterB2B?.value || "",
         filters.startDate,
         filters.endDate,
-        filters.status?.value || ""
+        filters.status?.value || "",
       );
     }
   };
@@ -953,7 +957,7 @@ const ApplicationFeesInvoices = () => {
                       <Select
                         options={paymentStatusOptions}
                         value={paymentStatusOptions.find(
-                          (option) => option.value === filters.status?.value
+                          (option) => option.value === filters.status?.value,
                         )}
                         onChange={(option) => {
                           setFilters({ ...filters, status: option });
@@ -984,8 +988,8 @@ const ApplicationFeesInvoices = () => {
                             : "₹"}{" "}
                           {invoiceData?.length > 0
                             ? totalPayable?.toLocaleString("en-IN", {
-                              maximumFractionDigits: 2,
-                            })
+                                maximumFractionDigits: 2,
+                              })
                             : "0"}
                         </strong>
                       </span>
@@ -1034,10 +1038,9 @@ const ApplicationFeesInvoices = () => {
                       border: "1px solid #dee2e6",
                     }}
                   >
-
                     <table
                       className="table table-hover modern-table table-nowrap"
-                    style={{ width: "100%", overflowX: "auto" }}
+                      style={{ width: "100%", overflowX: "auto" }}
                     >
                       <thead className="bg-light sticky-header">
                         <tr>
@@ -1113,12 +1116,12 @@ const ApplicationFeesInvoices = () => {
                                   <Form.Check
                                     type="checkbox"
                                     checked={selectedInvoices.includes(
-                                      item._id
+                                      item._id,
                                     )}
                                     onChange={(e) =>
                                       handleSelectInvoice(
                                         item._id,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                     className="custom-checkbox"
@@ -1183,20 +1186,20 @@ const ApplicationFeesInvoices = () => {
                                   {item.amount && item.currencyCode ? (
                                     <>
                                       {getSymbolFromCurrency(
-                                        item.currencyCode
+                                        item.currencyCode,
                                       ) || item.currencyCode}
                                       &nbsp;
                                       {new Intl.NumberFormat().format(
                                         Number(
-                                          String(item.amount).replace(/,/g, "")
-                                        )
+                                          String(item.amount).replace(/,/g, ""),
+                                        ),
                                       )}
                                     </>
                                   ) : item.amount ? (
                                     new Intl.NumberFormat().format(
                                       Number(
-                                        String(item.amount).replace(/,/g, "")
-                                      )
+                                        String(item.amount).replace(/,/g, ""),
+                                      ),
                                     )
                                   ) : (
                                     "-"
@@ -1253,7 +1256,7 @@ const ApplicationFeesInvoices = () => {
                                       aria-haspopup="true"
                                       onClick={(e) => {
                                         setOpenDropdown(
-                                          openDropdown === index ? null : index
+                                          openDropdown === index ? null : index,
                                         );
                                         setAnchorEl(e.currentTarget);
                                       }}
@@ -1354,8 +1357,8 @@ const ApplicationFeesInvoices = () => {
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={(page) => setCurrentPage(page)}
-                      /></div>
-
+                      />
+                    </div>
                   )}
                 </>
               ) : (
@@ -1371,48 +1374,15 @@ const ApplicationFeesInvoices = () => {
         </Col>
       </Row>
 
-      <Modal
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>{" "}
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
+        onConfirm={() => {
+          handleDelete(selectedItem);
+          setShowDeleteModal(false);
+        }}
+      />
 
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleDelete(selectedItem);
-              setShowDeleteModal(false);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
       <Modal show={showModal} onHide={handleCloseModal} size="lg">
         <Modal.Header className="form-main-heading">
           <Modal.Title>
@@ -1459,7 +1429,7 @@ const ApplicationFeesInvoices = () => {
                     onClick={() => {
                       if (formik.values.invoiceDate) {
                         setInvoiceDateValue(
-                          parseDate(formik.values.invoiceDate)
+                          parseDate(formik.values.invoiceDate),
                         );
                       }
                       setShowInvoiceDateCalendar((show) => !show);
@@ -1601,7 +1571,7 @@ const ApplicationFeesInvoices = () => {
                         onChange={(option) =>
                           formik.setFieldValue(
                             `students.${index}.student`,
-                            option
+                            option,
                           )
                         }
                         placeholder="Select Student"
@@ -1634,7 +1604,7 @@ const ApplicationFeesInvoices = () => {
                         onChange={(option) =>
                           formik.setFieldValue(
                             `students.${index}.currencyCode`,
-                            option
+                            option,
                           )
                         }
                         placeholder="Select Currency Code"
@@ -1671,26 +1641,27 @@ const ApplicationFeesInvoices = () => {
                           const value = e.target.value;
                           formik.setFieldValue(
                             `students.${index}.amount`,
-                            value
+                            value,
                           );
 
                           const rate = formik.values.students[index].rate || "";
                           const payable =
                             value && rate && !isNaN(value) && !isNaN(rate)
                               ? (parseFloat(value) * parseFloat(rate)).toFixed(
-                                0
-                              )
+                                  0,
+                                )
                               : "";
                           formik.setFieldValue(
                             `students.${index}.payable`,
-                            payable
+                            payable,
                           );
                         }}
-                        className={`custom-select-height ${formik.touched.students?.[index]?.amount &&
-                            formik.errors.students?.[index]?.amount
+                        className={`custom-select-height ${
+                          formik.touched.students?.[index]?.amount &&
+                          formik.errors.students?.[index]?.amount
                             ? "is-invalid"
                             : ""
-                          }`}
+                        }`}
                       />
                       {formik.touched.students?.[index]?.amount &&
                         formik.errors.students?.[index]?.amount && (
@@ -1714,19 +1685,20 @@ const ApplicationFeesInvoices = () => {
                           const payable =
                             amount && value && !isNaN(amount) && !isNaN(value)
                               ? (
-                                parseFloat(amount) * parseFloat(value)
-                              ).toFixed(0)
+                                  parseFloat(amount) * parseFloat(value)
+                                ).toFixed(0)
                               : "";
                           formik.setFieldValue(
                             `students.${index}.payable`,
-                            payable
+                            payable,
                           );
                         }}
-                        className={`custom-select-height ${formik.touched.students?.[index]?.rate &&
-                            formik.errors.students?.[index]?.rate
+                        className={`custom-select-height ${
+                          formik.touched.students?.[index]?.rate &&
+                          formik.errors.students?.[index]?.rate
                             ? "is-invalid"
                             : ""
-                          }`}
+                        }`}
                       />
                       {formik.touched.students?.[index]?.rate &&
                         formik.errors.students?.[index]?.rate && (
@@ -1742,11 +1714,12 @@ const ApplicationFeesInvoices = () => {
                         placeholder="Enter Payable Amount"
                         value={student.payable}
                         disabled
-                        className={`custom-select-height ${formik.touched.students?.[index]?.payable &&
-                            formik.errors.students?.[index]?.payable
+                        className={`custom-select-height ${
+                          formik.touched.students?.[index]?.payable &&
+                          formik.errors.students?.[index]?.payable
                             ? "is-invalid"
                             : ""
-                          }`}
+                        }`}
                       />
                       {formik.touched.students?.[index]?.payable &&
                         formik.errors.students?.[index]?.payable && (
@@ -1761,13 +1734,13 @@ const ApplicationFeesInvoices = () => {
                         options={paymentModeOptions}
                         value={
                           paymentModeOptions.find(
-                            (option) => option.value === student.paymentMode
+                            (option) => option.value === student.paymentMode,
                           ) || null
                         }
                         onChange={(option) =>
                           formik.setFieldValue(
                             `students[${index}].paymentMode`,
-                            option ? option.value : ""
+                            option ? option.value : "",
                           )
                         }
                         classNamePrefix="custom-select"
@@ -1793,13 +1766,13 @@ const ApplicationFeesInvoices = () => {
                         options={ddPaidStatusOptions}
                         value={
                           ddPaidStatusOptions.find(
-                            (option) => option.value === student.status
+                            (option) => option.value === student.status,
                           ) || { value: "Unpaid", label: "Unpaid" }
                         }
                         onChange={(option) =>
                           formik.setFieldValue(
                             `students[${index}].status`,
-                            option ? option.value : "Unpaid"
+                            option ? option.value : "Unpaid",
                           )
                         }
                         placeholder="Select Fees"
@@ -1823,41 +1796,41 @@ const ApplicationFeesInvoices = () => {
                     </Col>
                     <Col md={6} className="mb-2">
                       {["GPay", "Bank", "UPI"].includes(
-                        student.paymentMode
+                        student.paymentMode,
                       ) && (
-                          <Form.Group>
-                            <Form.Label>Bank</Form.Label>
-                            <Select
-                              className=""
-                              options={bankOptions}
-                              value={
-                                bankOptions.find(
-                                  (option) => option.value === student.bank
-                                ) || null
-                              }
-                              onChange={(option) =>
-                                formik.setFieldValue(
-                                  `students[${index}].bank`,
-                                  option ? option.value : null
-                                )
-                              }
-                              classNamePrefix="custom-select"
-                              placeholder="Select bank"
-                              styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  fontSize: "13px",
-                                }),
-                              }}
-                            />
-                            {formik.touched.students?.[index]?.bank &&
-                              formik.errors.students?.[index]?.bank && (
-                                <div className="text-danger mt-1">
-                                  {formik.errors.students[index]?.bank}
-                                </div>
-                              )}
-                          </Form.Group>
-                        )}
+                        <Form.Group>
+                          <Form.Label>Bank</Form.Label>
+                          <Select
+                            className=""
+                            options={bankOptions}
+                            value={
+                              bankOptions.find(
+                                (option) => option.value === student.bank,
+                              ) || null
+                            }
+                            onChange={(option) =>
+                              formik.setFieldValue(
+                                `students[${index}].bank`,
+                                option ? option.value : null,
+                              )
+                            }
+                            classNamePrefix="custom-select"
+                            placeholder="Select bank"
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                fontSize: "13px",
+                              }),
+                            }}
+                          />
+                          {formik.touched.students?.[index]?.bank &&
+                            formik.errors.students?.[index]?.bank && (
+                              <div className="text-danger mt-1">
+                                {formik.errors.students[index]?.bank}
+                              </div>
+                            )}
+                        </Form.Group>
+                      )}
                     </Col>
                   </Row>
                 </div>

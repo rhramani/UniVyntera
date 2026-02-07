@@ -187,7 +187,7 @@ const GerHealthInsurance = ({ id }) => {
         console.error("Failed to update health insurance details:", error);
         toast.error(
           error.message ||
-            "Failed to update health insurance details. Please try again."
+            "Failed to update health insurance details. Please try again.",
         );
       } finally {
         setIsLoading(false);
@@ -296,12 +296,12 @@ const GerHealthInsurance = ({ id }) => {
                   <Select
                     options={providerOptions}
                     value={providerOptions.find(
-                      (o) => o.value === formik.values.providerName
+                      (o) => o.value === formik.values.providerName,
                     )}
                     onChange={(selected) =>
                       formik.setFieldValue(
                         "providerName",
-                        selected?.value || ""
+                        selected?.value || "",
                       )
                     }
                     classNamePrefix="custom-select"
@@ -309,7 +309,7 @@ const GerHealthInsurance = ({ id }) => {
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -319,7 +319,9 @@ const GerHealthInsurance = ({ id }) => {
                       }),
                     }}
                     isClearable
-                    isDisabled={userRole === "Student" || userRole === "LeadStudent"}
+                    isDisabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                   {formik.touched.providerName &&
                     formik.errors.providerName && (
@@ -336,12 +338,12 @@ const GerHealthInsurance = ({ id }) => {
                   <Select
                     options={insuranceTypeOptions}
                     value={insuranceTypeOptions.find(
-                      (o) => o.value === formik.values.insuranceType
+                      (o) => o.value === formik.values.insuranceType,
                     )}
                     onChange={(selected) =>
                       formik.setFieldValue(
                         "insuranceType",
-                        selected?.value || ""
+                        selected?.value || "",
                       )
                     }
                     classNamePrefix="custom-select"
@@ -349,7 +351,7 @@ const GerHealthInsurance = ({ id }) => {
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -359,7 +361,9 @@ const GerHealthInsurance = ({ id }) => {
                       }),
                     }}
                     isClearable
-                    isDisabled={userRole === "Student" || userRole === "LeadStudent"}
+                    isDisabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                   {formik.touched.insuranceType &&
                     formik.errors.insuranceType && (
@@ -381,9 +385,14 @@ const GerHealthInsurance = ({ id }) => {
                     name="policyNumber"
                     className="custom-select-height"
                     style={{
-                      cursor: userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "",
+                      cursor:
+                        userRole === "Student" || userRole === "LeadStudent"
+                          ? "not-allowed"
+                          : "",
                     }}
-                    disabled={userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                   {formik.touched.policyNumber &&
                     formik.errors.policyNumber && (
@@ -410,11 +419,15 @@ const GerHealthInsurance = ({ id }) => {
                       onClick={() => setShowFromCalendar(true)}
                       style={{
                         cursor:
-                          userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                          userRole === "Student" || userRole === "LeadStudent"
+                            ? "not-allowed"
+                            : "pointer",
                         paddingRight: "40px",
                       }}
                       className="custom-select-height"
-                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        userRole === "Student" || userRole === "LeadStudent"
+                      }
                     />
                     <MdCalendarToday
                       style={{
@@ -446,7 +459,7 @@ const GerHealthInsurance = ({ id }) => {
                           onChange={(date) => {
                             formik.setFieldValue(
                               "validityFrom",
-                              toISODate(date)
+                              toISODate(date),
                             );
                             setShowFromCalendar(false);
                           }}
@@ -481,11 +494,15 @@ const GerHealthInsurance = ({ id }) => {
                       onClick={() => setShowToCalendar(true)}
                       style={{
                         cursor:
-                          userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                          userRole === "Student" || userRole === "LeadStudent"
+                            ? "not-allowed"
+                            : "pointer",
                         paddingRight: "40px",
                       }}
                       className="custom-select-height"
-                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        userRole === "Student" || userRole === "LeadStudent"
+                      }
                     />
                     <MdCalendarToday
                       style={{
@@ -541,7 +558,7 @@ const GerHealthInsurance = ({ id }) => {
                     onChange={(event) =>
                       formik.setFieldValue(
                         "certificateUpload",
-                        event.currentTarget.files[0]
+                        event.currentTarget.files[0],
                       )
                     }
                     className="custom-select-height"
@@ -549,8 +566,10 @@ const GerHealthInsurance = ({ id }) => {
                       applicationData?.uploadedDocumentDetails?.some(
                         (doc) =>
                           doc.customDocumentName ===
-                          "Health Insurance Certificate"
-                      ) || userRole === "Student" || userRole === "LeadStudent"
+                          "Health Insurance Certificate",
+                      ) ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
                     }
                   />
                   {formik.touched.certificateUpload &&

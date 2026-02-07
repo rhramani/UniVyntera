@@ -72,8 +72,8 @@ const StudentApplicationReports = () => {
       userRole === "Branch"
         ? branchId
         : userType === "Branch User"
-        ? branchUserId
-        : "",
+          ? branchUserId
+          : "",
     // role: "",
     user: "",
     showAll: true,
@@ -203,8 +203,8 @@ const StudentApplicationReports = () => {
         item?.b2bCompany
           ? item.b2bCompany
           : item?.branch
-          ? item.branch
-          : item?.createdByName || "",
+            ? item.branch
+            : item?.createdByName || "",
     },
     {
       label: "Status",
@@ -215,7 +215,7 @@ const StudentApplicationReports = () => {
               backgroundColor: item?.mainStatus?.color,
               color: item?.mainStatus ? "#ffffff" : "#000000",
               padding: "1px 8px",
-              borderRadius: "30px",
+              borderRadius: "12px",
               display: "inline-block",
             }}
           >
@@ -236,7 +236,7 @@ const StudentApplicationReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => {
                 const instituteName = detail?.institute?.instituteName || "-";
@@ -265,7 +265,7 @@ const StudentApplicationReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.course?.programName || "-")
               .join(", ")
@@ -287,7 +287,7 @@ const StudentApplicationReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeYear || "-")
               .join(", ")
@@ -323,7 +323,7 @@ const StudentApplicationReports = () => {
     applicationType = filters.applicationType || "",
     country = filters.country?.value || "",
     type = filters.type?.value || "",
-    b2bId = filters.b2bId?.value || ""
+    b2bId = filters.b2bId?.value || "",
   ) => {
     try {
       const res = await dispatch(
@@ -344,8 +344,8 @@ const StudentApplicationReports = () => {
           applicationType,
           country,
           type,
-          b2bId
-        )
+          b2bId,
+        ),
       );
       setStudentReports(res?.data?.data?.data || []);
       setTotalRecords(res?.data?.data?.totalRecords || 0);
@@ -442,8 +442,8 @@ const StudentApplicationReports = () => {
           filters.applicationType?.value || "",
           filters.country?.value || "",
           filters.type?.value || "",
-          filters.b2bId?.value || ""
-        )
+          filters.b2bId?.value || "",
+        ),
       );
       dataToExport = res?.data?.data?.data || [];
       // } else {
@@ -466,7 +466,7 @@ const StudentApplicationReports = () => {
               ? item?.interestedCourseDetails
                   ?.filter(
                     (detail) =>
-                      detail?.instituteFeePayment?.feeStatus === "paid"
+                      detail?.instituteFeePayment?.feeStatus === "paid",
                   )
                   ?.map((detail) => {
                     const instituteName =
@@ -486,7 +486,7 @@ const StudentApplicationReports = () => {
               ? item?.interestedCourseDetails
                   ?.filter(
                     (detail) =>
-                      detail?.instituteFeePayment?.feeStatus === "paid"
+                      detail?.instituteFeePayment?.feeStatus === "paid",
                   )
                   ?.map((detail) => detail?.course?.programName || "-")
                   .join(", ")
@@ -545,7 +545,7 @@ const StudentApplicationReports = () => {
       const res = await dispatch(getAllIntake());
       if (res?.status === 200) {
         setIntakeMonthData(
-          res?.data?.data || { intakeMonths: [], intakeYears: [] }
+          res?.data?.data || { intakeMonths: [], intakeYears: [] },
         );
       } else {
         console.warn("fetchAllIntake: Non-200 status", res);
@@ -627,7 +627,7 @@ const StudentApplicationReports = () => {
     roleName,
     branchId,
     showAll = false,
-    isForFilter = false
+    isForFilter = false,
   ) => {
     if (!roleId) {
       if (isForFilter) {
@@ -641,7 +641,7 @@ const StudentApplicationReports = () => {
     try {
       const branchIdToUse = branchId === null ? undefined : branchId;
       const res = await dispatch(
-        adminGetAll(1, 1000, "", roleName, branchIdToUse, showAll)
+        adminGetAll(1, 1000, "", roleName, branchIdToUse, showAll),
       );
       const users = res?.data?.data?.data || [];
 
@@ -685,7 +685,7 @@ const StudentApplicationReports = () => {
       dispatch(getAllRoleList("", true)).then((res) => {
         const roles = res?.data?.data || [];
         setFilterRoleOptions(
-          roles.map((r) => ({ value: r._id, label: r.name }))
+          roles.map((r) => ({ value: r._id, label: r.name })),
         );
       });
     }
@@ -731,7 +731,7 @@ const StudentApplicationReports = () => {
         filters.applicationType?.value,
         filters.country?.value,
         filters.type?.value,
-        filters.b2bId?.value
+        filters.b2bId?.value,
       );
     }
   }, [currentPage, itemsPerPage, search, filters]);
@@ -1046,7 +1046,7 @@ const StudentApplicationReports = () => {
                     options={applicationStatusOptions}
                     value={
                       applicationStatusOptions.find(
-                        (option) => option.value === filters.mainStatus
+                        (option) => option.value === filters.mainStatus,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -1078,7 +1078,7 @@ const StudentApplicationReports = () => {
                     options={intakeMonthOptions}
                     value={
                       intakeMonthOptions.find(
-                        (option) => option.value === filters.intakeMonth
+                        (option) => option.value === filters.intakeMonth,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -1110,7 +1110,7 @@ const StudentApplicationReports = () => {
                     options={intakeYearOptions}
                     value={
                       intakeYearOptions.find(
-                        (option) => option.value === filters.intakeYear
+                        (option) => option.value === filters.intakeYear,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -1141,7 +1141,7 @@ const StudentApplicationReports = () => {
                     options={instituteOptions}
                     value={
                       instituteOptions.find(
-                        (option) => option.value === filters.institute
+                        (option) => option.value === filters.institute,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -1171,7 +1171,7 @@ const StudentApplicationReports = () => {
                     options={tailormadeOptions}
                     value={
                       tailormadeOptions.find(
-                        (option) => option.value === filters.applicationType
+                        (option) => option.value === filters.applicationType,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -1237,7 +1237,7 @@ const StudentApplicationReports = () => {
                     }}
                   />
                 </div>
-                {userRole !== "Branch" && userType !=="Branch User" && (
+                {userRole !== "Branch" && userType !== "Branch User" && (
                   <div className="filter-item">
                     <Form.Label>Branch</Form.Label>
                     <Select
@@ -1269,8 +1269,8 @@ const StudentApplicationReports = () => {
                             (filters.branchId === ""
                               ? "All"
                               : filters.branchId === null
-                              ? "head_office"
-                              : filters.branchId)
+                                ? "head_office"
+                                : filters.branchId),
                         ) || null
                       }
                       onChange={async (selectedOption) => {
@@ -1310,7 +1310,7 @@ const StudentApplicationReports = () => {
                     options={filterRoleOptions}
                     value={
                       filterRoleOptions.find(
-                        (opt) => opt.value === filters.role
+                        (opt) => opt.value === filters.role,
                       ) || null
                     }
                     onChange={(selected) => {
@@ -1335,7 +1335,7 @@ const StudentApplicationReports = () => {
                           roleName,
                           branchIdToUse,
                           showAllToUse,
-                          true
+                          true,
                         );
                       } else {
                         setFilterUserOptions([]);
@@ -1354,7 +1354,7 @@ const StudentApplicationReports = () => {
                     options={filterUserOptions}
                     value={
                       filterUserOptions.find(
-                        (opt) => opt.value === filters.user
+                        (opt) => opt.value === filters.user,
                       ) || null
                     }
                     onChange={(selected) => {
@@ -1422,11 +1422,13 @@ const StudentApplicationReports = () => {
                 </div>
               </div>
 
-              <div className="table-responsive modern-table-wrapper"
+              <div
+                className="table-responsive modern-table-wrapper"
                 style={{
                   borderRadius: "12px",
                   border: "1px solid #dee2e6",
-                }}>
+                }}
+              >
                 <table
                   className="table table-hover modern-table table-nowrap"
                   style={{ tableLayout: "auto" }}

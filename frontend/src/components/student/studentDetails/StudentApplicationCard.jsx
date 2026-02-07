@@ -219,7 +219,7 @@ const StudentApplicationCard = ({
                                   key={c._id}
                                   className="badge rounded-pill"
                                   style={{
-                                    backgroundColor: "#053880",
+                                    backgroundColor: "#5D54BE",
                                     color: "#fff",
                                     fontSize: "0.7rem",
                                     cursor: "pointer",

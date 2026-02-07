@@ -47,7 +47,7 @@ const SupplementaryAdditionalRequirement = ({
 }) => {
   const { canCreate, canUpdate } = usePermissions(
     "Student Applications",
-    "Visa Application"
+    "Visa Application",
   );
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -93,7 +93,7 @@ const SupplementaryAdditionalRequirement = ({
           "Supplementary Additional",
           values.supplementaryAdditional,
           resetForm,
-          formikInstance
+          formikInstance,
         );
         uploadSuccess = uploadResult.success;
         documentDetails = uploadResult.documentDetails;
@@ -106,14 +106,14 @@ const SupplementaryAdditionalRequirement = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(payload, id)
-          : updateVisitorApplication(payload, id)
+          : updateVisitorApplication(payload, id),
       );
       if (res?.status !== 200) {
         console.error("API response error:", res?.data);
         toast.error(
           res?.data?.error?.message ||
             res?.data?.message ||
-            "Error updating remarks"
+            "Error updating remarks",
         );
         return;
       }
@@ -128,11 +128,11 @@ const SupplementaryAdditionalRequirement = ({
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -178,9 +178,14 @@ const SupplementaryAdditionalRequirement = ({
                     onBlur={remarksFormik.handleBlur}
                     className="rounded-4"
                     style={{
-                      cursor: userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "",
+                      cursor:
+                        userRole === "Student" || userRole === "LeadStudent"
+                          ? "not-allowed"
+                          : "",
                     }}
-                    disabled={userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -196,25 +201,29 @@ const SupplementaryAdditionalRequirement = ({
                   onBlur={() =>
                     remarksFormik.setFieldTouched(
                       "supplementaryAdditional",
-                      true
+                      true,
                     )
                   }
-                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                  disabled={
+                    userRole === "Student" || userRole === "LeadStudent"
+                  }
                 />
               </Col>
             </Row>
-            {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-              <div className="d-flex justify-content-end">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="custom-select-height"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Submitting..." : "Submit"}
-                </Button>
-              </div>
-            )}
+            {userRole !== "Student" &&
+              userRole !== "LeadStudent" &&
+              (canCreate || canUpdate) && (
+                <div className="d-flex justify-content-end">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="custom-select-height"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Submitting..." : "Submit"}
+                  </Button>
+                </div>
+              )}
           </Form>
         </div>
 
@@ -247,7 +256,7 @@ const SupplementaryAdditionalRequirement = ({
                         sendPendingDocumentMain(id, selectedDocumentNames);
                       } else {
                         toast.error(
-                          "Please select at least one document to send via mail."
+                          "Please select at least one document to send via mail.",
                         );
                       }
                     }}
@@ -277,7 +286,8 @@ const SupplementaryAdditionalRequirement = ({
                             )} */}
                     {userRole !== "B2B Admin" &&
                       userRole !== "B2B Member" &&
-                      userRole !== "Student" && userRole !== "LeadStudent" && <th>For Mail Send</th>}
+                      userRole !== "Student" &&
+                      userRole !== "LeadStudent" && <th>For Mail Send</th>}
                     <th>Sr No</th>
                     <th>Document Name</th>
                     <th>Upload File</th>
@@ -336,7 +346,8 @@ const SupplementaryAdditionalRequirement = ({
                                     )} */}
                             {userRole !== "B2B Admin" &&
                               userRole !== "B2B Member" &&
-                              userRole !== "Student" && userRole !== "LeadStudent" && (
+                              userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
                                 <td>
                                   <div className="form-check form-switch custom-toggle-button me-0">
                                     <input
@@ -344,12 +355,12 @@ const SupplementaryAdditionalRequirement = ({
                                       type="checkbox"
                                       id={`toggle-${doc._id}-${index}`}
                                       checked={selectedDocsIds?.includes(
-                                        `${doc._id}-${index}`
+                                        `${doc._id}-${index}`,
                                       )}
                                       onChange={() =>
                                         handleCheckboxChangeId(
                                           `${doc._id}-${index}`,
-                                          docName
+                                          docName,
                                         )
                                       }
                                     />
@@ -372,11 +383,14 @@ const SupplementaryAdditionalRequirement = ({
                                       e,
                                       index,
                                       doc._id,
-                                      docName
+                                      docName,
                                     )
                                   }
                                   className="custom-select-height"
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                 />
                               )}
                             </td>
@@ -407,7 +421,7 @@ const SupplementaryAdditionalRequirement = ({
                                       ?.pop();
                                     handleSingleDocumentDownload(
                                       filePath,
-                                      fileName
+                                      fileName,
                                     );
                                   }}
                                 >
@@ -426,7 +440,7 @@ const SupplementaryAdditionalRequirement = ({
                                     cursor: "pointer",
                                     color: "#fff",
                                     backgroundColor: getStatusColor(
-                                      doc.status || "unverified"
+                                      doc.status || "unverified",
                                     ),
                                     border: "none",
                                     borderRadius: "4px",
@@ -435,17 +449,20 @@ const SupplementaryAdditionalRequirement = ({
                                     width: "100px",
                                     fontSize: "14px",
                                   }}
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                   onClick={() => {
                                     setSelectedStatus(
                                       statusOptions.find(
                                         (opt) =>
                                           opt.value ===
-                                          (doc.status || "unverified")
+                                          (doc.status || "unverified"),
                                       ) ||
                                         statusOptions.find(
-                                          (opt) => opt.value === "unverified"
-                                        )
+                                          (opt) => opt.value === "unverified",
+                                        ),
                                     );
                                     setRemarks(doc.remarks || "");
                                     setSelectedDocId(doc._id);
@@ -493,27 +510,28 @@ const SupplementaryAdditionalRequirement = ({
                             <td>
                               {doc.createdAt
                                 ? new Date(doc.createdAt).toLocaleDateString(
-                                    "en-GB"
+                                    "en-GB",
                                   )
                                 : "-"}
                             </td>
                             <td>{doc.remarks || "-"}</td>
-                            {userRole !== "Student" && userRole !== "LeadStudent" && (
-                              <td className="sticky-col-right-last">
-                                <Button
-                                  variant="link"
-                                  className="text-danger"
-                                  style={{ fontSize: "18px" }}
-                                  onClick={() => {
-                                    setSelectedItem(doc._id);
-                                    setShowDeleteModal(true);
-                                  }}
-                                  title="Delete"
-                                >
-                                  <FaTrashAlt />
-                                </Button>
-                              </td>
-                            )}
+                            {userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
+                                <td className="sticky-col-right-last">
+                                  <Button
+                                    variant="link"
+                                    className="text-danger"
+                                    style={{ fontSize: "18px" }}
+                                    onClick={() => {
+                                      setSelectedItem(doc._id);
+                                      setShowDeleteModal(true);
+                                    }}
+                                    title="Delete"
+                                  >
+                                    <FaTrashAlt />
+                                  </Button>
+                                </td>
+                              )}
                           </tr>
                         );
                       })
@@ -551,7 +569,7 @@ const SupplementaryAdditionalRequirement = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({

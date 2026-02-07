@@ -34,7 +34,7 @@ const educationValidationSchema = Yup.object({
         const { scoreOutOf } = this.parent;
         if (!value || !scoreOutOf) return true;
         return Number(value) <= Number(scoreOutOf);
-      }
+      },
     )
     .required("Score is required"),
   scoreOutOf: Yup.string().required("Score Out of is required"),
@@ -73,7 +73,7 @@ const EducationSection = ({
   const [isLoading, setIsLoading] = useState(false);
   const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
     "Student Applications",
-    "Personal Details"
+    "Personal Details",
   );
 
   const educationColumns = [
@@ -118,7 +118,7 @@ const EducationSection = ({
               window.open(
                 `${BASEURL}/${item.fileUrl}`,
                 "_blank",
-                "noopener,noreferrer"
+                "noopener,noreferrer",
               );
             }}
           >
@@ -174,7 +174,7 @@ const EducationSection = ({
     if (
       !newEducation ||
       Object.values(newEducation).every(
-        (val) => !val || val.toString().trim() === ""
+        (val) => !val || val.toString().trim() === "",
       )
     ) {
       toast.error("Please fill at least one field before submitting.");
@@ -188,7 +188,7 @@ const EducationSection = ({
       !selectedFile
     ) {
       toast.error(
-        "All fields are required: Document Type, Document Name, and Document Upload"
+        "All fields are required: Document Type, Document Name, and Document Upload",
       );
       setIsLoading(false);
       return;
@@ -256,7 +256,7 @@ const EducationSection = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(formData, id)
-          : updateVisitorApplication(formData, id)
+          : updateVisitorApplication(formData, id),
       );
       console.log("Response from adding education:", res);
       if (res?.status === 200) {
@@ -288,7 +288,7 @@ const EducationSection = ({
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error adding education details"
+        error?.response?.data?.message || "Error adding education details",
       );
     } finally {
       setIsLoading(false);
@@ -307,7 +307,7 @@ const EducationSection = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(payload, id)
-          : updateVisitorApplication(payload, id)
+          : updateVisitorApplication(payload, id),
       );
       console.log("Response from editing education:", res);
       if (res?.status === 200) {
@@ -340,7 +340,7 @@ const EducationSection = ({
     } catch (error) {
       console.error("Error updating education detail:", error);
       toast.error(
-        error?.response?.data?.message || "Error updating education details"
+        error?.response?.data?.message || "Error updating education details",
       );
     } finally {
       setIsLoading(false);
@@ -361,7 +361,7 @@ const EducationSection = ({
       const res = await dispatch(
         mode === "student"
           ? deleteStudentApplication(payload, id)
-          : deleteVisitorApplication(payload, id)
+          : deleteVisitorApplication(payload, id),
       );
 
       if (res?.status === 200) {
@@ -373,7 +373,7 @@ const EducationSection = ({
         setFormData((prev) => ({
           ...prev,
           educationDetails: prev.educationDetails.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         if (
@@ -397,7 +397,7 @@ const EducationSection = ({
     } catch (error) {
       console.error("Error deleting education detail:", error);
       toast.error(
-        error?.response?.data?.message || "Error deleting education details"
+        error?.response?.data?.message || "Error deleting education details",
       );
     }
   };
@@ -425,23 +425,25 @@ const EducationSection = ({
       <div className="my-5 p-4 bg-light rounded shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5>Education Details</h5>
-          {userRole !== "Student" && userRole !== "LeadStudent" && canCreate && (
-            <Button
-              variant="primary"
-              className="custom-select-height"
-              onClick={() => {
-                educationFormik.resetForm();
-                setEdit((prev) => ({
-                  ...prev,
-                  educationDetails: false,
-                  educationDetailsIndex: 0,
-                }));
-                setShowEducationModal(true);
-              }}
-            >
-              Add New
-            </Button>
-          )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            canCreate && (
+              <Button
+                variant="primary"
+                className="custom-select-height"
+                onClick={() => {
+                  educationFormik.resetForm();
+                  setEdit((prev) => ({
+                    ...prev,
+                    educationDetails: false,
+                    educationDetailsIndex: 0,
+                  }));
+                  setShowEducationModal(true);
+                }}
+              >
+                Add New
+              </Button>
+            )}
         </div>
         <Modal
           show={showEducationModal}
@@ -534,18 +536,18 @@ const EducationSection = ({
                     value={scoreOutOfOptions.find(
                       (opt) =>
                         opt.value ===
-                        educationFormik.values.educationDetails[0].scoreOutOf
+                        educationFormik.values.educationDetails[0].scoreOutOf,
                     )}
                     onChange={(selectedOption) => {
                       educationFormik.setFieldValue(
                         "educationDetails[0].scoreOutOf",
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       );
                     }}
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -642,7 +644,7 @@ const EducationSection = ({
                         styles={{
                           control: (base) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                           }),
                           placeholder: (base) => ({
@@ -666,7 +668,7 @@ const EducationSection = ({
                         styles={{
                           control: (base) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                           }),
                           placeholder: (base) => ({

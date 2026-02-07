@@ -93,7 +93,7 @@ const GerBlockedAccount = ({ id }) => {
 
   const isDocumentUploaded = (docType) => {
     return applicationData?.uploadedDocumentDetails?.some(
-      (doc) => doc.customDocumentName === docType
+      (doc) => doc.customDocumentName === docType,
     );
   };
 
@@ -167,7 +167,7 @@ const GerBlockedAccount = ({ id }) => {
           formData1.append("uploadedDocument", values.confirmationUpload);
           formData1.append(
             "customDocumentName",
-            "Blocked Account Confirmation"
+            "Blocked Account Confirmation",
           );
           formData1.append("ref_module", refModuleId);
 
@@ -190,7 +190,7 @@ const GerBlockedAccount = ({ id }) => {
         console.error("Failed to update blocked account details:", error);
         toast.error(
           error.message ||
-            "Failed to update blocked account details. Please try again."
+            "Failed to update blocked account details. Please try again.",
         );
       } finally {
         setIsLoading(false);
@@ -204,7 +204,7 @@ const GerBlockedAccount = ({ id }) => {
         applicationData.visaApplicationDetails.blockedAccount;
 
       const matchedOption = bankOptions.find(
-        (opt) => opt.value === blockedAccount.bankName
+        (opt) => opt.value === blockedAccount.bankName,
       );
       formik.setValues({
         bankName: matchedOption ? blockedAccount.bankName : "Others",
@@ -301,7 +301,7 @@ const GerBlockedAccount = ({ id }) => {
                   <Select
                     options={bankOptions}
                     value={bankOptions.find(
-                      (o) => o.value === formik.values.bankName
+                      (o) => o.value === formik.values.bankName,
                     )}
                     onChange={(selected) => {
                       formik.setFieldValue("bankName", selected?.value || "");
@@ -314,7 +314,7 @@ const GerBlockedAccount = ({ id }) => {
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -324,7 +324,9 @@ const GerBlockedAccount = ({ id }) => {
                       }),
                     }}
                     isClearable
-                    isDisabled={userRole === "Student" || userRole === "LeadStudent"}
+                    isDisabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                   {formik.touched.bankName && formik.errors.bankName && (
                     <div className="text-danger">{formik.errors.bankName}</div>
@@ -354,7 +356,7 @@ const GerBlockedAccount = ({ id }) => {
                       value={
                         formik.values.accountOpeningDate
                           ? formatDate(
-                              parseDate(formik.values.accountOpeningDate)
+                              parseDate(formik.values.accountOpeningDate),
                             )
                           : ""
                       }
@@ -362,11 +364,15 @@ const GerBlockedAccount = ({ id }) => {
                       onClick={() => setShowCalendar(true)}
                       style={{
                         cursor:
-                          userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                          userRole === "Student" || userRole === "LeadStudent"
+                            ? "not-allowed"
+                            : "pointer",
                         paddingRight: "40px",
                       }}
                       className="custom-select-height"
-                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        userRole === "Student" || userRole === "LeadStudent"
+                      }
                     />
                     <MdCalendarToday
                       style={{
@@ -398,7 +404,7 @@ const GerBlockedAccount = ({ id }) => {
                           onChange={(date) => {
                             formik.setFieldValue(
                               "accountOpeningDate",
-                              toISODate(date)
+                              toISODate(date),
                             );
                             setShowCalendar(false);
                           }}
@@ -430,9 +436,14 @@ const GerBlockedAccount = ({ id }) => {
                     name="blockedAmount"
                     className="custom-select-height"
                     style={{
-                      cursor: userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "",
+                      cursor:
+                        userRole === "Student" || userRole === "LeadStudent"
+                          ? "not-allowed"
+                          : "",
                     }}
-                    disabled={userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                   {formik.touched.blockedAmount &&
                     formik.errors.blockedAmount && (
@@ -452,13 +463,14 @@ const GerBlockedAccount = ({ id }) => {
                     onChange={(event) =>
                       formik.setFieldValue(
                         "confirmationUpload",
-                        event.currentTarget.files[0]
+                        event.currentTarget.files[0],
                       )
                     }
                     className="custom-select-height"
                     disabled={
                       isDocumentUploaded("Blocked Account Confirmation") ||
-                      userRole === "Student" || userRole === "LeadStudent"
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
                     }
                   />
                   {formik.touched.confirmationUpload &&
@@ -479,13 +491,14 @@ const GerBlockedAccount = ({ id }) => {
                     onChange={(event) =>
                       formik.setFieldValue(
                         "remittanceUpload",
-                        event.currentTarget.files[0]
+                        event.currentTarget.files[0],
                       )
                     }
                     className="custom-select-height"
                     disabled={
                       isDocumentUploaded("Remittance Copy") ||
-                      userRole === "Student" || userRole === "LeadStudent"
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
                     }
                   />
                   {formik.touched.remittanceUpload &&

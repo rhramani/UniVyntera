@@ -18,7 +18,7 @@ const OfferLetterAcceptance = ({
   localCourses,
   fetchStudentData,
   canCreate,
-  canUpdate
+  canUpdate,
 }) => {
   const offerLetterDecisionOptions = [
     { value: "Accepted", label: "Accepted" },
@@ -76,7 +76,7 @@ const OfferLetterAcceptance = ({
         setFormData({
           ...formData,
           interestedCourseDetails: formData.interestedCourseDetails.map(
-            (item, index) => (index === updatedIndex ? updatedCourse : item)
+            (item, index) => (index === updatedIndex ? updatedCourse : item),
           ),
         });
 
@@ -84,14 +84,14 @@ const OfferLetterAcceptance = ({
         offerLetterAcceptanceFormik.resetForm();
       } else {
         toast.error(
-          res?.data?.message || "Error updating offer letter acceptance"
+          res?.data?.message || "Error updating offer letter acceptance",
         );
       }
     } catch (error) {
       console.error("Error updating offer letter acceptance:", error);
       toast.error(
         error?.response?.data?.message ||
-          "Error updating offer letter acceptance"
+          "Error updating offer letter acceptance",
       );
     } finally {
       setIsLoading(false);
@@ -102,11 +102,11 @@ const OfferLetterAcceptance = ({
       const currentDecision = localCourses[0]?.offerLetterAcceptedByStudent;
       offerLetterAcceptanceFormik.setFieldValue(
         "offerLetterAcceptedByStudent",
-        currentDecision
+        currentDecision,
       );
       offerLetterAcceptanceFormik.setFieldValue(
         "offerLetterAcceptedByStudentRemarks",
-        localCourses[0]?.offerLetterAcceptedByStudentRemarks || ""
+        localCourses[0]?.offerLetterAcceptedByStudentRemarks || "",
       );
     }
   }, [localCourses]);
@@ -138,7 +138,7 @@ const OfferLetterAcceptance = ({
                   const value = selectedOption ? selectedOption.value : "";
                   offerLetterAcceptanceFormik.setFieldValue(
                     "offerLetterAcceptedByStudent",
-                    value
+                    value,
                   );
                   // handleOfferLetterAcceptanceSubmit({
                   //   offerLetterAcceptedByStudent: value,
@@ -146,7 +146,7 @@ const OfferLetterAcceptance = ({
                 }}
                 onBlur={() =>
                   offerLetterAcceptanceFormik.handleBlur(
-                    "offerLetterAcceptedByStudent"
+                    "offerLetterAcceptedByStudent",
                   )
                 }
                 placeholder="Select Decision"
@@ -154,7 +154,7 @@ const OfferLetterAcceptance = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({
@@ -165,7 +165,8 @@ const OfferLetterAcceptance = ({
                 }}
                 isDisabled={
                   isRestrictedRole ||
-                  userRole === "Student" || userRole === "LeadStudent" ||
+                  userRole === "Student" ||
+                  userRole === "LeadStudent" ||
                   (!canCreate && !canUpdate)
                 }
               />
@@ -183,12 +184,16 @@ const OfferLetterAcceptance = ({
                 onChange={(e) =>
                   offerLetterAcceptanceFormik.setFieldValue(
                     "offerLetterAcceptedByStudentRemarks",
-                    e.target.value
+                    e.target.value,
                   )
                 }
                 placeholder="Enter remarks"
                 className="custom-select-height"
-                disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                disabled={
+                  isRestrictedRole ||
+                  userRole === "Student" ||
+                  userRole === "LeadStudent"
+                }
               />
             </Col>
           </Row>

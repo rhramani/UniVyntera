@@ -30,7 +30,7 @@ const CloneStudentApplication = ({
 
   const [overpaymentMessage, setOverpaymentMessage] = useState(""); // Overpayment info
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
   const fetchAccountantStudent = async (studentId) => {
     if (!studentId) {
@@ -43,7 +43,7 @@ const CloneStudentApplication = ({
     } catch (error) {
       console.error("Error fetching accountant data:", error);
       toast.error(
-        error?.response?.data?.message || "Failed to fetch accountant data"
+        error?.response?.data?.message || "Failed to fetch accountant data",
       );
       setAccountantData(null);
     }
@@ -67,7 +67,7 @@ const CloneStudentApplication = ({
       console.error("Error fetching banking details:", error);
       setBankingDetails([]);
       toast.error(
-        error?.response?.data?.message || "Failed to fetch banking details"
+        error?.response?.data?.message || "Failed to fetch banking details",
       );
     }
   };
@@ -102,7 +102,7 @@ const CloneStudentApplication = ({
             storedEncryptedCurrency
               ? getSymbolFromCurrency(storedEncryptedCurrency)
               : "₹"
-          }${overpayment.toFixed(2)} deposited.`
+          }${overpayment.toFixed(2)} deposited.`,
         );
       } else if (totalPaid <= payable) {
         due = payable - totalPaid; // Normal calculation
@@ -117,7 +117,7 @@ const CloneStudentApplication = ({
         handlePaidAmountChange(0, "amount", "", "invoice");
         formik.setFieldValue(
           "invoice.dueAmount",
-          formik.values.invoice.payableAmount || ""
+          formik.values.invoice.payableAmount || "",
         );
       }
     }
@@ -126,7 +126,7 @@ const CloneStudentApplication = ({
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -206,14 +206,14 @@ const CloneStudentApplication = ({
                         10,
                         "",
                         studentPlan._id,
-                        selectedCountry
+                        selectedCountry,
                       );
                     }
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -271,7 +271,7 @@ const CloneStudentApplication = ({
                         }))
                         .find(
                           (option) =>
-                            option.value === formik.values.invoice.subPlan
+                            option.value === formik.values.invoice.subPlan,
                         )}
                       onChange={(option) => {
                         const subPlanValue = option?.value || null;
@@ -402,7 +402,7 @@ const CloneStudentApplication = ({
                             0,
                             "amount",
                             e.target.value,
-                            "invoice"
+                            "invoice",
                           )
                         }
                         className="custom-select-height"
@@ -431,7 +431,7 @@ const CloneStudentApplication = ({
                           paymentModeOptions.find(
                             (option) =>
                               option.value ===
-                              formik.values.invoice.paidAmount[0]?.paymentMode
+                              formik.values.invoice.paidAmount[0]?.paymentMode,
                           ) || null
                         }
                         onChange={(option) =>
@@ -439,7 +439,7 @@ const CloneStudentApplication = ({
                             0,
                             "paymentMode",
                             option ? option.value : "",
-                            "invoice"
+                            "invoice",
                           )
                         }
                         placeholder="Select payment mode"
@@ -488,7 +488,7 @@ const CloneStudentApplication = ({
                             bankOptions.find(
                               (option) =>
                                 option.value ===
-                                formik.values.invoice.paidAmount[0]?.bank
+                                formik.values.invoice.paidAmount[0]?.bank,
                             ) || null
                           }
                           onChange={(option) =>
@@ -496,7 +496,7 @@ const CloneStudentApplication = ({
                               0,
                               "bank",
                               option ? option.value : null,
-                              "invoice"
+                              "invoice",
                             )
                           }
                           placeholder="Select bank"

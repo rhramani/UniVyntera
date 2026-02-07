@@ -47,7 +47,7 @@ const DepositPaymentSection = ({
   setSelectedItem,
   setShowDeleteModal,
   setIsLoading,
-  isLoading
+  isLoading,
 }) => {
   const dispatch = useDispatch();
   const [depositPaymentFilePaths, setDepositPaymentFilePaths] = useState([]);
@@ -80,7 +80,7 @@ const DepositPaymentSection = ({
       (!otherDocFile || otherDocFile.length === 0)
     ) {
       toast.error(
-        "Please upload at least one payment document for this fee status."
+        "Please upload at least one payment document for this fee status.",
       );
       return;
     }
@@ -97,7 +97,7 @@ const DepositPaymentSection = ({
         documentDetails = await handleDocumentUpload(
           otherDocName,
           otherDocFile,
-          depositPaymentFormik
+          depositPaymentFormik,
         );
         if (!documentDetails) {
           setIsLoading(false);
@@ -151,7 +151,7 @@ const DepositPaymentSection = ({
         setFormData({
           ...formData,
           interestedCourseDetails: formData.interestedCourseDetails.map(
-            (item, index) => (index === updatedIndex ? updatedCourse : item)
+            (item, index) => (index === updatedIndex ? updatedCourse : item),
           ),
         });
 
@@ -159,7 +159,7 @@ const DepositPaymentSection = ({
         setOtherDocName("");
         setOtherDocFile(null);
         const paymentDocumentInput = document.querySelector(
-          'input[name="paymentDocument"]'
+          'input[name="paymentDocument"]',
         );
         if (paymentDocumentInput) {
           paymentDocumentInput.value = "";
@@ -172,7 +172,7 @@ const DepositPaymentSection = ({
     } catch (error) {
       console.error("Error updating deposit payment:", error);
       toast.error(
-        error?.response?.data?.message || "Error updating deposit payment"
+        error?.response?.data?.message || "Error updating deposit payment",
       );
     } finally {
       setIsLoading(false);
@@ -184,23 +184,23 @@ const DepositPaymentSection = ({
       // Deposit Payment
       depositPaymentFormik.setFieldValue(
         "paymentType",
-        localCourses[0]?.depositPayment?.paymentType || ""
+        localCourses[0]?.depositPayment?.paymentType || "",
       );
       depositPaymentFormik.setFieldValue(
         "feeAmount",
-        localCourses[0]?.depositPayment?.feeAmount || ""
+        localCourses[0]?.depositPayment?.feeAmount || "",
       );
       depositPaymentFormik.setFieldValue(
         "feeStatus",
-        localCourses[0]?.depositPayment?.feeStatus || ""
+        localCourses[0]?.depositPayment?.feeStatus || "",
       );
       depositPaymentFormik.setFieldValue(
         "currencyCode",
-        localCourses[0]?.depositPayment?.currencyCode || ""
+        localCourses[0]?.depositPayment?.currencyCode || "",
       );
       depositPaymentFormik.setFieldValue(
         "remarks",
-        localCourses[0]?.depositPayment?.remarks || ""
+        localCourses[0]?.depositPayment?.remarks || "",
       );
     }
   }, [localCourses]);
@@ -210,7 +210,7 @@ const DepositPaymentSection = ({
       const depositPaymentPaths = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Deposit Payment Proof"]
+        ["Deposit Payment Proof"],
       );
       setDepositPaymentFilePaths(depositPaymentPaths);
     }
@@ -290,7 +290,11 @@ const DepositPaymentSection = ({
                     depositPaymentFormik.handleChange(e.target.value);
                   }}
                   onBlur={depositPaymentFormik.handleBlur}
-                  disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                  disabled={
+                    isRestrictedRole ||
+                    userRole === "Student" ||
+                    userRole === "LeadStudent"
+                  }
                 />
               </div>
             </Col>
@@ -301,7 +305,7 @@ const DepositPaymentSection = ({
                 options={feeStatusOptions}
                 value={feeStatusOptions.find(
                   (option) =>
-                    option.value === depositPaymentFormik.values.feeStatus
+                    option.value === depositPaymentFormik.values.feeStatus,
                 )}
                 onChange={(selectedOption) => {
                   const value = selectedOption ? selectedOption.value : "";
@@ -318,7 +322,7 @@ const DepositPaymentSection = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({
@@ -327,7 +331,11 @@ const DepositPaymentSection = ({
                     fontSize: "13px",
                   }),
                 }}
-                isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                isDisabled={
+                  isRestrictedRole ||
+                  userRole === "Student" ||
+                  userRole === "LeadStudent"
+                }
               />
             </Col>
             {depositPaymentFormik.values.feeStatus === "paid" && (
@@ -349,12 +357,12 @@ const DepositPaymentSection = ({
                       .find(
                         (option) =>
                           option.value ===
-                          depositPaymentFormik.values.currencyCode
+                          depositPaymentFormik.values.currencyCode,
                       )}
                     onChange={(selectedOption) =>
                       depositPaymentFormik.setFieldValue(
                         "currencyCode",
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       )
                     }
                     placeholder="Select Currency"
@@ -362,7 +370,7 @@ const DepositPaymentSection = ({
                     styles={{
                       control: (base, state) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                         minWidth: "160px",
                         border: state.isFocused ? "1px" : base.border,
@@ -379,7 +387,11 @@ const DepositPaymentSection = ({
                         fontSize: "13px",
                       }),
                     }}
-                    isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                    isDisabled={
+                      isRestrictedRole ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
+                    }
                   />
                 </Col>
                 <Col md={3} className="mb-3">
@@ -392,7 +404,11 @@ const DepositPaymentSection = ({
                     onBlur={depositPaymentFormik.handleBlur}
                     placeholder="Enter Fee Amount"
                     className="custom-select-height"
-                    disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      isRestrictedRole ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
+                    }
                   />
                 </Col>
               </>
@@ -444,14 +460,14 @@ const DepositPaymentSection = ({
                       setOtherDocFile(validFiles);
                       depositPaymentFormik.setFieldValue(
                         "paymentDocument",
-                        validFiles
+                        validFiles,
                       );
                       setOtherDocName("Deposit Payment Proof");
                     } else {
                       setOtherDocFile(null);
                       depositPaymentFormik.setFieldValue(
                         "paymentDocument",
-                        null
+                        null,
                       );
                       setOtherDocName("");
                     }
@@ -464,7 +480,11 @@ const DepositPaymentSection = ({
                 onBlur={() =>
                   depositPaymentFormik.handleBlur("paymentDocument")
                 }
-                disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                disabled={
+                  isRestrictedRole ||
+                  userRole === "Student" ||
+                  userRole === "LeadStudent"
+                }
               />
 
               {depositPaymentFormik.errors.paymentDocument &&
@@ -488,22 +508,28 @@ const DepositPaymentSection = ({
                 onBlur={depositPaymentFormik.handleBlur}
                 placeholder="Enter Remarks"
                 // className="custom-select-height"
-                disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                disabled={
+                  isRestrictedRole ||
+                  userRole === "Student" ||
+                  userRole === "LeadStudent"
+                }
               />
             </Col>
           </Row>
-          {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-            <div className="d-flex justify-content-end me-3">
-              <Button
-                variant="primary"
-                type="submit"
-                className="custom-select-height"
-                disabled={isLoading || isRestrictedRole}
-              >
-                {isLoading ? "Submitting..." : "Submit"}
-              </Button>
-            </div>
-          )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            (canCreate || canUpdate) && (
+              <div className="d-flex justify-content-end me-3">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="custom-select-height"
+                  disabled={isLoading || isRestrictedRole}
+                >
+                  {isLoading ? "Submitting..." : "Submit"}
+                </Button>
+              </div>
+            )}
         </Form>
       </div>
       {depositPaymentFilePaths?.length > 0 && (
@@ -533,7 +559,7 @@ const DepositPaymentSection = ({
                       sendPendingDocumentMain(id, selectedDocumentNames);
                     } else {
                       toast.error(
-                        "Please select at least one document to send via mail."
+                        "Please select at least one document to send via mail.",
                       );
                     }
                   }}
@@ -550,7 +576,8 @@ const DepositPaymentSection = ({
                 <tr>
                   {userRole !== "B2B Admin" &&
                     userRole !== "B2B Member" &&
-                    userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                    userRole !== "Student" &&
+                    userRole !== "LeadStudent" && <th>Document Pendency</th>}
                   <th>Sr No</th>
                   <th>Document Name</th>
                   <th>Upload File</th>
@@ -588,7 +615,8 @@ const DepositPaymentSection = ({
                         <tr key={doc._id}>
                           {userRole !== "B2B Admin" &&
                             userRole !== "B2B Member" &&
-                            userRole !== "Student" && userRole !== "LeadStudent" && (
+                            userRole !== "Student" &&
+                            userRole !== "LeadStudent" && (
                               <td>
                                 <div className="form-check form-switch custom-toggle-button me-0">
                                   <input
@@ -596,12 +624,12 @@ const DepositPaymentSection = ({
                                     type="checkbox"
                                     id={`toggle-${doc._id}-${index}`}
                                     checked={selectedDocsIds?.includes(
-                                      `${doc._id}-${index}`
+                                      `${doc._id}-${index}`,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChangeId(
                                         `${doc._id}-${index}`,
-                                        docName
+                                        docName,
                                       )
                                     }
                                   />
@@ -624,11 +652,14 @@ const DepositPaymentSection = ({
                                     e,
                                     index,
                                     doc._id,
-                                    docName
+                                    docName,
                                   )
                                 }
                                 className="custom-select-height"
-                                disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                disabled={
+                                  userRole === "Student" ||
+                                  userRole === "LeadStudent"
+                                }
                               />
                             )}
                           </td>
@@ -659,7 +690,7 @@ const DepositPaymentSection = ({
 
                                   handleSingleDocumentDownload(
                                     filePath,
-                                    fileName
+                                    fileName,
                                   );
                                 }}
                                 disabled={isRestrictedRole}
@@ -679,7 +710,7 @@ const DepositPaymentSection = ({
                                   cursor: "pointer",
                                   color: "#fff",
                                   backgroundColor: getStatusColor(
-                                    doc.status || "unverified"
+                                    doc.status || "unverified",
                                   ),
                                   border: "none",
                                   borderRadius: "4px",
@@ -693,18 +724,20 @@ const DepositPaymentSection = ({
                                     statusOptions.find(
                                       (opt) =>
                                         opt.value ===
-                                        (doc.status || "unverified")
+                                        (doc.status || "unverified"),
                                     ) ||
                                       statusOptions.find(
-                                        (opt) => opt.value === "unverified"
-                                      )
+                                        (opt) => opt.value === "unverified",
+                                      ),
                                   );
                                   setRemarks(doc.remarks || "");
                                   setSelectedDocId(doc._id);
                                   setShowStatusModal(true);
                                 }}
                                 disabled={
-                                  isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"
+                                  isRestrictedRole ||
+                                  userRole === "Student" ||
+                                  userRole === "LeadStudent"
                                 }
                               >
                                 {(doc.status === "verified" ||
@@ -742,30 +775,31 @@ const DepositPaymentSection = ({
                           <td>
                             {doc.createdAt
                               ? new Date(doc.createdAt).toLocaleDateString(
-                                  "en-GB"
+                                  "en-GB",
                                 )
                               : "-"}
                           </td>
                           <td>{doc.remarks || "-"}</td>
-                          {userRole !== "Student" && userRole !== "LeadStudent" && (
-                            <td className="sticky-col-right-last">
-                              {canDelete && (
-                                <Button
-                                  variant="link"
-                                  className="text-danger"
-                                  style={{ fontSize: "18px" }}
-                                  onClick={() => {
-                                    setSelectedItem(doc._id);
-                                    setShowDeleteModal(true);
-                                  }}
-                                  title="Delete"
-                                  disabled={isRestrictedRole}
-                                >
-                                  <FaTrashAlt />
-                                </Button>
-                              )}
-                            </td>
-                          )}
+                          {userRole !== "Student" &&
+                            userRole !== "LeadStudent" && (
+                              <td className="sticky-col-right-last">
+                                {canDelete && (
+                                  <Button
+                                    variant="link"
+                                    className="text-danger"
+                                    style={{ fontSize: "18px" }}
+                                    onClick={() => {
+                                      setSelectedItem(doc._id);
+                                      setShowDeleteModal(true);
+                                    }}
+                                    title="Delete"
+                                    disabled={isRestrictedRole}
+                                  >
+                                    <FaTrashAlt />
+                                  </Button>
+                                )}
+                              </td>
+                            )}
                         </tr>
                       );
                     })

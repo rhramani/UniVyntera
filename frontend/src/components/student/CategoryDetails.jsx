@@ -86,7 +86,7 @@ const CategoryDetails = ({
             date: Yup.date().required("Date is required"),
             document: Yup.mixed().required("Document is required"),
             remarks: Yup.string().nullable(),
-          })
+          }),
         )
         .when(["visitorApplication", "type"], {
           is: (visitorApplication, type) =>
@@ -166,7 +166,11 @@ const CategoryDetails = ({
               fontSize: "14px",
             }}
             onClick={() =>
-              window.open(`${BASEURL}${item.document}`, "_blank", "noopener,noreferrer")
+              window.open(
+                `${BASEURL}${item.document}`,
+                "_blank",
+                "noopener,noreferrer",
+              )
             }
           >
             <VisibilityIcon className="me-1" style={{ fontSize: "16px" }} />
@@ -222,7 +226,7 @@ const CategoryDetails = ({
           };
 
           const detailsRes = await dispatch(
-            updateVisitorApplication(categoryUpdatePayload, id)
+            updateVisitorApplication(categoryUpdatePayload, id),
           );
 
           if (detailsRes?.status === 200) {
@@ -233,7 +237,7 @@ const CategoryDetails = ({
               categoryDetails: prev.categoryDetails.map((item, index) =>
                 index === updatedIndex
                   ? { ...item, ...categoryUpdatePayload.categoryUpdate }
-                  : item
+                  : item,
               ),
             }));
 
@@ -243,7 +247,7 @@ const CategoryDetails = ({
               documentPayload.append("categoryDoc", entries[0].document);
 
               const documentRes = await dispatch(
-                updateVisitorApplication(documentPayload, id)
+                updateVisitorApplication(documentPayload, id),
               );
 
               if (documentRes?.status === 200) {
@@ -253,12 +257,12 @@ const CategoryDetails = ({
                   categoryDetails: prev.categoryDetails.map((item, index) =>
                     index === updatedIndex
                       ? { ...item, document: documentRes.data.documentUrl }
-                      : item
+                      : item,
                   ),
                 }));
               } else {
                 toast.error(
-                  documentRes?.data?.message || "Error uploading document"
+                  documentRes?.data?.message || "Error uploading document",
                 );
               }
             }
@@ -266,7 +270,7 @@ const CategoryDetails = ({
             fetchOneVisitorDetails();
           } else {
             toast.error(
-              detailsRes?.data?.message || "Error updating category details"
+              detailsRes?.data?.message || "Error updating category details",
             );
           }
         } else {
@@ -280,15 +284,15 @@ const CategoryDetails = ({
               payload.append(`${keyPrefix}[${index}][type]`, type);
               payload.append(
                 `${keyPrefix}[${index}][country]`,
-                entry.country || ""
+                entry.country || "",
               );
               payload.append(
                 `${keyPrefix}[${index}][date]`,
-                entry.date ? toISODate(parseDate(entry.date)) : ""
+                entry.date ? toISODate(parseDate(entry.date)) : "",
               );
               payload.append(
                 `${keyPrefix}[${index}][remarks]`,
-                entry.remarks || ""
+                entry.remarks || "",
               );
               if (entry.document && entry.document instanceof File) {
                 payload.append(`categoryDoc[${index}]`, entry.document);
@@ -322,7 +326,7 @@ const CategoryDetails = ({
       } catch (error) {
         console.error("Error in category operation:", error);
         toast.error(
-          error?.response?.data?.message || "Error processing category"
+          error?.response?.data?.message || "Error processing category",
         );
       } finally {
         setIsLoading(false);
@@ -351,7 +355,7 @@ const CategoryDetails = ({
         setFormData((prev) => ({
           ...prev,
           categoryDetails: prev.categoryDetails.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         fetchOneVisitorDetails();
@@ -445,13 +449,13 @@ const CategoryDetails = ({
                     onChange={(selectedOption) =>
                       categoryFormik.setFieldValue(
                         "categoryDetails.type",
-                        selectedOption?.value || ""
+                        selectedOption?.value || "",
                       )
                     }
                     value={visitorProcessOptions?.find(
                       (option) =>
                         option.value ===
-                        categoryFormik.values?.categoryDetails?.type
+                        categoryFormik.values?.categoryDetails?.type,
                     )}
                     classNamePrefix="custom-select"
                     placeholder="Select Category"
@@ -460,7 +464,7 @@ const CategoryDetails = ({
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -508,7 +512,7 @@ const CategoryDetails = ({
                                   onChange={(option) =>
                                     categoryFormik.setFieldValue(
                                       `categoryDetails.entries[${index}].country`,
-                                      option ? option.value : ""
+                                      option ? option.value : "",
                                     )
                                   }
                                   placeholder="Select Country"
@@ -549,7 +553,7 @@ const CategoryDetails = ({
                                       (prev) => ({
                                         ...prev,
                                         [index]: !prev[index],
-                                      })
+                                      }),
                                     )
                                   }
                                   ref={visitorProcessRenewalDateInputRef}
@@ -590,13 +594,13 @@ const CategoryDetails = ({
                                       onChange={(selectedDate) => {
                                         categoryFormik.setFieldValue(
                                           `categoryDetails.entries[${index}].date`,
-                                          toISODate(selectedDate)
+                                          toISODate(selectedDate),
                                         );
                                         setShowVisitorProcessRenewalDateCalendar(
                                           (prev) => ({
                                             ...prev,
                                             [index]: false,
-                                          })
+                                          }),
                                         );
                                       }}
                                       value={
@@ -633,7 +637,7 @@ const CategoryDetails = ({
                                 onChange={(event) =>
                                   categoryFormik.setFieldValue(
                                     `categoryDetails.entries[${index}].document`,
-                                    event.currentTarget.files[0]
+                                    event.currentTarget.files[0],
                                   )
                                 }
                                 onBlur={categoryFormik.handleBlur}
@@ -677,7 +681,7 @@ const CategoryDetails = ({
                               </Col>
                             )}
                           </Row>
-                        )
+                        ),
                       )}
                       {!edit.categoryDetails && (
                         <Row>

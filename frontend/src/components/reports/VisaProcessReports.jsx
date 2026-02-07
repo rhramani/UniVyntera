@@ -152,7 +152,7 @@ const VisaProcessReports = () => {
       render: (item) => {
         const status = item?.visaApplicationDetails?.status || "New";
         const matchedStatus = visaStatus?.find(
-          (statusItem) => statusItem.name === status
+          (statusItem) => statusItem.name === status,
         );
         const bgColor = matchedStatus?.color || "#0b3c8c";
         const textColor = ["#e9e216", "#1fff44"].includes(bgColor)
@@ -171,7 +171,7 @@ const VisaProcessReports = () => {
                 color: textColor,
                 cursor: "pointer",
                 padding: "1px 8px",
-                borderRadius: "30px",
+                borderRadius: "12px",
                 display: "inline-block",
                 maxWidth: "180px",
                 overflow: "hidden",
@@ -197,7 +197,7 @@ const VisaProcessReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => {
                 const instituteName = detail?.institute?.instituteName || "-";
@@ -226,7 +226,7 @@ const VisaProcessReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.course?.programName || "-")
               .join(", ")
@@ -249,7 +249,7 @@ const VisaProcessReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeYear || "-")
               .join(", ")
@@ -275,7 +275,7 @@ const VisaProcessReports = () => {
     startDate = filters.startDate,
     endDate = filters.endDate,
     status = filters.status?.value || "approved",
-    country = filters.country?.value || ""
+    country = filters.country?.value || "",
   ) => {
     try {
       const res = await dispatch(
@@ -286,8 +286,8 @@ const VisaProcessReports = () => {
           startDate,
           endDate,
           status,
-          country
-        )
+          country,
+        ),
       );
       setVisaProcessReports(res?.data?.data?.data || []);
       setTotalRecords(res?.data?.data?.totalRecords || 0);
@@ -346,8 +346,8 @@ const VisaProcessReports = () => {
           filters.startDate,
           filters.endDate,
           filters.status?.value || "approved",
-          filters.country?.value || ""
-        )
+          filters.country?.value || "",
+        ),
       );
 
       const allVisaProcessReports = res?.data?.data?.data || [];
@@ -412,7 +412,7 @@ const VisaProcessReports = () => {
         filters.startDate,
         filters.endDate,
         filters.status?.value || "approved",
-        filters.country?.value || ""
+        filters.country?.value || "",
       );
     }
   }, [currentPage, itemsPerPage, search, filters]);
@@ -777,11 +777,13 @@ const VisaProcessReports = () => {
                 </div>
               </div>
 
-              <div className="table-responsive modern-table-wrapper"
+              <div
+                className="table-responsive modern-table-wrapper"
                 style={{
                   borderRadius: "12px",
                   border: "1px solid #dee2e6",
-                }}>
+                }}
+              >
                 <table
                   className="table table-hover modern-table table-nowrap"
                   style={{ tableLayout: "auto" }}

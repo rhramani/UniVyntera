@@ -602,7 +602,7 @@ const AllocatedLeads = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -3376,7 +3376,7 @@ const AllocatedLeads = () => {
                         styles={{
                           control: (base) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                           }),
                           placeholder: (base) => ({
@@ -3925,7 +3925,7 @@ const AllocatedLeads = () => {
               </Modal>
 
               {totalPages > 1 && getLeadData?.data?.length > 0 && (
-                   <div className="mt-4 d-flex justify-content-end align-items-end">
+                <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}

@@ -1,4 +1,4 @@
- import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import { MdCalendarToday } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
@@ -46,6 +46,7 @@ import {
 import WaDaddyWhatsAppModal from "../crm/commonLeadForm/WaDaddyWhatsAppModal";
 import VisitorCard from "./visitorDetails/VisitorCard";
 import VisitorFormModal from "./visitorDetails/VisitorFormModal";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const VisitorApplication = () => {
   const { socket } = useSocket();
@@ -54,7 +55,7 @@ const VisitorApplication = () => {
   const location = useLocation();
   const { notificationCount, notifications } = useNotification();
   const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
-    "Visitor Applications"
+    "Visitor Applications",
   );
   const userRole = decryptData(localStorage.getItem("role"));
   const userId = decryptData(localStorage.getItem("userId"));
@@ -202,12 +203,12 @@ const VisitorApplication = () => {
     limit = itemsPerPage,
     searchTerm = "",
     mainPlanId = visitorPlan._id,
-    preferredCountry = ""
+    preferredCountry = "",
   ) => {
     if (!mainPlanId) return;
     try {
       const res = await dispatch(
-        getAllSubPlan(page, limit, searchTerm, mainPlanId, preferredCountry)
+        getAllSubPlan(page, limit, searchTerm, mainPlanId, preferredCountry),
       );
       const responseData = res?.data?.data || {};
       setVisitorSubPlans(responseData?.data);
@@ -263,7 +264,7 @@ const VisitorApplication = () => {
     branchId = "",
     showAll = false,
     country = "",
-    followUpDate = ""
+    followUpDate = "",
   ) => {
     try {
       const res = await dispatch(
@@ -275,8 +276,8 @@ const VisitorApplication = () => {
           branchId,
           showAll,
           country,
-          followUpDate
-        )
+          followUpDate,
+        ),
       );
       const responseData = res?.data?.data;
       setAllVisitorApplication(responseData?.data || []);
@@ -357,7 +358,7 @@ const VisitorApplication = () => {
               date: Yup.date().required("Date is required"),
               document: Yup.mixed().required("Document is required"),
               remarks: Yup.string().nullable(),
-            })
+            }),
           )
           .when(["visitorApplication", "type"], {
             is: (visitorApplication, type) =>
@@ -392,7 +393,7 @@ const VisitorApplication = () => {
                 date: Yup.string().nullable(),
                 bank: Yup.string().nullable(),
                 paymentMode: Yup.string(), // Added paymentMode validation
-              })
+              }),
             ),
           otherwise: () => Yup.array().nullable(),
         }),
@@ -410,7 +411,7 @@ const VisitorApplication = () => {
       try {
         toast.dismiss();
         const selectedCountry = countries?.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
 
         const formData = new FormData();
@@ -438,15 +439,15 @@ const VisitorApplication = () => {
             formData.append(`categoryDetails[${index}][type]`, type);
             formData.append(
               `categoryDetails[${index}][country]`,
-              entry.country || ""
+              entry.country || "",
             );
             formData.append(
               `categoryDetails[${index}][date]`,
-              entry.date ? toISODate(parseDate(entry.date)) : ""
+              entry.date ? toISODate(parseDate(entry.date)) : "",
             );
             formData.append(
               `categoryDetails[${index}][remarks]`,
-              entry.remarks || ""
+              entry.remarks || "",
             );
             if (entry.document) {
               formData.append("categoryDoc", entry.document); // Append each document as part of categoryDoc array
@@ -481,7 +482,7 @@ const VisitorApplication = () => {
         if (values.id && canUpdate) {
           formData.append("id", values.id);
           const res = await dispatch(
-            updateVisitorApplication(formData, values.id)
+            updateVisitorApplication(formData, values.id),
           );
           if (res?.status === 200) {
             if (res?.data?.data?.data?.message) {
@@ -514,7 +515,7 @@ const VisitorApplication = () => {
             selectedBranch === "all" ? "" : selectedBranch || "",
             showAll,
             selectedCountry?.value || "",
-            followUpDate
+            followUpDate,
           );
         }
       } catch (error) {
@@ -528,7 +529,7 @@ const VisitorApplication = () => {
   });
 
   const visitorPlan = mainPlans.find(
-    (plan) => plan.name.toLowerCase() === "visitor"
+    (plan) => plan.name.toLowerCase() === "visitor",
   );
   const visitorStatusOptions = visitorStatuses?.map((item) => ({
     value: item._id,
@@ -546,7 +547,7 @@ const VisitorApplication = () => {
         itemsPerPage,
         "",
         visitorPlan._id,
-        formik.values.preferredCountry
+        formik.values.preferredCountry,
       );
       formik.setFieldValue("categoryDetails.subPlan", null);
       formik.setFieldValue("categoryDetails.amount", "");
@@ -557,7 +558,6 @@ const VisitorApplication = () => {
       ]);
     }
   }, [formik.values.preferredCountry, visitorPlan?._id, itemsPerPage]);
-
 
   const handleShow = () => {
     setShow(true);
@@ -597,7 +597,7 @@ const VisitorApplication = () => {
       setCityDropDownList(data || []);
 
       const selectedState = stateDropDown?.find(
-        (state) => state.isoCode === stateIsoCode
+        (state) => state.isoCode === stateIsoCode,
       );
       formik.setFieldValue("state", selectedState ? selectedState.name : "");
     } catch (error) {
@@ -619,7 +619,7 @@ const VisitorApplication = () => {
       selectedBranch === "all" ? "" : selectedBranch || "",
       newShowAll,
       selectedCountry?.value || "",
-      followUpDate
+      followUpDate,
     );
   };
 
@@ -637,7 +637,7 @@ const VisitorApplication = () => {
         branchId,
         newShowAll,
         selectedCountry?.value || "",
-        followUpDate
+        followUpDate,
       );
     }
   };
@@ -648,7 +648,7 @@ const VisitorApplication = () => {
     const cityName = item.city;
 
     const selectedCountry = countries?.find(
-      (c) => c.name.trim() === countryName
+      (c) => c.name.trim() === countryName,
     );
     const countryIsoCode = selectedCountry?.isoCode;
 
@@ -664,7 +664,7 @@ const VisitorApplication = () => {
     }
 
     const selectedState = fetchedStates?.find(
-      (s) => s.name.trim() === stateName
+      (s) => s.name.trim() === stateName,
     );
     const stateIsoCode = selectedState?.isoCode;
 
@@ -675,7 +675,7 @@ const VisitorApplication = () => {
     let fetchedCities = [];
     if (stateIsoCode) {
       const cityRes = await dispatch(
-        cityDropdown(countryIsoCode, stateIsoCode)
+        cityDropdown(countryIsoCode, stateIsoCode),
       );
       fetchedCities = cityRes?.data?.data || [];
       setCityDropDownList(fetchedCities);
@@ -686,7 +686,7 @@ const VisitorApplication = () => {
     }
 
     const selectedStatus = visitorStatusOptions?.find(
-      (option) => option.value === item.mainStatus?._id
+      (option) => option.value === item.mainStatus?._id,
     );
     setMainStatus(selectedStatus || null);
 
@@ -726,7 +726,7 @@ const VisitorApplication = () => {
           mainStatus?.value || "",
           selectedBranch === "all" ? "" : selectedBranch || "",
           selectedCountry?.value || "",
-          followUpDate
+          followUpDate,
         );
       }
       setShowDeleteModal(false);
@@ -743,7 +743,7 @@ const VisitorApplication = () => {
     }
     try {
       const res = await dispatch(
-        visitorApplicationClone(selectedVisitor?._id, instituteId, countryName)
+        visitorApplicationClone(selectedVisitor?._id, instituteId, countryName),
       );
       if (res?.status === 200) {
         toast.success("Visitor Application cloned successfully!");
@@ -760,7 +760,7 @@ const VisitorApplication = () => {
           mainStatus?.value || "",
           selectedBranch === "all" ? "" : selectedBranch || "",
           selectedCountry?.value || "",
-          followUpDate
+          followUpDate,
         );
       }
     } catch (error) {
@@ -849,7 +849,7 @@ const VisitorApplication = () => {
         branchId,
         newShowAll,
         selectedCountry?.value || "",
-        followUpDate
+        followUpDate,
       );
     }
   }, [
@@ -906,7 +906,7 @@ const VisitorApplication = () => {
           branchId,
           newShowAll,
           selectedCountry?.value || "",
-          followUpDate
+          followUpDate,
         );
 
         fetchAllVisitorApplication(
@@ -917,7 +917,7 @@ const VisitorApplication = () => {
           branchId,
           newShowAll,
           selectedCountry?.value || "",
-          followUpDate
+          followUpDate,
         );
         setTimeout(() => {
           navigate(location.pathname, { replace: true });
@@ -989,7 +989,7 @@ const VisitorApplication = () => {
       if (formik.values.categoryDetails.subPlan) {
         setAmountForSection(
           formik.values.categoryDetails.subPlan,
-          "categoryDetails"
+          "categoryDetails",
         );
       }
     }
@@ -1016,20 +1016,20 @@ const VisitorApplication = () => {
       const totalPaid =
         values.paidAmount?.reduce(
           (sum, entry) => sum + (parseFloat(entry.amount) || 0),
-          0
+          0,
         ) || 0;
       const dueAmount = payableAmount - totalPaid;
 
       formik.setFieldValue(
         `${section}.payableAmount`,
-        Math.max(0, payableAmount).toFixed(2)
+        Math.max(0, payableAmount).toFixed(2),
       );
       formik.setFieldValue(
         `${section}.dueAmount`,
-        Math.max(0, dueAmount).toFixed(2)
+        Math.max(0, dueAmount).toFixed(2),
       );
     },
-    [formik]
+    [formik],
   );
 
   useEffect(() => {
@@ -1048,7 +1048,7 @@ const VisitorApplication = () => {
   useEffect(() => {
     if (visitorStatusOptions?.length > 0 && mainStatus) {
       const matchingOption = visitorStatusOptions?.find(
-        (option) => option.value === mainStatus.value
+        (option) => option.value === mainStatus.value,
       );
       if (!matchingOption) {
         setMainStatus(null);
@@ -1081,28 +1081,28 @@ const VisitorApplication = () => {
               <div className="w-100 d-flex justify-content-end">
                 {/* <div className="card-title">Visitor Applications</div> */}
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                    <div className="filter-item">
-                      <div className="contact-search3">
-                        <button type="button" className="btn border-0">
-                          <i
-                            className="fe fe-search fw-semibold text-muted"
-                            aria-hidden="true"
-                          ></i>
-                        </button>
-                        <Form.Control
-                          type="text"
-                          className="filter-height border-0"
-                          id="typehead1"
-                          placeholder="Search here..."
-                          autoComplete="off"
-                          value={search}
-                          onChange={(e) => {
-                            setSearch(e.target.value);
-                            setCurrentPage(1);
-                          }}
-                        />
-                      </div>
+                  <div className="filter-item">
+                    <div className="contact-search3">
+                      <button type="button" className="btn border-0">
+                        <i
+                          className="fe fe-search fw-semibold text-muted"
+                          aria-hidden="true"
+                        ></i>
+                      </button>
+                      <Form.Control
+                        type="text"
+                        className="filter-height border-0"
+                        id="typehead1"
+                        placeholder="Search here..."
+                        autoComplete="off"
+                        value={search}
+                        onChange={(e) => {
+                          setSearch(e.target.value);
+                          setCurrentPage(1);
+                        }}
+                      />
                     </div>
+                  </div>
                   {canCreate && (
                     <Button
                       variant="primary"
@@ -1144,7 +1144,7 @@ const VisitorApplication = () => {
                           ?.reverse()
                           ?.map((notif, index) => {
                             const visitor = allVisitorApplication?.find(
-                              (s) => s._id === notif.studentId
+                              (s) => s._id === notif.studentId,
                             );
                             return (
                               <div
@@ -1244,10 +1244,11 @@ const VisitorApplication = () => {
                                 selectedBranch === "all"
                                   ? "All"
                                   : selectedBranch === ""
-                                  ? "Head Office"
-                                  : branchList?.find(
-                                      (branch) => branch._id === selectedBranch
-                                    )?.name || "Select Branch",
+                                    ? "Head Office"
+                                    : branchList?.find(
+                                        (branch) =>
+                                          branch._id === selectedBranch,
+                                      )?.name || "Select Branch",
                             }
                           : null
                       }
@@ -1280,7 +1281,7 @@ const VisitorApplication = () => {
                             branchId,
                             newShowAll,
                             selectedCountry?.value || "",
-                            followUpDate
+                            followUpDate,
                           );
                         }
                         setCurrentPage(1);
@@ -1335,7 +1336,7 @@ const VisitorApplication = () => {
                           branchId,
                           newShowAll,
                           selectedOption?.value || "",
-                          followUpDate
+                          followUpDate,
                         );
                       }
                     }}
@@ -1440,8 +1441,8 @@ const VisitorApplication = () => {
                 <div className="filter-item">
                   {allVisitorApplication?.some((visitor) =>
                     isToday(
-                      visitor.followUps?.personalDetails?.nextFollowUpDate
-                    )
+                      visitor.followUps?.personalDetails?.nextFollowUpDate,
+                    ),
                   ) && (
                     <Button
                       variant="primary"
@@ -1462,7 +1463,6 @@ const VisitorApplication = () => {
 
                 {canRead && (
                   <>
-
                     <div className="filter-item-rows">
                       <ItemsPerPageSelect
                         itemsPerPage={itemsPerPage}
@@ -1558,7 +1558,7 @@ const VisitorApplication = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -1651,60 +1651,20 @@ const VisitorApplication = () => {
                 data={selectedWaDaddyWhatsappData}
               />
 
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={() => setShowDeleteModal(false)}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={() => setShowDeleteModal(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItem);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => handleDelete(selectedItem)}
+              />
 
               {totalPages > 1 && allVisitorApplication?.length > 0 && (
-                 <div className="d-flex justify-content-end mt-3">
-                    <Paginations
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      onPageChange={(page) => setCurrentPage(page)}
-                    />
-                  </div>
+                <div className="d-flex justify-content-end mt-3">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

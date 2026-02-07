@@ -96,7 +96,7 @@ const PendingAgreementReport = () => {
               backgroundColor: item?.color,
               padding: "4px 8px",
               color: item?.status ? "#FFF" : "#000",
-              borderRadius: "30px",
+              borderRadius: "12px",
             }}
           >
             {item?.status || "-"}
@@ -127,11 +127,11 @@ const PendingAgreementReport = () => {
     page = 1,
     limit = itemsPerPage,
     search = "",
-    status = filters.status
+    status = filters.status,
   ) => {
     try {
       const res = await dispatch(
-        getAllPendingAgreement(page, limit, search, status)
+        getAllPendingAgreement(page, limit, search, status),
       );
       setAgreementReports(res?.data?.data?.data || []);
       setTotalRecords(res?.data?.data?.totalRecords || 0);
@@ -197,8 +197,8 @@ const PendingAgreementReport = () => {
           1,
           Number.MAX_SAFE_INTEGER,
           search,
-          filters.status
-        )
+          filters.status,
+        ),
       );
 
       const allAgreementReports = res?.data?.data?.data || [];
@@ -285,34 +285,34 @@ const PendingAgreementReport = () => {
               <div className="w-100 d-flex flex-wrap justify-content-between">
                 <div className="card-title">Pending Agreements Report</div>
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </div>
-                {agreementReports?.length > 0 && canDownload && (
-                  <Button
-                    variant="primary"
-                    className="custom-select-height px-3"
-                    onClick={() => handleExport()}
-                  >
-                    Export Report
-                  </Button>
-                )}
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <Form.Control
+                      type="text"
+                      className="filter-height border-0"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
+                  {agreementReports?.length > 0 && canDownload && (
+                    <Button
+                      variant="primary"
+                      className="custom-select-height px-3"
+                      onClick={() => handleExport()}
+                    >
+                      Export Report
+                    </Button>
+                  )}
                 </div>
               </div>
             </Card.Header>
@@ -332,7 +332,7 @@ const PendingAgreementReport = () => {
                     options={applicationStatusOptions}
                     value={
                       applicationStatusOptions.find(
-                        (option) => option.value === filters.status
+                        (option) => option.value === filters.status,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -365,11 +365,13 @@ const PendingAgreementReport = () => {
                 </div>
               </div>
 
-              <div className="table-responsive modern-table-wrapper"
+              <div
+                className="table-responsive modern-table-wrapper"
                 style={{
                   borderRadius: "12px",
                   border: "1px solid #dee2e6",
-                }}>
+                }}
+              >
                 <table
                   className="table table-hover modern-table table-nowrap"
                   style={{ tableLayout: "auto" }}

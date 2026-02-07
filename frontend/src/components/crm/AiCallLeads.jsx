@@ -484,7 +484,7 @@ const AiCallLeads = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -1108,8 +1108,7 @@ const AiCallLeads = () => {
       .filter((item) => item.role && item.user);
 
     // Remove old lead_assign and lead_role from formattedData
-    const { lead_assign, ...restForPayload } =
-      restValues;
+    const { lead_assign, ...restForPayload } = restValues;
 
     const formattedData = {
       ...restForPayload,
@@ -1201,8 +1200,7 @@ const AiCallLeads = () => {
       : [];
 
     // Remove old lead_assign, lead_role, and lead_assign from formattedData
-    const { lead_assign, ...restForPayload } =
-      restValues;
+    const { lead_assign, ...restForPayload } = restValues;
 
     // Prepare update payload
     const updatePayload = {

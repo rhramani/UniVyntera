@@ -87,8 +87,8 @@ const LeadReports = () => {
     userRole === "Branch"
       ? branchId
       : userType === "Branch User"
-      ? branchUserId
-      : "";
+        ? branchUserId
+        : "";
 
   const [filters, setFilters] = useState({
     source: "",
@@ -192,8 +192,8 @@ const LeadReports = () => {
   const branchTargetValue = filters.showAll
     ? "All"
     : filters.branchId === null
-    ? ""
-    : filters.branchId || "All";
+      ? ""
+      : filters.branchId || "All";
 
   const branchSelectValue =
     branchSelectOptions.find((option) => option.value === branchTargetValue) ||
@@ -202,7 +202,7 @@ const LeadReports = () => {
   const loadRoles = async (branchValue, showAllValue) => {
     try {
       const res = await dispatch(
-        getAllRoleList(branchValue ?? "", showAllValue ?? false)
+        getAllRoleList(branchValue ?? "", showAllValue ?? false),
       );
       setRoleList(res?.data);
     } catch (error) {
@@ -214,17 +214,17 @@ const LeadReports = () => {
   const loadUsersForRole = async (
     roleName,
     branchValue = "",
-    showAllValue = false
+    showAllValue = false,
   ) => {
     try {
       const effectiveBranchId =
         branchValue === null
           ? ""
           : branchValue === undefined
-          ? ""
-          : branchValue;
+            ? ""
+            : branchValue;
       const res = await dispatch(
-        adminGetAll(1, 100, "", roleName, effectiveBranchId, showAllValue)
+        adminGetAll(1, 100, "", roleName, effectiveBranchId, showAllValue),
       );
       const responseData = res?.data?.data;
       setAssignUserList(responseData?.data || []);
@@ -296,13 +296,13 @@ const LeadReports = () => {
     const initialBranchValue = derivedBranchValue ?? "";
     loadRoles(
       initialBranchValue,
-      userRole === "Branch" || userType === "Branch User" ? false : true
+      userRole === "Branch" || userType === "Branch User" ? false : true,
     );
   }, [dispatch, derivedBranchValue]);
 
   const handleCheckboxChange = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -366,7 +366,7 @@ const LeadReports = () => {
               backgroundColor: item?.leadStatusColor || "#999999",
               color: "#ffffff", // Always white text
               padding: "1px 8px",
-              borderRadius: "30px",
+              borderRadius: "12px",
               display: "inline-block",
             }}
           >
@@ -543,7 +543,7 @@ const LeadReports = () => {
     leadActivity = filters.leadActivity,
     country = filters.country,
     followUpType = filters.followUpType,
-    lead_from = filters.lead_from
+    lead_from = filters.lead_from,
   ) => {
     try {
       const res = await dispatch(
@@ -564,8 +564,8 @@ const LeadReports = () => {
           leadActivity,
           country,
           followUpType,
-          lead_from
-        )
+          lead_from,
+        ),
       );
       setLeadReports(res?.data?.data?.data || []);
       setTotalRecords(res?.data?.data?.totalRecords || 0);
@@ -668,7 +668,7 @@ const LeadReports = () => {
     leadActivity = filters.leadActivity,
     country = filters.country,
     followUpType = filters.followUpType,
-    lead_from = filters.lead_from
+    lead_from = filters.lead_from,
   ) => {
     try {
       let dataToExport = [];
@@ -694,8 +694,8 @@ const LeadReports = () => {
             leadActivity,
             country,
             followUpType,
-            lead_from
-          )
+            lead_from,
+          ),
         );
         dataToExport = res?.data?.data?.data || [];
       }
@@ -801,10 +801,10 @@ const LeadReports = () => {
         filters.leadActivity,
         filters.country,
         filters.followUpType,
-        filters.lead_from
+        filters.lead_from,
       );
     }
-  }, [currentPage, itemsPerPage, search, selectedFilter , filters]);
+  }, [currentPage, itemsPerPage, search, selectedFilter, filters]);
   const fetchLeadCountries = async () => {
     try {
       const res = await dispatch(getLeadCountry({ fromB2B: false }));
@@ -862,14 +862,14 @@ const LeadReports = () => {
               <div className="w-100 d-flex flex-wrap justify-content-between">
                 <div className="card-title">Lead Report</div>
                 <div className="d-flex flex-wrap gap-2">
-                <SearchWithDropdown
-                  searchOption={searchOption}
-                  selectedFilter={selectedFilter}
-                  setSelectedFilter={setSelectedFilter}
-                  search={searchTerm}
-                  setSearch={setSearchTerm}
-                  setCurrentPage={setCurrentPage}
-                />
+                  <SearchWithDropdown
+                    searchOption={searchOption}
+                    selectedFilter={selectedFilter}
+                    setSelectedFilter={setSelectedFilter}
+                    search={searchTerm}
+                    setSearch={setSearchTerm}
+                    setCurrentPage={setCurrentPage}
+                  />
                   {/* <div className="contact-search3">
                     <button type="button" className="btn border-0">
                       <i
@@ -1116,7 +1116,7 @@ const LeadReports = () => {
                     options={leadSourceOptions}
                     value={
                       leadSourceOptions.find(
-                        (option) => option.value === filters.source
+                        (option) => option.value === filters.source,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -1148,7 +1148,7 @@ const LeadReports = () => {
                     options={leadStageOptions}
                     value={
                       leadStageOptions.find(
-                        (option) => option.value === filters.status
+                        (option) => option.value === filters.status,
                       ) || null
                     }
                     onChange={(option) => {
@@ -1212,7 +1212,7 @@ const LeadReports = () => {
                             value: filters.country,
                             label:
                               leadCountries.find(
-                                (c) => c === filters.country
+                                (c) => c === filters.country,
                               ) || filters.country,
                           }
                         : null
@@ -1243,7 +1243,7 @@ const LeadReports = () => {
                     value={
                       filters.followUpType
                         ? followUpTypeOptions.find(
-                            (option) => option.value === filters.followUpType
+                            (option) => option.value === filters.followUpType,
                           )
                         : null
                     }
@@ -1354,7 +1354,7 @@ const LeadReports = () => {
                     options={assignRoleOptions}
                     value={
                       assignRoleOptions.find(
-                        (option) => option.value === filters.assignRole
+                        (option) => option.value === filters.assignRole,
                       ) || null
                     }
                     onChange={(option) => {
@@ -1375,7 +1375,7 @@ const LeadReports = () => {
                     options={leadAssignOptions}
                     value={
                       leadAssignOptions.find(
-                        (option) => option.value === filters.assignId
+                        (option) => option.value === filters.assignId,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -1412,11 +1412,13 @@ const LeadReports = () => {
                 </div>
               </div>
 
-              <div className="table-responsive modern-table-wrapper"
+              <div
+                className="table-responsive modern-table-wrapper"
                 style={{
                   borderRadius: "12px",
                   border: "1px solid #dee2e6",
-                }}>
+                }}
+              >
                 <table
                   className="table table-hover modern-table table-nowrap"
                   style={{ tableLayout: "auto" }}

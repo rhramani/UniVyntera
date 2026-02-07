@@ -41,7 +41,6 @@ const TypeOfApplication = ({
   selectedSection,
   canDelete,
   statusOptions,
-  
 }) => {
   return (
     <div className="my-5 p-4 bg-light rounded shadow-sm">
@@ -66,12 +65,12 @@ const TypeOfApplication = ({
               setSelectedOption(option);
               interestedCourseFormik.setFieldValue(
                 "typeOfApplication",
-                option ? option.value : ""
+                option ? option.value : "",
               );
               if (option) {
                 handleUpdateApplicationStatus(
                   "typeOfApplication",
-                  option.value
+                  option.value,
                 );
               }
             }}
@@ -79,7 +78,7 @@ const TypeOfApplication = ({
             styles={{
               control: (base) => ({
                 ...base,
-                borderRadius: "30px",
+                borderRadius: "12px",
                 color: "black",
                 width: "150px",
               }),
@@ -106,7 +105,7 @@ const TypeOfApplication = ({
                 onBlur={() =>
                   interestedCourseFormik.setFieldTouched(
                     "interestedCourseDetails[0].document",
-                    true
+                    true,
                   )
                 }
                 disabled={
@@ -173,7 +172,7 @@ const TypeOfApplication = ({
                     onClick={() =>
                       handleAllDownloadDocument(
                         id,
-                        selectedIds[selectedSection]
+                        selectedIds[selectedSection],
                       )
                     }
                     disabled={isRestrictedRole}
@@ -190,7 +189,7 @@ const TypeOfApplication = ({
                       sendPendingDocumentMain(id, selectedDocumentNames);
                     } else {
                       toast.error(
-                        "Please select at least one document to send via mail."
+                        "Please select at least one document to send via mail.",
                       );
                     }
                   }}
@@ -288,12 +287,12 @@ const TypeOfApplication = ({
                                       type="checkbox"
                                       id={`toggle-${doc._id}-${index}`}
                                       checked={selectedDocsIds?.includes(
-                                        `${doc._id}-${index}`
+                                        `${doc._id}-${index}`,
                                       )}
                                       onChange={() =>
                                         handleCheckboxChangeId(
                                           `${doc._id}-${index}`,
-                                          docName
+                                          docName,
                                         )
                                       }
                                     />
@@ -316,7 +315,7 @@ const TypeOfApplication = ({
                                       e,
                                       index,
                                       doc._id,
-                                      docName
+                                      docName,
                                     )
                                   }
                                   className="custom-select-height"
@@ -352,7 +351,7 @@ const TypeOfApplication = ({
 
                                     handleSingleDocumentDownload(
                                       filePath,
-                                      fileName
+                                      fileName,
                                     );
                                   }}
                                   disabled={isRestrictedRole}
@@ -372,7 +371,7 @@ const TypeOfApplication = ({
                                     cursor: "pointer",
                                     color: "#fff",
                                     backgroundColor: getStatusColor(
-                                      doc.status || "unverified"
+                                      doc.status || "unverified",
                                     ),
                                     border: "none",
                                     borderRadius: "4px",
@@ -386,11 +385,11 @@ const TypeOfApplication = ({
                                       statusOptions.find(
                                         (opt) =>
                                           opt.value ===
-                                          (doc.status || "unverified")
+                                          (doc.status || "unverified"),
                                       ) ||
                                         statusOptions.find(
-                                          (opt) => opt.value === "unverified"
-                                        )
+                                          (opt) => opt.value === "unverified",
+                                        ),
                                     );
                                     setRemarks(doc.remarks || "");
                                     setSelectedDocId(doc._id);
@@ -433,7 +432,7 @@ const TypeOfApplication = ({
                             <td>
                               {doc.createdAt
                                 ? new Date(doc.createdAt).toLocaleDateString(
-                                    "en-GB"
+                                    "en-GB",
                                   )
                                 : "-"}
                             </td>

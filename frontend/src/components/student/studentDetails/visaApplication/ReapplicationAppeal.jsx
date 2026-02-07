@@ -19,7 +19,7 @@ const ReapplicationAppeal = ({
 }) => {
   const { canCreate, canUpdate } = usePermissions(
     "Student Applications",
-    "Visa Application"
+    "Visa Application",
   );
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -46,13 +46,13 @@ const ReapplicationAppeal = ({
   const handleReapplicationAppealSubmit = async (
     values,
     resetForm,
-    formikInstance
+    formikInstance,
   ) => {
     const isFormChanged = values.rejectionReason || values.appealOption;
 
     if (!isFormChanged) {
       toast.error(
-        "Please provide a rejection reason or select a reapplication option."
+        "Please provide a rejection reason or select a reapplication option.",
       );
       return;
     }
@@ -69,14 +69,14 @@ const ReapplicationAppeal = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(payload, id)
-          : updateVisitorApplication(payload, id)
+          : updateVisitorApplication(payload, id),
       );
       if (res?.status !== 200) {
         console.error("API response error:", res?.data);
         toast.error(
           res?.data?.error?.message ||
             res?.data?.message ||
-            "Error updating reapplication/appeal"
+            "Error updating reapplication/appeal",
         );
         return;
       }
@@ -97,11 +97,11 @@ const ReapplicationAppeal = ({
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -119,13 +119,13 @@ const ReapplicationAppeal = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(payload, id)
-          : updateVisitorApplication(payload, id)
+          : updateVisitorApplication(payload, id),
       );
       if (res?.status !== 200) {
         toast.error(
           res?.data?.error?.message ||
             res?.data?.message ||
-            "Error updating visa outcome"
+            "Error updating visa outcome",
         );
         return;
       }
@@ -139,11 +139,11 @@ const ReapplicationAppeal = ({
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -159,7 +159,7 @@ const ReapplicationAppeal = ({
       handleReapplicationAppealSubmit(
         values,
         resetForm,
-        reapplicationAppealFormik
+        reapplicationAppealFormik,
       );
     },
   });
@@ -198,7 +198,8 @@ const ReapplicationAppeal = ({
               value={
                 finalVisaFormik.values.status
                   ? finalVisaStatusOptions.find(
-                      (option) => option.value === finalVisaFormik.values.status
+                      (option) =>
+                        option.value === finalVisaFormik.values.status,
                     )
                   : null
               }
@@ -215,7 +216,7 @@ const ReapplicationAppeal = ({
               styles={{
                 control: (base) => ({
                   ...base,
-                  borderRadius: "30px",
+                  borderRadius: "12px",
                   color: "black",
                 }),
                 placeholder: (base) => ({
@@ -244,9 +245,13 @@ const ReapplicationAppeal = ({
                     onBlur={reapplicationAppealFormik.handleBlur}
                     style={{
                       cursor:
-                        userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                        userRole === "Student" || userRole === "LeadStudent"
+                          ? "not-allowed"
+                          : "pointer",
                     }}
-                    disabled={userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -259,18 +264,18 @@ const ReapplicationAppeal = ({
                     value={reapplicationAppealStatusOptions.find(
                       (option) =>
                         option.value ===
-                        reapplicationAppealFormik.values.appealOption
+                        reapplicationAppealFormik.values.appealOption,
                     )}
                     onChange={(selectedOption) =>
                       reapplicationAppealFormik.setFieldValue(
                         "appealOption",
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       )
                     }
                     onBlur={() =>
                       reapplicationAppealFormik.setFieldTouched(
                         "appealOption",
-                        true
+                        true,
                       )
                     }
                     placeholder="Select Reapplication"
@@ -278,7 +283,7 @@ const ReapplicationAppeal = ({
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -288,23 +293,27 @@ const ReapplicationAppeal = ({
                       }),
                     }}
                     isClearable
-                    isDisabled={userRole === "Student" || userRole === "LeadStudent"}
+                    isDisabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                 </Form.Group>
               </Col>
             </Row>
-            {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-              <div className="d-flex justify-content-end">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="custom-select-height"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Submitting..." : "Submit"}
-                </Button>
-              </div>
-            )}
+            {userRole !== "Student" &&
+              userRole !== "LeadStudent" &&
+              (canCreate || canUpdate) && (
+                <div className="d-flex justify-content-end">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="custom-select-height"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Submitting..." : "Submit"}
+                  </Button>
+                </div>
+              )}
           </Form>
         </div>
       </div>

@@ -158,7 +158,7 @@ const AssignmentDetails = () => {
         console.error("Error submitting form:", error);
         toast.error(
           error?.response?.data?.message ||
-            "Failed to submit Assignment details."
+            "Failed to submit Assignment details.",
         );
       } finally {
         setIsLoading(false);
@@ -248,7 +248,7 @@ const AssignmentDetails = () => {
   const customStyle = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -380,7 +380,7 @@ const AssignmentDetails = () => {
                             onChange={(selected) =>
                               formik.setFieldValue(
                                 "createdBy",
-                                selected?.value || ""
+                                selected?.value || "",
                               )
                             }
                             placeholder="Select User"
@@ -417,7 +417,7 @@ const AssignmentDetails = () => {
                             onChange={(selected) =>
                               formik.setFieldValue(
                                 "assignedTo",
-                                selected?.value || ""
+                                selected?.value || "",
                               )
                             }
                             placeholder="Select User"
@@ -456,7 +456,7 @@ const AssignmentDetails = () => {
                             onChange={(selected) =>
                               formik.setFieldValue(
                                 "team",
-                                selected?.value || ""
+                                selected?.value || "",
                               )
                             }
                             placeholder="Select Team"

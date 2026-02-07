@@ -72,7 +72,7 @@ const InterviewScheduling = ({
                   },
                 },
               ]
-            : []
+            : [],
         );
 
         if (courseData.interviewScheduling) {
@@ -113,7 +113,7 @@ const InterviewScheduling = ({
                     mode: round.mode || "",
                     meetingLink: round.meetingLink || "",
                     remarks: round.remarks || "",
-                  })
+                  }),
                 ) || [
                   { dateTime: "", mode: "", meetingLink: "", remarks: "" },
                   { dateTime: "", mode: "", meetingLink: "", remarks: "" },
@@ -143,7 +143,7 @@ const InterviewScheduling = ({
     } catch (error) {
       console.error("Error fetching student data:", error);
       toast.error(
-        error?.response?.data?.message || "Error fetching student data"
+        error?.response?.data?.message || "Error fetching student data",
       );
     }
   };
@@ -212,7 +212,7 @@ const InterviewScheduling = ({
                   mode: round.mode,
                   meetingLink: round.meetingLink,
                   remarks: round.remarks,
-                })
+                }),
               ),
               singleInterview: null,
             },
@@ -239,7 +239,7 @@ const InterviewScheduling = ({
         setFormData((prev) => ({
           ...prev,
           interestedCourseDetails: prev.interestedCourseDetails.map(
-            (item, idx) => (idx === updatedIndex ? updatedCourse : item)
+            (item, idx) => (idx === updatedIndex ? updatedCourse : item),
           ),
         }));
 
@@ -263,7 +263,7 @@ const InterviewScheduling = ({
     } catch (error) {
       console.error("Error scheduling interview:", error);
       toast.error(
-        error?.response?.data?.message || "Error scheduling interview"
+        error?.response?.data?.message || "Error scheduling interview",
       );
     } finally {
       setIsLoading(false);
@@ -280,12 +280,12 @@ const InterviewScheduling = ({
       // Interview Result
       const interviewOption =
         interviewSchedulingStatusOptions?.find(
-          (opt) => opt.value === currentInterviewStatus
+          (opt) => opt.value === currentInterviewStatus,
         ) || null;
       setInterviewSchedulingStatus(interviewOption);
       interestedCourseFormik.setFieldValue(
         "interviewResult",
-        currentInterviewStatus
+        currentInterviewStatus,
       );
     }
   }, [localCourses]);
@@ -304,7 +304,7 @@ const InterviewScheduling = ({
                 setInterviewSchedulingStatus(option);
                 interestedCourseFormik.setFieldValue(
                   "interviewResult",
-                  option.value
+                  option.value,
                 );
                 handleUpdateApplicationStatus("interviewResult", option.value);
               }}
@@ -312,7 +312,7 @@ const InterviewScheduling = ({
               styles={{
                 control: (base) => ({
                   ...base,
-                  borderRadius: "30px",
+                  borderRadius: "12px",
                   color: "black",
                 }),
                 placeholder: (base) => ({
@@ -343,7 +343,11 @@ const InterviewScheduling = ({
                 interviewFormik.setFieldValue("interviewType", e.target.value);
                 interviewFormik.setFieldValue("interviewDetails.rounds", []);
               }}
-              disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+              disabled={
+                isRestrictedRole ||
+                userRole === "Student" ||
+                userRole === "LeadStudent"
+              }
             />
             <Form.Check
               inline
@@ -361,11 +365,15 @@ const InterviewScheduling = ({
                 interviewFormik.setFieldValue("interviewDetails.mode", "");
                 interviewFormik.setFieldValue(
                   "interviewDetails.meetingLink",
-                  ""
+                  "",
                 );
                 interviewFormik.setFieldValue("interviewDetails.remarks", "");
               }}
-              disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+              disabled={
+                isRestrictedRole ||
+                userRole === "Student" ||
+                userRole === "LeadStudent"
+              }
             />
           </div>
 
@@ -384,7 +392,8 @@ const InterviewScheduling = ({
                         selected={
                           interviewFormik.values.interviewDetails.dateTime
                             ? new Date(
-                                interviewFormik.values.interviewDetails.dateTime
+                                interviewFormik.values.interviewDetails
+                                  .dateTime,
                               )
                             : null
                         }
@@ -392,7 +401,7 @@ const InterviewScheduling = ({
                           const dateString = date ? date.toISOString() : "";
                           interviewFormik.setFieldValue(
                             "interviewDetails.dateTime",
-                            dateString
+                            dateString,
                           );
                         }}
                         timeInputLabel="Time:"
@@ -402,10 +411,14 @@ const InterviewScheduling = ({
                         onBlur={() =>
                           interviewFormik.setFieldTouched(
                             "interviewDetails.dateTime",
-                            true
+                            true,
                           )
                         }
-                        disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                        disabled={
+                          isRestrictedRole ||
+                          userRole === "Student" ||
+                          userRole === "LeadStudent"
+                        }
                       />
                     </div>
                   </InputGroup>
@@ -427,12 +440,12 @@ const InterviewScheduling = ({
                     value={modeOptions.find(
                       (option) =>
                         option.value ===
-                        interviewFormik.values.interviewDetails.mode
+                        interviewFormik.values.interviewDetails.mode,
                     )}
                     onChange={(selectedOption) =>
                       interviewFormik.setFieldValue(
                         "interviewDetails.mode",
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       )
                     }
                     onBlur={() =>
@@ -443,7 +456,7 @@ const InterviewScheduling = ({
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -452,7 +465,11 @@ const InterviewScheduling = ({
                         fontSize: "13px",
                       }),
                     }}
-                    isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                    isDisabled={
+                      isRestrictedRole ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
+                    }
                   />
                   {interviewFormik.errors.interviewDetails?.mode &&
                     interviewFormik.touched.interviewDetails?.mode && (
@@ -474,7 +491,11 @@ const InterviewScheduling = ({
                     onBlur={interviewFormik.handleBlur}
                     placeholder="Enter meeting link"
                     className="custom-select-height"
-                    disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      isRestrictedRole ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
+                    }
                   />
                   {interviewFormik.errors.interviewDetails?.meetingLink &&
                     interviewFormik.touched.interviewDetails?.meetingLink && (
@@ -496,7 +517,11 @@ const InterviewScheduling = ({
                     onBlur={interviewFormik.handleBlur}
                     placeholder="Enter remarks"
                     className="custom-select-height"
-                    disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      isRestrictedRole ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
+                    }
                   />
                   {interviewFormik.errors.interviewDetails?.remarks &&
                     interviewFormik.touched.interviewDetails?.remarks && (
@@ -530,7 +555,8 @@ const InterviewScheduling = ({
                             interviewFormik.values.interviewDetails.rounds[0]
                               ?.dateTime
                               ? new Date(
-                                  interviewFormik.values.interviewDetails.rounds[0].dateTime
+                                  interviewFormik.values.interviewDetails
+                                    .rounds[0].dateTime,
                                 )
                               : null
                           }
@@ -538,7 +564,7 @@ const InterviewScheduling = ({
                             const dateString = date ? date.toISOString() : "";
                             interviewFormik.setFieldValue(
                               "interviewDetails.rounds[0].dateTime",
-                              dateString
+                              dateString,
                             );
                           }}
                           timeInputLabel="Time:"
@@ -548,10 +574,14 @@ const InterviewScheduling = ({
                           onBlur={() =>
                             interviewFormik.setFieldTouched(
                               "interviewDetails.rounds[0].dateTime",
-                              true
+                              true,
                             )
                           }
-                          disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                          disabled={
+                            isRestrictedRole ||
+                            userRole === "Student" ||
+                            userRole === "LeadStudent"
+                          }
                         />
                       </div>
                     </InputGroup>
@@ -582,17 +612,17 @@ const InterviewScheduling = ({
                         (option) =>
                           option.value ===
                           interviewFormik.values.interviewDetails.rounds[0]
-                            ?.mode
+                            ?.mode,
                       )}
                       onChange={(selectedOption) =>
                         interviewFormik.setFieldValue(
                           "interviewDetails.rounds[0].mode",
-                          selectedOption ? selectedOption.value : ""
+                          selectedOption ? selectedOption.value : "",
                         )
                       }
                       onBlur={() =>
                         interviewFormik.handleBlur(
-                          "interviewDetails.rounds[0].mode"
+                          "interviewDetails.rounds[0].mode",
                         )
                       }
                       placeholder="Select Mode"
@@ -600,7 +630,7 @@ const InterviewScheduling = ({
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                         }),
                         placeholder: (base) => ({
@@ -609,7 +639,11 @@ const InterviewScheduling = ({
                           fontSize: "13px",
                         }),
                       }}
-                      isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      isDisabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                     {interviewFormik.errors.interviewDetails?.rounds?.[0]
                       ?.mode &&
@@ -642,7 +676,11 @@ const InterviewScheduling = ({
                       onBlur={interviewFormik.handleBlur}
                       placeholder="Enter meeting link"
                       className="custom-select-height"
-                      disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                     {interviewFormik.errors.interviewDetails?.rounds?.[0]
                       ?.meetingLink &&
@@ -675,7 +713,11 @@ const InterviewScheduling = ({
                       onBlur={interviewFormik.handleBlur}
                       placeholder="Enter remarks"
                       className="custom-select-height"
-                      disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                     {interviewFormik.errors.interviewDetails?.rounds?.[0]
                       ?.remarks &&
@@ -714,7 +756,8 @@ const InterviewScheduling = ({
                             interviewFormik.values.interviewDetails.rounds[1]
                               ?.dateTime
                               ? new Date(
-                                  interviewFormik.values.interviewDetails.rounds[1].dateTime
+                                  interviewFormik.values.interviewDetails
+                                    .rounds[1].dateTime,
                                 )
                               : null
                           }
@@ -722,7 +765,7 @@ const InterviewScheduling = ({
                             const dateString = date ? date.toISOString() : "";
                             interviewFormik.setFieldValue(
                               "interviewDetails.rounds[1].dateTime",
-                              dateString
+                              dateString,
                             );
                           }}
                           timeInputLabel="Time:"
@@ -732,10 +775,14 @@ const InterviewScheduling = ({
                           onBlur={() =>
                             interviewFormik.setFieldTouched(
                               "interviewDetails.rounds[1].dateTime",
-                              true
+                              true,
                             )
                           }
-                          disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                          disabled={
+                            isRestrictedRole ||
+                            userRole === "Student" ||
+                            userRole === "LeadStudent"
+                          }
                         />
                       </div>
                     </InputGroup>
@@ -766,17 +813,17 @@ const InterviewScheduling = ({
                         (option) =>
                           option.value ===
                           interviewFormik.values.interviewDetails.rounds[1]
-                            ?.mode
+                            ?.mode,
                       )}
                       onChange={(selectedOption) =>
                         interviewFormik.setFieldValue(
                           "interviewDetails.rounds[1].mode",
-                          selectedOption ? selectedOption.value : ""
+                          selectedOption ? selectedOption.value : "",
                         )
                       }
                       onBlur={() =>
                         interviewFormik.handleBlur(
-                          "interviewDetails.rounds[1].mode"
+                          "interviewDetails.rounds[1].mode",
                         )
                       }
                       placeholder="Select Mode"
@@ -784,7 +831,7 @@ const InterviewScheduling = ({
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                         }),
                         placeholder: (base) => ({
@@ -793,7 +840,11 @@ const InterviewScheduling = ({
                           fontSize: "13px",
                         }),
                       }}
-                      isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      isDisabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                     {interviewFormik.errors.interviewDetails?.rounds?.[1]
                       ?.mode &&
@@ -826,7 +877,11 @@ const InterviewScheduling = ({
                       onBlur={interviewFormik.handleBlur}
                       placeholder="Enter meeting link"
                       className="custom-select-height"
-                      disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                     {interviewFormik.errors.interviewDetails?.rounds?.[1]
                       ?.meetingLink &&
@@ -859,7 +914,11 @@ const InterviewScheduling = ({
                       onBlur={interviewFormik.handleBlur}
                       placeholder="Enter remarks"
                       className="custom-select-height"
-                      disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        isRestrictedRole ||
+                        userRole === "Student" ||
+                        userRole === "LeadStudent"
+                      }
                     />
                     {interviewFormik.errors.interviewDetails?.rounds?.[1]
                       ?.remarks &&
@@ -883,18 +942,20 @@ const InterviewScheduling = ({
               </div>
             </>
           )}
-          {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-            <div className="d-flex justify-content-end me-3">
-              <Button
-                variant="primary"
-                type="submit"
-                className="custom-select-height"
-                disabled={isRestrictedRole}
-              >
-                Submit
-              </Button>
-            </div>
-          )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            (canCreate || canUpdate) && (
+              <div className="d-flex justify-content-end me-3">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="custom-select-height"
+                  disabled={isRestrictedRole}
+                >
+                  Submit
+                </Button>
+              </div>
+            )}
         </Form>
       </div>
     </div>

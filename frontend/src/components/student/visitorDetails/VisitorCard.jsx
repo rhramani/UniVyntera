@@ -147,7 +147,7 @@ const VisitorCard = ({
                               <span
                                 className="ms-2 px-2 py-0 rounded-pill shadow-sm"
                                 style={{
-                                  backgroundColor: "#053880",
+                                  backgroundColor: "#5D54BE",
                                   color: "#fff",
                                   fontSize: "0.75rem",
                                   fontWeight: 600,

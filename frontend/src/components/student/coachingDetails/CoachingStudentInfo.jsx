@@ -572,10 +572,12 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
                   className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 text-warning d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px",
-                     backgroundColor: "#ff9b2127",
+                  style={{
+                    width: "52px",
+                    height: "52px",
+                    backgroundColor: "#ff9b2127",
                     borderColor: "#ff9b213a",
-                   }}
+                  }}
                 >
                   <EmailIcon style={{ fontSize: "24px", color: "#ff9b21" }} />
                 </div>
@@ -587,7 +589,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                     Email Address
                   </div>
                   <div
-                    className="fw-bold text-dark text-truncate fs-6"  
+                    className="fw-bold text-dark text-truncate fs-6"
                     title={studentData?.email}
                   >
                     {studentData?.email || "N/A"}
@@ -600,10 +602,12 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
                   className="flex-shrink-0 p-3 rounded-4 shadow-sm me-3 text-success d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px",
-                     backgroundColor: "#5ac7883a",
+                  style={{
+                    width: "52px",
+                    height: "52px",
+                    backgroundColor: "#5ac7883a",
                     borderColor: "#5ac7883a",
-                   }}
+                  }}
                 >
                   <PhoneIcon style={{ fontSize: "24px", color: "#5ac788" }} />
                 </div>
@@ -625,12 +629,14 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
                   className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 text-info d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px",
+                  style={{
+                    width: "52px",
+                    height: "52px",
                     backgroundColor: "#01b7ff31",
                     borderColor: "#01b7ff31",
-                   }}
+                  }}
                 >
-                  <CakeIcon style={{ fontSize: "24px" , color:"#01b8ff" }} />
+                  <CakeIcon style={{ fontSize: "24px", color: "#01b8ff" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -650,14 +656,14 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
                   className="flex-shrink-0 p-3 rounded-4 shadow-sm me-3 text-danger d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px", 
+                  style={{
+                    width: "52px",
+                    height: "52px",
                     backgroundColor: "#ff47561a",
                     borderColor: "#ff47561a",
-                   }}
+                  }}
                 >
-                  <PublicIcon style={{ fontSize: "24px",
-                    color: "#ff4757",
-                   }} />
+                  <PublicIcon style={{ fontSize: "24px", color: "#ff4757" }} />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -677,12 +683,16 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
                   className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 text-secondary d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px",
+                  style={{
+                    width: "52px",
+                    height: "52px",
                     backgroundColor: "#f1388b28",
                     borderColor: "#f1388b3a",
-                   }}
+                  }}
                 >
-                  <LocationCityIcon style={{ fontSize: "24px", color: "#f1388b" }} />
+                  <LocationCityIcon
+                    style={{ fontSize: "24px", color: "#f1388b" }}
+                  />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -702,10 +712,12 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
                   className="flex-shrink-0 p-3 rounded-4 shadow-sm me-3 text-dark d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px", 
+                  style={{
+                    width: "52px",
+                    height: "52px",
                     backgroundColor: "#3b48632f",
                     borderColor: "#3b48632d",
-                   }}
+                  }}
                 >
                   <HomeIcon style={{ fontSize: "24px", color: "#3b4863" }} />
                 </div>
@@ -730,12 +742,16 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
               <div className="d-flex align-items-center p-2 p-sm-3 rounded-4 bg-light bg-opacity-50 border border-light h-100 transition-hover">
                 <div
                   className="flex-shrink-0 p-3 rounded-4  shadow-sm me-3 d-flex align-items-center justify-content-center"
-                  style={{ width: "52px", height: "52px", 
+                  style={{
+                    width: "52px",
+                    height: "52px",
                     backgroundColor: "#9b27b01e",
                     borderColor: "#9c27b02d",
                   }}
                 >
-                  <SportsScoreIcon style={{ fontSize: "24px", color:"#9c27b0" }} />
+                  <SportsScoreIcon
+                    style={{ fontSize: "24px", color: "#9c27b0" }}
+                  />
                 </div>
                 <div className="flex-grow-1 min-width-0">
                   <div
@@ -1121,7 +1137,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1183,7 +1199,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1235,7 +1251,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1278,7 +1294,7 @@ const CoachingStudentInfo = ({ oneStudentData }) => {
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({

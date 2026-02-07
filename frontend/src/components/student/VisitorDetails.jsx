@@ -64,6 +64,7 @@ import { getAccountant } from "../../redux/actions/Student/StudentApplication.ac
 import CategoryDetails from "./CategoryDetails";
 import ApplicationAccountant from "./ApplicationAccountant";
 import VFSAppointment from "./studentDetails/visaApplication/VFSAppointment";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const workExperienceValidationSchema = Yup.object({
   company: Yup.string(),
@@ -159,7 +160,7 @@ const VisitorDetails = () => {
 
   const [visitor, setVisitor] = useState(null);
   const [activeTab, setActiveTab] = useState(
-    location.state?.activeTab || "personal"
+    location.state?.activeTab || "personal",
   );
   const [selectedPersonalSection, setSelectedPersonalSection] = useState("");
   const [selectedVisaSection, setSelectedVisaSection] = useState("");
@@ -219,7 +220,7 @@ const VisitorDetails = () => {
       const storedValue = decryptData(encryptedValue);
 
       return storedValue === null ? true : storedValue === "true";
-    }
+    },
   );
   // Calendar states for custom date pickers
   const [showAppointmentDateCalendar, setShowAppointmentDateCalendar] =
@@ -264,7 +265,7 @@ const VisitorDetails = () => {
           "itemsPerPage",
           "showAll",
           "selectedCountry",
-        ]?.includes(key)
+        ]?.includes(key),
       )
     ) {
       // Filter state is present, preserve it for when we navigate back to VisitorApplication
@@ -358,14 +359,14 @@ const VisitorDetails = () => {
     if (activeTabForModal === "personal") {
       personalDetailsFollowupFormik.setFieldValue(
         "nextFollowUpDate",
-        formatted
+        formatted,
       );
     } else if (activeTabForModal === "document") {
       documentsFollowupFormik.setFieldValue("nextFollowUpDate", formatted);
     } else if (activeTabForModal === "visaApplication") {
       visaApplicationFollowupFormik.setFieldValue(
         "nextFollowUpDate",
-        formatted
+        formatted,
       );
     }
     setPersonalDetailsCalendar(false);
@@ -416,7 +417,7 @@ const VisitorDetails = () => {
         }
 
         const res = await dispatch(
-          updateVisitorApplication(uploadFormData, id)
+          updateVisitorApplication(uploadFormData, id),
         );
 
         if (res?.status === 200) {
@@ -427,7 +428,7 @@ const VisitorDetails = () => {
 
           const newDocs =
             res.data.data.uploadedDocumentDetails?.slice(
-              -(otherDocFile?.length || 1)
+              -(otherDocFile?.length || 1),
             ) || [];
           const newDocumentEntries = newDocs?.map((doc) => ({
             _id: doc._id,
@@ -542,7 +543,7 @@ const VisitorDetails = () => {
       const plans = res?.data?.data?.data || [];
 
       const admissionPlan = plans.find(
-        (plan) => plan.name.toLowerCase() === "visitor"
+        (plan) => plan.name.toLowerCase() === "visitor",
       );
 
       if (admissionPlan?._id && id) {
@@ -627,12 +628,12 @@ const VisitorDetails = () => {
         statusId = visitorData?.documentDetailStatus?._id;
       }
       const selectedStatus = applicationstatus?.find(
-        (status) => status._id === statusId
+        (status) => status._id === statusId,
       );
       setSelectedApplicationStatus(
         selectedStatus
           ? { value: selectedStatus._id, label: selectedStatus.name }
-          : null
+          : null,
       );
       setVisitor(visitorData);
 
@@ -640,7 +641,7 @@ const VisitorDetails = () => {
         visitorData?.educationDetails || []
       )?.map((edu) => {
         const matchingDoc = visitorData?.uploadedDocumentDetails?.find(
-          (doc) => doc?.ref_module === edu?._id
+          (doc) => doc?.ref_module === edu?._id,
         );
         return {
           ...edu,
@@ -653,7 +654,7 @@ const VisitorDetails = () => {
         visitorData?.entranceExamDetails || []
       )?.map((edu) => {
         const matchingDoc = visitorData?.uploadedDocumentDetails?.find(
-          (doc) => doc?.ref_module === edu?._id
+          (doc) => doc?.ref_module === edu?._id,
         );
         return {
           ...edu,
@@ -666,7 +667,7 @@ const VisitorDetails = () => {
         visitorData?.aptitudeExamDetails || []
       )?.map((edu) => {
         const matchingDoc = visitorData?.uploadedDocumentDetails?.find(
-          (doc) => doc?.ref_module === edu?._id
+          (doc) => doc?.ref_module === edu?._id,
         );
         return {
           ...edu,
@@ -678,14 +679,14 @@ const VisitorDetails = () => {
       const workExperienceWithFiles = (visitorData?.workExperience || [])?.map(
         (edu) => {
           const matchingDoc = visitorData?.uploadedDocumentDetails?.find(
-            (doc) => doc?.ref_module === edu?._id
+            (doc) => doc?.ref_module === edu?._id,
           );
           return {
             ...edu,
             fileUrl: matchingDoc ? `${matchingDoc.filePath}` : null,
             filePath: matchingDoc ? matchingDoc.filePath : null,
           };
-        }
+        },
       );
 
       setFormData({
@@ -721,7 +722,7 @@ const VisitorDetails = () => {
             (doc) => ({
               ...doc,
               fileUrl: `${REACT_APP_API_URL}/${doc.filePath}`,
-            })
+            }),
           ),
         }));
       }
@@ -739,7 +740,7 @@ const VisitorDetails = () => {
   const fetchCountryWiseDocuments = async (preferredCountry) => {
     try {
       const res = await dispatch(
-        getCountryWiseVisitorDocuments(preferredCountry)
+        getCountryWiseVisitorDocuments(preferredCountry),
       );
       if (res?.data?.code === 200) {
         setCountryDocuments(res.data.data || []);
@@ -814,7 +815,7 @@ const VisitorDetails = () => {
     if (
       !newWork ||
       Object.values(newWork)?.every(
-        (val) => !val || val.toString().trim() === ""
+        (val) => !val || val.toString().trim() === "",
       )
     ) {
       toast.error("Please fill at least one field before submitting.");
@@ -894,7 +895,7 @@ const VisitorDetails = () => {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error adding work experience"
+        error?.response?.data?.message || "Error adding work experience",
       );
     } finally {
       setIsLoading(false);
@@ -938,7 +939,7 @@ const VisitorDetails = () => {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error updating work experience"
+        error?.response?.data?.message || "Error updating work experience",
       );
     } finally {
       setIsLoading(false);
@@ -968,7 +969,7 @@ const VisitorDetails = () => {
         setFormData((prev) => ({
           ...prev,
           workExperience: prev.workExperience.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         if (edit.workExperience && edit.workExperienceIndex === indexToDelete) {
@@ -985,7 +986,7 @@ const VisitorDetails = () => {
     } catch (error) {
       console.error("Error deleting work experience:", error);
       toast.error(
-        error?.response?.data?.message || "Error deleting work experience"
+        error?.response?.data?.message || "Error deleting work experience",
       );
     }
   };
@@ -998,7 +999,7 @@ const VisitorDetails = () => {
     if (
       !newAptitude ||
       Object.values(newAptitude)?.every(
-        (val) => !val || val.toString().trim() === ""
+        (val) => !val || val.toString().trim() === "",
       )
     ) {
       toast.error("Please fill at least one field before submitting.");
@@ -1087,7 +1088,7 @@ const VisitorDetails = () => {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error adding aptitude exam"
+        error?.response?.data?.message || "Error adding aptitude exam",
       );
     } finally {
       setIsLoading(false);
@@ -1131,7 +1132,7 @@ const VisitorDetails = () => {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error updating aptitude exam"
+        error?.response?.data?.message || "Error updating aptitude exam",
       );
     } finally {
       setIsLoading(false);
@@ -1161,7 +1162,7 @@ const VisitorDetails = () => {
         setFormData((prev) => ({
           ...prev,
           aptitudeExamDetails: prev.aptitudeExamDetails.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         if (
@@ -1181,7 +1182,7 @@ const VisitorDetails = () => {
     } catch (error) {
       console.error("Error deleting aptitude exam:", error);
       toast.error(
-        error?.response?.data?.message || "Error deleting aptitude exam"
+        error?.response?.data?.message || "Error deleting aptitude exam",
       );
     }
   };
@@ -1243,7 +1244,7 @@ const VisitorDetails = () => {
     docName,
     files,
     resetForm,
-    formikInstance
+    formikInstance,
   ) => {
     if (!docName || !files || files.length === 0) {
       toast.error("Please provide document name and at least one file.");
@@ -1265,7 +1266,7 @@ const VisitorDetails = () => {
       });
       uploadFormData.append(
         "ref_module",
-        formData?.visaApplicationDetails?._id
+        formData?.visaApplicationDetails?._id,
       );
 
       const res = await dispatch(updateVisitorApplication(uploadFormData, id));
@@ -1300,7 +1301,7 @@ const VisitorDetails = () => {
         const input = document.querySelector(
           `input[name="${
             formikInstance.values.file ? "file" : "appointmentLetter"
-          }"]`
+          }"]`,
         );
         if (input) input.value = "";
 
@@ -1309,7 +1310,7 @@ const VisitorDetails = () => {
       } else {
         console.error("API response error:", res?.data);
         toast.error(
-          res?.data?.message || `Error uploading ${docName.toLowerCase()}`
+          res?.data?.message || `Error uploading ${docName.toLowerCase()}`,
         );
         return { success: false };
       }
@@ -1317,7 +1318,7 @@ const VisitorDetails = () => {
       console.error("Document upload error:", error?.response?.data || error);
       toast.error(
         error?.response?.data?.message ||
-          `Error uploading ${docName.toLowerCase()}`
+          `Error uploading ${docName.toLowerCase()}`,
       );
       return { success: false };
     } finally {
@@ -1325,62 +1326,61 @@ const VisitorDetails = () => {
     }
   };
 
-const handleFileChange = async (event, formikInstance) => {
-  const files = Array.from(event.target.files);
-  const fieldName = event.target.name;
+  const handleFileChange = async (event, formikInstance) => {
+    const files = Array.from(event.target.files);
+    const fieldName = event.target.name;
 
-  if (files.length > 0) {
-    const maxSizeInBytes = 5 * 1024 * 1024;
+    if (files.length > 0) {
+      const maxSizeInBytes = 5 * 1024 * 1024;
 
-    // Allowed file types
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/jpg",
-      "application/pdf",
-      "application/msword", // .doc
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-      "application/vnd.ms-excel", // .xls
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
-    ];
+      // Allowed file types
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "application/pdf",
+        "application/msword", // .doc
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+        "application/vnd.ms-excel", // .xls
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+      ];
 
-    // Validate files
-    for (let file of files) {
-      if (!allowedTypes.includes(file.type)) {
-        toast.error(`File ${file.name} is not a valid supported format.`);
-        return;
+      // Validate files
+      for (let file of files) {
+        if (!allowedTypes.includes(file.type)) {
+          toast.error(`File ${file.name} is not a valid supported format.`);
+          return;
+        }
+
+        if (file.size > maxSizeInBytes) {
+          toast.error(`File ${file.name} exceeds the 5MB size limit.`);
+          return;
+        }
       }
 
-      if (file.size > maxSizeInBytes) {
-        toast.error(`File ${file.name} exceeds the 5MB size limit.`);
-        return;
+      // Set file array into Formik
+      formikInstance.setFieldValue(fieldName, files);
+
+      // Existing flows (unchanged)
+      if (fieldName === "biometricsReceipt") {
+        await handleVisaFlowDocumentUpload(
+          "Biometrics Receipt",
+          files,
+          formikInstance.resetForm,
+          formikInstance,
+        );
+      }
+
+      if (fieldName === "appointmentLetter") {
+        await handleVisaFlowDocumentUpload(
+          "Appointment Letter",
+          files,
+          formikInstance.resetForm,
+          formikInstance,
+        );
       }
     }
-
-    // Set file array into Formik
-    formikInstance.setFieldValue(fieldName, files);
-
-    // Existing flows (unchanged)
-    if (fieldName === "biometricsReceipt") {
-      await handleVisaFlowDocumentUpload(
-        "Biometrics Receipt",
-        files,
-        formikInstance.resetForm,
-        formikInstance
-      );
-    }
-
-    if (fieldName === "appointmentLetter") {
-      await handleVisaFlowDocumentUpload(
-        "Appointment Letter",
-        files,
-        formikInstance.resetForm,
-        formikInstance
-      );
-    }
-  }
-};
-
+  };
 
   const visaFeePaymentFormik = useFormik({
     initialValues: {
@@ -1395,7 +1395,7 @@ const handleFileChange = async (event, formikInstance) => {
   const handleVisaFeePaymentSubmit = async (
     values,
     resetForm,
-    formikInstance
+    formikInstance,
   ) => {
     const isFileUploaded = !!values.file;
     const isPaymentInfoProvided = values.paymentDetails || values.status;
@@ -1415,7 +1415,7 @@ const handleFileChange = async (event, formikInstance) => {
           "Visa Fee Payment",
           values.file,
           resetForm,
-          formikInstance
+          formikInstance,
         );
         uploadSuccess = uploadResult.success;
         documentDetails = uploadResult.documentDetails;
@@ -1455,7 +1455,7 @@ const handleFileChange = async (event, formikInstance) => {
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -1480,7 +1480,7 @@ const handleFileChange = async (event, formikInstance) => {
           "Visa Outcome Proof",
           values.visaOutcomeProof,
           resetForm,
-          formikInstance
+          formikInstance,
         );
         uploadSuccess = uploadResult.success;
         documentDetails = uploadResult.documentDetails;
@@ -1495,7 +1495,7 @@ const handleFileChange = async (event, formikInstance) => {
         toast.error(
           res?.data?.error?.message ||
             res?.data?.message ||
-            "Error updating visa outcome"
+            "Error updating visa outcome",
         );
         return;
       }
@@ -1505,11 +1505,11 @@ const handleFileChange = async (event, formikInstance) => {
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -1519,7 +1519,7 @@ const handleFileChange = async (event, formikInstance) => {
   const handleVisaFileSubmissionSubmit = async (
     values,
     resetForm,
-    formikInstance
+    formikInstance,
   ) => {
     const isFormChanged =
       values.finalChecklistConfirmed ||
@@ -1553,7 +1553,7 @@ const handleFileChange = async (event, formikInstance) => {
       if (res?.status !== 200) {
         console.error("API response error:", res?.data);
         toast.error(
-          res?.data?.error?.message || "Error updating visa file submission"
+          res?.data?.error?.message || "Error updating visa file submission",
         );
         return;
       }
@@ -1584,12 +1584,12 @@ const handleFileChange = async (event, formikInstance) => {
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.data?.message ||
           error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -1618,7 +1618,7 @@ const handleFileChange = async (event, formikInstance) => {
         toast.error(
           res?.data?.error?.message ||
             res?.data?.message ||
-            "Error updating file handover date"
+            "Error updating file handover date",
         );
         return;
       }
@@ -1633,11 +1633,11 @@ const handleFileChange = async (event, formikInstance) => {
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -1676,7 +1676,7 @@ const handleFileChange = async (event, formikInstance) => {
             "D Visa Document",
             values.dVisaDocument,
             resetForm,
-            formikInstance
+            formikInstance,
           );
           uploadSuccess = uploadResult.success;
           documentDetails = uploadResult.documentDetails;
@@ -1699,7 +1699,7 @@ const handleFileChange = async (event, formikInstance) => {
         toast.error(
           res?.data?.error?.message ||
             res?.data?.message ||
-            "Error updating D Visa details"
+            "Error updating D Visa details",
         );
         return;
       }
@@ -1720,11 +1720,11 @@ const handleFileChange = async (event, formikInstance) => {
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -1734,7 +1734,7 @@ const handleFileChange = async (event, formikInstance) => {
   const handleVisaApplicationSubmit = async (
     values,
     formikInstance,
-    resetForm
+    resetForm,
   ) => {
     const isFileUploaded = !!values.applicationSubmission;
 
@@ -1761,7 +1761,7 @@ const handleFileChange = async (event, formikInstance) => {
           "Visa Application Submission",
           values.applicationSubmission,
           resetForm,
-          formikInstance
+          formikInstance,
         );
         uploadSuccess = uploadResult.success;
         documentDetails = uploadResult.documentDetails;
@@ -1777,7 +1777,7 @@ const handleFileChange = async (event, formikInstance) => {
         toast.error(
           res?.data?.error?.message ||
             res?.data?.message ||
-            "Error updating D Visa details"
+            "Error updating D Visa details",
         );
         return;
       }
@@ -1796,11 +1796,11 @@ const handleFileChange = async (event, formikInstance) => {
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -1829,7 +1829,7 @@ const handleFileChange = async (event, formikInstance) => {
           "Supplementary Additional",
           values.supplementaryAdditional,
           resetForm,
-          formikInstance
+          formikInstance,
         );
         uploadSuccess = uploadResult.success;
         documentDetails = uploadResult.documentDetails;
@@ -1845,7 +1845,7 @@ const handleFileChange = async (event, formikInstance) => {
         toast.error(
           res?.data?.error?.message ||
             res?.data?.message ||
-            "Error updating remarks"
+            "Error updating remarks",
         );
         return;
       }
@@ -1856,11 +1856,11 @@ const handleFileChange = async (event, formikInstance) => {
     } catch (error) {
       console.error(
         "Submission error:",
-        error?.response?.data || error.message
+        error?.response?.data || error.message,
       );
       toast.error(
         error?.response?.data?.message ||
-          "Failed to process request. Please try again."
+          "Failed to process request. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -1883,7 +1883,7 @@ const handleFileChange = async (event, formikInstance) => {
       handleVisaApplicationSubmit(
         values,
         visaApplicationSubmissionFormik,
-        resetForm
+        resetForm,
       );
     },
     enableReinitialize: true,
@@ -1914,7 +1914,7 @@ const handleFileChange = async (event, formikInstance) => {
       handleVisaFileSubmissionSubmit(
         values,
         resetForm,
-        visaFileSubmissionFormik
+        visaFileSubmissionFormik,
       );
     },
   });
@@ -2004,7 +2004,7 @@ const handleFileChange = async (event, formikInstance) => {
       ?.filter(
         (doc) =>
           doc.ref_module === courseId &&
-          documentType?.includes(doc.customDocumentName)
+          documentType?.includes(doc.customDocumentName),
       )
       .map((doc) => {
         const filePath = doc?.filePath
@@ -2075,7 +2075,7 @@ const handleFileChange = async (event, formikInstance) => {
       const feePayment = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Visa Fee Payment"]
+        ["Visa Fee Payment"],
       );
       setVisaFeePaymentFilePaths(feePayment);
 
@@ -2083,7 +2083,7 @@ const handleFileChange = async (event, formikInstance) => {
       const biometrictsAndAppointment = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Biometrics Receipt"]
+        ["Biometrics Receipt"],
       );
       setBiometricsPaths(biometrictsAndAppointment);
 
@@ -2091,7 +2091,7 @@ const handleFileChange = async (event, formikInstance) => {
       const vfsLetter = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Appointment Letter"]
+        ["Appointment Letter"],
       );
       setVfsAppointmentFilePaths(vfsLetter);
 
@@ -2099,7 +2099,7 @@ const handleFileChange = async (event, formikInstance) => {
       const picDocument = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["PIC Decision"]
+        ["PIC Decision"],
       );
       setRpDecisionFilePaths(picDocument);
 
@@ -2107,7 +2107,7 @@ const handleFileChange = async (event, formikInstance) => {
       const dVisaDocument = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["D Visa Document"]
+        ["D Visa Document"],
       );
       setDVisaDocsFilePaths(dVisaDocument);
 
@@ -2115,7 +2115,7 @@ const handleFileChange = async (event, formikInstance) => {
       const supplementaryAdditionalDocument = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Supplementary Additional"]
+        ["Supplementary Additional"],
       );
       setSupplementaryAdditionalFilePaths(supplementaryAdditionalDocument);
 
@@ -2123,7 +2123,7 @@ const handleFileChange = async (event, formikInstance) => {
       const visaApplicationDocument = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Visa Application Submission"]
+        ["Visa Application Submission"],
       );
       setVisaApplicationFilePaths(visaApplicationDocument);
 
@@ -2131,7 +2131,7 @@ const handleFileChange = async (event, formikInstance) => {
       const visaOutcomeDocument = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Visa Outcome Proof"]
+        ["Visa Outcome Proof"],
       );
       setVisaOutcomeFilePaths(visaOutcomeDocument);
     }
@@ -2142,7 +2142,9 @@ const handleFileChange = async (event, formikInstance) => {
       nextFollowUpDate: oneStudentData?.followUps?.personalDetails
         ?.nextFollowUpDate
         ? formatDate(
-            parseDate(oneStudentData.followUps.personalDetails.nextFollowUpDate)
+            parseDate(
+              oneStudentData.followUps.personalDetails.nextFollowUpDate,
+            ),
           )
         : "",
       status: oneStudentData?.followUps?.personalDetails?.status || "Pending",
@@ -2177,7 +2179,9 @@ const handleFileChange = async (event, formikInstance) => {
       nextFollowUpDate: oneStudentData?.followUps?.documentDetails
         ?.nextFollowUpDate
         ? formatDate(
-            parseDate(oneStudentData.followUps.documentDetails.nextFollowUpDate)
+            parseDate(
+              oneStudentData.followUps.documentDetails.nextFollowUpDate,
+            ),
           )
         : "",
       status: oneStudentData?.followUps?.documentDetails?.status || "Pending",
@@ -2212,7 +2216,9 @@ const handleFileChange = async (event, formikInstance) => {
       nextFollowUpDate: oneStudentData?.followUps?.visaApplication
         ?.nextFollowUpDate
         ? formatDate(
-            parseDate(oneStudentData.followUps.visaApplication.nextFollowUpDate)
+            parseDate(
+              oneStudentData.followUps.visaApplication.nextFollowUpDate,
+            ),
           )
         : "",
       status: oneStudentData?.followUps?.visaApplication?.status || "Pending",
@@ -2336,7 +2342,8 @@ const handleFileChange = async (event, formikInstance) => {
         }
       } catch (error) {
         toast.error(
-          error?.response?.data?.message || "Error updating visitor information"
+          error?.response?.data?.message ||
+            "Error updating visitor information",
         );
       }
     },
@@ -2398,7 +2405,11 @@ const handleFileChange = async (event, formikInstance) => {
               fontSize: "14px",
             }}
             onClick={() =>
-              window.open(`${BASEURL}/${item.fileUrl}`, "_blank", "noopener,noreferrer")
+              window.open(
+                `${BASEURL}/${item.fileUrl}`,
+                "_blank",
+                "noopener,noreferrer",
+              )
             }
           >
             <VisibilityIcon className="me-1" style={{ fontSize: "16px" }} />
@@ -2431,7 +2442,11 @@ const handleFileChange = async (event, formikInstance) => {
               fontSize: "14px",
             }}
             onClick={() =>
-              window.open(`${BASEURL}/${item.fileUrl}`, "_blank", "noopener,noreferrer")
+              window.open(
+                `${BASEURL}/${item.fileUrl}`,
+                "_blank",
+                "noopener,noreferrer",
+              )
             }
           >
             <VisibilityIcon className="me-1" style={{ fontSize: "16px" }} />
@@ -2484,7 +2499,11 @@ const handleFileChange = async (event, formikInstance) => {
               fontSize: "14px",
             }}
             onClick={() =>
-              window.open(`${BASEURL}/${item.fileUrl}`, "_blank", "noopener,noreferrer")
+              window.open(
+                `${BASEURL}/${item.fileUrl}`,
+                "_blank",
+                "noopener,noreferrer",
+              )
             }
           >
             <VisibilityIcon className="me-1" style={{ fontSize: "16px" }} />
@@ -2595,7 +2614,7 @@ const handleFileChange = async (event, formikInstance) => {
     e,
     docIndex,
     documentIndex,
-    documentName
+    documentName,
   ) => {
     setIsLoading(true);
     const files = e.target.files;
@@ -2605,28 +2624,28 @@ const handleFileChange = async (event, formikInstance) => {
       return;
     }
 
-for (const file of files) {
-  const allowedTypes = [
-    "image/",
-    "application/pdf",
-    "application/msword", // .doc
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-    "application/vnd.ms-excel", // .xls
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
-  ];
+    for (const file of files) {
+      const allowedTypes = [
+        "image/",
+        "application/pdf",
+        "application/msword", // .doc
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+        "application/vnd.ms-excel", // .xls
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+      ];
 
-  if (!allowedTypes.some((type) => file.type.startsWith(type))) {
-    toast.error("Only images, PDFs, Word, and Excel files are allowed");
-    setIsLoading(false);
-    return;
-  }
+      if (!allowedTypes.some((type) => file.type.startsWith(type))) {
+        toast.error("Only images, PDFs, Word, and Excel files are allowed");
+        setIsLoading(false);
+        return;
+      }
 
-  if (file.size > 5 * 1024 * 1024) {
-    toast.error("File size must be less than 5MB");
-    setIsLoading(false);
-    return;
-  }
-}
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("File size must be less than 5MB");
+        setIsLoading(false);
+        return;
+      }
+    }
 
     try {
       const uploadFormData = new FormData();
@@ -2644,7 +2663,7 @@ for (const file of files) {
       }
 
       const existingDoc = oneStudentData?.uploadedDocumentDetails?.find(
-        (uploaded) => uploaded.documentName === documentId
+        (uploaded) => uploaded.documentName === documentId,
       );
 
       if (existingDoc) {
@@ -2674,7 +2693,7 @@ for (const file of files) {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Only 5 files will be accepted."
+        error?.response?.data?.message || "Only 5 files will be accepted.",
       );
     } finally {
       setIsLoading(false);
@@ -2697,11 +2716,11 @@ for (const file of files) {
         setOneStudentData((prev) => ({
           ...prev,
           uploadedDocumentDetails: prev.uploadedDocumentDetails.filter(
-            (doc) => doc?._id !== documentId
+            (doc) => doc?._id !== documentId,
           ),
         }));
         setOtherDocuments((prev) =>
-          prev.filter((doc) => doc?._id !== documentId)
+          prev.filter((doc) => doc?._id !== documentId),
         );
         await fetchOneVisitorDetails();
         await fetchPendingDocCountList(id);
@@ -2718,17 +2737,17 @@ for (const file of files) {
     index,
     typeKey,
     uploadedDocId,
-    rowKey
+    rowKey,
   ) => {
     setSelectedRows((prev) => {
       const newRowKey =
         typeKey === "other"
           ? `other--1-${index}`
           : typeKey === "rgdocument"
-          ? `rgdocument--1-${index}`
-          : typeKey === "visadocuments"
-          ? `visadocuments--1-${index}`
-          : rowKey;
+            ? `rgdocument--1-${index}`
+            : typeKey === "visadocuments"
+              ? `visadocuments--1-${index}`
+              : rowKey;
 
       const newSelected = { ...prev, [newRowKey]: !prev[newRowKey] };
 
@@ -2740,7 +2759,7 @@ for (const file of files) {
           newSelectedIdsForType = [...currentIds, uploadedDocId];
         } else {
           newSelectedIdsForType = currentIds.filter(
-            (id) => id !== uploadedDocId
+            (id) => id !== uploadedDocId,
           );
         }
       } else {
@@ -2773,7 +2792,7 @@ for (const file of files) {
           oneStudentData?.uploadedDocumentDetails?.filter((doc) => {
             const isCategorized = countryDocuments?.data?.[0]?.documents?.some(
               (catDoc) =>
-                catDoc.documentList?.some((d) => d?._id === doc.documentName)
+                catDoc.documentList?.some((d) => d?._id === doc.documentName),
             );
             return (
               (doc.customDocumentName || !isCategorized) &&
@@ -2833,7 +2852,7 @@ for (const file of files) {
         allCheckedForType = typeDocuments?.every((document, idx) => {
           const uploadedDocs =
             oneStudentData?.uploadedDocumentDetails?.filter(
-              (uploaded) => uploaded.documentName === document?.document?._id
+              (uploaded) => uploaded.documentName === document?.document?._id,
             ) || [];
           if (!uploadedDocs || uploadedDocs.length === 0) return true;
           return uploadedDocs?.every((doc, uploadIdx) => {
@@ -2885,7 +2904,7 @@ for (const file of files) {
         oneStudentData?.uploadedDocumentDetails?.filter((doc) => {
           const isCategorized = countryDocuments?.data?.[0]?.documents?.some(
             (catDoc) =>
-              catDoc.documentList?.some((d) => d?._id === doc.documentName)
+              catDoc.documentList?.some((d) => d?._id === doc.documentName),
           );
           return (
             (doc.customDocumentName || !isCategorized) &&
@@ -2965,7 +2984,7 @@ for (const file of files) {
       countryDocuments?.data?.[0]?.documents?.[docIndex]?.documentList?.forEach(
         (document, index) => {
           const uploadedDocs = oneStudentData?.uploadedDocumentDetails?.filter(
-            (uploaded) => uploaded.documentName === document?.document._id
+            (uploaded) => uploaded.documentName === document?.document._id,
           );
 
           if (uploadedDocs && uploadedDocs?.length > 0) {
@@ -2984,7 +3003,7 @@ for (const file of files) {
             const key = `${docIndex}-${index}`;
             newSelectedRows[key] = false;
           }
-        }
+        },
       );
     }
     setSelectedRows(newSelectedRows);
@@ -3148,7 +3167,7 @@ for (const file of files) {
 
       // ✅ Clean and decode file name
       let downloadFileName = decodeURIComponent(
-        fileName?.trim() || fileUrl.split("/").pop() || "downloaded_file"
+        fileName?.trim() || fileUrl.split("/").pop() || "downloaded_file",
       );
 
       // ✅ Add extension if missing
@@ -3220,7 +3239,7 @@ for (const file of files) {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error downloading documents"
+        error?.response?.data?.message || "Error downloading documents",
       );
     } finally {
       setIsLoading(false);
@@ -3235,7 +3254,7 @@ for (const file of files) {
       countryDocuments?.data?.[0]?.documents?.forEach((doc) => {
         doc.documentList?.forEach((document) => {
           const uploadedDocs = oneStudentData?.uploadedDocumentDetails?.filter(
-            (uploaded) => uploaded?.documentName === document?._id
+            (uploaded) => uploaded?.documentName === document?._id,
           );
           uploadedDocs?.forEach((uploadedDoc) => {
             if (uploadedDoc.status !== "Reupload") {
@@ -3248,7 +3267,7 @@ for (const file of files) {
       oneStudentData?.uploadedDocumentDetails?.forEach((doc) => {
         const isCategorized = countryDocuments?.data?.[0]?.documents?.some(
           (catDoc) =>
-            catDoc.documentList?.some((d) => d?._id === doc?.documentName)
+            catDoc.documentList?.some((d) => d?._id === doc?.documentName),
         );
         if (
           (doc.customDocumentName || !isCategorized) &&
@@ -3294,7 +3313,7 @@ for (const file of files) {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error downloading all documents"
+        error?.response?.data?.message || "Error downloading all documents",
       );
     } finally {
       setIsLoading(false);
@@ -3378,7 +3397,7 @@ for (const file of files) {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error updating visitor status"
+        error?.response?.data?.message || "Error updating visitor status",
       );
       setSelectedVisitorStatus(null);
     }
@@ -3458,8 +3477,8 @@ for (const file of files) {
     control: (base) => ({
       ...base,
       background: "linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)",
-      border: base.isFocused ? "2px solid #053880" : "2px solid #a5b4fc",
-      borderRadius: "30px",
+      border: base.isFocused ? "2px solid #5D54BE" : "2px solid #a5b4fc",
+      borderRadius: "12px",
       color: "black",
       minWidth: "140px !important",
     }),
@@ -3476,9 +3495,9 @@ for (const file of files) {
     }),
     dropdownIndicator: (base, state) => ({
       ...base,
-      color: state.isFocused ? "#053880" : "#a5b4fc",
+      color: state.isFocused ? "#5D54BE" : "#a5b4fc",
       "&:hover": {
-        color: "#053880",
+        color: "#5D54BE",
       },
     }),
     indicatorSeparator: (base) => ({
@@ -3488,10 +3507,10 @@ for (const file of files) {
     option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected
-        ? "#053880"
+        ? "#5D54BE"
         : state.isFocused
-        ? "#e0e7ff"
-        : "white",
+          ? "#e0e7ff"
+          : "white",
       color: state.isSelected ? "#ffffff" : "#1f2937",
       padding: "10px 15px",
       fontSize: "14px",
@@ -3502,7 +3521,7 @@ for (const file of files) {
   const isUserAllocated = formData?.userAllocationDetails?.some(
     (allocation) => {
       return allocation.user?._id === currentUserId;
-    }
+    },
   );
   const showApplicationStatusSelect =
     activeTab === "document" && (userRole === "Super Admin" || isUserAllocated);
@@ -3640,8 +3659,8 @@ for (const file of files) {
                                   ? formatDate(
                                       parseDate(
                                         getFormikForTab()?.values
-                                          .nextFollowUpDate
-                                      )
+                                          .nextFollowUpDate,
+                                      ),
                                     )
                                   : ""
                               }
@@ -3698,12 +3717,13 @@ for (const file of files) {
                                   onChange={(selectedDate) =>
                                     handleDateChange(
                                       selectedDate,
-                                      getFormikForTab()
+                                      getFormikForTab(),
                                     )
                                   }
                                   value={
                                     parseDate(
-                                      getFormikForTab()?.values.nextFollowUpDate
+                                      getFormikForTab()?.values
+                                        .nextFollowUpDate,
                                     ) || null
                                   }
                                   locale="en-GB"
@@ -3758,7 +3778,7 @@ for (const file of files) {
                             onChange={(option) => {
                               getFormikForTab()?.setFieldValue(
                                 "status",
-                                option ? option.value : ""
+                                option ? option.value : "",
                               );
                             }}
                             placeholder="Select Status"
@@ -3964,7 +3984,7 @@ for (const file of files) {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -4228,8 +4248,8 @@ for (const file of files) {
                                       ? formatDate(
                                           parseDate(
                                             fileHandoverFormik.values
-                                              .visaFileHandover?.date
-                                          )
+                                              .visaFileHandover?.date,
+                                          ),
                                         )
                                       : ""
                                   }
@@ -4243,12 +4263,12 @@ for (const file of files) {
                                       setFileHandoverDateValue(
                                         parseDate(
                                           fileHandoverFormik.values
-                                            .visaFileHandover?.date
-                                        )
+                                            .visaFileHandover?.date,
+                                        ),
                                       );
                                     }
                                     setShowFileHandoverDateCalendar(
-                                      (show) => !show
+                                      (show) => !show,
                                     );
                                   }}
                                   style={{
@@ -4289,7 +4309,7 @@ for (const file of files) {
                                         setFileHandoverDateValue(selectedDate);
                                         fileHandoverFormik.setFieldValue(
                                           "visaFileHandover.date",
-                                          formatDate(selectedDate)
+                                          formatDate(selectedDate),
                                         );
                                         setShowFileHandoverDateCalendar(false);
                                       }}
@@ -4570,7 +4590,7 @@ for (const file of files) {
                             onClick={() =>
                               handleAlldownloadVisitorDocument(
                                 id,
-                                selectedIds[selectedVisaSection]
+                                selectedIds[selectedVisaSection],
                               )
                             }
                           >
@@ -4585,11 +4605,11 @@ for (const file of files) {
                             if (selectedDocsIds?.length > 0) {
                               sendPendingDocumentMain(
                                 id,
-                                selectedDocumentNames
+                                selectedDocumentNames,
                               );
                             } else {
                               toast.error(
-                                "Please select at least one document to send via mail."
+                                "Please select at least one document to send via mail.",
                               );
                             }
                           }}
@@ -4650,7 +4670,7 @@ for (const file of files) {
                                 return (
                                   doc.customDocumentName &&
                                   allowedDocuments.includes(
-                                    doc.customDocumentName
+                                    doc.customDocumentName,
                                   ) &&
                                   doc.ref_module === selectedCourseId
                                 );
@@ -4677,7 +4697,7 @@ for (const file of files) {
                                               index,
                                               "visadocuments",
                                               doc._id,
-                                              `visadocuments--1-${index}`
+                                              `visadocuments--1-${index}`,
                                             )
                                           }
                                           disabled={doc.status === "Reupload"}
@@ -4694,12 +4714,12 @@ for (const file of files) {
                                               type="checkbox"
                                               id={`toggle-${doc._id}-${index}`}
                                               checked={selectedDocsIds?.includes(
-                                                `${doc._id}-${index}`
+                                                `${doc._id}-${index}`,
                                               )}
                                               onChange={() =>
                                                 handleCheckboxChangeId(
                                                   `${doc._id}-${index}`,
-                                                  docName
+                                                  docName,
                                                 )
                                               }
                                             />
@@ -4723,7 +4743,7 @@ for (const file of files) {
                                               e,
                                               index,
                                               doc._id,
-                                              docName
+                                              docName,
                                             )
                                           }
                                           className="custom-select-height"
@@ -4758,7 +4778,7 @@ for (const file of files) {
 
                                             handleSingleDocumentDownload(
                                               filePath,
-                                              fileName
+                                              fileName,
                                             );
                                           }}
                                         >
@@ -4777,7 +4797,7 @@ for (const file of files) {
                                             cursor: "pointer",
                                             color: "#fff",
                                             backgroundColor: getStatusColor(
-                                              doc.status || "unverified"
+                                              doc.status || "unverified",
                                             ),
                                             border: "none",
                                             borderRadius: "4px",
@@ -4791,12 +4811,12 @@ for (const file of files) {
                                               statusOptions?.find(
                                                 (opt) =>
                                                   opt.value ===
-                                                  (doc.status || "unverified")
+                                                  (doc.status || "unverified"),
                                               ) ||
                                                 statusOptions?.find(
                                                   (opt) =>
-                                                    opt.value === "unverified"
-                                                )
+                                                    opt.value === "unverified",
+                                                ),
                                             );
                                             setRemarks(doc.remarks || "");
                                             setSelectedDocId(doc._id);
@@ -4840,7 +4860,7 @@ for (const file of files) {
                                     <td>
                                       {doc.createdAt
                                         ? new Date(
-                                            doc.createdAt
+                                            doc.createdAt,
                                           ).toLocaleDateString("en-GB")
                                         : "-"}
                                     </td>
@@ -4966,7 +4986,7 @@ for (const file of files) {
                       } catch (error) {
                         toast.error(
                           error?.response?.data?.message ||
-                            "Error updating visitor details"
+                            "Error updating visitor details",
                         );
                       } finally {
                         setIsLoading(false);
@@ -4980,7 +5000,7 @@ for (const file of files) {
                             oneStudentData.submittedTabs.length === 0)) ||
                         (activeTab === "document" &&
                           !oneStudentData?.submittedTabs?.includes(
-                            "personal"
+                            "personal",
                           )) ||
                         (activeTab === "visaApplication" &&
                           !oneStudentData?.submittedTabs?.includes("document")))
@@ -4998,47 +5018,14 @@ for (const file of files) {
         </Card>
       </div>
 
-      <Modal
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleRemoveDocument(selectedItem);
-              setShowDeleteModal(false);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => {
+          handleRemoveDocument(selectedItem);
+          setShowDeleteModal(false);
+        }}
+      />
     </>
   );
 };

@@ -15,6 +15,7 @@ import { MdCall, MdOutlinePlayCircleFilled } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addCtcCalling } from "../../../redux/actions/Lead.action";
+import DeleteConfirmModal from "../../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const LeadReportTable = ({
   columns,
@@ -47,7 +48,7 @@ const LeadReportTable = ({
   itemsPerPage,
   activeView,
   setIsLoading,
-  userRole
+  userRole,
 }) => {
   const dispatch = useDispatch();
 
@@ -209,45 +210,53 @@ const LeadReportTable = ({
             <span className="whatsapp-action-text">Send WhatsApp</span>
           </MenuItem>
 
-          {permissionName === "All Leads" && userRole !== "B2B Admin" && userRole !== "B2B Member" && item?.CTCCallRecording && (
-            <MenuItem
-              onClick={(e) => {
-                e.stopPropagation();
-                window.open(item?.CTCCallRecording, "_blank");
-              }}
-              sx={{ color: "#198754" }}
-            >
-              <MdOutlinePlayCircleFilled fontSize="small" className="recording-icon" />
-              <span className="recording-action-text">Recording</span>
-            </MenuItem>
-          )}
+          {permissionName === "All Leads" &&
+            userRole !== "B2B Admin" &&
+            userRole !== "B2B Member" &&
+            item?.CTCCallRecording && (
+              <MenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(item?.CTCCallRecording, "_blank");
+                }}
+                sx={{ color: "#198754" }}
+              >
+                <MdOutlinePlayCircleFilled
+                  fontSize="small"
+                  className="recording-icon"
+                />
+                <span className="recording-action-text">Recording</span>
+              </MenuItem>
+            )}
 
           {/* CTC CALL */}
-          {permissionName === "All Leads" && userRole !== "B2B Admin" && userRole !== "B2B Member" && (
-            <MenuItem
-              onClick={async () => {
-                try {
-                  setIsLoading(true);
-                  const payload = { entityType: "lead" };
-                  await dispatch(addCtcCalling(item?._id, payload));
-                  toast.success("CTC calling initiated");
-                  handleClose();
-                } catch (error) {
-                  toast.error(
-                    error?.response?.data?.message ||
-                    "Failed to initiate CTC call"
-                  );
-                  handleClose();
-                } finally {
-                  setIsLoading(false);
-                }
-              }}
-              sx={{ color: "#0d6efd" }}
-            >
-              <MdCall fontSize="small" className="call-icon" />
-              <span className="call-action-text">CTC Call</span>
-            </MenuItem>
-          )}
+          {permissionName === "All Leads" &&
+            userRole !== "B2B Admin" &&
+            userRole !== "B2B Member" && (
+              <MenuItem
+                onClick={async () => {
+                  try {
+                    setIsLoading(true);
+                    const payload = { entityType: "lead" };
+                    await dispatch(addCtcCalling(item?._id, payload));
+                    toast.success("CTC calling initiated");
+                    handleClose();
+                  } catch (error) {
+                    toast.error(
+                      error?.response?.data?.message ||
+                        "Failed to initiate CTC call",
+                    );
+                    handleClose();
+                  } finally {
+                    setIsLoading(false);
+                  }
+                }}
+                sx={{ color: "#0d6efd" }}
+              >
+                <MdCall fontSize="small" className="call-icon" />
+                <span className="call-action-text">CTC Call</span>
+              </MenuItem>
+            )}
 
           {/* WADADDY MESSAGE */}
           <MenuItem
@@ -259,7 +268,7 @@ const LeadReportTable = ({
               setIsWaDaddyWhatsappModalOpen(true);
               handleClose();
             }}
-          // sx={{ color: "#007bff" }}
+            // sx={{ color: "#007bff" }}
           >
             <MdMessage fontSize="small" className="lead-message-icon" />
             <span className="lead-message-action-text">Send Message</span>
@@ -313,11 +322,13 @@ const LeadReportTable = ({
               {tableColumns.map((col, index) => (
                 <th
                   key={index}
-                  className={`dynamic-width ${col.label === "Age" ? "center-align" : ""
-                    } ${col.label === "Actions"
+                  className={`dynamic-width ${
+                    col.label === "Age" ? "center-align" : ""
+                  } ${
+                    col.label === "Actions"
                       ? "sticky-col-right-last bg-white text-center"
                       : ""
-                    }`}
+                  }`}
                 >
                   {col.label}
                 </th>
@@ -330,8 +341,9 @@ const LeadReportTable = ({
               leadReports.map((item, index) => (
                 <tr
                   key={item._id}
-                  className={`${index % 2 === 0 ? "table-row-even" : "table-row-odd"
-                    }`}
+                  className={`${
+                    index % 2 === 0 ? "table-row-even" : "table-row-odd"
+                  }`}
                 >
                   {tableColumns.map((col, colIndex) => (
                     <td
@@ -339,9 +351,10 @@ const LeadReportTable = ({
                       className={`dynamic-width-data
                         ${col.isLongText ? "long-text" : ""}
                         ${col.label === "Age" ? "center-align" : ""}
-                        ${col.label === "Actions"
-                          ? "sticky-col-right-last text-center"
-                          : ""
+                        ${
+                          col.label === "Actions"
+                            ? "sticky-col-right-last text-center"
+                            : ""
                         }`}
                       style={{
                         verticalAlign: "middle",
@@ -371,50 +384,14 @@ const LeadReportTable = ({
           </tbody>
         </table>
       </div>
-
-      <Modal
-        className="leads-modal"
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleDelete(selectedItem);
-              setShowDeleteModal(false);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => {
+          handleDelete(selectedItem);
+          setShowDeleteModal(false);
+        }}
+      />
     </>
   );
 };

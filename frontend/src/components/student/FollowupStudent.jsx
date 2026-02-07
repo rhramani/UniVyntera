@@ -52,11 +52,11 @@ const FollowupStudent = () => {
     searchTerm = "",
     date = filters.date,
     country = filters.country,
-    type = filters.type
+    type = filters.type,
   ) => {
     try {
       const res = await dispatch(
-        getFollowupStudent(page, limit, searchTerm, date, country, type)
+        getFollowupStudent(page, limit, searchTerm, date, country, type),
       );
       setFollowupStudentData(res?.data?.data?.data || []);
       setTotalPages(res?.data?.data?.totalPages || 0);
@@ -87,7 +87,7 @@ const FollowupStudent = () => {
         search,
         filters.date,
         filters.country,
-        filters.type
+        filters.type,
       );
     }
   }, [currentPage, itemsPerPage, search, filters]);
@@ -134,7 +134,7 @@ const FollowupStudent = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -292,7 +292,7 @@ const FollowupStudent = () => {
                                 value: filters.country,
                                 label:
                                   preferredCountries?.find(
-                                    (c) => c === filters.country
+                                    (c) => c === filters.country,
                                   ) || filters.country,
                               }
                             : null
@@ -572,7 +572,7 @@ const FollowupStudent = () => {
                                         {name}
                                       </span>
                                     );
-                                  }
+                                  },
                                 )}
                               </span>
                             </p>
@@ -651,8 +651,8 @@ const FollowupStudent = () => {
                                           {followup?.nextFollowUpDate
                                             ? formatDate(
                                                 parseDate(
-                                                  followup.nextFollowUpDate
-                                                )
+                                                  followup.nextFollowUpDate,
+                                                ),
                                               )
                                             : "-"}
                                         </p>
@@ -670,7 +670,7 @@ const FollowupStudent = () => {
                                     </div>
                                   </div>
                                 );
-                              }
+                              },
                             )}
                           </div>
                         )}

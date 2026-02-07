@@ -46,6 +46,7 @@ import OfferLetterProcess from "./sections/OfferLetterProcess";
 import OfferLetterAcceptance from "./sections/OfferLetterAcceptance";
 import InstituteFeePayment from "./sections/InstituteFeePayment";
 import DepositPaymentSection from "./sections/DepositPaymentSection";
+import DeleteConfirmModal from "../../../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const interestedCourseValidationSchema = Yup.object({
   interestedCourseDetails: Yup.array().of(
@@ -58,7 +59,7 @@ const interestedCourseValidationSchema = Yup.object({
       remarks: Yup.string(),
       campus: Yup.string().required("Campus is required"),
       programLevel: Yup.string(),
-    })
+    }),
   ),
 });
 const InterestedApplicationInitiation = () => {
@@ -69,12 +70,12 @@ const InterestedApplicationInitiation = () => {
   const { activeTab } = location.state || {};
   const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
     "Student Applications",
-    "Course Selection"
+    "Course Selection",
   );
 
   const [selectedOption, setSelectedOption] = useState(null);
   const [otherDocName, setOtherDocName] = useState(
-    "Compulsory Agreement Document"
+    "Compulsory Agreement Document",
   );
   const [programLevelData, setProgramLevelData] = useState([]);
   const [otherDocFile, setOtherDocFile] = useState(null);
@@ -85,11 +86,11 @@ const InterestedApplicationInitiation = () => {
   const [formData, setFormData] = useState(state?.formData || {});
   const [localCourses, setLocalCourses] = useState([]);
   const [showModal, setShowModal] = useState(
-    state?.showCounsellingModal || false
+    state?.showCounsellingModal || false,
   );
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [editState, setEditState] = useState(
-    state?.edit || { interestedCourseDetails: false, interestedCourseIndex: 0 }
+    state?.edit || { interestedCourseDetails: false, interestedCourseIndex: 0 },
   );
 
   const [showInterviewSection, setShowInterviewSection] = useState(() => {
@@ -136,7 +137,7 @@ const InterestedApplicationInitiation = () => {
   ].includes(userRole || userType);
 
   const isRestrictedRoleForDownload = ["Branch", "Branch User"].includes(
-    userRole || userType
+    userRole || userType,
   );
 
   const [currencyCodeData, setCurrencyCodeData] = useState([]);
@@ -197,7 +198,7 @@ const InterestedApplicationInitiation = () => {
   const fetchAllCourse = async (country, campus) => {
     try {
       const res = await dispatch(
-        getAllCourseFinder(1, 1000, { country, campus })
+        getAllCourseFinder(1, 1000, { country, campus }),
       );
       if (res?.status === 200) {
         const programNames =
@@ -226,8 +227,8 @@ const InterestedApplicationInitiation = () => {
     new Map(
       instituteData
         ?.sort((a, b) => a.instituteName.localeCompare(b.instituteName))
-        ?.map((institute) => [institute.instituteName, institute])
-    ).values()
+        ?.map((institute) => [institute.instituteName, institute]),
+    ).values(),
   ).map((institute) => ({
     label: institute.instituteName,
     value: institute._id,
@@ -236,7 +237,7 @@ const InterestedApplicationInitiation = () => {
   const fetchAllCampusByInstitute = async (selectedOption, country) => {
     try {
       const response = await dispatch(
-        instituteWiseCampusDropdown(selectedOption, country)
+        instituteWiseCampusDropdown(selectedOption, country),
       );
       const responseData = response?.data?.data || [];
       setCampusData(responseData);
@@ -275,7 +276,7 @@ const InterestedApplicationInitiation = () => {
                   },
                 },
               ]
-            : []
+            : [],
         );
       } else {
         toast.error(res?.data?.message || "Error fetching student data");
@@ -283,7 +284,7 @@ const InterestedApplicationInitiation = () => {
     } catch (error) {
       console.error("Error fetching student data:", error);
       toast.error(
-        error?.response?.data?.message || "Error fetching student data"
+        error?.response?.data?.message || "Error fetching student data",
       );
     }
   };
@@ -295,7 +296,7 @@ const InterestedApplicationInitiation = () => {
     }
     try {
       const res = await dispatch(
-        instituteWiseProgramLevelDropdown(instituteName, country)
+        instituteWiseProgramLevelDropdown(instituteName, country),
       );
       if (res?.status === 200) {
         setProgramLevelData(res.data?.data || []);
@@ -316,7 +317,7 @@ const InterestedApplicationInitiation = () => {
         ...new Set(
           formData.interestedCourseDetails
             .map((ic) => ic.institute?._id)
-            .filter(Boolean)
+            .filter(Boolean),
         ),
       ];
 
@@ -369,7 +370,7 @@ const InterestedApplicationInitiation = () => {
     const instituteId =
       interestedCourseFormik.values.interestedCourseDetails[0].institute;
     const instituteName = instituteOptions?.find(
-      (option) => option.value === instituteId
+      (option) => option.value === instituteId,
     )?.label;
 
     const preferredCountries =
@@ -451,26 +452,26 @@ const InterestedApplicationInitiation = () => {
         toast.success("Interested course updated successfully");
 
         const institute = instituteData.find(
-          (inst) => inst._id === updatedEntry.institute
+          (inst) => inst._id === updatedEntry.institute,
         ) || {
           _id: updatedEntry.institute,
           instituteName: "Unknown Institute",
         };
         const course = allcourseData.find(
-          (c) => c._id === updatedEntry.course
+          (c) => c._id === updatedEntry.course,
         ) || {
           _id: updatedEntry.course,
           programName: "Unknown Course",
         };
         const campus = campusData.find(
-          (c) => c._id === updatedEntry.campus
+          (c) => c._id === updatedEntry.campus,
         ) || {
           _id: updatedEntry.campus,
           campus: "Unknown campus",
         };
 
         const programLevel = programLevelData.find(
-          (pl) => pl._id === updatedEntry.programLevel
+          (pl) => pl._id === updatedEntry.programLevel,
         ) || {
           _id: updatedEntry.programLevel,
           name: "Unknown Program Level",
@@ -503,7 +504,7 @@ const InterestedApplicationInitiation = () => {
         setFormData({
           ...formData,
           interestedCourseDetails: formData.interestedCourseDetails.map(
-            (item, index) => (index === updatedIndex ? updatedCourse : item)
+            (item, index) => (index === updatedIndex ? updatedCourse : item),
           ),
         });
 
@@ -521,7 +522,7 @@ const InterestedApplicationInitiation = () => {
     } catch (error) {
       console.error("Error updating interested course:", error);
       toast.error(
-        error?.response?.data?.message || "Error updating interested course"
+        error?.response?.data?.message || "Error updating interested course",
       );
     } finally {
       setIsLoading(false);
@@ -593,7 +594,7 @@ const InterestedApplicationInitiation = () => {
           ...formData,
           interestedCourseDetails: formData.interestedCourseDetails.map(
             (item, index) =>
-              index === editState.interestedCourseIndex ? updatedCourse : item
+              index === editState.interestedCourseIndex ? updatedCourse : item,
           ),
         });
 
@@ -612,7 +613,7 @@ const InterestedApplicationInitiation = () => {
             input.value = "";
             formikInstance.setFieldValue(
               field,
-              field === "uploadOfferLetter" ? [] : null
+              field === "uploadOfferLetter" ? [] : null,
             );
           }
         });
@@ -627,7 +628,7 @@ const InterestedApplicationInitiation = () => {
     } catch (error) {
       console.error("Error uploading documents:", error);
       toast.error(
-        error?.response?.data?.message || "Error uploading documents"
+        error?.response?.data?.message || "Error uploading documents",
       );
       return null;
     } finally {
@@ -663,19 +664,19 @@ const InterestedApplicationInitiation = () => {
         }
 
         const institute = instituteData.find(
-          (inst) => inst._id === localCourses[0].institute?._id
+          (inst) => inst._id === localCourses[0].institute?._id,
         ) || {
           _id: localCourses[0].institute?._id,
           instituteName: "Unknown Institute",
         };
         const course = allcourseData.find(
-          (c) => c._id === localCourses[0].course?._id
+          (c) => c._id === localCourses[0].course?._id,
         ) || {
           _id: localCourses[0].course?._id,
           programName: "Unknown Course",
         };
         const campus = campusData.find(
-          (c) => c._id === localCourses[0].campus
+          (c) => c._id === localCourses[0].campus,
         ) || {
           _id: localCourses[0].campus,
           campus: "Unknown campus",
@@ -704,7 +705,7 @@ const InterestedApplicationInitiation = () => {
         setFormData({
           ...formData,
           interestedCourseDetails: formData.interestedCourseDetails.map(
-            (item, index) => (index === updatedIndex ? updatedCourse : item)
+            (item, index) => (index === updatedIndex ? updatedCourse : item),
           ),
         });
         await fetchStudentData();
@@ -714,7 +715,7 @@ const InterestedApplicationInitiation = () => {
     } catch (error) {
       console.error("Error updating status:", error);
       toast.error(
-        error?.response?.data?.message || "updating application status"
+        error?.response?.data?.message || "updating application status",
       );
     }
     setIsLoading(false);
@@ -778,7 +779,7 @@ const InterestedApplicationInitiation = () => {
         docName = "Compulsory Agreement Document";
         formikInstance.setFieldValue(
           "interestedCourseDetails[0].document",
-          validFiles[0]
+          validFiles[0],
         );
         await handleDocumentUpload(docName, [validFiles[0]], formikInstance);
       }
@@ -806,7 +807,7 @@ const InterestedApplicationInitiation = () => {
         setFormData((prev) => ({
           ...prev,
           uploadedDocumentDetails: prev.uploadedDocumentDetails.filter(
-            (doc) => doc?._id !== documentId
+            (doc) => doc?._id !== documentId,
           ),
         }));
         await fetchStudentData();
@@ -824,15 +825,15 @@ const InterestedApplicationInitiation = () => {
     index,
     typeKey,
     uploadedDocId,
-    rowKey
+    rowKey,
   ) => {
     setSelectedRows((prev) => {
       const newRowKey =
         typeKey === "other"
           ? `other--1-${index}`
           : typeKey === "rgdocument"
-          ? `rgdocument--1-${index}`
-          : rowKey;
+            ? `rgdocument--1-${index}`
+            : rowKey;
       const newSelected = { ...prev, [newRowKey]: !prev[newRowKey] };
 
       setSelectedIds((prev) => {
@@ -844,7 +845,7 @@ const InterestedApplicationInitiation = () => {
             newSelectedIdsForType = [...currentIds, uploadedDocId];
           } else {
             newSelectedIdsForType = currentIds.filter(
-              (id) => id !== uploadedDocId
+              (id) => id !== uploadedDocId,
             );
           }
         } else {
@@ -870,7 +871,7 @@ const InterestedApplicationInitiation = () => {
             oneStudentData?.uploadedDocumentDetails?.filter((doc) => {
               const isCategorized =
                 countryDocuments?.data?.[0]?.documents?.some((catDoc) =>
-                  catDoc.documentList?.some((d) => d?._id === doc.documentName)
+                  catDoc.documentList?.some((d) => d?._id === doc.documentName),
                 );
               return (
                 (doc.customDocumentName || !isCategorized) &&
@@ -878,7 +879,7 @@ const InterestedApplicationInitiation = () => {
               );
             }) || [];
           allCheckedForType = otherDocs.every(
-            (_, idx) => !otherDocs[idx]?._id || newSelected[`other--1-${idx}`]
+            (_, idx) => !otherDocs[idx]?._id || newSelected[`other--1-${idx}`],
           );
         } else if (docIndex === -1 && typeKey === "rgdocument") {
           const allowedDocuments = [
@@ -897,7 +898,8 @@ const InterestedApplicationInitiation = () => {
               );
             }) || [];
           allCheckedForType = rgDocs.every(
-            (_, idx) => !rgDocs[idx]?._id || newSelected[`rgdocument--1-${idx}`]
+            (_, idx) =>
+              !rgDocs[idx]?._id || newSelected[`rgdocument--1-${idx}`],
           );
         } else {
           const typeDocuments =
@@ -905,11 +907,11 @@ const InterestedApplicationInitiation = () => {
           allCheckedForType = typeDocuments.every((document, idx) => {
             const uploadedDocs =
               oneStudentData?.uploadedDocumentDetails?.filter(
-                (uploaded) => uploaded.documentName === document?._id
+                (uploaded) => uploaded.documentName === document?._id,
               );
             if (!uploadedDocs || uploadedDocs.length === 0) return true;
             return uploadedDocs.every(
-              (_, uploadIdx) => newSelected[`${docIndex}-${idx}-${uploadIdx}`]
+              (_, uploadIdx) => newSelected[`${docIndex}-${idx}-${uploadIdx}`],
             );
           });
         }
@@ -949,7 +951,7 @@ const InterestedApplicationInitiation = () => {
         oneStudentData?.uploadedDocumentDetails?.filter((doc) => {
           const isCategorized = countryDocuments?.data?.[0]?.documents?.some(
             (catDoc) =>
-              catDoc.documentList?.some((d) => d?._id === doc.documentName)
+              catDoc.documentList?.some((d) => d?._id === doc.documentName),
           );
           return (
             (doc.customDocumentName || !isCategorized) &&
@@ -1000,7 +1002,7 @@ const InterestedApplicationInitiation = () => {
       countryDocuments?.data?.[0]?.documents?.[docIndex]?.documentList?.forEach(
         (document, index) => {
           const uploadedDocs = oneStudentData?.uploadedDocumentDetails?.filter(
-            (uploaded) => uploaded.documentName === document?.document._id
+            (uploaded) => uploaded.documentName === document?.document._id,
           );
 
           if (uploadedDocs && uploadedDocs?.length > 0) {
@@ -1019,7 +1021,7 @@ const InterestedApplicationInitiation = () => {
             const key = `${docIndex}-${index}`;
             newSelectedRows[key] = false;
           }
-        }
+        },
       );
     }
 
@@ -1084,7 +1086,7 @@ const InterestedApplicationInitiation = () => {
 
       // ✅ Clean and decode file name
       let downloadFileName = decodeURIComponent(
-        fileName?.trim() || fileUrl.split("/").pop() || "downloaded_file"
+        fileName?.trim() || fileUrl.split("/").pop() || "downloaded_file",
       );
 
       // ✅ Add extension if missing
@@ -1156,7 +1158,7 @@ const InterestedApplicationInitiation = () => {
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error downloading documents"
+        error?.response?.data?.message || "Error downloading documents",
       );
     } finally {
       setIsLoading(false);
@@ -1267,7 +1269,7 @@ const InterestedApplicationInitiation = () => {
       ?.filter(
         (doc) =>
           doc.ref_module === courseId &&
-          documentType.includes(doc.customDocumentName)
+          documentType.includes(doc.customDocumentName),
       )
       .map((doc) => {
         const filePath = doc?.filePath
@@ -1287,7 +1289,7 @@ const InterestedApplicationInitiation = () => {
       const tailormadePaths = getFilePathsForCourse(
         courseId,
         formData?.uploadedDocumentDetails,
-        ["Compulsory Agreement Document"]
+        ["Compulsory Agreement Document"],
       );
 
       setTailormadeFilePaths(tailormadePaths);
@@ -1407,7 +1409,7 @@ const InterestedApplicationInitiation = () => {
           {localCourses?.length > 0 ? (
             localCourses.map((item, index) => {
               const statusInfo = interestedCourseStatus.find(
-                (status) => status.name === item.status
+                (status) => status.name === item.status,
               );
               const backgroundColor = statusInfo ? statusInfo.color : "#6c757d";
 
@@ -1449,11 +1451,11 @@ const InterestedApplicationInitiation = () => {
                             interestedCourseFormik.setValues(values);
                             setSelectedOption(
                               options.find(
-                                (opt) => opt.value === item.typeOfApplication
-                              ) || null
+                                (opt) => opt.value === item.typeOfApplication,
+                              ) || null,
                             );
                             setOtherDocName(
-                              item.document?.customDocumentName || ""
+                              item.document?.customDocumentName || "",
                             );
                             setOtherDocFile(null);
                             setEditState({
@@ -1489,7 +1491,7 @@ const InterestedApplicationInitiation = () => {
                           {(() => {
                             if (!item?.programLevel) return "-";
                             const level = programLevelData.find(
-                              (pl) => pl._id === item.programLevel
+                              (pl) => pl._id === item.programLevel,
                             );
                             return level ? level.name : "-";
                           })()}
@@ -1590,13 +1592,13 @@ const InterestedApplicationInitiation = () => {
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.querySelector("svg").style.color =
-                        "#053880";
+                        "#5D54BE";
                     }}
                   >
                     <ArrowBackIosNewIcon
                       style={{
                         fontSize: "20px",
-                        color: "#053880",
+                        color: "#5D54BE",
                       }}
                     />
                   </div>
@@ -1631,12 +1633,12 @@ const InterestedApplicationInitiation = () => {
                           selectedSection === section.key ? "600" : "400",
                         color:
                           selectedSection === section.key
-                            ? "#053880"
+                            ? "#5D54BE"
                             : "#000000",
                         textDecoration: "underline",
                         textDecorationColor:
                           selectedSection === section.key
-                            ? "#053880"
+                            ? "#5D54BE"
                             : "#d0d0d0",
                         textDecorationThickness: "2px",
                         textUnderlineOffset: "4px",
@@ -1650,20 +1652,20 @@ const InterestedApplicationInitiation = () => {
                         e.target.style.color =
                           selectedSection === section.key
                             ? "#1f4da0"
-                            : "#053880";
+                            : "#5D54BE";
                         e.target.style.textDecorationColor =
                           selectedSection === section.key
                             ? "#1f4da0"
-                            : "#053880";
+                            : "#5D54BE";
                       }}
                       onMouseLeave={(e) => {
                         e.target.style.color =
                           selectedSection === section.key
-                            ? "#053880"
+                            ? "#5D54BE"
                             : "#000000";
                         e.target.style.textDecorationColor =
                           selectedSection === section.key
-                            ? "#053880"
+                            ? "#5D54BE"
                             : "#d0d0d0";
                       }}
                     >
@@ -1689,13 +1691,13 @@ const InterestedApplicationInitiation = () => {
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.querySelector("svg").style.color =
-                        "#053880";
+                        "#5D54BE";
                     }}
                   >
                     <ArrowForwardIosIcon
                       style={{
                         fontSize: "20px",
-                        color: "#053880",
+                        color: "#5D54BE",
                       }}
                     />
                   </div>
@@ -1705,7 +1707,8 @@ const InterestedApplicationInitiation = () => {
           </Row>
           {(selectedSection === "all" ||
             selectedSection === "universityPortalDetails") &&
-            userRole !== "Student" && userRole !== "LeadStudent" &&
+            userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
             userRole !== "B2B Admin" &&
             userRole !== "B2B Member" && (
               <UniversityPortalDetails
@@ -1809,7 +1812,11 @@ const InterestedApplicationInitiation = () => {
                 label=""
                 className="custom-checkbox"
                 aria-label="Enable Interview Scheduling"
-                disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                disabled={
+                  isRestrictedRole ||
+                  userRole === "Student" ||
+                  userRole === "LeadStudent"
+                }
               />
               <Form.Label
                 htmlFor="enableInterviewScheduling"
@@ -1996,7 +2003,7 @@ const InterestedApplicationInitiation = () => {
                       onClick={() =>
                         handleAllDownloadDocument(
                           id,
-                          selectedIds[selectedSection]
+                          selectedIds[selectedSection],
                         )
                       }
                       disabled={isRestrictedRole}
@@ -2014,7 +2021,7 @@ const InterestedApplicationInitiation = () => {
                           sendPendingDocumentMain(id, selectedDocumentNames);
                         } else {
                           toast.error(
-                            "Please select at least one document to send via mail."
+                            "Please select at least one document to send via mail.",
                           );
                         }
                       }}
@@ -2043,7 +2050,10 @@ const InterestedApplicationInitiation = () => {
                       )}
                       {userRole !== "B2B Admin" &&
                         userRole !== "B2B Member" &&
-                        userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                        userRole !== "Student" &&
+                        userRole !== "LeadStudent" && (
+                          <th>Document Pendency</th>
+                        )}
                       <th>Sr No</th>
                       <th>Document Name</th>
                       <th>Upload File</th>
@@ -2101,7 +2111,7 @@ const InterestedApplicationInitiation = () => {
                                         index,
                                         "rgdocument",
                                         doc._id,
-                                        `rgdocument--1-${index}`
+                                        `rgdocument--1-${index}`,
                                       )
                                     }
                                     disabled={doc.status === "Reupload"}
@@ -2111,7 +2121,8 @@ const InterestedApplicationInitiation = () => {
                               )}
                               {userRole !== "B2B Admin" &&
                                 userRole !== "B2B Member" &&
-                                userRole !== "Student" && userRole !== "LeadStudent" && (
+                                userRole !== "Student" &&
+                                userRole !== "LeadStudent" && (
                                   <td>
                                     <div className="form-check form-switch custom-toggle-button me-0">
                                       <input
@@ -2119,12 +2130,12 @@ const InterestedApplicationInitiation = () => {
                                         type="checkbox"
                                         id={`toggle-${doc._id}-${index}`}
                                         checked={selectedDocsIds?.includes(
-                                          `${doc._id}-${index}`
+                                          `${doc._id}-${index}`,
                                         )}
                                         onChange={() =>
                                           handleCheckboxChangeId(
                                             `${doc._id}-${index}`,
-                                            docName
+                                            docName,
                                           )
                                         }
                                       />
@@ -2148,11 +2159,14 @@ const InterestedApplicationInitiation = () => {
                                         e,
                                         index,
                                         doc._id,
-                                        docName
+                                        docName,
                                       )
                                     }
                                     className="custom-select-height"
-                                    disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                    disabled={
+                                      userRole === "Student" ||
+                                      userRole === "LeadStudent"
+                                    }
                                   />
                                 )}
                               </td>
@@ -2185,7 +2199,7 @@ const InterestedApplicationInitiation = () => {
 
                                       handleSingleDocumentDownload(
                                         filePath,
-                                        fileName
+                                        fileName,
                                       );
                                     }}
                                     disabled={isRestrictedRole}
@@ -2205,7 +2219,7 @@ const InterestedApplicationInitiation = () => {
                                       cursor: "pointer",
                                       color: "#fff",
                                       backgroundColor: getStatusColor(
-                                        doc.status || "unverified"
+                                        doc.status || "unverified",
                                       ),
                                       border: "none",
                                       borderRadius: "4px",
@@ -2219,18 +2233,20 @@ const InterestedApplicationInitiation = () => {
                                         statusOptions.find(
                                           (opt) =>
                                             opt.value ===
-                                            (doc.status || "unverified")
+                                            (doc.status || "unverified"),
                                         ) ||
                                           statusOptions.find(
-                                            (opt) => opt.value === "unverified"
-                                          )
+                                            (opt) => opt.value === "unverified",
+                                          ),
                                       );
                                       setRemarks(doc.remarks || "");
                                       setSelectedDocId(doc._id);
                                       setShowStatusModal(true);
                                     }}
                                     disabled={
-                                      isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"
+                                      isRestrictedRole ||
+                                      userRole === "Student" ||
+                                      userRole === "LeadStudent"
                                     }
                                   >
                                     {(doc.status === "verified" ||
@@ -2268,30 +2284,31 @@ const InterestedApplicationInitiation = () => {
                               <td>
                                 {doc.createdAt
                                   ? new Date(doc.createdAt).toLocaleDateString(
-                                      "en-GB"
+                                      "en-GB",
                                     )
                                   : "-"}
                               </td>
                               <td>{doc.remarks || "-"}</td>
-                              {userRole !== "Student" && userRole !== "LeadStudent" && (
-                                <td className="sticky-col-right-last">
-                                  {canDelete && (
-                                    <Button
-                                      variant="link"
-                                      className="text-danger"
-                                      style={{ fontSize: "18px" }}
-                                      onClick={() => {
-                                        setSelectedItem(doc._id);
-                                        setShowDeleteModal(true);
-                                      }}
-                                      title="Delete"
-                                      disabled={isRestrictedRole}
-                                    >
-                                      <FaTrashAlt />
-                                    </Button>
-                                  )}
-                                </td>
-                              )}
+                              {userRole !== "Student" &&
+                                userRole !== "LeadStudent" && (
+                                  <td className="sticky-col-right-last">
+                                    {canDelete && (
+                                      <Button
+                                        variant="link"
+                                        className="text-danger"
+                                        style={{ fontSize: "18px" }}
+                                        onClick={() => {
+                                          setSelectedItem(doc._id);
+                                          setShowDeleteModal(true);
+                                        }}
+                                        title="Delete"
+                                        disabled={isRestrictedRole}
+                                      >
+                                        <FaTrashAlt />
+                                      </Button>
+                                    )}
+                                  </td>
+                                )}
                             </tr>
                           );
                         })
@@ -2375,47 +2392,14 @@ const InterestedApplicationInitiation = () => {
         </Modal.Body>
       </Modal>
 
-      <Modal
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleRemoveDocument(selectedItem);
-              setShowDeleteModal(false);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => {
+          handleRemoveDocument(selectedItem);
+          setShowDeleteModal(false);
+        }}
+      />
     </div>
   );
 };

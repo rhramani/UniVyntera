@@ -58,8 +58,8 @@ const UniversityCommissionReports = () => {
       userRole === "Branch"
         ? branchId
         : userType === "Branch User"
-        ? branchUserId
-        : "",
+          ? branchUserId
+          : "",
     reportType: "",
     intakeYear: "",
     intakeMonth: "",
@@ -199,15 +199,15 @@ const UniversityCommissionReports = () => {
         item?.b2bCompany
           ? item.b2bCompany
           : item?.branch
-          ? item.branch
-          : item?.createdByName || "",
+            ? item.branch
+            : item?.createdByName || "",
     },
     {
       label: "Status",
       key: "status",
       render: (item) => {
         const matchedStatus = universityCommiStatuses.find(
-          (status) => status.name === item?.accountantStatus
+          (status) => status.name === item?.accountantStatus,
         );
         const bgColor = matchedStatus?.color || "#0b3c8c";
         const textColor = ["#e9e216", "#1fff44"].includes(bgColor)
@@ -225,7 +225,7 @@ const UniversityCommissionReports = () => {
               backgroundColor: bgColor,
               color: textColor,
               padding: "1px 8px",
-              borderRadius: "30px",
+              borderRadius: "12px",
               display: "inline-block",
             }}
           >
@@ -247,7 +247,7 @@ const UniversityCommissionReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => {
                 const instituteName = detail?.institute?.instituteName || "-";
@@ -276,7 +276,7 @@ const UniversityCommissionReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.course?.programName || "-")
               .join(", ")
@@ -299,7 +299,7 @@ const UniversityCommissionReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeYear || "-")
               .join(", ")
@@ -315,7 +315,7 @@ const UniversityCommissionReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeMonth || "-")
               .join(", ")
@@ -347,7 +347,7 @@ const UniversityCommissionReports = () => {
     reportType = filters.reportType?.value || "",
     intakeYear = filters.intakeYear || "",
     intakeMonth = filters.intakeMonth || "",
-    showAll = filters.showAll
+    showAll = filters.showAll,
   ) => {
     try {
       const res = await dispatch(
@@ -364,8 +364,8 @@ const UniversityCommissionReports = () => {
           reportType,
           intakeYear,
           intakeMonth,
-          showAll
-        )
+          showAll,
+        ),
       );
       setUniversityCommissionData(res?.data?.data?.data || []);
       setTotalRecords(res?.data?.data?.totalRecords || 0);
@@ -434,8 +434,8 @@ const UniversityCommissionReports = () => {
           filters.reportType?.value || "",
           filters.intakeYear,
           filters.intakeMonth,
-          filters.showAll
-        )
+          filters.showAll,
+        ),
       );
 
       const allUniversityCommissionData = res?.data?.data?.data || [];
@@ -541,7 +541,7 @@ const UniversityCommissionReports = () => {
       const res = await dispatch(getAllIntake());
       if (res?.status === 200) {
         setIntakeMonthData(
-          res?.data?.data || { intakeMonths: [], intakeYears: [] }
+          res?.data?.data || { intakeMonths: [], intakeYears: [] },
         );
       } else {
         console.warn("fetchAllIntake: Non-200 status", res);
@@ -567,7 +567,7 @@ const UniversityCommissionReports = () => {
         filters.reportType?.value,
         filters.intakeYear,
         filters.intakeMonth,
-        filters.showAll
+        filters.showAll,
       );
     }
   }, [currentPage, itemsPerPage, search, filters]);
@@ -890,7 +890,7 @@ const UniversityCommissionReports = () => {
                     options={intakeYearOptions}
                     value={
                       intakeYearOptions.find(
-                        (option) => option.value === filters.intakeYear
+                        (option) => option.value === filters.intakeYear,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -922,7 +922,7 @@ const UniversityCommissionReports = () => {
                     options={intakeMonthOptions}
                     value={
                       intakeMonthOptions.find(
-                        (option) => option.value === filters.intakeMonth
+                        (option) => option.value === filters.intakeMonth,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -954,7 +954,7 @@ const UniversityCommissionReports = () => {
                     options={applicationStatusOptions}
                     value={
                       applicationStatusOptions.find(
-                        (option) => option.value === filters.status
+                        (option) => option.value === filters.status,
                       ) || null
                     }
                     onChange={(selectedOption) => {
@@ -1026,8 +1026,8 @@ const UniversityCommissionReports = () => {
                           (filters.branchId === ""
                             ? "All"
                             : filters.branchId === null
-                            ? "head_office"
-                            : filters.branchId)
+                              ? "head_office"
+                              : filters.branchId),
                       ) || null
                     }
                     onChange={async (selectedOption) => {
@@ -1100,11 +1100,13 @@ const UniversityCommissionReports = () => {
                 </div>
               </div>
 
-              <div className="table-responsive modern-table-wrapper"
+              <div
+                className="table-responsive modern-table-wrapper"
                 style={{
                   borderRadius: "12px",
                   border: "1px solid #dee2e6",
-                }}>
+                }}
+              >
                 <table
                   className="table table-hover modern-table table-nowrap"
                   style={{ tableLayout: "auto" }}

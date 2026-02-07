@@ -44,7 +44,7 @@ const OfferLetterProcess = ({
   setSelectedDocId,
   setShowStatusModal,
   statusOptions,
-  sendPendingDocumentMain
+  sendPendingDocumentMain,
 }) => {
   const [offerLetterProcessFilePaths, setOfferLetterProcessFilePaths] =
     useState([]);
@@ -73,7 +73,7 @@ const OfferLetterProcess = ({
       await handleOfferLetterSubmit(values, resetForm);
     },
   });
-  
+
   const handleOfferLetterSubmit = async (values, resetForm) => {
     const updatedIndex = editState.interestedCourseIndex;
     const courseId = formData.interestedCourseDetails[updatedIndex]?._id;
@@ -96,7 +96,7 @@ const OfferLetterProcess = ({
         documentDetails = await handleDocumentUpload(
           selectedLabel,
           values.uploadOfferLetter, // Multiple files for uploadOfferLetter
-          offerLetterFormik
+          offerLetterFormik,
         );
         if (!documentDetails) {
           setIsLoading(false);
@@ -171,7 +171,7 @@ const OfferLetterProcess = ({
         setFormData({
           ...formData,
           interestedCourseDetails: formData.interestedCourseDetails.map(
-            (item, index) => (index === updatedIndex ? updatedCourse : item)
+            (item, index) => (index === updatedIndex ? updatedCourse : item),
           ),
         });
 
@@ -179,7 +179,7 @@ const OfferLetterProcess = ({
         setOtherDocName("");
         setOtherDocFile(null);
         const uploadOfferLetterInput = document.querySelector(
-          'input[name="uploadOfferLetter"]'
+          'input[name="uploadOfferLetter"]',
         );
         if (uploadOfferLetterInput) {
           uploadOfferLetterInput.value = "";
@@ -187,13 +187,13 @@ const OfferLetterProcess = ({
         await fetchStudentData();
       } else {
         toast.error(
-          res?.data?.message || "Error updating offer letter process"
+          res?.data?.message || "Error updating offer letter process",
         );
       }
     } catch (error) {
       console.error("Error updating offer letter process:", error);
       toast.error(
-        error?.response?.data?.message || "Error updating offer letter process"
+        error?.response?.data?.message || "Error updating offer letter process",
       );
     } finally {
       setIsLoading(false);
@@ -221,7 +221,7 @@ const OfferLetterProcess = ({
           "Conditional Offer Letter",
           "Unconditional Offer Letter",
           "Rejection Letter",
-        ]
+        ],
       );
 
       setOfferLetterProcessFilePaths(offerLetterProcessPaths);
@@ -233,23 +233,23 @@ const OfferLetterProcess = ({
       // Offer Letter Process
       offerLetterFormik.setFieldValue(
         "scholarshipAmount",
-        localCourses[0]?.scholarshipAmount || ""
+        localCourses[0]?.scholarshipAmount || "",
       );
       offerLetterFormik.setFieldValue(
         "offerLetterReceived",
-        localCourses[0]?.offerLetterReceived || false
+        localCourses[0]?.offerLetterReceived || false,
       );
       offerLetterFormik.setFieldValue(
         "scholarshipAvailable",
-        localCourses[0]?.scholarshipAvailable || false
+        localCourses[0]?.scholarshipAvailable || false,
       );
       offerLetterFormik.setFieldValue(
         "offerLetterType",
-        localCourses[0]?.offerLetterType || ""
+        localCourses[0]?.offerLetterType || "",
       );
       offerLetterFormik.setFieldValue(
         "offerLetterRemarks",
-        localCourses[0]?.offerLetterRemarks || ""
+        localCourses[0]?.offerLetterRemarks || "",
       );
     }
   }, [localCourses]);
@@ -306,7 +306,7 @@ const OfferLetterProcess = ({
                 options={offerLetterOptions}
                 value={offerLetterOptions.find(
                   (option) =>
-                    option.value === offerLetterFormik.values.offerLetterType
+                    option.value === offerLetterFormik.values.offerLetterType,
                 )}
                 onChange={(selectedOption) => {
                   const value = selectedOption ? selectedOption.value : "";
@@ -319,7 +319,7 @@ const OfferLetterProcess = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({
@@ -328,7 +328,11 @@ const OfferLetterProcess = ({
                     fontSize: "13px",
                   }),
                 }}
-                isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                isDisabled={
+                  isRestrictedRole ||
+                  userRole === "Student" ||
+                  userRole === "LeadStudent"
+                }
               />
             </Col>
             <Col md={6} className="mb-3">
@@ -367,7 +371,7 @@ const OfferLetterProcess = ({
                     for (const file of files) {
                       if (!allowedTypes.includes(file.type)) {
                         toast.error(
-                          `File ${file.name} is not a valid file type`
+                          `File ${file.name} is not a valid file type`,
                         );
                         continue;
                       }
@@ -383,28 +387,32 @@ const OfferLetterProcess = ({
                     if (validFiles.length > 0) {
                       offerLetterFormik.setFieldValue(
                         "uploadOfferLetter",
-                        validFiles
+                        validFiles,
                       );
                       offerLetterFormik.setFieldValue(
                         "offerLetterReceived",
-                        true
+                        true,
                       );
                     } else {
                       offerLetterFormik.setFieldValue("uploadOfferLetter", []);
                       offerLetterFormik.setFieldValue(
                         "offerLetterReceived",
-                        false
+                        false,
                       );
                     }
                   } else {
                     offerLetterFormik.setFieldValue("uploadOfferLetter", []);
                     offerLetterFormik.setFieldValue(
                       "offerLetterReceived",
-                      false
+                      false,
                     );
                   }
                 }}
-                disabled={userRole === "Student" || userRole === "LeadStudent" || isRestrictedRole}
+                disabled={
+                  userRole === "Student" ||
+                  userRole === "LeadStudent" ||
+                  isRestrictedRole
+                }
                 onBlur={() => offerLetterFormik.handleBlur("uploadOfferLetter")}
               />
             </Col>
@@ -418,13 +426,13 @@ const OfferLetterProcess = ({
                   value={scholarshipOptions.find(
                     (option) =>
                       option.value ===
-                      offerLetterFormik.values.scholarshipAvailable
+                      offerLetterFormik.values.scholarshipAvailable,
                   )}
                   onChange={(selectedOption) => {
                     const value = selectedOption ? selectedOption.value : false;
                     offerLetterFormik.setFieldValue(
                       "scholarshipAvailable",
-                      value
+                      value,
                     );
                     if (!value) {
                       offerLetterFormik.setFieldValue("scholarshipAmount", "");
@@ -438,7 +446,7 @@ const OfferLetterProcess = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -447,7 +455,11 @@ const OfferLetterProcess = ({
                       fontSize: "13px",
                     }),
                   }}
-                  isDisabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                  isDisabled={
+                    isRestrictedRole ||
+                    userRole === "Student" ||
+                    userRole === "LeadStudent"
+                  }
                 />
               </Col>
             )}
@@ -463,7 +475,11 @@ const OfferLetterProcess = ({
                     onBlur={offerLetterFormik.handleBlur}
                     placeholder="Enter Scholarship Amount"
                     className="custom-select-height"
-                    disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                    disabled={
+                      isRestrictedRole ||
+                      userRole === "Student" ||
+                      userRole === "LeadStudent"
+                    }
                   />
                 </Col>
               )}
@@ -477,22 +493,28 @@ const OfferLetterProcess = ({
                 onBlur={offerLetterFormik.handleBlur}
                 placeholder="Enter Remarks"
                 className="custom-select-height"
-                disabled={isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"}
+                disabled={
+                  isRestrictedRole ||
+                  userRole === "Student" ||
+                  userRole === "LeadStudent"
+                }
               />
             </Col>
           </Row>
-          {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-            <div className="d-flex justify-content-end me-3">
-              <Button
-                variant="primary"
-                type="submit"
-                className="custom-select-height"
-                disabled={isLoading || isRestrictedRole}
-              >
-                {isLoading ? "Submitting..." : "Submit"}
-              </Button>
-            </div>
-          )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            (canCreate || canUpdate) && (
+              <div className="d-flex justify-content-end me-3">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="custom-select-height"
+                  disabled={isLoading || isRestrictedRole}
+                >
+                  {isLoading ? "Submitting..." : "Submit"}
+                </Button>
+              </div>
+            )}
         </Form>
       </div>
       {offerLetterProcessFilePaths?.length > 0 && (
@@ -522,7 +544,7 @@ const OfferLetterProcess = ({
                       sendPendingDocumentMain(id, selectedDocumentNames);
                     } else {
                       toast.error(
-                        "Please select at least one document to send via mail."
+                        "Please select at least one document to send via mail.",
                       );
                     }
                   }}
@@ -551,7 +573,8 @@ const OfferLetterProcess = ({
                               )} */}
                   {userRole !== "B2B Admin" &&
                     userRole !== "B2B Member" &&
-                    userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                    userRole !== "Student" &&
+                    userRole !== "LeadStudent" && <th>Document Pendency</th>}
                   <th>Sr No</th>
                   <th>Document Name</th>
                   <th>Upload File</th>
@@ -616,7 +639,8 @@ const OfferLetterProcess = ({
                                       )} */}
                           {userRole !== "B2B Admin" &&
                             userRole !== "B2B Member" &&
-                            userRole !== "Student" && userRole !== "LeadStudent" && (
+                            userRole !== "Student" &&
+                            userRole !== "LeadStudent" && (
                               <td>
                                 <div className="form-check form-switch custom-toggle-button me-0">
                                   <input
@@ -624,12 +648,12 @@ const OfferLetterProcess = ({
                                     type="checkbox"
                                     id={`toggle-${doc._id}-${index}`}
                                     checked={selectedDocsIds?.includes(
-                                      `${doc._id}-${index}`
+                                      `${doc._id}-${index}`,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChangeId(
                                         `${doc._id}-${index}`,
-                                        docName
+                                        docName,
                                       )
                                     }
                                   />
@@ -652,11 +676,14 @@ const OfferLetterProcess = ({
                                     e,
                                     index,
                                     doc._id,
-                                    docName
+                                    docName,
                                   )
                                 }
                                 className="custom-select-height"
-                                disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                disabled={
+                                  userRole === "Student" ||
+                                  userRole === "LeadStudent"
+                                }
                               />
                             )}
                           </td>
@@ -687,7 +714,7 @@ const OfferLetterProcess = ({
 
                                   handleSingleDocumentDownload(
                                     filePath,
-                                    fileName
+                                    fileName,
                                   );
                                 }}
                                 disabled={isRestrictedRole}
@@ -707,7 +734,7 @@ const OfferLetterProcess = ({
                                   cursor: "pointer",
                                   color: "#fff",
                                   backgroundColor: getStatusColor(
-                                    doc.status || "unverified"
+                                    doc.status || "unverified",
                                   ),
                                   border: "none",
                                   borderRadius: "4px",
@@ -721,18 +748,20 @@ const OfferLetterProcess = ({
                                     statusOptions.find(
                                       (opt) =>
                                         opt.value ===
-                                        (doc.status || "unverified")
+                                        (doc.status || "unverified"),
                                     ) ||
                                       statusOptions.find(
-                                        (opt) => opt.value === "unverified"
-                                      )
+                                        (opt) => opt.value === "unverified",
+                                      ),
                                   );
                                   setRemarks(doc.remarks || "");
                                   setSelectedDocId(doc._id);
                                   setShowStatusModal(true);
                                 }}
                                 disabled={
-                                  isRestrictedRole || userRole === "Student" || userRole === "LeadStudent"
+                                  isRestrictedRole ||
+                                  userRole === "Student" ||
+                                  userRole === "LeadStudent"
                                 }
                               >
                                 {(doc.status === "verified" ||
@@ -770,30 +799,31 @@ const OfferLetterProcess = ({
                           <td>
                             {doc.createdAt
                               ? new Date(doc.createdAt).toLocaleDateString(
-                                  "en-GB"
+                                  "en-GB",
                                 )
                               : "-"}
                           </td>
                           <td>{doc.remarks || "-"}</td>
-                          {userRole !== "Student" && userRole !== "LeadStudent" && (
-                            <td className="sticky-col-right-last">
-                              {canDelete && (
-                                <Button
-                                  variant="link"
-                                  className="text-danger"
-                                  style={{ fontSize: "18px" }}
-                                  onClick={() => {
-                                    setSelectedItem(doc._id);
-                                    setShowDeleteModal(true);
-                                  }}
-                                  title="Delete"
-                                  disabled={isRestrictedRole}
-                                >
-                                  <FaTrashAlt />
-                                </Button>
-                              )}
-                            </td>
-                          )}
+                          {userRole !== "Student" &&
+                            userRole !== "LeadStudent" && (
+                              <td className="sticky-col-right-last">
+                                {canDelete && (
+                                  <Button
+                                    variant="link"
+                                    className="text-danger"
+                                    style={{ fontSize: "18px" }}
+                                    onClick={() => {
+                                      setSelectedItem(doc._id);
+                                      setShowDeleteModal(true);
+                                    }}
+                                    title="Delete"
+                                    disabled={isRestrictedRole}
+                                  >
+                                    <FaTrashAlt />
+                                  </Button>
+                                )}
+                              </td>
+                            )}
                         </tr>
                       );
                     })

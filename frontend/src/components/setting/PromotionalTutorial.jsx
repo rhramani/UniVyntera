@@ -38,9 +38,8 @@ const PromotionalTutorial = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
-  const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
-    "Webinar"
-  );
+  const { canCreate, canRead, canUpdate, canDelete } =
+    usePermissions("Webinar");
   const fetchCountries = async () => {
     const res = await dispatch(countryDropdown());
     setCountries(res?.data?.data || []);
@@ -49,18 +48,18 @@ const PromotionalTutorial = () => {
   const fetchPromotionalTutorials = async (
     page = 1,
     limit = itemsPerPage,
-    searchTerm = ""
+    searchTerm = "",
   ) => {
     try {
       const res = await dispatch(
-        getAllPromotionalTutorial(page, limit, searchTerm)
+        getAllPromotionalTutorial(page, limit, searchTerm),
       );
       if (res?.status === 200) {
         const newDocuments = res?.data?.data || [];
         setPromotionalTutorials(newDocuments);
         if (showDocumentsModal && editingItem) {
           const updatedItem = newDocuments.find(
-            (doc) => doc._id === editingItem._id
+            (doc) => doc._id === editingItem._id,
           );
           setSelectedDocuments(updatedItem?.documents || []);
         }
@@ -137,17 +136,17 @@ const PromotionalTutorial = () => {
     },
     validationSchema: Yup.object({
       // url: Yup.string().when("isEditing", {
-      //   is: () => editingItem, 
+      //   is: () => editingItem,
       //   then: () => Yup.string().optional(),
       //   otherwise: () => Yup.string().required("Tutorial URL is required"),
       // }),
       // name: Yup.string().when("isEditing", {
-      //   is: () => editingItem, 
+      //   is: () => editingItem,
       //   then: () => Yup.string().optional(),
       //   otherwise: () => Yup.string().required("Tutorial name is required"),
       // }),
       country: Yup.string().when("isEditing", {
-        is: () => editingItem, 
+        is: () => editingItem,
         then: () => Yup.string().optional(),
         otherwise: () => Yup.string().required("Country is required"),
       }),
@@ -167,17 +166,17 @@ const PromotionalTutorial = () => {
         let res;
         if (editingItem) {
           res = await dispatch(
-              updatePromotionalTutorial(editingItem._id, "", "", payload)
-            );
-            if (res?.status === 200) {
-              toast.success("Country updated successfully!");
-              if (canRead) {
-                setCurrentPage(1);
-                await fetchPromotionalTutorials(1, itemsPerPage, search);
-              }
-            } else {
-              toast.error(res?.data?.message || "Failed to update country");
+            updatePromotionalTutorial(editingItem._id, "", "", payload),
+          );
+          if (res?.status === 200) {
+            toast.success("Country updated successfully!");
+            if (canRead) {
+              setCurrentPage(1);
+              await fetchPromotionalTutorials(1, itemsPerPage, search);
             }
+          } else {
+            toast.error(res?.data?.message || "Failed to update country");
+          }
         } else {
           res = await dispatch(createPromotionalTutorial(payload));
           if (res?.status === 201) {
@@ -194,7 +193,7 @@ const PromotionalTutorial = () => {
       } catch (error) {
         console.error("Upload error:", error.response?.data || error);
         toast.error(
-          error.response?.data?.message || "Failed to process request"
+          error.response?.data?.message || "Failed to process request",
         );
       }
     },
@@ -217,9 +216,7 @@ const PromotionalTutorial = () => {
       }
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error(
-        error.response?.data?.message || "Failed to delete Webinar."
-      );
+      toast.error(error.response?.data?.message || "Failed to delete Webinar.");
     }
     handleCloseDeleteModal();
   };
@@ -236,9 +233,7 @@ const PromotionalTutorial = () => {
       }
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error(
-        error.response?.data?.message || "Failed to delete Webinar."
-      );
+      toast.error(error.response?.data?.message || "Failed to delete Webinar.");
     }
     handleCloseDeleteModal();
   };
@@ -258,7 +253,7 @@ const PromotionalTutorial = () => {
             </Card.Header>
             <Card.Body>
               <div className="d-flex justify-content-between">
-                {(canCreate) && (
+                {canCreate && (
                   <div className="d-flex gap-3 align-items-end">
                     <Button
                       variant="primary"
@@ -311,7 +306,7 @@ const PromotionalTutorial = () => {
                     ?.filter(Boolean)
                     .map((item, index) => {
                       const country = countries.find(
-                        (c) => c.name === item?.country
+                        (c) => c.name === item?.country,
                       );
                       const countryCode = country ? country.isoCode : "";
                       return (
@@ -460,7 +455,9 @@ const PromotionalTutorial = () => {
                       </tbody>
                     </table>
                   ) : (
-                    <span className="text-muted">No Promotional Webinar available</span>
+                    <span className="text-muted">
+                      No Promotional Webinar available
+                    </span>
                   )}
                 </Modal.Body>
                 <Modal.Footer className="border-0">
@@ -485,8 +482,8 @@ const PromotionalTutorial = () => {
                     {editingItem && editingDocIndex !== null
                       ? "Update Promotional Webinar"
                       : editingItem
-                      ? "Update Country"
-                      : "Add Promotional Webinar"}
+                        ? "Update Country"
+                        : "Add Promotional Webinar"}
                   </Modal.Title>
                   <AiOutlineClose
                     size={20}
@@ -515,7 +512,7 @@ const PromotionalTutorial = () => {
                           if (selectedOption) {
                             formik.setFieldValue(
                               "country",
-                              selectedOption.value
+                              selectedOption.value,
                             );
                             formik.setFieldError("country", "");
                           } else {
@@ -587,7 +584,7 @@ const PromotionalTutorial = () => {
                         variant="link"
                         type="submit"
                         className="border-primary text-primary text-decoration-none"
-                        style={{ borderRadius: "30px" }}
+                        style={{ borderRadius: "12px" }}
                         onClick={handleCloseUploadModal}
                       >
                         Cancel
@@ -600,8 +597,8 @@ const PromotionalTutorial = () => {
                         {editingItem && editingDocIndex !== null
                           ? "Update Promotional Webinar"
                           : editingItem
-                          ? "Update Country"
-                          : "Add Promotional Webinar"}
+                            ? "Update Country"
+                            : "Add Promotional Webinar"}
                       </Button>
                     </Modal.Footer>
                   </Form>
@@ -613,37 +610,60 @@ const PromotionalTutorial = () => {
                 onHide={handleCloseDeleteModal}
                 centered
               >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
+                <Modal.Header
+                  className="border-0"
+                  style={{
+                    background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                    borderTopLeftRadius: "12px",
+                    borderTopRightRadius: "12px",
+                  }}
+                >
+                  <Modal.Title className="fw-semibold text-white">
                     Confirm Deletion
                   </Modal.Title>
                   <AiOutlineClose
-                    size={20}
+                    size={18}
                     style={{ cursor: "pointer", color: "white" }}
                     onClick={handleCloseDeleteModal}
                   />
                 </Modal.Header>
                 <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
+                  <div
+                    className="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      borderRadius: "50%",
+                      background: "#fee2e2",
+                      color: "#dc2626",
+                      fontSize: "32px",
+                    }}
+                  >
                     <i className="bi bi-exclamation-triangle-fill"></i>
                   </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
+
+                  <p className="mb-1 fw-semibold fs-5">
+                    Are you sure you want to proceed with deletion?
                   </p>
                   <small className="text-muted">
-                    This action cannot be undone.
+                    You won’t be able to undo this action.
                   </small>
                 </Modal.Body>
                 <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
                   <Button
                     variant="light"
-                    className="btn-cancel-delete px-4"
+                    className="px-4"
                     onClick={handleCloseDeleteModal}
                   >
                     Cancel
                   </Button>
                   <Button
-                    className="btn-delete-confirm"
+                    className="px-4 text-white"
+                    style={{
+                      borderRadius: "8px",
+                      background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                      border: "none",
+                    }}
                     onClick={() => {
                       if (selectedItem.docIndex !== null) {
                         handleDelete(selectedItem.item, selectedItem.docIndex);
@@ -657,12 +677,13 @@ const PromotionalTutorial = () => {
                 </Modal.Footer>
               </Modal>
               {totalPages > 1 && promotionalTutorials?.data?.length > 0 && (
-                 <div className="mt-4 d-flex justify-content-end align-items-end">
-                      <Paginations
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={(page) => setCurrentPage(page)}
-                      /></div>
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

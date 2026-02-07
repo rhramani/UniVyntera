@@ -35,6 +35,7 @@ import {
 } from "react-icons/fa";
 import getSymbolFromCurrency from "currency-symbol-map";
 import ALLImages from "../../../../common/Imagedata";
+import DeleteConfirmModal from "../../../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const CourseFinderCard = ({
   showSlider,
@@ -162,7 +163,7 @@ const CourseFinderCard = ({
                   <div className="mb-4 mb-md-3">
                     <div
                       className="bg-white p-3 p-md-4"
-                      style={{ 
+                      style={{
                         borderRadius: "12px",
                         maxWidth: "100%",
                         boxShadow: "0 4px 12px rgba(107, 92, 231, 0.15)",
@@ -225,17 +226,19 @@ const CourseFinderCard = ({
 
                 {/* Controls Section - Responsive layout */}
                 <div className="d-flex flex-column flex-lg-row justify-content-between align-items-stretch gap-3">
-
                   {/* Action Buttons - Right aligned on large screens, full width on mobile */}
                   <div className="d-flex flex-wrap justify-content-start justify-content-lg-start gap-2 w-100 w-lg-auto">
-                    <div className="d-grid gap-2" style={{ 
-                      gridTemplateColumns: "repeat(2, 1fr)",
-                      width: "100%",
-                      display: "none"
-                    }}>
+                    <div
+                      className="d-grid gap-2"
+                      style={{
+                        gridTemplateColumns: "repeat(2, 1fr)",
+                        width: "100%",
+                        display: "none",
+                      }}
+                    >
                       {/* Mobile grid layout - hidden by default, shown only on mobile */}
                     </div>
-                    
+
                     {/* Desktop layout - shown on md and up */}
                     <div className="d-none d-md-flex flex-wrap justify-content-start justify-content-lg-end gap-2">
                       {canUpload && (
@@ -514,694 +517,629 @@ const CourseFinderCard = ({
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-4">
                   {courseFinderData?.length > 0
                     ? courseFinderData?.map((item, index) => (
-                      <div key={index} className="col">
-                        <div
-                          className="card h-100 border-0 course_card"
-                          style={{
-                            position: "relative",
-                            background: "#fff",
-                            borderRadius: "16px",
-                            overflow: "hidden",
-                            boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
-                            transition:
-                              "transform 0.3s ease, box-shadow 0.3s ease",
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.transform =
-                              "translateY(-5px)";
-                            e.currentTarget.style.boxShadow =
-                              "0 20px 40px rgba(0, 0, 0, 0.1)";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = "translateY(0)";
-                            e.currentTarget.style.boxShadow =
-                              "0 10px 25px rgba(0, 0, 0, 0.15)";
-                          }}
-                        >
-                          {item?.status === "Inactive" && (
-                            <div
-                              className="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-end rounded-bottom"
-                              style={{ zIndex: 10 }}
-                            >
-                              Course Unavailable
-                            </div>
-                          )}
-                          <div className="card-body p-4">
-                            <div className="d-flex justify-content-between align-items-start mb-3 gap-2">
-                              <div className="d-flex align-items-center gap-3 flex-grow-1">
-                                <div
-                                  className="university-logo-main"
-                                  style={{
-                                    minWidth: "60px",
-                                    minHeight: "60px",
-                                  }}
-                                >
-                                  <img
-                                    src={`${REACT_APP_API_URL}/${item?.university?.profile?.replace(
-                                      /\\/g,
-                                      "/",
-                                    )}`}
-                                    alt="University Logo"
-                                    className="university-logo rounded-circle"
-                                    style={{
-                                      width: "60px",
-                                      height: "60px",
-                                      objectFit: "cover",
-                                      // border: "2px solid #e2e8f0",
-                                    }}
-                                  />
-                                </div>
-                                <div className="flex-grow-1">
-                                  <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                      <Tooltip>
-                                        {item?.university?.instituteName ||
-                                          "-"}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <h6
-                                      className="institute_name text-dark mb-1"
-                                      style={{
-                                        fontSize: "16px",
-                                        fontWeight: "600",
-                                        cursor: "pointer",
-                                        lineHeight: 1.3,
-                                      }}
-                                    >
-                                      {item?.university?.instituteName || "-"}
-                                    </h6>
-                                  </OverlayTrigger>
-                                  <span className="text-muted small">
-                                    {item?.studyLevel[0]?.name || "-"}
-                                  </span>
-                                </div>
+                        <div key={index} className="col">
+                          <div
+                            className="card h-100 border-0 course_card"
+                            style={{
+                              position: "relative",
+                              background: "#fff",
+                              borderRadius: "16px",
+                              overflow: "hidden",
+                              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
+                              transition:
+                                "transform 0.3s ease, box-shadow 0.3s ease",
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform =
+                                "translateY(-5px)";
+                              e.currentTarget.style.boxShadow =
+                                "0 20px 40px rgba(0, 0, 0, 0.1)";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = "translateY(0)";
+                              e.currentTarget.style.boxShadow =
+                                "0 10px 25px rgba(0, 0, 0, 0.15)";
+                            }}
+                          >
+                            {item?.status === "Inactive" && (
+                              <div
+                                className="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-end rounded-bottom"
+                                style={{ zIndex: 10 }}
+                              >
+                                Course Unavailable
                               </div>
-                              <div className="d-flex align-items-center gap-2">
-                                {userRole !== "Student" &&
-                                  userRole !== "LeadStudent" && (
-                                    <div className="form-check form-switch custom-toggle-button me-0">
-                                      <input
-                                        className="form-check-input three-dots-icon"
-                                        type="checkbox"
-                                        id={`toggle-${index}`}
-                                        checked={selectedIds.includes(
-                                          item._id,
-                                        )}
-                                        onChange={() =>
-                                          handleCheckboxChangeId(item?._id)
-                                        }
-                                      />
-                                    </div>
-                                  )}
-                                {canCreate && (
-                                  <>
-                                    <IconButton
-                                      aria-label="more"
-                                      aria-controls={`menu-${index}`}
-                                      aria-haspopup="true"
-                                      onClick={(e) => {
-                                        setOpenDropdown(
-                                          openDropdown === index ? null : index,
-                                        );
-                                        setAnchorEl(e.currentTarget);
-                                      }}
+                            )}
+                            <div className="card-body p-4">
+                              <div className="d-flex justify-content-between align-items-start mb-3 gap-2">
+                                <div className="d-flex align-items-center gap-3 flex-grow-1">
+                                  <div
+                                    className="university-logo-main"
+                                    style={{
+                                      minWidth: "60px",
+                                      minHeight: "60px",
+                                    }}
+                                  >
+                                    <img
+                                      src={`${REACT_APP_API_URL}/${item?.university?.profile?.replace(
+                                        /\\/g,
+                                        "/",
+                                      )}`}
+                                      alt="University Logo"
+                                      className="university-logo rounded-circle"
                                       style={{
-                                        color: "#64748b",
-                                        padding: "8px",
+                                        width: "60px",
+                                        height: "60px",
+                                        objectFit: "cover",
+                                        // border: "2px solid #e2e8f0",
                                       }}
+                                    />
+                                  </div>
+                                  <div className="flex-grow-1">
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip>
+                                          {item?.university?.instituteName ||
+                                            "-"}
+                                        </Tooltip>
+                                      }
                                     >
-                                      <MoreVertIcon className="three-dots-icon" />
-                                    </IconButton>
-                                    <Menu
-                                      id={`menu-${index}`}
-                                      anchorEl={anchorEl}
-                                      open={openDropdown === index}
-                                      onClose={() => setOpenDropdown(null)}
-                                      MenuListProps={{
-                                        "aria-labelledby": `menu-${index}`,
-                                      }}
-                                      sx={{
-                                        "& .MuiPaper-root": {
-                                          minWidth: "150px",
-                                          boxShadow:
-                                            "0px 4px 12px rgba(0, 0, 0, 0.1)",
-                                        },
-                                      }}
-                                    >
-                                      {canUpdate && (
-                                        <MenuItem
-                                          key="edit"
-                                          onClick={() => {
-                                            handleEdit(item);
-                                            setOpenDropdown(null);
-                                          }}
-                                        >
-                                          <EditIcon
-                                            fontSize="small"
-                                            sx={{ mr: 1 }}
-                                            className="edit-icon"
-                                          />
-                                          <span className="edit-action-text">
-                                            Edit
-                                          </span>
-                                        </MenuItem>
-                                      )}
-                                      {canDelete && (
-                                        <MenuItem
-                                          key="delete"
-                                          onClick={() => {
-                                            setSelectedItem(item);
-                                            setShowDeleteModal(true);
-                                            setOpenDropdown(null);
-                                          }}
-                                        >
-                                          <DeleteIcon
-                                            fontSize="small"
-                                            sx={{ mr: 1 }}
-                                            className="delete-icon"
-                                          />
-                                          <span className="delete-action-text">
-                                            Delete
-                                          </span>
-                                        </MenuItem>
-                                      )}
-                                      <MenuItem
-                                        onClick={() => {
-                                          handleView(item);
-                                          setOpenDropdown(null);
+                                      <h6
+                                        className="institute_name text-dark mb-1"
+                                        style={{
+                                          fontSize: "16px",
+                                          fontWeight: "600",
+                                          cursor: "pointer",
+                                          lineHeight: 1.3,
                                         }}
                                       >
-                                        <VisibilityIcon
-                                          fontSize="small"
-                                          sx={{ mr: 1 }}
-                                          className="view-icon"
+                                        {item?.university?.instituteName || "-"}
+                                      </h6>
+                                    </OverlayTrigger>
+                                    <span className="text-muted small">
+                                      {item?.studyLevel[0]?.name || "-"}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="d-flex align-items-center gap-2">
+                                  {userRole !== "Student" &&
+                                    userRole !== "LeadStudent" && (
+                                      <div className="form-check form-switch custom-toggle-button me-0">
+                                        <input
+                                          className="form-check-input three-dots-icon"
+                                          type="checkbox"
+                                          id={`toggle-${index}`}
+                                          checked={selectedIds.includes(
+                                            item._id,
+                                          )}
+                                          onChange={() =>
+                                            handleCheckboxChangeId(item?._id)
+                                          }
                                         />
-                                        <span className="view-action-text">
-                                          View
-                                        </span>
-                                      </MenuItem>
-                                    </Menu>
-                                  </>
-                                )}
-                              </div>
-                            </div>
-
-                            <h5
-                              className="course_program_title text-primary mb-3"
-                              onClick={() => handleView(item)}
-                              style={{
-                                fontSize: "18px",
-                                fontWeight: "600",
-                                cursor: "pointer",
-                                color: "#6B5CE7",
-                                transition: "color 0.2s ease",
-                              }}
-                              onMouseEnter={(e) =>
-                                (e.target.style.color = "#7B68EE")
-                              }
-                              onMouseLeave={(e) =>
-                                (e.target.style.color = "#6B5CE7")
-                              }
-                            >
-                              {item?.programName || "-"}
-                            </h5>
-
-                            <div className="d-flex align-items-center mb-3 text-muted small">
-                              <span className="me-1">
-                                <PublicIcon
-                                  className="course_icon_1"
-                                  style={{
-                                    fontSize: "16px",
-                                    verticalAlign: "middle",
-                                  }}
-                                />
-                              </span>
-                              <span className="text-capitalize">
-                                {item?.university?.country || "-"}
-                                {item?.university?.state
-                                  ? `, ${item?.university?.state}`
-                                  : ""}
-                                {item?.university?.city
-                                  ? `, ${item?.university?.city}`
-                                  : ""}
-                              </span>
-                            </div>
-
-                            <div className="tag-pill-container mb-3">
-                              {item?.tags?.length > 0 &&
-                                item?.tags?.map((tag) => (
-                                  <span
-                                    key={tag._id}
-                                    className="tag-pill d-inline-flex align-items-center me-2 mb-2 gap-1 px-3 py-1"
-                                    style={{
-                                      backgroundColor: hexToRgba(
-                                        tag.color || "#667eea",
-                                        0.1,
-                                      ),
-                                      borderRadius: "20px",
-                                      fontSize: "12px",
-                                      fontWeight: 500,
-                                      color: tag.color || "#667eea",
-                                      border: `1px solid ${hexToRgba(tag.color || "#667eea", 0.3)}`,
-                                    }}
-                                  >
-                                    {getIconForTag(tag)}
-                                    {tag.name}
-                                  </span>
-                                ))}
-                            </div>
-
-                            <div className="mb-3">
-                              <div className="d-flex justify-content-between align-items-center mb-1">
-                                <span
-                                  className="fw-bold"
-                                // style={{ fontWeight: "500" }}
-                                >
-                                  Application Fee:
-                                </span>
-                                <span
-                                  className="text-muted"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  {item.applicationFee &&
-                                    item.currencyCode ? (
+                                      </div>
+                                    )}
+                                  {canCreate && (
                                     <>
-                                      {getSymbolFromCurrency(
-                                        item.currencyCode,
-                                      ) || item.currencyCode}
-                                      &nbsp;
-                                      {new Intl.NumberFormat().format(
+                                      <IconButton
+                                        aria-label="more"
+                                        aria-controls={`menu-${index}`}
+                                        aria-haspopup="true"
+                                        onClick={(e) => {
+                                          setOpenDropdown(
+                                            openDropdown === index
+                                              ? null
+                                              : index,
+                                          );
+                                          setAnchorEl(e.currentTarget);
+                                        }}
+                                        style={{
+                                          color: "#64748b",
+                                          padding: "8px",
+                                        }}
+                                      >
+                                        <MoreVertIcon className="three-dots-icon" />
+                                      </IconButton>
+                                      <Menu
+                                        id={`menu-${index}`}
+                                        anchorEl={anchorEl}
+                                        open={openDropdown === index}
+                                        onClose={() => setOpenDropdown(null)}
+                                        MenuListProps={{
+                                          "aria-labelledby": `menu-${index}`,
+                                        }}
+                                        sx={{
+                                          "& .MuiPaper-root": {
+                                            minWidth: "150px",
+                                            boxShadow:
+                                              "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                                          },
+                                        }}
+                                      >
+                                        {canUpdate && (
+                                          <MenuItem
+                                            key="edit"
+                                            onClick={() => {
+                                              handleEdit(item);
+                                              setOpenDropdown(null);
+                                            }}
+                                          >
+                                            <EditIcon
+                                              fontSize="small"
+                                              sx={{ mr: 1 }}
+                                              className="edit-icon"
+                                            />
+                                            <span className="edit-action-text">
+                                              Edit
+                                            </span>
+                                          </MenuItem>
+                                        )}
+                                        {canDelete && (
+                                          <MenuItem
+                                            key="delete"
+                                            onClick={() => {
+                                              setSelectedItem(item);
+                                              setShowDeleteModal(true);
+                                              setOpenDropdown(null);
+                                            }}
+                                          >
+                                            <DeleteIcon
+                                              fontSize="small"
+                                              sx={{ mr: 1 }}
+                                              className="delete-icon"
+                                            />
+                                            <span className="delete-action-text">
+                                              Delete
+                                            </span>
+                                          </MenuItem>
+                                        )}
+                                        <MenuItem
+                                          onClick={() => {
+                                            handleView(item);
+                                            setOpenDropdown(null);
+                                          }}
+                                        >
+                                          <VisibilityIcon
+                                            fontSize="small"
+                                            sx={{ mr: 1 }}
+                                            className="view-icon"
+                                          />
+                                          <span className="view-action-text">
+                                            View
+                                          </span>
+                                        </MenuItem>
+                                      </Menu>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+
+                              <h5
+                                className="course_program_title text-primary mb-3"
+                                onClick={() => handleView(item)}
+                                style={{
+                                  fontSize: "18px",
+                                  fontWeight: "600",
+                                  cursor: "pointer",
+                                  color: "#6B5CE7",
+                                  transition: "color 0.2s ease",
+                                }}
+                                onMouseEnter={(e) =>
+                                  (e.target.style.color = "#7B68EE")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.target.style.color = "#6B5CE7")
+                                }
+                              >
+                                {item?.programName || "-"}
+                              </h5>
+
+                              <div className="d-flex align-items-center mb-3 text-muted small">
+                                <span className="me-1">
+                                  <PublicIcon
+                                    className="course_icon_1"
+                                    style={{
+                                      fontSize: "16px",
+                                      verticalAlign: "middle",
+                                    }}
+                                  />
+                                </span>
+                                <span className="text-capitalize">
+                                  {item?.university?.country || "-"}
+                                  {item?.university?.state
+                                    ? `, ${item?.university?.state}`
+                                    : ""}
+                                  {item?.university?.city
+                                    ? `, ${item?.university?.city}`
+                                    : ""}
+                                </span>
+                              </div>
+
+                              <div className="tag-pill-container mb-3">
+                                {item?.tags?.length > 0 &&
+                                  item?.tags?.map((tag) => (
+                                    <span
+                                      key={tag._id}
+                                      className="tag-pill d-inline-flex align-items-center me-2 mb-2 gap-1 px-3 py-1"
+                                      style={{
+                                        backgroundColor: hexToRgba(
+                                          tag.color || "#667eea",
+                                          0.1,
+                                        ),
+                                        borderRadius: "20px",
+                                        fontSize: "12px",
+                                        fontWeight: 500,
+                                        color: tag.color || "#667eea",
+                                        border: `1px solid ${hexToRgba(tag.color || "#667eea", 0.3)}`,
+                                      }}
+                                    >
+                                      {getIconForTag(tag)}
+                                      {tag.name}
+                                    </span>
+                                  ))}
+                              </div>
+
+                              <div className="mb-3">
+                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                  <span
+                                    className="fw-bold"
+                                    // style={{ fontWeight: "500" }}
+                                  >
+                                    Application Fee:
+                                  </span>
+                                  <span
+                                    className="text-muted"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {item.applicationFee &&
+                                    item.currencyCode ? (
+                                      <>
+                                        {getSymbolFromCurrency(
+                                          item.currencyCode,
+                                        ) || item.currencyCode}
+                                        &nbsp;
+                                        {new Intl.NumberFormat().format(
+                                          Number(
+                                            String(item.applicationFee).replace(
+                                              /,/g,
+                                              "",
+                                            ),
+                                          ),
+                                        )}
+                                      </>
+                                    ) : item.applicationFee ? (
+                                      new Intl.NumberFormat().format(
                                         Number(
                                           String(item.applicationFee).replace(
                                             /,/g,
                                             "",
                                           ),
                                         ),
-                                      )}
-                                    </>
-                                  ) : item.applicationFee ? (
-                                    new Intl.NumberFormat().format(
-                                      Number(
-                                        String(item.applicationFee).replace(
-                                          /,/g,
-                                          "",
-                                        ),
-                                      ),
-                                    )
-                                  ) : (
-                                    "N/A"
-                                  )}
-                                </span>
-                              </div>
-
-                              <div className="d-flex justify-content-between align-items-center mb-1">
-                                <span
-                                  className="fw-bold"
-                                // style={{ fontWeight: "500" }}
-                                >
-                                  Yearly Tuition Fee:
-                                </span>
-                                <span
-                                  className="text-muted"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  {item.yearlyTuitionFee &&
-                                    item.currencyCode ? (
-                                    <>
-                                      {getSymbolFromCurrency(
-                                        item.currencyCode,
-                                      ) || item.currencyCode}
-                                      &nbsp;
-                                      {new Intl.NumberFormat().format(
-                                        Number(
-                                          String(
-                                            item.yearlyTuitionFee,
-                                          ).replace(/,/g, ""),
-                                        ),
-                                      )}
-                                      <OverlayTrigger
-                                        placement="top"
-                                        overlay={
-                                          <Tooltip>
-                                            {getINRValue(
-                                              item.yearlyTuitionFee,
-                                              item.currencyCode,
-                                            )}
-                                          </Tooltip>
-                                        }
-                                      >
-                                        <span
-                                          style={{
-                                            position: "relative",
-                                            display: "inline-block",
-                                            marginLeft: "8px",
-                                            cursor: "pointer",
-                                          }}
-                                        >
-                                          <img
-                                            src={ALLImages("course1")}
-                                            height="16px"
-                                            width="16px"
-                                            alt="INR"
-                                            style={{ opacity: 0.7 }}
-                                          />
-                                        </span>
-                                      </OverlayTrigger>
-                                    </>
-                                  ) : item.yearlyTuitionFee ? (
-                                    <>
-                                      {new Intl.NumberFormat().format(
-                                        Number(
-                                          String(
-                                            item.yearlyTuitionFee,
-                                          ).replace(/,/g, ""),
-                                        ),
-                                      )}
-                                    </>
-                                  ) : (
-                                    "N/A"
-                                  )}
-                                </span>
-                              </div>
-
-                              <div className="d-flex justify-content-between align-items-center mb-1">
-                                <span
-                                  className="fw-bold"
-                                // style={{ fontWeight: "500" }}
-                                >
-                                  Duration:
-                                </span>
-                                <span
-                                  className="text-muted"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  {item?.duration || "N/A"}
-                                </span>
-                              </div>
-
-                              <div className="d-flex justify-content-between align-items-center mb-1">
-                                <span
-                                  className="fw-bold"
-                                // style={{ fontWeight: "500" }}
-                                >
-                                  Intake Months:
-                                </span>
-                                <span
-                                  className="text-muted"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  {item?.intakes && item.intakes.length > 0
-                                    ? item.intakes
-                                      .map((intake) => intake.month)
-                                      .join(", ")
-                                    : "N/A"}
-                                </span>
-                              </div>
-
-                              <div className="d-flex justify-content-between align-items-center">
-                                <span
-                                  className="fw-bold"
-                                // style={{ fontWeight: "500" }}
-                                >
-                                  Intake Years:
-                                </span>
-                                <span
-                                  className="text-muted"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  {item?.intakeYear &&
-                                    item.intakeYear.length > 0
-                                    ? item.intakeYear.join(", ")
-                                    : "N/A"}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div
-                              className="mb-3 p-3 rounded-lg"
-                              style={{ background: "#f8fafc" }}
-                            >
-                              <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
-                                <span
-                                  className="fw-bold"
-                                  style={{
-                                    minWidth: "70px",
-                                    fontSize: "14px",
-                                  }}
-                                >
-                                  Level:
-                                </span>
-                                <span
-                                  className="text-muted"
-                                  style={{
-                                    fontSize: "14px",
-                                    lineHeight: "1.5",
-                                    textAlign: "right",
-                                    flex: 1,
-                                  }}
-                                >
-                                  {item?.studyLevel?.length > 0
-                                    ? item.studyLevel
-                                      .map((level) => level.name)
-                                      .join(", ")
-                                    : "N/A"}
-                                </span>
-                              </div>
-
-                              <div>
-                                <div className="d-flex justify-content-between align-items-center mb-2">
-                                  <span
-                                    className="fw-bold"
-                                  // style={{ fontWeight: "500" }}
-                                  >
-                                    Requirements:
+                                      )
+                                    ) : (
+                                      "N/A"
+                                    )}
                                   </span>
                                 </div>
-                                <div className="d-flex flex-wrap gap-2">
-                                  {item?.requirements?.length > 0 ? (
-                                    item.requirements.map((req, idx) => {
-                                      const name = req?.name || "N/A";
-                                      const { bg, text } =
-                                        getColorForRequirement(name);
-                                      return (
-                                        <span
-                                          key={idx}
-                                          className="px-3 py-1 rounded"
-                                          style={{
-                                            backgroundColor: bg,
-                                            color: text,
-                                            fontSize: "14px",
-                                            fontWeight: 500,
-                                          }}
+
+                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                  <span
+                                    className="fw-bold"
+                                    // style={{ fontWeight: "500" }}
+                                  >
+                                    Yearly Tuition Fee:
+                                  </span>
+                                  <span
+                                    className="text-muted"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {item.yearlyTuitionFee &&
+                                    item.currencyCode ? (
+                                      <>
+                                        {getSymbolFromCurrency(
+                                          item.currencyCode,
+                                        ) || item.currencyCode}
+                                        &nbsp;
+                                        {new Intl.NumberFormat().format(
+                                          Number(
+                                            String(
+                                              item.yearlyTuitionFee,
+                                            ).replace(/,/g, ""),
+                                          ),
+                                        )}
+                                        <OverlayTrigger
+                                          placement="top"
+                                          overlay={
+                                            <Tooltip>
+                                              {getINRValue(
+                                                item.yearlyTuitionFee,
+                                                item.currencyCode,
+                                              )}
+                                            </Tooltip>
+                                          }
                                         >
-                                          {name}
-                                        </span>
-                                      );
-                                    })
-                                  ) : (
-                                    <span className="text-muted small">
-                                      N/A
+                                          <span
+                                            style={{
+                                              position: "relative",
+                                              display: "inline-block",
+                                              marginLeft: "8px",
+                                              cursor: "pointer",
+                                            }}
+                                          >
+                                            <img
+                                              src={ALLImages("course1")}
+                                              height="16px"
+                                              width="16px"
+                                              alt="INR"
+                                              style={{ opacity: 0.7 }}
+                                            />
+                                          </span>
+                                        </OverlayTrigger>
+                                      </>
+                                    ) : item.yearlyTuitionFee ? (
+                                      <>
+                                        {new Intl.NumberFormat().format(
+                                          Number(
+                                            String(
+                                              item.yearlyTuitionFee,
+                                            ).replace(/,/g, ""),
+                                          ),
+                                        )}
+                                      </>
+                                    ) : (
+                                      "N/A"
+                                    )}
+                                  </span>
+                                </div>
+
+                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                  <span
+                                    className="fw-bold"
+                                    // style={{ fontWeight: "500" }}
+                                  >
+                                    Duration:
+                                  </span>
+                                  <span
+                                    className="text-muted"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {item?.duration || "N/A"}
+                                  </span>
+                                </div>
+
+                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                  <span
+                                    className="fw-bold"
+                                    // style={{ fontWeight: "500" }}
+                                  >
+                                    Intake Months:
+                                  </span>
+                                  <span
+                                    className="text-muted"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {item?.intakes && item.intakes.length > 0
+                                      ? item.intakes
+                                          .map((intake) => intake.month)
+                                          .join(", ")
+                                      : "N/A"}
+                                  </span>
+                                </div>
+
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <span
+                                    className="fw-bold"
+                                    // style={{ fontWeight: "500" }}
+                                  >
+                                    Intake Years:
+                                  </span>
+                                  <span
+                                    className="text-muted"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {item?.intakeYear &&
+                                    item.intakeYear.length > 0
+                                      ? item.intakeYear.join(", ")
+                                      : "N/A"}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div
+                                className="mb-3 p-3 rounded-lg"
+                                style={{ background: "#f8fafc" }}
+                              >
+                                <div className="d-flex justify-content-between align-items-center mb-2 gap-3">
+                                  <span
+                                    className="fw-bold"
+                                    style={{
+                                      minWidth: "70px",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    Level:
+                                  </span>
+                                  <span
+                                    className="text-muted"
+                                    style={{
+                                      fontSize: "14px",
+                                      lineHeight: "1.5",
+                                      textAlign: "right",
+                                      flex: 1,
+                                    }}
+                                  >
+                                    {item?.studyLevel?.length > 0
+                                      ? item.studyLevel
+                                          .map((level) => level.name)
+                                          .join(", ")
+                                      : "N/A"}
+                                  </span>
+                                </div>
+
+                                <div>
+                                  <div className="d-flex justify-content-between align-items-center mb-2">
+                                    <span
+                                      className="fw-bold"
+                                      // style={{ fontWeight: "500" }}
+                                    >
+                                      Requirements:
                                     </span>
+                                  </div>
+                                  <div className="d-flex flex-wrap gap-2">
+                                    {item?.requirements?.length > 0 ? (
+                                      item.requirements.map((req, idx) => {
+                                        const name = req?.name || "N/A";
+                                        const { bg, text } =
+                                          getColorForRequirement(name);
+                                        return (
+                                          <span
+                                            key={idx}
+                                            className="px-3 py-1 rounded"
+                                            style={{
+                                              backgroundColor: bg,
+                                              color: text,
+                                              fontSize: "14px",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {name}
+                                          </span>
+                                        );
+                                      })
+                                    ) : (
+                                      <span className="text-muted small">
+                                        N/A
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="d-flex flex-wrap justify-content-between align-items-center mt-3 gap-2">
+                                <div className="d-flex align-items-center gap-3">
+                                  {item.websiteUrl && (
+                                    <a
+                                      href={item.websiteUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-decoration-none"
+                                      style={{ color: "#00b2c5" }}
+                                    >
+                                      <FaGlobe
+                                        style={{
+                                          fontSize: "20px",
+                                        }}
+                                      />
+                                    </a>
                                   )}
+                                  {item.university?.youtubeLink && (
+                                    <a
+                                      href={item.university?.youtubeLink}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-decoration-none"
+                                      style={{ color: "#FF0033" }}
+                                    >
+                                      <FaYoutube
+                                        style={{
+                                          fontSize: "22px",
+                                        }}
+                                      />
+                                    </a>
+                                  )}
+                                  {item.university?.galleryLink && (
+                                    <a
+                                      href={item.university?.galleryLink}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-decoration-none"
+                                      style={{ color: "#E1306C" }}
+                                    >
+                                      <FaInstagram
+                                        className="instagram-icon"
+                                        style={{
+                                          fontSize: "22px",
+                                        }}
+                                      />
+                                    </a>
+                                  )}
+                                </div>
+                                <div className="d-flex flex-wrap gap-2">
+                                  <button
+                                    className="btn btn-primary rounded_button"
+                                    onClick={() => handleApplyClick(item)}
+                                    style={{
+                                      background:
+                                        "linear-gradient(135deg, #6B5CE7 0%, #7B68EE 100%)",
+                                      border: "none",
+                                      borderRadius: "8px",
+                                      padding: "8px 16px",
+                                      fontWeight: "500",
+                                      transition: "all 0.2s ease",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      e.target.style.transform = "scale(1.05)";
+                                      e.target.style.boxShadow =
+                                        "0 4px 12px rgba(79, 70, 229, 0.3)";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.target.style.transform = "scale(1)";
+                                      e.target.style.boxShadow = "none";
+                                    }}
+                                  >
+                                    Apply Now
+                                  </button>
+                                  <button
+                                    className="btn btn-outline-primary rounded_button"
+                                    onClick={() => handleView(item)}
+                                    style={{
+                                      border: "1px solid #6B5CE7",
+                                      color: "#6B5CE7",
+                                      borderRadius: "8px",
+                                      padding: "8px 16px",
+                                      fontWeight: "500",
+                                      transition: "all 0.2s ease",
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      e.target.style.background = "#4f46e5";
+                                      e.target.style.color = "white";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.target.style.background = "transparent";
+                                      e.target.style.color = "#4f46e5";
+                                    }}
+                                  >
+                                    Details
+                                  </button>
                                 </div>
                               </div>
                             </div>
-
-                            <div className="d-flex flex-wrap justify-content-between align-items-center mt-3 gap-2">
-                              <div className="d-flex align-items-center gap-3">
-                                {item.websiteUrl && (
-                                  <a
-                                    href={item.websiteUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-decoration-none"
-                                    style={{ color: "#00b2c5" }}
-                                  >
-                                    <FaGlobe
-                                      style={{
-                                        fontSize: "20px",
-                                      }}
-                                    />
-                                  </a>
-                                )}
-                                {item.university?.youtubeLink && (
-                                  <a
-                                    href={item.university?.youtubeLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-decoration-none"
-                                    style={{ color: "#FF0033" }}
-                                  >
-                                    <FaYoutube
-                                      style={{
-                                        fontSize: "22px",
-                                      }}
-                                    />
-                                  </a>
-                                )}
-                                {item.university?.galleryLink && (
-                                  <a
-                                    href={item.university?.galleryLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-decoration-none"
-                                    style={{ color: "#E1306C" }}
-                                  >
-                                    <FaInstagram
-                                      className="instagram-icon"
-                                      style={{
-                                        fontSize: "22px",
-                                      }}
-                                    />
-                                  </a>
-                                )}
-                              </div>
-                              <div className="d-flex flex-wrap gap-2">
-                                <button
-                                  className="btn btn-primary rounded_button"
-                                  onClick={() => handleApplyClick(item)}
-                                  style={{
-                                    background:
-                                      "linear-gradient(135deg, #6B5CE7 0%, #7B68EE 100%)",
-                                    border: "none",
-                                    borderRadius: "8px",
-                                    padding: "8px 16px",
-                                    fontWeight: "500",
-                                    transition: "all 0.2s ease",
-                                  }}
-                                  onMouseEnter={(e) => {
-                                    e.target.style.transform = "scale(1.05)";
-                                    e.target.style.boxShadow =
-                                      "0 4px 12px rgba(79, 70, 229, 0.3)";
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.target.style.transform = "scale(1)";
-                                    e.target.style.boxShadow = "none";
-                                  }}
-                                >
-                                  Apply Now
-                                </button>
-                                <button
-                                  className="btn btn-outline-primary rounded_button"
-                                  onClick={() => handleView(item)}
-                                  style={{
-                                    border: "1px solid #6B5CE7",
-                                    color: "#6B5CE7",
-                                    borderRadius: "8px",
-                                    padding: "8px 16px",
-                                    fontWeight: "500",
-                                    transition: "all 0.2s ease",
-                                  }}
-                                  onMouseEnter={(e) => {
-                                    e.target.style.background = "#4f46e5";
-                                    e.target.style.color = "white";
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.target.style.background = "transparent";
-                                    e.target.style.color = "#4f46e5";
-                                  }}
-                                >
-                                  Details
-                                </button>
-                              </div>
-                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
+                      ))
                     : !isLoading && (
-                      <div className="w-100 d-flex justify-content-center align-items-center py-5">
-                        <div className="text-center">
-                          <div
-                            className="mb-3"
-                            style={{ fontSize: "3rem", color: "#cbd5e1" }}
-                          >
-                            📚
+                        <div className="w-100 d-flex justify-content-center align-items-center py-5">
+                          <div className="text-center">
+                            <div
+                              className="mb-3"
+                              style={{ fontSize: "3rem", color: "#cbd5e1" }}
+                            >
+                              📚
+                            </div>
+                            <h5 className="text-muted">No courses found</h5>
+                            <p className="text-muted">
+                              Try adjusting your search criteria
+                            </p>
                           </div>
-                          <h5 className="text-muted">No courses found</h5>
-                          <p className="text-muted">
-                            Try adjusting your search criteria
-                          </p>
                         </div>
-                      </div>
-                    )}
+                      )}
                 </div>
               </div>
 
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
-                centered
-              // size="sm"
-              >
-                <Modal.Header
-                  className="form-main-heading"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, #6B5CE7 0%, #7B68EE 100%)",
-                    color: "white",
-                  }}
-                >
-                  <Modal.Title
-                    className="fw-semibold"
-                    style={{ color: "white" }}
-                  >
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={() => setShowDeleteModal(false)}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={() => setShowDeleteModal(false)}
-                    style={{
-                      borderRadius: "8px",
-                      fontWeight: "500",
-                      padding: "8px 20px",
-                      background: "#e0e7ff",
-                      color: "#6B5CE7",
-                      border: "1px solid #c7d2fe",
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItem);
-                    }}
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
-                      border: "none",
-                      borderRadius: "8px",
-                      fontWeight: "500",
-                      padding: "8px 20px",
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => handleDelete(selectedItem)}
+              />
 
               <LoadMoreButton
                 isLoading={isLoading}

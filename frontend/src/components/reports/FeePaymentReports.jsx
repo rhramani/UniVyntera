@@ -38,7 +38,7 @@ const FeePaymentReports = () => {
   const [feesPaymentData, setFeesPaymentData] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState([]);
   const [search, setSearch] = useState("");
-  const { canRead,canDownload } = usePermissions("Fee Payment");
+  const { canRead, canDownload } = usePermissions("Fee Payment");
   const [isLoading, setIsLoading] = useState(false);
   const [totalCommissionAmount, setTotalCommissionAmount] = useState(0);
 
@@ -55,7 +55,7 @@ const FeePaymentReports = () => {
     endDate: "",
   });
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   const formatDate = (date) => {
@@ -133,8 +133,8 @@ const FeePaymentReports = () => {
         item?.b2bCompany
           ? item.b2bCompany
           : item?.branch
-          ? item.branch
-          : item?.createdByName || "",
+            ? item.branch
+            : item?.createdByName || "",
     },
     {
       label: "Amount",
@@ -172,7 +172,7 @@ const FeePaymentReports = () => {
       render: (item) => {
         const status = item?.interestedCourseDetails?.[0]?.status || "New";
         const matchedStatus = paymentStatus.find(
-          (statusItem) => statusItem.name === status
+          (statusItem) => statusItem.name === status,
         );
         const bgColor = matchedStatus?.color || "#0b3c8c";
         const textColor = ["#e9e216", "#1fff44"].includes(bgColor)
@@ -186,7 +186,7 @@ const FeePaymentReports = () => {
               backgroundColor: bgColor,
               color: textColor,
               padding: "1px 8px",
-              borderRadius: "30px",
+              borderRadius: "12px",
               display: "inline-block",
             }}
           >
@@ -206,7 +206,7 @@ const FeePaymentReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => {
                 const instituteName = detail?.institute?.instituteName || "-";
@@ -234,7 +234,7 @@ const FeePaymentReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.course?.programName || "-")
               .join(", ")
@@ -256,7 +256,7 @@ const FeePaymentReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeYear || "-")
               .join(", ")
@@ -271,7 +271,7 @@ const FeePaymentReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeMonth || "-")
               .join(", ")
@@ -296,11 +296,11 @@ const FeePaymentReports = () => {
     search = "",
     feeStatus = filters.feeStatus?.value || "paid",
     startDate = filters.startDate,
-    endDate = filters.endDate
+    endDate = filters.endDate,
   ) => {
     try {
       const res = await dispatch(
-        getFeePaymentReport(page, limit, search, feeStatus, startDate, endDate)
+        getFeePaymentReport(page, limit, search, feeStatus, startDate, endDate),
       );
       const data = res?.data?.data?.data || [];
       setFeesPaymentData(data);
@@ -370,12 +370,12 @@ const FeePaymentReports = () => {
     search,
     feeStatus = filters.feeStatus?.value || "paid",
     startDate = filters.startDate,
-    endDate = filters.endDate
+    endDate = filters.endDate,
   ) => {
     try {
       setIsLoading(true);
       const res = await dispatch(
-        getFeePaymentReport(page, limit, search, feeStatus, startDate, endDate)
+        getFeePaymentReport(page, limit, search, feeStatus, startDate, endDate),
       );
       const dataToExport = res?.data?.data?.data || [];
 
@@ -434,7 +434,7 @@ const FeePaymentReports = () => {
         search,
         filters.feeStatus?.value || "paid",
         filters.startDate,
-        filters.endDate
+        filters.endDate,
       );
     }
   }, [currentPage, itemsPerPage, search, filters]);
@@ -493,26 +493,26 @@ const FeePaymentReports = () => {
               <div className="w-100 d-flex flex-wrap justify-content-between">
                 <div className="card-title">Fee Payment report</div>
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    id="typehead1"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </div>
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <Form.Control
+                      type="text"
+                      className="filter-height border-0"
+                      id="typehead1"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
                   {feesPaymentData?.length > 0 && canDownload && (
                     <Button
                       variant="primary"
@@ -784,11 +784,13 @@ const FeePaymentReports = () => {
                 </div>
               </div>
 
-              <div className="table-responsive modern-table-wrapper"
+              <div
+                className="table-responsive modern-table-wrapper"
                 style={{
                   borderRadius: "12px",
                   border: "1px solid #dee2e6",
-                }}>
+                }}
+              >
                 <table
                   className="table table-hover modern-table table-nowrap"
                   style={{ tableLayout: "auto" }}

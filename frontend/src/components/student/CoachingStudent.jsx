@@ -50,6 +50,7 @@ import ConvertToApplication from "./coachingDetails/ConvertToApplication";
 import CoachingStudentCard from "./coachingDetails/CoachingStudentCard";
 import CoachingStudentForm from "./coachingDetails/CoachingStudentForm";
 import { getAllBranch } from "../../redux/actions/Branch.action";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const CoachingStudent = () => {
   const navigate = useNavigate();
@@ -1776,13 +1777,13 @@ const CoachingStudent = () => {
                 handleConvertToApplication={handleConvertToApplication}
               />
               {totalPages > 1 && coachingStudentData?.length > 0 && (
-                   <div className="mt-4 d-flex justify-content-end align-items-end">
+                <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
                   />
-                </div>  
+                </div>
               )}
             </Card.Body>
           </Card>
@@ -2093,7 +2094,7 @@ const CoachingStudent = () => {
             box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
           }
           .calendar-popover .react-calendar__tile--active {
-            background-color: #053880 !important;
+            background-color: #5D54BE !important;
             color: white !important;
             border-radius: 6px;
           }
@@ -2102,7 +2103,7 @@ const CoachingStudent = () => {
           }
           .calendar-popover .react-calendar__tile--now {
             background-color: rgba(98, 89, 202, 0.1) !important;
-            color: #053880 !important;
+            color: #5D54BE !important;
             border-radius: 6px;
           }
           .calendar-popover .react-calendar {
@@ -2112,48 +2113,11 @@ const CoachingStudent = () => {
           }
         `}</style>
       </Modal>
-
-      <Modal
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleDelete(selectedItem);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => handleDelete(selectedItem)}
+      />
 
       <Modal
         show={showDocumentsModal}

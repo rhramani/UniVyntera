@@ -37,14 +37,14 @@ const VisaUserAllocationSection = ({
   id,
   mode,
   fetchOneVisitorDetails,
-  userRole
+  userRole,
 }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showVisaAllocationModal, setShowVisaAllocationModal] = useState(false);
   const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
     "Student Applications",
-        "Visa Application"
+    "Visa Application",
   );
   const VisaAllocationFormik = useFormik({
     initialValues: {
@@ -89,7 +89,7 @@ const VisaUserAllocationSection = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(payload, id)
-          : updateVisitorApplication(payload, id)
+          : updateVisitorApplication(payload, id),
       );
       if (res?.status === 200) {
         if (res?.data?.data?.message) {
@@ -113,13 +113,14 @@ const VisaUserAllocationSection = ({
         }
       } else {
         toast.error(
-          res?.data?.message || "Error adding User Allocation service"
+          res?.data?.message || "Error adding User Allocation service",
         );
       }
     } catch (error) {
       console.error("Error adding User Allocation service:", error);
       toast.error(
-        error?.response?.data?.message || "Error adding User Allocation service"
+        error?.response?.data?.message ||
+          "Error adding User Allocation service",
       );
     } finally {
       setIsLoading(false);
@@ -142,7 +143,7 @@ const VisaUserAllocationSection = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(payload, id)
-          : updateVisitorApplication(payload, id)
+          : updateVisitorApplication(payload, id),
       );
       if (res?.status === 200) {
         if (res?.data?.data?.message) {
@@ -172,13 +173,14 @@ const VisaUserAllocationSection = ({
         }
       } else {
         toast.error(
-          res?.data?.message || "Error adding User Allocation service"
+          res?.data?.message || "Error adding User Allocation service",
         );
       }
     } catch (error) {
       console.error("Error adding User Allocation service:", error);
       toast.error(
-        error?.response?.data?.message || "Error adding User Allocation service"
+        error?.response?.data?.message ||
+          "Error adding User Allocation service",
       );
     } finally {
       setIsLoading(false);
@@ -198,7 +200,7 @@ const VisaUserAllocationSection = ({
       const res = await dispatch(
         mode === "student"
           ? deleteStudentApplication(payload, id)
-          : deleteVisitorApplication(payload, id)
+          : deleteVisitorApplication(payload, id),
       );
       if (res?.status === 200) {
         if (res?.data?.data?.message) {
@@ -209,7 +211,7 @@ const VisaUserAllocationSection = ({
         setFormData((prev) => ({
           ...prev,
           visaAllocationDetails: prev.visaAllocationDetails.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         if (mode === "student") {
@@ -219,14 +221,14 @@ const VisaUserAllocationSection = ({
         }
       } else {
         toast.error(
-          res?.data?.message || "Error deleting Visa Allocation service"
+          res?.data?.message || "Error deleting Visa Allocation service",
         );
       }
     } catch (error) {
       console.error("Error deleting Visa Allocation service:", error);
       toast.error(
         error?.response?.data?.message ||
-          "Error deleting Visa Allocation service"
+          "Error deleting Visa Allocation service",
       );
     }
   };
@@ -254,23 +256,25 @@ const VisaUserAllocationSection = ({
       <div className="my-5 p-4 bg-light rounded shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5>Visa Allocation</h5>
-           {userRole !== "Student" && userRole !== "LeadStudent" && canCreate && ( 
-          <Button
-            variant="primary"
-            className="custom-select-height"
-            onClick={() => {
-              VisaAllocationFormik.resetForm();
-              setEdit((prev) => ({
-                ...prev,
-                visaAllocationDetails: false,
-                visaVisaAllocationIndex: 0,
-              }));
-              setShowVisaAllocationModal(true);
-            }}
-          >
-            Add New
-          </Button>
-           )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            canCreate && (
+              <Button
+                variant="primary"
+                className="custom-select-height"
+                onClick={() => {
+                  VisaAllocationFormik.resetForm();
+                  setEdit((prev) => ({
+                    ...prev,
+                    visaAllocationDetails: false,
+                    visaVisaAllocationIndex: 0,
+                  }));
+                  setShowVisaAllocationModal(true);
+                }}
+              >
+                Add New
+              </Button>
+            )}
         </div>
         <DataTable
           columns={visaUserAllocation}
@@ -296,7 +300,7 @@ const VisaUserAllocationSection = ({
             }));
             if (item.role?._id) {
               const selectedRole = getAllRollList?.data?.find(
-                (role) => role._id === item.role._id
+                (role) => role._id === item.role._id,
               );
               if (selectedRole) {
                 fetchAllUser(selectedRole.name);
@@ -367,7 +371,7 @@ const VisaUserAllocationSection = ({
                           "B2B Member",
                           "Branch Member",
                           "Branch",
-                        ].includes(role.name)
+                        ].includes(role.name),
                     )
                     ?.sort((a, b) => a.name?.localeCompare(b.name))
                     ?.map((data) => ({
@@ -385,7 +389,7 @@ const VisaUserAllocationSection = ({
                                 "B2B Member",
                                 "Branch Member",
                                 "Branch",
-                              ].includes(role.name)
+                              ].includes(role.name),
                           )
                           ?.map((data) => ({
                             value: data._id,
@@ -395,7 +399,7 @@ const VisaUserAllocationSection = ({
                             (option) =>
                               option.value ===
                               VisaAllocationFormik.values
-                                .visaAllocationDetails[0].role
+                                .visaAllocationDetails[0].role,
                           )
                       : null
                   }
@@ -405,16 +409,16 @@ const VisaUserAllocationSection = ({
                       : null;
                     VisaAllocationFormik.setFieldValue(
                       "visaAllocationDetails[0].role",
-                      roleValue
+                      roleValue,
                     );
                     VisaAllocationFormik.setFieldValue(
                       "visaAllocationDetails[0].user",
-                      null
+                      null,
                     );
                     setAllUser([]);
                     if (roleValue) {
                       const selectedRole = getAllRollList?.data?.find(
-                        (role) => role?._id === roleValue
+                        (role) => role?._id === roleValue,
                       );
                       if (selectedRole) {
                         fetchAllUser(selectedRole.name);
@@ -424,7 +428,7 @@ const VisaUserAllocationSection = ({
                   onBlur={() =>
                     VisaAllocationFormik.setFieldTouched(
                       "visaAllocationDetails[0].role",
-                      true
+                      true,
                     )
                   }
                   isClearable
@@ -432,7 +436,7 @@ const VisaUserAllocationSection = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -467,20 +471,20 @@ const VisaUserAllocationSection = ({
                             (option) =>
                               option.value ===
                               VisaAllocationFormik.values
-                                .visaAllocationDetails[0].user
+                                .visaAllocationDetails[0].user,
                           )
                       : null
                   }
                   onChange={(selectedOption) => {
                     VisaAllocationFormik.setFieldValue(
                       "visaAllocationDetails[0].user",
-                      selectedOption ? selectedOption.value : null
+                      selectedOption ? selectedOption.value : null,
                     );
                   }}
                   onBlur={() =>
                     VisaAllocationFormik.setFieldTouched(
                       "visaAllocationDetails[0].user",
-                      true
+                      true,
                     )
                   }
                   isClearable
@@ -492,7 +496,7 @@ const VisaUserAllocationSection = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({

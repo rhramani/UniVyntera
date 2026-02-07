@@ -33,6 +33,7 @@ import { useDispatch } from "react-redux";
 import { addCtcCalling } from "../../../redux/actions/Lead.action";
 import { toast } from "react-toastify";
 import { MdOutlinePlayCircleFilled } from "react-icons/md";
+import DeleteConfirmModal from "../../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const AllLeadsCard = ({
   getLeadData,
@@ -197,98 +198,92 @@ const AllLeadsCard = ({
                       item?.updatedByName?.length > 0 ||
                       item?.created_by_type?.length > 0 ||
                       item?.b2bCompany?.length > 0) && (
-                        <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
-                          {item?.created_by_type?.length > 0 && (
-                            <div
-                              className="d-flex align-items-center me-3"
+                      <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
+                        {item?.created_by_type?.length > 0 && (
+                          <div
+                            className="d-flex align-items-center me-3"
                             // style={{ color: "#6366f1" }}
-                            >
-                              <AssignmentIndIcon
-                                className="me-1 flex-shrink-0"
-                                size={18}
-                                style={{
-                                  color: "#475569"
-                                }}
-                              />
-                              <div className="text-muted small fw-medium mb-0">
-                                Type
-                              </div>
-                              &nbsp;:&nbsp;
-                              <span className="fw-semibold">
-                                {item?.created_by_type === "B2B Admin" ||
-                                  item?.created_by_type === "B2B Member" ? (
-                                  <>
-                                    B2B Partner
-                                    {item?.b2bCompany && ` (${item.branch})`}
-                                  </>
-                                ) : item?.created_by_type === "user" ? (
-                                  <>
-                                    Head Office
-                                    {item?.b2bCompany && ` (${item.branch})`}
-                                  </>
-                                ) : item?.created_by_type === "Branch" ||
-                                  item?.created_by_type === "branch" ? (
-                                  <>
-                                    Branch
-                                    {item?.createdByName &&
-                                      ` (${item.createdByName})`}
-                                  </>
-                                ) : item?.created_by_type === "Branch User" ||
-                                  item?.created_by_type === "Branch user" ? (
-                                  <>
-                                    Branch User
-                                    {item?.branch && ` (${item.branch})`}
-                                  </>
-                                ) : (
-                                  item?.created_by_type
-                                )}
-                              </span>
+                          >
+                            <AssignmentIndIcon
+                              className="me-1 flex-shrink-0"
+                              size={18}
+                              style={{
+                                color: "#475569",
+                              }}
+                            />
+                            <div className="text-muted small fw-medium mb-0">
+                              Type
                             </div>
-                          )}
-                          {item?.createdByName?.length > 0 && (
-                            <div
-                              className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
-
-                            >
-                              <PersonIcon
-                                className="me-1 flex-shrink-0"
-                                size={18}
-                                style={{
-                                  color: "#0F766E"
-                                }}
-                              />
-                              <div className="text-muted small fw-medium mb-0">
-                                Created By
-                              </div>
-                              &nbsp;:&nbsp;
-                              <span className="fw-semibold">
-                                {item?.createdByName}
-                              </span>
+                            &nbsp;:&nbsp;
+                            <span className="fw-semibold">
+                              {item?.created_by_type === "B2B Admin" ||
+                              item?.created_by_type === "B2B Member" ? (
+                                <>
+                                  B2B Partner
+                                  {item?.b2bCompany && ` (${item.branch})`}
+                                </>
+                              ) : item?.created_by_type === "user" ? (
+                                <>
+                                  Head Office
+                                  {item?.b2bCompany && ` (${item.branch})`}
+                                </>
+                              ) : item?.created_by_type === "Branch" ||
+                                item?.created_by_type === "branch" ? (
+                                <>
+                                  Branch
+                                  {item?.createdByName &&
+                                    ` (${item.createdByName})`}
+                                </>
+                              ) : item?.created_by_type === "Branch User" ||
+                                item?.created_by_type === "Branch user" ? (
+                                <>
+                                  Branch User
+                                  {item?.branch && ` (${item.branch})`}
+                                </>
+                              ) : (
+                                item?.created_by_type
+                              )}
+                            </span>
+                          </div>
+                        )}
+                        {item?.createdByName?.length > 0 && (
+                          <div className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex">
+                            <PersonIcon
+                              className="me-1 flex-shrink-0"
+                              size={18}
+                              style={{
+                                color: "#0F766E",
+                              }}
+                            />
+                            <div className="text-muted small fw-medium mb-0">
+                              Created By
                             </div>
-                          )}
-                          {item?.updatedByName?.length > 0 && (
-                            <div
-                              className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
-
-                            >
-                              <CreateIcon
-                                className="me-1 flex-shrink-0"
-                                size={18}
-                                style={{
-                                  color: "#92400E"
-                                }}
-                              />
-                              <div className="text-muted small fw-medium mb-0">
-                                Updated By
-                              </div>
-                              &nbsp;:&nbsp;
-                              <span className="fw-semibold">
-                                {item?.updatedByName}
-                              </span>
+                            &nbsp;:&nbsp;
+                            <span className="fw-semibold">
+                              {item?.createdByName}
+                            </span>
+                          </div>
+                        )}
+                        {item?.updatedByName?.length > 0 && (
+                          <div className="d-flex align-items-center border-start ps-3 d-none d-md-flex">
+                            <CreateIcon
+                              className="me-1 flex-shrink-0"
+                              size={18}
+                              style={{
+                                color: "#92400E",
+                              }}
+                            />
+                            <div className="text-muted small fw-medium mb-0">
+                              Updated By
                             </div>
-                          )}
-                        </div>
-                      )}
+                            &nbsp;:&nbsp;
+                            <span className="fw-semibold">
+                              {item?.updatedByName}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -344,7 +339,7 @@ const AllLeadsCard = ({
                               } catch (error) {
                                 toast.error(
                                   error?.response?.data?.message ||
-                                  "Failed to initiate CTC call",
+                                    "Failed to initiate CTC call",
                                 );
                               } finally {
                                 setIsLoading(false);
@@ -687,11 +682,7 @@ const AllLeadsCard = ({
                         <div className="text-muted small fw-medium mb-0">
                           Phone
                         </div>
-                        <div
-                          className="fw-semibold"
-                        >
-                          {item.phone || "N/A"}
-                        </div>
+                        <div className="fw-semibold">{item.phone || "N/A"}</div>
                       </div>
                     </div>
                   </div>
@@ -750,14 +741,14 @@ const AllLeadsCard = ({
                         >
                           {item?.other_for?.length > 0
                             ? item.other_for
-                              .map((serviceId) => {
-                                const foundService = allOther?.find(
-                                  (service) => service?._id === serviceId,
-                                );
-                                return foundService?.name || "";
-                              })
-                              .filter(Boolean)
-                              .join(", ")
+                                .map((serviceId) => {
+                                  const foundService = allOther?.find(
+                                    (service) => service?._id === serviceId,
+                                  );
+                                  return foundService?.name || "";
+                                })
+                                .filter(Boolean)
+                                .join(", ")
                             : "N/A"}
                         </div>
                       </div>
@@ -864,7 +855,16 @@ const AllLeadsCard = ({
                             size={16}
                             style={{ opacity: 0.7 }}
                           />
-                          <span className="text-uppercase fw-bold text-muted small" style={{ letterSpacing: "1px", fontSize: "0.65rem" }} > Remark </span>
+                          <span
+                            className="text-uppercase fw-bold text-muted small"
+                            style={{
+                              letterSpacing: "1px",
+                              fontSize: "0.65rem",
+                            }}
+                          >
+                            {" "}
+                            Remark{" "}
+                          </span>
                         </div>
 
                         {/* Content */}
@@ -893,48 +893,11 @@ const AllLeadsCard = ({
         )}
       </div>
 
-      <Modal
-        className="leads-modal"
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>{" "}
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleDelete(selectedItem);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => handleDelete(selectedItem)}
+      />
     </>
   );
 };

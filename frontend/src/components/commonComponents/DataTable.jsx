@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import Select from "react-dropdown-select";
 import { toast } from "react-toastify";
 import { decryptData } from "../../utils/encryptionUtils";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const DataTable = ({
   columns,
@@ -95,7 +96,7 @@ const DataTable = ({
   };
 
   const isStudentDetailsPage = location.pathname.match(
-    /^\/student-details\/[a-zA-Z0-9]+$/
+    /^\/student-details\/[a-zA-Z0-9]+$/,
   );
 
   const isTutorialDetailsPage = location.pathname === "/setting/tutorial";
@@ -106,30 +107,39 @@ const DataTable = ({
 
   const defaultRenderActions = (item) => (
     <div className="d-flex justify-content-center">
-      {canEdit && showEditButton && canUpdate && userRole !== "Student" && userRole !== "LeadStudent" && (
-        <span className="icon-border edit-icon" onClick={() => onEdit(item)}>
-          <EditIcon />
-        </span>
-      )}
-      {canDelete && showDeleteButton && userRole !== "Student" && userRole !== "LeadStudent" && (
-        <span
-          className="icon-border delete-icon ms-2"
-          onClick={() => {
-            setSelectedItem(item);
-            setShowDeleteModal(true);
-          }}
-        >
-          <DeleteIcon />
-        </span>
-      )}
-      {showDownloadButton && userRole !== "Student" && userRole !== "LeadStudent" && (
-        <span
-          className="icon-border download-icon ms-2"
-          onClick={() => onDownload(item)}
-        >
-          <DownloadIcon />
-        </span>
-      )}
+      {canEdit &&
+        showEditButton &&
+        canUpdate &&
+        userRole !== "Student" &&
+        userRole !== "LeadStudent" && (
+          <span className="icon-border edit-icon" onClick={() => onEdit(item)}>
+            <EditIcon />
+          </span>
+        )}
+      {canDelete &&
+        showDeleteButton &&
+        userRole !== "Student" &&
+        userRole !== "LeadStudent" && (
+          <span
+            className="icon-border delete-icon ms-2"
+            onClick={() => {
+              setSelectedItem(item);
+              setShowDeleteModal(true);
+            }}
+          >
+            <DeleteIcon />
+          </span>
+        )}
+      {showDownloadButton &&
+        userRole !== "Student" &&
+        userRole !== "LeadStudent" && (
+          <span
+            className="icon-border download-icon ms-2"
+            onClick={() => onDownload(item)}
+          >
+            <DownloadIcon />
+          </span>
+        )}
       {/* {showUploadIcon && (
         <span
           className="icon-border upload-icon ms-2"
@@ -168,7 +178,7 @@ const DataTable = ({
         doc.documentName ===
           (selectedDocumentName === "others"
             ? customDocName
-            : selectedDocumentName)
+            : selectedDocumentName),
     );
 
     if (isDuplicate) {
@@ -202,8 +212,14 @@ const DataTable = ({
 
   return (
     <>
-      <div className="table-responsive" style={{ borderRadius: "12px", border: "1px solid #dee2e6" }}>
-        <Table className="table table-hover modern-table table-nowrap" style={{ tableLayout: "auto", marginBottom: "0" }}>
+      <div
+        className="table-responsive"
+        style={{ borderRadius: "12px", border: "1px solid #dee2e6" }}
+      >
+        <Table
+          className="table table-hover modern-table table-nowrap"
+          style={{ tableLayout: "auto", marginBottom: "0" }}
+        >
           <thead>
             <tr>
               {showNoColumn && (
@@ -224,7 +240,8 @@ const DataTable = ({
               ))}
               {(canEdit || canDelete || renderActions || canUpdate) &&
                 actionView &&
-                userRole !== "Student" && userRole !== "LeadStudent" && (
+                userRole !== "Student" &&
+                userRole !== "LeadStudent" && (
                   <th
                     scope="col"
                     className="sticky-col-right-last dynamic-width"
@@ -262,7 +279,8 @@ const DataTable = ({
 
                   {(canEdit || canDelete || renderActions || canUpdate) &&
                     actionView &&
-                    userRole !== "Student" && userRole !== "LeadStudent" && (
+                    userRole !== "Student" &&
+                    userRole !== "LeadStudent" && (
                       <td className="sticky-col-right-last dynamic-width-data">
                         {renderActions
                           ? renderActions(item, index)
@@ -294,7 +312,9 @@ const DataTable = ({
               <tr className="fw-bold bg-light">
                 <td
                   colSpan={
-                    actionView && userRole !== "Student" && userRole !== "LeadStudent"
+                    actionView &&
+                    userRole !== "Student" &&
+                    userRole !== "LeadStudent"
                       ? columns.length - 1
                       : columns.length - 2
                   }
@@ -309,43 +329,14 @@ const DataTable = ({
           )}
         </Table>
       </div>
-      <Modal show={showDeleteModal} onHide={handleCloseUploadModal} centered>
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={handleCloseUploadModal}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={handleCloseUploadModal}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              onDelete(selectedItem);
-              setShowDeleteModal(false);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <DeleteConfirmModal
+        show={showDeleteModal}
+        onHide={handleCloseUploadModal}
+        onConfirm={() => {
+          onDelete(selectedItem);
+          setShowDeleteModal(false);
+        }}
+      />
 
       <Modal show={showUploadModal} onHide={handleCloseUploadModal} centered>
         <Modal.Header className="form-main-heading">
@@ -369,7 +360,7 @@ const DataTable = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({
@@ -403,7 +394,7 @@ const DataTable = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({
@@ -415,17 +406,17 @@ const DataTable = ({
                 value={
                   selectedDocumentName && selectedDocumentName !== "others"
                     ? documentNames.find(
-                        (option) => option.value === selectedDocumentName
+                        (option) => option.value === selectedDocumentName,
                       )
                       ? [
                           documentNames.find(
-                            (option) => option.value === selectedDocumentName
+                            (option) => option.value === selectedDocumentName,
                           ),
                         ]
                       : []
                     : selectedDocumentName === "others"
-                    ? [{ value: "others", label: "Others" }]
-                    : []
+                      ? [{ value: "others", label: "Others" }]
+                      : []
                 }
               />
               {selectedDocumentName === "others" && (

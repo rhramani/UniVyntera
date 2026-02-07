@@ -42,7 +42,7 @@ const VisaOutcomeTracking = ({
 }) => {
   const { canCreate, canUpdate } = usePermissions(
     "Student Applications",
-    "Visa Application"
+    "Visa Application",
   );
   return (
     <>
@@ -89,7 +89,7 @@ const VisaOutcomeTracking = ({
                         ? visaOutcomeTrackingStatusOptions.find(
                             (option) =>
                               option.value ===
-                              visaOutcomeFormik.values.visaOutcomeStatus
+                              visaOutcomeFormik.values.visaOutcomeStatus,
                           )
                         : null
                     }
@@ -99,13 +99,13 @@ const VisaOutcomeTracking = ({
                         : "";
                       visaOutcomeFormik.setFieldValue(
                         "visaOutcomeStatus",
-                        newValue
+                        newValue,
                       );
                     }}
                     onBlur={() =>
                       visaOutcomeFormik.setFieldTouched(
                         "visaOutcomeStatus",
-                        true
+                        true,
                       )
                     }
                     placeholder="Select Outcome"
@@ -113,7 +113,7 @@ const VisaOutcomeTracking = ({
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -123,7 +123,9 @@ const VisaOutcomeTracking = ({
                       }),
                     }}
                     isClearable
-                    isDisabled={userRole === "Student" || userRole === "LeadStudent"}
+                    isDisabled={
+                      userRole === "Student" || userRole === "LeadStudent"
+                    }
                   />
                 </Form.Group>
               </Col>
@@ -139,22 +141,26 @@ const VisaOutcomeTracking = ({
                   onBlur={() =>
                     visaOutcomeFormik.setFieldTouched("visaOutcomeProof", true)
                   }
-                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                  disabled={
+                    userRole === "Student" || userRole === "LeadStudent"
+                  }
                 />
               </Col>
             </Row>
-            {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-              <div className="d-flex justify-content-end me-3">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="custom-select-height"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Submitting..." : "Submit"}
-                </Button>
-              </div>
-            )}
+            {userRole !== "Student" &&
+              userRole !== "LeadStudent" &&
+              (canCreate || canUpdate) && (
+                <div className="d-flex justify-content-end me-3">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="custom-select-height"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Submitting..." : "Submit"}
+                  </Button>
+                </div>
+              )}
           </Form>
         </div>
         {visaOutcomeFilePaths?.length > 0 && (
@@ -186,7 +192,7 @@ const VisaOutcomeTracking = ({
                         sendPendingDocumentMain(id, selectedDocumentNames);
                       } else {
                         toast.error(
-                          "Please select at least one document to send via mail."
+                          "Please select at least one document to send via mail.",
                         );
                       }
                     }}
@@ -216,7 +222,8 @@ const VisaOutcomeTracking = ({
                                                               )} */}
                     {userRole !== "B2B Admin" &&
                       userRole !== "B2B Member" &&
-                      userRole !== "Student" && userRole !== "LeadStudent" && <th>For Mail Send</th>}
+                      userRole !== "Student" &&
+                      userRole !== "LeadStudent" && <th>For Mail Send</th>}
                     <th>Sr No</th>
                     <th>Document Name</th>
                     <th>Upload File</th>
@@ -275,7 +282,8 @@ const VisaOutcomeTracking = ({
                                                                       )} */}
                             {userRole !== "B2B Admin" &&
                               userRole !== "B2B Member" &&
-                              userRole !== "Student" && userRole !== "LeadStudent" && (
+                              userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
                                 <td>
                                   <div className="form-check form-switch custom-toggle-button me-0">
                                     <input
@@ -283,12 +291,12 @@ const VisaOutcomeTracking = ({
                                       type="checkbox"
                                       id={`toggle-${doc._id}-${index}`}
                                       checked={selectedDocsIds?.includes(
-                                        `${doc._id}-${index}`
+                                        `${doc._id}-${index}`,
                                       )}
                                       onChange={() =>
                                         handleCheckboxChangeId(
                                           `${doc._id}-${index}`,
-                                          docName
+                                          docName,
                                         )
                                       }
                                     />
@@ -311,11 +319,14 @@ const VisaOutcomeTracking = ({
                                       e,
                                       index,
                                       doc._id,
-                                      docName
+                                      docName,
                                     )
                                   }
                                   className="custom-select-height"
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                 />
                               )}
                             </td>
@@ -346,7 +357,7 @@ const VisaOutcomeTracking = ({
                                       ?.pop();
                                     handleSingleDocumentDownload(
                                       filePath,
-                                      fileName
+                                      fileName,
                                     );
                                   }}
                                 >
@@ -365,7 +376,7 @@ const VisaOutcomeTracking = ({
                                     cursor: "pointer",
                                     color: "#fff",
                                     backgroundColor: getStatusColor(
-                                      doc.status || "unverified"
+                                      doc.status || "unverified",
                                     ),
                                     border: "none",
                                     borderRadius: "4px",
@@ -374,17 +385,20 @@ const VisaOutcomeTracking = ({
                                     width: "100px",
                                     fontSize: "14px",
                                   }}
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                   onClick={() => {
                                     setSelectedStatus(
                                       statusOptions.find(
                                         (opt) =>
                                           opt.value ===
-                                          (doc.status || "unverified")
+                                          (doc.status || "unverified"),
                                       ) ||
                                         statusOptions.find(
-                                          (opt) => opt.value === "unverified"
-                                        )
+                                          (opt) => opt.value === "unverified",
+                                        ),
                                     );
                                     setRemarks(doc.remarks || "");
                                     setSelectedDocId(doc._id);
@@ -432,27 +446,28 @@ const VisaOutcomeTracking = ({
                             <td>
                               {doc.createdAt
                                 ? new Date(doc.createdAt).toLocaleDateString(
-                                    "en-GB"
+                                    "en-GB",
                                   )
                                 : "-"}
                             </td>
                             <td>{doc.remarks || "-"}</td>
-                            {userRole !== "Student" && userRole !== "LeadStudent" && (
-                              <td className="sticky-col-right-last">
-                                <Button
-                                  variant="link"
-                                  className="text-danger"
-                                  style={{ fontSize: "18px" }}
-                                  onClick={() => {
-                                    setSelectedItem(doc._id);
-                                    setShowDeleteModal(true);
-                                  }}
-                                  title="Delete"
-                                >
-                                  <FaTrashAlt />
-                                </Button>
-                              </td>
-                            )}
+                            {userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
+                                <td className="sticky-col-right-last">
+                                  <Button
+                                    variant="link"
+                                    className="text-danger"
+                                    style={{ fontSize: "18px" }}
+                                    onClick={() => {
+                                      setSelectedItem(doc._id);
+                                      setShowDeleteModal(true);
+                                    }}
+                                    title="Delete"
+                                  >
+                                    <FaTrashAlt />
+                                  </Button>
+                                </td>
+                              )}
                           </tr>
                         );
                       })
@@ -490,7 +505,7 @@ const VisaOutcomeTracking = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({

@@ -61,9 +61,10 @@ const VisaApplicationOnlineSub = ({
   remarks,
   handleStatusChange,
   selectedDocId,
-}) => {  const { canCreate, canUpdate } = usePermissions(
+}) => {
+  const { canCreate, canUpdate } = usePermissions(
     "Student Applications",
-    "Visa Application"
+    "Visa Application",
   );
   // Calendar state variables
   const [showSubmissionDateCalendar, setShowSubmissionDateCalendar] =
@@ -117,8 +118,8 @@ const VisaApplicationOnlineSub = ({
                           ? formatDate(
                               parseDate(
                                 visaApplicationSubmissionFormik.values
-                                  .visaOnlineSubmission?.date
-                              )
+                                  .visaOnlineSubmission?.date,
+                              ),
                             )
                           : ""
                       }
@@ -132,18 +133,22 @@ const VisaApplicationOnlineSub = ({
                           setSubmissionDateValue(
                             parseDate(
                               visaApplicationSubmissionFormik.values
-                                .visaOnlineSubmission?.date
-                            )
+                                .visaOnlineSubmission?.date,
+                            ),
                           );
                         }
                         setShowSubmissionDateCalendar((show) => !show);
                       }}
                       style={{
                         cursor:
-                          userRole === "Student" || userRole === "LeadStudent" ? "not-allowed" : "pointer",
+                          userRole === "Student" || userRole === "LeadStudent"
+                            ? "not-allowed"
+                            : "pointer",
                         backgroundColor: "#fff",
                       }}
-                      disabled={userRole === "Student" || userRole === "LeadStudent"}
+                      disabled={
+                        userRole === "Student" || userRole === "LeadStudent"
+                      }
                     />
                     <MdCalendarToday
                       style={{
@@ -178,7 +183,7 @@ const VisaApplicationOnlineSub = ({
                             setSubmissionDateValue(selectedDate);
                             visaApplicationSubmissionFormik.setFieldValue(
                               "visaOnlineSubmission.date",
-                              formatDate(selectedDate)
+                              formatDate(selectedDate),
                             );
                             setShowSubmissionDateCalendar(false);
                           }}
@@ -204,7 +209,7 @@ const VisaApplicationOnlineSub = ({
                     onBlur={() =>
                       visaApplicationSubmissionFormik.setFieldTouched(
                         "applicationSubmission",
-                        true
+                        true,
                       )
                     }
                     disabled={
@@ -216,16 +221,18 @@ const VisaApplicationOnlineSub = ({
               </Col>
             </Row>
             <div className="d-flex justify-content-end me-3">
-              {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="custom-select-height"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Submitting..." : "Submit"}
-                </Button>
-              )}
+              {userRole !== "Student" &&
+                userRole !== "LeadStudent" &&
+                (canCreate || canUpdate) && (
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="custom-select-height"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Submitting..." : "Submit"}
+                  </Button>
+                )}
             </div>
           </Form>
         </div>
@@ -258,7 +265,7 @@ const VisaApplicationOnlineSub = ({
                         sendPendingDocumentMain(id, selectedDocumentNames);
                       } else {
                         toast.error(
-                          "Please select at least one document to send via mail."
+                          "Please select at least one document to send via mail.",
                         );
                       }
                     }}
@@ -288,7 +295,8 @@ const VisaApplicationOnlineSub = ({
                                                               )} */}
                     {userRole !== "B2B Admin" &&
                       userRole !== "B2B Member" &&
-                      userRole !== "Student" && userRole !== "LeadStudent" && <th>For Mail Send</th>}
+                      userRole !== "Student" &&
+                      userRole !== "LeadStudent" && <th>For Mail Send</th>}
                     <th>Sr No</th>
                     <th>Document Name</th>
                     <th>Upload File</th>
@@ -349,7 +357,8 @@ const VisaApplicationOnlineSub = ({
                                                                       )} */}
                             {userRole !== "B2B Admin" &&
                               userRole !== "B2B Member" &&
-                              userRole !== "Student" && userRole !== "LeadStudent" && (
+                              userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
                                 <td>
                                   <div className="form-check form-switch custom-toggle-button me-0">
                                     <input
@@ -357,12 +366,12 @@ const VisaApplicationOnlineSub = ({
                                       type="checkbox"
                                       id={`toggle-${doc._id}-${index}`}
                                       checked={selectedDocsIds?.includes(
-                                        `${doc._id}-${index}`
+                                        `${doc._id}-${index}`,
                                       )}
                                       onChange={() =>
                                         handleCheckboxChangeId(
                                           `${doc._id}-${index}`,
-                                          docName
+                                          docName,
                                         )
                                       }
                                     />
@@ -385,11 +394,14 @@ const VisaApplicationOnlineSub = ({
                                       e,
                                       index,
                                       doc._id,
-                                      docName
+                                      docName,
                                     )
                                   }
                                   className="custom-select-height"
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                 />
                               )}
                             </td>
@@ -405,7 +417,7 @@ const VisaApplicationOnlineSub = ({
                                     width: "100px",
                                   }}
                                   onClick={(e) => {
-                                   e.preventDefault();
+                                    e.preventDefault();
                                     // const fileName =
                                     //   doc.filePath?.split("/")?.pop() ||
                                     //   "document";
@@ -415,9 +427,14 @@ const VisaApplicationOnlineSub = ({
                                     //   fileName
                                     // );
                                     const filePath = doc?.filePath;
-                                    const fileName = filePath?.split("/")?.pop();
+                                    const fileName = filePath
+                                      ?.split("/")
+                                      ?.pop();
 
-                                    handleSingleDocumentDownload(filePath, fileName);
+                                    handleSingleDocumentDownload(
+                                      filePath,
+                                      fileName,
+                                    );
                                   }}
                                 >
                                   <DownloadIcon />
@@ -435,7 +452,7 @@ const VisaApplicationOnlineSub = ({
                                     cursor: "pointer",
                                     color: "#fff",
                                     backgroundColor: getStatusColor(
-                                      doc.status || "unverified"
+                                      doc.status || "unverified",
                                     ),
                                     border: "none",
                                     borderRadius: "4px",
@@ -444,17 +461,20 @@ const VisaApplicationOnlineSub = ({
                                     width: "100px",
                                     fontSize: "14px",
                                   }}
-                                  disabled={userRole === "Student" || userRole === "LeadStudent"}
+                                  disabled={
+                                    userRole === "Student" ||
+                                    userRole === "LeadStudent"
+                                  }
                                   onClick={() => {
                                     setSelectedStatus(
                                       statusOptions.find(
                                         (opt) =>
                                           opt.value ===
-                                          (doc.status || "unverified")
+                                          (doc.status || "unverified"),
                                       ) ||
                                         statusOptions.find(
-                                          (opt) => opt.value === "unverified"
-                                        )
+                                          (opt) => opt.value === "unverified",
+                                        ),
                                     );
                                     setRemarks(doc.remarks || "");
                                     setSelectedDocId(doc._id);
@@ -502,27 +522,28 @@ const VisaApplicationOnlineSub = ({
                             <td>
                               {doc.createdAt
                                 ? new Date(doc.createdAt).toLocaleDateString(
-                                    "en-GB"
+                                    "en-GB",
                                   )
                                 : "-"}
                             </td>
                             <td>{doc.remarks || "-"}</td>
-                            {userRole !== "Student" && userRole !== "LeadStudent" && (
-                              <td className="sticky-col-right-last">
-                                <Button
-                                  variant="link"
-                                  className="text-danger"
-                                  style={{ fontSize: "18px" }}
-                                  onClick={() => {
-                                    setSelectedItem(doc._id);
-                                    setShowDeleteModal(true);
-                                  }}
-                                  title="Delete"
-                                >
-                                  <FaTrashAlt />
-                                </Button>
-                              </td>
-                            )}
+                            {userRole !== "Student" &&
+                              userRole !== "LeadStudent" && (
+                                <td className="sticky-col-right-last">
+                                  <Button
+                                    variant="link"
+                                    className="text-danger"
+                                    style={{ fontSize: "18px" }}
+                                    onClick={() => {
+                                      setSelectedItem(doc._id);
+                                      setShowDeleteModal(true);
+                                    }}
+                                    title="Delete"
+                                  >
+                                    <FaTrashAlt />
+                                  </Button>
+                                </td>
+                              )}
                           </tr>
                         );
                       })
@@ -560,7 +581,7 @@ const VisaApplicationOnlineSub = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({

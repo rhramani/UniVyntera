@@ -54,14 +54,14 @@ const AptitudeExamSection = ({
   selectedFile,
   mode,
   fetchOneVisitorDetails,
-  userRole
+  userRole,
 }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showAptitudeModal, setShowAptitudeModal] = useState(false);
   const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
     "Student Applications",
-        "Personal Details"
+    "Personal Details",
   );
   const [showTestDateCalendar, setShowTestDateCalendar] = useState(false);
   const [testDateValue, setTestDateValue] = useState(null);
@@ -124,7 +124,7 @@ const AptitudeExamSection = ({
     if (
       !newAptitude ||
       Object.values(newAptitude).every(
-        (val) => !val || val.toString().trim() === ""
+        (val) => !val || val.toString().trim() === "",
       )
     ) {
       toast.error("Please fill at least one field before submitting.");
@@ -165,7 +165,7 @@ const AptitudeExamSection = ({
             selectedDocumentName?.value === "others"
               ? customDocName ||
                 (Array.isArray(
-                  aptitudeExamFormik?.values?.aptitudeExamDetails
+                  aptitudeExamFormik?.values?.aptitudeExamDetails,
                 ) && aptitudeExamFormik.values.aptitudeExamDetails.length > 0
                   ? aptitudeExamFormik.values.aptitudeExamDetails[0].testName ||
                     "Others"
@@ -192,7 +192,7 @@ const AptitudeExamSection = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(formData, id)
-          : updateVisitorApplication(formData, id)
+          : updateVisitorApplication(formData, id),
       );
 
       if (res?.status === 200) {
@@ -222,7 +222,7 @@ const AptitudeExamSection = ({
     } catch (error) {
       console.error(error);
       toast.error(
-        error?.response?.data?.message || "Error adding aptitude exam"
+        error?.response?.data?.message || "Error adding aptitude exam",
       );
     } finally {
       setIsLoading(false);
@@ -243,7 +243,7 @@ const AptitudeExamSection = ({
       const res = await dispatch(
         mode === "student"
           ? updateStudentApplication(payload, id)
-          : updateVisitorApplication(payload, id)
+          : updateVisitorApplication(payload, id),
       );
 
       if (res?.status === 200) {
@@ -275,7 +275,7 @@ const AptitudeExamSection = ({
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error updating aptitude exam"
+        error?.response?.data?.message || "Error updating aptitude exam",
       );
     } finally {
       setIsLoading(false);
@@ -298,7 +298,7 @@ const AptitudeExamSection = ({
       const res = await dispatch(
         mode === "student"
           ? deleteStudentApplication(payload, id)
-          : deleteVisitorApplication(payload, id)
+          : deleteVisitorApplication(payload, id),
       );
       if (res?.status === 200) {
         if (res?.data?.data?.message) {
@@ -309,7 +309,7 @@ const AptitudeExamSection = ({
         setFormData((prev) => ({
           ...prev,
           aptitudeExamDetails: prev.aptitudeExamDetails.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         if (
@@ -333,7 +333,7 @@ const AptitudeExamSection = ({
     } catch (error) {
       console.error("Error deleting aptitude exam:", error);
       toast.error(
-        error?.response?.data?.message || "Error deleting aptitude exam"
+        error?.response?.data?.message || "Error deleting aptitude exam",
       );
     }
   };
@@ -376,7 +376,11 @@ const AptitudeExamSection = ({
               fontSize: "14px",
             }}
             onClick={() =>
-              window.open(`${BASEURL}/${item.fileUrl}`, "_blank", "noopener,noreferrer")
+              window.open(
+                `${BASEURL}/${item.fileUrl}`,
+                "_blank",
+                "noopener,noreferrer",
+              )
             }
           >
             <VisibilityIcon className="me-1" style={{ fontSize: "16px" }} />
@@ -413,23 +417,25 @@ const AptitudeExamSection = ({
       <div className="my-5 p-4 bg-light rounded shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5>Aptitude Exam</h5>
-          {userRole !== "Student" && userRole !== "LeadStudent" &&  canCreate && (
-          <Button
-            variant="primary"
-            className="custom-select-height"
-            onClick={() => {
-              aptitudeExamFormik.resetForm();
-              setEdit((prev) => ({
-                ...prev,
-                aptitudeExamDetails: false,
-                aptitudeExamIndex: 0,
-              }));
-              setShowAptitudeModal(true);
-            }}
-          >
-            Add New
-          </Button>
-           )} 
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            canCreate && (
+              <Button
+                variant="primary"
+                className="custom-select-height"
+                onClick={() => {
+                  aptitudeExamFormik.resetForm();
+                  setEdit((prev) => ({
+                    ...prev,
+                    aptitudeExamDetails: false,
+                    aptitudeExamIndex: 0,
+                  }));
+                  setShowAptitudeModal(true);
+                }}
+              >
+                Add New
+              </Button>
+            )}
         </div>
         <Modal
           show={showAptitudeModal}
@@ -505,8 +511,8 @@ const AptitudeExamSection = ({
                           ? formatDate(
                               parseDate(
                                 aptitudeExamFormik.values.aptitudeExamDetails[0]
-                                  ?.testDate
-                              )
+                                  ?.testDate,
+                              ),
                             )
                           : ""
                       }
@@ -520,8 +526,8 @@ const AptitudeExamSection = ({
                           setTestDateValue(
                             parseDate(
                               aptitudeExamFormik.values.aptitudeExamDetails[0]
-                                ?.testDate
-                            )
+                                ?.testDate,
+                            ),
                           );
                         }
                         setShowTestDateCalendar((show) => !show);
@@ -562,7 +568,7 @@ const AptitudeExamSection = ({
                             setTestDateValue(selectedDate);
                             aptitudeExamFormik.setFieldValue(
                               "aptitudeExamDetails[0].testDate",
-                              formatDate(selectedDate)
+                              formatDate(selectedDate),
                             );
                             setShowTestDateCalendar(false);
                           }}
@@ -588,8 +594,8 @@ const AptitudeExamSection = ({
                           ? formatDate(
                               parseDate(
                                 aptitudeExamFormik.values.aptitudeExamDetails[0]
-                                  ?.expireDate
-                              )
+                                  ?.expireDate,
+                              ),
                             )
                           : ""
                       }
@@ -603,8 +609,8 @@ const AptitudeExamSection = ({
                           setExpireDateValue(
                             parseDate(
                               aptitudeExamFormik.values.aptitudeExamDetails[0]
-                                ?.expireDate
-                            )
+                                ?.expireDate,
+                            ),
                           );
                         }
                         setShowExpireDateCalendar((show) => !show);
@@ -645,7 +651,7 @@ const AptitudeExamSection = ({
                             setExpireDateValue(selectedDate);
                             aptitudeExamFormik.setFieldValue(
                               "aptitudeExamDetails[0].expireDate",
-                              formatDate(selectedDate)
+                              formatDate(selectedDate),
                             );
                             setShowExpireDateCalendar(false);
                           }}
@@ -734,7 +740,7 @@ const AptitudeExamSection = ({
                         styles={{
                           control: (base) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                           }),
                           placeholder: (base) => ({
@@ -758,7 +764,7 @@ const AptitudeExamSection = ({
                         styles={{
                           control: (base) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                           }),
                           placeholder: (base) => ({

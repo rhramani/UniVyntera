@@ -47,7 +47,7 @@ const ApplicationPipeline = ({ showAll, selectedBranchId }) => {
     mainStatus = "",
     branchId = "",
     showAll = false,
-    country = ""
+    country = "",
   ) => {
     try {
       if (canRead) {
@@ -59,8 +59,8 @@ const ApplicationPipeline = ({ showAll, selectedBranchId }) => {
             mainStatus,
             branchId,
             showAll,
-            country
-          )
+            country,
+          ),
         );
         const responseData = res?.data?.data;
         setAllStudentApplication(responseData?.data || []);
@@ -87,7 +87,7 @@ const ApplicationPipeline = ({ showAll, selectedBranchId }) => {
         mainStatus?.value || "",
         branchId,
         newShowAll,
-        selectedCountry?.value || ""
+        selectedCountry?.value || "",
       );
     }
   }, [
@@ -120,7 +120,7 @@ const ApplicationPipeline = ({ showAll, selectedBranchId }) => {
         selectedOption?.value || "",
         branchId,
         newShowAll,
-        selectedCountry?.value || ""
+        selectedCountry?.value || "",
       );
     }
   };
@@ -173,7 +173,7 @@ const ApplicationPipeline = ({ showAll, selectedBranchId }) => {
               backgroundColor: statusColor,
               padding: "4px 8px",
               color: "#FFF",
-              borderRadius: "30px",
+              borderRadius: "12px",
             }}
           >
             {statusName}

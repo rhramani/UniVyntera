@@ -31,7 +31,7 @@ const InstituteModelForm = ({
   agreementStatusOptions,
   commissionPeriodOptions,
   valueOptions,
-  unitOptions
+  unitOptions,
 }) => {
   const [showStartDateCalendar, setShowStartDateCalendar] = useState(false);
   const [showEndDateCalendar, setShowEndDateCalendar] = useState(false);
@@ -225,7 +225,7 @@ const InstituteModelForm = ({
                       formik.setFieldValue("state", selectedOption.value);
                       handleStateChange(
                         formik.values.country,
-                        selectedOption.value
+                        selectedOption.value,
                       );
                       formik.setFieldError("state", "");
                     } else {
@@ -239,7 +239,7 @@ const InstituteModelForm = ({
                   styles={{
                     control: (base, state) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: state.isDisabled ? "#6c757d" : "black",
                       backgroundColor: state.isDisabled ? "#e9ecef" : "white",
                       cursor: state.isDisabled ? "not-allowed" : "pointer",
@@ -290,7 +290,7 @@ const InstituteModelForm = ({
                   styles={{
                     control: (base, state) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: state.isDisabled ? "#6c757d" : "black",
                       backgroundColor: state.isDisabled ? "#e9ecef" : "white",
                       cursor: state.isDisabled ? "not-allowed" : "pointer",
@@ -345,7 +345,7 @@ const InstituteModelForm = ({
                           value: formik.values.campus,
                           label:
                             campusByCountry.find(
-                              (c) => c._id === formik.values.campus
+                              (c) => c._id === formik.values.campus,
                             )?.campus || "",
                         }
                       : null
@@ -484,7 +484,7 @@ const InstituteModelForm = ({
                     const dialCode = data.dialCode ? `+${data.dialCode}` : "";
                     const formattedPhone = `${dialCode} ${phone.replace(
                       data.dialCode,
-                      ""
+                      "",
                     )}`.trim();
                     formik.setFieldValue("contact1", formattedPhone);
                   }}
@@ -516,7 +516,7 @@ const InstituteModelForm = ({
                     const dialCode = data.dialCode ? `+${data.dialCode}` : "";
                     const formattedPhone = `${dialCode} ${phone.replace(
                       data.dialCode,
-                      ""
+                      "",
                     )}`.trim();
                     formik.setFieldValue("contact2", formattedPhone);
                   }}
@@ -557,7 +557,7 @@ const InstituteModelForm = ({
                           label:
                             admissionTypeOptions.find(
                               (option) =>
-                                option.value === formik.values.admissionType
+                                option.value === formik.values.admissionType,
                             )?.label || "Select Admission Type",
                         }
                       : null
@@ -565,7 +565,7 @@ const InstituteModelForm = ({
                   onChange={(option) =>
                     formik.setFieldValue(
                       "admissionType",
-                      option ? option.value : ""
+                      option ? option.value : "",
                     )
                   }
                   onBlur={() => formik.setFieldTouched("admissionType", true)}
@@ -683,11 +683,11 @@ const InstituteModelForm = ({
                             : "";
                           const formattedPhone = `${dialCode} ${phone.replace(
                             data.dialCode,
-                            ""
+                            "",
                           )}`.trim();
                           formik.setFieldValue(
                             `contactPerson[${index}].phone`,
-                            formattedPhone
+                            formattedPhone,
                           );
                         }}
                         inputProps={{
@@ -745,7 +745,7 @@ const InstituteModelForm = ({
                     value={
                       formik.values.agreementStartDate
                         ? formatDate(
-                            parseDate(formik.values.agreementStartDate)
+                            parseDate(formik.values.agreementStartDate),
                           )
                         : ""
                     }
@@ -787,7 +787,7 @@ const InstituteModelForm = ({
                         onChange={(selectedDate) => {
                           formik.setFieldValue(
                             "agreementStartDate",
-                            toISODate(selectedDate)
+                            toISODate(selectedDate),
                           );
                           setShowStartDateCalendar(false);
                         }}
@@ -858,7 +858,7 @@ const InstituteModelForm = ({
                         onChange={(selectedDate) => {
                           formik.setFieldValue(
                             "agreementEndDate",
-                            toISODate(selectedDate)
+                            toISODate(selectedDate),
                           );
                           setShowEndDateCalendar(false);
                         }}
@@ -900,7 +900,7 @@ const InstituteModelForm = ({
                   onChange={(option) =>
                     formik.setFieldValue(
                       "agreementStatus",
-                      option ? option.value : ""
+                      option ? option.value : "",
                     )
                   }
                   onBlur={() => formik.setFieldTouched("agreementStatus", true)}
@@ -1021,7 +1021,7 @@ const InstituteModelForm = ({
                   onChange={(option) =>
                     formik.setFieldValue(
                       "commissionPeriod",
-                      option ? option.value : ""
+                      option ? option.value : "",
                     )
                   }
                   onBlur={() =>
@@ -1080,7 +1080,7 @@ const InstituteModelForm = ({
                     onChange={(option) =>
                       formik.setFieldValue(
                         "olTATPeriod.value",
-                        option ? option.value : ""
+                        option ? option.value : "",
                       )
                     }
                     onBlur={() =>
@@ -1111,7 +1111,7 @@ const InstituteModelForm = ({
                     onChange={(option) =>
                       formik.setFieldValue(
                         "olTATPeriod.unit",
-                        option ? option.value : ""
+                        option ? option.value : "",
                       )
                     }
                     onBlur={() =>

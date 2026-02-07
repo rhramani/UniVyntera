@@ -29,6 +29,7 @@ import {
   updateStudentApplication,
 } from "../../../redux/actions/Student/StudentApplication.action";
 import { getAllApplicationType } from "../../../redux/actions/Master/ApplicationType.action";
+import DeleteConfirmModal from "../../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const interestedCourseValidationSchema = Yup.object({
   institute: Yup.string().required("Institute is required"),
@@ -68,7 +69,7 @@ const InterestedCourseSection = ({
   const [applicationTypes, setApplicationTypes] = useState([]);
   const { canRead, canUpdate, canCreate, canDelete } = usePermissions(
     "Student Applications",
-    "Course Selection"
+    "Course Selection",
   );
 
   const interestedCourseStatusOptions = interestedCourseStatus?.map((item) => ({
@@ -131,7 +132,7 @@ const InterestedCourseSection = ({
   const fetchAllCourse = async (institute, campus, programLevel) => {
     try {
       const res = await dispatch(
-        getAllCourseFinder(1, 1000, { institute, campus, programLevel })
+        getAllCourseFinder(1, 1000, { institute, campus, programLevel }),
       );
 
       if (res?.status === 200) {
@@ -207,7 +208,7 @@ const InterestedCourseSection = ({
     if (
       !newCourse ||
       Object.values(newCourse).every(
-        (val) => !val || val.toString().trim() === ""
+        (val) => !val || val.toString().trim() === "",
       )
     ) {
       toast.error("Please fill at least one field before submitting.");
@@ -241,7 +242,7 @@ const InterestedCourseSection = ({
       }
     } catch (error) {
       toast.error(
-        error?.response?.data?.message || "Error adding interested course"
+        error?.response?.data?.message || "Error adding interested course",
       );
     } finally {
       setIsLoading(false);
@@ -343,7 +344,7 @@ const InterestedCourseSection = ({
     } catch (error) {
       console.error("Error updating interested course:", error);
       toast.error(
-        error?.response?.data?.message || "Error updating interested course"
+        error?.response?.data?.message || "Error updating interested course",
       );
     } finally {
       setIsLoading(false);
@@ -369,7 +370,7 @@ const InterestedCourseSection = ({
         setFormData((prev) => ({
           ...prev,
           interestedCourseDetails: prev.interestedCourseDetails.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         if (
@@ -389,7 +390,7 @@ const InterestedCourseSection = ({
     } catch (error) {
       console.error("Error deleting interested course:", error);
       toast.error(
-        error?.response?.data?.message || "Error deleting interested course"
+        error?.response?.data?.message || "Error deleting interested course",
       );
     }
   };
@@ -400,8 +401,8 @@ const InterestedCourseSection = ({
     new Map(
       instituteData
         ?.sort((a, b) => a.instituteName.localeCompare(b.instituteName))
-        ?.map((institute) => [institute.instituteName, institute])
-    ).values()
+        ?.map((institute) => [institute.instituteName, institute]),
+    ).values(),
   ).map((institute) => ({
     label: institute.instituteName,
     value: institute._id,
@@ -410,7 +411,7 @@ const InterestedCourseSection = ({
   const fetchAllCampusByInstitute = async (selectedOption, country) => {
     try {
       const response = await dispatch(
-        instituteWiseCampusDropdown(selectedOption, country)
+        instituteWiseCampusDropdown(selectedOption, country),
       );
       const responseData = response?.data?.data || [];
       setCampusData(responseData);
@@ -429,7 +430,7 @@ const InterestedCourseSection = ({
     }
     try {
       const res = await dispatch(
-        instituteWiseProgramLevelDropdown(instituteName, country)
+        instituteWiseProgramLevelDropdown(instituteName, country),
       );
       if (res?.status === 200) {
         setProgramLevelData(res.data?.data || []);
@@ -446,7 +447,7 @@ const InterestedCourseSection = ({
     const instituteId =
       interestedCourseFormik.values.interestedCourseDetails[0].institute;
     const instituteName = instituteOptions?.find(
-      (option) => option.value === instituteId
+      (option) => option.value === instituteId,
     )?.label;
     const preferredCountries =
       oneStudentData?.purposeDetails?.preferredCountry || [];
@@ -497,7 +498,7 @@ const InterestedCourseSection = ({
         ...new Set(
           formData.interestedCourseDetails
             .map((ic) => ic.institute?._id)
-            .filter(Boolean)
+            .filter(Boolean),
         ),
       ];
 
@@ -607,7 +608,10 @@ const InterestedCourseSection = ({
           <span
             className="text-primary"
             style={{
-              cursor: userRole === "Student" || userRole === "LeadStudent" ? "" : "pointer",
+              cursor:
+                userRole === "Student" || userRole === "LeadStudent"
+                  ? ""
+                  : "pointer",
             }}
             onClick={() => {
               if (userRole !== "Student" && userRole !== "LeadStudent") {
@@ -634,7 +638,7 @@ const InterestedCourseSection = ({
       render: (item) => {
         if (!item?.programLevel) return "-";
         const level = programLevelData.find(
-          (pl) => pl._id === item.programLevel
+          (pl) => pl._id === item.programLevel,
         );
         return level ? level.name : "-";
       },
@@ -655,7 +659,7 @@ const InterestedCourseSection = ({
       label: "Status",
       render: (item) => {
         const statusInfo = interestedCourseStatus.find(
-          (status) => status.name === item.status
+          (status) => status.name === item.status,
         );
         const backgroundColor = statusInfo ? statusInfo.color : "#6c757d";
         return (
@@ -664,7 +668,7 @@ const InterestedCourseSection = ({
             style={{
               minWidth: "40px",
               color: "white",
-              backgroundColor: backgroundColor || "#053880",
+              backgroundColor: backgroundColor || "#5D54BE",
             }}
           >
             {item?.status || "New"}
@@ -676,7 +680,7 @@ const InterestedCourseSection = ({
       label: "Remarks",
       render: (item) => (item ? item.remarks || "-" : "-"),
     },
-    ...( userRole !== "LeadStudent" && userRole !== "Student"
+    ...(userRole !== "LeadStudent" && userRole !== "Student"
       ? [
           {
             label: "Application Type",
@@ -684,7 +688,7 @@ const InterestedCourseSection = ({
               if (!item?.portalDetails.applicationType) return "-";
 
               const appType = applicationTypeOptions.find(
-                (opt) => opt.value === item.portalDetails.applicationType?._id
+                (opt) => opt.value === item.portalDetails.applicationType?._id,
               );
 
               return appType ? appType.label : "-";
@@ -763,28 +767,31 @@ const InterestedCourseSection = ({
           </MenuItem>
         )}
         {canUpdate && (
-
           <MenuItem
-          onClick={() => {
-            handleEditModal(item);
-            setOpenDropdown(null);
-          }}
+            onClick={() => {
+              handleEditModal(item);
+              setOpenDropdown(null);
+            }}
           >
-          <EditIcon fontSize="small" sx={{ mr: 1 }} className="edit-icon" />
-          <span className="edit-action-text">Edit</span>
-        </MenuItem>
+            <EditIcon fontSize="small" sx={{ mr: 1 }} className="edit-icon" />
+            <span className="edit-action-text">Edit</span>
+          </MenuItem>
         )}
         {canDelete && (
           <MenuItem
-          onClick={() => {
-            setSelectedItem(item);
-            setShowDeleteModal(true);
-            setOpenDropdown(null);
-          }}
+            onClick={() => {
+              setSelectedItem(item);
+              setShowDeleteModal(true);
+              setOpenDropdown(null);
+            }}
           >
-          <DeleteIcon fontSize="small" sx={{ mr: 1 }} className="delete-icon" />
-          <span className="delete-action-text">Delete</span>
-        </MenuItem>
+            <DeleteIcon
+              fontSize="small"
+              sx={{ mr: 1 }}
+              className="delete-icon"
+            />
+            <span className="delete-action-text">Delete</span>
+          </MenuItem>
         )}
       </Menu>
     </div>
@@ -813,23 +820,25 @@ const InterestedCourseSection = ({
       <div>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5>Interested Course</h5>
-          {userRole !== "Student" && userRole !== "LeadStudent" && canCreate && (
-            <Button
-              variant="primary"
-              className="custom-select-height"
-              onClick={() => {
-                interestedCourseFormik.resetForm();
-                setEdit((prev) => ({
-                  ...prev,
-                  interestedCourseDetails: false,
-                  interestedCourseIndex: 0,
-                }));
-                setShowCounsellingModal(true);
-              }}
-            >
-              Add New
-            </Button>
-          )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            canCreate && (
+              <Button
+                variant="primary"
+                className="custom-select-height"
+                onClick={() => {
+                  interestedCourseFormik.resetForm();
+                  setEdit((prev) => ({
+                    ...prev,
+                    interestedCourseDetails: false,
+                    interestedCourseIndex: 0,
+                  }));
+                  setShowCounsellingModal(true);
+                }}
+              >
+                Add New
+              </Button>
+            )}
         </div>
         <DataTable
           columns={interestedCourse}
@@ -903,29 +912,29 @@ const InterestedCourseSection = ({
                           (option) =>
                             option.value ===
                             interestedCourseFormik.values
-                              .interestedCourseDetails[0].institute
+                              .interestedCourseDetails[0].institute,
                         )
                       : null
                   }
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].institute",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].campus",
-                      ""
+                      "",
                     );
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].course",
-                      ""
+                      "",
                     );
                     const preferredCountry =
                       oneStudentData?.purposeDetails?.preferredCountry?.[0] ||
                       "";
                     fetchAllCampusByInstitute(
                       selectedOption ? selectedOption.label : "",
-                      preferredCountry
+                      preferredCountry,
                     );
                     if (selectedOption) {
                       getAllCourseFinder(selectedOption.value, ""); // Fetch courses for the selected institute
@@ -934,7 +943,7 @@ const InterestedCourseSection = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -968,8 +977,8 @@ const InterestedCourseSection = ({
                   className="custom-select-height"
                   options={Array.from(
                     new Map(
-                      campusData?.map((campus) => [campus.campus, campus])
-                    ).values()
+                      campusData?.map((campus) => [campus.campus, campus]),
+                    ).values(),
                   )
                     ?.sort((a, b) => a.campus.localeCompare(b.campus))
                     ?.map((campus) => ({
@@ -988,14 +997,14 @@ const InterestedCourseSection = ({
                             (option) =>
                               option.value ===
                               interestedCourseFormik.values
-                                .interestedCourseDetails[0].campus
+                                .interestedCourseDetails[0].campus,
                           )
                       : null
                   }
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].campus",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     // interestedCourseFormik.setFieldTouched(
                     //   "interestedCourseDetails[0].campus",
@@ -1003,18 +1012,18 @@ const InterestedCourseSection = ({
                     // );
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].course",
-                      ""
+                      "",
                     );
                     if (onInstituteSelect) {
                       onInstituteSelect(
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       );
                     }
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1062,22 +1071,22 @@ const InterestedCourseSection = ({
                       (opt) =>
                         opt.value ===
                         interestedCourseFormik.values.interestedCourseDetails[0]
-                          .programLevel
+                          .programLevel,
                     )}
                   onChange={(sel) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].programLevel",
-                      sel ? sel.value : ""
+                      sel ? sel.value : "",
                     );
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].course",
-                      ""
+                      "",
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1115,8 +1124,8 @@ const InterestedCourseSection = ({
                       allcourseData?.map((course) => [
                         course.programName,
                         course,
-                      ])
-                    ).values()
+                      ]),
+                    ).values(),
                   )
                     ?.sort((a, b) => a.programName.localeCompare(b.programName))
                     ?.map((course) => ({
@@ -1135,14 +1144,14 @@ const InterestedCourseSection = ({
                             (option) =>
                               option.value ===
                               interestedCourseFormik.values
-                                .interestedCourseDetails[0].course
+                                .interestedCourseDetails[0].course,
                           )
                       : null
                   }
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].course",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     // interestedCourseFormik.setFieldTouched(
                     //   "interestedCourseDetails[0].course",
@@ -1152,7 +1161,7 @@ const InterestedCourseSection = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1190,7 +1199,7 @@ const InterestedCourseSection = ({
                         (course) =>
                           course._id ===
                           interestedCourseFormik.values
-                            .interestedCourseDetails?.[0]?.course
+                            .interestedCourseDetails?.[0]?.course,
                       )
                       ?.intakeMonths?.map((month) => ({
                         value: month,
@@ -1213,17 +1222,17 @@ const InterestedCourseSection = ({
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].intakeMonth",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     interestedCourseFormik.setFieldTouched(
                       "interestedCourseDetails[0].intakeMonth",
-                      true
+                      true,
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1261,7 +1270,7 @@ const InterestedCourseSection = ({
                         (course) =>
                           course._id ===
                           interestedCourseFormik.values
-                            .interestedCourseDetails?.[0]?.course
+                            .interestedCourseDetails?.[0]?.course,
                       )
                       ?.intakeYears?.map((year) => ({
                         value: year,
@@ -1284,17 +1293,17 @@ const InterestedCourseSection = ({
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].intakeYear",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     interestedCourseFormik.setFieldTouched(
                       "interestedCourseDetails[0].intakeYear",
-                      true
+                      true,
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -1351,20 +1360,20 @@ const InterestedCourseSection = ({
                             (option) =>
                               option.value ===
                               interestedCourseFormik.values
-                                .interestedCourseDetails[0].applicationType
+                                .interestedCourseDetails[0].applicationType,
                           )
                         : null
                     }
                     onChange={(selectedOption) => {
                       interestedCourseFormik.setFieldValue(
                         "interestedCourseDetails[0].applicationType",
-                        selectedOption ? selectedOption.value : ""
+                        selectedOption ? selectedOption.value : "",
                       );
                     }}
                     styles={{
                       control: (base) => ({
                         ...base,
-                        borderRadius: "30px",
+                        borderRadius: "12px",
                         color: "black",
                       }),
                       placeholder: (base) => ({
@@ -1406,47 +1415,11 @@ const InterestedCourseSection = ({
         </Modal.Body>
       </Modal>
 
-      <Modal
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>{" "}
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleDelete(selectedItem);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => handleDelete(selectedItem)}
+      />
     </>
   );
 };

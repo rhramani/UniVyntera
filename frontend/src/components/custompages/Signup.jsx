@@ -54,7 +54,7 @@ const Signup = () => {
   useEffect(() => {
     if (allInquiry?.length > 0) {
       const studentVisa = allInquiry.find(
-        (item) => item.name === "Student Visa"
+        (item) => item.name === "Student Visa",
       );
 
       if (studentVisa) {
@@ -94,11 +94,11 @@ const Signup = () => {
         toast.dismiss();
 
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
 
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         const formattedValues = {
@@ -127,7 +127,7 @@ const Signup = () => {
       setStateDropDown([]);
       setCityDropDownList([]);
       const selectedCountry = countries.find(
-        (c) => c.isoCode === countryIsoCode
+        (c) => c.isoCode === countryIsoCode,
       );
 
       const res = await dispatch(stateDropdown(countryIsoCode));
@@ -297,11 +297,11 @@ const Signup = () => {
                                     const formattedPhone =
                                       `${dialCode} ${phone.replace(
                                         data.dialCode,
-                                        ""
+                                        "",
                                       )}`.trim();
                                     formik.setFieldValue(
                                       "phone",
-                                      formattedPhone
+                                      formattedPhone,
                                     );
                                   }
                                 }}
@@ -341,7 +341,7 @@ const Signup = () => {
                                       label: c.name,
                                     }))
                                     .filter(
-                                      (o) => o.value === formik.values.country
+                                      (o) => o.value === formik.values.country,
                                     )[0]
                                 }
                                 onChange={(selectedOption) => {
@@ -349,7 +349,7 @@ const Signup = () => {
                                     handleCountryChange(selectedOption.value);
                                     formik.setFieldValue(
                                       "country",
-                                      selectedOption.value
+                                      selectedOption.value,
                                     );
                                     formik.setFieldError("country", "");
                                   } else {
@@ -365,7 +365,7 @@ const Signup = () => {
                                 styles={{
                                   control: (base) => ({
                                     ...base,
-                                    borderRadius: "30px",
+                                    borderRadius: "12px",
                                     color: "black",
                                   }),
                                   placeholder: (base) => ({
@@ -397,18 +397,18 @@ const Signup = () => {
                                       label: state.name,
                                     }))
                                     .filter(
-                                      (s) => s.value === formik.values.state
+                                      (s) => s.value === formik.values.state,
                                     )[0]
                                 }
                                 onChange={(selectedOption) => {
                                   if (selectedOption) {
                                     formik.setFieldValue(
                                       "state",
-                                      selectedOption.value
+                                      selectedOption.value,
                                     );
                                     handleStateChange(
                                       formik.values.country,
-                                      selectedOption.value
+                                      selectedOption.value,
                                     );
                                     formik.setFieldError("state", "");
                                   } else {
@@ -425,7 +425,7 @@ const Signup = () => {
                                 styles={{
                                   control: (base, state) => ({
                                     ...base,
-                                    borderRadius: "30px",
+                                    borderRadius: "12px",
                                     color: state.isDisabled
                                       ? "#6c757d"
                                       : "black",
@@ -479,7 +479,7 @@ const Signup = () => {
                                   if (selectedOption) {
                                     formik.setFieldValue(
                                       "city",
-                                      selectedOption.value
+                                      selectedOption.value,
                                     );
                                     formik.setFieldError("city", "");
                                   } else {
@@ -496,7 +496,7 @@ const Signup = () => {
                                 styles={{
                                   control: (base, state) => ({
                                     ...base,
-                                    borderRadius: "30px",
+                                    borderRadius: "12px",
                                     color: state.isDisabled
                                       ? "#6c757d"
                                       : "black",
@@ -545,7 +545,7 @@ const Signup = () => {
                                           allInquiry?.find(
                                             (type) =>
                                               type._id ===
-                                              formik.values.inquiry_for
+                                              formik.values.inquiry_for,
                                           )?.name || "",
                                       }
                                     : null
@@ -553,7 +553,7 @@ const Signup = () => {
                                 onChange={(selectedOption) => {
                                   formik.setFieldValue(
                                     "inquiry_for",
-                                    selectedOption ? selectedOption.value : ""
+                                    selectedOption ? selectedOption.value : "",
                                   );
                                 }}
                                 placeholder="Select Inquiry Type"
@@ -566,7 +566,7 @@ const Signup = () => {
                                 styles={{
                                   control: (base) => ({
                                     ...base,
-                                    borderRadius: "30px",
+                                    borderRadius: "12px",
                                     color: "black",
                                   }),
                                   placeholder: (base) => ({
@@ -593,7 +593,7 @@ const Signup = () => {
                                 value={
                                   formik.values.country_interested
                                     ? (Array.isArray(
-                                        formik.values.country_interested
+                                        formik.values.country_interested,
                                       )
                                         ? formik.values.country_interested
                                         : [formik.values.country_interested]
@@ -606,11 +606,11 @@ const Signup = () => {
                                 onChange={(selectedOptions) => {
                                   const selected = selectedOptions || [];
                                   const selectedValues = selected.map(
-                                    (opt) => opt.value
+                                    (opt) => opt.value,
                                   );
                                   formik.setFieldValue(
                                     "country_interested",
-                                    selectedValues
+                                    selectedValues,
                                   );
                                 }}
                                 placeholder="Select Country"
@@ -625,7 +625,7 @@ const Signup = () => {
                                 styles={{
                                   control: (base) => ({
                                     ...base,
-                                    borderRadius: "30px",
+                                    borderRadius: "12px",
                                     color: "black",
                                   }),
                                   placeholder: (base) => ({

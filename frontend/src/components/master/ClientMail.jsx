@@ -74,12 +74,12 @@ const ClientMail = () => {
     page = 1,
     limit = itemsPerPage,
     search = "",
-    category
+    category,
   ) => {
     try {
       setIsLoading(true);
       const res = await dispatch(
-        getAllClientMail(page, limit, search, category)
+        getAllClientMail(page, limit, search, category),
       );
 
       const responseData = res?.data?.data || {};
@@ -101,7 +101,7 @@ const ClientMail = () => {
         currentPage,
         itemsPerPage,
         search,
-        selectedCategory?.value
+        selectedCategory?.value,
       );
     }
   }, [canRead, currentPage, itemsPerPage, search, selectedCategory]);
@@ -130,7 +130,7 @@ const ClientMail = () => {
             currentPage,
             itemsPerPage,
             search,
-            selectedCategory?.value
+            selectedCategory?.value,
           );
         }
       }
@@ -186,7 +186,7 @@ const ClientMail = () => {
             currentPage,
             itemsPerPage,
             search,
-            selectedCategory?.value
+            selectedCategory?.value,
           );
         }
       } catch (error) {
@@ -223,7 +223,7 @@ const ClientMail = () => {
           currentPage,
           itemsPerPage,
           search,
-          selectedCategory?.value
+          selectedCategory?.value,
         );
       }
     } catch (error) {
@@ -358,7 +358,7 @@ const ClientMail = () => {
                             styles={{
                               control: (base) => ({
                                 ...base,
-                                borderRadius: "30px",
+                                borderRadius: "12px",
                                 color: "black",
                                 minHeight: "38px",
                                 width: "200px",
@@ -425,13 +425,13 @@ const ClientMail = () => {
                         options={categories}
                         value={
                           categories.find(
-                            (opt) => opt.value === formik.values.category
+                            (opt) => opt.value === formik.values.category,
                           ) || null
                         }
                         onChange={(option) =>
                           formik.setFieldValue(
                             "category",
-                            option ? option.value : ""
+                            option ? option.value : "",
                           )
                         }
                         onBlur={() => formik.setFieldTouched("category", true)}
@@ -439,7 +439,7 @@ const ClientMail = () => {
                         styles={{
                           control: (base) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                             minHeight: "38px",
                           }),
@@ -551,7 +551,7 @@ const ClientMail = () => {
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
                   />
-                  </div>
+                </div>
               )}
             </Card.Body>
           </Card>

@@ -19,7 +19,7 @@ const ButtonSection = ({
   const customStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -94,10 +94,10 @@ const ButtonSection = ({
                         handleCTAInputChange(
                           index,
                           "phone",
-                          value.slice(data.dialCode.length)
+                          value.slice(data.dialCode.length),
                         );
                       }}
-                      inputStyle={{ width: "100%", borderRadius: "30px" }}
+                      inputStyle={{ width: "100%", borderRadius: "12px" }}
                       buttonStyle={{
                         borderRadius: "30px 0 0 30px",
                       }}
@@ -130,7 +130,7 @@ const ButtonSection = ({
                         handleCTAInputChange(
                           index,
                           "urlType",
-                          selectedOption.value
+                          selectedOption.value,
                         )
                       }
                       options={[
@@ -153,7 +153,7 @@ const ButtonSection = ({
                         handleCTAInputChange(
                           index,
                           "websiteUrl",
-                          e.target.value
+                          e.target.value,
                         )
                       }
                     />

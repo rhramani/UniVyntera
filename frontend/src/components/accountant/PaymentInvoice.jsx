@@ -41,6 +41,7 @@ import { getAllConfigurations } from "../../redux/actions/Configuration.action";
 import { BASEURL } from "../../baseUrl";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { countryCodeISO } from "../../utils/countryISOCode";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const PaymentInvoice = () => {
   const dispatch = useDispatch();
@@ -96,7 +97,7 @@ const PaymentInvoice = () => {
   const [configData, setConfigData] = useState(null);
 
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   useEffect(() => {
@@ -190,7 +191,7 @@ const PaymentInvoice = () => {
       subPlan: Yup.string().required("Sub Plan is required"),
       discount: Yup.string().matches(
         /^\d+(\.\d+)?%$/,
-        "Discount must be a valid percentage (e.g., 10%)"
+        "Discount must be a valid percentage (e.g., 10%)",
       ),
       discountAmount: Yup.string(),
       paymentType: Yup.string(),
@@ -246,7 +247,7 @@ const PaymentInvoice = () => {
 
           if (Object.keys(firstCallPayload).length > 0) {
             const res1 = await dispatch(
-              updateGenerateInvoice(firstCallPayload, values.id)
+              updateGenerateInvoice(firstCallPayload, values.id),
             );
             if (res1?.data?.code !== 200) {
               throw new Error("First API call failed");
@@ -267,7 +268,7 @@ const PaymentInvoice = () => {
             remarks: values.remarks || "",
           };
           const res2 = await dispatch(
-            updateGenerateInvoice(fullPayload, values.id)
+            updateGenerateInvoice(fullPayload, values.id),
           );
           if (res2?.data?.code === 200) {
             toast.success("Payments Invoice updated successfully");
@@ -315,13 +316,13 @@ const PaymentInvoice = () => {
             filters.endDate,
             filters.status?.value,
             filters.showAll,
-            filters.branchId
+            filters.branchId,
           );
         }
       } catch (error) {
         console.error(
           "Error submitting form:",
-          error?.response?.data?.message || error.message
+          error?.response?.data?.message || error.message,
         );
         toast.error(error?.response?.data?.message || error.message);
       }
@@ -395,14 +396,14 @@ const PaymentInvoice = () => {
               filters.endDate,
               filters.status?.value,
               filters.showAll,
-              filters.branchId
+              filters.branchId,
             );
           }
         }
       } catch (error) {
         console.error("Error updating billing:", error);
         toast.error(
-          error?.response?.data?.message || "Failed to update billing"
+          error?.response?.data?.message || "Failed to update billing",
         );
       }
     },
@@ -430,7 +431,7 @@ const PaymentInvoice = () => {
 
     formik.setFieldValue(
       "payableAmount",
-      Math.max(0, payableAmount).toFixed(2)
+      Math.max(0, payableAmount).toFixed(2),
     );
   }, [
     formik.values.amount,
@@ -456,27 +457,27 @@ const PaymentInvoice = () => {
         const paidSum =
           item.paidAmount?.reduce(
             (acc, entry) => acc + (parseFloat(entry.amount) || 0),
-            0
+            0,
           ) || 0;
         return sum + paidSum;
       }, 0);
 
       const dueTotal = allGenerateInvoice.reduce(
         (sum, item) => sum + (parseFloat(item.dueAmount) || 0),
-        0
+        0,
       );
 
       setTotalPaidAmount(
         paidTotal.toLocaleString("en-IN", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
-        })
+        }),
       );
       setTotalDueAmount(
         dueTotal.toLocaleString("en-IN", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
-        })
+        }),
       );
     };
 
@@ -494,7 +495,7 @@ const PaymentInvoice = () => {
         if (res?.status === 200 && res.data.message[0].invoiceLogo) {
           setDashboardLogo(
             `${BASEURL}/${res.data.message[0].invoiceLogo}` ||
-              ALLImages("logo1")
+              ALLImages("logo1"),
           );
         }
       }
@@ -544,10 +545,10 @@ const PaymentInvoice = () => {
             studentId = student._id;
           } else {
             console.warn(
-              `Student with name ${item.name} not found in uniqueStudentOptions`
+              `Student with name ${item.name} not found in uniqueStudentOptions`,
             );
             toast.error(
-              "Selected student not found. Please select a valid student."
+              "Selected student not found. Please select a valid student.",
             );
             return;
           }
@@ -591,14 +592,14 @@ const PaymentInvoice = () => {
       setPaidDateValue(parseDate(item.paidAmount?.[0]?.date) || null);
 
       const selectedStudent = uniqueStudentOptions?.find(
-        (option) => option.label === item?.name
+        (option) => option.label === item?.name,
       );
       if (!selectedStudent) {
         console.warn(
-          `Student with ID ${item.name} not found in uniqueStudentOptions`
+          `Student with ID ${item.name} not found in uniqueStudentOptions`,
         );
         toast.error(
-          "Selected student not found. Please check the student list."
+          "Selected student not found. Please check the student list.",
         );
       }
 
@@ -644,7 +645,7 @@ const PaymentInvoice = () => {
               filters.endDate,
               filters.status?.value,
               filters.showAll,
-              filters.branchId
+              filters.branchId,
             );
           }
         }
@@ -702,7 +703,7 @@ const PaymentInvoice = () => {
     setSelectedInvoices((prev) =>
       prev.includes(item._id)
         ? prev.filter((id) => id !== item._id)
-        : [...prev, item._id]
+        : [...prev, item._id],
     );
   };
 
@@ -739,7 +740,7 @@ const PaymentInvoice = () => {
             item.paidAmount?.length > 0
               ? `${item.paidAmount[0].amount} (Bank: ${
                   allBankingDetails?.find(
-                    (b) => b._id === item.paidAmount[0].bank
+                    (b) => b._id === item.paidAmount[0].bank,
                   )?.bankName || "N/A"
                 }, Date: ${
                   formatDate(parseDate(item.paidAmount[0].date)) || "-"
@@ -763,7 +764,7 @@ const PaymentInvoice = () => {
     const invoicesToDownload =
       selectedInvoices.length > 0
         ? allGenerateInvoice.filter((item) =>
-            selectedInvoices.includes(item._id)
+            selectedInvoices.includes(item._id),
           )
         : allGenerateInvoice;
 
@@ -792,7 +793,7 @@ const PaymentInvoice = () => {
           item.paidAmount?.length > 0
             ? `${item.paidAmount[0].amount} (Bank: ${
                 allBankingDetails?.find(
-                  (b) => b._id === item.paidAmount[0].bank
+                  (b) => b._id === item.paidAmount[0].bank,
                 )?.bankName || "N/A"
               }, Date: ${
                 formatDate(parseDate(item.paidAmount[0].date)) || "-"
@@ -824,7 +825,7 @@ const PaymentInvoice = () => {
         filters.endDate,
         filters.status?.value,
         filters.showAll,
-        filters.branchId
+        filters.branchId,
       );
     }
   }, [canRead, currentPage, itemsPerPage, search, filters]);
@@ -840,7 +841,7 @@ const PaymentInvoice = () => {
     endDate = filters.endDate || "",
     status = filters.status?.value || "",
     showAll = filters.showAll,
-    branchId = filters.branchId || ""
+    branchId = filters.branchId || "",
   ) => {
     try {
       const res = await dispatch(
@@ -855,8 +856,8 @@ const PaymentInvoice = () => {
           endDate,
           status,
           showAll,
-          branchId
-        )
+          branchId,
+        ),
       );
       const responseData = res?.data?.data || [];
       setAllGenerateInvoice(responseData?.data || []);
@@ -935,7 +936,7 @@ const PaymentInvoice = () => {
   useEffect(() => {
     if (formik.values.subPlan) {
       const selectedSubPlan = allSubPlan?.find(
-        (plan) => plan._id === formik.values.subPlan
+        (plan) => plan._id === formik.values.subPlan,
       );
       if (selectedSubPlan && selectedSubPlan.totalAmount) {
         formik.setFieldValue("amount", selectedSubPlan.totalAmount.toString());
@@ -1183,25 +1184,25 @@ const PaymentInvoice = () => {
               <div className="w-100 d-flex flex-wrap justify-content-end">
                 {/* <div className="card-title">Payments Invoice</div> */}
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                    <div className="contact-search3">
-                      <button type="button" className="btn border-0">
-                        <i
-                          className="fe fe-search fw-semibold text-muted"
-                          aria-hidden="true"
-                        ></i>
-                      </button>
-                      <Form.Control
-                        type="text"
-                        className="filter-height border-0"
-                        placeholder="Search here..."
-                        autoComplete="off"
-                        value={search}
-                        onChange={(e) => {
-                          setSearch(e.target.value);
-                          setCurrentPage(1);
-                        }}
-                      />
-                    </div>
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <Form.Control
+                      type="text"
+                      className="filter-height border-0"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
                   {(canCreate || canUpdate) && (
                     <>
                       <div className="col-auto">
@@ -1447,74 +1448,73 @@ const PaymentInvoice = () => {
                       />
                     </div>
                     {userRole !== "Branch" && (
-                    <div className="filter-item">
-                      <Form.Label>Branch</Form.Label>
-                      <Select
-                        className="filter-height"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            fontSize: "13px",
-                            minHeight: "38px",
-                          }),
-                        }}
-                        placeholder="Select Branch"
-                        classNamePrefix="custom-select"
-                        isClearable
-                        isSearchable
-                        options={[
-                          { value: "all", label: "All" },
-                          { value: "", label: "Head Office" },
-                          ...(Array.isArray(branchList)
-                            ? branchList
-                                .filter((branch) => {
-                                  if (userRole === "Branch") {
-                                    return branch._id === branchId;
-                                  }
-                                  return (
-                                    branch.name && branch.name.trim() !== ""
-                                  );
-                                })
-                                .sort((a, b) => a.name.localeCompare(b.name))
-                                .map((branch) => ({
-                                  value: branch._id,
-                                  label: branch.name,
-                                }))
-                            : []),
-                        ]}
-                        value={
-                          selectedBranch !== null &&
-                          selectedBranch !== undefined
-                            ? {
-                                value: selectedBranch,
-                                label:
-                                  selectedBranch === "all"
-                                    ? "All"
-                                    : selectedBranch === ""
-                                    ? "Head Office"
-                                    : branchList.find(
-                                        (branch) =>
-                                          branch._id === selectedBranch
-                                      )?.name || "Select Branch",
-                              }
-                            : null
-                        }
-                        onChange={(selectedOption) => {
-                          setSelectedBranch(selectedOption?.value || "");
-                          setFilters({
-                            ...filters,
-                            branchId:
-                              selectedOption.value === "all"
-                                ? ""
-                                : selectedOption.value,
-                            showAll:
-                              selectedOption.value === "all" ? true : false,
-                          });
-                          setCurrentPage(1);
-                        }}
-                      />
-                    </div>
-
+                      <div className="filter-item">
+                        <Form.Label>Branch</Form.Label>
+                        <Select
+                          className="filter-height"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              fontSize: "13px",
+                              minHeight: "38px",
+                            }),
+                          }}
+                          placeholder="Select Branch"
+                          classNamePrefix="custom-select"
+                          isClearable
+                          isSearchable
+                          options={[
+                            { value: "all", label: "All" },
+                            { value: "", label: "Head Office" },
+                            ...(Array.isArray(branchList)
+                              ? branchList
+                                  .filter((branch) => {
+                                    if (userRole === "Branch") {
+                                      return branch._id === branchId;
+                                    }
+                                    return (
+                                      branch.name && branch.name.trim() !== ""
+                                    );
+                                  })
+                                  .sort((a, b) => a.name.localeCompare(b.name))
+                                  .map((branch) => ({
+                                    value: branch._id,
+                                    label: branch.name,
+                                  }))
+                              : []),
+                          ]}
+                          value={
+                            selectedBranch !== null &&
+                            selectedBranch !== undefined
+                              ? {
+                                  value: selectedBranch,
+                                  label:
+                                    selectedBranch === "all"
+                                      ? "All"
+                                      : selectedBranch === ""
+                                        ? "Head Office"
+                                        : branchList.find(
+                                            (branch) =>
+                                              branch._id === selectedBranch,
+                                          )?.name || "Select Branch",
+                                }
+                              : null
+                          }
+                          onChange={(selectedOption) => {
+                            setSelectedBranch(selectedOption?.value || "");
+                            setFilters({
+                              ...filters,
+                              branchId:
+                                selectedOption.value === "all"
+                                  ? ""
+                                  : selectedOption.value,
+                              showAll:
+                                selectedOption.value === "all" ? true : false,
+                            });
+                            setCurrentPage(1);
+                          }}
+                        />
+                      </div>
                     )}
                     <div className="filter-item">
                       <Form.Label>Main Plan</Form.Label>
@@ -1629,52 +1629,15 @@ const PaymentInvoice = () => {
                 itemsPerPageOptions={true}
                 showNoColumn={false}
               />
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={handleCloseUploadModal}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={handleCloseUploadModal}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>{" "}
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
+                onConfirm={() => {
+                  handleDelete(selectedItem);
+                  handleCloseUploadModal();
+                }}
+              />
 
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={handleCloseUploadModal}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItem);
-                      setShowDeleteModal(false);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
               <Modal
                 show={showBillingModal}
                 onHide={handleCloseBillingModal}
@@ -1765,13 +1728,13 @@ const PaymentInvoice = () => {
                               modeOptions?.find(
                                 (option) =>
                                   option.value ===
-                                  billingFormik.values.paymentMode
+                                  billingFormik.values.paymentMode,
                               ) || null
                             }
                             onChange={(option) =>
                               billingFormik.setFieldValue(
                                 "paymentMode",
-                                option ? option.value : ""
+                                option ? option.value : "",
                               )
                             }
                             placeholder="Select Payment Mode"
@@ -1805,7 +1768,7 @@ const PaymentInvoice = () => {
                               value={
                                 billingFormik.values.date
                                   ? formatDate(
-                                      parseDate(billingFormik.values.date)
+                                      parseDate(billingFormik.values.date),
                                     )
                                   : ""
                               }
@@ -1816,7 +1779,7 @@ const PaymentInvoice = () => {
                               onClick={() => {
                                 if (billingFormik.values.date) {
                                   setPaidDateValue(
-                                    parseDate(billingFormik.values.date)
+                                    parseDate(billingFormik.values.date),
                                   );
                                 }
                                 setShowPaidDateCalendar((show) => !show);
@@ -1892,7 +1855,7 @@ const PaymentInvoice = () => {
                                     setPaidDateValue(selectedDate);
                                     billingFormik.setFieldValue(
                                       "date",
-                                      toISODate(selectedDate)
+                                      toISODate(selectedDate),
                                     );
                                     setShowPaidDateCalendar(false);
                                   }}
@@ -1911,7 +1874,7 @@ const PaymentInvoice = () => {
                         </Form.Group>
                       </Col>
                       {["GPay", "Bank", "UPI"].includes(
-                        billingFormik.values.paymentMode
+                        billingFormik.values.paymentMode,
                       ) && (
                         <Col md={6}>
                           <Form.Group className="mb-3">
@@ -1921,13 +1884,13 @@ const PaymentInvoice = () => {
                               value={
                                 bankOptions?.find(
                                   (option) =>
-                                    option.value === billingFormik.values.bank
+                                    option.value === billingFormik.values.bank,
                                 ) || null
                               }
                               onChange={(option) =>
                                 billingFormik.setFieldValue(
                                   "bank",
-                                  option ? option.value : ""
+                                  option ? option.value : "",
                                 )
                               }
                               placeholder="Select Bank"
@@ -2000,7 +1963,7 @@ const PaymentInvoice = () => {
                                 <td>
                                   {payment.bank
                                     ? allBankingDetails?.find(
-                                        (b) => b._id === payment.bank
+                                        (b) => b._id === payment.bank,
                                       )?.bankName || "N/A"
                                     : "-"}
                                 </td>
@@ -2015,7 +1978,7 @@ const PaymentInvoice = () => {
                 </Modal.Body>
               </Modal>
               {totalPages > 1 && allGenerateInvoice.length > 0 && (
-                 <div className="mt-4 d-flex justify-content-end align-items-end">
+                <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -2050,7 +2013,7 @@ const PaymentInvoice = () => {
                     options={uniqueStudentOptions}
                     value={
                       uniqueStudentOptions?.find(
-                        (option) => option.value === formik.values.name
+                        (option) => option.value === formik.values.name,
                       ) || null
                     }
                     onChange={(option) =>
@@ -2080,7 +2043,7 @@ const PaymentInvoice = () => {
                       const dialCode = data.dialCode ? `+${data.dialCode}` : "";
                       const formattedPhone = `${dialCode} ${phone.replace(
                         data.dialCode,
-                        ""
+                        "",
                       )}`.trim();
                       formik.setFieldValue("contactNo", formattedPhone);
                     }
@@ -2112,13 +2075,13 @@ const PaymentInvoice = () => {
                     options={mainPlanOptions}
                     value={
                       mainPlanOptions?.find(
-                        (option) => option.value === formik.values.mainPlan
+                        (option) => option.value === formik.values.mainPlan,
                       ) || null
                     }
                     onChange={(option) =>
                       formik.setFieldValue(
                         "mainPlan",
-                        option ? option.value : ""
+                        option ? option.value : "",
                       )
                     }
                     placeholder="Select plan"
@@ -2140,13 +2103,13 @@ const PaymentInvoice = () => {
                     options={subPlanOptions}
                     value={
                       subPlanOptions?.find(
-                        (option) => option.value === formik.values.subPlan
+                        (option) => option.value === formik.values.subPlan,
                       ) || null
                     }
                     onChange={(option) =>
                       formik.setFieldValue(
                         "subPlan",
-                        option ? option.value : ""
+                        option ? option.value : "",
                       )
                     }
                     placeholder="Select sub plan"
@@ -2266,13 +2229,13 @@ const PaymentInvoice = () => {
                     value={
                       modeOptions?.find(
                         (option) =>
-                          option.value === formik.values.paidAmount.paymentMode
+                          option.value === formik.values.paidAmount.paymentMode,
                       ) || null
                     }
                     onChange={(option) =>
                       formik.setFieldValue(
                         "paidAmount.paymentMode",
-                        option ? option.value : ""
+                        option ? option.value : "",
                       )
                     }
                     placeholder="Select Payment Mode"
@@ -2310,7 +2273,7 @@ const PaymentInvoice = () => {
                       onClick={() => {
                         if (formik.values.paidAmount.date) {
                           setPaidDateValue(
-                            parseDate(formik.values.paidAmount.date)
+                            parseDate(formik.values.paidAmount.date),
                           );
                         }
                         setShowPaidDateCalendar((show) => !show);
@@ -2380,7 +2343,7 @@ const PaymentInvoice = () => {
                             setPaidDateValue(selectedDate);
                             formik.setFieldValue(
                               "paidAmount.date",
-                              toISODate(selectedDate)
+                              toISODate(selectedDate),
                             );
                             setShowPaidDateCalendar(false);
                           }}
@@ -2399,7 +2362,7 @@ const PaymentInvoice = () => {
                 </Form.Group>
               </Col>
               {["GPay", "Bank", "UPI"].includes(
-                formik.values.paidAmount.paymentMode
+                formik.values.paidAmount.paymentMode,
               ) && (
                 <Col md={6}>
                   <Form.Group className="mb-3">
@@ -2409,13 +2372,13 @@ const PaymentInvoice = () => {
                       value={
                         bankOptions?.find(
                           (option) =>
-                            option.value === formik.values.paidAmount.bank
+                            option.value === formik.values.paidAmount.bank,
                         ) || null
                       }
                       onChange={(option) =>
                         formik.setFieldValue(
                           "paidAmount.bank",
-                          option ? option.value : ""
+                          option ? option.value : "",
                         )
                       }
                       placeholder="Select Bank"

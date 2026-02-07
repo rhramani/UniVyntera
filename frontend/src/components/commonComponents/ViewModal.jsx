@@ -366,7 +366,7 @@ const ViewModal = ({ show, onHide, title, data, fields }) => {
                     <Card.Header className="bg-white border-bottom py-3 px-4 d-flex align-items-center">
                       {getSectionIcon(section.title)}
                       <h6
-                        className="mb-0 fw-bold text-secondary text-uppercase ls-wide"
+                        className="mb-0 fw-bold text-primary text-uppercase ls-wide"
                         style={{ fontSize: "13px", letterSpacing: "1px" }}
                       >
                         {section.title}
@@ -481,7 +481,7 @@ const ViewModal = ({ show, onHide, title, data, fields }) => {
           className="custom-select-height btn border-primary text-primary text-decoration-none"
           onClick={onHide}
         >
-          Dismiss
+          Close
         </Button>
       </Modal.Footer>
 

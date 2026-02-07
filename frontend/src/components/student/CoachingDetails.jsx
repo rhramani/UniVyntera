@@ -1119,7 +1119,7 @@ const CoachingDetails = () => {
             backgroundColor: "rgba(0, 0, 0, 0.6)",
             display: "flex",
             justifyContent: "center",
-           
+
             alignItems: "center",
             zIndex: 2000,
           }}
@@ -1471,7 +1471,7 @@ const CoachingDetails = () => {
                             styles={{
                               control: (base) => ({
                                 ...base,
-                                borderRadius: "30px",
+                                borderRadius: "12px",
                                 color: "black",
                               }),
                               placeholder: (base) => ({
@@ -1913,7 +1913,7 @@ const CoachingDetails = () => {
                             styles={{
                               control: (base) => ({
                                 ...base,
-                                borderRadius: "30px",
+                                borderRadius: "12px",
                                 color: "black",
                               }),
                               placeholder: (base) => ({
@@ -2444,7 +2444,7 @@ const CoachingDetails = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -2478,7 +2478,7 @@ const CoachingDetails = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({

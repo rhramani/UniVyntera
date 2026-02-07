@@ -63,7 +63,7 @@ const PartnerCommissionReport = () => {
   });
   const userRole = decryptData(localStorage.getItem("role"));
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   const [showStartDateCalendar, setShowStartDateCalendar] = useState(false);
@@ -134,16 +134,16 @@ const PartnerCommissionReport = () => {
     const tuitionFee = item?.interestedCourseDetails?.[0]?.instituteFeePayment
       ?.feeAmount
       ? parseFloat(
-        item.interestedCourseDetails[0].instituteFeePayment.feeAmount
-          .toString()
-          .replace(/,/g, "")
-      )
+          item.interestedCourseDetails[0].instituteFeePayment.feeAmount
+            .toString()
+            .replace(/,/g, ""),
+        )
       : 0;
     // University Commission calculation
     const universityCommissionType =
       item?.universitySideConfirmation?.commissionType;
     const universityCommissionPercent = parseFloat(
-      item?.universitySideConfirmation?.commissionPercentage || 0
+      item?.universitySideConfirmation?.commissionPercentage || 0,
     );
     const universityCommissionAmount =
       universityCommissionType === "Percentage"
@@ -153,15 +153,15 @@ const PartnerCommissionReport = () => {
     const b2bCommissionType =
       item?.universityPaymentReceived?.b2bCommission?.commissionType;
     const b2bCommissionPercent = parseFloat(
-      item?.universityPaymentReceived?.b2bCommission?.commissionPercentage || 0
+      item?.universityPaymentReceived?.b2bCommission?.commissionPercentage || 0,
     );
     const b2bCommissionAmount =
       b2bCommissionType === "Percentage"
         ? (universityCommissionAmount * b2bCommissionPercent) / 100
         : parseFloat(
-          item?.universityPaymentReceived?.b2bCommission?.commissionAmount ||
-          0
-        );
+            item?.universityPaymentReceived?.b2bCommission?.commissionAmount ||
+              0,
+          );
 
     return {
       b2bCommissionAmount,
@@ -224,14 +224,16 @@ const PartnerCommissionReport = () => {
           calculateCommission(item);
 
         return b2bCommissionType === "Percentage"
-          ? `${b2bCommissionPercent || "-"}% (${b2bCommissionAmount
-            ? b2bCommissionAmount?.toLocaleString("en-IN")
-            : "-"
-          })`
-          : `${b2bCommissionAmount
-            ? b2bCommissionAmount?.toLocaleString("en-IN")
-            : "-"
-          }`;
+          ? `${b2bCommissionPercent || "-"}% (${
+              b2bCommissionAmount
+                ? b2bCommissionAmount?.toLocaleString("en-IN")
+                : "-"
+            })`
+          : `${
+              b2bCommissionAmount
+                ? b2bCommissionAmount?.toLocaleString("en-IN")
+                : "-"
+            }`;
       },
     },
     {
@@ -244,17 +246,17 @@ const PartnerCommissionReport = () => {
       render: (item) => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
-            ?.filter(
-              (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
-            )
-            ?.map((detail) => {
-              const instituteName = detail?.institute?.instituteName || "-";
-              const campusName = detail?.campus?.campus;
-              return campusName
-                ? `${instituteName} - ${campusName}`
-                : instituteName;
-            })
-            .join(", ")
+              ?.filter(
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
+              )
+              ?.map((detail) => {
+                const instituteName = detail?.institute?.instituteName || "-";
+                const campusName = detail?.campus?.campus;
+                return campusName
+                  ? `${instituteName} - ${campusName}`
+                  : instituteName;
+              })
+              .join(", ")
           : "-";
 
         return (
@@ -272,11 +274,11 @@ const PartnerCommissionReport = () => {
       render: (item) => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
-            ?.filter(
-              (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
-            )
-            ?.map((detail) => detail?.course?.programName || "-")
-            .join(", ")
+              ?.filter(
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
+              )
+              ?.map((detail) => detail?.course?.programName || "-")
+              .join(", ")
           : "-";
 
         return (
@@ -293,15 +295,15 @@ const PartnerCommissionReport = () => {
       label: "Status",
       render: (item) => {
         const statusObj = b2BCommissionStatus.find(
-          (status) => status.name === item?.accountantStatus
+          (status) => status.name === item?.accountantStatus,
         );
         const textColor = ["#e9e216", "#1fff44"].includes(statusObj?.color)
           ? "#000000"
           : "#222222";
         const displayStatus =
           item?.accountantStatus === "false" ||
-            item?.accountantStatus === false ||
-            item?.accountantStatus === ""
+          item?.accountantStatus === false ||
+          item?.accountantStatus === ""
             ? "New"
             : item?.accountantStatus || "New";
         return (
@@ -310,7 +312,7 @@ const PartnerCommissionReport = () => {
               backgroundColor: statusObj?.color || "#0b3c8c",
               padding: "4px 8px",
               color: displayStatus ? "#ffffff" : textColor,
-              borderRadius: "30px",
+              borderRadius: "12px",
             }}
           >
             {displayStatus || "-"}
@@ -323,11 +325,11 @@ const PartnerCommissionReport = () => {
       render: (item) => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
-            ?.filter(
-              (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
-            )
-            ?.map((detail) => detail?.intakeYear || "-")
-            .join(", ")
+              ?.filter(
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
+              )
+              ?.map((detail) => detail?.intakeYear || "-")
+              .join(", ")
           : "-";
 
         return <span>{displayValues || "-"}</span>;
@@ -356,7 +358,7 @@ const PartnerCommissionReport = () => {
     country = filters.country?.value || "",
     status = filters.status?.value || "",
     b2bId = filters.b2bId?.value || "",
-    branchId = filters.branchId?.value || ""
+    branchId = filters.branchId?.value || "",
   ) => {
     try {
       const res = await dispatch(
@@ -371,8 +373,8 @@ const PartnerCommissionReport = () => {
           country,
           status,
           b2bId,
-          branchId
-        )
+          branchId,
+        ),
       );
       const data = res?.data?.data?.data || [];
       setPartnerCommissionReports(data);
@@ -451,7 +453,7 @@ const PartnerCommissionReport = () => {
         filters.country?.value,
         filters.status?.value,
         filters.b2bId?.value,
-        filters.branchId?.value
+        filters.branchId?.value,
       );
     }
   }, [currentPage, itemsPerPage, search, canRead, filters]);
@@ -594,8 +596,8 @@ const PartnerCommissionReport = () => {
           filters.country?.value || "",
           filters.status?.value || "",
           filters.b2bId?.value || "",
-          filters.branchId?.value || ""
-        )
+          filters.branchId?.value || "",
+        ),
       );
       const dataToExport = res?.data?.data?.data || [];
 
@@ -921,7 +923,7 @@ const PartnerCommissionReport = () => {
                         value={
                           instituteOptions.find(
                             (option) =>
-                              option.value === filters.institute?.value
+                              option.value === filters.institute?.value,
                           ) || null
                         }
                         onChange={(option) => {
@@ -971,7 +973,7 @@ const PartnerCommissionReport = () => {
                         options={countryOptions}
                         value={
                           countryOptions.find(
-                            (option) => option.value === filters.country?.value
+                            (option) => option.value === filters.country?.value,
                           ) || null
                         }
                         onChange={(option) => {
@@ -998,7 +1000,7 @@ const PartnerCommissionReport = () => {
                         options={statusOptions}
                         value={
                           statusOptions.find(
-                            (option) => option.value === filters.status?.value
+                            (option) => option.value === filters.status?.value,
                           ) || null
                         }
                         onChange={(option) => {
@@ -1025,7 +1027,7 @@ const PartnerCommissionReport = () => {
                         options={b2bOptions}
                         value={
                           b2bOptions.find(
-                            (option) => option.value === filters.b2bId?.value
+                            (option) => option.value === filters.b2bId?.value,
                           ) || null
                         }
                         onChange={(option) => {
@@ -1052,7 +1054,8 @@ const PartnerCommissionReport = () => {
                         options={branchOptions}
                         value={
                           branchOptions.find(
-                            (option) => option.value === filters.branchId?.value
+                            (option) =>
+                              option.value === filters.branchId?.value,
                           ) || null
                         }
                         onChange={(option) => {
@@ -1112,10 +1115,9 @@ const PartnerCommissionReport = () => {
                   border: "1px solid #dee2e6",
                 }}
               >
-
                 <table
                   className="table table-hover modern-table table-nowrap"
-                 style={{ tableLayout: "auto" }}
+                  style={{ tableLayout: "auto" }}
                 >
                   <thead className="text-uppercase">
                     <tr>
@@ -1133,10 +1135,11 @@ const PartnerCommissionReport = () => {
                         .map((item, index) => (
                           <tr
                             key={item._id || index}
-                            className={`${index % 2 === 0
-                              ? "table-row-even"
-                              : "table-row-odd"
-                              }`}
+                            className={`${
+                              index % 2 === 0
+                                ? "table-row-even"
+                                : "table-row-odd"
+                            }`}
                           >
                             {columns?.map((col, colIndex) => (
                               <td key={colIndex} className="dynamic-width-data">

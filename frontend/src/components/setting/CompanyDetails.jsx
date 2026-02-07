@@ -125,7 +125,7 @@ const CompanyDetails = () => {
       } catch (error) {
         console.error("Upload error:", error);
         toast.error(
-          error.response?.data?.message || "Only image file is allowed!"
+          error.response?.data?.message || "Only image file is allowed!",
         );
       }
     },
@@ -155,7 +155,7 @@ const CompanyDetails = () => {
       setLoginPreview(
         formik.values.existingLoginPageLogo
           ? `${formik.values.existingLoginPageLogo}`
-          : null
+          : null,
       );
     }
   };
@@ -169,7 +169,7 @@ const CompanyDetails = () => {
       setDashboardPreview(
         formik.values.existingDashboardLogo
           ? `${formik.values.existingDashboardLogo}`
-          : null
+          : null,
       );
     }
   };
@@ -325,7 +325,7 @@ const CompanyDetails = () => {
                       <Button
                         variant="link"
                         className="btn border-primary text-primary text-decoration-none"
-                        style={{ borderRadius: "30px" }}
+                        style={{ borderRadius: "12px" }}
                         onClick={handleCloseUploadModal}
                       >
                         Cancel

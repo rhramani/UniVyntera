@@ -38,7 +38,7 @@ const FinanceSummaryReports = () => {
   const [financeSummaryData, setFinanceSummaryData] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState([]);
   const [search, setSearch] = useState("");
-  const { canRead,canDownload } = usePermissions("Finance Summary");
+  const { canRead, canDownload } = usePermissions("Finance Summary");
   const [isLoading, setIsLoading] = useState(false);
   const [totalFeeAmount, setTotalFeeAmount] = useState(0);
   const [visaStatus, setVisaStatus] = useState([]);
@@ -57,7 +57,7 @@ const FinanceSummaryReports = () => {
   });
 
   const storedEncryptedCurrency = decryptData(
-    localStorage.getItem("crmCurrency")
+    localStorage.getItem("crmCurrency"),
   );
 
   const userRole = decryptData(localStorage.getItem("role"));
@@ -101,7 +101,7 @@ const FinanceSummaryReports = () => {
       label: "Date",
       render: (item) =>
         new Date(
-          item.visaApplicationDetails?.visaOutcomeDate
+          item.visaApplicationDetails?.visaOutcomeDate,
         ).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "2-digit",
@@ -135,8 +135,8 @@ const FinanceSummaryReports = () => {
         item?.b2bCompany
           ? item.b2bCompany
           : item?.branch
-          ? item.branch
-          : item?.createdByName || "",
+            ? item.branch
+            : item?.createdByName || "",
     },
     {
       label: "Fee Amount",
@@ -149,7 +149,7 @@ const FinanceSummaryReports = () => {
       render: (item) => {
         const status = item?.interestedCourseDetails?.[0]?.status || "New";
         const matchedStatus = paymentStatus.find(
-          (statusItem) => statusItem.name === status
+          (statusItem) => statusItem.name === status,
         );
         const bgColor = matchedStatus?.color || "#0b3c8c";
         const textColor = ["#e9e216", "#1fff44"].includes(bgColor)
@@ -163,7 +163,7 @@ const FinanceSummaryReports = () => {
               backgroundColor: bgColor,
               color: textColor,
               padding: "1px 8px",
-              borderRadius: "30px",
+              borderRadius: "12px",
               display: "inline-block",
             }}
           >
@@ -177,7 +177,7 @@ const FinanceSummaryReports = () => {
       render: (item) => {
         const status = item?.visaApplicationDetails?.status || "New";
         const matchedStatus = visaStatus?.find(
-          (statusItem) => statusItem.name === status
+          (statusItem) => statusItem.name === status,
         );
         const bgColor = matchedStatus?.color || "#0b3c8c";
         const textColor = ["#e9e216", "#1fff44"].includes(bgColor)
@@ -196,7 +196,7 @@ const FinanceSummaryReports = () => {
                 color: textColor,
                 cursor: "pointer",
                 padding: "1px 8px",
-                borderRadius: "30px",
+                borderRadius: "12px",
                 display: "inline-block",
                 maxWidth: "180px",
                 overflow: "hidden",
@@ -221,7 +221,7 @@ const FinanceSummaryReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => {
                 const instituteName = detail?.institute?.instituteName || "-";
@@ -249,7 +249,7 @@ const FinanceSummaryReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.course?.programName || "-")
               .join(", ")
@@ -271,7 +271,7 @@ const FinanceSummaryReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeYear || "-")
               .join(", ")
@@ -286,7 +286,7 @@ const FinanceSummaryReports = () => {
         const displayValues = item?.interestedCourseDetails?.length
           ? item?.interestedCourseDetails
               ?.filter(
-                (detail) => detail?.instituteFeePayment?.feeStatus === "paid"
+                (detail) => detail?.instituteFeePayment?.feeStatus === "paid",
               )
               ?.map((detail) => detail?.intakeMonth || "-")
               .join(", ")
@@ -311,7 +311,7 @@ const FinanceSummaryReports = () => {
     search = "",
     type = filters.type?.value || "",
     startDate = filters.startDate,
-    endDate = filters.endDate
+    endDate = filters.endDate,
   ) => {
     try {
       const res = await dispatch(
@@ -321,8 +321,8 @@ const FinanceSummaryReports = () => {
           search,
           type,
           startDate,
-          endDate
-        )
+          endDate,
+        ),
       );
       const data = res?.data?.data?.data || [];
       setFinanceSummaryData(data);
@@ -336,8 +336,8 @@ const FinanceSummaryReports = () => {
           ? parseFloat(
               item.interestedCourseDetails[0].instituteFeePayment.feeAmount.replace(
                 /,/g,
-                ""
-              )
+                "",
+              ),
             )
           : 0;
         return sum + (isNaN(feeAmount) ? 0 : feeAmount);
@@ -381,7 +381,7 @@ const FinanceSummaryReports = () => {
     search = "",
     type = filters.type?.value || "",
     startDate = filters.startDate,
-    endDate = filters.endDate
+    endDate = filters.endDate,
   ) => {
     try {
       setIsLoading(true);
@@ -392,8 +392,8 @@ const FinanceSummaryReports = () => {
           search,
           type,
           startDate,
-          endDate
-        )
+          endDate,
+        ),
       );
       const dataToExport = res?.data?.data?.data || [];
 
@@ -479,7 +479,7 @@ const FinanceSummaryReports = () => {
         search,
         filters.type?.value || "",
         filters.startDate,
-        filters.endDate
+        filters.endDate,
       );
     }
   }, [currentPage, itemsPerPage, search, filters]);
@@ -523,26 +523,26 @@ const FinanceSummaryReports = () => {
               <div className="w-100 d-flex flex-wrap justify-content-between">
                 <div className="card-title">Finance Summary report</div>
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    id="typehead1"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
-                  />
-                </div>
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <Form.Control
+                      type="text"
+                      className="filter-height border-0"
+                      id="typehead1"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
                   {financeSummaryData?.length > 0 && canDownload && (
                     <Button
                       variant="primary"
@@ -814,11 +814,13 @@ const FinanceSummaryReports = () => {
                 </div>
               </div>
 
-              <div className="table-responsive modern-table-wrapper"
+              <div
+                className="table-responsive modern-table-wrapper"
                 style={{
                   borderRadius: "12px",
                   border: "1px solid #dee2e6",
-                }}>
+                }}
+              >
                 <table
                   className="table table-hover modern-table table-nowrap"
                   style={{ tableLayout: "auto" }}

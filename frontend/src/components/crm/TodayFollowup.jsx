@@ -545,7 +545,7 @@ const TodayFollowup = () => {
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -2957,7 +2957,7 @@ const TodayFollowup = () => {
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                         }),
                         placeholder: (base) => ({
@@ -3870,7 +3870,7 @@ const TodayFollowup = () => {
               </Modal>
 
               {totalPages > 1 && getLeadData?.leads?.length > 0 && (
-                    <div className="mt-4 d-flex justify-content-end align-items-end">
+                <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}

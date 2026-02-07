@@ -49,6 +49,7 @@ import "react-calendar/dist/Calendar.css";
 import { countryCodeISO } from "../../utils/countryISOCode";
 import { getAllProgramLevel } from "../../redux/actions/Master/ProgramLevel.action";
 import Pageheader from "../../layouts/Pageheader";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const Institute = () => {
   const [show, setShow] = useState(false);
@@ -500,7 +501,7 @@ const Institute = () => {
   const fetchAllInstitute = async (
     page = 1,
     limit = itemsPerPage,
-    search = ""
+    search = "",
   ) => {
     try {
       const res = await dispatch(getAllInstitute(page, limit, search));
@@ -544,7 +545,7 @@ const Institute = () => {
       setStateDropDown([]);
       setCityDropDownList([]);
       const selectedCountry = countries.find(
-        (c) => c.isoCode === countryIsoCode
+        (c) => c.isoCode === countryIsoCode,
       );
       const countryName = selectedCountry?.name;
 
@@ -662,7 +663,7 @@ const Institute = () => {
           designation: Yup.string(),
           email: Yup.string().email("Invalid email"),
           phone: Yup.string(),
-        })
+        }),
       ),
       recruitmentTerritoryRights: Yup.string(),
       agreementStartDate: Yup.date(),
@@ -682,7 +683,7 @@ const Institute = () => {
           programLevel: Yup.string(),
           commissionPeriod: Yup.string(),
           commissionPercentage: Yup.number(),
-        })
+        }),
       ),
       olTATPeriod: Yup.object().shape({
         value: Yup.number(),
@@ -701,10 +702,10 @@ const Institute = () => {
       try {
         toast.dismiss();
         const selectedCountry = countries.find(
-          (c) => c.isoCode === values.country
+          (c) => c.isoCode === values.country,
         );
         const selectedState = stateDropDown.find(
-          (s) => s.isoCode === values.state
+          (s) => s.isoCode === values.state,
         );
 
         const formattedValues = {
@@ -752,19 +753,19 @@ const Institute = () => {
             ) {
               payload.append(
                 `contactPerson[${index}][name]`,
-                person.name || ""
+                person.name || "",
               );
               payload.append(
                 `contactPerson[${index}][designation]`,
-                person.designation || ""
+                person.designation || "",
               );
               payload.append(
                 `contactPerson[${index}][email]`,
-                person.email || ""
+                person.email || "",
               );
               payload.append(
                 `contactPerson[${index}][phone]`,
-                person.phone || ""
+                person.phone || "",
               );
             }
           });
@@ -781,15 +782,15 @@ const Institute = () => {
             ) {
               payload.append(
                 `programLevelCommissions[${index}][programLevel]`,
-                item.programLevel
+                item.programLevel,
               );
               payload.append(
                 `programLevelCommissions[${index}][commissionPeriod]`,
-                item.commissionPeriod
+                item.commissionPeriod,
               );
               payload.append(
                 `programLevelCommissions[${index}][commissionPercentage]`,
-                item.commissionPercentage
+                item.commissionPercentage,
               );
             }
           });
@@ -798,11 +799,11 @@ const Institute = () => {
         if (formattedValues.olTATPeriod) {
           payload.append(
             "olTATPeriod[value]",
-            formattedValues.olTATPeriod.value || ""
+            formattedValues.olTATPeriod.value || "",
           );
           payload.append(
             "olTATPeriod[unit]",
-            formattedValues.olTATPeriod.unit || ""
+            formattedValues.olTATPeriod.unit || "",
           );
         }
 
@@ -857,7 +858,7 @@ const Institute = () => {
         const cityName = item.city;
 
         const selectedCountry = countries.find(
-          (c) => c.name.trim() === countryName
+          (c) => c.name.trim() === countryName,
         );
         const countryIsoCode = selectedCountry?.isoCode;
 
@@ -873,7 +874,7 @@ const Institute = () => {
         }
 
         const selectedState = fetchedStates.find(
-          (s) => s.name.trim() === stateName
+          (s) => s.name.trim() === stateName,
         );
         const stateIsoCode = selectedState?.isoCode;
 
@@ -884,7 +885,7 @@ const Institute = () => {
         let fetchedCities = [];
         if (stateIsoCode) {
           const cityRes = await dispatch(
-            cityDropdown(countryIsoCode, stateIsoCode)
+            cityDropdown(countryIsoCode, stateIsoCode),
           );
           fetchedCities = cityRes?.data?.data || [];
           setCityDropDownList(fetchedCities);
@@ -905,15 +906,15 @@ const Institute = () => {
               phone: cp.phone || "",
             }))
           : item.contactPerson
-          ? [
-              {
-                name: item.contactPerson.name || "",
-                designation: item.contactPerson.designation || "",
-                email: item.contactPerson.email || "",
-                phone: item.contactPerson.phone || "",
-              },
-            ]
-          : [{ name: "", designation: "", email: "", phone: "" }];
+            ? [
+                {
+                  name: item.contactPerson.name || "",
+                  designation: item.contactPerson.designation || "",
+                  email: item.contactPerson.email || "",
+                  phone: item.contactPerson.phone || "",
+                },
+              ]
+            : [{ name: "", designation: "", email: "", phone: "" }];
 
         formik.setValues({
           ...formik.initialValues,
@@ -960,7 +961,7 @@ const Institute = () => {
         console.error("Error in handleEdit:", err);
         toast.error(
           err?.response?.data?.message ||
-            "Something went wrong while loading data"
+            "Something went wrong while loading data",
         );
       }
     }
@@ -997,7 +998,7 @@ const Institute = () => {
 
   const removeContactPerson = (index) => {
     const updatedPersons = formik.values.contactPerson.filter(
-      (_, i) => i !== index
+      (_, i) => i !== index,
     );
     formik.setFieldValue("contactPerson", updatedPersons);
   };
@@ -1240,631 +1241,640 @@ const Institute = () => {
         parentfolder="Course"
         activepage="Institute"
       />
-    <Row className="mt-5 row-sm">
-      <Col md={12} lg={12} xl={12}>
-        <Card className="custom-card transcation-crypto">
-          <Card.Header className="border-bottom-0">
-            {/* <div>
+      <Row className="mt-5 row-sm">
+        <Col md={12} lg={12} xl={12}>
+          <Card className="custom-card transcation-crypto">
+            <Card.Header className="border-bottom-0">
+              {/* <div>
               <div className="card-title">
                 {formik.values.id ? "Update Institute" : "Add Institute"}
               </div>
             </div> */}
-          </Card.Header>
-          <Card.Body>
-            <div className="d-flex flex-wrap align-items-end gap-3 mb-3">
-              {canCreate && (
-                <Button
-                  variant="primary"
-                  className="custom-select-height"
-                  onClick={handleShow}
-                >
-                  {formik.values.id ? "Update Institute" : "Add Institute"}
-                </Button>
-              )}
-              <div className="flex-grow-1"></div>
+            </Card.Header>
+            <Card.Body>
+              <div className="d-flex flex-wrap align-items-end gap-3 mb-3">
+                {canCreate && (
+                  <Button
+                    variant="primary"
+                    className="custom-select-height"
+                    onClick={handleShow}
+                  >
+                    {formik.values.id ? "Update Institute" : "Add Institute"}
+                  </Button>
+                )}
+                <div className="flex-grow-1"></div>
 
-              <div className="filter-item">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    id="typehead1"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
+                <div className="filter-item">
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <Form.Control
+                      type="text"
+                      className="filter-height border-0"
+                      id="typehead1"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="filter-item-rows">
+                  <ItemsPerPageSelect
+                    itemsPerPage={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
                   />
                 </div>
-              </div>
 
-              <div className="filter-item-rows">
-                <ItemsPerPageSelect
-                  itemsPerPage={itemsPerPage}
-                  onChange={handleItemsPerPageChange}
-                />
-              </div>
-
-              <div className="d-flex align-items-center">
-                <div className="filter-item filter-height total-records px-3 d-flex align-items-center">
-                  <span>
-                    Total Records :<strong>&nbsp;{totalRecords}</strong>
-                  </span>
+                <div className="d-flex align-items-center">
+                  <div className="filter-item filter-height total-records px-3 d-flex align-items-center">
+                    <span>
+                      Total Records :<strong>&nbsp;{totalRecords}</strong>
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <Modal show={show} onHide={handleClose} size="xl" centered>
-              <Modal.Header className="form-main-heading">
-                <Modal.Title>
-                  {formik.values.id ? "Update Institute" : "Add Institute"}
-                </Modal.Title>
-                <AiOutlineClose
-                  size={20}
-                  style={{ cursor: "pointer", color: "white" }}
-                  onClick={handleClose}
-                />
-              </Modal.Header>
-              {isLoading && (
-                <div
-                  style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0, 0, 0, 0.6)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    zIndex: 2000,
-                  }}
-                >
-                  <LoadMoreButton isLoading={isLoading} />
-                </div>
-              )}
-              <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
-                {(canCreate || (canUpdate && formik.values.id)) && (
-                  <Form onSubmit={formik.handleSubmit}>
-                    <Row className="mb-3 mt-0">
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Profile</Form.Label>
-                        <Form.Control
-                          type="file"
-                          name="profile"
-                          className="custom-select-height"
-                          accept="image/*"
-                          onChange={(event) => {
-                            const file = event.currentTarget.files[0];
-                            formik.setFieldValue("profile", file);
-                            setProfilePreview(URL.createObjectURL(file));
-                          }}
-                        />
-                        {formik?.touched?.profile && formik.errors.profile && (
-                          <div className="text-danger">
-                            {formik.errors.profile}
-                          </div>
-                        )}
-                        {profilePreview && (
-                          <div
-                            className="mb-2"
-                            style={{
-                              width: "100px",
-                              height: "100px",
-                              overflow: "hidden",
-                              border: "1px solid #ccc",
-                              borderRadius: "5px",
-                              backgroundColor: "#f9f9f9",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
+              <Modal show={show} onHide={handleClose} size="xl" centered>
+                <Modal.Header className="form-main-heading">
+                  <Modal.Title>
+                    {formik.values.id ? "Update Institute" : "Add Institute"}
+                  </Modal.Title>
+                  <AiOutlineClose
+                    size={20}
+                    style={{ cursor: "pointer", color: "white" }}
+                    onClick={handleClose}
+                  />
+                </Modal.Header>
+                {isLoading && (
+                  <div
+                    style={{
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: "rgba(0, 0, 0, 0.6)",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      zIndex: 2000,
+                    }}
+                  >
+                    <LoadMoreButton isLoading={isLoading} />
+                  </div>
+                )}
+                <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                  {(canCreate || (canUpdate && formik.values.id)) && (
+                    <Form onSubmit={formik.handleSubmit}>
+                      <Row className="mb-3 mt-0">
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Profile</Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="profile"
+                            className="custom-select-height"
+                            accept="image/*"
+                            onChange={(event) => {
+                              const file = event.currentTarget.files[0];
+                              formik.setFieldValue("profile", file);
+                              setProfilePreview(URL.createObjectURL(file));
                             }}
-                          >
-                            <img
-                              src={profilePreview}
-                              alt="Profile Preview"
+                          />
+                          {formik?.touched?.profile &&
+                            formik.errors.profile && (
+                              <div className="text-danger">
+                                {formik.errors.profile}
+                              </div>
+                            )}
+                          {profilePreview && (
+                            <div
+                              className="mb-2"
                               style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "contain",
+                                width: "100px",
+                                height: "100px",
+                                overflow: "hidden",
+                                border: "1px solid #ccc",
+                                borderRadius: "5px",
+                                backgroundColor: "#f9f9f9",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
                               }}
-                            />
-                          </div>
-                        )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Select Country</Form.Label>
-                        <Select
-                          options={countries?.map((c) => ({
-                            value: c.isoCode,
-                            label: c.name,
-                          }))}
-                          value={
-                            countries
-                              ?.map((c) => ({
-                                value: c.isoCode,
-                                label: c.name,
-                              }))
-                              .filter(
-                                (o) => o.value === formik.values.country
-                              )[0]
-                          }
-                          onChange={(selectedOption) => {
-                            if (selectedOption) {
-                              handleCountryChange(selectedOption.value);
-                              formik.setFieldValue(
-                                "country",
-                                selectedOption.value
-                              );
-                              formik.setFieldError("country", "");
-                            } else {
-                              formik.setFieldValue("country", "");
-                            }
-                          }}
-                          placeholder="Select Country"
-                          isClearable
-                          isSearchable
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              borderRadius: " 12px",
-                              color: "black",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "black",
-                              fontSize: "13px",
-                            }),
-                          }}
-                        />
-                        {formik?.touched?.country && formik.errors.country && (
-                          <div className="text-danger">
-                            {formik.errors.country}
-                          </div>
-                        )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Select State</Form.Label>
-                        <Select
-                          className="custom-select-height"
-                          options={stateDropDown?.map((state) => ({
-                            value: state.isoCode,
-                            label: state.name,
-                          }))}
-                          value={
-                            stateDropDown
-                              ?.map((state) => ({
-                                value: state.isoCode,
-                                label: state.name,
-                              }))
-                              .filter((s) => s.value === formik.values.state)[0]
-                          }
-                          onChange={(selectedOption) => {
-                            if (selectedOption) {
-                              formik.setFieldValue(
-                                "state",
-                                selectedOption.value
-                              );
-                              handleStateChange(
-                                formik.values.country,
-                                selectedOption.value
-                              );
-                              formik.setFieldError("state", "");
-                            } else {
-                              formik.setFieldValue("state", "");
-                            }
-                          }}
-                          placeholder="Select State"
-                          isClearable
-                          isSearchable
-                          isDisabled={!formik.values.country}
-                          styles={{
-                            control: (base, state) => ({
-                              ...base,
-                              borderRadius: "12px",
-                              color: state.isDisabled ? "#6c757d" : "black",
-                              backgroundColor: state.isDisabled
-                                ? "#e9ecef"
-                                : "white",
-                              cursor: state.isDisabled
-                                ? "not-allowed"
-                                : "pointer",
-                            }),
-                            placeholder: (base, state) => ({
-                              ...base,
-                              color: state.isDisabled ? "#6c757d" : "black",
-                              fontSize: "13px",
-                            }),
-                            singleValue: (base, state) => ({
-                              ...base,
-                              color: state.isDisabled ? "#6c757d" : "black",
-                            }),
-                          }}
-                        />
-                        {formik?.touched?.state && formik.errors.state && (
-                          <div className="text-danger">
-                            {formik.errors.state}
-                          </div>
-                        )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Select City</Form.Label>
-                        <Select
-                          className="custom-select-height"
-                          options={cityDropDownList?.map((city) => {
-                            const name =
-                              typeof city === "string" ? city : city.name;
-                            return { value: name, label: name };
-                          })}
-                          value={
-                            formik.values.city
-                              ? {
-                                  value: formik.values.city,
-                                  label: formik.values.city,
-                                }
-                              : null
-                          }
-                          onChange={(selectedOption) => {
-                            if (selectedOption) {
-                              formik.setFieldValue(
-                                "city",
-                                selectedOption.value
-                              );
-                              formik.setFieldError("city", "");
-                            } else {
-                              formik.setFieldValue("city", "");
-                            }
-                          }}
-                          placeholder="Select City"
-                          isClearable
-                          isSearchable
-                          isDisabled={!formik.values.state}
-                          styles={{
-                            control: (base, state) => ({
-                              ...base,
-                              borderRadius: "12px",
-                              color: state.isDisabled ? "#6c757d" : "black",
-                              backgroundColor: state.isDisabled
-                                ? "#e9ecef"
-                                : "white",
-                              cursor: state.isDisabled
-                                ? "not-allowed"
-                                : "pointer",
-                            }),
-                            placeholder: (base, state) => ({
-                              ...base,
-                              color: state.isDisabled ? "#6c757d" : "black",
-                              fontSize: "13px",
-                            }),
-                            singleValue: (base, state) => ({
-                              ...base,
-                              color: state.isDisabled ? "#6c757d" : "black",
-                            }),
-                          }}
-                        />
-
-                        {formik?.touched?.city && formik.errors.city && (
-                          <div className="text-danger">
-                            {formik.errors.city}
-                          </div>
-                        )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Institute</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter institute"
-                          name="instituteName"
-                          value={formik.values.instituteName}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.instituteName &&
-                          formik.errors.instituteName && (
-                            <div className="text-danger">
-                              {formik.errors.instituteName}
+                            >
+                              <img
+                                src={profilePreview}
+                                alt="Profile Preview"
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "contain",
+                                }}
+                              />
                             </div>
                           )}
-                      </Col>
-
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Select Campus</Form.Label>
-                        <Select
-                          options={campusByCountry
-                            ?.sort((a, b) => a.campus.localeCompare(b.campus))
-                            ?.map((c) => ({
-                              value: c._id,
-                              label: c.campus,
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Select Country</Form.Label>
+                          <Select
+                            options={countries?.map((c) => ({
+                              value: c.isoCode,
+                              label: c.name,
                             }))}
-                          value={
-                            formik.values.campus
-                              ? {
-                                  value: formik.values.campus,
-                                  label:
-                                    campusByCountry.find(
-                                      (c) => c._id === formik.values.campus
-                                    )?.campus || "",
-                                }
-                              : null
-                          }
-                          onChange={(selectedOption) => {
-                            if (selectedOption) {
-                              formik.setFieldValue(
-                                "campus",
-                                selectedOption.value
-                              );
-                              formik.setFieldError("campus", "");
-                            } else {
-                              formik.setFieldValue("campus", "");
+                            value={
+                              countries
+                                ?.map((c) => ({
+                                  value: c.isoCode,
+                                  label: c.name,
+                                }))
+                                .filter(
+                                  (o) => o.value === formik.values.country,
+                                )[0]
                             }
-                          }}
-                          placeholder="Select Campus"
-                          isClearable
-                          isSearchable
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              borderRadius: " 12px",
-                              color: "black",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "black",
-                              fontSize: "13px",
-                            }),
-                          }}
-                        />
-                      </Col>
+                            onChange={(selectedOption) => {
+                              if (selectedOption) {
+                                handleCountryChange(selectedOption.value);
+                                formik.setFieldValue(
+                                  "country",
+                                  selectedOption.value,
+                                );
+                                formik.setFieldError("country", "");
+                              } else {
+                                formik.setFieldValue("country", "");
+                              }
+                            }}
+                            placeholder="Select Country"
+                            isClearable
+                            isSearchable
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                borderRadius: " 12px",
+                                color: "black",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "black",
+                                fontSize: "13px",
+                              }),
+                            }}
+                          />
+                          {formik?.touched?.country &&
+                            formik.errors.country && (
+                              <div className="text-danger">
+                                {formik.errors.country}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Select State</Form.Label>
+                          <Select
+                            className="custom-select-height"
+                            options={stateDropDown?.map((state) => ({
+                              value: state.isoCode,
+                              label: state.name,
+                            }))}
+                            value={
+                              stateDropDown
+                                ?.map((state) => ({
+                                  value: state.isoCode,
+                                  label: state.name,
+                                }))
+                                .filter(
+                                  (s) => s.value === formik.values.state,
+                                )[0]
+                            }
+                            onChange={(selectedOption) => {
+                              if (selectedOption) {
+                                formik.setFieldValue(
+                                  "state",
+                                  selectedOption.value,
+                                );
+                                handleStateChange(
+                                  formik.values.country,
+                                  selectedOption.value,
+                                );
+                                formik.setFieldError("state", "");
+                              } else {
+                                formik.setFieldValue("state", "");
+                              }
+                            }}
+                            placeholder="Select State"
+                            isClearable
+                            isSearchable
+                            isDisabled={!formik.values.country}
+                            styles={{
+                              control: (base, state) => ({
+                                ...base,
+                                borderRadius: "12px",
+                                color: state.isDisabled ? "#6c757d" : "black",
+                                backgroundColor: state.isDisabled
+                                  ? "#e9ecef"
+                                  : "white",
+                                cursor: state.isDisabled
+                                  ? "not-allowed"
+                                  : "pointer",
+                              }),
+                              placeholder: (base, state) => ({
+                                ...base,
+                                color: state.isDisabled ? "#6c757d" : "black",
+                                fontSize: "13px",
+                              }),
+                              singleValue: (base, state) => ({
+                                ...base,
+                                color: state.isDisabled ? "#6c757d" : "black",
+                              }),
+                            }}
+                          />
+                          {formik?.touched?.state && formik.errors.state && (
+                            <div className="text-danger">
+                              {formik.errors.state}
+                            </div>
+                          )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Select City</Form.Label>
+                          <Select
+                            className="custom-select-height"
+                            options={cityDropDownList?.map((city) => {
+                              const name =
+                                typeof city === "string" ? city : city.name;
+                              return { value: name, label: name };
+                            })}
+                            value={
+                              formik.values.city
+                                ? {
+                                    value: formik.values.city,
+                                    label: formik.values.city,
+                                  }
+                                : null
+                            }
+                            onChange={(selectedOption) => {
+                              if (selectedOption) {
+                                formik.setFieldValue(
+                                  "city",
+                                  selectedOption.value,
+                                );
+                                formik.setFieldError("city", "");
+                              } else {
+                                formik.setFieldValue("city", "");
+                              }
+                            }}
+                            placeholder="Select City"
+                            isClearable
+                            isSearchable
+                            isDisabled={!formik.values.state}
+                            styles={{
+                              control: (base, state) => ({
+                                ...base,
+                                borderRadius: "12px",
+                                color: state.isDisabled ? "#6c757d" : "black",
+                                backgroundColor: state.isDisabled
+                                  ? "#e9ecef"
+                                  : "white",
+                                cursor: state.isDisabled
+                                  ? "not-allowed"
+                                  : "pointer",
+                              }),
+                              placeholder: (base, state) => ({
+                                ...base,
+                                color: state.isDisabled ? "#6c757d" : "black",
+                                fontSize: "13px",
+                              }),
+                              singleValue: (base, state) => ({
+                                ...base,
+                                color: state.isDisabled ? "#6c757d" : "black",
+                              }),
+                            }}
+                          />
 
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Offer Letter Email</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter offer letter email"
-                          name="offerLetterEmail"
-                          value={formik.values.offerLetterEmail}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.offerLetterEmail &&
-                          formik.errors.offerLetterEmail && (
+                          {formik?.touched?.city && formik.errors.city && (
                             <div className="text-danger">
-                              {formik.errors.offerLetterEmail}
+                              {formik.errors.city}
                             </div>
                           )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Offer Letter Email CC</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter offer letter email cc"
-                          name="offerLetterEmailCC"
-                          value={formik.values.offerLetterEmailCC}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.offerLetterEmailCC &&
-                          formik.errors.offerLetterEmailCC && (
-                            <div className="text-danger">
-                              {formik.errors.offerLetterEmailCC}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>TT Email</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter tt email"
-                          name="ttEmail"
-                          value={formik.values.ttEmail}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.ttEmail && formik.errors.ttEmail && (
-                          <div className="text-danger">
-                            {formik.errors.ttEmail}
-                          </div>
-                        )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>TT Email CC</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter tt email cc"
-                          name="ttEmailCC"
-                          value={formik.values.ttEmailCC}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.ttEmailCC &&
-                          formik.errors.ttEmailCC && (
-                            <div className="text-danger">
-                              {formik.errors.ttEmailCC}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Refund Email</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter refund email"
-                          name="refundEmail"
-                          value={formik.values.refundEmail}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.refundEmail &&
-                          formik.errors.refundEmail && (
-                            <div className="text-danger">
-                              {formik.errors.refundEmail}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Refund Email CC</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter refund email cc"
-                          name="refundEmailCC"
-                          value={formik.values.refundEmailCC}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.refundEmailCC &&
-                          formik.errors.refundEmailCC && (
-                            <div className="text-danger">
-                              {formik.errors.refundEmailCC}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Contact 1</Form.Label>
-                        <PhoneInput
-                          country={countryCodeISO()}
-                          value={formik.values.contact1 || ""}
-                          onChange={(phone, data) => {
-                            const dialCode = data.dialCode
-                              ? `+${data.dialCode}`
-                              : "";
-                            const formattedPhone = `${dialCode} ${phone.replace(
-                              data.dialCode,
-                              ""
-                            )}`.trim();
-                            formik.setFieldValue("contact1", formattedPhone);
-                          }}
-                          inputProps={{
-                            name: "phone",
-                            required: true,
-                            className: "form-control custom-select-height",
-                          }}
-                          inputStyle={{
-                            width: "100%",
-                            paddingLeft: "65px",
-                            borderRadius: "4px",
-                          }}
-                          buttonStyle={{
-                            marginRight: "10px",
-                          }}
-                        />
-                        {formik.touched.contact1 && formik.errors.contact1 && (
-                          <div className="text-danger">
-                            {formik.errors.contact1}
-                          </div>
-                        )}
-                      </Col>
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Institute</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter institute"
+                            name="instituteName"
+                            value={formik.values.instituteName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.instituteName &&
+                            formik.errors.instituteName && (
+                              <div className="text-danger">
+                                {formik.errors.instituteName}
+                              </div>
+                            )}
+                        </Col>
 
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Contact 2</Form.Label>
-                        <PhoneInput
-                          country={countryCodeISO()}
-                          value={formik.values.contact2 || ""}
-                          onChange={(phone, data) => {
-                            const dialCode = data.dialCode
-                              ? `+${data.dialCode}`
-                              : "";
-                            const formattedPhone = `${dialCode} ${phone.replace(
-                              data.dialCode,
-                              ""
-                            )}`.trim();
-                            formik.setFieldValue("contact2", formattedPhone);
-                          }}
-                          inputProps={{
-                            name: "phone",
-                            required: true,
-                            className: "form-control custom-select-height",
-                          }}
-                          inputStyle={{
-                            width: "100%",
-                            paddingLeft: "65px",
-                            borderRadius: "4px",
-                          }}
-                          buttonStyle={{
-                            marginRight: "10px",
-                          }}
-                        />
-                        {formik.touched.contact2 && formik.errors.contact2 && (
-                          <div className="text-danger">
-                            {formik.errors.contact2}
-                          </div>
-                        )}
-                      </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Select Campus</Form.Label>
+                          <Select
+                            options={campusByCountry
+                              ?.sort((a, b) => a.campus.localeCompare(b.campus))
+                              ?.map((c) => ({
+                                value: c._id,
+                                label: c.campus,
+                              }))}
+                            value={
+                              formik.values.campus
+                                ? {
+                                    value: formik.values.campus,
+                                    label:
+                                      campusByCountry.find(
+                                        (c) => c._id === formik.values.campus,
+                                      )?.campus || "",
+                                  }
+                                : null
+                            }
+                            onChange={(selectedOption) => {
+                              if (selectedOption) {
+                                formik.setFieldValue(
+                                  "campus",
+                                  selectedOption.value,
+                                );
+                                formik.setFieldError("campus", "");
+                              } else {
+                                formik.setFieldValue("campus", "");
+                              }
+                            }}
+                            placeholder="Select Campus"
+                            isClearable
+                            isSearchable
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                borderRadius: " 12px",
+                                color: "black",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "black",
+                                fontSize: "13px",
+                              }),
+                            }}
+                          />
+                        </Col>
 
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Admission Type</Form.Label>
-                        <Select
-                          name="admissionType"
-                          classNamePrefix="custom-select"
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              fontSize: "13px",
-                            }),
-                          }}
-                          value={
-                            formik.values.admissionType
-                              ? {
-                                  value: formik.values.admissionType,
-                                  label:
-                                    admissionTypeOptions.find(
-                                      (option) =>
-                                        option.value ===
-                                        formik.values.admissionType
-                                    )?.label || "Select Admission Type",
-                                }
-                              : null
-                          }
-                          onChange={(option) =>
-                            formik.setFieldValue(
-                              "admissionType",
-                              option ? option.value : ""
-                            )
-                          }
-                          onBlur={() =>
-                            formik.setFieldTouched("admissionType", true)
-                          }
-                          options={admissionTypeOptions}
-                          placeholder="Select Admission Type"
-                          clearable
-                        />
-                        {formik.touched.admissionType &&
-                          formik.errors.admissionType && (
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Offer Letter Email</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter offer letter email"
+                            name="offerLetterEmail"
+                            value={formik.values.offerLetterEmail}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.offerLetterEmail &&
+                            formik.errors.offerLetterEmail && (
+                              <div className="text-danger">
+                                {formik.errors.offerLetterEmail}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Offer Letter Email CC</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter offer letter email cc"
+                            name="offerLetterEmailCC"
+                            value={formik.values.offerLetterEmailCC}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.offerLetterEmailCC &&
+                            formik.errors.offerLetterEmailCC && (
+                              <div className="text-danger">
+                                {formik.errors.offerLetterEmailCC}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>TT Email</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter tt email"
+                            name="ttEmail"
+                            value={formik.values.ttEmail}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.ttEmail &&
+                            formik.errors.ttEmail && (
+                              <div className="text-danger">
+                                {formik.errors.ttEmail}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>TT Email CC</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter tt email cc"
+                            name="ttEmailCC"
+                            value={formik.values.ttEmailCC}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.ttEmailCC &&
+                            formik.errors.ttEmailCC && (
+                              <div className="text-danger">
+                                {formik.errors.ttEmailCC}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Refund Email</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter refund email"
+                            name="refundEmail"
+                            value={formik.values.refundEmail}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.refundEmail &&
+                            formik.errors.refundEmail && (
+                              <div className="text-danger">
+                                {formik.errors.refundEmail}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Refund Email CC</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter refund email cc"
+                            name="refundEmailCC"
+                            value={formik.values.refundEmailCC}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.refundEmailCC &&
+                            formik.errors.refundEmailCC && (
+                              <div className="text-danger">
+                                {formik.errors.refundEmailCC}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Contact 1</Form.Label>
+                          <PhoneInput
+                            country={countryCodeISO()}
+                            value={formik.values.contact1 || ""}
+                            onChange={(phone, data) => {
+                              const dialCode = data.dialCode
+                                ? `+${data.dialCode}`
+                                : "";
+                              const formattedPhone =
+                                `${dialCode} ${phone.replace(
+                                  data.dialCode,
+                                  "",
+                                )}`.trim();
+                              formik.setFieldValue("contact1", formattedPhone);
+                            }}
+                            inputProps={{
+                              name: "phone",
+                              required: true,
+                              className: "form-control custom-select-height",
+                            }}
+                            inputStyle={{
+                              width: "100%",
+                              paddingLeft: "65px",
+                              borderRadius: "4px",
+                            }}
+                            buttonStyle={{
+                              marginRight: "10px",
+                            }}
+                          />
+                          {formik.touched.contact1 &&
+                            formik.errors.contact1 && (
+                              <div className="text-danger">
+                                {formik.errors.contact1}
+                              </div>
+                            )}
+                        </Col>
+
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Contact 2</Form.Label>
+                          <PhoneInput
+                            country={countryCodeISO()}
+                            value={formik.values.contact2 || ""}
+                            onChange={(phone, data) => {
+                              const dialCode = data.dialCode
+                                ? `+${data.dialCode}`
+                                : "";
+                              const formattedPhone =
+                                `${dialCode} ${phone.replace(
+                                  data.dialCode,
+                                  "",
+                                )}`.trim();
+                              formik.setFieldValue("contact2", formattedPhone);
+                            }}
+                            inputProps={{
+                              name: "phone",
+                              required: true,
+                              className: "form-control custom-select-height",
+                            }}
+                            inputStyle={{
+                              width: "100%",
+                              paddingLeft: "65px",
+                              borderRadius: "4px",
+                            }}
+                            buttonStyle={{
+                              marginRight: "10px",
+                            }}
+                          />
+                          {formik.touched.contact2 &&
+                            formik.errors.contact2 && (
+                              <div className="text-danger">
+                                {formik.errors.contact2}
+                              </div>
+                            )}
+                        </Col>
+
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Admission Type</Form.Label>
+                          <Select
+                            name="admissionType"
+                            classNamePrefix="custom-select"
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                fontSize: "13px",
+                              }),
+                            }}
+                            value={
+                              formik.values.admissionType
+                                ? {
+                                    value: formik.values.admissionType,
+                                    label:
+                                      admissionTypeOptions.find(
+                                        (option) =>
+                                          option.value ===
+                                          formik.values.admissionType,
+                                      )?.label || "Select Admission Type",
+                                  }
+                                : null
+                            }
+                            onChange={(option) =>
+                              formik.setFieldValue(
+                                "admissionType",
+                                option ? option.value : "",
+                              )
+                            }
+                            onBlur={() =>
+                              formik.setFieldTouched("admissionType", true)
+                            }
+                            options={admissionTypeOptions}
+                            placeholder="Select Admission Type"
+                            clearable
+                          />
+                          {formik.touched.admissionType &&
+                            formik.errors.admissionType && (
+                              <div className="text-danger">
+                                {formik.errors.admissionType}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Portal</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter portal"
+                            name="portal"
+                            value={formik.values.portal}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.portal && formik.errors.portal && (
                             <div className="text-danger">
-                              {formik.errors.admissionType}
+                              {formik.errors.portal}
                             </div>
                           )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Portal</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter portal"
-                          name="portal"
-                          value={formik.values.portal}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.portal && formik.errors.portal && (
-                          <div className="text-danger">
-                            {formik.errors.portal}
-                          </div>
-                        )}
-                      </Col>
-                      {/* <Col md={3} className="mb-3">
+                        </Col>
+                        {/* <Col md={3} className="mb-3">
                         <Form.Label>Contact Person</Form.Label>
                         <Form.Control
                           type="text"
@@ -1882,702 +1892,718 @@ const Institute = () => {
                             </div>
                           )}
                       </Col> */}
-                      {formik.values.contactPerson.map((person, index) => (
-                        <Col md={12} className="mb-3" key={index}>
-                          <div className="d-flex align-items-center justify-content-between mb-2">
-                            <Form.Label>Contact Person {index + 1}</Form.Label>
-                            {index > 0 && (
-                              <Button
-                                variant="outline-danger"
-                                className="custom-select-height"
-                                onClick={() => removeContactPerson(index)}
-                              >
-                                Remove
-                              </Button>
-                            )}
-                          </div>
-                          <Row>
-                            <Col md={3}>
-                              <Form.Control
-                                type="text"
-                                placeholder="Name"
-                                className="custom-select-height"
-                                name={`contactPerson[${index}].name`}
-                                value={person.name}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                              />
-                              {formik.touched.contactPerson?.[index]?.name &&
-                                formik.errors.contactPerson?.[index]?.name && (
-                                  <div className="text-danger">
-                                    {formik.errors.contactPerson[index].name}
-                                  </div>
-                                )}
-                            </Col>
-                            <Col md={3}>
-                              <Form.Control
-                                type="text"
-                                placeholder="Designation"
-                                className="custom-select-height"
-                                name={`contactPerson[${index}].designation`}
-                                value={person.designation}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                              />
-                            </Col>
-                            <Col md={3}>
-                              <Form.Control
-                                type="email"
-                                placeholder="Email"
-                                className="custom-select-height"
-                                name={`contactPerson[${index}].email`}
-                                value={person.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                              />
-                              {formik.touched.contactPerson?.[index]?.email &&
-                                formik.errors.contactPerson?.[index]?.email && (
-                                  <div className="text-danger">
-                                    {formik.errors.contactPerson[index].email}
-                                  </div>
-                                )}
-                            </Col>
-                            <Col md={3}>
-                              <PhoneInput
-                                country={countryCodeISO()}
-                                value={person.phone || ""}
-                                onChange={(phone, data) => {
-                                  const dialCode = data.dialCode
-                                    ? `+${data.dialCode}`
-                                    : "";
-                                  const formattedPhone =
-                                    `${dialCode} ${phone.replace(
-                                      data.dialCode,
-                                      ""
-                                    )}`.trim();
-                                  formik.setFieldValue(
-                                    `contactPerson[${index}].phone`,
-                                    formattedPhone
-                                  );
-                                }}
-                                inputProps={{
-                                  name: `contactPerson[${index}].phone`,
-                                  className:
-                                    "form-control custom-select-height",
-                                }}
-                                inputStyle={{
-                                  width: "100%",
-                                  paddingLeft: "65px",
-                                  borderRadius: "4px",
-                                }}
-                                buttonStyle={{
-                                  marginRight: "10px",
-                                }}
-                              />
-                            </Col>
-                          </Row>
-                        </Col>
-                      ))}
-                      <Col md={12} className="mb-3">
-                        <Button
-                          variant="outline-primary"
-                          className="custom-select-height"
-                          onClick={addContactPerson}
-                        >
-                          Add Another Contact Person
-                        </Button>
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Recruitment Territory Rights</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter recruitment territory rights"
-                          name="recruitmentTerritoryRights"
-                          value={formik.values.recruitmentTerritoryRights}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik.touched.recruitmentTerritoryRights &&
-                          formik.errors.recruitmentTerritoryRights && (
-                            <div className="text-danger">
-                              {formik.errors.recruitmentTerritoryRights}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Start Date of Agreement</Form.Label>
-                        <div style={{ position: "relative" }}>
-                          <Form.Control
-                            type="text"
-                            className="custom-select-height"
-                            name="agreementStartDate"
-                            placeholder="dd/mm/yyyy"
-                            value={
-                              formik.values.agreementStartDate
-                                ? formatDate(
-                                    parseDate(formik.values.agreementStartDate)
-                                  )
-                                : ""
-                            }
-                            readOnly
-                            ref={startDateInputRef}
-                            onClick={() => setShowStartDateCalendar(true)}
-                            style={{
-                              cursor: "pointer",
-                              backgroundColor: "#fff",
-                            }}
-                          />
-                          <MdCalendarToday
-                            style={{
-                              position: "absolute",
-                              right: 10,
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              color: "#888",
-                              pointerEvents: "none",
-                            }}
-                            size={20}
-                          />
-                          {showStartDateCalendar && (
-                            <div
-                              ref={startDateCalendarRef}
-                              style={{
-                                position: "absolute",
-                                top: "100%",
-                                left: 0,
-                                zIndex: 10000,
-                                background: "#fff",
-                                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                                borderRadius: "8px",
-                                marginTop: "4px",
-                                width: 350,
-                              }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <Calendar
-                                className="form-control m-0 p-0 border-0"
-                                onChange={(selectedDate) => {
-                                  formik.setFieldValue(
-                                    "agreementStartDate",
-                                    toISODate(selectedDate)
-                                  );
-                                  setShowStartDateCalendar(false);
-                                }}
-                                value={
-                                  parseDate(formik.values.agreementStartDate) ||
-                                  new Date()
-                                }
-                                locale="en-GB"
-                              />
-                            </div>
-                          )}
-                        </div>
-                        {formik?.touched?.agreementStartDate &&
-                          formik.errors.agreementStartDate && (
-                            <div className="text-danger">
-                              {formik.errors.agreementStartDate}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>End Date of Agreement</Form.Label>
-                        <div style={{ position: "relative" }}>
-                          <Form.Control
-                            type="text"
-                            className="custom-select-height"
-                            name="agreementEndDate"
-                            placeholder="dd/mm/yyyy"
-                            value={
-                              formik.values.agreementEndDate
-                                ? formatDate(
-                                    parseDate(formik.values.agreementEndDate)
-                                  )
-                                : ""
-                            }
-                            readOnly
-                            ref={endDateInputRef}
-                            onClick={() => setShowEndDateCalendar(true)}
-                            style={{
-                              cursor: "pointer",
-                              backgroundColor: "#fff",
-                            }}
-                          />
-                          <MdCalendarToday
-                            style={{
-                              position: "absolute",
-                              right: 10,
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              color: "#888",
-                              pointerEvents: "none",
-                            }}
-                            size={20}
-                          />
-                          {showEndDateCalendar && (
-                            <div
-                              ref={endDateCalendarRef}
-                              style={{
-                                position: "absolute",
-                                top: "100%",
-                                left: 0,
-                                zIndex: 10000,
-                                background: "#fff",
-                                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-                                borderRadius: "8px",
-                                marginTop: "4px",
-                                width: 350,
-                              }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <Calendar
-                                className="form-control m-0 p-0 border-0"
-                                onChange={(selectedDate) => {
-                                  formik.setFieldValue(
-                                    "agreementEndDate",
-                                    toISODate(selectedDate)
-                                  );
-                                  setShowEndDateCalendar(false);
-                                }}
-                                value={
-                                  parseDate(formik.values.agreementEndDate) ||
-                                  new Date()
-                                }
-                                locale="en-GB"
-                              />
-                            </div>
-                          )}
-                        </div>
-                        {formik?.touched?.agreementEndDate &&
-                          formik.errors.agreementEndDate && (
-                            <div className="text-danger">
-                              {formik.errors.agreementEndDate}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Current Status of Agreement</Form.Label>
-                        <Select
-                          name="agreementStatus"
-                          classNamePrefix="custom-select"
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              fontSize: "13px",
-                            }),
-                          }}
-                          value={
-                            formik.values.agreementStatus
-                              ? {
-                                  value: formik.values.agreementStatus,
-                                  label: formik.values.agreementStatus,
-                                }
-                              : null
-                          }
-                          onChange={(option) =>
-                            formik.setFieldValue(
-                              "agreementStatus",
-                              option ? option.value : ""
-                            )
-                          }
-                          onBlur={() =>
-                            formik.setFieldTouched("agreementStatus", true)
-                          }
-                          options={agreementStatusOptions}
-                          placeholder="Select Agreement Status"
-                          isClearable
-                        />
-                        {formik.touched.agreementStatus &&
-                          formik.errors.agreementStatus && (
-                            <div className="text-danger">
-                              {formik.errors.agreementStatus}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Type of Association</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter association type (e.g., Direct, GUS, SIUK)"
-                          name="typeOfAssociation"
-                          value={formik.values.typeOfAssociation}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik.touched.typeOfAssociation &&
-                          formik.errors.typeOfAssociation && (
-                            <div className="text-danger">
-                              {formik.errors.typeOfAssociation}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Upload Agreement</Form.Label>
-                        <Form.Control
-                          type="file"
-                          name="agreementDoc"
-                          className="custom-select-height"
-                          accept="application/pdf"
-                          onChange={(event) => {
-                            const file = event.currentTarget.files[0];
-                            formik.setFieldValue("agreementDoc", file);
-                          }}
-                        />
-                        {formik.touched.agreementDoc &&
-                          formik.errors.agreementDoc && (
-                            <div className="text-danger">
-                              {formik.errors.agreementDoc}
-                            </div>
-                          )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Fax</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter fax"
-                          name="fax"
-                          value={formik.values.fax}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.fax && formik.errors.fax && (
-                          <div className="text-danger">{formik.errors.fax}</div>
-                        )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Web Address</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter web address"
-                          name="webAddress"
-                          value={formik.values.webAddress}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.webAddress &&
-                          formik.errors.webAddress && (
-                            <div className="text-danger">
-                              {formik.errors.webAddress}
-                            </div>
-                          )}
-                      </Col>
-
-                      {formik.values.programLevelCommissions?.map(
-                        (commission, index) => (
+                        {formik.values.contactPerson.map((person, index) => (
                           <Col md={12} className="mb-3" key={index}>
                             <div className="d-flex align-items-center justify-content-between mb-2">
                               <Form.Label>
-                                Program Level Commission {index + 1}
+                                Contact Person {index + 1}
                               </Form.Label>
                               {index > 0 && (
                                 <Button
                                   variant="outline-danger"
                                   className="custom-select-height"
-                                  onClick={() => {
-                                    const updated =
-                                      formik.values.programLevelCommissions.filter(
-                                        (_, i) => i !== index
-                                      );
-                                    formik.setFieldValue(
-                                      "programLevelCommissions",
-                                      updated
-                                    );
-                                  }}
+                                  onClick={() => removeContactPerson(index)}
                                 >
                                   Remove
                                 </Button>
                               )}
                             </div>
-
                             <Row>
-                              <Col md={4}>
-                                <Form.Label>Program Level</Form.Label>
-                                <Select
-                                  options={programLevel?.map((p) => ({
-                                    value: p._id,
-                                    label: p.name,
-                                  }))}
-                                  value={
-                                    commission.programLevel
-                                      ? {
-                                          value: commission.programLevel,
-                                          label:
-                                            programLevel.find(
-                                              (p) =>
-                                                p._id ===
-                                                commission.programLevel
-                                            )?.name || "",
-                                        }
-                                      : null
-                                  }
-                                  onChange={(selectedOption) =>
-                                    formik.setFieldValue(
-                                      `programLevelCommissions[${index}].programLevel`,
-                                      selectedOption ? selectedOption.value : ""
-                                    )
-                                  }
-                                  placeholder="Select Program Level"
-                                  isClearable
-                                  classNamePrefix="custom-select"
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      fontSize: "13px",
-                                    }),
-                                  }}
-                                />
-                              </Col>
-
-                              <Col md={4}>
-                                <Form.Label>Commission Period</Form.Label>
-                                <Select
-                                  options={[
-                                    {
-                                      value: "Per Semester",
-                                      label: "Per Semester",
-                                    },
-                                    { value: "Per Year", label: "Per Year" },
-                                    {
-                                      value: "Per Quarter",
-                                      label: "Per Quarter",
-                                    },
-                                  ]}
-                                  value={
-                                    commission.commissionPeriod
-                                      ? {
-                                          value: commission.commissionPeriod,
-                                          label: commission.commissionPeriod,
-                                        }
-                                      : null
-                                  }
-                                  onChange={(selectedOption) =>
-                                    formik.setFieldValue(
-                                      `programLevelCommissions[${index}].commissionPeriod`,
-                                      selectedOption ? selectedOption.value : ""
-                                    )
-                                  }
-                                  placeholder="Select Commission Period"
-                                  isClearable
-                                  classNamePrefix="custom-select"
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      fontSize: "13px",
-                                    }),
-                                  }}
-                                />
-                              </Col>
-
-                              <Col md={4}>
-                                <Form.Label>Commission Percentage</Form.Label>
+                              <Col md={3}>
                                 <Form.Control
-                                  type="number"
-                                  placeholder="Enter commission %"
+                                  type="text"
+                                  placeholder="Name"
                                   className="custom-select-height"
-                                  name={`programLevelCommissions[${index}].commissionPercentage`}
-                                  value={commission.commissionPercentage}
+                                  name={`contactPerson[${index}].name`}
+                                  value={person.name}
                                   onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                />
+                                {formik.touched.contactPerson?.[index]?.name &&
+                                  formik.errors.contactPerson?.[index]
+                                    ?.name && (
+                                    <div className="text-danger">
+                                      {formik.errors.contactPerson[index].name}
+                                    </div>
+                                  )}
+                              </Col>
+                              <Col md={3}>
+                                <Form.Control
+                                  type="text"
+                                  placeholder="Designation"
+                                  className="custom-select-height"
+                                  name={`contactPerson[${index}].designation`}
+                                  value={person.designation}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                />
+                              </Col>
+                              <Col md={3}>
+                                <Form.Control
+                                  type="email"
+                                  placeholder="Email"
+                                  className="custom-select-height"
+                                  name={`contactPerson[${index}].email`}
+                                  value={person.email}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                />
+                                {formik.touched.contactPerson?.[index]?.email &&
+                                  formik.errors.contactPerson?.[index]
+                                    ?.email && (
+                                    <div className="text-danger">
+                                      {formik.errors.contactPerson[index].email}
+                                    </div>
+                                  )}
+                              </Col>
+                              <Col md={3}>
+                                <PhoneInput
+                                  country={countryCodeISO()}
+                                  value={person.phone || ""}
+                                  onChange={(phone, data) => {
+                                    const dialCode = data.dialCode
+                                      ? `+${data.dialCode}`
+                                      : "";
+                                    const formattedPhone =
+                                      `${dialCode} ${phone.replace(
+                                        data.dialCode,
+                                        "",
+                                      )}`.trim();
+                                    formik.setFieldValue(
+                                      `contactPerson[${index}].phone`,
+                                      formattedPhone,
+                                    );
+                                  }}
+                                  inputProps={{
+                                    name: `contactPerson[${index}].phone`,
+                                    className:
+                                      "form-control custom-select-height",
+                                  }}
+                                  inputStyle={{
+                                    width: "100%",
+                                    paddingLeft: "65px",
+                                    borderRadius: "4px",
+                                  }}
+                                  buttonStyle={{
+                                    marginRight: "10px",
+                                  }}
                                 />
                               </Col>
                             </Row>
                           </Col>
-                        )
-                      )}
-
-                      <Col md={12} className="mb-3">
-                        <Button
-                          variant="outline-primary"
-                          className="custom-select-height"
-                          onClick={() =>
-                            formik.setFieldValue("programLevelCommissions", [
-                              ...formik.values.programLevelCommissions,
-                              {
-                                programLevel: "",
-                                commissionPeriod: "",
-                                commissionPercentage: "",
-                              },
-                            ])
-                          }
-                        >
-                          Add Another Program Level
-                        </Button>
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Portal Address</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter portal address"
-                          name="postalAddress"
-                          value={formik.values.postalAddress}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {formik?.touched?.postalAddress &&
-                          formik.errors.postalAddress && (
+                        ))}
+                        <Col md={12} className="mb-3">
+                          <Button
+                            variant="outline-primary"
+                            className="custom-select-height"
+                            onClick={addContactPerson}
+                          >
+                            Add Another Contact Person
+                          </Button>
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Recruitment Territory Rights</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter recruitment territory rights"
+                            name="recruitmentTerritoryRights"
+                            value={formik.values.recruitmentTerritoryRights}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik.touched.recruitmentTerritoryRights &&
+                            formik.errors.recruitmentTerritoryRights && (
+                              <div className="text-danger">
+                                {formik.errors.recruitmentTerritoryRights}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Start Date of Agreement</Form.Label>
+                          <div style={{ position: "relative" }}>
+                            <Form.Control
+                              type="text"
+                              className="custom-select-height"
+                              name="agreementStartDate"
+                              placeholder="dd/mm/yyyy"
+                              value={
+                                formik.values.agreementStartDate
+                                  ? formatDate(
+                                      parseDate(
+                                        formik.values.agreementStartDate,
+                                      ),
+                                    )
+                                  : ""
+                              }
+                              readOnly
+                              ref={startDateInputRef}
+                              onClick={() => setShowStartDateCalendar(true)}
+                              style={{
+                                cursor: "pointer",
+                                backgroundColor: "#fff",
+                              }}
+                            />
+                            <MdCalendarToday
+                              style={{
+                                position: "absolute",
+                                right: 10,
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                color: "#888",
+                                pointerEvents: "none",
+                              }}
+                              size={20}
+                            />
+                            {showStartDateCalendar && (
+                              <div
+                                ref={startDateCalendarRef}
+                                style={{
+                                  position: "absolute",
+                                  top: "100%",
+                                  left: 0,
+                                  zIndex: 10000,
+                                  background: "#fff",
+                                  boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                  borderRadius: "8px",
+                                  marginTop: "4px",
+                                  width: 350,
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <Calendar
+                                  className="form-control m-0 p-0 border-0"
+                                  onChange={(selectedDate) => {
+                                    formik.setFieldValue(
+                                      "agreementStartDate",
+                                      toISODate(selectedDate),
+                                    );
+                                    setShowStartDateCalendar(false);
+                                  }}
+                                  value={
+                                    parseDate(
+                                      formik.values.agreementStartDate,
+                                    ) || new Date()
+                                  }
+                                  locale="en-GB"
+                                />
+                              </div>
+                            )}
+                          </div>
+                          {formik?.touched?.agreementStartDate &&
+                            formik.errors.agreementStartDate && (
+                              <div className="text-danger">
+                                {formik.errors.agreementStartDate}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>End Date of Agreement</Form.Label>
+                          <div style={{ position: "relative" }}>
+                            <Form.Control
+                              type="text"
+                              className="custom-select-height"
+                              name="agreementEndDate"
+                              placeholder="dd/mm/yyyy"
+                              value={
+                                formik.values.agreementEndDate
+                                  ? formatDate(
+                                      parseDate(formik.values.agreementEndDate),
+                                    )
+                                  : ""
+                              }
+                              readOnly
+                              ref={endDateInputRef}
+                              onClick={() => setShowEndDateCalendar(true)}
+                              style={{
+                                cursor: "pointer",
+                                backgroundColor: "#fff",
+                              }}
+                            />
+                            <MdCalendarToday
+                              style={{
+                                position: "absolute",
+                                right: 10,
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                color: "#888",
+                                pointerEvents: "none",
+                              }}
+                              size={20}
+                            />
+                            {showEndDateCalendar && (
+                              <div
+                                ref={endDateCalendarRef}
+                                style={{
+                                  position: "absolute",
+                                  top: "100%",
+                                  left: 0,
+                                  zIndex: 10000,
+                                  background: "#fff",
+                                  boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                  borderRadius: "8px",
+                                  marginTop: "4px",
+                                  width: 350,
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <Calendar
+                                  className="form-control m-0 p-0 border-0"
+                                  onChange={(selectedDate) => {
+                                    formik.setFieldValue(
+                                      "agreementEndDate",
+                                      toISODate(selectedDate),
+                                    );
+                                    setShowEndDateCalendar(false);
+                                  }}
+                                  value={
+                                    parseDate(formik.values.agreementEndDate) ||
+                                    new Date()
+                                  }
+                                  locale="en-GB"
+                                />
+                              </div>
+                            )}
+                          </div>
+                          {formik?.touched?.agreementEndDate &&
+                            formik.errors.agreementEndDate && (
+                              <div className="text-danger">
+                                {formik.errors.agreementEndDate}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Current Status of Agreement</Form.Label>
+                          <Select
+                            name="agreementStatus"
+                            classNamePrefix="custom-select"
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                fontSize: "13px",
+                              }),
+                            }}
+                            value={
+                              formik.values.agreementStatus
+                                ? {
+                                    value: formik.values.agreementStatus,
+                                    label: formik.values.agreementStatus,
+                                  }
+                                : null
+                            }
+                            onChange={(option) =>
+                              formik.setFieldValue(
+                                "agreementStatus",
+                                option ? option.value : "",
+                              )
+                            }
+                            onBlur={() =>
+                              formik.setFieldTouched("agreementStatus", true)
+                            }
+                            options={agreementStatusOptions}
+                            placeholder="Select Agreement Status"
+                            isClearable
+                          />
+                          {formik.touched.agreementStatus &&
+                            formik.errors.agreementStatus && (
+                              <div className="text-danger">
+                                {formik.errors.agreementStatus}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Type of Association</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter association type (e.g., Direct, GUS, SIUK)"
+                            name="typeOfAssociation"
+                            value={formik.values.typeOfAssociation}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik.touched.typeOfAssociation &&
+                            formik.errors.typeOfAssociation && (
+                              <div className="text-danger">
+                                {formik.errors.typeOfAssociation}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Upload Agreement</Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="agreementDoc"
+                            className="custom-select-height"
+                            accept="application/pdf"
+                            onChange={(event) => {
+                              const file = event.currentTarget.files[0];
+                              formik.setFieldValue("agreementDoc", file);
+                            }}
+                          />
+                          {formik.touched.agreementDoc &&
+                            formik.errors.agreementDoc && (
+                              <div className="text-danger">
+                                {formik.errors.agreementDoc}
+                              </div>
+                            )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Fax</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter fax"
+                            name="fax"
+                            value={formik.values.fax}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.fax && formik.errors.fax && (
                             <div className="text-danger">
-                              {formik.errors.postalAddress}
+                              {formik.errors.fax}
                             </div>
                           )}
-                      </Col>
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Web Address</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter web address"
+                            name="webAddress"
+                            value={formik.values.webAddress}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.webAddress &&
+                            formik.errors.webAddress && (
+                              <div className="text-danger">
+                                {formik.errors.webAddress}
+                              </div>
+                            )}
+                        </Col>
 
-                      <Col md={3} className="mb-3">
-                        <Form.Label>OL TAT Period</Form.Label>
-                        <div className="d-flex gap-2">
-                          <Select
-                            name="olTATPeriod.value"
-                            classNamePrefix="custom-select"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                fontSize: "13px",
-                                width: "120px",
-                              }),
-                            }}
-                            value={
-                              formik.values.olTATPeriod?.value
-                                ? {
-                                    value: formik.values.olTATPeriod.value,
-                                    label: `${formik.values.olTATPeriod.value}`,
-                                  }
-                                : null
-                            }
-                            onChange={(option) =>
-                              formik.setFieldValue(
-                                "olTATPeriod.value",
-                                option ? option.value : ""
-                              )
-                            }
-                            onBlur={() =>
-                              formik.setFieldTouched("olTATPeriod.value", true)
-                            }
-                            options={valueOptions}
-                            placeholder="Select OL TAT Period"
-                            clearable
-                          />
-                          <Select
-                            name="olTATPeriod.unit"
-                            classNamePrefix="custom-select"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                fontSize: "13px",
-                                width: "120px",
-                              }),
-                            }}
-                            value={
-                              formik.values.olTATPeriod?.unit
-                                ? {
-                                    value: formik.values.olTATPeriod.unit,
-                                    label: formik.values.olTATPeriod.unit,
-                                  }
-                                : null
-                            }
-                            onChange={(option) =>
-                              formik.setFieldValue(
-                                "olTATPeriod.unit",
-                                option ? option.value : ""
-                              )
-                            }
-                            onBlur={() =>
-                              formik.setFieldTouched("olTATPeriod.unit", true)
-                            }
-                            options={unitOptions}
-                            placeholder="Select Duration"
-                            clearable
-                          />
-                        </div>
-                        {((formik.touched?.olTATPeriod?.value &&
-                          formik.errors?.olTATPeriod?.value) ||
-                          (formik.touched?.olTATPeriod?.unit &&
-                            formik.errors?.olTATPeriod?.unit)) && (
-                          <div className="text-danger">
-                            OL TAT Period is required
-                          </div>
+                        {formik.values.programLevelCommissions?.map(
+                          (commission, index) => (
+                            <Col md={12} className="mb-3" key={index}>
+                              <div className="d-flex align-items-center justify-content-between mb-2">
+                                <Form.Label>
+                                  Program Level Commission {index + 1}
+                                </Form.Label>
+                                {index > 0 && (
+                                  <Button
+                                    variant="outline-danger"
+                                    className="custom-select-height"
+                                    onClick={() => {
+                                      const updated =
+                                        formik.values.programLevelCommissions.filter(
+                                          (_, i) => i !== index,
+                                        );
+                                      formik.setFieldValue(
+                                        "programLevelCommissions",
+                                        updated,
+                                      );
+                                    }}
+                                  >
+                                    Remove
+                                  </Button>
+                                )}
+                              </div>
+
+                              <Row>
+                                <Col md={4}>
+                                  <Form.Label>Program Level</Form.Label>
+                                  <Select
+                                    options={programLevel?.map((p) => ({
+                                      value: p._id,
+                                      label: p.name,
+                                    }))}
+                                    value={
+                                      commission.programLevel
+                                        ? {
+                                            value: commission.programLevel,
+                                            label:
+                                              programLevel.find(
+                                                (p) =>
+                                                  p._id ===
+                                                  commission.programLevel,
+                                              )?.name || "",
+                                          }
+                                        : null
+                                    }
+                                    onChange={(selectedOption) =>
+                                      formik.setFieldValue(
+                                        `programLevelCommissions[${index}].programLevel`,
+                                        selectedOption
+                                          ? selectedOption.value
+                                          : "",
+                                      )
+                                    }
+                                    placeholder="Select Program Level"
+                                    isClearable
+                                    classNamePrefix="custom-select"
+                                    styles={{
+                                      control: (base) => ({
+                                        ...base,
+                                        fontSize: "13px",
+                                      }),
+                                    }}
+                                  />
+                                </Col>
+
+                                <Col md={4}>
+                                  <Form.Label>Commission Period</Form.Label>
+                                  <Select
+                                    options={[
+                                      {
+                                        value: "Per Semester",
+                                        label: "Per Semester",
+                                      },
+                                      { value: "Per Year", label: "Per Year" },
+                                      {
+                                        value: "Per Quarter",
+                                        label: "Per Quarter",
+                                      },
+                                    ]}
+                                    value={
+                                      commission.commissionPeriod
+                                        ? {
+                                            value: commission.commissionPeriod,
+                                            label: commission.commissionPeriod,
+                                          }
+                                        : null
+                                    }
+                                    onChange={(selectedOption) =>
+                                      formik.setFieldValue(
+                                        `programLevelCommissions[${index}].commissionPeriod`,
+                                        selectedOption
+                                          ? selectedOption.value
+                                          : "",
+                                      )
+                                    }
+                                    placeholder="Select Commission Period"
+                                    isClearable
+                                    classNamePrefix="custom-select"
+                                    styles={{
+                                      control: (base) => ({
+                                        ...base,
+                                        fontSize: "13px",
+                                      }),
+                                    }}
+                                  />
+                                </Col>
+
+                                <Col md={4}>
+                                  <Form.Label>Commission Percentage</Form.Label>
+                                  <Form.Control
+                                    type="number"
+                                    placeholder="Enter commission %"
+                                    className="custom-select-height"
+                                    name={`programLevelCommissions[${index}].commissionPercentage`}
+                                    value={commission.commissionPercentage}
+                                    onChange={formik.handleChange}
+                                  />
+                                </Col>
+                              </Row>
+                            </Col>
+                          ),
                         )}
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Upload Brochure</Form.Label>
-                        <Form.Control
-                          type="file"
-                          name="brochure"
-                          className="custom-select-height"
-                          accept="application/pdf"
-                          onChange={(event) => {
-                            const file = event.currentTarget.files[0];
-                            formik.setFieldValue("brochure", file);
-                          }}
-                        />
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Other</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter other"
-                          name="otherInfo"
-                          value={formik.values.otherInfo}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Backlog</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter backlog"
-                          name="backlog"
-                          value={formik.values.backlog}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Youtube Link</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter youtube url"
-                          name="youtubeLink"
-                          value={formik.values.youtubeLink}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                      </Col>
-                      <Col md={3} className="mb-3">
-                        <Form.Label>Gallery Link</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className="custom-select-height"
-                          placeholder="Enter gallery url"
-                          name="galleryLink"
-                          value={formik.values.galleryLink}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                      </Col>
-                    </Row>
 
-                    <div className="text-end">
-                      <Button
-                        variant="primary"
-                        className="custom-select-height"
-                        type="submit"
-                      >
-                        {formik.values.id
-                          ? "Update Institute"
-                          : "Add Institute"}
-                      </Button>
-                    </div>
-                  </Form>
-                )}
-              </Modal.Body>
-            </Modal>
-            {/* <InstituteModelForm
+                        <Col md={12} className="mb-3">
+                          <Button
+                            variant="outline-primary"
+                            className="custom-select-height"
+                            onClick={() =>
+                              formik.setFieldValue("programLevelCommissions", [
+                                ...formik.values.programLevelCommissions,
+                                {
+                                  programLevel: "",
+                                  commissionPeriod: "",
+                                  commissionPercentage: "",
+                                },
+                              ])
+                            }
+                          >
+                            Add Another Program Level
+                          </Button>
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Portal Address</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter portal address"
+                            name="postalAddress"
+                            value={formik.values.postalAddress}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik?.touched?.postalAddress &&
+                            formik.errors.postalAddress && (
+                              <div className="text-danger">
+                                {formik.errors.postalAddress}
+                              </div>
+                            )}
+                        </Col>
+
+                        <Col md={3} className="mb-3">
+                          <Form.Label>OL TAT Period</Form.Label>
+                          <div className="d-flex gap-2">
+                            <Select
+                              name="olTATPeriod.value"
+                              classNamePrefix="custom-select"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  fontSize: "13px",
+                                  width: "120px",
+                                }),
+                              }}
+                              value={
+                                formik.values.olTATPeriod?.value
+                                  ? {
+                                      value: formik.values.olTATPeriod.value,
+                                      label: `${formik.values.olTATPeriod.value}`,
+                                    }
+                                  : null
+                              }
+                              onChange={(option) =>
+                                formik.setFieldValue(
+                                  "olTATPeriod.value",
+                                  option ? option.value : "",
+                                )
+                              }
+                              onBlur={() =>
+                                formik.setFieldTouched(
+                                  "olTATPeriod.value",
+                                  true,
+                                )
+                              }
+                              options={valueOptions}
+                              placeholder="Select OL TAT Period"
+                              clearable
+                            />
+                            <Select
+                              name="olTATPeriod.unit"
+                              classNamePrefix="custom-select"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  fontSize: "13px",
+                                  width: "120px",
+                                }),
+                              }}
+                              value={
+                                formik.values.olTATPeriod?.unit
+                                  ? {
+                                      value: formik.values.olTATPeriod.unit,
+                                      label: formik.values.olTATPeriod.unit,
+                                    }
+                                  : null
+                              }
+                              onChange={(option) =>
+                                formik.setFieldValue(
+                                  "olTATPeriod.unit",
+                                  option ? option.value : "",
+                                )
+                              }
+                              onBlur={() =>
+                                formik.setFieldTouched("olTATPeriod.unit", true)
+                              }
+                              options={unitOptions}
+                              placeholder="Select Duration"
+                              clearable
+                            />
+                          </div>
+                          {((formik.touched?.olTATPeriod?.value &&
+                            formik.errors?.olTATPeriod?.value) ||
+                            (formik.touched?.olTATPeriod?.unit &&
+                              formik.errors?.olTATPeriod?.unit)) && (
+                            <div className="text-danger">
+                              OL TAT Period is required
+                            </div>
+                          )}
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Upload Brochure</Form.Label>
+                          <Form.Control
+                            type="file"
+                            name="brochure"
+                            className="custom-select-height"
+                            accept="application/pdf"
+                            onChange={(event) => {
+                              const file = event.currentTarget.files[0];
+                              formik.setFieldValue("brochure", file);
+                            }}
+                          />
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Other</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter other"
+                            name="otherInfo"
+                            value={formik.values.otherInfo}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Backlog</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter backlog"
+                            name="backlog"
+                            value={formik.values.backlog}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Youtube Link</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter youtube url"
+                            name="youtubeLink"
+                            value={formik.values.youtubeLink}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                        </Col>
+                        <Col md={3} className="mb-3">
+                          <Form.Label>Gallery Link</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className="custom-select-height"
+                            placeholder="Enter gallery url"
+                            name="galleryLink"
+                            value={formik.values.galleryLink}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                        </Col>
+                      </Row>
+
+                      <div className="text-end">
+                        <Button
+                          variant="primary"
+                          className="custom-select-height"
+                          type="submit"
+                        >
+                          {formik.values.id
+                            ? "Update Institute"
+                            : "Add Institute"}
+                        </Button>
+                      </div>
+                    </Form>
+                  )}
+                </Modal.Body>
+              </Modal>
+              {/* <InstituteModelForm
               show={show}
               handleClose={handleClose}
               formik={formik}
@@ -2601,89 +2627,51 @@ const Institute = () => {
               unitOptions={unitOptions}
             /> */}
 
-            <ViewModal
-              show={showViewModal}
-              onHide={handleClose}
-              title="Institute Details"
-              data={selectedItem}
-              fields={instituteSections}
-            />
+              <ViewModal
+                show={showViewModal}
+                onHide={handleClose}
+                title="Institute Details"
+                data={selectedItem}
+                fields={instituteSections}
+              />
 
-            <DataTable
-              columns={columns}
-              data={instituteList}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              itemsPerPage={itemsPerPage}
-              onPageChange={setCurrentPage}
-              onItemsPerPageChange={handleItemsPerPageChange}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              renderActions={renderActions}
-              itemsPerPageOptions={true}
-              canEdit={canUpdate}
-              canDelete={canDelete}
-              canRead={canRead}
-            />
-            <Modal
-              show={showDeleteModal}
-              onHide={handleCloseUploadModal}
-              centered
-            >
-              <Modal.Header className="form-main-heading">
-                <Modal.Title className="fw-semibold">
-                  Confirm Deletion
-                </Modal.Title>
-                <AiOutlineClose
-                  size={20}
-                  style={{ cursor: "pointer", color: "white" }}
-                  onClick={handleCloseUploadModal}
-                />
-              </Modal.Header>
-              <Modal.Body className="text-center py-4">
-                <div className="text-danger text-primary fs-1 mb-3">
-                  <i className="bi bi-exclamation-triangle-fill"></i>{" "}
+              <DataTable
+                columns={columns}
+                data={instituteList}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+                onItemsPerPageChange={handleItemsPerPageChange}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                renderActions={renderActions}
+                itemsPerPageOptions={true}
+                canEdit={canUpdate}
+                canDelete={canDelete}
+                canRead={canRead}
+              />
+              <DeleteConfirmModal
+                show={showDeleteModal}
+                onHide={handleCloseUploadModal}
+                onConfirm={() => {
+                  handleDelete(selectedItem);
+                  setShowDeleteModal(false);
+                }}
+              />
+              {totalPages > 1 && instituteList.length > 0 && (
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
                 </div>
-                <p className="mb-1 fw-semibold">
-                  Are you sure you want to delete this item?
-                </p>
-                <small className="text-muted">
-                  This action cannot be undone.
-                </small>
-              </Modal.Body>
-
-              <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                <Button
-                  variant="light"
-                  className="btn-cancel-delete px-4"
-                  onClick={handleCloseUploadModal}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  className="btn-delete-confirm"
-                  onClick={() => {
-                    handleDelete(selectedItem);
-                    setShowDeleteModal(false);
-                  }}
-                >
-                  <i className="bi bi-trash-fill me-2"></i>Delete
-                </Button>
-              </Modal.Footer>
-            </Modal>
-            {totalPages > 1 && instituteList.length > 0 && (
-              <div className="mt-4 d-flex justify-content-end align-items-end">
-                <Paginations
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={(page) => setCurrentPage(page)}
-                />
-              </div>
-            )}
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </>
   );
 };

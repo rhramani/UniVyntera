@@ -37,7 +37,7 @@ const UserAllocationSection = ({
   const [showUserAllocationModal, setShowUserAllocationModal] = useState(false);
   const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
     "Student Applications",
-    "Course Selection"
+    "Course Selection",
   );
 
   const userAllocationFormik = useFormik({
@@ -100,13 +100,14 @@ const UserAllocationSection = ({
         fetchOneStudentDetails();
       } else {
         toast.error(
-          res?.data?.message || "Error adding User Allocation service"
+          res?.data?.message || "Error adding User Allocation service",
         );
       }
     } catch (error) {
       console.error("Error adding User Allocation service:", error);
       toast.error(
-        error?.response?.data?.message || "Error adding User Allocation service"
+        error?.response?.data?.message ||
+          "Error adding User Allocation service",
       );
     } finally {
       setIsLoading(false);
@@ -153,14 +154,14 @@ const UserAllocationSection = ({
         fetchOneStudentDetails();
       } else {
         toast.error(
-          res?.data?.message || "Error updating User Allocation service"
+          res?.data?.message || "Error updating User Allocation service",
         );
       }
     } catch (error) {
       console.error("Error updating User Allocation service:", error);
       toast.error(
         error?.response?.data?.message ||
-          "Error updating User Allocation service"
+          "Error updating User Allocation service",
       );
     } finally {
       setIsLoading(false);
@@ -188,7 +189,7 @@ const UserAllocationSection = ({
         setFormData((prev) => ({
           ...prev,
           userAllocationDetails: prev.userAllocationDetails.filter(
-            (_, i) => i !== indexToDelete
+            (_, i) => i !== indexToDelete,
           ),
         }));
         if (
@@ -204,14 +205,14 @@ const UserAllocationSection = ({
         fetchOneStudentDetails();
       } else {
         toast.error(
-          res?.data?.message || "Error deleting User Allocation service"
+          res?.data?.message || "Error deleting User Allocation service",
         );
       }
     } catch (error) {
       console.error("Error deleting User Allocation service:", error);
       toast.error(
         error?.response?.data?.message ||
-          "Error deleting User Allocation service"
+          "Error deleting User Allocation service",
       );
     }
   };
@@ -262,23 +263,25 @@ const UserAllocationSection = ({
       <div className="">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5>User Allocation</h5>
-          {userRole !== "Student" && userRole !== "LeadStudent" && canCreate && (
-            <Button
-              variant="primary"
-              className="custom-select-height"
-              onClick={() => {
-                userAllocationFormik.resetForm();
-                setEdit((prev) => ({
-                  ...prev,
-                  userAllocationDetails: false,
-                  userAllocationIndex: 0,
-                }));
-                setShowUserAllocationModal(true);
-              }}
-            >
-              Add New
-            </Button>
-          )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            canCreate && (
+              <Button
+                variant="primary"
+                className="custom-select-height"
+                onClick={() => {
+                  userAllocationFormik.resetForm();
+                  setEdit((prev) => ({
+                    ...prev,
+                    userAllocationDetails: false,
+                    userAllocationIndex: 0,
+                  }));
+                  setShowUserAllocationModal(true);
+                }}
+              >
+                Add New
+              </Button>
+            )}
         </div>
         <DataTable
           columns={userAllocation}
@@ -303,7 +306,7 @@ const UserAllocationSection = ({
             }));
             if (item.role?._id) {
               const selectedRole = getAllRollList?.data?.find(
-                (role) => role._id === item.role._id
+                (role) => role._id === item.role._id,
               );
               if (selectedRole) {
                 fetchAllUser(selectedRole.name);
@@ -374,7 +377,7 @@ const UserAllocationSection = ({
                           "B2B Member",
                           "Branch Member",
                           "Branch",
-                        ].includes(role.name)
+                        ].includes(role.name),
                     )
                     ?.sort((a, b) => a.name?.localeCompare(b.name))
                     ?.map((data) => ({
@@ -392,7 +395,7 @@ const UserAllocationSection = ({
                                 "B2B Member",
                                 "Branch Member",
                                 "Branch",
-                              ].includes(role.name)
+                              ].includes(role.name),
                           )
                           ?.map((data) => ({
                             value: data._id,
@@ -402,7 +405,7 @@ const UserAllocationSection = ({
                             (option) =>
                               option.value ===
                               userAllocationFormik.values
-                                .userAllocationDetails[0].role
+                                .userAllocationDetails[0].role,
                           )
                       : null
                   }
@@ -412,26 +415,26 @@ const UserAllocationSection = ({
                       : null;
                     userAllocationFormik.setFieldValue(
                       "userAllocationDetails[0].role",
-                      roleValue
+                      roleValue,
                     );
                     userAllocationFormik.setFieldValue(
                       "userAllocationDetails[0].user",
-                      null
+                      null,
                     );
                     setAllUser([]);
                     if (roleValue) {
                       const selectedRole = getAllRollList?.data?.find(
-                        (role) => role?._id === roleValue
+                        (role) => role?._id === roleValue,
                       );
                       if (selectedRole) {
-                        fetchAllUser(selectedRole.name,roleValue);
+                        fetchAllUser(selectedRole.name, roleValue);
                       }
                     }
                   }}
                   onBlur={() =>
                     userAllocationFormik.setFieldTouched(
                       "userAllocationDetails[0].role",
-                      true
+                      true,
                     )
                   }
                   isClearable
@@ -439,7 +442,7 @@ const UserAllocationSection = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -474,20 +477,20 @@ const UserAllocationSection = ({
                             (option) =>
                               option.value ===
                               userAllocationFormik.values
-                                .userAllocationDetails[0].user
+                                .userAllocationDetails[0].user,
                           )
                       : null
                   }
                   onChange={(selectedOption) => {
                     userAllocationFormik.setFieldValue(
                       "userAllocationDetails[0].user",
-                      selectedOption ? selectedOption.value : null
+                      selectedOption ? selectedOption.value : null,
                     );
                   }}
                   onBlur={() =>
                     userAllocationFormik.setFieldTouched(
                       "userAllocationDetails[0].user",
-                      true
+                      true,
                     )
                   }
                   isClearable
@@ -499,7 +502,7 @@ const UserAllocationSection = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({

@@ -76,7 +76,7 @@ const ContactManagement = () => {
           page: groupCurrentPage,
           limit: groupItemsPerPage,
           search: groupSearch,
-        })
+        }),
       );
       if (res?.status === 200) {
         setGroups(res?.data?.data || []);
@@ -147,7 +147,7 @@ const ContactManagement = () => {
       return;
     }
     setSelectedContacts((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -182,8 +182,8 @@ const ContactManagement = () => {
             page: contactCurrentPage,
             limit: contactItemsPerPage,
             search: contactSearch,
-          }
-        )
+          },
+        ),
       );
       toast.success("Contacts deleted successfully.");
       setSelectedContacts([]);
@@ -258,7 +258,7 @@ const ContactManagement = () => {
         const res = await dispatch(
           getAllExportContacts({
             search: contactSearch,
-          })
+          }),
         );
         const data = res?.data?.data || [];
         if (!data?.length) {
@@ -338,8 +338,8 @@ const ContactManagement = () => {
           selectedGroupId,
           contactCurrentPage,
           contactItemsPerPage,
-          contactSearch
-        )
+          contactSearch,
+        ),
       );
       toast.success("Contacts imported successfully.");
       setSelectedGroupId("");
@@ -582,45 +582,77 @@ const ContactManagement = () => {
                 backdrop={isLoading ? "static" : true}
                 keyboard={!isLoading}
               >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
+                {/* Header */}
+                <Modal.Header
+                  className="border-0"
+                  style={{
+                    background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                    borderTopLeftRadius: "12px",
+                    borderTopRightRadius: "12px",
+                  }}
+                >
+                  <Modal.Title className="fw-semibold text-white">
                     Confirm Deletion
                   </Modal.Title>
+
                   <AiOutlineClose
-                    size={20}
+                    size={18}
                     style={{ cursor: "pointer", color: "white" }}
                     onClick={() => setShowDeleteModal(false)}
                   />
                 </Modal.Header>
+
+                {/* Body */}
                 <Modal.Body className="text-center py-4">
-                  <div className="text-danger fs-1 mb-3">
+                  <div
+                    className="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style={{
+                      width: "72px",
+                      height: "72px",
+                      borderRadius: "50%",
+                      background: "#fee2e2",
+                      color: "#dc2626",
+                      fontSize: "34px",
+                    }}
+                  >
                     <i className="bi bi-exclamation-triangle-fill"></i>
                   </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete {selectedContacts.length}{" "}
-                    contact{selectedContacts.length > 1 ? "s" : ""}?
+
+                  <p className="mb-1 fw-semibold fs-5">
+                    Delete {selectedContacts.length} contact
+                    {selectedContacts.length > 1 ? "s" : ""}?
                   </p>
+
                   <small className="text-muted">
-                    This action cannot be undone.
+                    This action is permanent and cannot be undone.
                   </small>
                 </Modal.Body>
+
+                {/* Footer */}
                 <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
                   <Button
                     variant="light"
-                    className="btn-cancel-delete px-4"
+                    className="px-4"
+                    style={{ borderRadius: "8px" }}
                     onClick={() => setShowDeleteModal(false)}
                     disabled={isLoading}
                   >
                     Cancel
                   </Button>
+
                   <Button
-                    variant="danger"
-                    className="btn-delete-confirm"
+                    className="px-4 text-white"
+                    style={{
+                      borderRadius: "8px",
+                      background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                      border: "none",
+                      minWidth: "110px",
+                    }}
                     onClick={confirmDelete}
                     disabled={isLoading}
                   >
                     <i className="bi bi-trash-fill me-2"></i>
-                    Delete
+                    {isLoading ? "Deleting..." : "Delete"}
                   </Button>
                 </Modal.Footer>
               </Modal>
@@ -673,7 +705,7 @@ const ContactManagement = () => {
                         <Select
                           value={
                             options.find(
-                              (opt) => opt.value === selectedGroupId
+                              (opt) => opt.value === selectedGroupId,
                             ) || null
                           }
                           onChange={handleChange}

@@ -125,7 +125,7 @@ const WhatsappMessageModal = ({
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: "30px",
+      borderRadius: "12px",
       color: "black",
     }),
     placeholder: (base) => ({
@@ -161,7 +161,7 @@ const WhatsappMessageModal = ({
 
     if (templateId) {
       const selectedTemplateObj = templateOptions.find(
-        (template) => template._id === templateId
+        (template) => template._id === templateId,
       );
       setOtherMessage(selectedTemplateObj?.message || "");
     } else {
@@ -210,7 +210,7 @@ const WhatsappMessageModal = ({
                 value={
                   selectedCategory
                     ? categoryTypeOptions.find(
-                        (option) => option.value === selectedCategory
+                        (option) => option.value === selectedCategory,
                       )
                     : null
                 }
@@ -244,7 +244,7 @@ const WhatsappMessageModal = ({
                   value={
                     selectedTemplate
                       ? templateTypeOptions.find(
-                          (option) => option.value === selectedTemplate
+                          (option) => option.value === selectedTemplate,
                         )
                       : null
                   }

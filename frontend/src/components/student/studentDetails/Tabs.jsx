@@ -37,23 +37,23 @@ const Tabs = ({
   const { id } = useParams();
   const personalPermissions = usePermissions(
     "Student Applications",
-    "Personal Details"
+    "Personal Details",
   );
   const documentPermissions = usePermissions(
     "Student Applications",
-    "Document"
+    "Document",
   );
   const courseSelectionPermissions = usePermissions(
     "Student Applications",
-    "Course Selection"
+    "Course Selection",
   );
   const visaApplicationPermissions = usePermissions(
     "Student Applications",
-    "Visa Application"
+    "Visa Application",
   );
   const accountantPermissions = usePermissions(
     "Student Applications",
-    "Accountant"
+    "Accountant",
   );
   const remarksPermissions = usePermissions("Student Applications", "Remarks");
 
@@ -103,7 +103,9 @@ const Tabs = ({
       key: "student",
       label: "Student",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : documentPermissions.canShow,
       subOptions: [
@@ -111,20 +113,22 @@ const Tabs = ({
         ...documentTypes
           .filter(
             (docType) =>
-              !["Visa Documents", "RG Documents"].includes(docType?.type?.name)
+              !["Visa Documents", "RG Documents"].includes(docType?.type?.name),
           )
           .map((docType, index) => {
             const docTypeName = docType?.type?.name || `UnnamedType_${index}`;
             const docPermissions = usePermissions(
               "Student Applications",
               "Document",
-              docTypeName
+              docTypeName,
             );
             return {
               key: docTypeName,
               label: docType?.type?.name || "Unnamed Document Type",
               canShow:
-                userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+                userRole === "Super Admin" ||
+                userRole === "Student" ||
+                userRole === "LeadStudent"
                   ? true
                   : docPermissions.canShow,
             };
@@ -134,12 +138,14 @@ const Tabs = ({
           key: "other",
           label: "Other Documents",
           canShow:
-            userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+            userRole === "Super Admin" ||
+            userRole === "Student" ||
+            userRole === "LeadStudent"
               ? true
               : usePermissions(
                   "Student Applications",
                   "Document",
-                  "Other Documents"
+                  "Other Documents",
                 ).canShow,
         },
       ].filter((docType) => docType.canShow),
@@ -148,7 +154,9 @@ const Tabs = ({
       key: "rgdocument",
       label: "External Document",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : documentPermissions.canShow,
       subOptions: [
@@ -157,24 +165,28 @@ const Tabs = ({
           key: "rgdocument",
           label: "US Documents",
           canShow:
-            userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+            userRole === "Super Admin" ||
+            userRole === "Student" ||
+            userRole === "LeadStudent"
               ? true
               : usePermissions(
                   "Student Applications",
                   "Document",
-                  "RG Documents"
+                  "RG Documents",
                 ).canShow,
         },
         {
           key: "visadocuments",
           label: "Visa Documents",
           canShow:
-            userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+            userRole === "Super Admin" ||
+            userRole === "Student" ||
+            userRole === "LeadStudent"
               ? true
               : usePermissions(
                   "Student Applications",
                   "Document",
-                  "Visa Documents"
+                  "Visa Documents",
                 ).canShow,
         },
       ].filter((docType) => docType.canShow),
@@ -539,7 +551,7 @@ const Tabs = ({
       .filter((section) => allowedVisaFlow.includes(section.key))
       .sort(
         (a, b) =>
-          allowedVisaFlow.indexOf(a.key) - allowedVisaFlow.indexOf(b.key)
+          allowedVisaFlow.indexOf(a.key) - allowedVisaFlow.indexOf(b.key),
       ),
   ];
 
@@ -548,7 +560,9 @@ const Tabs = ({
       key: "personal",
       label: "Personal Details",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : personalPermissions.canShow,
     },
@@ -556,7 +570,9 @@ const Tabs = ({
       key: "document",
       label: "Document",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : documentPermissions.canShow,
     },
@@ -564,7 +580,9 @@ const Tabs = ({
       key: "courseSelection",
       label: "Course Selection",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : courseSelectionPermissions.canShow,
     },
@@ -574,7 +592,9 @@ const Tabs = ({
             key: "visaApplication",
             label: "Visa Application",
             canShow:
-              userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+              userRole === "Super Admin" ||
+              userRole === "Student" ||
+              userRole === "LeadStudent"
                 ? true
                 : visaApplicationPermissions.canShow,
           },
@@ -590,7 +610,9 @@ const Tabs = ({
       key: "accountant",
       label: "Accountant",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : accountantPermissions.canShow,
     },
@@ -616,7 +638,11 @@ const Tabs = ({
   //   );
   // };
   const isTabAccessible = (tabKey) => {
-    if (userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent") {
+    if (
+      userRole === "Super Admin" ||
+      userRole === "Student" ||
+      userRole === "LeadStudent"
+    ) {
       return true;
     }
 
@@ -720,7 +746,7 @@ const Tabs = ({
               padding: "10px",
               paddingBottom: "30px",
               boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)",
-              borderBottom: "4px solid #053880",
+              borderBottom: "4px solid #5D54BE",
             }}
           >
             <Nav
@@ -739,7 +765,7 @@ const Tabs = ({
                         : !isTabAccessible(tab.key)
                     }
                     style={{
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       margin: "0 5px",
                       padding: "12px 25px",
                       fontWeight: activeTab === tab.key ? "600" : "500",
@@ -748,14 +774,14 @@ const Tabs = ({
                         activeTab === tab.key
                           ? "#fff"
                           : isTabAccessible(tab.key) || tab.key === "accountant"
-                          ? "#333"
-                          : "#aaa",
+                            ? "#333"
+                            : "#aaa",
                       backgroundColor:
                         activeTab === tab.key
-                          ? "#053880"
+                          ? "#5D54BE"
                           : isTabAccessible(tab.key) || tab.key === "accountant"
-                          ? "#fff"
-                          : "#f5f5f5",
+                            ? "#fff"
+                            : "#f5f5f5",
                       border: "none",
                       transition: "all 0.3s ease",
                       boxShadow:
@@ -786,7 +812,7 @@ const Tabs = ({
                         tab.key === "accountant"
                       ) {
                         e.target.style.backgroundColor =
-                          activeTab === tab.key ? "#053880" : "#fff";
+                          activeTab === tab.key ? "#5D54BE" : "#fff";
                         e.target.style.boxShadow =
                           activeTab === tab.key
                             ? "0 3px 8px rgba(113, 105, 207, 0.3)"
@@ -806,7 +832,7 @@ const Tabs = ({
                           height: "0",
                           borderLeft: "8px solid transparent",
                           borderRight: "8px solid transparent",
-                          borderTop: "8px solid #053880",
+                          borderTop: "8px solid #5D54BE",
                         }}
                       />
                     )} */}
@@ -846,12 +872,12 @@ const Tabs = ({
                           selectedDocCategory === category.key ? "600" : "400",
                         color:
                           selectedDocCategory === category.key
-                            ? "#053880"
+                            ? "#5D54BE"
                             : "#000000",
                         textDecoration: "underline",
                         textDecorationColor:
                           selectedDocCategory === category.key
-                            ? "#053880"
+                            ? "#5D54BE"
                             : "#d0d0d0",
                         textDecorationThickness: "2px",
                         textUnderlineOffset: "4px",
@@ -871,22 +897,22 @@ const Tabs = ({
                           e.target.style.color =
                             selectedDocCategory === category.key
                               ? "#1f4da0"
-                              : "#053880";
+                              : "#5D54BE";
                           e.target.style.textDecorationColor =
                             selectedDocCategory === category.key
                               ? "#1f4da0"
-                              : "#053880";
+                              : "#5D54BE";
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (isTabAccessible("document")) {
                           e.target.style.color =
                             selectedDocCategory === category.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#000000";
                           e.target.style.textDecorationColor =
                             selectedDocCategory === category.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#d0d0d0";
                         }
                       }}
@@ -915,13 +941,13 @@ const Tabs = ({
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.querySelector("svg").style.color =
-                        "#053880";
+                        "#5D54BE";
                     }}
                   >
                     <ArrowBackIosNewIcon
                       style={{
                         fontSize: "20px",
-                        color: "#053880",
+                        color: "#5D54BE",
                       }}
                     />
                   </div>
@@ -954,7 +980,7 @@ const Tabs = ({
                           handleSubTabClick(
                             "personal",
                             section.key,
-                            onPersonalSectionSelect
+                            onPersonalSectionSelect,
                           )
                         }
                         style={{
@@ -965,12 +991,12 @@ const Tabs = ({
                               : "400",
                           color:
                             selectedPersonalSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#000000",
                           textDecoration: "underline",
                           textDecorationColor:
                             selectedPersonalSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#d0d0d0",
                           textDecorationThickness: "2px",
                           textUnderlineOffset: "4px",
@@ -990,22 +1016,22 @@ const Tabs = ({
                             e.target.style.color =
                               selectedPersonalSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                             e.target.style.textDecorationColor =
                               selectedPersonalSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (isTabAccessible("personal")) {
                             e.target.style.color =
                               selectedPersonalSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#000000";
                             e.target.style.textDecorationColor =
                               selectedPersonalSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#d0d0d0";
                           }
                         }}
@@ -1020,7 +1046,7 @@ const Tabs = ({
                             transform: "translateX(-50%)",
                             width: "6px",
                             height: "6px",
-                            backgroundColor: "#053880",
+                            backgroundColor: "#5D54BE",
                             borderRadius: "50%",
                           }}
                         />
@@ -1070,7 +1096,7 @@ const Tabs = ({
                                 handleSubTabClick(
                                   "document",
                                   docType.key,
-                                  onDocumentTypeSelect
+                                  onDocumentTypeSelect,
                                 )
                               }
                               style={{
@@ -1081,12 +1107,12 @@ const Tabs = ({
                                     : "400",
                                 color:
                                   selectedDocType === docType.key
-                                    ? "#053880"
+                                    ? "#5D54BE"
                                     : "#000000",
                                 textDecoration: "underline",
                                 textDecorationColor:
                                   selectedDocType === docType.key
-                                    ? "#053880"
+                                    ? "#5D54BE"
                                     : "#d0d0d0",
                                 textDecorationThickness: "2px",
                                 textUnderlineOffset: "4px",
@@ -1105,22 +1131,22 @@ const Tabs = ({
                                   e.target.style.color =
                                     selectedDocType === docType.key
                                       ? "#1f4da0"
-                                      : "#053880";
+                                      : "#5D54BE";
                                   e.target.style.textDecorationColor =
                                     selectedDocType === docType.key
                                       ? "#1f4da0"
-                                      : "#053880";
+                                      : "#5D54BE";
                                 }
                               }}
                               onMouseLeave={(e) => {
                                 if (isTabAccessible("document")) {
                                   e.target.style.color =
                                     selectedDocType === docType.key
-                                      ? "#053880"
+                                      ? "#5D54BE"
                                       : "#000000";
                                   e.target.style.textDecorationColor =
                                     selectedDocType === docType.key
-                                      ? "#053880"
+                                      ? "#5D54BE"
                                       : "#d0d0d0";
                                 }
                               }}
@@ -1139,7 +1165,7 @@ const Tabs = ({
                           handleSubTabClick(
                             "courseSelection",
                             section.key,
-                            onCounsellingSectionSelect
+                            onCounsellingSectionSelect,
                           )
                         }
                         style={{
@@ -1150,12 +1176,12 @@ const Tabs = ({
                               : "400",
                           color:
                             selectedCounsellingSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#000000",
                           textDecoration: "underline",
                           textDecorationColor:
                             selectedCounsellingSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#d0d0d0",
                           textDecorationThickness: "2px",
                           textUnderlineOffset: "4px",
@@ -1175,22 +1201,22 @@ const Tabs = ({
                             e.target.style.color =
                               selectedCounsellingSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                             e.target.style.textDecorationColor =
                               selectedCounsellingSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (isTabAccessible("courseSelection")) {
                             e.target.style.color =
                               selectedCounsellingSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#000000";
                             e.target.style.textDecorationColor =
                               selectedCounsellingSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#d0d0d0";
                           }
                         }}
@@ -1205,7 +1231,7 @@ const Tabs = ({
                             transform: "translateX(-50%)",
                             width: "6px",
                             height: "6px",
-                            backgroundColor: "#053880",
+                            backgroundColor: "#5D54BE",
                             borderRadius: "50%",
                           }}
                         />
@@ -1221,7 +1247,7 @@ const Tabs = ({
                           handleSubTabClick(
                             "visaApplication",
                             section.key,
-                            onVisaSectionSelect
+                            onVisaSectionSelect,
                           )
                         }
                         style={{
@@ -1230,12 +1256,12 @@ const Tabs = ({
                             selectedVisaSection === section.key ? "600" : "400",
                           color:
                             selectedVisaSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#000000",
                           textDecoration: "underline",
                           textDecorationColor:
                             selectedVisaSection === section.key
-                              ? "#053880"
+                              ? "#5D54BE"
                               : "#d0d0d0",
                           textDecorationThickness: "2px",
                           textUnderlineOffset: "4px",
@@ -1255,22 +1281,22 @@ const Tabs = ({
                             e.target.style.color =
                               selectedVisaSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                             e.target.style.textDecorationColor =
                               selectedVisaSection === section.key
                                 ? "#1f4da0"
-                                : "#053880";
+                                : "#5D54BE";
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (isTabAccessible("visaApplication")) {
                             e.target.style.color =
                               selectedVisaSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#000000";
                             e.target.style.textDecorationColor =
                               selectedVisaSection === section.key
-                                ? "#053880"
+                                ? "#5D54BE"
                                 : "#d0d0d0";
                           }
                         }}
@@ -1285,7 +1311,7 @@ const Tabs = ({
                             transform: "translateX(-50%)",
                             width: "6px",
                             height: "6px",
-                            backgroundColor: "#053880",
+                            backgroundColor: "#5D54BE",
                             borderRadius: "50%",
                           }}
                         />
@@ -1311,13 +1337,13 @@ const Tabs = ({
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.querySelector("svg").style.color =
-                        "#053880";
+                        "#5D54BE";
                     }}
                   >
                     <ArrowForwardIosIcon
                       style={{
                         fontSize: "20px",
-                        color: "#053880",
+                        color: "#5D54BE",
                       }}
                     />
                   </div>
@@ -1329,7 +1355,8 @@ const Tabs = ({
                 userRole !== "B2B Member" &&
                 userRole !== "Branch" &&
                 userType !== "Branch User" &&
-                userRole !== "Student" && userRole !== "LeadStudent" && (
+                userRole !== "Student" &&
+                userRole !== "LeadStudent" && (
                   <div className="d-flex justify-content-end gap-2">
                     <Button
                       variant="primary"
@@ -1348,7 +1375,7 @@ const Tabs = ({
                       // styles={{
                       //   control: (base) => ({
                       //     ...base,
-                      //     borderRadius: "30px",
+                      //     borderRadius: "12px",
                       //     color: "black",
                       //   }),
                       //   placeholder: (base) => ({

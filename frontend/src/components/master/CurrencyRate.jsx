@@ -190,7 +190,7 @@ const CurrencyRate = () => {
       } catch (error) {
         console.error("Error deleting student status:", error);
         toast.error(
-          error?.response?.data?.message || "Failed to delete student status"
+          error?.response?.data?.message || "Failed to delete student status",
         );
       }
     }
@@ -343,15 +343,15 @@ const CurrencyRate = () => {
                         value={
                           formik.values.country
                             ? {
-                              value: formik.values.country,
-                              label: formik.values.country,
-                            }
+                                value: formik.values.country,
+                                label: formik.values.country,
+                              }
                             : null
                         }
                         onChange={(option) => {
                           formik.setFieldValue(
                             "country",
-                            option ? option.value : ""
+                            option ? option.value : "",
                           );
                           formik.setFieldError("country", "");
                         }}
@@ -364,7 +364,9 @@ const CurrencyRate = () => {
                         isClearable
                       />
                       {formik.touched.country && formik.errors.country && (
-                        <div className="text-danger">{formik.errors.country}</div>
+                        <div className="text-danger">
+                          {formik.errors.country}
+                        </div>
                       )}
                     </Form.Group>
                     <Form.Group controlId="status" className="mb-3">
@@ -401,12 +403,12 @@ const CurrencyRate = () => {
                           }))
                           .find(
                             (option) =>
-                              option.value === formik.values.currencyCode
+                              option.value === formik.values.currencyCode,
                           )}
                         onChange={(option) => {
                           formik.setFieldValue(
                             "currencyCode",
-                            option ? option.value : ""
+                            option ? option.value : "",
                           );
                           formik.setFieldError("currencyCode", "");
                         }}
@@ -418,7 +420,7 @@ const CurrencyRate = () => {
                         styles={{
                           control: (base, state) => ({
                             ...base,
-                            borderRadius: "30px",
+                            borderRadius: "12px",
                             color: "black",
                             minWidth: "160px",
                             border: state.isFocused ? "1px" : base.border,

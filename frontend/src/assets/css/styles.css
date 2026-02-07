@@ -53639,7 +53639,7 @@ h4,
 /* Form */
 .section-wrapper {
   border: 1px solid #ddd;
-  border-radius: 12px;
+  border-radius: 30px;
   background-color: #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   overflow: hidden;
@@ -53657,7 +53657,7 @@ h4,
 }
 
 .form-main-heading {
-  background-color: #6B63C3;
+  background-color: #6b63c3;
   color: white;
 }
 
@@ -53776,8 +53776,10 @@ h4,
 
 /* lead form */
 .mainLeadform {
-  background: linear-gradient(to bottom, #e0f7fa, #ffffff);
   min-height: 100vh;
+  background: linear-gradient(135deg, #f4f3ff, #ecebff);
+  display: flex;
+  flex-direction: column;
 }
 
 .leadFormHeader {
@@ -53805,20 +53807,27 @@ h4,
 }
 
 .leadFormContainer {
-  background: #00274a;
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: #1f2937;
+  padding: 2.5rem;
+  border-radius: 24px;
   width: 100%;
-  max-width: 900px;
-  overflow: hidden;
+  max-width: 460px;
+  box-shadow:
+    0 20px 40px rgba(93, 84, 190, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 .leadFormContainer h1 {
-  margin-bottom: 10px;
-  font-size: 1.5em;
-  color: #ef8b21;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #5d54be;
+  letter-spacing: 0.5px;
+}
+.leadFormContainer h5 {
+  font-size: 0.95rem;
+  color: #6b7280;
 }
 
 .leadFormContainer p {
@@ -53827,15 +53836,21 @@ h4,
 }
 
 .leadFormBtnCustom {
-  background-color: #e65c00;
-  color: white;
-  width: 120px;
-  padding: 10px;
+  background: linear-gradient(135deg, #5d54be, #4a42a8);
+  color: #ffffff;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 14px;
   border: none;
+  transition: all 0.3s ease;
 }
 
 .leadFormBtnCustom:hover {
-  background-color: #f07f39;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(93, 84, 190, 0.35);
+  color: #ffffff;
 }
 
 @media (max-width: 950px) {
@@ -55538,16 +55553,16 @@ table {
 }
 
 .b2b-card-header {
-  background-color: #f8f9fa;
+  background: linear-gradient(135deg, #5d54be 0%, #7b6fd1 100%);
   border-bottom: none;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 12px 12px 0 0;
 }
 
 .b2b-card-header .form-card-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .b2b-form-control,
@@ -55563,8 +55578,8 @@ table {
 
 .b2b-form-control:focus,
 .b2b-form-select:focus {
-  border-color: #0052cc;
-  box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.1);
+  border-color: #5d54be;
+  box-shadow: 0 0 0 3px rgba(93, 84, 190, 0.1);
 }
 
 .b2b-form-label {
@@ -55608,7 +55623,7 @@ table {
 }
 
 .password-toggle:hover {
-  color: #0052cc;
+  color: #5d54be;
 }
 
 .account-details-section {
@@ -55629,7 +55644,7 @@ table {
 }
 
 .account-details-toggle:hover {
-  color: #0052cc;
+  color: #5d54be;
 }
 
 .account-details-content {
@@ -55637,17 +55652,20 @@ table {
 }
 
 .submit-btn {
-  background-color: #0052cc;
+  background: linear-gradient(135deg, #5d54be 0%, #7b6fd1 100%);
   border: none;
   border-radius: 8px;
   padding: 0.6rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  color: #ffffff;
 }
 
 .submit-btn:hover {
-  background-color: #003d99;
+  background: linear-gradient(135deg, #4a3fa5 0%, #5d54be 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(93, 84, 190, 0.3);
 }
 
 .loading-overlay {
@@ -55697,7 +55715,7 @@ table {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f8f9fa;
+  background: linear-gradient(135deg, #5d54be 0%, #7b6fd1 100%);
 }
 
 .thank-you-logo {
@@ -55708,8 +55726,8 @@ table {
   max-width: 500px;
   width: 100%;
   border-radius: 20px;
-  background: linear-gradient(135deg, #ffffff 0%, #e8ecef 100%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   padding: 30px;
   border: none;
 }
@@ -55717,19 +55735,19 @@ table {
 .thank-you-title {
   font-size: 2.2rem;
   font-weight: 700;
-  color: #1a3c34;
+  color: #5d54be;
   margin-bottom: 15px;
 }
 
 .thank-you-message {
   font-size: 1.1rem;
-  color: #4a4a4a;
+  color: #666666;
   margin-bottom: 25px;
   line-height: 1.5;
 }
 
 .thank-you-btn {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #5d54be 0%, #7b6fd1 100%);
   border: none;
   border-radius: 50px;
   padding: 12px 30px;
@@ -55740,9 +55758,9 @@ table {
 }
 
 .thank-you-btn:hover {
-  background-color: #218838;
+  background: linear-gradient(135deg, #4a3fa5 0%, #5d54be 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(93, 84, 190, 0.4);
 }
 
 .thank-you-btn:active {
@@ -56468,11 +56486,11 @@ table {
 }
 
 .templete-nav-link .nav-link:hover {
-  color: #053880;
+  color: #5d54be;
 }
 
 .templete-nav-link .nav-link.active {
-  color: #053880;
+  color: #5d54be;
   font-weight: 600;
 }
 
@@ -56483,7 +56501,7 @@ table {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #053880;
+  background-color: #5d54be;
   /* underline color */
   border-radius: 2px;
 }
@@ -56634,7 +56652,7 @@ table {
 /* Timeline Title */
 .leadtrack-timeline-title {
   display: inline-block;
-  background: #053880;
+  background: #5d54be;
   color: #fff;
   font-weight: 600;
   font-size: 13px;
@@ -56654,7 +56672,7 @@ table {
   height: 0;
   border-top: 14px solid transparent;
   border-bottom: 14px solid transparent;
-  border-right: 16px solid #053880; /* same as background */
+  border-right: 16px solid #5d54be; /* same as background */
 }
 
 /* Table */
@@ -56679,7 +56697,7 @@ table {
 }
 
 .leadtrack-link {
-  color: #053880;
+  color: #5d54be;
   cursor: pointer;
   text-decoration: underline;
   font-weight: 500;
@@ -56821,7 +56839,7 @@ th.sticky-col-right-2 {
 /* ===== LEFT SIDE (SOFT IMAGE-LIKE GRADIENT) ===== */
 .signin-left {
   width: 45%;
-  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 45%, #818cf8 100%);
+  background: #5d54be;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56859,7 +56877,7 @@ th.sticky-col-right-2 {
 .signin-form h3 {
   font-size: 26px;
   font-weight: 700;
-  color: #4f46e5;
+  color: #5d54be;
   margin-bottom: 6px;
 }
 
@@ -56880,7 +56898,7 @@ th.sticky-col-right-2 {
 .signin-btn {
   width: 100%;
   height: 46px;
-  background: linear-gradient(90deg, #4f46e5, #6366f1);
+  background: #5d54be;
   border: none;
   border-radius: 10px;
   font-weight: 600;
@@ -56890,7 +56908,7 @@ th.sticky-col-right-2 {
 }
 
 .signin-btn:hover {
-  background: linear-gradient(90deg, #4338ca, #4f46e5);
+  background: linear-gradient(90deg, #4b43a6, #5d54be);
 }
 
 /* ===== FOOTER ===== */
@@ -56906,7 +56924,7 @@ th.sticky-col-right-2 {
 }
 
 .signin-footer a {
-  color: #4f46e5;
+  color: #5d54be;
   font-weight: 600;
   text-decoration: none;
 }

@@ -500,7 +500,7 @@ const LeadTracking = () => {
                           {getEventLabel(item.event)}
                         </span>
                         <span className="mx-2 text-muted">/</span>
-                        <span className="text-secondary">
+                        <span className="text-white">
                           {formatDate(item.date)}
                         </span>
                       </div>
@@ -539,7 +539,7 @@ const LeadTracking = () => {
                           ))}
                         </div>
                         {/* Footer section for metadata */}
-                        <div className="mt-4 pt-3 border-top d-flex justify-content-end text-muted small align-items-center">
+                        {/* <div className="mt-4 pt-3 border-top d-flex justify-content-end text-muted small align-items-center">
                           <span className="me-3 d-flex align-items-center">
                             <AiOutlineClockCircle className="me-1" />{" "}
                             {formatTime(item.date)}
@@ -550,7 +550,7 @@ const LeadTracking = () => {
                               {item.updatedByName || "-"}
                             </strong>
                           </span>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

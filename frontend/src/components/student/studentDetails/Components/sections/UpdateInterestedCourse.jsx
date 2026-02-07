@@ -70,7 +70,7 @@ const UpdateInterestedCourse = ({
                           (option) =>
                             option.value ===
                             interestedCourseFormik.values
-                              .interestedCourseDetails[0].institute
+                              .interestedCourseDetails[0].institute,
                         )
                       : null
                   }
@@ -80,14 +80,14 @@ const UpdateInterestedCourse = ({
                       : "";
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].institute",
-                      instituteId
+                      instituteId,
                     );
                     const preferredCountry =
                       oneStudentData?.purposeDetails?.preferredCountry?.[0] ||
                       "";
                     fetchAllCampusByInstitute(
                       selectedOption ? selectedOption.label : "",
-                      preferredCountry
+                      preferredCountry,
                     );
                     // Fetch courses for the selected institute
                     if (
@@ -96,32 +96,32 @@ const UpdateInterestedCourse = ({
                     ) {
                       fetchAllCourse(
                         oneStudentData?.purposeDetails?.preferredCountry[0],
-                        instituteId
+                        instituteId,
                       );
                     }
                     setTimeout(() => {
                       interestedCourseFormik.setFieldTouched(
                         "interestedCourseDetails[0].institute",
-                        true
+                        true,
                       );
                       interestedCourseFormik.validateField(
-                        "interestedCourseDetails[0].institute"
+                        "interestedCourseDetails[0].institute",
                       );
                     }, 0);
                   }}
                   onBlur={() => {
                     interestedCourseFormik.setFieldTouched(
                       "interestedCourseDetails[0].institute",
-                      true
+                      true,
                     );
                     interestedCourseFormik.validateField(
-                      "interestedCourseDetails[0].institute"
+                      "interestedCourseDetails[0].institute",
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -154,8 +154,8 @@ const UpdateInterestedCourse = ({
                   className="custom-select-height"
                   options={Array.from(
                     new Map(
-                      campusData?.map((campus) => [campus.campus, campus])
-                    ).values()
+                      campusData?.map((campus) => [campus.campus, campus]),
+                    ).values(),
                   )
                     ?.sort((a, b) => a.campus.localeCompare(b.campus))
                     ?.map((campus) => ({
@@ -174,7 +174,7 @@ const UpdateInterestedCourse = ({
                             (option) =>
                               option.value ===
                               interestedCourseFormik.values
-                                .interestedCourseDetails[0].campus
+                                .interestedCourseDetails[0].campus,
                           )
                       : null
                   }
@@ -182,7 +182,7 @@ const UpdateInterestedCourse = ({
                     const campusId = selectedOption ? selectedOption.value : "";
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].campus",
-                      campusId
+                      campusId,
                     );
                     const preferredCountry =
                       oneStudentData?.purposeDetails?.preferredCountry?.[0] ||
@@ -193,26 +193,26 @@ const UpdateInterestedCourse = ({
                     setTimeout(() => {
                       interestedCourseFormik.setFieldTouched(
                         "interestedCourseDetails[0].campus",
-                        true
+                        true,
                       );
                       interestedCourseFormik.validateField(
-                        "interestedCourseDetails[0].campus"
+                        "interestedCourseDetails[0].campus",
                       );
                     }, 0);
                   }}
                   onBlur={() => {
                     interestedCourseFormik.setFieldTouched(
                       "interestedCourseDetails[0].campus",
-                      true
+                      true,
                     );
                     interestedCourseFormik.validateField(
-                      "interestedCourseDetails[0].campus"
+                      "interestedCourseDetails[0].campus",
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -252,27 +252,30 @@ const UpdateInterestedCourse = ({
                       value: programLevel._id,
                     }))}
                   value={programLevelData
-                    .map((programLevel) => ({ label: programLevel.name, value: programLevel._id }))
+                    .map((programLevel) => ({
+                      label: programLevel.name,
+                      value: programLevel._id,
+                    }))
                     .find(
                       (opt) =>
                         opt.value ===
                         interestedCourseFormik.values.interestedCourseDetails[0]
-                          .programLevel
+                          .programLevel,
                     )}
                   onChange={(sel) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].programLevel",
-                      sel ? sel.value : ""
+                      sel ? sel.value : "",
                     );
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].course",
-                      ""
+                      "",
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -322,7 +325,7 @@ const UpdateInterestedCourse = ({
                               (course) =>
                                 course._id ===
                                 interestedCourseFormik.values
-                                  .interestedCourseDetails[0].course
+                                  .interestedCourseDetails[0].course,
                             )?.programName || "Course not found",
                         }
                       : null
@@ -330,31 +333,31 @@ const UpdateInterestedCourse = ({
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].course",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     setTimeout(() => {
                       interestedCourseFormik.setFieldTouched(
                         "interestedCourseDetails[0].course",
-                        true
+                        true,
                       );
                       interestedCourseFormik.validateField(
-                        "interestedCourseDetails[0].course"
+                        "interestedCourseDetails[0].course",
                       );
                     }, 0);
                   }}
                   onBlur={() => {
                     interestedCourseFormik.setFieldTouched(
                       "interestedCourseDetails[0].course",
-                      true
+                      true,
                     );
                     interestedCourseFormik.validateField(
-                      "interestedCourseDetails[0].course"
+                      "interestedCourseDetails[0].course",
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -392,7 +395,7 @@ const UpdateInterestedCourse = ({
                         (course) =>
                           course._id ===
                           interestedCourseFormik.values
-                            .interestedCourseDetails?.[0]?.course
+                            .interestedCourseDetails?.[0]?.course,
                       )
                       ?.intakeMonths?.map((month) => ({
                         value: month,
@@ -415,31 +418,31 @@ const UpdateInterestedCourse = ({
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].intakeMonth",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     setTimeout(() => {
                       interestedCourseFormik.setFieldTouched(
                         "interestedCourseDetails[0].intakeMonth",
-                        true
+                        true,
                       );
                       interestedCourseFormik.validateField(
-                        "interestedCourseDetails[0].intakeMonth"
+                        "interestedCourseDetails[0].intakeMonth",
                       );
                     }, 0);
                   }}
                   onBlur={() => {
                     interestedCourseFormik.setFieldTouched(
                       "interestedCourseDetails[0].intakeMonth",
-                      true
+                      true,
                     );
                     interestedCourseFormik.validateField(
-                      "interestedCourseDetails[0].intakeMonth"
+                      "interestedCourseDetails[0].intakeMonth",
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -477,7 +480,7 @@ const UpdateInterestedCourse = ({
                         (course) =>
                           course._id ===
                           interestedCourseFormik.values
-                            .interestedCourseDetails?.[0]?.course
+                            .interestedCourseDetails?.[0]?.course,
                       )
                       ?.intakeYears?.map((year) => ({
                         value: year,
@@ -500,31 +503,31 @@ const UpdateInterestedCourse = ({
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].intakeYear",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     setTimeout(() => {
                       interestedCourseFormik.setFieldTouched(
                         "interestedCourseDetails[0].intakeYear",
-                        true
+                        true,
                       );
                       interestedCourseFormik.validateField(
-                        "interestedCourseDetails[0].intakeYear"
+                        "interestedCourseDetails[0].intakeYear",
                       );
                     }, 0);
                   }}
                   onBlur={() => {
                     interestedCourseFormik.setFieldTouched(
                       "interestedCourseDetails[0].intakeYear",
-                      true
+                      true,
                     );
                     interestedCourseFormik.validateField(
-                      "interestedCourseDetails[0].intakeYear"
+                      "interestedCourseDetails[0].intakeYear",
                     );
                   }}
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({
@@ -576,25 +579,25 @@ const UpdateInterestedCourse = ({
                   onChange={(selectedOption) => {
                     interestedCourseFormik.setFieldValue(
                       "interestedCourseDetails[0].status",
-                      selectedOption ? selectedOption.value : ""
+                      selectedOption ? selectedOption.value : "",
                     );
                     setTimeout(() => {
                       interestedCourseFormik.setFieldTouched(
                         "interestedCourseDetails[0].status",
-                        true
+                        true,
                       );
                       interestedCourseFormik.validateField(
-                        "interestedCourseDetails[0].status"
+                        "interestedCourseDetails[0].status",
                       );
                     }, 0);
                   }}
                   onBlur={() => {
                     interestedCourseFormik.setFieldTouched(
                       "interestedCourseDetails[0].status",
-                      true
+                      true,
                     );
                     interestedCourseFormik.validateField(
-                      "interestedCourseDetails[0].status"
+                      "interestedCourseDetails[0].status",
                     );
                   }}
                   placeholder="Select Status"
@@ -603,7 +606,7 @@ const UpdateInterestedCourse = ({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      borderRadius: "30px",
+                      borderRadius: "12px",
                       color: "black",
                     }),
                     placeholder: (base) => ({

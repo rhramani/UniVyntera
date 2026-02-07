@@ -17,6 +17,7 @@ import DataTable from "../../commonComponents/DataTable";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
+import DeleteConfirmModal from "../commonDeleteModal/DeleteConfirmModal";
 
 const GroupList = ({
   onOpenUpdateDrawer,
@@ -49,7 +50,7 @@ const GroupList = ({
           page: currentPage,
           limit: itemsPerPage,
           search,
-        })
+        }),
       );
 
       if (res?.status === 200) {
@@ -63,8 +64,8 @@ const GroupList = ({
           setGroups(responseData.data);
           setTotalRecords(
             responseData.totalRecords ||
-            responseData.totalCount ||
-            responseData.data.length
+              responseData.totalCount ||
+              responseData.data.length,
           );
           setTotalPages(responseData.totalPages || 1);
         } else {
@@ -199,8 +200,7 @@ const GroupList = ({
   return (
     <Card.Body>
       <Row className="mb-3">
-        <Col md={6} className="d-flex align-items-end">
-        </Col>
+        <Col md={6} className="d-flex align-items-end"></Col>
         <Col
           md={6}
           className="d-flex flex-wrap align-items-end justify-content-end gap-2"
@@ -356,48 +356,14 @@ const GroupList = ({
         </>
       )}
 
-      <Modal
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this group?
-          </p>
-          <small className="text-muted">
-            This action cannot be undone. All contacts in this group will be
-            unassigned.
-          </small>
-        </Modal.Body>
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="danger"
-            className="btn-delete-confirm"
-            onClick={confirmDelete}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => {
+          confirmDelete();
+          setShowDeleteModal(false);
+        }}
+      />
     </Card.Body>
   );
 };

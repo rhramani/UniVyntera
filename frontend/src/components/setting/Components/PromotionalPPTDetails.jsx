@@ -51,7 +51,7 @@ const PromotionalPPTDetails = () => {
             url: url.link,
             docId: doc._id,
             fileId: url._id, // Store the _id from the urls array
-          }))
+          })),
         );
         setFlattenedFiles(files);
       } else {
@@ -141,11 +141,11 @@ const PromotionalPPTDetails = () => {
         ) {
           const docId = editingItem.documents[editingDocIndex]._id;
           res = await dispatch(
-            updatePromotionalPpt(editingItem._id, docId, formData)
+            updatePromotionalPpt(editingItem._id, docId, formData),
           );
         } else {
           res = await dispatch(
-            createSubPromotionalPpt(editingItem._id, formData)
+            createSubPromotionalPpt(editingItem._id, formData),
           );
         }
 
@@ -153,7 +153,7 @@ const PromotionalPPTDetails = () => {
           toast.success(
             editingDocIndex !== null
               ? "PPT updated successfully!"
-              : "PPTs added successfully!"
+              : "PPTs added successfully!",
           );
           if (canRead) {
             await fetchData(search);
@@ -176,17 +176,17 @@ const PromotionalPPTDetails = () => {
       const fullUrl = fileUrl.startsWith("http")
         ? fileUrl
         : `${BASEURL}${fileUrl}`;
-  
+
       const cleanFileName =
         fileName.replace(/[^a-zA-Z0-9._-]/g, "_") || "document";
       const fileExtension = fullUrl.split(".").pop() || "pdf";
       const downloadFileName = `${cleanFileName}.${fileExtension}`;
-  
+
       const response = await fetch(fullUrl);
       if (!response.ok) {
         throw new Error("Failed to fetch the file");
       }
-  
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -196,7 +196,7 @@ const PromotionalPPTDetails = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-  
+
       toast.success("Document downloaded successfully");
     } catch (error) {
       console.error("Download error:", error);
@@ -361,7 +361,7 @@ const PromotionalPPTDetails = () => {
                                   onClick={() =>
                                     handleShowUploadModal(
                                       editingItem,
-                                      file.docIndex
+                                      file.docIndex,
                                     )
                                   }
                                 >
@@ -474,7 +474,7 @@ const PromotionalPPTDetails = () => {
                     const maxSize = 10 * 1024 * 1024; // 10MB
 
                     const hasOversizedFile = files.some(
-                      (file) => file.size > maxSize
+                      (file) => file.size > maxSize,
                     );
                     if (hasOversizedFile) {
                       toast.error("File size must be less than 10MB");
@@ -484,7 +484,7 @@ const PromotionalPPTDetails = () => {
 
                     formik.setFieldValue(
                       "documents",
-                      event.currentTarget.files
+                      event.currentTarget.files,
                     );
                   }}
                   isInvalid={
@@ -501,7 +501,7 @@ const PromotionalPPTDetails = () => {
                 <Button
                   variant="link"
                   className="border-primary text-primary text-decoration-none"
-                  style={{ borderRadius: "30px" }}
+                  style={{ borderRadius: "12px" }}
                   onClick={handleCloseUploadModal}
                 >
                   Cancel
@@ -521,33 +521,60 @@ const PromotionalPPTDetails = () => {
         </Modal>
 
         <Modal show={showDeleteModal} onHide={handleCloseDeleteModal} centered>
-          <Modal.Header className="form-main-heading">
-            <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
+          <Modal.Header
+            className="border-0"
+            style={{
+              background: "linear-gradient(90deg, #dc2626, #ef4444)",
+              borderTopLeftRadius: "12px",
+              borderTopRightRadius: "12px",
+            }}
+          >
+            <Modal.Title className="fw-semibold text-white">
+              Confirm Deletion
+            </Modal.Title>
             <AiOutlineClose
-              size={20}
+              size={18}
               style={{ cursor: "pointer", color: "white" }}
               onClick={handleCloseDeleteModal}
             />
           </Modal.Header>
           <Modal.Body className="text-center py-4">
-            <div className="text-danger text-primary fs-1 mb-3">
+            <div
+              className="d-flex align-items-center justify-content-center mx-auto mb-3"
+              style={{
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                background: "#fee2e2",
+                color: "#dc2626",
+                fontSize: "32px",
+              }}
+            >
               <i className="bi bi-exclamation-triangle-fill"></i>
             </div>
-            <p className="mb-1 fw-semibold">
-              Are you sure you want to delete this file?
+
+            <p className="mb-1 fw-semibold fs-5">
+              Are you sure you want to proceed with deletion?
             </p>
-            <small className="text-muted">This action cannot be undone.</small>
+            <small className="text-muted">
+              You won’t be able to undo this action.
+            </small>
           </Modal.Body>
           <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
             <Button
               variant="light"
-              className="btn-cancel-delete px-4"
+              className="px-4"
               onClick={handleCloseDeleteModal}
             >
               Cancel
             </Button>
             <Button
-              className="btn-delete-confirm"
+              className="px-4 text-white"
+              style={{
+                borderRadius: "8px",
+                background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                border: "none",
+              }}
               onClick={() => {
                 handleDelete(selectedItem.item, selectedItem.docIndex);
               }}

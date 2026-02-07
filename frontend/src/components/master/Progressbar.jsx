@@ -197,7 +197,11 @@ const Progressbar = () => {
             <div>
               <div className="card-title">
                 {allProgress?.length > 0 && (
-                <>{highlightForm ? "Update Progress Steps" : "Add Progress Steps"}</>
+                  <>
+                    {highlightForm
+                      ? "Update Progress Steps"
+                      : "Add Progress Steps"}
+                  </>
                 )}
               </div>
             </div>
@@ -217,12 +221,12 @@ const Progressbar = () => {
                       value={countries
                         ?.map((c) => ({ value: c.name, label: c.name }))
                         .filter(
-                          (option) => option.value === formik.values.country
+                          (option) => option.value === formik.values.country,
                         )}
                       onChange={(selectedOption) => {
                         formik.setFieldValue(
                           "country",
-                          selectedOption?.value || ""
+                          selectedOption?.value || "",
                         );
                       }}
                       isClearable
@@ -233,10 +237,10 @@ const Progressbar = () => {
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                           minHeight: "38px",
-                            width: "200px",
+                          width: "200px",
                         }),
                         placeholder: (base) => ({
                           ...base,
@@ -255,7 +259,7 @@ const Progressbar = () => {
                       className="custom-select-height"
                       options={stepOptions}
                       value={stepOptions?.filter((option) =>
-                        formik.values.steps?.includes(option.value)
+                        formik.values.steps?.includes(option.value),
                       )}
                       onChange={(selectedOptions) => {
                         const selectedValues = selectedOptions
@@ -272,10 +276,10 @@ const Progressbar = () => {
                       styles={{
                         control: (base) => ({
                           ...base,
-                          borderRadius: "30px",
+                          borderRadius: "12px",
                           color: "black",
                           minHeight: "38px",
-                            width: "200px",
+                          width: "200px",
                         }),
                         placeholder: (base) => ({
                           ...base,
@@ -303,36 +307,36 @@ const Progressbar = () => {
 
               {canRead && allProgress?.length > 0 && (
                 <div className="form_right_section my-3">
-                <div className="contact-search3">
-                  <button type="button" className="btn border-0">
-                    <i
-                      className="fe fe-search fw-semibold text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                  <Form.Control
-                    type="text"
-                    className="filter-height border-0"
-                    id="typehead1"
-                    placeholder="Search here..."
-                    autoComplete="off"
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setCurrentPage(1);
-                    }}
+                  <div className="contact-search3">
+                    <button type="button" className="btn border-0">
+                      <i
+                        className="fe fe-search fw-semibold text-muted"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <Form.Control
+                      type="text"
+                      className="filter-height border-0"
+                      id="typehead1"
+                      placeholder="Search here..."
+                      autoComplete="off"
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                  </div>
+                  <ItemsPerPageSelect
+                    itemsPerPage={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
                   />
+                  <div className="custom-select-height total-records px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
+                    <span>
+                      Total Records: <strong>{totalRecords}</strong>
+                    </span>
+                  </div>
                 </div>
-                <ItemsPerPageSelect
-                  itemsPerPage={itemsPerPage}
-                  onChange={handleItemsPerPageChange}
-                />
-                <div className="custom-select-height total-records px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                  <span>
-                    Total Records: <strong>{totalRecords}</strong>
-                  </span>
-                </div>
-              </div>
               )}
             </form>
 

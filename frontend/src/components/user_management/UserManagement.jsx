@@ -55,7 +55,7 @@ const UserManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [branchList, setBranchList] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState(
-    userRole === "Super Admin" ? "all" : ""
+    userRole === "Super Admin" ? "all" : "",
   );
   const [role, setRole] = useState("");
   const [totalRecords, setTotalRecords] = useState(0);
@@ -66,7 +66,7 @@ const UserManagement = () => {
   const { canCreate, canRead, canUpdate, canDelete } =
     usePermissions("User Management");
   const [B2BAdminList, setB2BAdminList] = useState([]);
-    const [showBirthdayDateCalendar, setShowBirthdayDateCalendar] =
+  const [showBirthdayDateCalendar, setShowBirthdayDateCalendar] =
     useState(false);
   const [birthdayDateValue, setBirthdayDateValue] = useState(null);
   const birthdayDateInputRef = useRef(null);
@@ -216,8 +216,8 @@ const UserManagement = () => {
         100,
         "",
         userRole === "Branch" ? branchID : branchId,
-        showAll
-      )
+        showAll,
+      ),
     );
     setRoleDropDown(res?.data?.data?.data || []);
   };
@@ -280,7 +280,7 @@ const UserManagement = () => {
     search = "",
     role = "",
     branchId = "",
-    showAll = false
+    showAll = false,
   ) => {
     try {
       const res = await dispatch(
@@ -290,8 +290,8 @@ const UserManagement = () => {
           search,
           role,
           userRole === "Branch" ? branchID : branchId,
-          showAll
-        )
+          showAll,
+        ),
       );
       const responseData = res?.data?.data;
       setAllUser(responseData?.data || []);
@@ -363,7 +363,7 @@ const UserManagement = () => {
           const { userRole } = this.options.context || {};
           if (userRole !== "Super Admin") return true;
           return value != undefined;
-        }
+        },
       ),
       role: Yup.string().required("Role is required"),
       status: Yup.string().required("Status is required"),
@@ -769,7 +769,7 @@ const UserManagement = () => {
                                       );
                                     })
                                     .sort((a, b) =>
-                                      a.name.localeCompare(b.name)
+                                      a.name.localeCompare(b.name),
                                     )
                                     .map((branch) => ({
                                       value: branch._id,
@@ -786,11 +786,11 @@ const UserManagement = () => {
                                       selectedBranch === "all"
                                         ? "All"
                                         : selectedBranch === ""
-                                        ? "Head Office"
-                                        : branchList.find(
-                                            (branch) =>
-                                              branch._id === selectedBranch
-                                          )?.name || "Select Branch",
+                                          ? "Head Office"
+                                          : branchList.find(
+                                              (branch) =>
+                                                branch._id === selectedBranch,
+                                            )?.name || "Select Branch",
                                   }
                                 : null
                             }
@@ -825,7 +825,7 @@ const UserManagement = () => {
                           classNamePrefix="custom-select"
                           value={
                             filteredOptions.find(
-                              (option) => option.value === role
+                              (option) => option.value === role,
                             ) || null
                           }
                           onChange={(option) => {
@@ -885,7 +885,7 @@ const UserManagement = () => {
                             onClick={() => {
                               if (filters.birthdayDate) {
                                 setBirthdayDateValue(
-                                  parseDate(filters.birthdayDate)
+                                  parseDate(filters.birthdayDate),
                                 );
                               }
                               setShowBirthdayDateCalendar((show) => !show);
@@ -985,7 +985,7 @@ const UserManagement = () => {
                             onClick={() => {
                               if (filters.joiningDate) {
                                 setJoiningDateValue(
-                                  parseDate(filters.joiningDate)
+                                  parseDate(filters.joiningDate),
                                 );
                               }
                               setShowJoiningDateCalendar((show) => !show);
@@ -1158,7 +1158,7 @@ const UserManagement = () => {
                               : "";
                             const formattedPhone = `${dialCode} ${phone.replace(
                               data.dialCode,
-                              ""
+                              "",
                             )}`.trim();
                             formik.setFieldValue("phone", formattedPhone);
                           }}
@@ -1227,16 +1227,17 @@ const UserManagement = () => {
                             }}
                             value={
                               formik.values.branchId === ""
-                                ? { value: "", label: "Head Office" } 
+                                ? { value: "", label: "Head Office" }
                                 : formik.values.branchId
-                                ? {
-                                    value: formik.values.branchId,
-                                    label:
-                                      branchList.find(
-                                        (b) => b._id === formik.values.branchId
-                                      )?.name || "Select Branch",
-                                  }
-                                : { value: "", label: "Head Office" }
+                                  ? {
+                                      value: formik.values.branchId,
+                                      label:
+                                        branchList.find(
+                                          (b) =>
+                                            b._id === formik.values.branchId,
+                                        )?.name || "Select Branch",
+                                    }
+                                  : { value: "", label: "Head Office" }
                             }
                             onChange={handleBranchChangeInForm}
                             // onChange={(option) =>
@@ -1251,7 +1252,7 @@ const UserManagement = () => {
                               ...branchList
                                 ?.filter(
                                   (branch) =>
-                                    branch.name && branch.name.trim() !== ""
+                                    branch.name && branch.name.trim() !== "",
                                 )
                                 ?.sort((a, b) => a.name.localeCompare(b.name))
                                 ?.map((branch) => ({
@@ -1287,7 +1288,7 @@ const UserManagement = () => {
                                   value: formik.values.role,
                                   label:
                                     roleDropDown?.find(
-                                      (role) => role._id === formik.values.role
+                                      (role) => role._id === formik.values.role,
                                     )?.name || "Select Role",
                                 }
                               : null
@@ -1295,7 +1296,7 @@ const UserManagement = () => {
                           onChange={(option) =>
                             formik.setFieldValue(
                               "role",
-                              option ? option.value : ""
+                              option ? option.value : "",
                             )
                           }
                           onBlur={() => formik.setFieldTouched("role", true)}
@@ -1303,7 +1304,7 @@ const UserManagement = () => {
                             ?.filter(
                               (role) =>
                                 role.name !== "B2B Admin" &&
-                                role.name !== "B2B Member"
+                                role.name !== "B2B Member",
                             )
                             ?.sort((a, b) => a.name?.localeCompare(b.name))
                             ?.map((role) => ({
@@ -1341,7 +1342,7 @@ const UserManagement = () => {
                           onChange={(option) =>
                             formik.setFieldValue(
                               "status",
-                              option ? option.value : ""
+                              option ? option.value : "",
                             )
                           }
                           onBlur={() => formik.setFieldTouched("status", true)}
@@ -1411,7 +1412,7 @@ const UserManagement = () => {
                               onChange={(e) => {
                                 formik.setFieldValue(
                                   "viewSpecificB2B",
-                                  e.target.checked
+                                  e.target.checked,
                                 );
                                 if (!e.target.checked) {
                                   formik.setFieldValue("b2bCountry", "");
@@ -1541,17 +1542,17 @@ const UserManagement = () => {
                                 ?.map((c) => ({ value: c.name, label: c.name }))
                                 .filter((option) =>
                                   formik.values.b2bCountry?.includes(
-                                    option.value
-                                  )
+                                    option.value,
+                                  ),
                                 )}
                               onChange={(selectedOptions) => {
                                 const selected = selectedOptions || [];
                                 const selectedIsoCodes = selected.map(
-                                  (opt) => opt.value
+                                  (opt) => opt.value,
                                 );
                                 formik.setFieldValue(
                                   "b2bCountry",
-                                  selectedIsoCodes
+                                  selectedIsoCodes,
                                 );
                                 handleB2BCountryChange(selectedIsoCodes);
                               }}
@@ -1564,7 +1565,7 @@ const UserManagement = () => {
                               styles={{
                                 control: (base) => ({
                                   ...base,
-                                  borderRadius: "30px",
+                                  borderRadius: "12px",
                                   color: "black",
                                 }),
                                 placeholder: (base) => ({
@@ -1592,7 +1593,7 @@ const UserManagement = () => {
                               value={(formik.values.b2bState || [])
                                 .map((stateName) => {
                                   const found = stateDropDown.find(
-                                    (s) => s.name === stateName
+                                    (s) => s.name === stateName,
                                   );
                                   return found
                                     ? {
@@ -1606,7 +1607,7 @@ const UserManagement = () => {
                                 const selected = selectedOptions || [];
                                 const selectedNames = selected.map((opt) => {
                                   const found = stateDropDown.find(
-                                    (s) => s.isoCode === opt.value
+                                    (s) => s.isoCode === opt.value,
                                   );
                                   return found ? found.name : opt.value;
                                 });
@@ -1624,7 +1625,7 @@ const UserManagement = () => {
                               styles={{
                                 control: (base) => ({
                                   ...base,
-                                  borderRadius: "30px",
+                                  borderRadius: "12px",
                                   color: "black",
                                 }),
                                 placeholder: (base) => ({
@@ -1658,18 +1659,18 @@ const UserManagement = () => {
                                 label: b2b.companyName,
                               }))}
                               value={B2BAdminList.filter((b2b) =>
-                                formik.values.assignedB2B?.includes(b2b._id)
+                                formik.values.assignedB2B?.includes(b2b._id),
                               ).map((b2b) => ({
                                 value: b2b._id,
                                 label: b2b.companyName,
                               }))}
                               onChange={(selectedOptions) => {
                                 const selectedIds = selectedOptions.map(
-                                  (opt) => opt.value
+                                  (opt) => opt.value,
                                 );
                                 formik.setFieldValue(
                                   "assignedB2B",
-                                  selectedIds
+                                  selectedIds,
                                 );
                               }}
                               placeholder="Select B2B Admin"
@@ -1697,7 +1698,7 @@ const UserManagement = () => {
                           onChange={(e) => {
                             formik.setFieldValue(
                               "restrictByIp",
-                              e.target.checked
+                              e.target.checked,
                             );
                             if (!e.target.checked) {
                               formik.setFieldValue("allowedIps", [""]);
@@ -1729,7 +1730,7 @@ const UserManagement = () => {
                                   onBlur={() =>
                                     formik.setFieldTouched(
                                       `allowedIps[${index}]`,
-                                      true
+                                      true,
                                     )
                                   }
                                 />
@@ -1778,18 +1779,18 @@ const UserManagement = () => {
                             value={countries
                               ?.map((c) => ({ value: c.name, label: c.name }))
                               .filter((option) =>
-                                formik.values.country?.includes(option.value)
+                                formik.values.country?.includes(option.value),
                               )}
                             onChange={(selectedOptions) => {
                               const selected = selectedOptions || [];
                               const selectedValues = selected?.map(
-                                (opt) => opt.value
+                                (opt) => opt.value,
                               );
                               const validCountries = countries?.map(
-                                (c) => c.name
+                                (c) => c.name,
                               );
                               const filteredValues = selectedValues?.filter(
-                                (val) => validCountries?.includes(val)
+                                (val) => validCountries?.includes(val),
                               );
                               if (filteredValues) {
                                 formik.setFieldValue("country", filteredValues);
@@ -1815,7 +1816,7 @@ const UserManagement = () => {
                             styles={{
                               control: (base) => ({
                                 ...base,
-                                borderRadius: "30px",
+                                borderRadius: "12px",
                                 color: "black",
                               }),
                               placeholder: (base) => ({
@@ -1902,7 +1903,7 @@ const UserManagement = () => {
                                 onChange={() =>
                                   formik.setFieldValue(
                                     "viewB2BStudentApplication",
-                                    true
+                                    true,
                                   )
                                 }
                                 className="custom-radio-border"
@@ -1920,7 +1921,7 @@ const UserManagement = () => {
                                 onChange={() =>
                                   formik.setFieldValue(
                                     "viewB2BStudentApplication",
-                                    false
+                                    false,
                                   )
                                 }
                                 className="custom-radio-border"
@@ -1945,7 +1946,7 @@ const UserManagement = () => {
                                 onChange={() =>
                                   formik.setFieldValue(
                                     "whichB2BStudentApplication",
-                                    "all"
+                                    "all",
                                   )
                                 }
                                 className="custom-radio-border"
@@ -1963,7 +1964,7 @@ const UserManagement = () => {
                                 onChange={() =>
                                   formik.setFieldValue(
                                     "whichB2BStudentApplication",
-                                    "countrywise"
+                                    "countrywise",
                                   )
                                 }
                                 className="custom-radio-border"

@@ -10,6 +10,7 @@ import UploadIcon from "@mui/icons-material/Upload";
 import LoadMoreButton from "../../../commonComponents/LoadMoreButton";
 import { decryptData } from "../../../../utils/encryptionUtils";
 import { BASEURL } from "../../../../baseUrl";
+import DeleteConfirmModal from "../../../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const DocumentHandler = ({
   applicationData,
@@ -63,7 +64,7 @@ const DocumentHandler = ({
         formData.append("customDocumentName", docName);
         formData.append(
           "ref_module",
-          applicationData?.visaApplicationDetails?._id
+          applicationData?.visaApplicationDetails?._id,
         );
         formData.append("documentId", docId);
 
@@ -180,7 +181,7 @@ const DocumentHandler = ({
 
       // ✅ Clean and decode file name
       let downloadFileName = decodeURIComponent(
-        fileName?.trim() || fileUrl.split("/").pop() || "downloaded_file"
+        fileName?.trim() || fileUrl.split("/").pop() || "downloaded_file",
       );
 
       // ✅ Add extension if missing
@@ -226,7 +227,7 @@ const DocumentHandler = ({
 
   // Check if there are any documents matching documentTypes
   const hasRelevantDocuments = applicationData?.uploadedDocumentDetails?.some(
-    (doc) => documentTypes.includes(doc.customDocumentName)
+    (doc) => documentTypes.includes(doc.customDocumentName),
   );
 
   // If no relevant documents, return null to hide the component
@@ -275,7 +276,7 @@ const DocumentHandler = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                   }),
                   placeholder: (base) => ({
@@ -321,47 +322,14 @@ const DocumentHandler = ({
         </Modal.Footer>
       </Modal>
 
-      <Modal
+      <DeleteConfirmModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
-        centered
-      >
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => setShowDeleteModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={() => setShowDeleteModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleDeleteDocument(selectedItem);
-              setShowDeleteModal(false);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onConfirm={() => {
+          handleDeleteDocument(selectedItem);
+          setShowDeleteModal(false);
+        }}
+      />
 
       <div className="mb-4 my-5">
         <div className="d-flex justify-content-between align-items-center mb-3">
@@ -376,7 +344,7 @@ const DocumentHandler = ({
                     sendPendingDocumentMain(id, selectedDocumentNames);
                   } else {
                     toast.error(
-                      "Please select at least one document to send via mail."
+                      "Please select at least one document to send via mail.",
                     );
                   }
                 }}
@@ -392,7 +360,8 @@ const DocumentHandler = ({
               <tr>
                 {userRole !== "B2B Admin" &&
                   userRole !== "B2B Member" &&
-                  userRole !== "Student" && userRole !== "LeadStudent" && <th>For Mail Send</th>}
+                  userRole !== "Student" &&
+                  userRole !== "LeadStudent" && <th>For Mail Send</th>}
                 <th>Sr No</th>
                 <th>Document Name</th>
                 <th>Upload File</th>
@@ -410,13 +379,14 @@ const DocumentHandler = ({
               {applicationData?.uploadedDocumentDetails?.length > 0 ? (
                 applicationData.uploadedDocumentDetails
                   .filter((doc) =>
-                    documentTypes.includes(doc.customDocumentName)
+                    documentTypes.includes(doc.customDocumentName),
                   )
                   .map((doc, index) => (
                     <tr key={doc._id}>
                       {userRole !== "B2B Admin" &&
                         userRole !== "B2B Member" &&
-                        userRole !== "Student" && userRole !== "LeadStudent" && (
+                        userRole !== "Student" &&
+                        userRole !== "LeadStudent" && (
                           <td>
                             <div className="form-check form-switch custom-toggle-button me-0">
                               <input
@@ -424,12 +394,13 @@ const DocumentHandler = ({
                                 type="checkbox"
                                 id={`toggle-${doc._id}-${index}`}
                                 checked={selectedDocsIds?.includes(
-                                  `${doc._id}-${index}`
+                                  `${doc._id}-${index}`,
                                 )}
                                 onChange={() =>
                                   handleCheckboxChangeId(
                                     `${doc._id}-${index}`,
-                                    doc.customDocumentName || "Unnamed Document"
+                                    doc.customDocumentName ||
+                                      "Unnamed Document",
                                   )
                                 }
                               />
@@ -451,7 +422,7 @@ const DocumentHandler = ({
                               handleTableFileUpload(
                                 e,
                                 doc._id,
-                                doc.customDocumentName
+                                doc.customDocumentName,
                               )
                             }
                             className="custom-select-height"
@@ -489,7 +460,7 @@ const DocumentHandler = ({
                             cursor: "pointer",
                             color: "#fff",
                             backgroundColor: getStatusColor(
-                              doc.status || "unverified"
+                              doc.status || "unverified",
                             ),
                             border: "none",
                             borderRadius: "4px",
@@ -502,17 +473,19 @@ const DocumentHandler = ({
                             setSelectedStatus(
                               statusOptions.find(
                                 (opt) =>
-                                  opt.value === (doc.status || "unverified")
+                                  opt.value === (doc.status || "unverified"),
                               ) ||
                                 statusOptions.find(
-                                  (opt) => opt.value === "unverified"
-                                )
+                                  (opt) => opt.value === "unverified",
+                                ),
                             );
                             setRemarks(doc.remarks || "");
                             setSelectedDocId(doc._id);
                             setShowModal(true);
                           }}
-                          disabled={userRole === "Student" || userRole === "LeadStudent"}
+                          disabled={
+                            userRole === "Student" || userRole === "LeadStudent"
+                          }
                         >
                           {(doc.status === "verified" ||
                             doc.status === "Verified") && (

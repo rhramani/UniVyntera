@@ -1,37 +1,78 @@
-import { PiWarningCircleBold } from 'react-icons/pi';
+import { Modal, Button } from "react-bootstrap";
+import { AiOutlineClose } from "react-icons/ai";
 
-const DeleteConfirmModal = ({
-  show, 
-  onHide, 
-  onConfirm,
-  title = 'Are you sure?',
-  message = 'Do you really want to delete this item?',
-}) => {
-  if (!show) return null;
-
+const DeleteConfirmModal = ({ show, onHide, onConfirm }) => {
   return (
-    <div className="fixed inset-0 z-[9999] flex items-start justify-center pt-10 bg-black/10">
-      <div className="bg-white rounded-lg w-[90%] max-w-md p-6 text-center shadow-md border transform transition-all duration-300 ease-out animate-slideFadeDown">
-        <PiWarningCircleBold className="text-7xl text-red-500 mb-4 mx-auto" />
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-gray-600 mb-4">{message}</p>
+    <Modal show={show} onHide={onHide} centered>
+      {/* Header */}
+      <Modal.Header
+        className="border-0"
+        style={{
+          background: "linear-gradient(90deg, #dc2626, #ef4444)",
+          borderTopLeftRadius: "12px",
+          borderTopRightRadius: "12px",
+        }}
+      >
+        <Modal.Title className="fw-semibold text-white">
+          Confirm Deletion
+        </Modal.Title>
 
-        <div className="flex justify-center gap-4">
-          <button
-            className="px-6 py-2 border border-gray-300 text-black rounded"
-            onClick={onHide}
-          >
-            Cancel
-          </button>
-          <button
-            className="px-6 py-2 bg-red-500 text-white rounded"
-            onClick={onConfirm}
-          >
-            Confirm
-          </button>
+        <AiOutlineClose
+          size={18}
+          style={{ cursor: "pointer", color: "white" }}
+          onClick={onHide}
+        />
+      </Modal.Header>
+
+      {/* Body */}
+      <Modal.Body className="text-center py-4">
+        <div
+          className="d-flex align-items-center justify-content-center mx-auto mb-3"
+          style={{
+            width: "70px",
+            height: "70px",
+            borderRadius: "50%",
+            background: "#fee2e2",
+            color: "#dc2626",
+            fontSize: "32px",
+          }}
+        >
+          <i className="bi bi-exclamation-triangle-fill"></i>
         </div>
-      </div>
-    </div>
+
+        <p className="mb-1 fw-semibold fs-5">
+          Are you sure you want to proceed with deletion?
+        </p>
+        <small className="text-muted">
+          You won’t be able to undo this action.
+        </small>
+      </Modal.Body>
+
+      {/* Footer */}
+      <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
+        <Button
+          variant="light"
+          className="px-4"
+          style={{ borderRadius: "8px" }}
+          onClick={onHide}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          className="px-4 text-white"
+          style={{
+            borderRadius: "8px",
+            background: "linear-gradient(90deg, #dc2626, #ef4444)",
+            border: "none",
+          }}
+          onClick={onConfirm}
+        >
+          <i className="bi bi-trash-fill me-2"></i>
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

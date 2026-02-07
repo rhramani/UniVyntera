@@ -38,6 +38,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { decryptData } from "../../../utils/encryptionUtils";
 import { createPortal } from "react-dom";
 import { getAllClientMailCategory } from "../../../redux/actions/Master/AddClientCategory.action";
+import DeleteConfirmModal from "../../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const Announcements = () => {
   const dispatch = useDispatch();
@@ -169,11 +170,11 @@ const Announcements = () => {
     page = 1,
     limit = itemsPerPage,
     searchTerm = "",
-    role = userRole
+    role = userRole,
   ) => {
     try {
       const res = await dispatch(
-        getAnnouncement(page, limit, searchTerm, role)
+        getAnnouncement(page, limit, searchTerm, role),
       );
       if (res?.status === 200) {
         const responseData = res?.data?.data || {};
@@ -199,7 +200,7 @@ const Announcements = () => {
           categories.map((category) => ({
             value: category._id,
             label: category.name || category.title || "Unnamed Category",
-          }))
+          })),
         );
       }
     } catch (error) {
@@ -340,7 +341,7 @@ const Announcements = () => {
         if (file.type.startsWith("image/") || file.type === "application/pdf") {
           const newTab = window.open();
           newTab.document.write(
-            `<iframe src="${fileUrl}" width="100%" height="100%" style="border:none;"></iframe>`
+            `<iframe src="${fileUrl}" width="100%" height="100%" style="border:none;"></iframe>`,
           );
         } else {
           const blob = new Blob([event.target.result], { type: file.type });
@@ -438,9 +439,7 @@ const Announcements = () => {
     },
     validationSchema: Yup.object({
       type: Yup.array().min(1, "At least one type is required"),
-      individualEmail: Yup.string()
-        .email("Invalid email format")
-        .nullable(),
+      individualEmail: Yup.string().email("Invalid email format").nullable(),
       subject: Yup.string().required("Subject is required"),
       message: Yup.string().test(
         "message-or-media",
@@ -448,7 +447,7 @@ const Announcements = () => {
         function (value) {
           const { messageImage, messageFile } = this.parent;
           return value || messageImage || messageFile;
-        }
+        },
       ),
       categories: Yup.array().nullable(),
     }),
@@ -484,11 +483,12 @@ const Announcements = () => {
           fileUrl =
             uploadRes?.data?.fileUrl || uploadRes?.data?.fileId
               ? (uploadRes.data.fileUrl || uploadRes.data.fileId).startsWith(
-                "http"
-              )
+                  "http",
+                )
                 ? uploadRes.data.fileUrl || uploadRes.data.fileId
-                : `${BASEURL}/${uploadRes.data.fileUrl || uploadRes.data.fileId
-                }`
+                : `${BASEURL}/${
+                    uploadRes.data.fileUrl || uploadRes.data.fileId
+                  }`
               : null;
         }
 
@@ -499,7 +499,7 @@ const Announcements = () => {
         let fileUrlUsed = false;
 
         const fileImages = editorContent.querySelectorAll(
-          'img[data-file-image="true"]'
+          'img[data-file-image="true"]',
         );
         if (fileImages.length > 0) {
           fileImages.forEach((img) => {
@@ -524,8 +524,9 @@ const Announcements = () => {
             const imageLink = document.createElement("a");
             imageLink.href = imageUrl;
             imageLink.target = "_blank";
-            imageLink.textContent = `Click to view ${messageImage?.name || "image"
-              }`;
+            imageLink.textContent = `Click to view ${
+              messageImage?.name || "image"
+            }`;
             fragment.appendChild(document.createTextNode(" "));
             fragment.appendChild(imageLink);
           }
@@ -534,8 +535,9 @@ const Announcements = () => {
             const fileLink = document.createElement("a");
             fileLink.href = fileUrl;
             fileLink.target = "_blank";
-            fileLink.textContent = `Click to view ${messageFile?.name || "file"
-              }`;
+            fileLink.textContent = `Click to view ${
+              messageFile?.name || "file"
+            }`;
             fragment.appendChild(document.createTextNode(" "));
             fragment.appendChild(fileLink);
           }
@@ -552,7 +554,10 @@ const Announcements = () => {
         values.type.forEach((typeValue) => {
           announcementFormData.append("type", typeValue);
         });
-        announcementFormData.append("individualEmail", values.individualEmail || "");
+        announcementFormData.append(
+          "individualEmail",
+          values.individualEmail || "",
+        );
         announcementFormData.append("subject", values.subject);
         announcementFormData.append("message", cleanedMessage);
         values.categories.forEach((category) => {
@@ -577,23 +582,23 @@ const Announcements = () => {
           formik.setFieldValue("fileUrl", null);
 
           const fileInput = document.querySelector(
-            'input[type="file"][accept="image/*,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/csv,application/zip"]'
+            'input[type="file"][accept="image/*,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/csv,application/zip"]',
           );
           if (fileInput) fileInput.value = "";
           const imageInput = document.querySelector(
-            'input[type="file"][accept="image/*"]'
+            'input[type="file"][accept="image/*"]',
           );
           if (imageInput) imageInput.value = "";
           const formFileInput = document.querySelector(
-            'input[type="file"][name="fileUrl"]'
+            'input[type="file"][name="fileUrl"]',
           );
           if (formFileInput) formFileInput.value = "";
 
           const bgColorInput = document.querySelector(
-            'input[type="color"][title="Background Color"]'
+            'input[type="color"][title="Background Color"]',
           );
           const textColorInput = document.querySelector(
-            'input[type="color"][title="Text Color"]'
+            'input[type="color"][title="Text Color"]',
           );
           if (bgColorInput) bgColorInput.value = "#ffffff";
           if (textColorInput) textColorInput.value = "#000000";
@@ -609,7 +614,7 @@ const Announcements = () => {
       } catch (error) {
         console.error("Error submitting announcement:", error);
         toast.error(
-          error?.response?.data?.message || "Failed to send announcement"
+          error?.response?.data?.message || "Failed to send announcement",
         );
       } finally {
         setIsLoading(false);
@@ -721,7 +726,7 @@ const Announcements = () => {
       document.execCommand("fontName", false, selectedOption.value);
       formik.setFieldValue(
         "message",
-        editorRef.current.querySelector("[contentEditable]").innerHTML
+        editorRef.current.querySelector("[contentEditable]").innerHTML,
       );
       saveCursorPosition();
     }
@@ -733,7 +738,7 @@ const Announcements = () => {
       document.execCommand("fontSize", false, selectedOption.value);
       formik.setFieldValue(
         "message",
-        editorRef.current.querySelector("[contentEditable]").innerHTML
+        editorRef.current.querySelector("[contentEditable]").innerHTML,
       );
       saveCursorPosition();
     }
@@ -796,25 +801,25 @@ const Announcements = () => {
       render: (item) =>
         item.createdAt
           ? (() => {
-            const date = new Date(item.createdAt).toLocaleDateString(
-              "en-GB",
-              {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              }
-            );
-            const time = new Date(item.createdAt).toLocaleTimeString(
-              "en-US",
-              {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: true,
-              }
-            );
-            return `${date}, ${time}`;
-          })()
+              const date = new Date(item.createdAt).toLocaleDateString(
+                "en-GB",
+                {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                },
+              );
+              const time = new Date(item.createdAt).toLocaleTimeString(
+                "en-US",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hour12: true,
+                },
+              );
+              return `${date}, ${time}`;
+            })()
           : "-",
     },
   ];
@@ -855,24 +860,24 @@ const Announcements = () => {
 
   const columns = canDelete
     ? [
-      ...baseColumns,
-      {
-        label: "Action",
-        key: "actions",
-        render: (item) => (
-          <span
-            className="icon-border delete-icon ms-2"
-            onClick={() => {
-              setSelectedItem(item._id);
-              setShowDeleteModal(true);
-            }}
-            title="Delete"
-          >
-            <DeleteIcon />
-          </span>
-        ),
-      },
-    ]
+        ...baseColumns,
+        {
+          label: "Action",
+          key: "actions",
+          render: (item) => (
+            <span
+              className="icon-border delete-icon ms-2"
+              onClick={() => {
+                setSelectedItem(item._id);
+                setShowDeleteModal(true);
+              }}
+              title="Delete"
+            >
+              <DeleteIcon />
+            </span>
+          ),
+        },
+      ]
     : baseColumns;
 
   return (
@@ -917,7 +922,7 @@ const Announcements = () => {
                           name="type"
                           options={typeOptions}
                           value={typeOptions.filter((option) =>
-                            formik.values.type.includes(option.value)
+                            formik.values.type.includes(option.value),
                           )}
                           isMulti
                           onChange={(selectedOption) => {
@@ -925,11 +930,11 @@ const Announcements = () => {
                               "type",
                               selectedOption
                                 ? selectedOption.map((option) => option.value)
-                                : []
-                            )
+                                : [],
+                            );
 
                             const needsEmail = newTypes.some((t) =>
-                              ["Inhouse", "B2B", "Branch"].includes(t)
+                              ["Inhouse", "B2B", "Branch"].includes(t),
                             );
                             if (!needsEmail) {
                               formik.setFieldValue("individualEmail", "");
@@ -942,7 +947,7 @@ const Announcements = () => {
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -968,12 +973,17 @@ const Announcements = () => {
                           placeholder="Enter individual email"
                           value={formik.values.individualEmail}
                           onChange={formik.handleChange}
-                          onBlur={() => formik.setFieldTouched("individualEmail", true)}
+                          onBlur={() =>
+                            formik.setFieldTouched("individualEmail", true)
+                          }
                           className="custom-select-height"
                         />
-                        {formik.touched.individualEmail && formik.errors.individualEmail && (
-                          <div className="text-danger">{formik.errors.individualEmail}</div>
-                        )}
+                        {formik.touched.individualEmail &&
+                          formik.errors.individualEmail && (
+                            <div className="text-danger">
+                              {formik.errors.individualEmail}
+                            </div>
+                          )}
                       </Form.Group>
                     </Col>
 
@@ -984,7 +994,7 @@ const Announcements = () => {
                           name="categories"
                           options={categoryOptions}
                           value={categoryOptions.filter((option) =>
-                            formik.values.categories.includes(option.value)
+                            formik.values.categories.includes(option.value),
                           )}
                           isMulti
                           onChange={(selectedOption) =>
@@ -992,7 +1002,7 @@ const Announcements = () => {
                               "categories",
                               selectedOption
                                 ? selectedOption.map((option) => option.value)
-                                : []
+                                : [],
                             )
                           }
                           onBlur={() =>
@@ -1000,11 +1010,13 @@ const Announcements = () => {
                           }
                           placeholder="Select Categories"
                           classNamePrefix="custom-select"
-                          isDisabled={!formik.values.type.includes("ClientMail")}
+                          isDisabled={
+                            !formik.values.type.includes("ClientMail")
+                          }
                           styles={{
                             control: (base) => ({
                               ...base,
-                              borderRadius: "30px",
+                              borderRadius: "12px",
                               color: "black",
                             }),
                             placeholder: (base) => ({
@@ -1166,7 +1178,7 @@ const Announcements = () => {
                                     document.execCommand(
                                       "hiliteColor",
                                       false,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   data-tooltip="Background Color"
@@ -1188,7 +1200,7 @@ const Announcements = () => {
                                     document.execCommand(
                                       "foreColor",
                                       false,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   data-tooltip="Text Color"
@@ -1280,7 +1292,7 @@ const Announcements = () => {
                                   height={350}
                                 />
                               </div>,
-                              document.body
+                              document.body,
                             )}
                         </div>
                         {formik.touched.message && formik.errors.message && (
@@ -1354,11 +1366,13 @@ const Announcements = () => {
 
               {canRead ? (
                 <>
-                  <div className="table-responsive modern-table-wrapper"
+                  <div
+                    className="table-responsive modern-table-wrapper"
                     style={{
                       borderRadius: "12px",
                       border: "1px solid #dee2e6",
-                    }}>
+                    }}
+                  >
                     <table
                       className="table table-hover modern-table table-nowrap"
                       style={{ tableLayout: "auto" }}
@@ -1388,8 +1402,8 @@ const Announcements = () => {
                                 <td className="No-column fw-semibold">
                                   {currentPage && itemsPerPage
                                     ? index +
-                                    1 +
-                                    (currentPage - 1) * itemsPerPage
+                                      1 +
+                                      (currentPage - 1) * itemsPerPage
                                     : index + 1}
                                 </td>
                                 {columns?.map((col, colIndex) => (
@@ -1499,51 +1513,14 @@ const Announcements = () => {
                 </Modal.Footer>
               </Modal>
 
-              <Modal
+              <DeleteConfirmModal
                 show={showDeleteModal}
                 onHide={handleCloseUploadModal}
-                centered
-              >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
-                    Confirm Deletion
-                  </Modal.Title>
-                  <AiOutlineClose
-                    size={20}
-                    style={{ cursor: "pointer", color: "white" }}
-                    onClick={handleCloseUploadModal}
-                  />
-                </Modal.Header>
-                <Modal.Body className="text-center py-4">
-                  <div className="text-danger text-primary fs-1 mb-3">
-                    <i className="bi bi-exclamation-triangle-fill"></i>
-                  </div>
-                  <p className="mb-1 fw-semibold">
-                    Are you sure you want to delete this item?
-                  </p>
-                  <small className="text-muted">
-                    This action cannot be undone.
-                  </small>
-                </Modal.Body>
-                <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-                  <Button
-                    variant="light"
-                    className="btn-cancel-delete px-4"
-                    onClick={handleCloseUploadModal}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="btn-delete-confirm"
-                    onClick={() => {
-                      handleDelete(selectedItem);
-                      setShowDeleteModal(false);
-                    }}
-                  >
-                    <i className="bi bi-trash-fill me-2"></i>Delete
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                onConfirm={() => {
+                  handleDelete(selectedItem);
+                  setShowDeleteModal(false);
+                }}
+              />
             </Card.Body>
           </Card>
         </Col>

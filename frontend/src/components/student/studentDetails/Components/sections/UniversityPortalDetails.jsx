@@ -21,7 +21,7 @@ const UniversityPortalDetails = ({
 }) => {
   const { canCreate, canUpdate } = usePermissions(
     "Student Applications",
-    "Visa Application"
+    "Visa Application",
   );
   const dispatch = useDispatch();
   const [showCredential, setShowCredential] = useState(false);
@@ -102,7 +102,7 @@ const UniversityPortalDetails = ({
         }
       } catch (error) {
         toast.error(
-          error?.response?.data?.message || "Failed to update portal details"
+          error?.response?.data?.message || "Failed to update portal details",
         );
       }
     },
@@ -138,13 +138,13 @@ const UniversityPortalDetails = ({
                   applicationTypeOptions.find(
                     (option) =>
                       option.value === formik.values.applicationType ||
-                      formik.values.applicationType?._id
+                      formik.values.applicationType?._id,
                   ) || null
                 }
                 onChange={(selectedOption) =>
                   formik.setFieldValue(
                     "applicationType",
-                    selectedOption ? selectedOption.value : null
+                    selectedOption ? selectedOption.value : null,
                   )
                 }
                 onBlur={() => formik.setFieldTouched("applicationType", true)}
@@ -155,7 +155,7 @@ const UniversityPortalDetails = ({
                 styles={{
                   control: (base) => ({
                     ...base,
-                    borderRadius: "30px",
+                    borderRadius: "12px",
                     color: "black",
                     minHeight: "38px",
                     height: "38px",
@@ -252,18 +252,20 @@ const UniversityPortalDetails = ({
             </Col>
           </Row>
 
-          {userRole !== "Student" && userRole !== "LeadStudent" && (canCreate || canUpdate) && (
-            <div className="d-flex justify-content-end me-3">
-              <Button
-                variant="primary"
-                type="submit"
-                className="custom-select-height"
-                disabled={isRestrictedRole}
-              >
-                Submit
-              </Button>
-            </div>
-          )}
+          {userRole !== "Student" &&
+            userRole !== "LeadStudent" &&
+            (canCreate || canUpdate) && (
+              <div className="d-flex justify-content-end me-3">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="custom-select-height"
+                  disabled={isRestrictedRole}
+                >
+                  Submit
+                </Button>
+              </div>
+            )}
         </Form>
       </div>
     </div>

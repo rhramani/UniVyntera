@@ -157,7 +157,9 @@ const Profile = () => {
       const res = await dispatch(getOneBranch(id));
       setbranchLoginData(res?.data?.data || {});
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Failed to fetch Branch data");
+      toast.error(
+        err?.response?.data?.message || "Failed to fetch Branch data",
+      );
     }
   };
   const fetchBranchMember = async () => {
@@ -166,7 +168,9 @@ const Profile = () => {
       setbranchMemberLoginData(res?.data?.data || {});
     } catch (err) {
       console.error("branchMemberLoginData fetch error:", err);
-      toast.error(err?.response?.data?.message || "Failed to fetch Branch Member data");
+      toast.error(
+        err?.response?.data?.message || "Failed to fetch Branch Member data",
+      );
     }
   };
   const fetchCoachingFaculty = async () => {
@@ -175,7 +179,9 @@ const Profile = () => {
       setCoachingFaculty(res?.data?.data || {});
     } catch (err) {
       console.error("coachingFaculty fetch error:", err);
-      toast.error(err?.response?.data?.message || "Failed to fetch Coaching Faculty data");
+      toast.error(
+        err?.response?.data?.message || "Failed to fetch Coaching Faculty data",
+      );
     }
   };
 
@@ -185,7 +191,9 @@ const Profile = () => {
       setOneStudent(res?.data?.data || {});
     } catch (err) {
       console.error("OneStudent fetch error:", err);
-      toast.error(err?.response?.data?.message || "Failed to fetch Student data");
+      toast.error(
+        err?.response?.data?.message || "Failed to fetch Student data",
+      );
     }
   };
 
@@ -372,7 +380,7 @@ const Profile = () => {
             // Validation
             if (!values.newPassword || !values.confirmPassword) {
               toast.error(
-                "Please enter both new password and confirm password."
+                "Please enter both new password and confirm password.",
               );
               return;
             }
@@ -510,7 +518,7 @@ const Profile = () => {
           if (changedFields.newPassword || changedFields.confirmPassword) {
             if (!values.newPassword || !values.confirmPassword) {
               toast.error(
-                "Please enter both new password and confirm password."
+                "Please enter both new password and confirm password.",
               );
               return;
             }
@@ -581,7 +589,7 @@ const Profile = () => {
           if (changedFields.newPassword || changedFields.confirmPassword) {
             if (!values.newPassword || !values.confirmPassword) {
               toast.error(
-                "Please enter both new password and confirm password."
+                "Please enter both new password and confirm password.",
               );
               return;
             }
@@ -620,7 +628,7 @@ const Profile = () => {
                 "newPassword",
                 "confirmPassword",
                 "otp",
-                "profileImage"
+                "profileImage",
               ].includes(key)
             ) {
               payload.append(key, changedFields[key]);
@@ -888,70 +896,77 @@ const Profile = () => {
                       {userRole === "b2bAdmin" || userRole === "B2B Admin"
                         ? b2BAdminData?.companyName
                           ? b2BAdminData.companyName
-                            .toLowerCase()
-                            .split(" ")
-                            .map(
-                              (word) =>
-                                word.charAt(0).toUpperCase() + word.slice(1)
-                            )
-                            .join(" ")
-                          : "N/A"
-                        : userRole === "b2bMember" || userRole === "B2B Member"
-                          ? b2bMemberData?.firstName
-                            ? `${b2bMemberData.firstName} ${b2bMemberData.lastName || ""
-                              }`
                               .toLowerCase()
                               .split(" ")
                               .map(
                                 (word) =>
-                                  word.charAt(0).toUpperCase() + word.slice(1)
+                                  word.charAt(0).toUpperCase() + word.slice(1),
                               )
                               .join(" ")
-                            : "N/A"
-                          : userRole === "Branch Member"
-                            ? branchMemberLoginData?.firstName
-                              ? `${branchMemberLoginData.firstName} ${branchMemberLoginData.lastName || ""
-                                }`
+                          : "N/A"
+                        : userRole === "b2bMember" || userRole === "B2B Member"
+                          ? b2bMemberData?.firstName
+                            ? `${b2bMemberData.firstName} ${
+                                b2bMemberData.lastName || ""
+                              }`
                                 .toLowerCase()
                                 .split(" ")
                                 .map(
                                   (word) =>
-                                    word.charAt(0).toUpperCase() + word.slice(1)
+                                    word.charAt(0).toUpperCase() +
+                                    word.slice(1),
                                 )
                                 .join(" ")
-                              : "N/A"
-                            : userRole === "Branch"
-                              ? branchLoginData?.name
-                                ? branchLoginData.name
+                            : "N/A"
+                          : userRole === "Branch Member"
+                            ? branchMemberLoginData?.firstName
+                              ? `${branchMemberLoginData.firstName} ${
+                                  branchMemberLoginData.lastName || ""
+                                }`
                                   .toLowerCase()
                                   .split(" ")
                                   .map(
                                     (word) =>
-                                      word.charAt(0).toUpperCase() + word.slice(1)
+                                      word.charAt(0).toUpperCase() +
+                                      word.slice(1),
                                   )
                                   .join(" ")
-                                : "N/A"
-                              : userRole === "Student"
-                                ? oneStudent?.name
-                                  ? oneStudent.name
+                              : "N/A"
+                            : userRole === "Branch"
+                              ? branchLoginData?.name
+                                ? branchLoginData.name
                                     .toLowerCase()
                                     .split(" ")
                                     .map(
                                       (word) =>
-                                        word.charAt(0).toUpperCase() + word.slice(1)
+                                        word.charAt(0).toUpperCase() +
+                                        word.slice(1),
                                     )
                                     .join(" ")
-                                  : "N/A"
-                                : userRole === "Coaching Faculty"
-                                  ? coachingFaculty?.name
-                                    ? coachingFaculty.name
+                                : "N/A"
+                              : userRole === "Student"
+                                ? oneStudent?.name
+                                  ? oneStudent.name
                                       .toLowerCase()
                                       .split(" ")
                                       .map(
                                         (word) =>
-                                          word.charAt(0).toUpperCase() + word.slice(1)
+                                          word.charAt(0).toUpperCase() +
+                                          word.slice(1),
                                       )
                                       .join(" ")
+                                  : "N/A"
+                                : userRole === "Coaching Faculty"
+                                  ? coachingFaculty?.name
+                                    ? coachingFaculty.name
+                                        .toLowerCase()
+                                        .split(" ")
+                                        .map(
+                                          (word) =>
+                                            word.charAt(0).toUpperCase() +
+                                            word.slice(1),
+                                        )
+                                        .join(" ")
                                     : "N/A"
                                   : adminData?.name
                                     ? adminData.name
@@ -1026,7 +1041,7 @@ const Profile = () => {
                                 BIOdata
                               </h4>
                               {userRole === "b2bAdmin" ||
-                                userRole === "B2B Admin" ? (
+                              userRole === "B2B Admin" ? (
                                 <p>
                                   Hi I'm{" "}
                                   <strong>
@@ -1042,18 +1057,18 @@ const Profile = () => {
                                   <strong>
                                     {b2BAdminData?.state
                                       ? stateDropDown.find(
-                                        (s) =>
-                                          s.isoCode === b2BAdminData.state
-                                      )?.name || b2BAdminData.state
+                                          (s) =>
+                                            s.isoCode === b2BAdminData.state,
+                                        )?.name || b2BAdminData.state
                                       : "N/A"}
                                   </strong>
                                   ,{" "}
                                   <strong>
                                     {b2BAdminData?.country
                                       ? countries.find(
-                                        (c) =>
-                                          c.isoCode === b2BAdminData.country
-                                      )?.name || b2BAdminData.country
+                                          (c) =>
+                                            c.isoCode === b2BAdminData.country,
+                                        )?.name || b2BAdminData.country
                                       : "N/A"}
                                   </strong>
                                   . Our company specializes in B2B services. You
@@ -1142,13 +1157,13 @@ const Profile = () => {
                                   <strong>
                                     {Array.isArray(adminData?.country)
                                       ? adminData.country
-                                        .map(
-                                          (isoCode) =>
-                                            countries.find(
-                                              (c) => c.isoCode === isoCode
-                                            )?.name || isoCode
-                                        )
-                                        .join(", ") || "N/A"
+                                          .map(
+                                            (isoCode) =>
+                                              countries.find(
+                                                (c) => c.isoCode === isoCode,
+                                              )?.name || isoCode,
+                                          )
+                                          .join(", ") || "N/A"
                                       : adminData?.country || "N/A"}
                                   </strong>
                                   . You can reach me at{" "}
@@ -1162,7 +1177,7 @@ const Profile = () => {
                                 </h4> */}
                                 <div className="pt-3">
                                   {userRole === "b2bAdmin" ||
-                                    userRole === "B2B Admin" ? (
+                                  userRole === "B2B Admin" ? (
                                     <>
                                       <h5 className="text-uppercase text-primary mb-3 fs-14">
                                         Company Details
@@ -1264,7 +1279,7 @@ const Profile = () => {
                                                   }
                                                   )
                                                 </li>
-                                              )
+                                              ),
                                             )}
                                           </ul>
                                         ) : (
@@ -1328,19 +1343,23 @@ const Profile = () => {
                                           {userRole === "Student"
                                             ? oneStudent?.contact || "N/A"
                                             : userRole === "b2bAdmin" ||
-                                              userRole === "B2B Admin"
+                                                userRole === "B2B Admin"
                                               ? b2BAdminData?.phone || "N/A"
                                               : userRole === "b2bMember" ||
-                                                userRole === "B2B Member"
+                                                  userRole === "B2B Member"
                                                 ? b2bMemberData?.phone || "N/A"
                                                 : userRole === "Branch Member"
                                                   ? branchMemberLoginData?.phone ||
-                                                  "N/A"
+                                                    "N/A"
                                                   : userRole === "Branch"
-                                                    ? branchLoginData?.phone || "N/A"
-                                                    : userRole === "Coaching Faculty"
-                                                      ? coachingFaculty?.phone || "N/A"
-                                                      : adminData?.phone || "N/A"}
+                                                    ? branchLoginData?.phone ||
+                                                      "N/A"
+                                                    : userRole ===
+                                                        "Coaching Faculty"
+                                                      ? coachingFaculty?.phone ||
+                                                        "N/A"
+                                                      : adminData?.phone ||
+                                                        "N/A"}
                                         </div>
                                       </div>
                                     </div>
@@ -1359,19 +1378,23 @@ const Profile = () => {
                                           {userRole === "Student"
                                             ? oneStudent?.email || "N/A"
                                             : userRole === "b2bAdmin" ||
-                                              userRole === "B2B Admin"
+                                                userRole === "B2B Admin"
                                               ? b2BAdminData?.email || "N/A"
                                               : userRole === "b2bMember" ||
-                                                userRole === "B2B Member"
+                                                  userRole === "B2B Member"
                                                 ? b2bMemberData?.email || "N/A"
                                                 : userRole === "Branch Member"
                                                   ? branchMemberLoginData?.email ||
-                                                  "N/A"
+                                                    "N/A"
                                                   : userRole === "Branch"
-                                                    ? branchLoginData?.email || "N/A"
-                                                    : userRole === "Coaching Faculty"
-                                                      ? coachingFaculty?.email || "N/A"
-                                                      : adminData?.email || "N/A"}
+                                                    ? branchLoginData?.email ||
+                                                      "N/A"
+                                                    : userRole ===
+                                                        "Coaching Faculty"
+                                                      ? coachingFaculty?.email ||
+                                                        "N/A"
+                                                      : adminData?.email ||
+                                                        "N/A"}
                                         </div>
                                       </div>
                                     </div>
@@ -1390,60 +1413,76 @@ const Profile = () => {
                                             <span>Address</span>
                                             <div>
                                               {userRole === "Student"
-                                                ? `${oneStudent?.address || "N/A"
-                                                }, ${oneStudent?.city || "N/A"
-                                                }, ${oneStudent?.state || "N/A"
-                                                }, ${oneStudent?.country || "N/A"
-                                                }`
-                                                : userRole === "b2bAdmin" ||
-                                                  userRole === "B2B Admin"
-                                                  ? `${b2BAdminData?.city || "N/A"
-                                                  }, ${b2BAdminData?.state
-                                                    ? stateDropDown.find(
-                                                      (s) =>
-                                                        s.isoCode ===
-                                                        b2BAdminData.state
-                                                    )?.name ||
-                                                    b2BAdminData.state
-                                                    : "N/A"
-                                                  }, ${b2BAdminData?.country
-                                                    ? countries.find(
-                                                      (c) =>
-                                                        c.isoCode ===
-                                                        b2BAdminData.country
-                                                    )?.name ||
-                                                    b2BAdminData.country
-                                                    : "N/A"
+                                                ? `${
+                                                    oneStudent?.address || "N/A"
+                                                  }, ${
+                                                    oneStudent?.city || "N/A"
+                                                  }, ${
+                                                    oneStudent?.state || "N/A"
+                                                  }, ${
+                                                    oneStudent?.country || "N/A"
                                                   }`
+                                                : userRole === "b2bAdmin" ||
+                                                    userRole === "B2B Admin"
+                                                  ? `${
+                                                      b2BAdminData?.city ||
+                                                      "N/A"
+                                                    }, ${
+                                                      b2BAdminData?.state
+                                                        ? stateDropDown.find(
+                                                            (s) =>
+                                                              s.isoCode ===
+                                                              b2BAdminData.state,
+                                                          )?.name ||
+                                                          b2BAdminData.state
+                                                        : "N/A"
+                                                    }, ${
+                                                      b2BAdminData?.country
+                                                        ? countries.find(
+                                                            (c) =>
+                                                              c.isoCode ===
+                                                              b2BAdminData.country,
+                                                          )?.name ||
+                                                          b2BAdminData.country
+                                                        : "N/A"
+                                                    }`
                                                   : userRole === "b2bMember" ||
-                                                    userRole === "B2B Member"
+                                                      userRole === "B2B Member"
                                                     ? "N/A"
-                                                    : userRole === "Branch Member"
+                                                    : userRole ===
+                                                        "Branch Member"
                                                       ? "N/A"
                                                       : userRole === "Branch"
-                                                        ? `${branchLoginData?.address ||
-                                                        "N/A"
-                                                        }, ${branchLoginData?.city ||
-                                                        "N/A"
-                                                        }, ${branchLoginData?.state ||
-                                                        "N/A"
-                                                        }, ${branchLoginData?.country ||
-                                                        "N/A"
-                                                        }`
+                                                        ? `${
+                                                            branchLoginData?.address ||
+                                                            "N/A"
+                                                          }, ${
+                                                            branchLoginData?.city ||
+                                                            "N/A"
+                                                          }, ${
+                                                            branchLoginData?.state ||
+                                                            "N/A"
+                                                          }, ${
+                                                            branchLoginData?.country ||
+                                                            "N/A"
+                                                          }`
                                                         : Array.isArray(
-                                                          adminData?.country
-                                                        )
-                                                          ? adminData.country
-                                                            .map(
-                                                              (isoCode) =>
-                                                                countries.find(
-                                                                  (c) =>
-                                                                    c.isoCode ===
-                                                                    isoCode
-                                                                )?.name || isoCode
+                                                              adminData?.country,
                                                             )
-                                                            .join(", ") || "N/A"
-                                                          : adminData?.country || "N/A"}
+                                                          ? adminData.country
+                                                              .map(
+                                                                (isoCode) =>
+                                                                  countries.find(
+                                                                    (c) =>
+                                                                      c.isoCode ===
+                                                                      isoCode,
+                                                                  )?.name ||
+                                                                  isoCode,
+                                                              )
+                                                              .join(", ") ||
+                                                            "N/A"
+                                                          : adminData?.country ||
+                                                            "N/A"}
                                             </div>
                                           </div>
                                         </div>
@@ -1454,7 +1493,7 @@ const Profile = () => {
                             </div>
 
                             {userRole === "b2bAdmin" ||
-                              userRole === "B2B Admin" ? (
+                            userRole === "B2B Admin" ? (
                               <>
                                 <div className="border-top"></div>
                                 <div className="p-3 p-sm-4">
@@ -1718,7 +1757,7 @@ const Profile = () => {
                           {userRole === "b2bAdmin" || userRole === "B2B Admin"
                             ? "Company Information"
                             : userRole === "b2bMember" ||
-                              userRole === "B2B Member"
+                                userRole === "B2B Member"
                               ? "Member Information"
                               : userRole === "Branch Member"
                                 ? "Branch Member Information"
@@ -1985,7 +2024,7 @@ const Profile = () => {
                                     <span
                                       onClick={() =>
                                         setShowConfirmPassword(
-                                          !showConfirmPassword
+                                          !showConfirmPassword,
                                         )
                                       }
                                       className="position-absolute top-50 end-0 translate-middle-y pe-3"
@@ -2034,7 +2073,7 @@ const Profile = () => {
                                       <span
                                         onClick={() =>
                                           setShowCurrentPassword(
-                                            !showCurrentPassword
+                                            !showCurrentPassword,
                                           )
                                         }
                                         className="position-absolute top-50 end-0 translate-middle-y pe-3"
@@ -2042,7 +2081,7 @@ const Profile = () => {
                                       >
                                         {showCurrentPassword ? (
                                           <VisibilityOff
-                                          sx={{ fontSize: 18 }}
+                                            sx={{ fontSize: 18 }}
                                           />
                                         ) : (
                                           <Visibility sx={{ fontSize: 18 }} />
@@ -2172,7 +2211,7 @@ const Profile = () => {
                                     <span
                                       onClick={() =>
                                         setShowConfirmPassword(
-                                          !showConfirmPassword
+                                          !showConfirmPassword,
                                         )
                                       }
                                       className="position-absolute top-50 end-0 translate-middle-y pe-3"
@@ -2213,7 +2252,7 @@ const Profile = () => {
                                       setOtpSent(false);
                                       formik.setFieldValue(
                                         "currentPassword",
-                                        ""
+                                        "",
                                       );
                                       formik.setFieldValue("otp", "");
                                     }}
@@ -2231,8 +2270,8 @@ const Profile = () => {
                         <hr className="mb-4" />
 
                         {userRole === "b2bAdmin" ||
-                          userRole === "B2B Admin" ||
-                          userRole === "Branch" ? (
+                        userRole === "B2B Admin" ||
+                        userRole === "Branch" ? (
                           <>
                             <Form.Group className="my-2">
                               <Row className="row-sm">
@@ -2249,14 +2288,14 @@ const Profile = () => {
                                     value={
                                       formik.values.country
                                         ? {
-                                          value: formik.values.country,
-                                          label:
-                                            countries.find(
-                                              (c) =>
-                                                c.isoCode ===
-                                                formik.values.country
-                                            )?.name || formik.values.country,
-                                        }
+                                            value: formik.values.country,
+                                            label:
+                                              countries.find(
+                                                (c) =>
+                                                  c.isoCode ===
+                                                  formik.values.country,
+                                              )?.name || formik.values.country,
+                                          }
                                         : null
                                     }
                                     onChange={(option) => {
@@ -2266,7 +2305,7 @@ const Profile = () => {
                                       handleCountryChange(countryIsoCode);
                                       formik.setFieldValue(
                                         "country",
-                                        countryIsoCode
+                                        countryIsoCode,
                                       );
                                     }}
                                     onMenuOpen={() => setIsDropdownOpen(true)}
@@ -2276,7 +2315,7 @@ const Profile = () => {
                                     styles={{
                                       control: (base) => ({
                                         ...base,
-                                        borderRadius: "30px",
+                                        borderRadius: "12px",
                                         color: "black",
                                       }),
                                       placeholder: (base) => ({
@@ -2305,14 +2344,14 @@ const Profile = () => {
                                     value={
                                       formik.values.state
                                         ? {
-                                          value: formik.values.state,
-                                          label:
-                                            stateDropDown.find(
-                                              (s) =>
-                                                s.isoCode ===
-                                                formik.values.state
-                                            )?.name || formik.values.state,
-                                        }
+                                            value: formik.values.state,
+                                            label:
+                                              stateDropDown.find(
+                                                (s) =>
+                                                  s.isoCode ===
+                                                  formik.values.state,
+                                              )?.name || formik.values.state,
+                                          }
                                         : null
                                     }
                                     onChange={(option) => {
@@ -2321,11 +2360,11 @@ const Profile = () => {
                                         : "";
                                       handleStateChange(
                                         formik.values.country,
-                                        stateIsoCode
+                                        stateIsoCode,
                                       );
                                       formik.setFieldValue(
                                         "state",
-                                        stateIsoCode
+                                        stateIsoCode,
                                       );
                                     }}
                                     onMenuOpen={() => setIsDropdownOpen(true)}
@@ -2336,7 +2375,7 @@ const Profile = () => {
                                     styles={{
                                       control: (base) => ({
                                         ...base,
-                                        borderRadius: "30px",
+                                        borderRadius: "12px",
                                         color: "black",
                                       }),
                                       placeholder: (base) => ({
@@ -2371,9 +2410,9 @@ const Profile = () => {
                                     value={
                                       formik.values.city
                                         ? {
-                                          value: formik.values.city,
-                                          label: formik.values.city,
-                                        }
+                                            value: formik.values.city,
+                                            label: formik.values.city,
+                                          }
                                         : null
                                     }
                                     onChange={(option) => {
@@ -2394,7 +2433,7 @@ const Profile = () => {
                                     styles={{
                                       control: (base) => ({
                                         ...base,
-                                        borderRadius: "30px",
+                                        borderRadius: "12px",
                                         color: "black",
                                       }),
                                       placeholder: (base) => ({
@@ -2430,15 +2469,15 @@ const Profile = () => {
                                         value={
                                           formik.values.country
                                             ? {
-                                              value: formik.values.country[0],
-                                              label:
-                                                countries.find(
-                                                  (c) =>
-                                                    c.isoCode ===
-                                                    formik.values.country[0]
-                                                )?.name ||
-                                                formik.values.country[0],
-                                            }
+                                                value: formik.values.country[0],
+                                                label:
+                                                  countries.find(
+                                                    (c) =>
+                                                      c.isoCode ===
+                                                      formik.values.country[0],
+                                                  )?.name ||
+                                                  formik.values.country[0],
+                                              }
                                             : null
                                         }
                                         onChange={(option) => {
@@ -2450,7 +2489,7 @@ const Profile = () => {
                                             "country",
                                             countryIsoCode
                                               ? [countryIsoCode]
-                                              : []
+                                              : [],
                                           );
                                         }}
                                         onMenuOpen={() =>
@@ -2464,7 +2503,7 @@ const Profile = () => {
                                         styles={{
                                           control: (base) => ({
                                             ...base,
-                                            borderRadius: "30px",
+                                            borderRadius: "12px",
                                             color: "black",
                                           }),
                                           placeholder: (base) => ({
@@ -2497,14 +2536,14 @@ const Profile = () => {
                                   value={
                                     formik.values.country
                                       ? {
-                                        value: formik.values.country,
-                                        label:
-                                          countries.find(
-                                            (c) =>
-                                              c.isoCode ===
-                                              formik.values.country
-                                          )?.name || formik.values.country,
-                                      }
+                                          value: formik.values.country,
+                                          label:
+                                            countries.find(
+                                              (c) =>
+                                                c.isoCode ===
+                                                formik.values.country,
+                                            )?.name || formik.values.country,
+                                        }
                                       : null
                                   }
                                   onChange={(option) => {
@@ -2514,7 +2553,7 @@ const Profile = () => {
                                     handleCountryChange(countryIsoCode);
                                     formik.setFieldValue(
                                       "country",
-                                      countryIsoCode
+                                      countryIsoCode,
                                     );
                                   }}
                                   onMenuOpen={() => setIsDropdownOpen(true)}
@@ -2524,7 +2563,7 @@ const Profile = () => {
                                   styles={{
                                     control: (base) => ({
                                       ...base,
-                                      borderRadius: "30px",
+                                      borderRadius: "12px",
                                       color: "black",
                                     }),
                                     placeholder: (base) => ({
@@ -2556,7 +2595,7 @@ const Profile = () => {
                                 <Col md={3}>
                                   <Form.Label>
                                     {userRole === "b2bAdmin" ||
-                                      userRole === "B2B Admin"
+                                    userRole === "B2B Admin"
                                       ? "Company Logo"
                                       : "Profile Image"}
                                   </Form.Label>
@@ -2569,56 +2608,59 @@ const Profile = () => {
                                     accept="image/*"
                                     onChange={(event) => {
                                       const file = event.currentTarget.files[0];
-                                      formik.setFieldValue("profileImage", file);
+                                      formik.setFieldValue(
+                                        "profileImage",
+                                        file,
+                                      );
                                       setProfilePreview(
-                                        file ? URL.createObjectURL(file) : null
+                                        file ? URL.createObjectURL(file) : null,
                                       );
                                     }}
                                   />
-                                  
+
                                   {(profilePreview ||
                                     (userRole === "b2bAdmin" ||
-                                      userRole === "B2B Admin"
+                                    userRole === "B2B Admin"
                                       ? b2BAdminData?.logo
                                       : b2bMemberData?.profileImage)) && (
-                                      <div
-                                        className="mb-2 mt-2"
-                                        style={{
-                                          width: "100px",
-                                          height: "100px",
-                                          overflow: "hidden",
-                                          border: "1px solid #ccc",
-                                          borderRadius: "5px",
-                                          backgroundColor: "#f9f9f9",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "center",
-                                        }}
-                                      >
-                                        <img
-                                          src={
-                                            profilePreview
-                                              ? profilePreview
-                                              : userRole === "b2bAdmin" ||
+                                    <div
+                                      className="mb-2 mt-2"
+                                      style={{
+                                        width: "100px",
+                                        height: "100px",
+                                        overflow: "hidden",
+                                        border: "1px solid #ccc",
+                                        borderRadius: "5px",
+                                        backgroundColor: "#f9f9f9",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      <img
+                                        src={
+                                          profilePreview
+                                            ? profilePreview
+                                            : userRole === "b2bAdmin" ||
                                                 userRole === "B2B Admin"
-                                                ? `${REACT_APP_API_URL}/${b2BAdminData?.logo?.replace(
+                                              ? `${REACT_APP_API_URL}/${b2BAdminData?.logo?.replace(
                                                   /\\/g,
-                                                  "/"
+                                                  "/",
                                                 )}`
-                                                : `${REACT_APP_API_URL}/${b2bMemberData?.profileImage?.replace(
+                                              : `${REACT_APP_API_URL}/${b2bMemberData?.profileImage?.replace(
                                                   /\\/g,
-                                                  "/"
+                                                  "/",
                                                 )}`
-                                          }
-                                          alt="Profile Preview"
-                                          style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            objectFit: "contain",
-                                          }}
-                                        />
-                                      </div>
-                                    )}
+                                        }
+                                        alt="Profile Preview"
+                                        style={{
+                                          width: "100%",
+                                          height: "100%",
+                                          objectFit: "contain",
+                                        }}
+                                      />
+                                    </div>
+                                  )}
                                 </Col>
                               </Row>
                             </Form.Group>
@@ -2742,50 +2784,50 @@ const Profile = () => {
                                       const file = event.currentTarget.files[0];
                                       formik.setFieldValue(
                                         "cancelCheque",
-                                        file
+                                        file,
                                       );
                                       setCheckPreview(
-                                        file ? URL.createObjectURL(file) : null
+                                        file ? URL.createObjectURL(file) : null,
                                       );
                                     }}
                                     onBlur={formik.handleBlur}
                                   />
                                   {(checkPreview ||
                                     b2BAdminData?.cancelChequeImage) && (
-                                      <div
-                                        className="mb-2 mt-2"
-                                        style={{
-                                          width: "100px",
-                                          height: "100px",
-                                          overflow: "hidden",
-                                          border: "1px solid #ccc",
-                                          borderRadius: "5px",
-                                          backgroundColor: "#f9f9f9",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "center",
-                                        }}
-                                      >
-                                        <img
-                                          src={
-                                            checkPreview
-                                              ? checkPreview
-                                              : b2BAdminData?.cancelChequeImage
-                                                ? `${REACT_APP_API_URL}/${b2BAdminData.cancelChequeImage.replace(
+                                    <div
+                                      className="mb-2 mt-2"
+                                      style={{
+                                        width: "100px",
+                                        height: "100px",
+                                        overflow: "hidden",
+                                        border: "1px solid #ccc",
+                                        borderRadius: "5px",
+                                        backgroundColor: "#f9f9f9",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      <img
+                                        src={
+                                          checkPreview
+                                            ? checkPreview
+                                            : b2BAdminData?.cancelChequeImage
+                                              ? `${REACT_APP_API_URL}/${b2BAdminData.cancelChequeImage.replace(
                                                   /\\/g,
-                                                  "/"
+                                                  "/",
                                                 )}`
-                                                : ""
-                                          }
-                                          alt="Cancelled Cheque Preview"
-                                          style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            objectFit: "contain",
-                                          }}
-                                        />
-                                      </div>
-                                    )}
+                                              : ""
+                                        }
+                                        alt="Cancelled Cheque Preview"
+                                        style={{
+                                          width: "100%",
+                                          height: "100%",
+                                          objectFit: "contain",
+                                        }}
+                                      />
+                                    </div>
+                                  )}
                                 </Col>
                               </Row>
                             </Form.Group>
@@ -3560,7 +3602,8 @@ const Profile = () => {
                                     </Dropdown.Item>
                                     <Dropdown.Item>
                                       {" "}
-                                      <i className="fe fe-eye me-2"></i> View{" "}
+                                      <i className="fe fe-eye me-2"></i>{" "}
+                                      View{" "}
                                     </Dropdown.Item>
                                     <Dropdown.Item>
                                       {" "}

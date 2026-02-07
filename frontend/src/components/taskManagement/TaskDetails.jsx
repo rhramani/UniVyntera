@@ -37,6 +37,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ViewModal from "../commonComponents/ViewModal";
 import { BASEURL } from "../../baseUrl";
+import DeleteConfirmModal from "../bulkMessage/commonDeleteModal/DeleteConfirmModal";
 
 const TaskDetails = () => {
   const dispatch = useDispatch();
@@ -90,8 +91,8 @@ const TaskDetails = () => {
       userRole === "Branch"
         ? branchId
         : userType === "Branch User"
-        ? branchUserId
-        : "",
+          ? branchUserId
+          : "",
     showAll: true,
     role: "",
     user: "",
@@ -111,7 +112,7 @@ const TaskDetails = () => {
   const fetchCategorys = async (
     page = 1,
     limit = itemsPerPage,
-    searchTerm = ""
+    searchTerm = "",
   ) => {
     setIsLoading(true);
     try {
@@ -125,7 +126,7 @@ const TaskDetails = () => {
       setTotalRecords(0);
       setTotalPages(0);
       toast.error(
-        error?.response?.data?.message || "Failed to fetch categorys."
+        error?.response?.data?.message || "Failed to fetch categorys.",
       );
     } finally {
       setIsLoading(false);
@@ -135,7 +136,7 @@ const TaskDetails = () => {
   const fetchPriorities = async (
     page = 1,
     limit = itemsPerPage,
-    searchTerm = ""
+    searchTerm = "",
   ) => {
     setIsLoading(true);
     try {
@@ -149,7 +150,7 @@ const TaskDetails = () => {
       setTotalRecords(0);
       setTotalPages(0);
       toast.error(
-        error?.response?.data?.message || "Failed to fetch priorities."
+        error?.response?.data?.message || "Failed to fetch priorities.",
       );
     } finally {
       setIsLoading(false);
@@ -159,7 +160,7 @@ const TaskDetails = () => {
   const fetchTypes = async (
     page = 1,
     limit = itemsPerPage,
-    searchTerm = ""
+    searchTerm = "",
   ) => {
     setIsLoading(true);
     try {
@@ -252,7 +253,7 @@ const TaskDetails = () => {
       }
 
       const res = await dispatch(
-        getAllRoleList(branchIdToUse, showAllToUse) // ← showAll pass करें
+        getAllRoleList(branchIdToUse, showAllToUse), // ← showAll pass करें
       );
 
       const roles = res?.data?.data || [];
@@ -321,7 +322,7 @@ const TaskDetails = () => {
     roleName,
     branchId,
     showAll = false,
-    isForFilter = false
+    isForFilter = false,
   ) => {
     if (!roleId) {
       if (isForFilter) {
@@ -335,7 +336,7 @@ const TaskDetails = () => {
     try {
       const branchIdToUse = branchId === null ? undefined : branchId;
       const res = await dispatch(
-        adminGetAll(1, 1000, "", roleName, branchIdToUse, showAll)
+        adminGetAll(1, 1000, "", roleName, branchIdToUse, showAll),
       );
       const users = res?.data?.data?.data || [];
 
@@ -395,7 +396,7 @@ const TaskDetails = () => {
     status = null,
     category = null,
     priority = null,
-    type = null
+    type = null,
   ) => {
     try {
       const res = await dispatch(
@@ -410,8 +411,8 @@ const TaskDetails = () => {
           status,
           category,
           priority,
-          type
-        )
+          type,
+        ),
       );
       const data = res?.data?.data;
       setAllTasks(data?.data || []);
@@ -436,7 +437,7 @@ const TaskDetails = () => {
       filters.status,
       filters.category,
       filters.priority,
-      filters.type
+      filters.type,
     );
   }, [currentPage, itemsPerPage, search, filters]);
 
@@ -451,7 +452,7 @@ const TaskDetails = () => {
       dispatch(getAllRoleList("", true)).then((res) => {
         const roles = res?.data?.data || [];
         setFilterRoleOptions(
-          roles.map((r) => ({ value: r._id, label: r.name }))
+          roles.map((r) => ({ value: r._id, label: r.name })),
         );
       });
     }
@@ -520,8 +521,8 @@ const TaskDetails = () => {
         userRole === "Branch"
           ? branchId
           : userType === "Branch User"
-          ? branchUserId
-          : values.branch;
+            ? branchUserId
+            : values.branch;
 
       const resolvedRole =
         userType === "Branch User" ? userRoleId : values.role;
@@ -557,7 +558,7 @@ const TaskDetails = () => {
         if (values.id) {
           const changedFields = getChangedFields(
             originalTaskData,
-            updatedValues
+            updatedValues,
           );
 
           if (Object.keys(changedFields).length === 0) {
@@ -610,7 +611,7 @@ const TaskDetails = () => {
           filters.status,
           filters.category,
           filters.priority,
-          filters.type
+          filters.type,
         );
       } catch (err) {
         toast.error("Failed to save task");
@@ -738,7 +739,7 @@ const TaskDetails = () => {
         roleName,
         branchIdForTask,
         false,
-        false
+        false,
       );
     }
     setExistingTaskDoc(task.document || null);
@@ -798,7 +799,7 @@ const TaskDetails = () => {
         filters.status,
         filters.category,
         filters.priority,
-        filters.type
+        filters.type,
       );
     } finally {
       setIsLoading(false);
@@ -1062,8 +1063,7 @@ const TaskDetails = () => {
               <div className="d-flex align-items-center">
                 <div className="card-title">Task Details</div>
               </div>
-                <div className="d-flex flex-wrap align-items-center gap-2">
-
+              <div className="d-flex flex-wrap align-items-center gap-2">
                 <div className="filter-item">
                   <div className="contact-search3 d-flex align-items-center border rounded-pill">
                     <button type="button" className="btn border-0">
@@ -1084,16 +1084,16 @@ const TaskDetails = () => {
                     />
                   </div>
                 </div>
-              {canCreate && (
-                <Button
-                  variant="primary"
-                  className="custom-select-height ms-2"
-                  onClick={() => handleShow("")}
-                >
-                  Add Task
-                </Button>
-              )}
-                </div>
+                {canCreate && (
+                  <Button
+                    variant="primary"
+                    className="custom-select-height ms-2"
+                    onClick={() => handleShow("")}
+                  >
+                    Add Task
+                  </Button>
+                )}
+              </div>
             </Card.Header>
 
             <Card.Body>
@@ -1119,8 +1119,8 @@ const TaskDetails = () => {
                             (filters.branchId === ""
                               ? "All"
                               : filters.branchId === null
-                              ? "head_office"
-                              : filters.branchId)
+                                ? "head_office"
+                                : filters.branchId),
                         ) || null
                       }
                       onChange={async (selectedOption) => {
@@ -1166,7 +1166,7 @@ const TaskDetails = () => {
                     options={filterRoleOptions}
                     value={
                       filterRoleOptions.find(
-                        (opt) => opt.value === filters.role
+                        (opt) => opt.value === filters.role,
                       ) || null
                     }
                     onChange={(selected) => {
@@ -1191,7 +1191,7 @@ const TaskDetails = () => {
                           roleName,
                           branchIdToUse,
                           showAllToUse,
-                          true
+                          true,
                         );
                       } else {
                         setFilterUserOptions([]);
@@ -1210,7 +1210,7 @@ const TaskDetails = () => {
                     options={filterUserOptions}
                     value={
                       filterUserOptions.find(
-                        (opt) => opt.value === filters.user
+                        (opt) => opt.value === filters.user,
                       ) || null
                     }
                     onChange={(selected) => {
@@ -1237,7 +1237,7 @@ const TaskDetails = () => {
                     options={statusOptions}
                     value={
                       statusOptions.find(
-                        (opt) => opt.value === filters.status
+                        (opt) => opt.value === filters.status,
                       ) || null
                     }
                     onChange={(selected) => {
@@ -1261,7 +1261,7 @@ const TaskDetails = () => {
                     options={categoryOptions}
                     value={
                       categoryOptions.find(
-                        (opt) => opt.value === filters.category
+                        (opt) => opt.value === filters.category,
                       ) || null
                     }
                     onChange={(selected) => {
@@ -1284,7 +1284,7 @@ const TaskDetails = () => {
                     options={priorityOptions}
                     value={
                       priorityOptions.find(
-                        (opt) => opt.value === filters.priority
+                        (opt) => opt.value === filters.priority,
                       ) || null
                     }
                     onChange={(selected) => {
@@ -1444,7 +1444,7 @@ const TaskDetails = () => {
                           option.value ===
                           (values.branch === null
                             ? "head_office"
-                            : values.branch)
+                            : values.branch),
                       ) || null
                     }
                     onChange={async (selectedOption) => {
@@ -1486,7 +1486,7 @@ const TaskDetails = () => {
                       options={roleOptions}
                       value={
                         roleOptions.find(
-                          (option) => option.value === values.role
+                          (option) => option.value === values.role,
                         ) || null
                       }
                       onChange={(selectedOption) => {
@@ -1515,7 +1515,7 @@ const TaskDetails = () => {
                             selectedRoleId,
                             selectedRoleName, // ← Use label directly
                             selectedBranchId,
-                            false
+                            false,
                           );
                         } else {
                           setUserOptions([]);
@@ -1542,7 +1542,7 @@ const TaskDetails = () => {
                       options={userOptions}
                       isMulti
                       value={userOptions.filter((opt) =>
-                        values.user.includes(opt.value)
+                        values.user.includes(opt.value),
                       )}
                       onChange={(selectedOptions) => {
                         const selectedUserIds = selectedOptions
@@ -1622,11 +1622,11 @@ const TaskDetails = () => {
                           if (selectedDate) {
                             const yyyy = selectedDate.getFullYear();
                             const mm = String(
-                              selectedDate.getMonth() + 1
+                              selectedDate.getMonth() + 1,
                             ).padStart(2, "0");
                             const dd = String(selectedDate.getDate()).padStart(
                               2,
-                              "0"
+                              "0",
                             );
                             const apiValue = `${yyyy}-${mm}-${dd}`;
                             formik.setFieldValue("dueDate", apiValue);
@@ -1658,13 +1658,13 @@ const TaskDetails = () => {
                   options={categoryOptions}
                   value={
                     categoryOptions.find(
-                      (opt) => opt.value === formik.values.category
+                      (opt) => opt.value === formik.values.category,
                     ) || null
                   }
                   onChange={(selectedOption) =>
                     formik.setFieldValue(
                       "category",
-                      selectedOption?.value || ""
+                      selectedOption?.value || "",
                     )
                   }
                   placeholder="Select Category"
@@ -1680,7 +1680,7 @@ const TaskDetails = () => {
                   options={priorityOptions}
                   value={
                     priorityOptions.find(
-                      (opt) => opt.value === formik.values.priority
+                      (opt) => opt.value === formik.values.priority,
                     ) || null
                   }
                   onChange={(s) =>
@@ -1703,7 +1703,7 @@ const TaskDetails = () => {
                   options={typeOptions}
                   value={
                     typeOptions.find(
-                      (opt) => opt.value === formik.values.type
+                      (opt) => opt.value === formik.values.type,
                     ) || null
                   }
                   onChange={(s) => formik.setFieldValue("type", s?.value || "")}
@@ -1724,7 +1724,7 @@ const TaskDetails = () => {
                   options={statusOptions}
                   value={
                     statusOptions.find(
-                      (opt) => opt.value === formik.values.status
+                      (opt) => opt.value === formik.values.status,
                     ) || null
                   }
                   onChange={(selectedOption) =>
@@ -1833,44 +1833,14 @@ const TaskDetails = () => {
         </Modal.Body>
       </Modal>
 
-      <Modal show={showDeleteModal} onHide={handleCloseUploadModal} centered>
-        <Modal.Header className="form-main-heading">
-          <Modal.Title className="fw-semibold">Confirm Deletion</Modal.Title>
-          <AiOutlineClose
-            size={20}
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={handleCloseUploadModal}
-          />
-        </Modal.Header>
-        <Modal.Body className="text-center py-4">
-          <div className="text-danger text-primary fs-1 mb-3">
-            <i className="bi bi-exclamation-triangle-fill"></i>{" "}
-          </div>
-          <p className="mb-1 fw-semibold">
-            Are you sure you want to delete this item?
-          </p>
-          <small className="text-muted">This action cannot be undone.</small>
-        </Modal.Body>
-
-        <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
-          <Button
-            variant="light"
-            className="btn-cancel-delete px-4"
-            onClick={handleCloseUploadModal}
-          >
-            Cancel
-          </Button>
-          <Button
-            className="btn-delete-confirm"
-            onClick={() => {
-              handleDelete(selectedItem);
-              setShowDeleteModal(false);
-            }}
-          >
-            <i className="bi bi-trash-fill me-2"></i>Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <DeleteConfirmModal
+        show={showDeleteModal}
+        onHide={handleCloseUploadModal}
+        onConfirm={() => {
+          handleDelete(selectedItem);
+          setShowDeleteModal(false);
+        }}
+      />
     </>
   );
 };
