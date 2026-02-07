@@ -1058,9 +1058,9 @@ const TaskDetails = () => {
       <Row className="mt-5 row-sm">
         <Col md={12}>
           <Card className="custom-card">
-            <Card.Header className="d-flex justify-content-between align-items-center border-bottom-0">
+            <Card.Header className="d-flex justify-content-end align-items-center border-bottom-0">
               <div className="d-flex align-items-center">
-                <div className="card-title">Task Details</div>
+                {/* <div className="card-title">Task Details</div> */}
               </div>
                 <div className="d-flex flex-wrap align-items-center gap-2">
 
@@ -1362,7 +1362,7 @@ const TaskDetails = () => {
               />
 
               {totalPages > 1 && (
-                <div className="d-flex justify-content-center mt-3">
+                <div className="d-flex justify-content-end mt-3">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}

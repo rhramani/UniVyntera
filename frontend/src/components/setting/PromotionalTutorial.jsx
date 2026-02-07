@@ -5,6 +5,7 @@ import { AiOutlineClose, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -38,9 +39,8 @@ const PromotionalTutorial = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
-  const { canCreate, canRead, canUpdate, canDelete } = usePermissions(
-    "Webinar"
-  );
+  const { canCreate, canRead, canUpdate, canDelete } =
+    usePermissions("Webinar");
   const fetchCountries = async () => {
     const res = await dispatch(countryDropdown());
     setCountries(res?.data?.data || []);
@@ -49,18 +49,18 @@ const PromotionalTutorial = () => {
   const fetchPromotionalTutorials = async (
     page = 1,
     limit = itemsPerPage,
-    searchTerm = ""
+    searchTerm = "",
   ) => {
     try {
       const res = await dispatch(
-        getAllPromotionalTutorial(page, limit, searchTerm)
+        getAllPromotionalTutorial(page, limit, searchTerm),
       );
       if (res?.status === 200) {
         const newDocuments = res?.data?.data || [];
         setPromotionalTutorials(newDocuments);
         if (showDocumentsModal && editingItem) {
           const updatedItem = newDocuments.find(
-            (doc) => doc._id === editingItem._id
+            (doc) => doc._id === editingItem._id,
           );
           setSelectedDocuments(updatedItem?.documents || []);
         }
@@ -137,17 +137,17 @@ const PromotionalTutorial = () => {
     },
     validationSchema: Yup.object({
       // url: Yup.string().when("isEditing", {
-      //   is: () => editingItem, 
+      //   is: () => editingItem,
       //   then: () => Yup.string().optional(),
       //   otherwise: () => Yup.string().required("Tutorial URL is required"),
       // }),
       // name: Yup.string().when("isEditing", {
-      //   is: () => editingItem, 
+      //   is: () => editingItem,
       //   then: () => Yup.string().optional(),
       //   otherwise: () => Yup.string().required("Tutorial name is required"),
       // }),
       country: Yup.string().when("isEditing", {
-        is: () => editingItem, 
+        is: () => editingItem,
         then: () => Yup.string().optional(),
         otherwise: () => Yup.string().required("Country is required"),
       }),
@@ -167,17 +167,17 @@ const PromotionalTutorial = () => {
         let res;
         if (editingItem) {
           res = await dispatch(
-              updatePromotionalTutorial(editingItem._id, "", "", payload)
-            );
-            if (res?.status === 200) {
-              toast.success("Country updated successfully!");
-              if (canRead) {
-                setCurrentPage(1);
-                await fetchPromotionalTutorials(1, itemsPerPage, search);
-              }
-            } else {
-              toast.error(res?.data?.message || "Failed to update country");
+            updatePromotionalTutorial(editingItem._id, "", "", payload),
+          );
+          if (res?.status === 200) {
+            toast.success("Country updated successfully!");
+            if (canRead) {
+              setCurrentPage(1);
+              await fetchPromotionalTutorials(1, itemsPerPage, search);
             }
+          } else {
+            toast.error(res?.data?.message || "Failed to update country");
+          }
         } else {
           res = await dispatch(createPromotionalTutorial(payload));
           if (res?.status === 201) {
@@ -194,7 +194,7 @@ const PromotionalTutorial = () => {
       } catch (error) {
         console.error("Upload error:", error.response?.data || error);
         toast.error(
-          error.response?.data?.message || "Failed to process request"
+          error.response?.data?.message || "Failed to process request",
         );
       }
     },
@@ -217,9 +217,7 @@ const PromotionalTutorial = () => {
       }
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error(
-        error.response?.data?.message || "Failed to delete Webinar."
-      );
+      toast.error(error.response?.data?.message || "Failed to delete Webinar.");
     }
     handleCloseDeleteModal();
   };
@@ -236,9 +234,7 @@ const PromotionalTutorial = () => {
       }
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error(
-        error.response?.data?.message || "Failed to delete Webinar."
-      );
+      toast.error(error.response?.data?.message || "Failed to delete Webinar.");
     }
     handleCloseDeleteModal();
   };
@@ -254,23 +250,22 @@ const PromotionalTutorial = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="card-title">Promotional Webinar</div>
+              {/* <div className="card-title">Promotional Webinar</div> */}
             </Card.Header>
             <Card.Body>
-              <div className="d-flex justify-content-between">
-                {(canCreate) && (
-                  <div className="d-flex gap-3 align-items-end">
-                    <Button
-                      variant="primary"
-                      className="custom-select-height"
-                      onClick={() => handleShowUploadModal()}
-                    >
-                      Add Promotional Webinar
-                    </Button>
-                  </div>
+              <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                {canCreate && ( 
+                  <Button
+                    variant="primary"
+                    className="custom-select-height px-4"
+                    onClick={() => handleShowUploadModal()}
+                    style={{ borderRadius: "10px" }}
+                  >
+                    Add Promotional Webinar
+                  </Button>
                 )}
                 {canRead && (
-                  <div className="d-flex gap-3 align-items-end">
+                  <div className="d-flex flex-wrap gap-3 align-items-center">
                     <div className="contact-search3">
                       <button type="button" className="btn border-0">
                         <i
@@ -296,9 +291,10 @@ const PromotionalTutorial = () => {
                       onChange={handleItemsPerPageChange}
                     />
 
-                    <div className="custom-select-height total-records px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                      <span>
-                        Total Records: <strong>{totalRecords}</strong>
+                    <div className="custom-select-height total-records px-3 d-flex align-items-center h-6 border rounded bg-light">
+                      <span className="text-muted small">
+                        Total Records:{" "}
+                        <strong className="text-dark">{totalRecords}</strong>
                       </span>
                     </div>
                   </div>
@@ -311,7 +307,7 @@ const PromotionalTutorial = () => {
                     ?.filter(Boolean)
                     .map((item, index) => {
                       const country = countries.find(
-                        (c) => c.name === item?.country
+                        (c) => c.name === item?.country,
                       );
                       const countryCode = country ? country.isoCode : "";
                       return (
@@ -320,43 +316,64 @@ const PromotionalTutorial = () => {
                           lg={4}
                           xl={3}
                           key={item._id || index}
-                          className="mt-4"
+                          className="mb-4"
                         >
-                          <div className="d-flex justify-content-between align-items-center p-3 border rounded shadow-sm">
+                          <div className="premium-country-card">
                             <Link
                               to={`/promotionaltutorial-details/${item._id}`}
-                              className="clickable-country d-flex align-items-center text-primary fw-bold text-decoration-underline-hover gap-2"
+                              className="premium-country-link"
                               title="Click to view tutorial"
                             >
-                              <ReactCountryFlag
-                                countryCode={countryCode}
-                                svg
-                                style={{
-                                  width: "1em",
-                                  height: "1em",
-                                }}
-                                title={item?.country || "Unknown"}
-                              />
-                              {item?.country || "-"}
+                              <div className="country-card-flag-wrapper">
+                                <ReactCountryFlag
+                                  countryCode={countryCode}
+                                  svg
+                                  style={{
+                                    width: "1.2em",
+                                    height: "1.2em",
+                                    borderRadius: "4px",
+                                  }}
+                                  title={item?.country || "Unknown"}
+                                />
+                              </div>
+                              <div className="country-card-content">
+                                <div className="country-card-name">
+                                  {item?.country || "-"}
+                                </div>
+                                <div className="country-card-doc-count">
+                                  <VideoLibraryIcon
+                                    style={{
+                                      fontSize: "16px",
+                                      color: "#6c5ffc",
+                                    }}
+                                  />
+                                  <span>
+                                    {item?.videos?.length || 0} Webinars
+                                  </span>
+                                </div>
+                              </div>
                             </Link>
-                            <div className="d-flex gap-2">
+
+                            <div className="country-card-actions mt-3">
                               {canUpdate && (
                                 <span
                                   className="icon-border edit-icon"
                                   onClick={() => handleShowUploadModal(item)}
+                                  title="Edit Country"
                                 >
-                                  <EditIcon />
+                                  <EditIcon fontSize="small" />
                                 </span>
                               )}
                               {canDelete && (
                                 <span
-                                  className="icon-border delete-icon"
+                                  className="icon-border delete-icon ms-auto"
                                   onClick={() => {
                                     setSelectedItem({ item, docIndex: null });
                                     setShowDeleteModal(true);
                                   }}
+                                  title="Delete Country"
                                 >
-                                  <DeleteIcon />
+                                  <DeleteIcon fontSize="small" />
                                 </span>
                               )}
                             </div>
@@ -460,7 +477,9 @@ const PromotionalTutorial = () => {
                       </tbody>
                     </table>
                   ) : (
-                    <span className="text-muted">No Promotional Webinar available</span>
+                    <span className="text-muted">
+                      No Promotional Webinar available
+                    </span>
                   )}
                 </Modal.Body>
                 <Modal.Footer className="border-0">
@@ -485,8 +504,8 @@ const PromotionalTutorial = () => {
                     {editingItem && editingDocIndex !== null
                       ? "Update Promotional Webinar"
                       : editingItem
-                      ? "Update Country"
-                      : "Add Promotional Webinar"}
+                        ? "Update Country"
+                        : "Add Promotional Webinar"}
                   </Modal.Title>
                   <AiOutlineClose
                     size={20}
@@ -515,7 +534,7 @@ const PromotionalTutorial = () => {
                           if (selectedOption) {
                             formik.setFieldValue(
                               "country",
-                              selectedOption.value
+                              selectedOption.value,
                             );
                             formik.setFieldError("country", "");
                           } else {
@@ -600,8 +619,8 @@ const PromotionalTutorial = () => {
                         {editingItem && editingDocIndex !== null
                           ? "Update Promotional Webinar"
                           : editingItem
-                          ? "Update Country"
-                          : "Add Promotional Webinar"}
+                            ? "Update Country"
+                            : "Add Promotional Webinar"}
                       </Button>
                     </Modal.Footer>
                   </Form>
@@ -657,12 +676,13 @@ const PromotionalTutorial = () => {
                 </Modal.Footer>
               </Modal>
               {totalPages > 1 && promotionalTutorials?.data?.length > 0 && (
-                 <div className="mt-4 d-flex justify-content-end align-items-end">
-                      <Paginations
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={(page) => setCurrentPage(page)}
-                      /></div>
+                <div className="mt-4 d-flex justify-content-end align-items-end">
+                  <Paginations
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>

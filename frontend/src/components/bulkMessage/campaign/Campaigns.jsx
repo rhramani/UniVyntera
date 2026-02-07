@@ -65,14 +65,14 @@ const Campaigns = () => {
           <Col md={12} lg={12} xl={12}>
             <Card className="custom-card transcation-crypto">
               <Card.Header className="border-bottom-0 mt-2">
-                <div className="w-100 d-flex flex-wrap justify-content-between align-items-center">
-                  <div className="card-title">Campaigns</div>
+                <div className="w-100 d-flex flex-wrap justify-content-end align-items-center">
+                  {/* <div className="card-title">Campaigns</div> */}
                   <Button
                     variant="primary"
                     className="custom-btn custom-select-height px-3"
                     onClick={() => navigate("/campaigns/create-campaign")}
                   >
-                    + Create New Campaign
+                   Create New Campaign
                   </Button>
                 </div>
               </Card.Header>

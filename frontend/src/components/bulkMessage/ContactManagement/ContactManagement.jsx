@@ -404,7 +404,7 @@ const ContactManagement = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="card-title">Contacts</div>
+              {/* <div className="card-title">Contacts</div> */}
             </Card.Header>
             <Card.Body>
               <Nav

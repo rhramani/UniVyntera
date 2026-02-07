@@ -5,6 +5,7 @@ import { AiOutlineClose, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PresentToAllIcon from "@mui/icons-material/PresentToAll";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -48,7 +49,7 @@ const PromotionalPPT = () => {
   const fetchDocuments = async (
     page = 1,
     limit = itemsPerPage,
-    searchTerm = ""
+    searchTerm = "",
   ) => {
     try {
       const res = await dispatch(getAllPromotionalPpt(page, limit, searchTerm));
@@ -57,7 +58,7 @@ const PromotionalPPT = () => {
         setDocuments(newDocuments);
         if (showDocumentsModal && editingItem) {
           const updatedItem = newDocuments.find(
-            (doc) => doc._id === editingItem._id
+            (doc) => doc._id === editingItem._id,
           );
           setSelectedDocuments(updatedItem?.documents || []);
         }
@@ -168,7 +169,7 @@ const PromotionalPPT = () => {
             }
             const docId = editingItem.documents[editingDocIndex]._id;
             res = await dispatch(
-              updatePromotionalPpt(editingItem._id, docId, formData)
+              updatePromotionalPpt(editingItem._id, docId, formData),
             );
             if (res?.status === 200) {
               toast.success("Promotional PPT updated successfully!");
@@ -178,7 +179,7 @@ const PromotionalPPT = () => {
               }
               if (showDocumentsModal) {
                 const updatedItem = documents.find(
-                  (doc) => doc._id === editingItem._id
+                  (doc) => doc._id === editingItem._id,
                 );
                 setSelectedDocuments(updatedItem?.documents || []);
               }
@@ -187,7 +188,7 @@ const PromotionalPPT = () => {
             }
           } else {
             res = await dispatch(
-              updatePromotionalPpt(editingItem._id, "", formData)
+              updatePromotionalPpt(editingItem._id, "", formData),
             );
             if (res?.status === 200) {
               toast.success("Country updated successfully!");
@@ -236,7 +237,7 @@ const PromotionalPPT = () => {
     } catch (error) {
       console.error("Delete error:", error);
       toast.error(
-        error.response?.data?.message || "Failed to delete document."
+        error.response?.data?.message || "Failed to delete document.",
       );
     }
     handleCloseDeleteModal();
@@ -253,22 +254,21 @@ const PromotionalPPT = () => {
         <Col md={12} lg={12} xl={12}>
           <Card className="custom-card transcation-crypto">
             <Card.Header className="border-bottom-0">
-              <div className="card-title">Promotional PPT</div>
+              {/* <div className="card-title">Promotional PPT</div> */}
             </Card.Header>
             <Card.Body>
-              <div className="d-flex justify-content-between">
+              <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 {canCreate && (
-                  <div>
-                    <Button
-                      variant="primary"
-                      className="custom-select-height"
-                      onClick={() => handleShowUploadModal()}
-                    >
-                      Add Promotional PPT
-                    </Button>
-                  </div>
+                  <Button
+                    variant="primary"
+                    className="custom-select-height px-4"
+                    onClick={() => handleShowUploadModal()}
+                    style={{ borderRadius: "10px" }}
+                  >
+                    Add Promotional PPT
+                  </Button>
                 )}
-                <div className="form_right_section">
+                <div className="d-flex flex-wrap gap-3 align-items-center">
                   <div className="contact-search3">
                     <button type="button" className="btn border-0">
                       <i
@@ -294,9 +294,10 @@ const PromotionalPPT = () => {
                     onChange={handleItemsPerPageChange}
                   />
 
-                  <div className="custom-select-height total-records px-3 mt-2 mt-md-0 d-flex align-items-center h-6">
-                    <span>
-                      Total Records: <strong>{totalRecords}</strong>
+                  <div className="custom-select-height total-records px-3 d-flex align-items-center h-6 border rounded bg-light">
+                    <span className="text-muted small">
+                      Total Records:{" "}
+                      <strong className="text-dark">{totalRecords}</strong>
                     </span>
                   </div>
                 </div>
@@ -306,7 +307,7 @@ const PromotionalPPT = () => {
                 {documents?.data?.length > 0 ? (
                   documents?.data?.filter(Boolean).map((item, index) => {
                     const country = countries.find(
-                      (c) => c.name === item?.country
+                      (c) => c.name === item?.country,
                     );
                     const countryCode = country ? country.isoCode : "";
                     return (
@@ -315,44 +316,59 @@ const PromotionalPPT = () => {
                         lg={4}
                         xl={3}
                         key={item._id || index}
-                        className="mt-4"
+                        className="mb-4"
                       >
-                        <div className="d-flex justify-content-between align-items-center p-3 border rounded shadow-sm">
+                        <div className="premium-country-card">
                           <Link
                             to={`/promotionaltutorialppt-details/${item._id}`}
-                            className="clickable-country d-flex align-items-center text-primary fw-bold text-decoration-underline-hover gap-2"
+                            className="premium-country-link"
                             title="Click to view documents"
                           >
-                            <ReactCountryFlag
-                              countryCode={countryCode}
-                              svg
-                              style={{
-                                width: "1em",
-                                height: "1em",
-                              }}
-                              title={item?.country || "Unknown"}
-                            />
-                            {item?.country || "-"}
+                            <div className="country-card-flag-wrapper">
+                              <ReactCountryFlag
+                                countryCode={countryCode}
+                                svg
+                                style={{
+                                  width: "1.2em",
+                                  height: "1.2em",
+                                  borderRadius: "4px",
+                                }}
+                                title={item?.country || "Unknown"}
+                              />
+                            </div>
+                            <div className="country-card-content">
+                              <div className="country-card-name">
+                                {item?.country || "-"}
+                              </div>
+                              <div className="country-card-doc-count">
+                                <PresentToAllIcon
+                                  style={{ fontSize: "16px", color: "#6c5ffc" }}
+                                />
+                                <span>{item?.documents?.length || 0} PPTs</span>
+                              </div>
+                            </div>
                           </Link>
 
-                          <div className="d-flex gap-2">
+                          <div className="country-card-actions mt-3">
                             {canUpdate && (
                               <span
                                 className="icon-border edit-icon"
                                 onClick={() => handleShowUploadModal(item)}
+                                title="Edit"
                               >
-                                <EditIcon />
+                                <EditIcon fontSize="small" />
                               </span>
                             )}
                             {canDelete && (
                               <span
-                                className="icon-border delete-icon"
+                                className="ms-auto icon-border delete-icon"
                                 onClick={() => {
                                   setSelectedItem({ item, docIndex: null });
                                   setShowDeleteModal(true);
                                 }}
+                                title="Delete"
                               >
-                                <DeleteIcon />
+                                <DeleteIcon fontSize="small" />
                               </span>
                             )}
                           </div>
@@ -533,7 +549,7 @@ const PromotionalPPT = () => {
                           if (selectedOption) {
                             formik.setFieldValue(
                               "country",
-                              selectedOption.value
+                              selectedOption.value,
                             );
                             formik.setFieldError("country", "");
                           } else {
@@ -636,7 +652,8 @@ const PromotionalPPT = () => {
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={(page) => setCurrentPage(page)}
-                  /></div>
+                  />
+                </div>
               )}
             </Card.Body>
           </Card>
