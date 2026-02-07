@@ -37,23 +37,23 @@ const Tabs = ({
   const { id } = useParams();
   const personalPermissions = usePermissions(
     "Student Applications",
-    "Personal Details"
+    "Personal Details",
   );
   const documentPermissions = usePermissions(
     "Student Applications",
-    "Document"
+    "Document",
   );
   const courseSelectionPermissions = usePermissions(
     "Student Applications",
-    "Course Selection"
+    "Course Selection",
   );
   const visaApplicationPermissions = usePermissions(
     "Student Applications",
-    "Visa Application"
+    "Visa Application",
   );
   const accountantPermissions = usePermissions(
     "Student Applications",
-    "Accountant"
+    "Accountant",
   );
   const remarksPermissions = usePermissions("Student Applications", "Remarks");
 
@@ -103,7 +103,9 @@ const Tabs = ({
       key: "student",
       label: "Student",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : documentPermissions.canShow,
       subOptions: [
@@ -111,20 +113,22 @@ const Tabs = ({
         ...documentTypes
           .filter(
             (docType) =>
-              !["Visa Documents", "RG Documents"].includes(docType?.type?.name)
+              !["Visa Documents", "RG Documents"].includes(docType?.type?.name),
           )
           .map((docType, index) => {
             const docTypeName = docType?.type?.name || `UnnamedType_${index}`;
             const docPermissions = usePermissions(
               "Student Applications",
               "Document",
-              docTypeName
+              docTypeName,
             );
             return {
               key: docTypeName,
               label: docType?.type?.name || "Unnamed Document Type",
               canShow:
-                userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+                userRole === "Super Admin" ||
+                userRole === "Student" ||
+                userRole === "LeadStudent"
                   ? true
                   : docPermissions.canShow,
             };
@@ -134,12 +138,14 @@ const Tabs = ({
           key: "other",
           label: "Other Documents",
           canShow:
-            userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+            userRole === "Super Admin" ||
+            userRole === "Student" ||
+            userRole === "LeadStudent"
               ? true
               : usePermissions(
                   "Student Applications",
                   "Document",
-                  "Other Documents"
+                  "Other Documents",
                 ).canShow,
         },
       ].filter((docType) => docType.canShow),
@@ -148,7 +154,9 @@ const Tabs = ({
       key: "rgdocument",
       label: "External Document",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : documentPermissions.canShow,
       subOptions: [
@@ -157,24 +165,28 @@ const Tabs = ({
           key: "rgdocument",
           label: "US Documents",
           canShow:
-            userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+            userRole === "Super Admin" ||
+            userRole === "Student" ||
+            userRole === "LeadStudent"
               ? true
               : usePermissions(
                   "Student Applications",
                   "Document",
-                  "RG Documents"
+                  "RG Documents",
                 ).canShow,
         },
         {
           key: "visadocuments",
           label: "Visa Documents",
           canShow:
-            userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+            userRole === "Super Admin" ||
+            userRole === "Student" ||
+            userRole === "LeadStudent"
               ? true
               : usePermissions(
                   "Student Applications",
                   "Document",
-                  "Visa Documents"
+                  "Visa Documents",
                 ).canShow,
         },
       ].filter((docType) => docType.canShow),
@@ -539,7 +551,7 @@ const Tabs = ({
       .filter((section) => allowedVisaFlow.includes(section.key))
       .sort(
         (a, b) =>
-          allowedVisaFlow.indexOf(a.key) - allowedVisaFlow.indexOf(b.key)
+          allowedVisaFlow.indexOf(a.key) - allowedVisaFlow.indexOf(b.key),
       ),
   ];
 
@@ -548,7 +560,9 @@ const Tabs = ({
       key: "personal",
       label: "Personal Details",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : personalPermissions.canShow,
     },
@@ -556,7 +570,9 @@ const Tabs = ({
       key: "document",
       label: "Document",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : documentPermissions.canShow,
     },
@@ -564,7 +580,9 @@ const Tabs = ({
       key: "courseSelection",
       label: "Course Selection",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : courseSelectionPermissions.canShow,
     },
@@ -574,7 +592,9 @@ const Tabs = ({
             key: "visaApplication",
             label: "Visa Application",
             canShow:
-              userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+              userRole === "Super Admin" ||
+              userRole === "Student" ||
+              userRole === "LeadStudent"
                 ? true
                 : visaApplicationPermissions.canShow,
           },
@@ -590,7 +610,9 @@ const Tabs = ({
       key: "accountant",
       label: "Accountant",
       canShow:
-        userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent"
+        userRole === "Super Admin" ||
+        userRole === "Student" ||
+        userRole === "LeadStudent"
           ? true
           : accountantPermissions.canShow,
     },
@@ -616,7 +638,11 @@ const Tabs = ({
   //   );
   // };
   const isTabAccessible = (tabKey) => {
-    if (userRole === "Super Admin" || userRole === "Student" || userRole === "LeadStudent") {
+    if (
+      userRole === "Super Admin" ||
+      userRole === "Student" ||
+      userRole === "LeadStudent"
+    ) {
       return true;
     }
 
@@ -748,14 +774,14 @@ const Tabs = ({
                         activeTab === tab.key
                           ? "#fff"
                           : isTabAccessible(tab.key) || tab.key === "accountant"
-                          ? "#333"
-                          : "#aaa",
+                            ? "#333"
+                            : "#aaa",
                       backgroundColor:
                         activeTab === tab.key
                           ? "#053880"
                           : isTabAccessible(tab.key) || tab.key === "accountant"
-                          ? "#fff"
-                          : "#f5f5f5",
+                            ? "#fff"
+                            : "#f5f5f5",
                       border: "none",
                       transition: "all 0.3s ease",
                       boxShadow:
@@ -954,7 +980,7 @@ const Tabs = ({
                           handleSubTabClick(
                             "personal",
                             section.key,
-                            onPersonalSectionSelect
+                            onPersonalSectionSelect,
                           )
                         }
                         style={{
@@ -1070,7 +1096,7 @@ const Tabs = ({
                                 handleSubTabClick(
                                   "document",
                                   docType.key,
-                                  onDocumentTypeSelect
+                                  onDocumentTypeSelect,
                                 )
                               }
                               style={{
@@ -1139,7 +1165,7 @@ const Tabs = ({
                           handleSubTabClick(
                             "courseSelection",
                             section.key,
-                            onCounsellingSectionSelect
+                            onCounsellingSectionSelect,
                           )
                         }
                         style={{
@@ -1221,7 +1247,7 @@ const Tabs = ({
                           handleSubTabClick(
                             "visaApplication",
                             section.key,
-                            onVisaSectionSelect
+                            onVisaSectionSelect,
                           )
                         }
                         style={{
@@ -1329,7 +1355,8 @@ const Tabs = ({
                 userRole !== "B2B Member" &&
                 userRole !== "Branch" &&
                 userType !== "Branch User" &&
-                userRole !== "Student" && userRole !== "LeadStudent" && (
+                userRole !== "Student" &&
+                userRole !== "LeadStudent" && (
                   <div className="d-flex justify-content-end gap-2">
                     <Button
                       variant="primary"

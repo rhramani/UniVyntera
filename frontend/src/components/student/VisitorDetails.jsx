@@ -3509,7 +3509,7 @@ for (const file of files) {
   return (
     <>
       <div>
-        <div className="form-main-heading w-100 p-2 position-sticky top-0 z-3">
+        <div className="form-main-heading w-100 p-3 position-sticky top-0 z-3">
           <div className="d-flex justify-content-between align-items-center">
             <h3>Visitor Details</h3>
             <Button
@@ -3535,7 +3535,7 @@ for (const file of files) {
           }}
         >
           <Card.Header className="border-bottom-0 d-flex justify-content-between">
-            <div className="card-title">Visitor Information</div>
+            {/* <div className="card-title">Visitor Information</div> */}
           </Card.Header>
 
           {isLoading && (
