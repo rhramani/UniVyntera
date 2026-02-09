@@ -163,7 +163,7 @@ const SupplementaryAdditionalRequirement = ({
         <div className="d-flex justify-content-between align-items-center">
           <h5>Supplementary Additional Requirement</h5>
         </div>
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form onSubmit={remarksFormik.handleSubmit}>
             <Row className="d-flex">
               <Col md={6}>

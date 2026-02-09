@@ -403,13 +403,9 @@ const PromotionalTutorialDetails = () => {
               <Modal.Footer style={{ borderTop: "none", paddingTop: 0 }}>
                 <Button
                   variant="link"
-                  style={{
-                    border: "1px solid #4B3C88",
-                    color: "#4B3C88",
-                    textDecoration: "none",
-                    borderRadius: "12px",
-                    padding: "5px 20px",
-                  }}
+                  type="submit"
+                  className="border-primary text-primary text-decoration-none"
+                  style={{ borderRadius: "12px" }}
                   onClick={handleCloseUploadModal}
                 >
                   Cancel
@@ -417,12 +413,7 @@ const PromotionalTutorialDetails = () => {
                 <Button
                   variant="primary"
                   type="submit"
-                  style={{
-                    backgroundColor: "#4B3C88",
-                    border: "none",
-                    borderRadius: "12px",
-                    padding: "5px 20px",
-                  }}
+                  className="custom-select-height"
                 >
                   {editingDocIndex !== null
                     ? "Update Promotional Webinar"

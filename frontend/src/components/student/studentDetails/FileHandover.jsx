@@ -118,7 +118,7 @@ const FileHandover = ({
           <h5>File Handover</h5>
         </div>
 
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form onSubmit={fileHandoverFormik.handleSubmit}>
             <Row className="d-flex">
               <Col md={4} className="mb-4">

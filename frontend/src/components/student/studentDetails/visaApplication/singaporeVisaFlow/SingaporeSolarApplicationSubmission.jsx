@@ -148,7 +148,7 @@ const SingaporeSolarApplicationSubmission = ({ id }) => {
 
       <h5>SOLAR Application Submission</h5>
 
-      <div className="bg-white mt-3 p-3 rounded">
+      <div className="bg-white rounded mt-3 p-3 rounded">
         <Form onSubmit={formik.handleSubmit}>
           <Row className="mt-2">
             {/* 📄 Document Uploads */}

@@ -947,7 +947,7 @@ const Dashboard = () => {
                           Today's Follow-ups
                         </div>
                         <div className="text-fixed-white fw-bold fs-16">
-                          {dashboardData?.totalStudents || 0}
+                          {dashboardData?.todayFollowUpLeads || 0}
                         </div>
                       </div>
                     </div>
@@ -965,7 +965,7 @@ const Dashboard = () => {
                           Pending Reviews
                         </div>
                         <div className="text-fixed-white fw-bold fs-16">
-                          {dashboardData?.totalStudents || 0}
+                          {dashboardData?.totalPendingLeads || 0}
                         </div>
                       </div>
                     </div>

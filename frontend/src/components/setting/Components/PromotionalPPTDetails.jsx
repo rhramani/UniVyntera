@@ -90,7 +90,7 @@ const PromotionalPPTDetails = () => {
 
     if (item && docIndex !== null) {
       formik.setValues({
-        country: item.country || "",
+        country: item.country ? item.country : editingItem?.country || "",
         name: item.documents[docIndex]?.name || "",
         documents: null,
       });
@@ -121,7 +121,7 @@ const PromotionalPPTDetails = () => {
 
   const formik = useFormik({
     initialValues: {
-      country: "",
+      country: editingItem?.country || "",
       name: "",
       documents: null,
     },
@@ -131,7 +131,7 @@ const PromotionalPPTDetails = () => {
       setIsLoading(true);
       try {
         const formData = new FormData();
-        formData.append("country", values.country);
+        formData.append("country", values.country ? values.country : editingItem?.country || "");
         formData.append("materialName", values.name);
 
         if (values.documents && values.documents.length > 0) {
@@ -167,7 +167,7 @@ const PromotionalPPTDetails = () => {
             await fetchData(search);
           }
         } else {
-          toast.error(res?.data?.message || "File too large");
+          toast.error(res?.data?.message || "File too");
         }
         handleCloseUploadModal();
       } catch (error) {

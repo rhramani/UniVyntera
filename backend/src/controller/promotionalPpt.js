@@ -37,6 +37,8 @@ const addDocument = async (req, res) => {
     }
 
     const files = req.files?.material;
+
+        const uploadedLinks = [];
     if (files && files.length > 0) {
       for (const file of files) {
         // ✅ Get the full path where multer saved the file

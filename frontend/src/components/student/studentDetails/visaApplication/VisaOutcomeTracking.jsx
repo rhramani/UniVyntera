@@ -76,7 +76,7 @@ const VisaOutcomeTracking = ({
             )} */}
           </div>
         </div>
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form onSubmit={visaOutcomeFormik.handleSubmit}>
             <Row>
               <Col md={4}>

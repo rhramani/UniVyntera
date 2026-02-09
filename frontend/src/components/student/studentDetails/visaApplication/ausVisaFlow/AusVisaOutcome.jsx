@@ -306,7 +306,7 @@ const AusVisaOutcome = ({ id }) => {
         </div>
       )}
       <h5>Visa Outcome</h5>
-      <div className="bg-white mt-3 p-3">
+      <div className="bg-white rounded mt-3 p-3">
         <Form onSubmit={formik.handleSubmit}>
           <Row>
             <Col md={6} className="mb-3">

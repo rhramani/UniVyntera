@@ -1392,7 +1392,7 @@ const TaskDetails = () => {
               {/* Task Title */}
               <Col md={4} className="mb-3">
                 <Form.Group controlId="title">
-                  <Form.Label className="fw-semibold">Task Title *</Form.Label>
+                  <Form.Label>Task Title *</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter Task Title"
@@ -1409,7 +1409,7 @@ const TaskDetails = () => {
               {/* Task Description */}
               <Col md={8} className="mb-3">
                 <Form.Group controlId="description">
-                  <Form.Label className="fw-semibold">
+                  <Form.Label>
                     Task Description *
                   </Form.Label>
                   <Form.Control
@@ -1568,7 +1568,7 @@ const TaskDetails = () => {
 
               {/* Due Date */}
               <Col md={4} className="mb-3">
-                <Form.Label className="fw-semibold">Due Date</Form.Label>
+                <Form.Label>Due Date</Form.Label>
                 <div style={{ position: "relative" }}>
                   <Form.Control
                     type="text"
@@ -1644,7 +1644,7 @@ const TaskDetails = () => {
               </Col>
               {/* Due Time */}
               <Col md={4} className="mb-3">
-                <Form.Label className="fw-semibold">Due Time</Form.Label>
+                <Form.Label>Due Time</Form.Label>
                 <Form.Control
                   type="time"
                   className="rounded-5"
@@ -1653,7 +1653,7 @@ const TaskDetails = () => {
               </Col>
               {/* Category */}
               <Col md={4} className="mb-3">
-                <Form.Label className="fw-semibold">Task Category</Form.Label>
+                <Form.Label>Task Category</Form.Label>
                 <Select
                   options={categoryOptions}
                   value={
@@ -1675,7 +1675,7 @@ const TaskDetails = () => {
               </Col>
               {/* priority */}
               <Col md={4} className="mb-3">
-                <Form.Label className="fw-semibold">Task Priority *</Form.Label>
+                <Form.Label>Task Priority *</Form.Label>
                 <Select
                   options={priorityOptions}
                   value={
@@ -1698,7 +1698,7 @@ const TaskDetails = () => {
               </Col>
               {/* type */}
               <Col md={4} className="mb-3">
-                <Form.Label className="fw-semibold">Task Type *</Form.Label>
+                <Form.Label>Task Type *</Form.Label>
                 <Select
                   options={typeOptions}
                   value={
@@ -1719,7 +1719,7 @@ const TaskDetails = () => {
               </Col>
               {/* status */}
               <Col md={4} className="mb-3">
-                <Form.Label className="fw-semibold">Task Status</Form.Label>
+                <Form.Label>Task Status</Form.Label>
                 <Select
                   options={statusOptions}
                   value={
@@ -1738,7 +1738,7 @@ const TaskDetails = () => {
               </Col>
               {/* Task Document Upload */}
               <Col md={4} className="mb-3">
-                <Form.Label className="fw-semibold">Task Document</Form.Label>
+                <Form.Label>Task Document</Form.Label>
                 <Form.Control
                   type="file"
                   accept=".pdf,.doc,.docx,.jpg,.png"
@@ -1809,7 +1809,7 @@ const TaskDetails = () => {
 
               {/* Remarks */}
               <Col md={8} className="mb-3">
-                <Form.Label className="fw-semibold">Remarks</Form.Label>
+                <Form.Label>Remarks</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={2}

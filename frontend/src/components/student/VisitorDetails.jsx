@@ -4885,7 +4885,7 @@ const VisitorDetails = () => {
                           ) : (
                             <tr>
                               <td
-                                colSpan="10"
+                                colSpan="11"
                                 className="text-muted text-center"
                               >
                                 No Visa documents available

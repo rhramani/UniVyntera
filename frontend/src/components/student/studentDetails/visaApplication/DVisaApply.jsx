@@ -235,7 +235,7 @@ const DVisaApply = ({
           </div>
         </div>
 
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form onSubmit={dVisaApplyFormik.handleSubmit}>
             <Form.Group className="mb-3" controlId="dVisaApply">
               <Form.Label>D Visa Apply?</Form.Label>

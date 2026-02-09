@@ -268,7 +268,7 @@ console.log("formik", formik.errors)
         <div className="d-flex justify-content-between align-items-center">
           <h5>France-Visas Online Form</h5>
         </div>
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form onSubmit={formik.handleSubmit}>
             <Row>
               <Col md={6} className="mb-3">

@@ -66,34 +66,40 @@ const DocumentSection = ({
   handleAllDocumentsDownload,
   fetchOneStudentDetails,
 }) => {
-  console.log("countryDocuments", countryDocuments)
+  console.log("countryDocuments", countryDocuments);
   const dispatch = useDispatch();
   const [openDeadlineDoc, setOpenDeadlineDoc] = useState(null);
   const calendarRef = useRef(null);
   const userRole = decryptData(localStorage.getItem("role") || "");
   const isStudentUploadAllowed =
-  userRole === "Student" || userRole === "LeadStudent"
-    ? oneStudentData?.docUploadByStudent === true
-    : true;
-  
-console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.docUploadByStudent, userRole)
+    userRole === "Student" || userRole === "LeadStudent"
+      ? oneStudentData?.docUploadByStudent === true
+      : true;
+
+  console.log(
+    "isStudentUploadAllowed",
+    isStudentUploadAllowed,
+    oneStudentData?.docUploadByStudent,
+    userRole,
+  );
   const docPermissions = usePermissions("Student Applications", "Document");
   const OtherDocTypePermissions = usePermissions(
     "Student Applications",
     "Document",
-    "Other Documents"
+    "Other Documents",
   );
   const rgDocTypePermission = usePermissions(
     "Student Applications",
     "Document",
-    "RG Documents"
+    "RG Documents",
   );
   const visaDocTypePermission = usePermissions(
     "Student Applications",
     "Document",
-    "Visa Documents"
+    "Visa Documents",
   );
-  const { canCreate, canRead, canUpdate, canDelete, canShow, canDownload } = docPermissions;
+  const { canCreate, canRead, canUpdate, canDelete, canShow, canDownload } =
+    docPermissions;
 
   if (selectedDocType !== "all" && userRole !== "Super Admin" && !canShow) {
     return null;
@@ -109,7 +115,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
       const existingDoc = oneStudentData?.uploadedDocumentDetails?.find(
         (uploaded) =>
           uploaded.documentName === documentName &&
-          uploaded.documentType === documentType
+          uploaded.documentType === documentType,
       );
 
       if (existingDoc) {
@@ -145,7 +151,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
       const existingDoc = oneStudentData?.uploadedDocumentDetails?.find(
         (uploaded) =>
           uploaded.documentName === documentName &&
-          uploaded.documentType === documentType
+          uploaded.documentType === documentType,
       );
 
       if (!existingDoc) return;
@@ -168,7 +174,6 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
       toast.error("Failed to remove deadline");
     }
   };
-
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -208,7 +213,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
             {/* For All Documents (normal docs + RG) */}
             {selectedDocType === "all" &&
               oneStudentData?.uploadedDocumentDetails?.some(
-                (doc) => !!doc?.filePath && doc?.documentName // only system-assigned docs
+                (doc) => !!doc?.filePath && doc?.documentName, // only system-assigned docs
               ) && (
                 <Button
                   variant="primary"
@@ -223,7 +228,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
             {/* For AllRG Documents (Visa + Other) */}
             {selectedDocType === "allrg" &&
               oneStudentData?.uploadedDocumentDetails?.some(
-                (doc) => !!doc?.filePath && doc?.customDocumentName // only custom docs
+                (doc) => !!doc?.filePath && doc?.customDocumentName, // only custom docs
               ) && (
                 <Button
                   variant="primary"
@@ -246,7 +251,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
               const typePermissions = usePermissions(
                 "Student Applications",
                 "Document",
-                typeKey
+                typeKey,
               );
 
               if (!(userRole === "Super Admin" || typePermissions.canShow))
@@ -257,8 +262,17 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                   <h6 className="mb-3 text-primary">
                     {doc.type?.name || "Unnamed Document Type"}
                   </h6>
-                  <div className="table-responsive">
-                    <Table bordered hover>
+                  <div
+                    className="table-responsive modern-table-wrapper"
+                    style={{
+                      borderRadius: "12px",
+                      border: "1px solid #dee2e6",
+                    }}
+                  >
+                    <Table
+                      className="table table-hover modern-table table-nowrap"
+                      style={{ width: "100%", overflowX: "auto" }}
+                    >
                       <thead className="thead-light">
                         <tr>
                           {selectedDocType !== "all" && (
@@ -277,7 +291,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                           )}
                           {userRole !== "B2B Admin" &&
                             userRole !== "B2B Member" &&
-                            userRole !== "Student" && userRole !== "LeadStudent" && (
+                            userRole !== "Student" &&
+                            userRole !== "LeadStudent" && (
                               <th>Document Pendency</th>
                             )}
                           <th>Deadline</th>
@@ -286,10 +301,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                             Document Name
                           </th>
                           <th>Upload File</th>
-                          {canDownload && (
-
-                            <th>Download</th>
-                          )}
+                          {canDownload && <th>Download</th>}
                           <th>Status</th>
                           <th>Added By</th>
                           <th>Added On</th>
@@ -304,12 +316,13 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                       <tbody>
                         {doc.documentList?.length > 0 ? (
                           doc?.documentList
-                            ?.filter((document) => document?.document?.name)?.map((document, index) => {
+                            ?.filter((document) => document?.document?.name)
+                            ?.map((document, index) => {
                               const uploadedDocs =
                                 oneStudentData?.uploadedDocumentDetails?.filter(
                                   (uploaded) =>
                                     uploaded?.documentName ===
-                                    document?.document?._id
+                                    document?.document?._id,
                                 );
                               if (!uploadedDocs || uploadedDocs?.length === 0) {
                                 return (
@@ -320,7 +333,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           type="checkbox"
                                           checked={
                                             selectedRows[
-                                            `${docIndex}-${index}`
+                                              `${docIndex}-${index}`
                                             ] || false
                                           }
                                           onChange={() =>
@@ -329,7 +342,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                               index,
                                               typeKey,
                                               null,
-                                              `${docIndex}-${index}`
+                                              `${docIndex}-${index}`,
                                             )
                                           }
                                           disabled={true}
@@ -339,7 +352,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     )}
                                     {userRole !== "B2B Admin" &&
                                       userRole !== "B2B Member" &&
-                                      userRole !== "Student" && userRole !== "LeadStudent" && (
+                                      userRole !== "Student" &&
+                                      userRole !== "LeadStudent" && (
                                         <td>
                                           <div className="form-check form-switch custom-toggle-button me-0">
                                             <input
@@ -347,12 +361,12 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                               type="checkbox"
                                               id={`toggle-${docIndex}-${index}`}
                                               checked={selectedDocsIds?.includes(
-                                                `${docIndex}-${index}`
+                                                `${docIndex}-${index}`,
                                               )}
                                               onChange={() =>
                                                 handleCheckboxChangeId(
                                                   `${docIndex}-${index}`,
-                                                  document?.document?.name
+                                                  document?.document?.name,
                                                 )
                                               }
                                             />
@@ -388,7 +402,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                             id: document._id,
                                             documentType:
                                               document?.document?.type?._id,
-                                            documentName: document?.document?._id,
+                                            documentName:
+                                              document?.document?._id,
                                             date: document.deadline
                                               ? new Date(document.deadline)
                                               : null,
@@ -401,8 +416,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                       >
                                         {document.deadline
                                           ? formatDate(
-                                            new Date(document.deadline)
-                                          )
+                                              new Date(document.deadline),
+                                            )
                                           : "Set Deadline"}
                                       </span>
                                     </td>
@@ -412,7 +427,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                         placement="top"
                                         overlay={renderTooltip(
                                           document?.document?.name ||
-                                          "Unnamed Document"
+                                            "Unnamed Document",
                                         )}
                                       >
                                         <span style={{ cursor: "pointer" }}>
@@ -460,7 +475,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                               e,
                                               docIndex,
                                               index,
-                                              document?.document?.name
+                                              document?.document?.name,
                                             )
                                           }
                                           className="custom-select-height"
@@ -480,10 +495,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     </td>
                                     <td>-</td>
                                     <td>-</td>
-                                    {canDownload && (
-
-                                      <td>-</td>
-                                    )}
+                                    {canDownload && <td>-</td>}
                                     <td>-</td>
                                     <td>-</td>
                                     {isStudentUploadAllowed && (
@@ -497,14 +509,16 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
 
                               return uploadedDocs?.map(
                                 (uploadedDoc, uploadIndex) => (
-                                  <tr key={`${docIndex}-${index}-${uploadIndex}`}>
+                                  <tr
+                                    key={`${docIndex}-${index}-${uploadIndex}`}
+                                  >
                                     {selectedDocType !== "all" && (
                                       <td>
                                         <Form.Check
                                           type="checkbox"
                                           checked={
                                             selectedRows[
-                                            `${docIndex}-${index}-${uploadIndex}`
+                                              `${docIndex}-${index}-${uploadIndex}`
                                             ] || false
                                           }
                                           onChange={() =>
@@ -513,7 +527,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                               index,
                                               typeKey,
                                               uploadedDoc?._id,
-                                              `${docIndex}-${index}-${uploadIndex}`
+                                              `${docIndex}-${index}-${uploadIndex}`,
                                             )
                                           }
                                           className="custom-checkbox"
@@ -522,7 +536,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     )}
                                     {userRole !== "B2B Admin" &&
                                       userRole !== "B2B Member" &&
-                                      userRole !== "Student" && userRole !== "LeadStudent" && (
+                                      userRole !== "Student" &&
+                                      userRole !== "LeadStudent" && (
                                         <td>
                                           <div className="form-check form-switch custom-toggle-button me-0">
                                             <input
@@ -530,12 +545,12 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                               type="checkbox"
                                               id={`toggle-${docIndex}-${index}-${uploadIndex}`}
                                               checked={selectedDocsIds?.includes(
-                                                uploadedDoc?._id
+                                                uploadedDoc?._id,
                                               )}
                                               onChange={() =>
                                                 handleCheckboxChangeId(
                                                   uploadedDoc?._id,
-                                                  document?.document?.name
+                                                  document?.document?.name,
                                                 )
                                               }
                                             />
@@ -545,31 +560,22 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     <td style={{ minWidth: "160px" }}>
                                       <span
                                         className={
-                                          canUpdate ||
-                                            canCreate
+                                          canUpdate || canCreate
                                             ? "text-primary"
                                             : "text-muted"
                                         }
                                         style={{
                                           cursor:
-                                            canUpdate ||
-                                              canCreate
+                                            canUpdate || canCreate
                                               ? "pointer"
                                               : "not-allowed",
                                           pointerEvents:
-                                            canUpdate ||
-                                              canCreate
+                                            canUpdate || canCreate
                                               ? "auto"
                                               : "none",
                                         }}
                                         onClick={(e) => {
-                                          if (
-                                            !(
-                                              canUpdate ||
-                                              canCreate
-                                            )
-                                          )
-                                            return;
+                                          if (!(canUpdate || canCreate)) return;
 
                                           e.stopPropagation();
 
@@ -577,7 +583,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                             e.target.getBoundingClientRect();
 
                                           setOpenDeadlineDoc({
-                                            documentName: document?.document?._id, // ✅ ORIGINAL document id
+                                            documentName:
+                                              document?.document?._id, // ✅ ORIGINAL document id
                                             documentType: doc?.type?._id, // ✅ document type id
                                             date: uploadedDoc.deadline
                                               ? new Date(uploadedDoc.deadline)
@@ -591,8 +598,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                       >
                                         {uploadedDoc.deadline
                                           ? formatDate(
-                                            new Date(uploadedDoc.deadline)
-                                          )
+                                              new Date(uploadedDoc.deadline),
+                                            )
                                           : "Set Deadline"}
                                       </span>
                                     </td>
@@ -606,7 +613,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                         placement="top"
                                         overlay={renderTooltip(
                                           document.document?.name ||
-                                          "Unnamed Document"
+                                            "Unnamed Document",
                                         )}
                                       >
                                         <span style={{ cursor: "pointer" }}>
@@ -617,12 +624,12 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     </td>
                                     <td>
                                       {uploadedDoc &&
-                                        uploadedDoc?.filePath &&
-                                        uploadedDoc?.status !== "Reupload" ? (
+                                      uploadedDoc?.filePath &&
+                                      uploadedDoc?.status !== "Reupload" ? (
                                         <div className="d-flex align-items-center">
                                           <span className="text-success me-2">
                                             {normalizeFilePath(
-                                              uploadedDoc.filePath
+                                              uploadedDoc.filePath,
                                             )
                                               ?.split("/")
                                               ?.pop()}
@@ -643,7 +650,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                                 e,
                                                 docIndex,
                                                 index,
-                                                document?.document?.name
+                                                document?.document?.name,
                                               )
                                             }
                                             className="custom-select-height"
@@ -683,8 +690,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     {canDownload && (
                                       <td>
                                         {uploadedDoc &&
-                                          uploadedDoc?.filePath &&
-                                          uploadedDoc.status !== "Reupload" ? (
+                                        uploadedDoc?.filePath &&
+                                        uploadedDoc.status !== "Reupload" ? (
                                           <button
                                             className="btn btn-sm fw-normal rounded-4"
                                             style={{
@@ -711,7 +718,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                                 ?.pop();
                                               handleSingleDocumentDownload(
                                                 filePath,
-                                                fileName
+                                                fileName,
                                               );
                                             }}
                                           >
@@ -721,7 +728,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                         ) : (
                                           <span>-</span>
                                         )}
-                                      </td>)}
+                                      </td>
+                                    )}
                                     <td>
                                       {uploadedDoc ? (
                                         <button
@@ -730,7 +738,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                             cursor: "pointer",
                                             color: "#fff",
                                             backgroundColor: getStatusColor(
-                                              uploadedDoc.status
+                                              uploadedDoc.status,
                                             ),
                                             border: "none",
                                             padding: "5px 10px",
@@ -749,53 +757,56 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                               statusOptions.find(
                                                 (opt) =>
                                                   opt.value ===
-                                                  uploadedDoc?.status
+                                                  uploadedDoc?.status,
                                               ) ||
-                                              statusOptions.find(
-                                                (opt) =>
-                                                  opt.value === "unverified"
-                                              )
+                                                statusOptions.find(
+                                                  (opt) =>
+                                                    opt.value === "unverified",
+                                                ),
                                             );
-                                            setRemarks(uploadedDoc.remarks || "");
+                                            setRemarks(
+                                              uploadedDoc.remarks || "",
+                                            );
                                             setSelectedDocId(uploadedDoc?._id);
                                             setShowModal(true);
                                           }}
                                         >
                                           {(uploadedDoc.status === "verified" ||
                                             uploadedDoc.status ===
-                                            "Verified") && (
-                                              <CheckCircleIcon
-                                                className="me-1"
-                                                style={{
-                                                  fontSize: "16px",
-                                                }}
-                                              />
-                                            )}
-                                          {(uploadedDoc.status === "unverified" ||
+                                              "Verified") && (
+                                            <CheckCircleIcon
+                                              className="me-1"
+                                              style={{
+                                                fontSize: "16px",
+                                              }}
+                                            />
+                                          )}
+                                          {(uploadedDoc.status ===
+                                            "unverified" ||
                                             uploadedDoc.status ===
-                                            "Unverified") && (
-                                              <CancelIcon
-                                                className="me-1"
-                                                style={{
-                                                  fontSize: "16px",
-                                                }}
-                                              />
-                                            )}
+                                              "Unverified") && (
+                                            <CancelIcon
+                                              className="me-1"
+                                              style={{
+                                                fontSize: "16px",
+                                              }}
+                                            />
+                                          )}
                                           {(uploadedDoc.status === "reupload" ||
                                             uploadedDoc.status ===
-                                            "Reupload") && (
-                                              <UploadIcon
-                                                className="me-1"
-                                                style={{
-                                                  fontSize: "16px",
-                                                }}
-                                              />
-                                            )}
+                                              "Reupload") && (
+                                            <UploadIcon
+                                              className="me-1"
+                                              style={{
+                                                fontSize: "16px",
+                                              }}
+                                            />
+                                          )}
                                           {uploadedDoc?.status
                                             ? uploadedDoc.status
-                                              .charAt(0)
-                                              .toUpperCase() +
-                                            uploadedDoc.status.slice(1)
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                              uploadedDoc.status.slice(1)
                                             : "Unverified"}
                                         </button>
                                       ) : (
@@ -810,8 +821,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     <td>
                                       {uploadedDoc
                                         ? new Date(
-                                          uploadedDoc.createdAt
-                                        ).toLocaleDateString("en-GB")
+                                            uploadedDoc.createdAt,
+                                          ).toLocaleDateString("en-GB")
                                         : "-"}
                                     </td>
                                     <td>
@@ -822,8 +833,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     <td>
                                       {uploadedDoc
                                         ? new Date(
-                                          uploadedDoc.createdAt
-                                        ).toLocaleDateString("en-GB")
+                                            uploadedDoc.createdAt,
+                                          ).toLocaleDateString("en-GB")
                                         : "-"}
                                     </td>
                                     <td>{uploadedDoc?.remarks || "-"}</td>
@@ -839,7 +850,9 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                                 fontSize: "18px",
                                               }}
                                               onClick={() => {
-                                                setSelectedItem(uploadedDoc?._id);
+                                                setSelectedItem(
+                                                  uploadedDoc?._id,
+                                                );
                                                 setShowDeleteModal(true);
                                               }}
                                               title="Delete"
@@ -854,7 +867,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                       </td>
                                     )}
                                   </tr>
-                                )
+                                ),
                               );
                             })
                         ) : (
@@ -887,10 +900,11 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                             handleDeadlineUpdate(
                               openDeadlineDoc.documentName,
                               openDeadlineDoc.documentType,
-                              date
+                              date,
                             )
                           }
-                        /> {openDeadlineDoc.date && (canUpdate || canCreate) && (
+                        />{" "}
+                        {openDeadlineDoc.date && (canUpdate || canCreate) && (
                           <div className="text-end mt-2">
                             <Button
                               size="sm"
@@ -899,7 +913,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                               onClick={() =>
                                 handleDeadlineRemove(
                                   openDeadlineDoc.documentName,
-                                  openDeadlineDoc.documentType
+                                  openDeadlineDoc.documentType,
                                 )
                               }
                             >
@@ -949,8 +963,17 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                     </Button>
                   )}
                 </div>
-                <div className="table-responsive">
-                  <Table bordered hover>
+                <div
+                  className="table-responsive modern-table-wrapper"
+                  style={{
+                    borderRadius: "12px",
+                    border: "1px solid #dee2e6",
+                  }}
+                >
+                  <Table
+                    className="table table-hover modern-table table-nowrap"
+                    style={{ width: "100%", overflowX: "auto" }}
+                  >
                     <thead className="thead-light">
                       <tr>
                         {selectedDocType !== "all" && (
@@ -967,7 +990,10 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                         )}
                         {userRole !== "B2B Admin" &&
                           userRole !== "B2B Member" &&
-                          userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                          userRole !== "Student" &&
+                          userRole !== "LeadStudent" && (
+                            <th>Document Pendency</th>
+                          )}
                         <th>Sr No</th>
                         <th className="fixed-width-doc-name">Document Name</th>
                         <th>Upload File</th>
@@ -1074,11 +1100,11 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                   (catDoc) =>
                                     catDoc.documentList?.some(
                                       (d) =>
-                                        d?.document?._id === doc.documentName
-                                    )
+                                        d?.document?._id === doc.documentName,
+                                    ),
                                 )) &&
                               !excludedDocuments.includes(
-                                doc.customDocumentName
+                                doc.customDocumentName,
                               )
                             );
                           })
@@ -1103,7 +1129,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           index,
                                           "other",
                                           doc._id,
-                                          `other--1-${index}`
+                                          `other--1-${index}`,
                                         )
                                       }
                                       disabled={doc.status === "Reupload"}
@@ -1113,7 +1139,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                 )}
                                 {userRole !== "B2B Admin" &&
                                   userRole !== "B2B Member" &&
-                                  userRole !== "Student" && userRole !== "LeadStudent" && (
+                                  userRole !== "Student" &&
+                                  userRole !== "LeadStudent" && (
                                     <td>
                                       <div className="form-check form-switch custom-toggle-button me-0">
                                         <input
@@ -1121,12 +1148,12 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           type="checkbox"
                                           id={`toggle-${doc._id}-${index}`}
                                           checked={selectedDocsIds?.includes(
-                                            `${doc._id}-${index}`
+                                            `${doc._id}-${index}`,
                                           )}
                                           onChange={() =>
                                             handleCheckboxChangeId(
                                               `${doc._id}-${index}`,
-                                              docName
+                                              docName,
                                             )
                                           }
                                         />
@@ -1159,7 +1186,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           e,
                                           index,
                                           doc._id,
-                                          docName
+                                          docName,
                                         )
                                       }
                                       className="custom-select-height"
@@ -1197,7 +1224,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
 
                                         handleSingleDocumentDownload(
                                           filePath,
-                                          fileName
+                                          fileName,
                                         );
                                       }}
                                     >
@@ -1216,7 +1243,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                         cursor: "pointer",
                                         color: "#fff",
                                         backgroundColor: getStatusColor(
-                                          doc.status || "unverified"
+                                          doc.status || "unverified",
                                         ),
                                         border: "none",
                                         borderRadius: "4px",
@@ -1236,12 +1263,12 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           statusOptions.find(
                                             (opt) =>
                                               opt.value ===
-                                              (doc.status || "unverified")
+                                              (doc.status || "unverified"),
                                           ) ||
-                                          statusOptions.find(
-                                            (opt) =>
-                                              opt.value === "unverified"
-                                          )
+                                            statusOptions.find(
+                                              (opt) =>
+                                                opt.value === "unverified",
+                                            ),
                                         );
                                         setRemarks(doc.remarks || "");
                                         setSelectedDocId(doc._id);
@@ -1250,29 +1277,29 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     >
                                       {(doc.status === "verified" ||
                                         doc.status === "Verified") && (
-                                          <CheckCircleIcon
-                                            className="me-1"
-                                            style={{ fontSize: "16px" }}
-                                          />
-                                        )}
+                                        <CheckCircleIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
                                       {(!doc.status ||
                                         doc.status === "unverified" ||
                                         doc.status === "Unverified") && (
-                                          <CancelIcon
-                                            className="me-1"
-                                            style={{ fontSize: "16px" }}
-                                          />
-                                        )}
+                                        <CancelIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
                                       {(doc.status === "reupload" ||
                                         doc.status === "Reupload") && (
-                                          <UploadIcon
-                                            className="me-1"
-                                            style={{ fontSize: "16px" }}
-                                          />
-                                        )}
+                                        <UploadIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
                                       {doc.status
                                         ? doc.status.charAt(0).toUpperCase() +
-                                        doc.status.slice(1)
+                                          doc.status.slice(1)
                                         : "Unverified"}
                                     </button>
                                   ) : (
@@ -1283,8 +1310,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                 <td>
                                   {doc.createdAt
                                     ? new Date(
-                                      doc.createdAt
-                                    ).toLocaleDateString("en-GB")
+                                        doc.createdAt,
+                                      ).toLocaleDateString("en-GB")
                                     : "-"}
                                 </td>
                                 <td>{doc.remarks || "-"}</td>
@@ -1334,8 +1361,17 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h6 className="text-primary mb-0">US Documents</h6>
                 </div>
-                <div className="table-responsive">
-                  <Table bordered hover>
+                <div
+                  className="table-responsive modern-table-wrapper"
+                  style={{
+                    borderRadius: "12px",
+                    border: "1px solid #dee2e6",
+                  }}
+                >
+                  <Table
+                    className="table table-hover modern-table table-nowrap"
+                    style={{ width: "100%", overflowX: "auto" }}
+                  >
                     <thead className="thead-light">
                       <tr>
                         {selectedDocType !== "allrg" && (
@@ -1352,7 +1388,10 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                         )}
                         {userRole !== "B2B Admin" &&
                           userRole !== "B2B Member" &&
-                          userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
+                          userRole !== "Student" &&
+                          userRole !== "LeadStudent" && (
+                            <th>Document Pendency</th>
+                          )}
                         <th>Sr No</th>
                         <th className="fixed-width-doc-name">Document Name</th>
                         <th>Upload File</th>
@@ -1397,7 +1436,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                       type="checkbox"
                                       checked={
                                         selectedRows[
-                                        `rgdocument--1-${index}`
+                                          `rgdocument--1-${index}`
                                         ] || false
                                       }
                                       onChange={() =>
@@ -1406,7 +1445,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           index,
                                           "rgdocument",
                                           doc._id,
-                                          `rgdocument--1-${index}`
+                                          `rgdocument--1-${index}`,
                                         )
                                       }
                                       disabled={doc.status === "Reupload"}
@@ -1416,7 +1455,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                 )}
                                 {userRole !== "B2B Admin" &&
                                   userRole !== "B2B Member" &&
-                                  userRole !== "Student" && userRole !== "LeadStudent" && (
+                                  userRole !== "Student" &&
+                                  userRole !== "LeadStudent" && (
                                     <td>
                                       <div className="form-check form-switch custom-toggle-button me-0">
                                         <input
@@ -1424,12 +1464,12 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           type="checkbox"
                                           id={`toggle-${doc._id}-${index}`}
                                           checked={selectedDocsIds?.includes(
-                                            `${doc._id}-${index}`
+                                            `${doc._id}-${index}`,
                                           )}
                                           onChange={() =>
                                             handleCheckboxChangeId(
                                               `${doc._id}-${index}`,
-                                              docName
+                                              docName,
                                             )
                                           }
                                         />
@@ -1462,7 +1502,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           e,
                                           index,
                                           doc._id,
-                                          docName
+                                          docName,
                                         )
                                       }
                                       className="custom-select-height"
@@ -1498,7 +1538,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
 
                                         handleSingleDocumentDownload(
                                           filePath,
-                                          fileName
+                                          fileName,
                                         );
                                       }}
                                     >
@@ -1517,7 +1557,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                         cursor: "pointer",
                                         color: "#fff",
                                         backgroundColor: getStatusColor(
-                                          doc.status || "unverified"
+                                          doc.status || "unverified",
                                         ),
                                         border: "none",
                                         borderRadius: "4px",
@@ -1537,12 +1577,12 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                           statusOptions.find(
                                             (opt) =>
                                               opt.value ===
-                                              (doc.status || "unverified")
+                                              (doc.status || "unverified"),
                                           ) ||
-                                          statusOptions.find(
-                                            (opt) =>
-                                              opt.value === "unverified"
-                                          )
+                                            statusOptions.find(
+                                              (opt) =>
+                                                opt.value === "unverified",
+                                            ),
                                         );
                                         setRemarks(doc.remarks || "");
                                         setSelectedDocId(doc._id);
@@ -1551,29 +1591,29 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                     >
                                       {(doc.status === "verified" ||
                                         doc.status === "Verified") && (
-                                          <CheckCircleIcon
-                                            className="me-1"
-                                            style={{ fontSize: "16px" }}
-                                          />
-                                        )}
+                                        <CheckCircleIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
                                       {(!doc.status ||
                                         doc.status === "unverified" ||
                                         doc.status === "Unverified") && (
-                                          <CancelIcon
-                                            className="me-1"
-                                            style={{ fontSize: "16px" }}
-                                          />
-                                        )}
+                                        <CancelIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
                                       {(doc.status === "reupload" ||
                                         doc.status === "Reupload") && (
-                                          <UploadIcon
-                                            className="me-1"
-                                            style={{ fontSize: "16px" }}
-                                          />
-                                        )}
+                                        <UploadIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
                                       {doc.status
                                         ? doc.status.charAt(0).toUpperCase() +
-                                        doc.status.slice(1)
+                                          doc.status.slice(1)
                                         : "Unverified"}
                                     </button>
                                   ) : (
@@ -1584,8 +1624,8 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                                 <td>
                                   {doc.createdAt
                                     ? new Date(
-                                      doc.createdAt
-                                    ).toLocaleDateString("en-GB")
+                                        doc.createdAt,
+                                      ).toLocaleDateString("en-GB")
                                     : "-"}
                                 </td>
                                 <td>{doc.remarks || "-"}</td>
@@ -1628,372 +1668,385 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
         {/* Visa Documents */}
         {(selectedDocType === "allrg" ||
           selectedDocType === "visadocuments") && (
-            <>
-              {!(
-                userRole === "Super Admin" || visaDocTypePermission.canShow
-              ) ? null : (
-                <div className="mb-4">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h6 className="text-primary mb-0">Visa Documents</h6>
-                  </div>
-                  <div className="table-responsive">
-                    <Table bordered hover>
-                      <thead className="thead-light">
-                        <tr>
-                          {selectedDocType !== "allrg" && (
-                            <th>
-                              <Form.Check
-                                type="checkbox"
-                                checked={
-                                  selectAllByType["visadocuments"] || false
-                                }
-                                onChange={() =>
-                                  handleSelectAllChange(-1, "visadocuments")
-                                }
-                                className="custom-checkbox"
-                              />
-                            </th>
-                          )}
-                          {userRole !== "B2B Admin" &&
-                            userRole !== "B2B Member" &&
-                            userRole !== "Student" && userRole !== "LeadStudent" && <th>Document Pendency</th>}
-                          <th>Sr No</th>
-                          <th className="fixed-width-doc-name">Document Name</th>
-                          <th>Upload File</th>
-                          <th>Download</th>
-                          <th>Status</th>
-                          <th>Added By</th>
-                          <th>Added On</th>
-                          <th>Remarks</th>
-                          {isStudentUploadAllowed && (
-                            <th className="sticky-col-right-last">Action</th>
-                          )}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {oneStudentData?.uploadedDocumentDetails?.length > 0 ? (
-                          oneStudentData.uploadedDocumentDetails
-                            ?.filter((doc) => {
-                              const allowedDocuments = [
-                                "Visa Fee Payment",
-                                "Appointment Letter",
-                                "Biometrics Receipt",
-                                "PIC Decision",
-                                "D Visa Document",
-                                "Supplementary Additional",
-                                "Visa Application Submission",
-                                "Visa Outcome Proof",
-                                "Balance Certificate",
-                                "Admission Letter",
-                                "Blocked Account Confirmation",
-                                "Remittance Copy",
-                                "Offer / Admission Letter",
-                                "Health Insurance Certificate",
-                                "Visa Application Form Copy",
-                                "Appointment Booking Confirmation",
-                                "Visa Fee Payment Receipt",
-                                "Acknowledgement Slip",
-                                "Submitted Documents Checklist",
-                                "Visa Copy / Grant Document",
-                                "Residence Permit Document",
-                                "Travel Flight Ticket",
-                                "Tuition Fee Receipt",
-                                "Campus France Approval Letter",
-                                "Tuition Fee Payment Receipt",
-                                "Proof of Funds",
-                                "Medical Insurance Certificate",
-                                "France Visas Application Form",
-                                "Receipt Visa Fee Payment",
-                                "Biometrics Slip",
-                                "Visa Decision & Issuance Copy",
-                                "OFII Document",
-                                "Conditional Offer Letters",
-                                "Application Form Lock Document",
-                                "BVL Document",
-                                "Medical Report Certificate",
-                                "GIC Certificate & TT Copy",
-                                "Visa Fee Receipt",
-                                "Submission Confirmation Document",
-                                "Biometric Appointment Confirmation Document",
-                                "PPR Document",
-                                "Visa Document",
-                                "POE Letter Document",
-                                "Visa Copy",
-                                "Application Balance Certificate",
-                                "I-20 Document",
-                                "DS-160 Confirmation",
-                                "DS-160 Confirmation Page",
-                                "Payment Receipt",
-                                "Appointment Confirmation",
-                                "SEVIS Fee Receipt",
-                                "Visa Decision Copy",
-                                "OSHC Certificate",
-                                "Application Form Copy",
-                                "Biometrics Acknowledgement",
-                                "Pre-Departure Checklist",
-                                "Offer Letter",
-                                "COE Document",
-                                "Medical Report",
-                                "Tuition Fee Receipts",
-                                "Visa Fee",
-                                "Visa Grant Letter",
-                                "Flight Ticket",
-                                "Fee Receipt",
-                                "Maintenance Funds Proof",
-                                "Fund Proof",
-                                "CAS Letter",
-                                "TB Certificate",
-                                "Application Form PDF",
-                                "IHS Receipt",
-                                "Embassy Visa Fee Receipt",
-                                "VFS Visa Fee Receipt",
-                                "Biometric Appointment Confirmation",
-                                "Biometric Slip",
-                              ];
-                              return (
-                                doc.customDocumentName &&
-                                allowedDocuments.includes(doc.customDocumentName)
-                              );
-                            })
-                            ?.map((doc, index) => {
-                              const docName =
-                                doc.customDocumentName ||
-                                doc.documentName ||
-                                "Unnamed Document";
-                              return (
-                                <tr key={doc._id}>
-                                  {selectedDocType !== "allrg" && (
-                                    <td>
-                                      <Form.Check
-                                        type="checkbox"
-                                        checked={
-                                          selectedRows[
-                                          `visadocuments--1-${index}`
-                                          ] || false
-                                        }
-                                        onChange={() =>
-                                          handleCheckboxChange(
-                                            -1,
-                                            index,
-                                            "visadocuments",
-                                            doc._id,
-                                            `visadocuments--1-${index}`
-                                          )
-                                        }
-                                        disabled={doc.status === "Reupload"}
-                                        className="custom-checkbox"
-                                      />
-                                    </td>
-                                  )}
-                                  {userRole !== "B2B Admin" &&
-                                    userRole !== "B2B Member" &&
-                                    userRole !== "Student" && userRole !== "LeadStudent" && (
-                                      <td>
-                                        <div className="form-check form-switch custom-toggle-button me-0">
-                                          <input
-                                            className="form-check-input three-dots-icon"
-                                            type="checkbox"
-                                            id={`toggle-${doc._id}-${index}`}
-                                            checked={selectedDocsIds?.includes(
-                                              `${doc._id}-${index}`
-                                            )}
-                                            onChange={() =>
-                                              handleCheckboxChangeId(
-                                                `${doc._id}-${index}`,
-                                                docName
-                                              )
-                                            }
-                                          />
-                                        </div>
-                                      </td>
-                                    )}
-                                  <td>{index + 1}</td>
-                                  <td className="fixed-width-doc-name">
-                                    <OverlayTrigger
-                                      placement="top"
-                                      overlay={renderTooltip(docName)}
-                                    >
-                                      <span>{docName}</span>
-                                    </OverlayTrigger>
-                                  </td>
-                                  <td>
-                                    {doc.status !== "Reupload" ? (
-                                      <span className="text-success me-2">
-                                        {normalizeFilePath(doc.filePath)
-                                          ?.split("/")
-                                          ?.pop() || "No File"}
-                                      </span>
-                                    ) : (
-                                      <Form.Control
-                                        type="file"
-                                        accept="image/*,application/pdf"
-                                        onChange={(e) =>
-                                          handleOtherDocUpload(
-                                            e,
-                                            index,
-                                            doc._id,
-                                            docName
-                                          )
-                                        }
-                                        className="custom-select-height"
-                                        disabled={!isStudentUploadAllowed}
-                                      />
-                                    )}
-                                  </td>
-                                  <td>
-                                    {doc.status !== "Reupload" ? (
-                                      <button
-                                        className="btn btn-sm fw-normal rounded-4"
-                                        style={{
-                                          cursor: "pointer",
-                                          color: "#fff",
-                                          backgroundColor: "#007bff",
-                                          height: "32px",
-                                          width: "100px",
-                                        }}
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          // const fileName =
-                                          //   doc.filePath?.split("/")?.pop() ||
-                                          //   "document";
-                                          // handleSingleDocumentDownload(
-                                          //   id,
-                                          //   doc._id,
-                                          //   fileName
-                                          // );
-                                          const filePath = doc?.filePath;
-                                          const fileName = filePath
-                                            ?.split("/")
-                                            ?.pop();
-
-                                          handleSingleDocumentDownload(
-                                            filePath,
-                                            fileName
-                                          );
-                                        }}
-                                      >
-                                        <DownloadIcon />
-                                        Download
-                                      </button>
-                                    ) : (
-                                      <span>-</span>
-                                    )}
-                                  </td>
-                                  <td>
-                                    {doc ? (
-                                      <button
-                                        className="btn btn-sm fw-normal d-flex align-items-center justify-content-center rounded-4"
-                                        style={{
-                                          cursor: "pointer",
-                                          color: "#fff",
-                                          backgroundColor: getStatusColor(
-                                            doc.status || "unverified"
-                                          ),
-                                          border: "none",
-                                          borderRadius: "4px",
-                                          padding: "5px 10px",
-                                          height: "32px",
-                                          width: "100px",
-                                          fontSize: "14px",
-                                        }}
-                                        disabled={
-                                          (!isStudentUploadAllowed &&
-                                            activeTab === "document" &&
-                                            !showApplicationStatusSelect) ||
-                                          activeTab !== "document"
-                                        }
-                                        onClick={() => {
-                                          setSelectedStatus(
-                                            statusOptions.find(
-                                              (opt) =>
-                                                opt.value ===
-                                                (doc.status || "unverified")
-                                            ) ||
-                                            statusOptions.find(
-                                              (opt) =>
-                                                opt.value === "unverified"
-                                            )
-                                          );
-                                          setRemarks(doc.remarks || "");
-                                          setSelectedDocId(doc._id);
-                                          setShowModal(true);
-                                        }}
-                                      >
-                                        {(doc.status === "verified" ||
-                                          doc.status === "Verified") && (
-                                            <CheckCircleIcon
-                                              className="me-1"
-                                              style={{ fontSize: "16px" }}
-                                            />
-                                          )}
-                                        {(!doc.status ||
-                                          doc.status === "unverified" ||
-                                          doc.status === "Unverified") && (
-                                            <CancelIcon
-                                              className="me-1"
-                                              style={{ fontSize: "16px" }}
-                                            />
-                                          )}
-                                        {(doc.status === "reupload" ||
-                                          doc.status === "Reupload") && (
-                                            <UploadIcon
-                                              className="me-1"
-                                              style={{ fontSize: "16px" }}
-                                            />
-                                          )}
-                                        {doc.status
-                                          ? doc.status.charAt(0).toUpperCase() +
-                                          doc.status.slice(1)
-                                          : "Unverified"}
-                                      </button>
-                                    ) : (
-                                      <span>-</span>
-                                    )}
-                                  </td>
-                                  <td>{doc.createdByName || "-"}</td>
-                                  <td>
-                                    {doc.createdAt
-                                      ? new Date(
-                                        doc.createdAt
-                                      ).toLocaleDateString("en-GB")
-                                      : "-"}
-                                  </td>
-                                  <td>{doc.remarks || "-"}</td>
-                                  {isStudentUploadAllowed && (
-                                    <td className="sticky-col-right-last">
-                                      {/* {canDelete && ( */}
-                                      <Button
-                                        variant="link"
-                                        className="text-danger"
-                                        style={{ fontSize: "18px" }}
-                                        onClick={() => {
-                                          setSelectedItem(doc._id);
-                                          setShowDeleteModal(true);
-                                        }}
-                                        title="Delete"
-                                      >
-                                        <FaTrashAlt />
-                                      </Button>
-                                      {/* )} */}
-                                    </td>
-                                  )}
-                                </tr>
-                              );
-                            })
-                        ) : (
-                          <tr>
-                            <td colSpan="11" className="text-muted text-center">
-                              No Visa documents available
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </Table>
-                  </div>
+          <>
+            {!(
+              userRole === "Super Admin" || visaDocTypePermission.canShow
+            ) ? null : (
+              <div className="mb-4">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h6 className="text-primary mb-0">Visa Documents</h6>
                 </div>
-              )}
-            </>
-          )}
+                <div
+                  className="table-responsive modern-table-wrapper"
+                  style={{
+                    borderRadius: "12px",
+                    border: "1px solid #dee2e6",
+                  }}
+                >
+                  <Table
+                    className="table table-hover modern-table table-nowrap"
+                    style={{ width: "100%", overflowX: "auto" }}
+                  >
+                    <thead className="thead-light">
+                      <tr>
+                        {selectedDocType !== "allrg" && (
+                          <th>
+                            <Form.Check
+                              type="checkbox"
+                              checked={
+                                selectAllByType["visadocuments"] || false
+                              }
+                              onChange={() =>
+                                handleSelectAllChange(-1, "visadocuments")
+                              }
+                              className="custom-checkbox"
+                            />
+                          </th>
+                        )}
+                        {userRole !== "B2B Admin" &&
+                          userRole !== "B2B Member" &&
+                          userRole !== "Student" &&
+                          userRole !== "LeadStudent" && (
+                            <th>Document Pendency</th>
+                          )}
+                        <th>Sr No</th>
+                        <th className="fixed-width-doc-name">Document Name</th>
+                        <th>Upload File</th>
+                        <th>Download</th>
+                        <th>Status</th>
+                        <th>Added By</th>
+                        <th>Added On</th>
+                        <th>Remarks</th>
+                        {isStudentUploadAllowed && (
+                          <th className="sticky-col-right-last">Action</th>
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {oneStudentData?.uploadedDocumentDetails?.length > 0 ? (
+                        oneStudentData.uploadedDocumentDetails
+                          ?.filter((doc) => {
+                            const allowedDocuments = [
+                              "Visa Fee Payment",
+                              "Appointment Letter",
+                              "Biometrics Receipt",
+                              "PIC Decision",
+                              "D Visa Document",
+                              "Supplementary Additional",
+                              "Visa Application Submission",
+                              "Visa Outcome Proof",
+                              "Balance Certificate",
+                              "Admission Letter",
+                              "Blocked Account Confirmation",
+                              "Remittance Copy",
+                              "Offer / Admission Letter",
+                              "Health Insurance Certificate",
+                              "Visa Application Form Copy",
+                              "Appointment Booking Confirmation",
+                              "Visa Fee Payment Receipt",
+                              "Acknowledgement Slip",
+                              "Submitted Documents Checklist",
+                              "Visa Copy / Grant Document",
+                              "Residence Permit Document",
+                              "Travel Flight Ticket",
+                              "Tuition Fee Receipt",
+                              "Campus France Approval Letter",
+                              "Tuition Fee Payment Receipt",
+                              "Proof of Funds",
+                              "Medical Insurance Certificate",
+                              "France Visas Application Form",
+                              "Receipt Visa Fee Payment",
+                              "Biometrics Slip",
+                              "Visa Decision & Issuance Copy",
+                              "OFII Document",
+                              "Conditional Offer Letters",
+                              "Application Form Lock Document",
+                              "BVL Document",
+                              "Medical Report Certificate",
+                              "GIC Certificate & TT Copy",
+                              "Visa Fee Receipt",
+                              "Submission Confirmation Document",
+                              "Biometric Appointment Confirmation Document",
+                              "PPR Document",
+                              "Visa Document",
+                              "POE Letter Document",
+                              "Visa Copy",
+                              "Application Balance Certificate",
+                              "I-20 Document",
+                              "DS-160 Confirmation",
+                              "DS-160 Confirmation Page",
+                              "Payment Receipt",
+                              "Appointment Confirmation",
+                              "SEVIS Fee Receipt",
+                              "Visa Decision Copy",
+                              "OSHC Certificate",
+                              "Application Form Copy",
+                              "Biometrics Acknowledgement",
+                              "Pre-Departure Checklist",
+                              "Offer Letter",
+                              "COE Document",
+                              "Medical Report",
+                              "Tuition Fee Receipts",
+                              "Visa Fee",
+                              "Visa Grant Letter",
+                              "Flight Ticket",
+                              "Fee Receipt",
+                              "Maintenance Funds Proof",
+                              "Fund Proof",
+                              "CAS Letter",
+                              "TB Certificate",
+                              "Application Form PDF",
+                              "IHS Receipt",
+                              "Embassy Visa Fee Receipt",
+                              "VFS Visa Fee Receipt",
+                              "Biometric Appointment Confirmation",
+                              "Biometric Slip",
+                            ];
+                            return (
+                              doc.customDocumentName &&
+                              allowedDocuments.includes(doc.customDocumentName)
+                            );
+                          })
+                          ?.map((doc, index) => {
+                            const docName =
+                              doc.customDocumentName ||
+                              doc.documentName ||
+                              "Unnamed Document";
+                            return (
+                              <tr key={doc._id}>
+                                {selectedDocType !== "allrg" && (
+                                  <td>
+                                    <Form.Check
+                                      type="checkbox"
+                                      checked={
+                                        selectedRows[
+                                          `visadocuments--1-${index}`
+                                        ] || false
+                                      }
+                                      onChange={() =>
+                                        handleCheckboxChange(
+                                          -1,
+                                          index,
+                                          "visadocuments",
+                                          doc._id,
+                                          `visadocuments--1-${index}`,
+                                        )
+                                      }
+                                      disabled={doc.status === "Reupload"}
+                                      className="custom-checkbox"
+                                    />
+                                  </td>
+                                )}
+                                {userRole !== "B2B Admin" &&
+                                  userRole !== "B2B Member" &&
+                                  userRole !== "Student" &&
+                                  userRole !== "LeadStudent" && (
+                                    <td>
+                                      <div className="form-check form-switch custom-toggle-button me-0">
+                                        <input
+                                          className="form-check-input three-dots-icon"
+                                          type="checkbox"
+                                          id={`toggle-${doc._id}-${index}`}
+                                          checked={selectedDocsIds?.includes(
+                                            `${doc._id}-${index}`,
+                                          )}
+                                          onChange={() =>
+                                            handleCheckboxChangeId(
+                                              `${doc._id}-${index}`,
+                                              docName,
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                    </td>
+                                  )}
+                                <td>{index + 1}</td>
+                                <td className="fixed-width-doc-name">
+                                  <OverlayTrigger
+                                    placement="top"
+                                    overlay={renderTooltip(docName)}
+                                  >
+                                    <span>{docName}</span>
+                                  </OverlayTrigger>
+                                </td>
+                                <td>
+                                  {doc.status !== "Reupload" ? (
+                                    <span className="text-success me-2">
+                                      {normalizeFilePath(doc.filePath)
+                                        ?.split("/")
+                                        ?.pop() || "No File"}
+                                    </span>
+                                  ) : (
+                                    <Form.Control
+                                      type="file"
+                                      accept="image/*,application/pdf"
+                                      onChange={(e) =>
+                                        handleOtherDocUpload(
+                                          e,
+                                          index,
+                                          doc._id,
+                                          docName,
+                                        )
+                                      }
+                                      className="custom-select-height"
+                                      disabled={!isStudentUploadAllowed}
+                                    />
+                                  )}
+                                </td>
+                                <td>
+                                  {doc.status !== "Reupload" ? (
+                                    <button
+                                      className="btn btn-sm fw-normal rounded-4"
+                                      style={{
+                                        cursor: "pointer",
+                                        color: "#fff",
+                                        backgroundColor: "#007bff",
+                                        height: "32px",
+                                        width: "100px",
+                                      }}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        // const fileName =
+                                        //   doc.filePath?.split("/")?.pop() ||
+                                        //   "document";
+                                        // handleSingleDocumentDownload(
+                                        //   id,
+                                        //   doc._id,
+                                        //   fileName
+                                        // );
+                                        const filePath = doc?.filePath;
+                                        const fileName = filePath
+                                          ?.split("/")
+                                          ?.pop();
+
+                                        handleSingleDocumentDownload(
+                                          filePath,
+                                          fileName,
+                                        );
+                                      }}
+                                    >
+                                      <DownloadIcon />
+                                      Download
+                                    </button>
+                                  ) : (
+                                    <span>-</span>
+                                  )}
+                                </td>
+                                <td>
+                                  {doc ? (
+                                    <button
+                                      className="btn btn-sm fw-normal d-flex align-items-center justify-content-center rounded-4"
+                                      style={{
+                                        cursor: "pointer",
+                                        color: "#fff",
+                                        backgroundColor: getStatusColor(
+                                          doc.status || "unverified",
+                                        ),
+                                        border: "none",
+                                        borderRadius: "4px",
+                                        padding: "5px 10px",
+                                        height: "32px",
+                                        width: "100px",
+                                        fontSize: "14px",
+                                      }}
+                                      disabled={
+                                        (!isStudentUploadAllowed &&
+                                          activeTab === "document" &&
+                                          !showApplicationStatusSelect) ||
+                                        activeTab !== "document"
+                                      }
+                                      onClick={() => {
+                                        setSelectedStatus(
+                                          statusOptions.find(
+                                            (opt) =>
+                                              opt.value ===
+                                              (doc.status || "unverified"),
+                                          ) ||
+                                            statusOptions.find(
+                                              (opt) =>
+                                                opt.value === "unverified",
+                                            ),
+                                        );
+                                        setRemarks(doc.remarks || "");
+                                        setSelectedDocId(doc._id);
+                                        setShowModal(true);
+                                      }}
+                                    >
+                                      {(doc.status === "verified" ||
+                                        doc.status === "Verified") && (
+                                        <CheckCircleIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
+                                      {(!doc.status ||
+                                        doc.status === "unverified" ||
+                                        doc.status === "Unverified") && (
+                                        <CancelIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
+                                      {(doc.status === "reupload" ||
+                                        doc.status === "Reupload") && (
+                                        <UploadIcon
+                                          className="me-1"
+                                          style={{ fontSize: "16px" }}
+                                        />
+                                      )}
+                                      {doc.status
+                                        ? doc.status.charAt(0).toUpperCase() +
+                                          doc.status.slice(1)
+                                        : "Unverified"}
+                                    </button>
+                                  ) : (
+                                    <span>-</span>
+                                  )}
+                                </td>
+                                <td>{doc.createdByName || "-"}</td>
+                                <td>
+                                  {doc.createdAt
+                                    ? new Date(
+                                        doc.createdAt,
+                                      ).toLocaleDateString("en-GB")
+                                    : "-"}
+                                </td>
+                                <td>{doc.remarks || "-"}</td>
+                                {isStudentUploadAllowed && (
+                                  <td className="sticky-col-right-last">
+                                    {/* {canDelete && ( */}
+                                    <Button
+                                      variant="link"
+                                      className="text-danger"
+                                      style={{ fontSize: "18px" }}
+                                      onClick={() => {
+                                        setSelectedItem(doc._id);
+                                        setShowDeleteModal(true);
+                                      }}
+                                      title="Delete"
+                                    >
+                                      <FaTrashAlt />
+                                    </Button>
+                                    {/* )} */}
+                                  </td>
+                                )}
+                              </tr>
+                            );
+                          })
+                      ) : (
+                        <tr>
+                          <td colSpan="11" className="text-muted text-center">
+                            No Visa documents available
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>
+                </div>
+              </div>
+            )}
+          </>
+        )}
 
         {/* Modal for Other Document */}
         <Modal
@@ -2059,7 +2112,7 @@ console.log("isStudentUploadAllowed", isStudentUploadAllowed, oneStudentData?.do
                       for (let file of files) {
                         if (!allowedTypes.includes(file.type)) {
                           toast.error(
-                            `❌ ${file.name} is not a supported file type`
+                            `❌ ${file.name} is not a supported file type`,
                           );
                           return;
                         }

@@ -199,8 +199,6 @@ const PromotionalDocDetails = () => {
           Array.from(values.documents).forEach((file) => {
             formData.append("material", file);
           });
-        } else {
-          formData.append("material", "");
         }
 
         let res;

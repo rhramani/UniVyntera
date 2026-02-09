@@ -24,7 +24,7 @@ const Backtotop = () => {
       <div
         style={{
           position: "fixed",
-          bottom: "20px", 
+          bottom: "20px",
           right: "20px",
           display: "flex",
           gap: "10px",
@@ -32,7 +32,7 @@ const Backtotop = () => {
           transition: "bottom 0.3s ease",
         }}
       >
-        <Button
+        {/* <Button
           variant="primary"
           style={{
             border: "none",
@@ -48,7 +48,7 @@ const Backtotop = () => {
           onClick={() => setShowWhatsAppUI(!showWhatsAppUI)}
         >
           Chat
-        </Button>
+        </Button> */}
         {BacktoTop && (
           <Button onClick={screenup}>
             <i className="fe fe-arrow-up fs-14 pr-10"></i>

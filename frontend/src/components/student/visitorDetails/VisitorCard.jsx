@@ -97,19 +97,21 @@ const VisitorCard = ({
                   <div className="d-flex align-items-start gap-3">
                     <div>
                       <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
-                        <span
-                          className="badge border-0 fw-bold px-2 py-1 shadow-sm"
-                          style={{
-                            fontSize: "0.7rem",
-                            letterSpacing: "0.8px",
-                            backgroundColor: "#5d54be",
-                            color: "#ffffff",
-                            borderRadius: "4px",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {item?.studentId || "N/A"}
-                        </span>
+                        {item?.studentId && (
+                          <span
+                            className="badge border-0 fw-bold px-2 py-1 shadow-sm"
+                            style={{
+                              fontSize: "0.7rem",
+                              letterSpacing: "0.8px",
+                              backgroundColor: "#5d54be",
+                              color: "#ffffff",
+                              borderRadius: "4px",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            {item?.studentId || "N/A"}
+                          </span>
+                        )}
                         <h5
                           className="mb-0 fw-bold"
                           style={{
@@ -169,63 +171,62 @@ const VisitorCard = ({
                           {item?.created_by_type?.length > 0 && (
                             <div
                               className="d-flex align-items-center me-3"
-                              style={{ color: "#6366f1" }}
+                              // style={{ color: "#6366f1" }}
                             >
                               <AssignmentIndIcon
-                                className="me-1"
+                                className="me-1 flex-shrink-0"
+                                size={18}
                                 style={{
-                                  fontSize: "15px",
-                                  color: "#6366f1",
-                                  opacity: 0.9,
+                                  color: "#475569",
                                 }}
                               />
-                              <strong style={{ opacity: 0.8 }}>Type</strong>
+                              <div className="text-muted small fw-medium mb-0">
+                                Type
+                              </div>
                               &nbsp;:&nbsp;
                               <span className="fw-semibold">
                                 {item?.created_by_type === "B2B Admin" ||
                                 item?.created_by_type === "B2B Member" ? (
                                   <>
-                                    B2B Partner{" "}
-                                    {item?.b2bCompany &&
-                                      `(${item?.b2bCompany})`}
+                                    B2B Partner
+                                    {item?.b2bCompany && ` (${item.branch})`}
                                   </>
                                 ) : item?.created_by_type === "user" ? (
                                   <>
-                                    Head Office{" "}
-                                    {item?.b2bCompany &&
-                                      `(${item?.b2bCompany})`}
+                                    Head Office
+                                    {item?.b2bCompany && ` (${item.branch})`}
+                                  </>
+                                ) : item?.created_by_type === "Branch" ||
+                                  item?.created_by_type === "branch" ? (
+                                  <>
+                                    Branch
+                                    {item?.createdByName &&
+                                      ` (${item.createdByName})`}
                                   </>
                                 ) : item?.created_by_type === "Branch User" ||
                                   item?.created_by_type === "Branch user" ? (
                                   <>
-                                    Branch Member{" "}
-                                    {item?.branch && `(${item?.branch})`}
+                                    Branch User
+                                    {item?.branch && ` (${item.branch})`}
                                   </>
                                 ) : (
-                                  <>
-                                    {item?.created_by_type}{" "}
-                                    {item?.branch && `(${item?.branch})`}
-                                  </>
+                                  item?.created_by_type
                                 )}
                               </span>
                             </div>
                           )}
                           {item?.createdByName?.length > 0 && (
-                            <div
-                              className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
-                              style={{ color: "#7c3aed" }}
-                            >
+                            <div className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex">
                               <PersonIcon
-                                className="me-1"
+                                className="me-1 flex-shrink-0"
+                                size={18}
                                 style={{
-                                  fontSize: "15px",
-                                  color: "#7c3aed",
-                                  opacity: 0.9,
+                                  color: "#0F766E",
                                 }}
                               />
-                              <strong style={{ opacity: 0.8 }}>
+                              <div className="text-muted small fw-medium mb-0">
                                 Created By
-                              </strong>
+                              </div>
                               &nbsp;:&nbsp;
                               <span className="fw-semibold">
                                 {item?.createdByName}
@@ -233,21 +234,17 @@ const VisitorCard = ({
                             </div>
                           )}
                           {item?.updatedByName?.length > 0 && (
-                            <div
-                              className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
-                              style={{ color: "#4f46e5" }}
-                            >
+                            <div className="d-flex align-items-center border-start ps-3 d-none d-md-flex">
                               <CreateIcon
-                                className="me-1"
+                                className="me-1 flex-shrink-0"
+                                size={18}
                                 style={{
-                                  fontSize: "15px",
-                                  color: "#4f46e5",
-                                  opacity: 0.9,
+                                  color: "#92400E",
                                 }}
                               />
-                              <strong style={{ opacity: 0.8 }}>
+                              <div className="text-muted small fw-medium mb-0">
                                 Updated By
-                              </strong>
+                              </div>
                               &nbsp;:&nbsp;
                               <span className="fw-semibold">
                                 {item?.updatedByName}

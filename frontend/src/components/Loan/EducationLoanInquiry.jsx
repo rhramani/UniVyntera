@@ -24,6 +24,9 @@ import { getAllLoanStatus } from "../../redux/actions/Master/EducationLoanStatus
 import { MdCalendarToday } from "react-icons/md";
 import Calendar from "react-calendar";
 import LoadMoreButton from "../commonComponents/LoadMoreButton";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/bootstrap.css";
+import { countryCodeISO } from "../../utils/countryISOCode";
 
 const EducationLoanInquiry = () => {
   const dispatch = useDispatch();
@@ -50,8 +53,7 @@ const EducationLoanInquiry = () => {
   // Loan modal date state
   const [showLoanStartDateCalendar, setShowLoanStartDateCalendar] =
     useState(false);
-  const [showLoanEndDateCalendar, setShowLoanEndDateCalendar] =
-    useState(false);
+  const [showLoanEndDateCalendar, setShowLoanEndDateCalendar] = useState(false);
   const [loanStartDateValue, setLoanStartDateValue] = useState(null);
   const [loanEndDateValue, setLoanEndDateValue] = useState(null);
   const loanStartDateInputRef = useRef(null);
@@ -188,7 +190,14 @@ const EducationLoanInquiry = () => {
         filters.followUpEndDate,
       );
     }
-  }, [currentPage, search, filters.startDate, filters.endDate, filters.followUpStartDate, filters.followUpEndDate]);
+  }, [
+    currentPage,
+    search,
+    filters.startDate,
+    filters.endDate,
+    filters.followUpStartDate,
+    filters.followUpEndDate,
+  ]);
 
   const handleItemsPerPageChange = (newItemsPerPage) => {
     setItemsPerPage(newItemsPerPage);
@@ -262,7 +271,7 @@ const EducationLoanInquiry = () => {
           Yup.ref("loanStartDate"),
           "Loan End Date must be after Loan Start Date",
         ),
-        followup: Yup.date(),
+      followup: Yup.date(),
       status: Yup.string().required("Status is required"),
     }),
     validateOnBlur: false,
@@ -704,9 +713,7 @@ const EducationLoanInquiry = () => {
                           ref={filterEndDateInputRef}
                           onClick={() => {
                             if (filters.endDate) {
-                              setFilterEndDateValue(
-                                parseDate(filters.endDate),
-                              );
+                              setFilterEndDateValue(parseDate(filters.endDate));
                             }
                             setShowFilterEndDateCalendar((show) => !show);
                           }}
@@ -844,9 +851,7 @@ const EducationLoanInquiry = () => {
                     <Row className="mb-3 mt-0">
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="studentName">
-                          <Form.Label className="fw-semibold">
-                            Student Name
-                          </Form.Label>
+                          <Form.Label>Student Name</Form.Label>
                           <Form.Control
                             type="text"
                             className="custom-select-height"
@@ -863,9 +868,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="course">
-                          <Form.Label className="fw-semibold">
-                            Course
-                          </Form.Label>
+                          <Form.Label>Course</Form.Label>
                           <Select
                             options={courseOptions}
                             value={
@@ -894,9 +897,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="country">
-                          <Form.Label className="fw-semibold">
-                            Country
-                          </Form.Label>
+                          <Form.Label>Country</Form.Label>
                           <Select
                             options={countryOptions}
                             value={
@@ -925,9 +926,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="requiredLoan">
-                          <Form.Label className="fw-semibold">
-                            Required Loan
-                          </Form.Label>
+                          <Form.Label>Required Loan</Form.Label>
                           <Form.Control
                             type="number"
                             className="custom-select-height"
@@ -944,14 +943,38 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="contact">
-                          <Form.Label className="fw-semibold">
-                            Contact No
-                          </Form.Label>
-                          <Form.Control
-                            type="tel"
-                            className="custom-select-height"
-                            placeholder="Enter contact number"
-                            {...formik.getFieldProps("contact")}
+                          <Form.Label>Contact No</Form.Label>
+                          <PhoneInput
+                            country={countryCodeISO()}
+                            value={formik.values.contact || ""}
+                            onChange={(phone, data) => {
+                              if (!phone || phone === data.dialCode) {
+                                formik.setFieldValue("contact", "");
+                              } else {
+                                const dialCode = data.dialCode
+                                  ? `+${data.dialCode}`
+                                  : "";
+                                const formattedPhone =
+                                  `${dialCode} ${phone.replace(
+                                    data.dialCode,
+                                    "",
+                                  )}`.trim();
+                                formik.setFieldValue("contact", formattedPhone);
+                              }
+                            }}
+                            inputProps={{
+                              name: "contact",
+                              required: true,
+                              className: "form-control custom-select-height",
+                            }}
+                            inputStyle={{
+                              width: "100%",
+                              paddingLeft: "65px",
+                              borderRadius: "4px",
+                            }}
+                            buttonStyle={{
+                              marginRight: "10px",
+                            }}
                           />
                           {formik.touched.contact && formik.errors.contact && (
                             <div className="text-danger">
@@ -962,7 +985,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="email">
-                          <Form.Label className="fw-semibold">Email</Form.Label>
+                          <Form.Label>Email</Form.Label>
                           <Form.Control
                             type="email"
                             className="custom-select-height"
@@ -978,9 +1001,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="parentName">
-                          <Form.Label className="fw-semibold">
-                            Parents Name
-                          </Form.Label>
+                          <Form.Label>Parents Name</Form.Label>
                           <Form.Control
                             type="text"
                             className="custom-select-height"
@@ -997,9 +1018,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="parentContact">
-                          <Form.Label className="fw-semibold">
-                            Parents Contact No
-                          </Form.Label>
+                          <Form.Label>Parents Contact No</Form.Label>
                           <Form.Control
                             type="tel"
                             className="custom-select-height"
@@ -1016,9 +1035,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="occupation">
-                          <Form.Label className="fw-semibold">
-                            Father's Occupation
-                          </Form.Label>
+                          <Form.Label>Father's Occupation</Form.Label>
                           <Select
                             options={occupationOptions}
                             value={
@@ -1048,9 +1065,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="income">
-                          <Form.Label className="fw-semibold">
-                            Income
-                          </Form.Label>
+                          <Form.Label>Income</Form.Label>
                           <Form.Control
                             type="number"
                             className="custom-select-height"
@@ -1066,9 +1081,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="approvedBank">
-                          <Form.Label className="fw-semibold">
-                            Approved Bank
-                          </Form.Label>
+                          <Form.Label>Approved Bank</Form.Label>
                           <Form.Control
                             type="text"
                             className="custom-select-height"
@@ -1085,9 +1098,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="approvedAmount">
-                          <Form.Label className="fw-semibold">
-                            Approved Amount
-                          </Form.Label>
+                          <Form.Label>Approved Amount</Form.Label>
                           <Form.Control
                             type="number"
                             className="custom-select-height"
@@ -1104,9 +1115,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="interestAmount">
-                          <Form.Label className="fw-semibold">
-                            Interest Amount
-                          </Form.Label>
+                          <Form.Label>Interest Amount</Form.Label>
                           <Form.Control
                             type="number"
                             className="custom-select-height"
@@ -1123,9 +1132,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="loanType">
-                          <Form.Label className="fw-semibold">
-                            Loan Type
-                          </Form.Label>
+                          <Form.Label>Loan Type</Form.Label>
                           <Form.Control
                             type="text"
                             className="custom-select-height"
@@ -1142,9 +1149,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="remarks">
-                          <Form.Label className="fw-semibold">
-                            Remarks
-                          </Form.Label>
+                          <Form.Label>Remarks</Form.Label>
                           <Form.Control
                             as="textarea"
                             className="custom-select-height"
@@ -1160,9 +1165,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="loanStartDate">
-                          <Form.Label className="fw-semibold">
-                            Loan Start Date
-                          </Form.Label>
+                          <Form.Label>Loan Start Date</Form.Label>
                           <div style={{ position: "relative" }}>
                             <Form.Control
                               type="text"
@@ -1253,9 +1256,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="loanEndDate">
-                          <Form.Label className="fw-semibold">
-                            Loan End Date
-                          </Form.Label>
+                          <Form.Label>Loan End Date</Form.Label>
                           <div style={{ position: "relative" }}>
                             <Form.Control
                               type="text"
@@ -1346,9 +1347,7 @@ const EducationLoanInquiry = () => {
                       </Col>
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="status">
-                          <Form.Label className="fw-semibold">
-                            Status
-                          </Form.Label>
+                          <Form.Label>Status</Form.Label>
                           <Select
                             options={statusOptions}
                             value={
@@ -1378,9 +1377,7 @@ const EducationLoanInquiry = () => {
 
                       <Col md={6} lg={4} className="mb-3">
                         <Form.Group controlId="followUpDate">
-                          <Form.Label className="fw-semibold">
-                            Follow-up Date
-                          </Form.Label>
+                          <Form.Label>Follow-up Date</Form.Label>
 
                           <div style={{ position: "relative" }}>
                             <Form.Control
@@ -1502,7 +1499,7 @@ const EducationLoanInquiry = () => {
               />
 
               {totalPages > 1 && allLoans.length > 0 && (
-                 <div className="mt-4 d-flex justify-content-end align-items-end">
+                <div className="mt-4 d-flex justify-content-end align-items-end">
                   <Paginations
                     currentPage={currentPage}
                     totalPages={totalPages}

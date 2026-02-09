@@ -908,12 +908,10 @@ const Announcements = () => {
       <Row className="mt-3 mt-md-5 row-sm">
         <Col xs={12}>
           <Card className="premium-announcement-card shadow-lg mb-4">
-            <Card.Header className="premium-announcement-header">
-              <div className="card-title">
-                <i className="bi bi-megaphone-fill me-2"></i>
-                Create New Announcement
-              </div>
-            </Card.Header>
+            <Card.Header
+              className="premium-announcement-header"
+              style={{ backgroundColor: "#5D54BE" }}
+            ></Card.Header>
             <Card.Body className="p-4 p-md-5">
               {(canCreate || canUpdate) && (
                 <Form onSubmit={formik.handleSubmit}>

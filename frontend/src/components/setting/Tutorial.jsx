@@ -499,7 +499,7 @@ const Tutorial = () => {
                 onHide={handleCloseAddModal}
                 centered
                 size="lg"
-                className="premium-modal"
+                // className="premium-modal"
               >
                 <Modal.Header className="form-main-heading p-4">
                   <Modal.Title className="fw-bold text-white d-flex align-items-center gap-2">

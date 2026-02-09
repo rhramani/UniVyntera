@@ -99,7 +99,7 @@ const BiometricsSection = ({
                     </div>
             )} */}
         </div>
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form className="d-flex align-items-end gap-3">
             <Col md={6}>
               <Form.Label>Upload Biometrics Receipt</Form.Label>

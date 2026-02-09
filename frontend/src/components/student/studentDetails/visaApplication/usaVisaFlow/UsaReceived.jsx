@@ -251,7 +251,7 @@ const UsaReceived = ({ id }) => {
         <div className="d-flex justify-content-between align-items-center">
           <h5>I-20 Received</h5>
         </div>
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form onSubmit={formik.handleSubmit}>
             <Row>
               <Col md={4} className="mb-3">

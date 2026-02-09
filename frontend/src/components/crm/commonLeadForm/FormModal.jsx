@@ -1,26 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ErrorMessage, Formik } from 'formik';
-import { Button, Col, Form, Modal, Row, Table } from 'react-bootstrap';
-import Select from 'react-select';
-import { AiOutlineClose } from 'react-icons/ai';
-import PhoneInput from 'react-phone-input-2';
-import { FaChevronDown, FaChevronUp, FaPlus } from 'react-icons/fa';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import { MdCalendarToday } from 'react-icons/md';
-import { getAllProgramLevel } from '../../../redux/actions/Master/ProgramLevel.action';
-import { useDispatch } from 'react-redux';
-import ChatComponent from '../../student/studentDetails/chat/ChatComponent';
-import B2bChatComponent from '../../student/studentDetails/chat/B2bChatComponent';
-import { countryCodeISO } from '../../../utils/countryISOCode';
+import React, { useEffect, useRef, useState } from "react";
+import { ErrorMessage, Formik } from "formik";
+import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import Select from "react-select";
+import { AiOutlineClose } from "react-icons/ai";
+import PhoneInput from "react-phone-input-2";
+import { FaChevronDown, FaChevronUp, FaPlus } from "react-icons/fa";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { MdCalendarToday } from "react-icons/md";
+import { getAllProgramLevel } from "../../../redux/actions/Master/ProgramLevel.action";
+import { useDispatch } from "react-redux";
+import ChatComponent from "../../student/studentDetails/chat/ChatComponent";
+import B2bChatComponent from "../../student/studentDetails/chat/B2bChatComponent";
+import { countryCodeISO } from "../../../utils/countryISOCode";
 import {
   getAllInstitute,
   instituteWiseCampusDropdown,
   instituteWiseProgramLevelDropdown,
-} from '../../../redux/actions/Master/Institute.action';
-import { getAllCourseFinder } from '../../../redux/actions/CourseFinder.action';
+} from "../../../redux/actions/Master/Institute.action";
+import { getAllCourseFinder } from "../../../redux/actions/CourseFinder.action";
 
 const FormModal = ({
   show,
@@ -103,7 +103,8 @@ const FormModal = ({
   const [showInterestedCourse, setShowInterestedCourse] = useState(false);
   const [showDobCalendar, setShowDobCalendar] = useState(false);
   const [dobValue, setDobValue] = useState(null);
-  const [showNextFollowupCalendar, setShowNextFollowupCalendar] = useState(false);
+  const [showNextFollowupCalendar, setShowNextFollowupCalendar] =
+    useState(false);
   const [nextFollowupValue, setNextFollowupValue] = useState(null);
 
   const [isSubStatusDisabled, setIsSubStatusDisabled] = useState(true);
@@ -137,27 +138,27 @@ const FormModal = ({
   const nextFollowupCalendarRef = useRef(null);
   const [programLevels, setProgramLevels] = useState([]);
   const months = [
-    { value: 'Jan', label: 'Jan' },
-    { value: 'Feb', label: 'Feb' },
-    { value: 'Mar', label: 'Mar' },
-    { value: 'Apr', label: 'Apr' },
-    { value: 'May', label: 'May' },
-    { value: 'Jun', label: 'Jun' },
-    { value: 'Jul', label: 'Jul' },
-    { value: 'Aug', label: 'Aug' },
-    { value: 'Sep', label: 'Sep' },
-    { value: 'Oct', label: 'Oct' },
-    { value: 'Nov', label: 'Nov' },
-    { value: 'Dec', label: 'Dec' },
+    { value: "Jan", label: "Jan" },
+    { value: "Feb", label: "Feb" },
+    { value: "Mar", label: "Mar" },
+    { value: "Apr", label: "Apr" },
+    { value: "May", label: "May" },
+    { value: "Jun", label: "Jun" },
+    { value: "Jul", label: "Jul" },
+    { value: "Aug", label: "Aug" },
+    { value: "Sep", label: "Sep" },
+    { value: "Oct", label: "Oct" },
+    { value: "Nov", label: "Nov" },
+    { value: "Dec", label: "Dec" },
   ];
 
   const leadFromOptions = [
-    { value: 'Web Enquiry', label: 'Web Enquiry' },
-    { value: 'Social Media', label: 'Social Media' },
-    { value: 'Phone Call', label: 'Phone Call' },
-    { value: 'Email', label: 'Email' },
-    { value: 'Fair Enquiry', label: 'Fair Enquiry' },
-    { value: 'Walk in', label: 'Walk in' },
+    { value: "Web Enquiry", label: "Web Enquiry" },
+    { value: "Social Media", label: "Social Media" },
+    { value: "Phone Call", label: "Phone Call" },
+    { value: "Email", label: "Email" },
+    { value: "Fair Enquiry", label: "Fair Enquiry" },
+    { value: "Walk in", label: "Walk in" },
   ];
 
   const startYear = 2026;
@@ -167,28 +168,28 @@ const FormModal = ({
   }));
 
   const occupationOptions = [
-    { value: 'Student', label: 'Student' },
-    { value: 'Father', label: 'Father' },
-    { value: 'Mother', label: 'Mother' },
-    { value: 'Brother', label: 'Brother' },
-    { value: 'Sister', label: 'Sister' },
+    { value: "Student", label: "Student" },
+    { value: "Father", label: "Father" },
+    { value: "Mother", label: "Mother" },
+    { value: "Brother", label: "Brother" },
+    { value: "Sister", label: "Sister" },
   ];
 
   const occupationTypeOptions = [
-    { value: 'Business Owner', label: 'Business Owner' },
-    { value: 'Self Employed', label: 'Self Employed' },
-    { value: 'Farmer', label: 'Farmer' },
-    { value: 'Employed / Job', label: 'Employed / Job' },
-    { value: 'Government Services', label: 'Government Services' },
+    { value: "Business Owner", label: "Business Owner" },
+    { value: "Self Employed", label: "Self Employed" },
+    { value: "Farmer", label: "Farmer" },
+    { value: "Employed / Job", label: "Employed / Job" },
+    { value: "Government Services", label: "Government Services" },
   ];
 
   useEffect(() => {
     const fetchProgramLevels = async () => {
       try {
-        const res = await dispatch(getAllProgramLevel(1, 1000, ''));
+        const res = await dispatch(getAllProgramLevel(1, 1000, ""));
         setProgramLevels(res?.data?.data?.data || []);
       } catch (error) {
-        console.error('Error fetching program levels:', error);
+        console.error("Error fetching program levels:", error);
       }
     };
     fetchProgramLevels();
@@ -215,46 +216,50 @@ const FormModal = ({
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   const fetchAllInstitute = async (country) => {
     try {
-      const response = await dispatch(getAllInstitute(1, 5000, '', country));
+      const response = await dispatch(getAllInstitute(1, 5000, "", country));
       const responseData = response?.data?.data;
       setInstituteData(responseData?.data || []);
     } catch (error) {
-      console.error('Error fetching institutes:', error);
+      console.error("Error fetching institutes:", error);
       setInstituteData([]);
       toast.dismiss();
     }
   };
   const fetchAllCourse = async (institute, campus, programLevel) => {
     try {
-      const res = await dispatch(getAllCourseFinder(1, 1000, { institute, campus, programLevel }));
+      const res = await dispatch(
+        getAllCourseFinder(1, 1000, { institute, campus, programLevel }),
+      );
 
       if (res?.status === 200) {
         const programNames =
           res?.data?.data?.data
-            ?.filter((item) => item.status === 'Active')
+            ?.filter((item) => item.status === "Active")
             ?.map((item) => ({
               _id: item._id,
               programName: item.programName,
               intakeMonths:
-                item.intakes?.filter((intake) => intake?.status === 'Active')?.map((intake) => intake.month) || [],
+                item.intakes
+                  ?.filter((intake) => intake?.status === "Active")
+                  ?.map((intake) => intake.month) || [],
               intakeYears: item.intakeYear || [],
             })) || [];
         const uniqueProgramNames = [...new Set(programNames)];
         setAllCourseData(uniqueProgramNames);
       } else {
-        console.error('Error fetching courses:', res?.data?.message);
+        console.error("Error fetching courses:", res?.data?.message);
         setAllCourseData([]);
       }
     } catch (error) {
-      console.error('Error fetching courses:', error);
+      console.error("Error fetching courses:", error);
       setAllCourseData([]);
     }
   };
@@ -272,14 +277,16 @@ const FormModal = ({
 
   const fetchAllCampusByInstitute = async (selectedOption, country) => {
     try {
-      const response = await dispatch(instituteWiseCampusDropdown(selectedOption, country));
+      const response = await dispatch(
+        instituteWiseCampusDropdown(selectedOption, country),
+      );
       const responseData = response?.data?.data || [];
       setCampusData(responseData);
       if (selectedOption && country) {
         fetchCourseProgramLevels(selectedOption, country);
       }
     } catch (error) {
-      console.error('Error fetching campuses:', error);
+      console.error("Error fetching campuses:", error);
       setCampusData([]);
       setProgramLevelData([]);
     }
@@ -291,7 +298,9 @@ const FormModal = ({
       return;
     }
     try {
-      const res = await dispatch(instituteWiseProgramLevelDropdown(instituteName, country));
+      const res = await dispatch(
+        instituteWiseProgramLevelDropdown(instituteName, country),
+      );
       if (res?.status === 200) {
         setProgramLevelData(res.data?.data || []);
       } else {
@@ -371,15 +380,16 @@ const FormModal = ({
 
     for (let field of errorFields) {
       let fieldKey = field;
-      if (field.includes('.')) {
-        fieldKey = field.split('.').slice(0, 2).join('.');
+      if (field.includes(".")) {
+        fieldKey = field.split(".").slice(0, 2).join(".");
       }
 
-      const sectionRef = fieldToSectionMap[field] || fieldToSectionMap[fieldKey];
+      const sectionRef =
+        fieldToSectionMap[field] || fieldToSectionMap[fieldKey];
       if (sectionRef?.current) {
         sectionRef.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
+          behavior: "smooth",
+          block: "start",
         });
 
         if (sectionRef === educationCourseInfoRef && !showEducationCourseInfo) {
@@ -388,9 +398,15 @@ const FormModal = ({
           setShowFamilyWork(true);
         } else if (sectionRef === visaInfoRef && !showVisaInfo) {
           setShowVisaInfo(true);
-        } else if (sectionRef === educationEvaluationRef && !showEducationEvaluation) {
+        } else if (
+          sectionRef === educationEvaluationRef &&
+          !showEducationEvaluation
+        ) {
           setShowEducationEvaluation(true);
-        } else if (sectionRef === educationDetailsRef && !showEducationDetails) {
+        } else if (
+          sectionRef === educationDetailsRef &&
+          !showEducationDetails
+        ) {
           setShowEducationDetails(true);
         } else if (sectionRef === referFriendRef && !showReferFriend) {
           setShowReferFriend(true);
@@ -398,7 +414,10 @@ const FormModal = ({
           setShowReviews(true);
         } else if (sectionRef === leadAssignmentsRef && !showLeadAssignments) {
           setShowLeadAssignments(true);
-        } else if (sectionRef === interestedCourseRef && !showInterestedCourse) {
+        } else if (
+          sectionRef === interestedCourseRef &&
+          !showInterestedCourse
+        ) {
           setShowInterestedCourse(true);
         }
 
@@ -410,13 +429,13 @@ const FormModal = ({
   const selectStyles = {
     control: (base) => ({
       ...base,
-      borderRadius: '12px',
-      color: 'black',
+      borderRadius: "12px",
+      color: "black",
     }),
     placeholder: (base) => ({
       ...base,
-      color: 'black',
-      fontSize: '13px',
+      color: "black",
+      fontSize: "13px",
     }),
     menuPortal: (base) => ({
       ...base,
@@ -437,15 +456,15 @@ const FormModal = ({
   };
 
   const formatDate = (date) => {
-    if (!date) return '';
-    if (typeof date === 'string') {
+    if (!date) return "";
+    if (typeof date === "string") {
       // Try to parse ISO string
       const d = new Date(date);
       if (!isNaN(d)) date = d;
-      else return '';
+      else return "";
     }
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
@@ -457,7 +476,7 @@ const FormModal = ({
     if (!isNaN(d)) return d;
     // Try dd/mm/yyyy
     if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
-      const [day, month, year] = dateStr.split('/');
+      const [day, month, year] = dateStr.split("/");
       d = new Date(`${year}-${month}-${day}`);
       if (!isNaN(d)) return d;
     }
@@ -465,19 +484,19 @@ const FormModal = ({
   };
 
   const formatTime = (dateValue) => {
-    if (!dateValue) return '-';
+    if (!dateValue) return "-";
 
     // Extract time part manually for strings like "2025/12/05 16:12"
     if (/^\d{4}[-/]\d{2}[-/]\d{2}\s+\d{2}:\d{2}/.test(dateValue)) {
-      const timePart = dateValue.split(' ')[1];
-      if (!timePart) return '-';
-      const [hour, minute] = timePart.split(':');
+      const timePart = dateValue.split(" ")[1];
+      if (!timePart) return "-";
+      const [hour, minute] = timePart.split(":");
       const date = new Date();
       date.setHours(hour);
       date.setMinutes(minute);
-      return date.toLocaleTimeString('en-IN', {
-        hour: '2-digit',
-        minute: '2-digit',
+      return date.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
         hour12: true,
       });
     }
@@ -485,15 +504,15 @@ const FormModal = ({
     // Handle ISO timestamps or Date objects
     try {
       const date = new Date(dateValue);
-      if (isNaN(date)) return '-';
-      return date.toLocaleTimeString('en-IN', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
+      if (isNaN(date)) return "-";
+      return date.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
         hour12: true,
       });
     } catch {
-      return '-';
+      return "-";
     }
   };
 
@@ -502,26 +521,41 @@ const FormModal = ({
       .filter((item) => {
         // Filter out completely empty entries (entries with no meaningful data)
         const hasInstitute =
-          item.institute && (typeof item.institute === 'object' ? item.institute?._id : item.institute);
-        const hasCampus = item.campus && (typeof item.campus === 'object' ? item.campus?._id : item.campus);
-        const hasCourse = item.course && (typeof item.course === 'object' ? item.course?._id : item.course);
-        const hasRemarks = item.remarks && item.remarks.trim() !== '';
+          item.institute &&
+          (typeof item.institute === "object"
+            ? item.institute?._id
+            : item.institute);
+        const hasCampus =
+          item.campus &&
+          (typeof item.campus === "object" ? item.campus?._id : item.campus);
+        const hasCourse =
+          item.course &&
+          (typeof item.course === "object" ? item.course?._id : item.course);
+        const hasRemarks = item.remarks && item.remarks.trim() !== "";
 
         // Keep the entry if it has at least institute OR course OR remarks
         return hasInstitute || hasCourse || hasRemarks;
       })
       .map((item) => ({
-        institute: typeof item.institute === 'object' ? item.institute?._id : item.institute,
+        institute:
+          typeof item.institute === "object"
+            ? item.institute?._id
+            : item.institute,
 
-        campus: typeof item.campus === 'object' ? item.campus?._id : item.campus,
+        campus:
+          typeof item.campus === "object" ? item.campus?._id : item.campus,
 
-        programLevel: typeof item.programLevel === 'object' ? item.programLevel?._id : item.programLevel,
+        programLevel:
+          typeof item.programLevel === "object"
+            ? item.programLevel?._id
+            : item.programLevel,
 
-        course: typeof item.course === 'object' ? item.course?._id : item.course,
+        course:
+          typeof item.course === "object" ? item.course?._id : item.course,
 
-        intakeMonth: item.intakeMonth || '',
-        intakeYear: item.intakeYear || '',
-        remarks: item.remarks || '',
+        intakeMonth: item.intakeMonth || "",
+        intakeYear: item.intakeYear || "",
+        remarks: item.remarks || "",
         acceptedByUs: item.acceptedByUs || false,
       }));
   };
@@ -529,23 +563,27 @@ const FormModal = ({
   return (
     <Modal show={show} onHide={closeModal} size="xl" centered>
       <Modal.Header className="form-main-heading">
-        <Modal.Title>{isEdit ? 'Update' : 'Add'} Lead</Modal.Title>
-        <AiOutlineClose size={20} style={{ cursor: 'pointer', color: 'white' }} onClick={closeModal} />
+        <Modal.Title>{isEdit ? "Update" : "Add"} Lead</Modal.Title>
+        <AiOutlineClose
+          size={20}
+          style={{ cursor: "pointer", color: "white" }}
+          onClick={closeModal}
+        />
       </Modal.Header>
-      <Modal.Body style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+      <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
         <Formik
           initialValues={{
             ...formData,
             // Initialize with empty form fields - editing is handled by useEffect
             interestedCourseDetails: [
               {
-                institute: '',
-                campus: '',
-                programLevel: '',
-                course: '',
-                intakeMonth: '',
-                intakeYear: '',
-                remarks: '',
+                institute: "",
+                campus: "",
+                programLevel: "",
+                course: "",
+                intakeMonth: "",
+                intakeYear: "",
+                remarks: "",
                 acceptedByUs: false,
                 _id: null,
               },
@@ -554,11 +592,11 @@ const FormModal = ({
             dateofbirth:
               formData.dateofbirth && parseDate(formData.dateofbirth)
                 ? parseDate(formData.dateofbirth).toISOString().slice(0, 10)
-                : '',
+                : "",
             next_follow_up:
               formData.next_follow_up && parseDate(formData.next_follow_up)
                 ? parseDate(formData.next_follow_up).toISOString().slice(0, 10)
-                : '',
+                : "",
           }}
           validationSchema={validationSchema}
           context={{ userRole }}
@@ -566,7 +604,10 @@ const FormModal = ({
           onSubmit={(values, { setSubmitting }) => {
             const payload = {
               ...values,
-              interestedCourseDetails: mapInterestedCourseDetailsForPayload(formData.interestedCourseDetails || []),
+              interestedCourseDetails: mapInterestedCourseDetailsForPayload(
+                formData.interestedCourseDetails || [],
+              ),
+              lead_assign: formData.lead_assign || [],
             };
             setShow(false);
             if (!isEdit) {
@@ -578,55 +619,93 @@ const FormModal = ({
         >
           {({ handleSubmit, setFieldValue, values, errors }) => {
             useEffect(() => {
-              if (userType === 'Branch User' && values.lead_role && !isEdit) {
-                const selectedRole = getRoleList?.data?.find((role) => role._id === values.lead_role);
+              if (userType === "Branch User" && values.lead_role && !isEdit) {
+                const selectedRole = getRoleList?.data?.find(
+                  (role) => role._id === values.lead_role,
+                );
                 if (selectedRole && userOptions.length === 0) {
-                  fetchAllUser(values.lead_role, selectedRole.name, branchUserId || branchId, false);
+                  fetchAllUser(
+                    values.lead_role,
+                    selectedRole.name,
+                    branchUserId || branchId,
+                    false,
+                  );
                 }
               }
-            }, [userType, values.lead_role, isEdit, getRoleList, branchUserId, branchId, userOptions.length]);
+            }, [
+              userType,
+              values.lead_role,
+              isEdit,
+              getRoleList,
+              branchUserId,
+              branchId,
+              userOptions.length,
+            ]);
 
             // Handle interested course editing - populate form when edit state changes
             useEffect(() => {
-              if (edit.interestedCourse && formData.interestedCourseDetails?.[edit.interestedCourseIndex]) {
-                const editItem = formData.interestedCourseDetails[edit.interestedCourseIndex];
+              if (
+                edit.interestedCourse &&
+                formData.interestedCourseDetails?.[edit.interestedCourseIndex]
+              ) {
+                const editItem =
+                  formData.interestedCourseDetails[edit.interestedCourseIndex];
 
                 // Set the form values for the interested course fields
-                setFieldValue('interestedCourseDetails', [
+                setFieldValue("interestedCourseDetails", [
                   {
-                    institute: typeof editItem.institute === 'object' ? editItem.institute?._id : editItem.institute,
-                    campus: typeof editItem.campus === 'object' ? editItem.campus?._id : editItem.campus,
+                    institute:
+                      typeof editItem.institute === "object"
+                        ? editItem.institute?._id
+                        : editItem.institute,
+                    campus:
+                      typeof editItem.campus === "object"
+                        ? editItem.campus?._id
+                        : editItem.campus,
                     programLevel:
-                      typeof editItem.programLevel === 'object' ? editItem.programLevel?._id : editItem.programLevel,
-                    course: typeof editItem.course === 'object' ? editItem.course?._id : editItem.course,
-                    intakeMonth: editItem.intakeMonth || '',
-                    intakeYear: editItem.intakeYear || '',
-                    remarks: editItem.remarks || '',
+                      typeof editItem.programLevel === "object"
+                        ? editItem.programLevel?._id
+                        : editItem.programLevel,
+                    course:
+                      typeof editItem.course === "object"
+                        ? editItem.course?._id
+                        : editItem.course,
+                    intakeMonth: editItem.intakeMonth || "",
+                    intakeYear: editItem.intakeYear || "",
+                    remarks: editItem.remarks || "",
                     acceptedByUs: editItem.acceptedByUs || false,
                     _id: editItem._id || null,
                   },
                 ]);
               } else if (!edit.interestedCourse) {
                 // Clear the form fields when not editing
-                setFieldValue('interestedCourseDetails', [
+                setFieldValue("interestedCourseDetails", [
                   {
-                    institute: '',
-                    campus: '',
-                    programLevel: '',
-                    course: '',
-                    intakeMonth: '',
-                    intakeYear: '',
-                    remarks: '',
+                    institute: "",
+                    campus: "",
+                    programLevel: "",
+                    course: "",
+                    intakeMonth: "",
+                    intakeYear: "",
+                    remarks: "",
                     acceptedByUs: false,
                     _id: null,
                   },
                 ]);
               }
-            }, [edit.interestedCourse, edit.interestedCourseIndex, setFieldValue, formData.interestedCourseDetails]);
+            }, [
+              edit.interestedCourse,
+              edit.interestedCourseIndex,
+              setFieldValue,
+              formData.interestedCourseDetails,
+            ]);
 
             // Handle lead assignment editing - populate form when edit state changes
             useEffect(() => {
-              if (edit.leadAssignment && formData.lead_assign?.[edit.leadAssignmentIndex]) {
+              if (
+                edit.leadAssignment &&
+                formData.lead_assign?.[edit.leadAssignmentIndex]
+              ) {
                 const editItem = formData.lead_assign[edit.leadAssignmentIndex];
 
                 // Store the current editing data
@@ -638,7 +717,7 @@ const FormModal = ({
                 });
 
                 // Populate the form fields with the assignment data
-                setFieldValue('lead_assign', [
+                setFieldValue("lead_assign", [
                   {
                     role: editItem.role,
                     user: editItem.user,
@@ -647,28 +726,38 @@ const FormModal = ({
                 ]);
 
                 // Also fetch users for the selected role to populate the dropdown
-                const selectedRole = getRoleList?.data?.find((r) => r._id === editItem.role);
+                const selectedRole = getRoleList?.data?.find(
+                  (r) => r._id === editItem.role,
+                );
                 if (selectedRole) {
                   let selectedBranchId = null;
-                  if (userRole === 'Branch') {
+                  if (userRole === "Branch") {
                     selectedBranchId = branchId;
-                  } else if (userType === 'Branch User') {
+                  } else if (userType === "Branch User") {
                     selectedBranchId = branchUserId || branchId;
                   } else {
-                    selectedBranchId = values.lead_assign_Branch === null ? null : values.lead_assign_Branch || null;
+                    selectedBranchId =
+                      values.lead_assign_Branch === null
+                        ? null
+                        : values.lead_assign_Branch || null;
                   }
 
-                  fetchAllUser(editItem.role, selectedRole.name, selectedBranchId, false);
+                  fetchAllUser(
+                    editItem.role,
+                    selectedRole.name,
+                    selectedBranchId,
+                    false,
+                  );
                 }
               } else if (!edit.leadAssignment) {
                 // Clear the current editing data
                 setCurrentEditingAssignment(null);
 
                 // Initialize with empty object for adding new assignment
-                setFieldValue('lead_assign', [
+                setFieldValue("lead_assign", [
                   {
-                    role: '',
-                    user: '',
+                    role: "",
+                    user: "",
                     _id: null,
                   },
                 ]);
@@ -691,7 +780,8 @@ const FormModal = ({
               : index.interestedCourse;
 
             const selectedCourse = allcourseData?.find(
-              (c) => c._id === values.interestedCourseDetails[selectedIndex]?.course,
+              (c) =>
+                c._id === values.interestedCourseDetails[selectedIndex]?.course,
             );
 
             const intakeMonthOptions =
@@ -717,18 +807,30 @@ const FormModal = ({
 
             useEffect(() => {
               // When editing, form values are at index 0, otherwise use the current index
-              const currentIndex = edit.interestedCourse ? 0 : index.interestedCourse;
+              const currentIndex = edit.interestedCourse
+                ? 0
+                : index.interestedCourse;
 
-              const instituteId = values?.interestedCourseDetails?.[currentIndex]?.institute || '';
-              const campusId = values?.interestedCourseDetails?.[currentIndex]?.campus || '';
-              const programLevelId = values?.interestedCourseDetails?.[currentIndex]?.programLevel || '';
+              const instituteId =
+                values?.interestedCourseDetails?.[currentIndex]?.institute ||
+                "";
+              const campusId =
+                values?.interestedCourseDetails?.[currentIndex]?.campus || "";
+              const programLevelId =
+                values?.interestedCourseDetails?.[currentIndex]?.programLevel ||
+                "";
 
               // Only fetch if we have valid institute and country
               if (instituteId && values?.country_interested?.length > 0) {
-                const instituteName = instituteOptions?.find((option) => option.value === instituteId)?.label;
+                const instituteName = instituteOptions?.find(
+                  (option) => option.value === instituteId,
+                )?.label;
 
                 if (instituteName) {
-                  fetchAllCampusByInstitute(instituteName, values.country_interested[0]);
+                  fetchAllCampusByInstitute(
+                    instituteName,
+                    values.country_interested[0],
+                  );
                 }
               }
 
@@ -738,9 +840,15 @@ const FormModal = ({
               }
             }, [
               // Only depend on the actual form values that matter
-              values?.interestedCourseDetails?.[edit.interestedCourse ? 0 : index.interestedCourse]?.institute,
-              values?.interestedCourseDetails?.[edit.interestedCourse ? 0 : index.interestedCourse]?.campus,
-              values?.interestedCourseDetails?.[edit.interestedCourse ? 0 : index.interestedCourse]?.programLevel,
+              values?.interestedCourseDetails?.[
+                edit.interestedCourse ? 0 : index.interestedCourse
+              ]?.institute,
+              values?.interestedCourseDetails?.[
+                edit.interestedCourse ? 0 : index.interestedCourse
+              ]?.campus,
+              values?.interestedCourseDetails?.[
+                edit.interestedCourse ? 0 : index.interestedCourse
+              ]?.programLevel,
               edit.interestedCourse,
               index.interestedCourse,
               values?.country_interested,
@@ -750,7 +858,9 @@ const FormModal = ({
             useEffect(() => {
               const row =
                 values?.interestedCourseDetails?.[
-                  edit.interestedCourse ? edit.interestedCourseIndex : index.interestedCourse
+                  edit.interestedCourse
+                    ? edit.interestedCourseIndex
+                    : index.interestedCourse
                 ];
 
               const instituteId = row?.institute;
@@ -761,14 +871,18 @@ const FormModal = ({
                 return;
               }
 
-              const instituteName = instituteOptions.find((i) => i.value === instituteId)?.label;
+              const instituteName = instituteOptions.find(
+                (i) => i.value === instituteId,
+              )?.label;
 
               if (instituteName) {
                 fetchCourseProgramLevels(instituteName, country);
               }
             }, [
               formData?.interestedCourseDetails?.[
-                edit.interestedCourse ? edit.interestedCourseIndex : index.interestedCourse
+                edit.interestedCourse
+                  ? edit.interestedCourseIndex
+                  : index.interestedCourse
               ]?.institute,
               formData?.country_interested,
             ]);
@@ -776,8 +890,10 @@ const FormModal = ({
             const onInstituteSelect = (campus) => {
               const instituteId =
                 values?.interestedCourseDetails[
-                  edit.interestedCourse ? edit.interestedCourseIndex : index.interestedCourse
-                ]?.institute || '';
+                  edit.interestedCourse
+                    ? edit.interestedCourseIndex
+                    : index.interestedCourse
+                ]?.institute || "";
 
               if (instituteId) {
                 fetchAllCourse(instituteId, campus);
@@ -804,12 +920,16 @@ const FormModal = ({
                         type="text"
                         name="name"
                         as={Form.Control}
-                        onChange={(e) => setFieldValue('name', e.target.value)}
+                        onChange={(e) => setFieldValue("name", e.target.value)}
                         value={values.name}
                         className="custom-select-height"
                         placeholder="Enter name"
                       />
-                      <ErrorMessage name="name" component="div" className="text-danger" />
+                      <ErrorMessage
+                        name="name"
+                        component="div"
+                        className="text-danger"
+                      />
                     </Col>
                     <Col md={3} className="mt-3">
                       <Form.Label>Country</Form.Label>
@@ -818,18 +938,29 @@ const FormModal = ({
                           value: c.name,
                           label: c.name,
                         }))}
-                        value={values.country ? { value: values.country, label: values.country } : ''}
+                        value={
+                          values.country
+                            ? { value: values.country, label: values.country }
+                            : ""
+                        }
                         onChange={(selectedOption) => {
-                          setFieldValue('country', selectedOption ? selectedOption.value : '');
+                          setFieldValue(
+                            "country",
+                            selectedOption ? selectedOption.value : "",
+                          );
                         }}
                         placeholder="Select Country"
                         isClearable
                         isSearchable
                         classNamePrefix="custom-select"
-                        noOptionsMessage={() => 'No countries available'}
+                        noOptionsMessage={() => "No countries available"}
                         styles={selectStyles}
                       />
-                      <ErrorMessage name="country" component="div" className="text-danger" />
+                      <ErrorMessage
+                        name="country"
+                        component="div"
+                        className="text-danger"
+                      />
                     </Col>
                     {!isB2B && (
                       <>
@@ -839,12 +970,18 @@ const FormModal = ({
                             type="text"
                             name="city"
                             as={Form.Control}
-                            onChange={(e) => setFieldValue('city', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("city", e.target.value)
+                            }
                             value={values.city}
                             className="custom-select-height"
                             placeholder="Enter city"
                           />
-                          <ErrorMessage name="city" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="city"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
 
                         <Col md={3} className="mt-3">
@@ -852,13 +989,19 @@ const FormModal = ({
                           <Form.Control
                             name="email"
                             as={Form.Control}
-                            onChange={(e) => setFieldValue('email', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("email", e.target.value)
+                            }
                             value={values.email}
                             type="email"
                             className="custom-select-height"
                             placeholder="Enter Email"
                           />
-                          <ErrorMessage name="email" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="email"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         <Col md={3} className="mt-3">
                           <Form.Label>Phone *</Form.Label>
@@ -866,26 +1009,33 @@ const FormModal = ({
                             country={countryCodeISO()}
                             value={values.phone}
                             onChange={(phone, data) => {
-                              const dialCode = data.dialCode ? `+${data.dialCode}` : '';
-                              const formattedPhone = `${dialCode} ${phone.replace(data.dialCode, '')}`.trim();
-                              setFieldValue('phone', formattedPhone);
+                              const dialCode = data.dialCode
+                                ? `+${data.dialCode}`
+                                : "";
+                              const formattedPhone =
+                                `${dialCode} ${phone.replace(data.dialCode, "")}`.trim();
+                              setFieldValue("phone", formattedPhone);
                             }}
                             // disableCountryGuess={true}
                             inputProps={{
-                              name: 'phone',
+                              name: "phone",
                               required: true,
-                              className: 'form-control custom-select-height',
+                              className: "form-control custom-select-height",
                             }}
                             inputStyle={{
-                              width: '100%',
-                              paddingLeft: '65px',
-                              borderRadius: '4px',
+                              width: "100%",
+                              paddingLeft: "65px",
+                              borderRadius: "4px",
                             }}
                             buttonStyle={{
-                              marginRight: '10px',
+                              marginRight: "10px",
                             }}
                           />
-                          <ErrorMessage name="phone" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="phone"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         <Col md={3} className="mt-3">
                           <Form.Label>Alternate Contact</Form.Label>
@@ -893,26 +1043,36 @@ const FormModal = ({
                             country={countryCodeISO()}
                             value={values.alternate_contact}
                             onChange={(phone, data) => {
-                              const dialCode = data.dialCode ? `+${data.dialCode}` : '';
-                              const formattedPhone = `${dialCode} ${phone.replace(data.dialCode, '')}`.trim();
-                              setFieldValue('alternate_contact', formattedPhone);
+                              const dialCode = data.dialCode
+                                ? `+${data.dialCode}`
+                                : "";
+                              const formattedPhone =
+                                `${dialCode} ${phone.replace(data.dialCode, "")}`.trim();
+                              setFieldValue(
+                                "alternate_contact",
+                                formattedPhone,
+                              );
                             }}
                             // disableCountryGuess={true}
                             inputProps={{
-                              name: 'phone',
+                              name: "phone",
                               required: true,
-                              className: 'form-control custom-select-height',
+                              className: "form-control custom-select-height",
                             }}
                             inputStyle={{
-                              width: '100%',
-                              paddingLeft: '65px',
-                              borderRadius: '4px',
+                              width: "100%",
+                              paddingLeft: "65px",
+                              borderRadius: "4px",
                             }}
                             buttonStyle={{
-                              marginRight: '10px',
+                              marginRight: "10px",
                             }}
                           />
-                          <ErrorMessage name="alternate_contact" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="alternate_contact"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                       </>
                     )}
@@ -922,44 +1082,61 @@ const FormModal = ({
                       <Select
                         className="custom-select-height"
                         options={genderOptions}
-                        value={genderOptions.find((option) => option.value === values.gender) || null}
+                        value={
+                          genderOptions.find(
+                            (option) => option.value === values.gender,
+                          ) || null
+                        }
                         onChange={(selectedOption) =>
-                          setFieldValue('gender', selectedOption ? selectedOption.value : '')
+                          setFieldValue(
+                            "gender",
+                            selectedOption ? selectedOption.value : "",
+                          )
                         }
                         placeholder="Select Gender"
                         isClearable
                         isSearchable
                         classNamePrefix="custom-select"
-                        noOptionsMessage={() => 'No gender options available'}
+                        noOptionsMessage={() => "No gender options available"}
                         styles={selectStyles}
                       />
-                      <ErrorMessage name="gender" component="div" className="text-danger  " />
+                      <ErrorMessage
+                        name="gender"
+                        component="div"
+                        className="text-danger  "
+                      />
                     </Col>
                     <Col md={3} className="mt-3">
                       <Form.Label>Date of Birth</Form.Label>
-                      <div style={{ position: 'relative' }}>
+                      <div style={{ position: "relative" }}>
                         <Form.Control
                           type="text"
                           name="dateofbirth"
                           className="custom-select-height"
                           placeholder="dd/mm/yyyy"
-                          value={values.dateofbirth ? formatDate(parseDate(values.dateofbirth)) : ''}
+                          value={
+                            values.dateofbirth
+                              ? formatDate(parseDate(values.dateofbirth))
+                              : ""
+                          }
                           readOnly
                           ref={dobInputRef}
                           onClick={() => {
-                            setDobValue(parseDate(values.dateofbirth) || new Date());
+                            setDobValue(
+                              parseDate(values.dateofbirth) || new Date(),
+                            );
                             setShowDobCalendar((show) => !show);
                           }}
-                          style={{ cursor: 'pointer', backgroundColor: '#fff' }}
+                          style={{ cursor: "pointer", backgroundColor: "#fff" }}
                         />
                         <MdCalendarToday
                           style={{
-                            position: 'absolute',
+                            position: "absolute",
                             right: 10,
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            color: '#888',
-                            pointerEvents: 'none',
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            color: "#888",
+                            pointerEvents: "none",
                           }}
                           size={20}
                         />
@@ -967,15 +1144,17 @@ const FormModal = ({
                           <div
                             ref={dobCalendarRef}
                             style={{
-                              position: 'absolute',
-                              top: '100%',
-                              left: '0',
+                              position: "absolute",
+                              top: "100%",
+                              left: "0",
                               zIndex: 9999,
-                              background: '#fff',
-                              boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
-                              borderRadius: '8px',
-                              marginTop: '4px',
-                              width: dobInputRef.current ? dobInputRef.current.offsetWidth : 'auto',
+                              background: "#fff",
+                              boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                              borderRadius: "8px",
+                              marginTop: "4px",
+                              width: dobInputRef.current
+                                ? dobInputRef.current.offsetWidth
+                                : "auto",
                               minWidth: 180,
                             }}
                           >
@@ -986,19 +1165,28 @@ const FormModal = ({
 
                                 // Format DOB as yyyy-mm-dd
                                 const yyyy = selectedDate.getFullYear();
-                                const mm = String(selectedDate.getMonth() + 1).padStart(2, '0');
-                                const dd = String(selectedDate.getDate()).padStart(2, '0');
+                                const mm = String(
+                                  selectedDate.getMonth() + 1,
+                                ).padStart(2, "0");
+                                const dd = String(
+                                  selectedDate.getDate(),
+                                ).padStart(2, "0");
                                 const dobString = `${yyyy}-${mm}-${dd}`;
-                                setFieldValue('dateofbirth', dobString);
+                                setFieldValue("dateofbirth", dobString);
 
                                 // ✅ Calculate Age
                                 const today = new Date();
                                 let age = today.getFullYear() - yyyy;
-                                const m = today.getMonth() - selectedDate.getMonth();
-                                if (m < 0 || (m === 0 && today.getDate() < selectedDate.getDate())) {
+                                const m =
+                                  today.getMonth() - selectedDate.getMonth();
+                                if (
+                                  m < 0 ||
+                                  (m === 0 &&
+                                    today.getDate() < selectedDate.getDate())
+                                ) {
                                   age--;
                                 }
-                                setFieldValue('age', age);
+                                setFieldValue("age", age);
 
                                 setShowDobCalendar(false);
                               }}
@@ -1008,7 +1196,11 @@ const FormModal = ({
                           </div>
                         )}
                       </div>
-                      <ErrorMessage name="dateofbirth" component="div" className="text-danger" />
+                      <ErrorMessage
+                        name="dateofbirth"
+                        component="div"
+                        className="text-danger"
+                      />
                     </Col>
 
                     {!isB2B && (
@@ -1019,13 +1211,19 @@ const FormModal = ({
                             type="number"
                             name="age"
                             as={Form.Control}
-                            onChange={(e) => setFieldValue('age', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("age", e.target.value)
+                            }
                             value={values.age}
                             className="custom-select-height"
                             placeholder="Enter age"
                             readOnly
                           />
-                          <ErrorMessage name="age" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="age"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
 
                         <Col md={3} className="mt-3">
@@ -1033,37 +1231,59 @@ const FormModal = ({
                           <Form.Control
                             name="comments"
                             as={Form.Control}
-                            onChange={(e) => setFieldValue('comments', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("comments", e.target.value)
+                            }
                             value={values.comments}
                             className="custom-select-height"
                             placeholder="Add comment"
                             rows={2}
                           />
-                          <ErrorMessage name="comments" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="comments"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                       </>
                     )}
-                    {!(isB2B && (userRole === 'B2B Admin' || userRole === 'B2B Member')) && (
+                    {!(
+                      isB2B &&
+                      (userRole === "B2B Admin" || userRole === "B2B Member")
+                    ) && (
                       <Col md={3} className="mt-3">
                         <Form.Label>Lead Status</Form.Label>
                         <Select
-                          options={isB2B ? b2BLeadStatusOptions : leadStatusOptions}
+                          options={
+                            isB2B ? b2BLeadStatusOptions : leadStatusOptions
+                          }
                           value={
                             isB2B
-                              ? b2BLeadStatusOptions.find((option) => option.value === values.b2b_lead_status)
-                              : leadStatusOptions.find((option) => option.value === values.lead_status)
+                              ? b2BLeadStatusOptions.find(
+                                  (option) =>
+                                    option.value === values.b2b_lead_status,
+                                )
+                              : leadStatusOptions.find(
+                                  (option) =>
+                                    option.value === values.lead_status,
+                                )
                           }
                           onChange={(selectedOption) => {
-                            const selectedValue = selectedOption ? selectedOption.value : '';
+                            const selectedValue = selectedOption
+                              ? selectedOption.value
+                              : "";
 
-                            setFieldValue(isB2B ? 'b2b_lead_status' : 'lead_status', selectedValue);
+                            setFieldValue(
+                              isB2B ? "b2b_lead_status" : "lead_status",
+                              selectedValue,
+                            );
                             if (selectedValue) {
                               setIsSubStatusDisabled(false);
                               fetchLeadSubStatus(selectedValue);
                             } else {
                               setIsSubStatusDisabled(true);
                               setLeadSubStatus([]);
-                              setFieldValue('lead_sub_status', '');
+                              setFieldValue("lead_sub_status", "");
                             }
                             fetchLeadSubStatus(selectedValue);
                           }}
@@ -1071,11 +1291,13 @@ const FormModal = ({
                           isClearable
                           isSearchable
                           classNamePrefix="custom-select"
-                          noOptionsMessage={() => 'No lead status options available'}
+                          noOptionsMessage={() =>
+                            "No lead status options available"
+                          }
                           styles={selectStyles}
                         />
                         <ErrorMessage
-                          name={isB2B ? 'b2b_lead_status' : 'lead_status'}
+                          name={isB2B ? "b2b_lead_status" : "lead_status"}
                           component="div"
                           className="text-danger"
                         />
@@ -1093,24 +1315,36 @@ const FormModal = ({
                           Array.isArray(values.other_for)
                             ? values.other_for.map((id) => ({
                                 value: id,
-                                label: allOther?.find((type) => type._id === id)?.name || '',
+                                label:
+                                  allOther?.find((type) => type._id === id)
+                                    ?.name || "",
                               }))
                             : []
                         }
                         onChange={(selectedOptions) => {
-                          const selectedValues = selectedOptions ? selectedOptions.map((opt) => opt.value) : [];
-                          setFieldValue('other_for', selectedValues);
+                          const selectedValues = selectedOptions
+                            ? selectedOptions.map((opt) => opt.value)
+                            : [];
+                          setFieldValue("other_for", selectedValues);
                         }}
                         placeholder="Select Other Type"
                         isMulti
                         isClearable
                         isSearchable
                         classNamePrefix="custom-select"
-                        noOptionsMessage={() => 'No other types available'}
+                        noOptionsMessage={() => "No other types available"}
                         styles={selectStyles}
                       />
-                      <ErrorMessage name="other_for" component="div" className="text-danger" />
-                      <ErrorMessage name="other_for" component="div" className="text-danger" />
+                      <ErrorMessage
+                        name="other_for"
+                        component="div"
+                        className="text-danger"
+                      />
+                      <ErrorMessage
+                        name="other_for"
+                        component="div"
+                        className="text-danger"
+                      />
                     </Col>
                     {/* {
                       !isB2B &&
@@ -1160,7 +1394,9 @@ const FormModal = ({
                             name="lead_form"
                             value={values.lead_form}
                             //  as={Form.select}
-                            onChange={(e) => setFieldValue('lead_form', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("lead_form", e.target.value)
+                            }
                           >
                             <option value="">Select option</option>
                             <option value="Web Enquiry">Web Enquiry</option>
@@ -1170,7 +1406,11 @@ const FormModal = ({
                             <option value="Fair Enquiry">Fair Enquiry</option>
                             <option value="Walk in">Walk in</option>
                           </Form.Select>
-                          <ErrorMessage name="lead_form" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="lead_form"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
 
                         <Col md={3} className="mt-3">
@@ -1185,35 +1425,50 @@ const FormModal = ({
                               values.inquiry_for
                                 ? {
                                     value: values.inquiry_for,
-                                    label: allInquiry?.find((type) => type._id === values.inquiry_for)?.name || '',
+                                    label:
+                                      allInquiry?.find(
+                                        (type) =>
+                                          type._id === values.inquiry_for,
+                                      )?.name || "",
                                   }
                                 : null
                             }
                             onChange={(selectedOption) => {
-                              setFieldValue('inquiry_for', selectedOption ? selectedOption.value : '');
+                              setFieldValue(
+                                "inquiry_for",
+                                selectedOption ? selectedOption.value : "",
+                              );
                             }}
                             placeholder="Select Inquiry Type"
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No inquiry types available'}
+                            noOptionsMessage={() =>
+                              "No inquiry types available"
+                            }
                             styles={{
                               control: (base) => ({
                                 ...base,
-                                borderRadius: '12px',
-                                color: 'black',
+                                borderRadius: "12px",
+                                color: "black",
                               }),
                               placeholder: (base) => ({
                                 ...base,
-                                color: 'black',
-                                fontSize: '13px',
+                                color: "black",
+                                fontSize: "13px",
                               }),
                             }}
                           />
-                          <ErrorMessage name="inquiry_for" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="inquiry_for"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         {allInquiry?.find(
-                          (item) => item._id === values.inquiry_for && item.name?.toLowerCase() === 'others',
+                          (item) =>
+                            item._id === values.inquiry_for &&
+                            item.name?.toLowerCase() === "others",
                         ) && (
                           <Col md={3} className="mt-3">
                             <Form.Label>Inquiry For Other</Form.Label>
@@ -1221,12 +1476,21 @@ const FormModal = ({
                               type="text"
                               name="inquiry_for_other"
                               as={Form.Control}
-                              onChange={(e) => setFieldValue('inquiry_for_other', e.target.value)}
+                              onChange={(e) =>
+                                setFieldValue(
+                                  "inquiry_for_other",
+                                  e.target.value,
+                                )
+                              }
                               placeholder="Add Inquiry For Other"
                               value={values.inquiry_for_other}
                               className="custom-select-height"
                             />
-                            <ErrorMessage name="inquiry_for_other" component="div" className="text-danger" />
+                            <ErrorMessage
+                              name="inquiry_for_other"
+                              component="div"
+                              className="text-danger"
+                            />
                           </Col>
                         )}
                       </>
@@ -1251,8 +1515,10 @@ const FormModal = ({
                         }
                         onChange={(selectedOptions) => {
                           const selected = selectedOptions || [];
-                          const selectedValues = selected.map((opt) => opt.value);
-                          setFieldValue('country_interested', selectedValues);
+                          const selectedValues = selected.map(
+                            (opt) => opt.value,
+                          );
+                          setFieldValue("country_interested", selectedValues);
                           fetchAllInstitute(selectedValues);
                         }}
                         placeholder="Select Country"
@@ -1261,10 +1527,14 @@ const FormModal = ({
                         isMulti
                         classNamePrefix="custom-select"
                         menuPortalTarget={document.body}
-                        noOptionsMessage={() => 'No countries available'}
+                        noOptionsMessage={() => "No countries available"}
                         styles={selectStyles}
                       />
-                      <ErrorMessage name="country_intrested" component="div" className="text-danger" />
+                      <ErrorMessage
+                        name="country_intrested"
+                        component="div"
+                        className="text-danger"
+                      />
                     </Col>
                     {!isB2B && (
                       <>
@@ -1273,20 +1543,31 @@ const FormModal = ({
                           <Form.Control
                             name="source_of_reference"
                             as={Form.Control}
-                            onChange={(e) => setFieldValue('source_of_reference', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue(
+                                "source_of_reference",
+                                e.target.value,
+                              )
+                            }
                             value={values.source_of_reference}
                             type="text"
                             className="custom-select-height"
                             placeholder="Enter Source of Reference"
                           />
-                          <ErrorMessage name="source_of_refrence" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="source_of_refrence"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         <Col md={3} className="mt-3">
                           <Form.Label>Office Use Only</Form.Label>
                           <Form.Control
                             name="office_use_only"
                             as={Form.Control}
-                            onChange={(e) => setFieldValue('office_use_only', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("office_use_only", e.target.value)
+                            }
                             value={values.office_use_only}
                             className="custom-select-height"
                             placeholder="Enter Office Use Only"
@@ -1310,28 +1591,40 @@ const FormModal = ({
                                 ? {
                                     value: values.prefferedDegree,
                                     label:
-                                      programLevels?.find((level) => level._id === values.prefferedDegree)?.name || '',
+                                      programLevels?.find(
+                                        (level) =>
+                                          level._id === values.prefferedDegree,
+                                      )?.name || "",
                                   }
                                 : null
                             }
-                            onChange={(selected) => setFieldValue('prefferedDegree', selected?.value || '')}
+                            onChange={(selected) =>
+                              setFieldValue(
+                                "prefferedDegree",
+                                selected?.value || "",
+                              )
+                            }
                             placeholder="Select Degree"
                             isClearable
                             isSearchable
                             styles={{
                               control: (base) => ({
                                 ...base,
-                                borderRadius: '12px',
-                                color: 'black',
+                                borderRadius: "12px",
+                                color: "black",
                               }),
                               placeholder: (base) => ({
                                 ...base,
-                                color: 'black',
-                                fontSize: '13px',
+                                color: "black",
+                                fontSize: "13px",
                               }),
                             }}
                           />
-                          <ErrorMessage name="prefferedDegree" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="prefferedDegree"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
 
                         <Col md={3} className="mt-3">
@@ -1339,12 +1632,18 @@ const FormModal = ({
                           <Form.Control
                             type="text"
                             name="prefferedCourse"
-                            onChange={(e) => setFieldValue('prefferedCourse', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("prefferedCourse", e.target.value)
+                            }
                             value={values.prefferedCourse}
                             className="custom-select-height"
                             placeholder="Enter Course"
                           />
-                          <ErrorMessage name="prefferedCourse" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="prefferedCourse"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
 
                         <Col md={3} className="mt-3">
@@ -1352,25 +1651,40 @@ const FormModal = ({
                           <Select
                             name="prefferedIntakeYear"
                             options={years}
-                            value={years.find((opt) => opt.value === Number(values.prefferedIntakeYear)) || null}
-                            onChange={(selected) => setFieldValue('prefferedIntakeYear', selected?.value || '')}
+                            value={
+                              years.find(
+                                (opt) =>
+                                  opt.value ===
+                                  Number(values.prefferedIntakeYear),
+                              ) || null
+                            }
+                            onChange={(selected) =>
+                              setFieldValue(
+                                "prefferedIntakeYear",
+                                selected?.value || "",
+                              )
+                            }
                             placeholder="Select Year"
                             isClearable
                             isSearchable
                             styles={{
                               control: (base) => ({
                                 ...base,
-                                borderRadius: '12px',
-                                color: 'black',
+                                borderRadius: "12px",
+                                color: "black",
                               }),
                               placeholder: (base) => ({
                                 ...base,
-                                color: 'black',
-                                fontSize: '13px',
+                                color: "black",
+                                fontSize: "13px",
                               }),
                             }}
                           />
-                          <ErrorMessage name="prefferedIntakeYear" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="prefferedIntakeYear"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
 
                         <Col md={3} className="mt-3">
@@ -1378,25 +1692,39 @@ const FormModal = ({
                           <Select
                             name="prefferedIntakeMonth"
                             options={months}
-                            value={months.find((opt) => opt.value === values.prefferedIntakeMonth) || null}
-                            onChange={(selected) => setFieldValue('prefferedIntakeMonth', selected?.value || '')}
+                            value={
+                              months.find(
+                                (opt) =>
+                                  opt.value === values.prefferedIntakeMonth,
+                              ) || null
+                            }
+                            onChange={(selected) =>
+                              setFieldValue(
+                                "prefferedIntakeMonth",
+                                selected?.value || "",
+                              )
+                            }
                             placeholder="Select Month"
                             isClearable
                             isSearchable
                             styles={{
                               control: (base) => ({
                                 ...base,
-                                borderRadius: '12px',
-                                color: 'black',
+                                borderRadius: "12px",
+                                color: "black",
                               }),
                               placeholder: (base) => ({
                                 ...base,
-                                color: 'black',
-                                fontSize: '13px',
+                                color: "black",
+                                fontSize: "13px",
                               }),
                             }}
                           />
-                          <ErrorMessage name="prefferedIntakeMonth" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="prefferedIntakeMonth"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                       </>
                     )}
@@ -1407,63 +1735,99 @@ const FormModal = ({
                         className="rounded-1"
                         as="textarea"
                         name="remarks"
-                        onChange={(e) => setFieldValue('remarks', e.target.value)}
+                        onChange={(e) =>
+                          setFieldValue("remarks", e.target.value)
+                        }
                         value={values.remarks}
                         rows={4}
                         placeholder="Enter remarks"
                       />
-                      <ErrorMessage name="remarks" component="div" className="text-danger" />
+                      <ErrorMessage
+                        name="remarks"
+                        component="div"
+                        className="text-danger"
+                      />
                     </Col>
                   </Row>
                 </div>
 
-                {!(isB2B && (userRole === 'B2B Admin' || userRole === 'B2B Member')) && (
-                  <div className="section-wrapper mb-5" ref={leadAssignmentsRef}>
+                {!(
+                  isB2B &&
+                  (userRole === "B2B Admin" || userRole === "B2B Member")
+                ) && (
+                  <div
+                    className="section-wrapper mb-5"
+                    ref={leadAssignmentsRef}
+                  >
                     <h5
                       className="form-heading p-2 d-flex justify-content-between mb-2"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => setShowLeadAssignments(!showLeadAssignments)}
+                      style={{ cursor: "pointer" }}
+                      onClick={() =>
+                        setShowLeadAssignments(!showLeadAssignments)
+                      }
                     >
                       Lead Assignments
-                      {showLeadAssignments ? <FaChevronUp /> : <FaChevronDown />}
+                      {showLeadAssignments ? (
+                        <FaChevronUp />
+                      ) : (
+                        <FaChevronDown />
+                      )}
                     </h5>
                     {showLeadAssignments && (
                       <div className="section-content mt-4 mb-5">
                         <Row className="mb-3">
                           {!isB2B &&
-                            userRole !== 'Branch' &&
-                            userRole !== 'Branch Member' &&
-                            userType !== 'Branch User' && (
+                            userRole !== "Branch" &&
+                            userRole !== "Branch Member" &&
+                            userType !== "Branch User" && (
                               <Col md={3} className="mt-3">
                                 <Form.Label>Branch Lead Assign</Form.Label>
                                 <Select
                                   className="custom-select-height"
                                   options={[
-                                    { value: 'head_office', label: 'Head Office' }, // ✅ give it a distinct value
+                                    {
+                                      value: "head_office",
+                                      label: "Head Office",
+                                    }, // ✅ give it a distinct value
                                     ...(allBranchOptions || []),
                                   ]}
                                   value={
-                                    [{ value: 'head_office', label: 'Head Office' }, ...(allBranchOptions || [])].find(
+                                    [
+                                      {
+                                        value: "head_office",
+                                        label: "Head Office",
+                                      },
+                                      ...(allBranchOptions || []),
+                                    ].find(
                                       (option) =>
                                         option.value ===
                                         (values.lead_assign_Branch === null
-                                          ? 'head_office'
+                                          ? "head_office"
                                           : values.lead_assign_Branch),
                                     ) || null
                                   }
                                   onChange={async (selectedOption) => {
-                                    const selectedBranchValue = selectedOption ? selectedOption.value : null;
+                                    const selectedBranchValue = selectedOption
+                                      ? selectedOption.value
+                                      : null;
 
                                     const branchValueToSet =
-                                      selectedBranchValue === 'head_office' ? null : selectedBranchValue;
+                                      selectedBranchValue === "head_office"
+                                        ? null
+                                        : selectedBranchValue;
 
-                                    setFieldValue('lead_assign_Branch', branchValueToSet);
+                                    setFieldValue(
+                                      "lead_assign_Branch",
+                                      branchValueToSet,
+                                    );
 
                                     // setFieldValue("lead_role", null);
                                     // setFieldValue("lead_assign", null);
 
                                     if (handleBranchChange) {
-                                      await handleBranchChange(branchValueToSet);
+                                      await handleBranchChange(
+                                        branchValueToSet,
+                                      );
                                     }
                                   }}
                                   menuPortalTarget={document.body}
@@ -1471,10 +1835,16 @@ const FormModal = ({
                                   isClearable
                                   isSearchable
                                   classNamePrefix="custom-select"
-                                  noOptionsMessage={() => 'No branches available'}
+                                  noOptionsMessage={() =>
+                                    "No branches available"
+                                  }
                                   styles={selectStyles}
                                 />
-                                <ErrorMessage name="lead_assign_Branch" component="div" className="text-danger" />
+                                <ErrorMessage
+                                  name="lead_assign_Branch"
+                                  component="div"
+                                  className="text-danger"
+                                />
                               </Col>
                             )}
                           <Col md={3} className="mt-3">
@@ -1487,11 +1857,17 @@ const FormModal = ({
                                 roleOptions.find(
                                   (option) =>
                                     option.value ===
-                                    values.lead_assign[edit.leadAssignment ? 0 : index.leadAssignment]?.role,
+                                    values.lead_assign[
+                                      edit.leadAssignment
+                                        ? 0
+                                        : index.leadAssignment
+                                    ]?.role,
                                 ) || null
                               }
                               onChange={(selectedOption) => {
-                                const selectedRoleId = selectedOption ? selectedOption.value : null;
+                                const selectedRoleId = selectedOption
+                                  ? selectedOption.value
+                                  : null;
 
                                 setFieldValue(
                                   `lead_assign[${edit.leadAssignment ? 0 : index.leadAssignment}].role`,
@@ -1503,31 +1879,40 @@ const FormModal = ({
                                 );
 
                                 if (selectedRoleId) {
-                                  const selectedRole = getRoleList?.data?.find((role) => role._id === selectedRoleId);
+                                  const selectedRole = getRoleList?.data?.find(
+                                    (role) => role._id === selectedRoleId,
+                                  );
 
                                   let selectedBranchId = null;
-                                  if (userRole === 'Branch') {
+                                  if (userRole === "Branch") {
                                     selectedBranchId = branchId;
-                                  } else if (userType === 'Branch User') {
+                                  } else if (userType === "Branch User") {
                                     selectedBranchId = branchUserId || branchId;
                                   } else {
                                     selectedBranchId =
-                                      values.lead_assign_Branch === null ? null : values.lead_assign_Branch || null;
+                                      values.lead_assign_Branch === null
+                                        ? null
+                                        : values.lead_assign_Branch || null;
                                   }
 
                                   if (selectedRole) {
-                                    fetchAllUser(selectedRoleId, selectedRole.name, selectedBranchId, false);
+                                    fetchAllUser(
+                                      selectedRoleId,
+                                      selectedRole.name,
+                                      selectedBranchId,
+                                      false,
+                                    );
                                   }
                                 } else {
                                   // Clear user list when no role is selected
-                                  fetchAllUser(null, '', null, true);
+                                  fetchAllUser(null, "", null, true);
                                 }
                               }}
                               placeholder="Select Role"
                               isClearable
                               isSearchable
                               classNamePrefix="custom-select"
-                              noOptionsMessage={() => 'No roles available'}
+                              noOptionsMessage={() => "No roles available"}
                               menuPortalTarget={document.body}
                               styles={{
                                 menuPortal: (base) => ({
@@ -1552,7 +1937,11 @@ const FormModal = ({
                                 userOptions?.find(
                                   (option) =>
                                     option.value ===
-                                    values.lead_assign[edit.leadAssignment ? 0 : index.leadAssignment]?.user,
+                                    values.lead_assign[
+                                      edit.leadAssignment
+                                        ? 0
+                                        : index.leadAssignment
+                                    ]?.user,
                                 ) || null
                               }
                               onChange={(selectedOption) => {
@@ -1564,9 +1953,11 @@ const FormModal = ({
                               placeholder="Select User"
                               isClearable
                               isSearchable
-                              isDisabled={!userOptions || userOptions.length === 0}
+                              isDisabled={
+                                !userOptions || userOptions.length === 0
+                              }
                               classNamePrefix="custom-select"
-                              noOptionsMessage={() => 'No users available'}
+                              noOptionsMessage={() => "No users available"}
                               menuPortalTarget={document.body}
                               styles={{
                                 menuPortal: (base) => ({
@@ -1587,7 +1978,7 @@ const FormModal = ({
                             <Button
                               type="button"
                               className="w-100 custom-select-height text-white"
-                              style={{ backgroundColor: '#3b3665' }}
+                              style={{ backgroundColor: "#3b3665" }}
                               onClick={() => {
                                 if (edit.leadAssignment) {
                                   handleLeadAssignmentEdit(values);
@@ -1596,96 +1987,116 @@ const FormModal = ({
                                 }
                               }}
                             >
-                              <FaPlus className="plus-button mx-2" /> {edit.leadAssignment ? 'Update' : 'Add'}
+                              <FaPlus className="plus-button mx-2" />{" "}
+                              {edit.leadAssignment ? "Update" : "Add"}
                               Lead Assignment
                             </Button>
                           </Col>
                         </Row>
-                        {fullLeadAssignments && fullLeadAssignments?.length > 0 && (
-                          <div className="mt-5">
-                            <h5>Lead Assignments Data:</h5>
-                            <div className="table-responsive">
-                              <Table className="text-nowrap border">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">NO.</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">User</th>
-                                    <th scope="col">Actions</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {fullLeadAssignments?.map((data, i) => {
-                                    const roleName = data.role?.name || 'N/A';
-                                    const userName = data.user?.name || 'N/A';
-                                    return (
-                                      <tr key={i} className="custom-table-row">
-                                        <td>{i + 1}</td>
-                                        <td>{roleName || 'N/A'}</td>
-                                        <td>{userName || 'N/A'}</td>
-                                        <td>
-                                          <div className="d-flex">
-                                            <span className="icon-border edit-icon">
-                                              <EditIcon
-                                                onClick={() =>
-                                                  setEdit((prev) => ({
-                                                    ...prev,
-                                                    leadAssignment: true,
-                                                    leadAssignmentIndex: i,
-                                                  }))
-                                                }
-                                              />
-                                            </span>
-                                            <span className="icon-border delete-icon ms-2">
-                                              <DeleteIcon onClick={() => handleLeadAssignmentDelete(i)} />
-                                            </span>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                                </tbody>
-                              </Table>
+                        {fullLeadAssignments &&
+                          fullLeadAssignments?.length > 0 && (
+                            <div className="mt-5">
+                              <h5>Lead Assignments Data:</h5>
+                              <div className="table-responsive">
+                                <Table className="text-nowrap border">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">NO.</th>
+                                      <th scope="col">Role</th>
+                                      <th scope="col">User</th>
+                                      <th scope="col">Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {fullLeadAssignments?.map((data, i) => {
+                                      const roleName = data.role?.name || "N/A";
+                                      const userName = data.user?.name || "N/A";
+                                      return (
+                                        <tr
+                                          key={i}
+                                          className="custom-table-row"
+                                        >
+                                          <td>{i + 1}</td>
+                                          <td>{roleName || "N/A"}</td>
+                                          <td>{userName || "N/A"}</td>
+                                          <td>
+                                            <div className="d-flex">
+                                              <span className="icon-border edit-icon">
+                                                <EditIcon
+                                                  onClick={() =>
+                                                    setEdit((prev) => ({
+                                                      ...prev,
+                                                      leadAssignment: true,
+                                                      leadAssignmentIndex: i,
+                                                    }))
+                                                  }
+                                                />
+                                              </span>
+                                              <span className="icon-border delete-icon ms-2">
+                                                <DeleteIcon
+                                                  onClick={() =>
+                                                    handleLeadAssignmentDelete(
+                                                      i,
+                                                    )
+                                                  }
+                                                />
+                                              </span>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </Table>
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
                       </div>
                     )}
                   </div>
                 )}
                 {!isB2B && (
                   <>
-                    <h5 className="form-heading p-2 rounded-5">Follow-up Details</h5>
+                    <h5 className="form-heading p-2 rounded-5">
+                      Follow-up Details
+                    </h5>
                     <div className="mt-4 mb-5" ref={followUpDetailsRef}>
                       <Row className="mb-3">
                         <Col md={3} className="mt-3">
                           <Form.Label>Next Followup Date</Form.Label>
-                          <div style={{ position: 'relative' }}>
+                          <div style={{ position: "relative" }}>
                             <Form.Control
                               type="text"
                               name="next_follow_up"
                               className="custom-select-height"
                               placeholder="dd/mm/yyyy"
-                              value={values.next_follow_up ? formatDate(parseDate(values.next_follow_up)) : ''}
+                              value={
+                                values.next_follow_up
+                                  ? formatDate(parseDate(values.next_follow_up))
+                                  : ""
+                              }
                               readOnly
                               ref={nextFollowupInputRef}
                               onClick={() => {
-                                setNextFollowupValue(parseDate(values.next_follow_up) || new Date());
+                                setNextFollowupValue(
+                                  parseDate(values.next_follow_up) ||
+                                    new Date(),
+                                );
                                 setShowNextFollowupCalendar((show) => !show);
                               }}
                               style={{
-                                cursor: 'pointer',
-                                backgroundColor: '#fff',
+                                cursor: "pointer",
+                                backgroundColor: "#fff",
                               }}
                             />
                             <MdCalendarToday
                               style={{
-                                position: 'absolute',
+                                position: "absolute",
                                 right: 10,
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                                color: '#888',
-                                pointerEvents: 'none',
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                color: "#888",
+                                pointerEvents: "none",
                               }}
                               size={20}
                             />
@@ -1693,17 +2104,17 @@ const FormModal = ({
                               <div
                                 ref={nextFollowupCalendarRef}
                                 style={{
-                                  position: 'absolute',
-                                  top: '100%',
-                                  left: '0',
+                                  position: "absolute",
+                                  top: "100%",
+                                  left: "0",
                                   zIndex: 9999,
-                                  background: '#fff',
-                                  boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
-                                  borderRadius: '8px',
-                                  marginTop: '4px',
+                                  background: "#fff",
+                                  boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+                                  borderRadius: "8px",
+                                  marginTop: "4px",
                                   width: nextFollowupInputRef.current
                                     ? nextFollowupInputRef.current.offsetWidth
-                                    : 'auto',
+                                    : "auto",
                                   minWidth: 180,
                                 }}
                               >
@@ -1713,9 +2124,16 @@ const FormModal = ({
                                     setNextFollowupValue(selectedDate);
                                     // Store as local yyyy-mm-dd, not toISOString
                                     const yyyy = selectedDate.getFullYear();
-                                    const mm = String(selectedDate.getMonth() + 1).padStart(2, '0');
-                                    const dd = String(selectedDate.getDate()).padStart(2, '0');
-                                    setFieldValue('next_follow_up', `${yyyy}-${mm}-${dd}`);
+                                    const mm = String(
+                                      selectedDate.getMonth() + 1,
+                                    ).padStart(2, "0");
+                                    const dd = String(
+                                      selectedDate.getDate(),
+                                    ).padStart(2, "0");
+                                    setFieldValue(
+                                      "next_follow_up",
+                                      `${yyyy}-${mm}-${dd}`,
+                                    );
                                     setShowNextFollowupCalendar(false);
                                   }}
                                   value={nextFollowupValue || new Date()}
@@ -1725,7 +2143,11 @@ const FormModal = ({
                               </div>
                             )}
                           </div>
-                          <ErrorMessage name="next_follow_up" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="next_follow_up"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         <Col md={3} className="mt-3">
                           <Form.Label>Follow Up Type</Form.Label>
@@ -1733,43 +2155,67 @@ const FormModal = ({
                             className="custom-select-height"
                             options={followUpTypeOptions}
                             value={
-                              followUpTypeOptions?.find((option) => option.value === values.follow_up_type) || null
+                              followUpTypeOptions?.find(
+                                (option) =>
+                                  option.value === values.follow_up_type,
+                              ) || null
                             }
                             onChange={(selectedOption) =>
-                              setFieldValue('follow_up_type', selectedOption ? selectedOption.value : null)
+                              setFieldValue(
+                                "follow_up_type",
+                                selectedOption ? selectedOption.value : null,
+                              )
                             }
                             placeholder="Select Follow up type"
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No follow up type options available'}
+                            noOptionsMessage={() =>
+                              "No follow up type options available"
+                            }
                             styles={selectStyles}
                           />
-                          <ErrorMessage name="follow_up_type" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="follow_up_type"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         <Col md={3} className="mt-3">
                           <Form.Label>From</Form.Label>
                           <Form.Control
                             name="from"
                             as={Form.Control}
-                            onChange={(e) => setFieldValue('from', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("from", e.target.value)
+                            }
                             value={values.from}
                             type="time"
                             className="custom-select-height"
                           />
-                          <ErrorMessage name="from" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="from"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         <Col md={3} className="mt-3">
                           <Form.Label>To</Form.Label>
                           <Form.Control
                             name="to"
                             as={Form.Control}
-                            onChange={(e) => setFieldValue('to', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("to", e.target.value)
+                            }
                             value={values.to}
                             type="time"
                             className="custom-select-height"
                           />
-                          <ErrorMessage name="to" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="to"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         {/* <Col md={3} className="mt-3">
                           <Form.Label>Nationality</Form.Label>
@@ -1835,27 +2281,39 @@ const FormModal = ({
                             options={leadFollowUpRemarkOptions}
                             value={
                               leadFollowUpRemarkOptions.find(
-                                (option) => option.value === values.lead_followup_remark,
+                                (option) =>
+                                  option.value === values.lead_followup_remark,
                               ) || null
                             }
                             onChange={(selectedOption) =>
-                              setFieldValue('lead_followup_remark', selectedOption ? selectedOption.value : '')
+                              setFieldValue(
+                                "lead_followup_remark",
+                                selectedOption ? selectedOption.value : "",
+                              )
                             }
                             placeholder="Select Lead FollowUp Remark"
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No follow-up remark options available'}
+                            noOptionsMessage={() =>
+                              "No follow-up remark options available"
+                            }
                             styles={selectStyles}
                           />
-                          <ErrorMessage name="lead_followup_remark" component="div" className="text-danger" />
+                          <ErrorMessage
+                            name="lead_followup_remark"
+                            component="div"
+                            className="text-danger"
+                          />
                         </Col>
                         <Col md={3} className="mt-3">
                           <Form.Label>Lead Text Remark</Form.Label>
                           <Form.Control
                             name="lead_text_remark"
                             as="textarea"
-                            onChange={(e) => setFieldValue('lead_text_remark', e.target.value)}
+                            onChange={(e) =>
+                              setFieldValue("lead_text_remark", e.target.value)
+                            }
                             value={values.lead_text_remark}
                             className="rounded-1"
                             placeholder="Enter Lead Text Remark"
@@ -1867,11 +2325,13 @@ const FormModal = ({
                   </>
                 )}
                 <div className="section-wrapper" ref={interestedCourseRef}>
-                  {' '}
+                  {" "}
                   <h5
                     className="form-heading p-2 d-flex justify-content-between mb-3"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => setShowInterestedCourse(!showInterestedCourse)}
+                    style={{ cursor: "pointer" }}
+                    onClick={() =>
+                      setShowInterestedCourse(!showInterestedCourse)
+                    }
                   >
                     Interested Course
                     {showInterestedCourse ? <FaChevronUp /> : <FaChevronDown />}
@@ -1891,29 +2351,41 @@ const FormModal = ({
                                 (option) =>
                                   option.value ===
                                   (typeof values.interestedCourseDetails?.[
-                                    edit.interestedCourse ? 0 : index.interestedCourse
-                                  ]?.institute === 'object'
+                                    edit.interestedCourse
+                                      ? 0
+                                      : index.interestedCourse
+                                  ]?.institute === "object"
                                     ? values.interestedCourseDetails?.[
-                                        edit.interestedCourse ? 0 : index.interestedCourse
+                                        edit.interestedCourse
+                                          ? 0
+                                          : index.interestedCourse
                                       ]?.institute?._id
                                     : values.interestedCourseDetails?.[
-                                        edit.interestedCourse ? 0 : index.interestedCourse
+                                        edit.interestedCourse
+                                          ? 0
+                                          : index.interestedCourse
                                       ]?.institute),
                               ) || null
                             }
                             onChange={(selectedOption) => {
                               setFieldValue(
                                 `interestedCourseDetails[${
-                                  edit.interestedCourse ? edit.interestedCourseIndex : index.interestedCourse
+                                  edit.interestedCourse
+                                    ? edit.interestedCourseIndex
+                                    : index.interestedCourse
                                 }].institute`,
-                                selectedOption ? selectedOption.value : '',
+                                selectedOption ? selectedOption.value : "",
                               );
-                              const preferredCountry = values.country_interested?.[0] || '';
+                              const preferredCountry =
+                                values.country_interested?.[0] || "";
 
-                              fetchAllCampusByInstitute(selectedOption ? selectedOption.label : '', preferredCountry);
+                              fetchAllCampusByInstitute(
+                                selectedOption ? selectedOption.label : "",
+                                preferredCountry,
+                              );
 
                               if (selectedOption) {
-                                getAllCourseFinder(selectedOption.value, ''); // Fetch courses for the selected institute
+                                getAllCourseFinder(selectedOption.value, ""); // Fetch courses for the selected institute
                               }
                             }}
                             menuPortalTarget={document.body}
@@ -1921,7 +2393,7 @@ const FormModal = ({
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No institutes available'}
+                            noOptionsMessage={() => "No institutes available"}
                             styles={selectStyles}
                           />
                         </Col>
@@ -1936,23 +2408,35 @@ const FormModal = ({
                               (option) =>
                                 option.value ===
                                 (typeof values.interestedCourseDetails[
-                                  edit.interestedCourse ? 0 : index.interestedCourse
-                                ]?.campus === 'object'
-                                  ? values.interestedCourseDetails[edit.interestedCourse ? 0 : index.interestedCourse]
-                                      ?.campus?._id
-                                  : values.interestedCourseDetails[edit.interestedCourse ? 0 : index.interestedCourse]
-                                      ?.campus),
+                                  edit.interestedCourse
+                                    ? 0
+                                    : index.interestedCourse
+                                ]?.campus === "object"
+                                  ? values.interestedCourseDetails[
+                                      edit.interestedCourse
+                                        ? 0
+                                        : index.interestedCourse
+                                    ]?.campus?._id
+                                  : values.interestedCourseDetails[
+                                      edit.interestedCourse
+                                        ? 0
+                                        : index.interestedCourse
+                                    ]?.campus),
                             )}
                             onChange={(selectedOption) => {
                               setFieldValue(
                                 `interestedCourseDetails[${
-                                  edit.interestedCourse ? edit.interestedCourseIndex : index.interestedCourse
+                                  edit.interestedCourse
+                                    ? edit.interestedCourseIndex
+                                    : index.interestedCourse
                                 }].campus`,
-                                selectedOption ? selectedOption.value : '',
+                                selectedOption ? selectedOption.value : "",
                               );
 
                               if (onInstituteSelect) {
-                                onInstituteSelect(selectedOption ? selectedOption.value : '');
+                                onInstituteSelect(
+                                  selectedOption ? selectedOption.value : "",
+                                );
                               }
                             }}
                             menuPortalTarget={document.body}
@@ -1960,7 +2444,7 @@ const FormModal = ({
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No campuses available'}
+                            noOptionsMessage={() => "No campuses available"}
                             styles={selectStyles}
                           />
                         </Col>
@@ -1984,22 +2468,30 @@ const FormModal = ({
                                   (pl) =>
                                     pl.value ===
                                     (typeof values.interestedCourseDetails[
-                                      edit.interestedCourse ? 0 : index.interestedCourse
-                                    ]?.programLevel === 'object'
+                                      edit.interestedCourse
+                                        ? 0
+                                        : index.interestedCourse
+                                    ]?.programLevel === "object"
                                       ? values.interestedCourseDetails[
-                                          edit.interestedCourse ? 0 : index.interestedCourse
+                                          edit.interestedCourse
+                                            ? 0
+                                            : index.interestedCourse
                                         ]?.programLevel?._id
                                       : values.interestedCourseDetails[
-                                          edit.interestedCourse ? 0 : index.interestedCourse
+                                          edit.interestedCourse
+                                            ? 0
+                                            : index.interestedCourse
                                         ]?.programLevel),
                                 ) || null
                             }
                             onChange={(selected) =>
                               setFieldValue(
                                 `interestedCourseDetails[${
-                                  edit.interestedCourse ? edit.interestedCourseIndex : index.interestedCourse
+                                  edit.interestedCourse
+                                    ? edit.interestedCourseIndex
+                                    : index.interestedCourse
                                 }].programLevel`,
-                                selected?.value || '',
+                                selected?.value || "",
                               )
                             }
                             menuPortalTarget={document.body}
@@ -2007,7 +2499,9 @@ const FormModal = ({
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No program levels available'}
+                            noOptionsMessage={() =>
+                              "No program levels available"
+                            }
                             styles={selectStyles}
                           />
                         </Col>
@@ -2016,7 +2510,9 @@ const FormModal = ({
                           <Select
                             name={`interestedCourseDetails[${selectedIndex}].course`}
                             options={allcourseData
-                              ?.sort((a, b) => a.programName.localeCompare(b.programName))
+                              ?.sort((a, b) =>
+                                a.programName.localeCompare(b.programName),
+                              )
                               ?.map((course) => ({
                                 label: course.programName,
                                 value: course._id,
@@ -2030,24 +2526,39 @@ const FormModal = ({
                                 ?.find(
                                   (opt) =>
                                     opt.value ===
-                                    (typeof values.interestedCourseDetails[selectedIndex]?.course === 'object'
-                                      ? values.interestedCourseDetails[selectedIndex]?.course?._id
-                                      : values.interestedCourseDetails[selectedIndex]?.course),
+                                    (typeof values.interestedCourseDetails[
+                                      selectedIndex
+                                    ]?.course === "object"
+                                      ? values.interestedCourseDetails[
+                                          selectedIndex
+                                        ]?.course?._id
+                                      : values.interestedCourseDetails[
+                                          selectedIndex
+                                        ]?.course),
                                 ) || null
                             }
                             onChange={(selected) => {
-                              setFieldValue(`interestedCourseDetails[${selectedIndex}].course`, selected?.value || '');
+                              setFieldValue(
+                                `interestedCourseDetails[${selectedIndex}].course`,
+                                selected?.value || "",
+                              );
 
                               // 🔥 RESET dependent fields
-                              setFieldValue(`interestedCourseDetails[${selectedIndex}].intakeMonth`, '');
-                              setFieldValue(`interestedCourseDetails[${selectedIndex}].intakeYear`, '');
+                              setFieldValue(
+                                `interestedCourseDetails[${selectedIndex}].intakeMonth`,
+                                "",
+                              );
+                              setFieldValue(
+                                `interestedCourseDetails[${selectedIndex}].intakeYear`,
+                                "",
+                              );
                             }}
                             menuPortalTarget={document.body}
                             placeholder="Select Course"
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No course available'}
+                            noOptionsMessage={() => "No course available"}
                             styles={selectStyles}
                           />
                         </Col>
@@ -2058,13 +2569,16 @@ const FormModal = ({
                             options={intakeMonthOptions}
                             value={
                               intakeMonthOptions.find(
-                                (opt) => opt.value === values.interestedCourseDetails[selectedIndex]?.intakeMonth,
+                                (opt) =>
+                                  opt.value ===
+                                  values.interestedCourseDetails[selectedIndex]
+                                    ?.intakeMonth,
                               ) || null
                             }
                             onChange={(selected) =>
                               setFieldValue(
                                 `interestedCourseDetails[${selectedIndex}].intakeMonth`,
-                                selected?.value || '',
+                                selected?.value || "",
                               )
                             }
                             placeholder="Select Intake Month"
@@ -2072,7 +2586,9 @@ const FormModal = ({
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No intake months available'}
+                            noOptionsMessage={() =>
+                              "No intake months available"
+                            }
                             styles={selectStyles}
                           />
                         </Col>
@@ -2083,13 +2599,16 @@ const FormModal = ({
                             options={intakeYearOptions}
                             value={
                               intakeYearOptions.find(
-                                (opt) => opt.value === values.interestedCourseDetails[selectedIndex]?.intakeYear,
+                                (opt) =>
+                                  opt.value ===
+                                  values.interestedCourseDetails[selectedIndex]
+                                    ?.intakeYear,
                               ) || null
                             }
                             onChange={(selected) =>
                               setFieldValue(
                                 `interestedCourseDetails[${selectedIndex}].intakeYear`,
-                                selected?.value || '',
+                                selected?.value || "",
                               )
                             }
                             menuPortalTarget={document.body}
@@ -2097,7 +2616,7 @@ const FormModal = ({
                             isClearable
                             isSearchable
                             classNamePrefix="custom-select"
-                            noOptionsMessage={() => 'No intake years available'}
+                            noOptionsMessage={() => "No intake years available"}
                             styles={selectStyles}
                           />
                         </Col>
@@ -2107,9 +2626,15 @@ const FormModal = ({
                             name={`interestedCourseDetails[${selectedIndex}].remarks`}
                             type="text"
                             placeholder="Enter Remarks"
-                            value={values.interestedCourseDetails?.[selectedIndex]?.remarks || ''}
+                            value={
+                              values.interestedCourseDetails?.[selectedIndex]
+                                ?.remarks || ""
+                            }
                             onChange={(e) => {
-                              setFieldValue(`interestedCourseDetails[${selectedIndex}].remarks`, e.target.value);
+                              setFieldValue(
+                                `interestedCourseDetails[${selectedIndex}].remarks`,
+                                e.target.value,
+                              );
                             }}
                             className="custom-select-height"
                           />
@@ -2123,17 +2648,24 @@ const FormModal = ({
                                 label="Yes"
                                 className="custom-radio-border"
                                 name={`interestedCourseDetails[${
-                                  edit.interestedCourse ? 0 : index.interestedCourse
+                                  edit.interestedCourse
+                                    ? 0
+                                    : index.interestedCourse
                                 }].acceptedByUs`}
                                 id={`acceptedByUs-yes-${edit.interestedCourse ? 0 : index.interestedCourse}`}
                                 checked={
-                                  values.interestedCourseDetails[edit.interestedCourse ? 0 : index.interestedCourse]
-                                    ?.acceptedByUs === true
+                                  values.interestedCourseDetails[
+                                    edit.interestedCourse
+                                      ? 0
+                                      : index.interestedCourse
+                                  ]?.acceptedByUs === true
                                 }
                                 onChange={() =>
                                   setFieldValue(
                                     `interestedCourseDetails[${
-                                      edit.interestedCourse ? 0 : index.interestedCourse
+                                      edit.interestedCourse
+                                        ? 0
+                                        : index.interestedCourse
                                     }].acceptedByUs`,
                                     true,
                                   )
@@ -2145,17 +2677,24 @@ const FormModal = ({
                                 label="No"
                                 className="custom-radio-border"
                                 name={`interestedCourseDetails[${
-                                  edit.interestedCourse ? 0 : index.interestedCourse
+                                  edit.interestedCourse
+                                    ? 0
+                                    : index.interestedCourse
                                 }].acceptedByUs`}
                                 id={`acceptedByUs-no-${edit.interestedCourse ? 0 : index.interestedCourse}`}
                                 checked={
-                                  values.interestedCourseDetails[edit.interestedCourse ? 0 : index.interestedCourse]
-                                    ?.acceptedByUs === false
+                                  values.interestedCourseDetails[
+                                    edit.interestedCourse
+                                      ? 0
+                                      : index.interestedCourse
+                                  ]?.acceptedByUs === false
                                 }
                                 onChange={() =>
                                   setFieldValue(
                                     `interestedCourseDetails[${
-                                      edit.interestedCourse ? 0 : index.interestedCourse
+                                      edit.interestedCourse
+                                        ? 0
+                                        : index.interestedCourse
                                     }].acceptedByUs`,
                                     false,
                                   )
@@ -2170,18 +2709,18 @@ const FormModal = ({
                           <Button
                             type="button"
                             className="w-100 custom-select-height text-white"
-                            style={{ backgroundColor: '#3b3665' }}
+                            style={{ backgroundColor: "#3b3665" }}
                             onClick={() => {
                               const resetInterestedCourseFields = () => {
-                                setFieldValue('interestedCourseDetails', [
+                                setFieldValue("interestedCourseDetails", [
                                   {
-                                    institute: '',
-                                    campus: '',
-                                    programLevel: '',
-                                    course: '',
-                                    intakeMonth: '',
-                                    intakeYear: '',
-                                    remarks: '',
+                                    institute: "",
+                                    campus: "",
+                                    programLevel: "",
+                                    course: "",
+                                    intakeMonth: "",
+                                    intakeYear: "",
+                                    remarks: "",
                                     acceptedByUs: false,
                                   },
                                 ]);
@@ -2208,123 +2747,181 @@ const FormModal = ({
                               }
                             }}
                           >
-                            <FaPlus className="plus-button mx-2" /> {edit.interestedCourse ? 'Update' : 'Add'}{' '}
+                            <FaPlus className="plus-button mx-2" />{" "}
+                            {edit.interestedCourse ? "Update" : "Add"}{" "}
                             Interested Course
                           </Button>
                         </Col>
                       </Row>
-                      {formData.interestedCourseDetails && formData.interestedCourseDetails.length > 0 && (
-                        <div className="mt-5">
-                          <h5>Interested Course</h5>
-                          <div className="table-responsive">
-                            <Table className="text-nowrap border">
-                              <thead>
-                                <tr>
-                                  <th scope="col">Institute</th>
-                                  <th scope="col">Campus</th>
-                                  <th scope="col">Program Level</th>
-                                  <th scope="col">Course</th>
-                                  <th scope="col">Intake Month</th>
-                                  <th scope="col">Intake Year</th>
-                                  <th scope="col">Remarks</th>
-                                  <th scope="col">Accepted By Us</th>
-                                  <th scope="col">Actions</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {formData?.interestedCourseDetails?.map((item, index) => {
-                                  const getInstituteName = (instituteId) => {
-                                    if (!instituteId) return 'N/A';
-                                    const institute = instituteOptions.find((opt) => opt.value === instituteId);
-                                    return institute ? institute.label : `Institute: ${instituteId}`;
-                                  };
+                      {formData.interestedCourseDetails &&
+                        formData.interestedCourseDetails.length > 0 && (
+                          <div className="mt-5">
+                            <h5>Interested Course</h5>
+                            <div className="table-responsive">
+                              <Table className="text-nowrap border">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Institute</th>
+                                    <th scope="col">Campus</th>
+                                    <th scope="col">Program Level</th>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Intake Month</th>
+                                    <th scope="col">Intake Year</th>
+                                    <th scope="col">Remarks</th>
+                                    <th scope="col">Accepted By Us</th>
+                                    <th scope="col">Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {formData?.interestedCourseDetails?.map(
+                                    (item, index) => {
+                                      const getInstituteName = (
+                                        instituteId,
+                                      ) => {
+                                        if (!instituteId) return "N/A";
+                                        const institute = instituteOptions.find(
+                                          (opt) => opt.value === instituteId,
+                                        );
+                                        return institute
+                                          ? institute.label
+                                          : `Institute: ${instituteId}`;
+                                      };
 
-                                  const getCampusName = (campusId) => {
-                                    if (!campusId) return 'N/A';
-                                    const campus = campusOptions.find((opt) => opt.value === campusId);
-                                    return campus ? campus.label : `Campus: ${campusId}`;
-                                  };
+                                      const getCampusName = (campusId) => {
+                                        if (!campusId) return "N/A";
+                                        const campus = campusOptions.find(
+                                          (opt) => opt.value === campusId,
+                                        );
+                                        return campus
+                                          ? campus.label
+                                          : `Campus: ${campusId}`;
+                                      };
 
-                                  const getProgramLevelName = (programLevelId) => {
-                                    if (!programLevelId) return 'N/A';
-                                    const programLevel = programLevelData.find((pl) => pl._id === programLevelId);
-                                    return programLevel ? programLevel.name : `Program Level: ${programLevelId}`;
-                                  };
+                                      const getProgramLevelName = (
+                                        programLevelId,
+                                      ) => {
+                                        if (!programLevelId) return "N/A";
+                                        const programLevel =
+                                          programLevelData.find(
+                                            (pl) => pl._id === programLevelId,
+                                          );
+                                        return programLevel
+                                          ? programLevel.name
+                                          : `Program Level: ${programLevelId}`;
+                                      };
 
-                                  const getCourseName = (courseId) => {
-                                    if (!courseId) return 'N/A';
-                                    const course = allcourseData.find((c) => c._id === courseId);
-                                    return course ? course.programName : `Course: ${courseId}`;
-                                  };
+                                      const getCourseName = (courseId) => {
+                                        if (!courseId) return "N/A";
+                                        const course = allcourseData.find(
+                                          (c) => c._id === courseId,
+                                        );
+                                        return course
+                                          ? course.programName
+                                          : `Course: ${courseId}`;
+                                      };
 
-                                  // Debug logging removed for cleaner console
-                                  return (
-                                    <tr key={index}>
-                                      <td>
-                                        {typeof item?.institute === 'object'
-                                          ? item?.institute?.instituteName || 'N/A'
-                                          : item?.instituteName || getInstituteName(item?.institute)}
-                                      </td>
-                                      <td>
-                                        {typeof item?.campus === 'object'
-                                          ? item?.campus?.campus || 'N/A'
-                                          : item?.campusName || getCampusName(item?.campus)}
-                                      </td>
-                                      <td>
-                                        {typeof item?.programLevel === 'object'
-                                          ? item?.programLevel?.name || 'N/A'
-                                          : item?.programLevelName || getProgramLevelName(item?.programLevel)}
-                                      </td>
-                                      <td>
-                                        {typeof item?.course === 'object'
-                                          ? item?.course?.programName || item?.course?.duration || 'N/A'
-                                          : item?.courseName || getCourseName(item?.course)}
-                                      </td>
-                                      <td>{item?.intakeMonth || 'N/A'}</td>
-                                      <td>{item?.intakeYear || 'N/A'}</td>
-                                      <td>{item?.remarks || 'N/A'}</td>
-                                      <td>{item?.acceptedByUs === true ? 'Yes' : 'No' || 'N/A'}</td>
-                                      <td>
-                                        <div className="d-flex">
-                                          <span className="icon-border edit-icon">
-                                            <EditIcon
-                                              onClick={() => {
-                                                setEdit((prev) => ({
-                                                  ...prev,
-                                                  interestedCourse: true,
-                                                  interestedCourseIndex: index,
-                                                }));
+                                      // Debug logging removed for cleaner console
+                                      return (
+                                        <tr key={index}>
+                                          <td>
+                                            {typeof item?.institute === "object"
+                                              ? item?.institute
+                                                  ?.instituteName || "N/A"
+                                              : item?.instituteName ||
+                                                getInstituteName(
+                                                  item?.institute,
+                                                )}
+                                          </td>
+                                          <td>
+                                            {typeof item?.campus === "object"
+                                              ? item?.campus?.campus || "N/A"
+                                              : item?.campusName ||
+                                                getCampusName(item?.campus)}
+                                          </td>
+                                          <td>
+                                            {typeof item?.programLevel ===
+                                            "object"
+                                              ? item?.programLevel?.name ||
+                                                "N/A"
+                                              : item?.programLevelName ||
+                                                getProgramLevelName(
+                                                  item?.programLevel,
+                                                )}
+                                          </td>
+                                          <td>
+                                            {typeof item?.course === "object"
+                                              ? item?.course?.programName ||
+                                                item?.course?.duration ||
+                                                "N/A"
+                                              : item?.courseName ||
+                                                getCourseName(item?.course)}
+                                          </td>
+                                          <td>{item?.intakeMonth || "N/A"}</td>
+                                          <td>{item?.intakeYear || "N/A"}</td>
+                                          <td>{item?.remarks || "N/A"}</td>
+                                          <td>
+                                            {item?.acceptedByUs === true
+                                              ? "Yes"
+                                              : "No" || "N/A"}
+                                          </td>
+                                          <td>
+                                            <div className="d-flex">
+                                              <span className="icon-border edit-icon">
+                                                <EditIcon
+                                                  onClick={() => {
+                                                    setEdit((prev) => ({
+                                                      ...prev,
+                                                      interestedCourse: true,
+                                                      interestedCourseIndex:
+                                                        index,
+                                                    }));
 
-                                                // fetchAllCourse(item?.institute?._id, item?.campus?._id, item?.programLevel?._id)
-                                              }}
-                                            />
-                                          </span>
-                                          <span className="icon-border delete-icon ms-2">
-                                            <DeleteIcon onClick={() => handleInterestedCourseDelete(index)} />
-                                          </span>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                              </tbody>
-                            </Table>
+                                                    // fetchAllCourse(item?.institute?._id, item?.campus?._id, item?.programLevel?._id)
+                                                  }}
+                                                />
+                                              </span>
+                                              <span className="icon-border delete-icon ms-2">
+                                                <DeleteIcon
+                                                  onClick={() =>
+                                                    handleInterestedCourseDelete(
+                                                      index,
+                                                    )
+                                                  }
+                                                />
+                                              </span>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      );
+                                    },
+                                  )}
+                                </tbody>
+                              </Table>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                     </div>
                   )}
                 </div>
                 {!isB2B && (
                   <>
-                    <div className="section-wrapper" ref={educationCourseInfoRef}>
+                    <div
+                      className="section-wrapper"
+                      ref={educationCourseInfoRef}
+                    >
                       <h5
                         className="form-heading p-2 d-flex justify-content-between"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => setShowEducationCourseInfo(!showEducationCourseInfo)}
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          setShowEducationCourseInfo(!showEducationCourseInfo)
+                        }
                       >
                         Education & Course Info
-                        {showEducationCourseInfo ? <FaChevronUp /> : <FaChevronDown />}
+                        {showEducationCourseInfo ? (
+                          <FaChevronUp />
+                        ) : (
+                          <FaChevronDown />
+                        )}
                       </h5>
                       {showEducationCourseInfo && (
                         <div className="section-content mt-4 mb-5">
@@ -2334,52 +2931,76 @@ const FormModal = ({
                               <Form.Control
                                 name="course"
                                 as={Form.Control}
-                                onChange={(e) => setFieldValue('course', e.target.value)}
+                                onChange={(e) =>
+                                  setFieldValue("course", e.target.value)
+                                }
                                 value={values.course}
                                 type="text"
                                 className="custom-select-height"
                                 placeholder="Enter Course"
                               />
-                              <ErrorMessage name="course" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="course"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Level</Form.Label>
                               <Form.Control
                                 name="level"
                                 as={Form.Control}
-                                onChange={(e) => setFieldValue('level', e.target.value)}
+                                onChange={(e) =>
+                                  setFieldValue("level", e.target.value)
+                                }
                                 value={values.level}
                                 type="text"
                                 className="custom-select-height"
                                 placeholder="Enter Level"
                               />
-                              <ErrorMessage name="level" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="level"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Budget</Form.Label>
                               <Form.Control
                                 name="budget"
                                 as={Form.Control}
-                                onChange={(e) => setFieldValue('budget', e.target.value)}
+                                onChange={(e) =>
+                                  setFieldValue("budget", e.target.value)
+                                }
                                 value={values.budget}
                                 type="text"
                                 className="custom-select-height"
                                 placeholder="Enter Budget"
                               />
-                              <ErrorMessage name="budget" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="budget"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Intake</Form.Label>
                               <Form.Control
                                 name="intake"
                                 as={Form.Control}
-                                onChange={(e) => setFieldValue('intake', e.target.value)}
+                                onChange={(e) =>
+                                  setFieldValue("intake", e.target.value)
+                                }
                                 value={values.intake}
                                 type="text"
                                 className="custom-select-height"
                                 placeholder="Enter Intake"
                               />
-                              <ErrorMessage name="intake" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="intake"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                           </Row>
 
@@ -2389,39 +3010,63 @@ const FormModal = ({
                               <Form.Control
                                 name="english_proficiency"
                                 as={Form.Control}
-                                onChange={(e) => setFieldValue('english_proficiency', e.target.value)}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    "english_proficiency",
+                                    e.target.value,
+                                  )
+                                }
                                 value={values.english_proficiency}
                                 type="text"
                                 className="custom-select-height"
                                 placeholder="Enter English Proficiency"
                               />
-                              <ErrorMessage name="english_proficiency" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="english_proficiency"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Passport</Form.Label>
                               <Form.Control
                                 name="passport"
                                 as={Form.Control}
-                                onChange={(e) => setFieldValue('passport', e.target.value)}
+                                onChange={(e) =>
+                                  setFieldValue("passport", e.target.value)
+                                }
                                 value={values.passport}
                                 type="text"
                                 className="custom-select-height"
                                 placeholder="Enter Passport"
                               />
-                              <ErrorMessage name="passport" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="passport"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>How Much in Bank</Form.Label>
                               <Form.Control
                                 name="how_much_in_bank"
                                 as={Form.Control}
-                                onChange={(e) => setFieldValue('how_much_in_bank', e.target.value)}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    "how_much_in_bank",
+                                    e.target.value,
+                                  )
+                                }
                                 value={values.how_much_in_bank}
                                 type="text"
                                 className="custom-select-height"
                                 placeholder="Enter How Much in Bank"
                               />
-                              <ErrorMessage name="how_much_in_bank" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="how_much_in_bank"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                           </Row>
                         </div>
@@ -2431,7 +3076,7 @@ const FormModal = ({
                     <div className="section-wrapper" ref={familyWorkRef}>
                       <h5
                         className="form-heading p-2 d-flex justify-content-between mb-2"
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                         onClick={() => setShowFamilyWork(!showFamilyWork)}
                       >
                         Work Experience
@@ -2444,19 +3089,26 @@ const FormModal = ({
                               <Form.Label>Relation</Form.Label>
                               <Select
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].occupation_father`}
                                 options={occupationOptions}
                                 value={occupationOptions.find(
                                   (option) =>
                                     option.value ===
-                                    values?.family_work[edit.familyWork ? edit.familyWorkIndex : index.familyWork]
-                                      ?.occupation_father,
+                                    values?.family_work[
+                                      edit.familyWork
+                                        ? edit.familyWorkIndex
+                                        : index.familyWork
+                                    ]?.occupation_father,
                                 )}
                                 onChange={(selected) =>
                                   setFieldValue(
                                     `family_work[${
-                                      edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                      edit.familyWork
+                                        ? edit.familyWorkIndex
+                                        : index.familyWork
                                     }].occupation_father`,
                                     selected.value,
                                   )
@@ -2474,15 +3126,17 @@ const FormModal = ({
                                   menu: (base) => ({
                                     ...base,
                                     zIndex: 9999,
-                                    position: 'absolute',
-                                    width: '100%',
+                                    position: "absolute",
+                                    width: "100%",
                                   }),
                                 }}
                               />
 
                               <ErrorMessage
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].occupation_father`}
                                 component="div"
                                 className="text-danger"
@@ -2493,19 +3147,26 @@ const FormModal = ({
 
                               <Select
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].occupation`}
                                 options={occupationTypeOptions}
                                 value={occupationTypeOptions.find(
                                   (option) =>
                                     option.value ===
-                                    values.family_work[edit.familyWork ? edit.familyWorkIndex : index.familyWork]
-                                      ?.occupation,
+                                    values.family_work[
+                                      edit.familyWork
+                                        ? edit.familyWorkIndex
+                                        : index.familyWork
+                                    ]?.occupation,
                                 )}
                                 onChange={(selected) =>
                                   setFieldValue(
                                     `family_work[${
-                                      edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                      edit.familyWork
+                                        ? edit.familyWorkIndex
+                                        : index.familyWork
                                     }].occupation`,
                                     selected.value,
                                   )
@@ -2523,15 +3184,17 @@ const FormModal = ({
                                   menu: (base) => ({
                                     ...base,
                                     zIndex: 9999,
-                                    position: 'absolute',
-                                    width: '100%',
+                                    position: "absolute",
+                                    width: "100%",
                                   }),
                                 }}
                               />
 
                               <ErrorMessage
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].occupation`}
                                 component="div"
                                 className="text-danger"
@@ -2563,20 +3226,27 @@ const FormModal = ({
                               <Form.Label>Work Experience</Form.Label>
                               <Form.Control
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].work_experience`}
                                 as={Form.Control}
                                 onChange={(e) =>
                                   setFieldValue(
                                     `family_work[${
-                                      edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                      edit.familyWork
+                                        ? edit.familyWorkIndex
+                                        : index.familyWork
                                     }].work_experience`,
                                     e.target.value,
                                   )
                                 }
                                 value={
-                                  values.family_work[edit.familyWork ? edit.familyWorkIndex : index.familyWork]
-                                    ?.work_experience || ''
+                                  values.family_work[
+                                    edit.familyWork
+                                      ? edit.familyWorkIndex
+                                      : index.familyWork
+                                  ]?.work_experience || ""
                                 }
                                 type="text"
                                 className="custom-select-height"
@@ -2584,7 +3254,9 @@ const FormModal = ({
                               />
                               <ErrorMessage
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].work_experience`}
                                 component="div"
                                 className="text-danger"
@@ -2594,20 +3266,27 @@ const FormModal = ({
                               <Form.Label>Work Post</Form.Label>
                               <Form.Control
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].work_post`}
                                 as={Form.Control}
                                 onChange={(e) =>
                                   setFieldValue(
                                     `family_work[${
-                                      edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                      edit.familyWork
+                                        ? edit.familyWorkIndex
+                                        : index.familyWork
                                     }].work_post`,
                                     e.target.value,
                                   )
                                 }
                                 value={
-                                  values.family_work[edit.familyWork ? edit.familyWorkIndex : index.familyWork]
-                                    ?.work_post || ''
+                                  values.family_work[
+                                    edit.familyWork
+                                      ? edit.familyWorkIndex
+                                      : index.familyWork
+                                  ]?.work_post || ""
                                 }
                                 type="text"
                                 className="custom-select-height"
@@ -2615,7 +3294,9 @@ const FormModal = ({
                               />
                               <ErrorMessage
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].work_post`}
                                 component="div"
                                 className="text-danger"
@@ -2626,20 +3307,27 @@ const FormModal = ({
                               <Form.Label>Work Year</Form.Label>
                               <Form.Control
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].work_year`}
                                 as={Form.Control}
                                 onChange={(e) =>
                                   setFieldValue(
                                     `family_work[${
-                                      edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                      edit.familyWork
+                                        ? edit.familyWorkIndex
+                                        : index.familyWork
                                     }].work_year`,
                                     e.target.value,
                                   )
                                 }
                                 value={
-                                  values.family_work[edit.familyWork ? edit.familyWorkIndex : index.familyWork]
-                                    ?.work_year || ''
+                                  values.family_work[
+                                    edit.familyWork
+                                      ? edit.familyWorkIndex
+                                      : index.familyWork
+                                  ]?.work_year || ""
                                 }
                                 type="number"
                                 className="custom-select-height"
@@ -2647,7 +3335,9 @@ const FormModal = ({
                               />
                               <ErrorMessage
                                 name={`family_work[${
-                                  edit.familyWork ? edit.familyWorkIndex : index.familyWork
+                                  edit.familyWork
+                                    ? edit.familyWorkIndex
+                                    : index.familyWork
                                 }].work_year`}
                                 component="div"
                                 className="text-danger"
@@ -2659,7 +3349,7 @@ const FormModal = ({
                               <Button
                                 type="button"
                                 className="w-100 custom-select-height text-white"
-                                style={{ backgroundColor: '#3b3665' }}
+                                style={{ backgroundColor: "#3b3665" }}
                                 onClick={() => {
                                   if (edit.familyWork) {
                                     handleFamilyWorkDetailEdit(values);
@@ -2668,60 +3358,73 @@ const FormModal = ({
                                   }
                                 }}
                               >
-                                <FaPlus className="plus-button mx-2" /> {edit.familyWork ? 'Update' : 'Add'} Family Work
+                                <FaPlus className="plus-button mx-2" />{" "}
+                                {edit.familyWork ? "Update" : "Add"} Family Work
                               </Button>
                             </Col>
                           </Row>
-                          {formData.family_work && formData.family_work.length > 0 && (
-                            <div className="mt-5">
-                              <h5>Family Work Data:</h5>
-                              <div className="table-responsive">
-                                <Table className="text-nowrap border">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">NO.</th>
-                                      <th scope="col">Relation</th>
-                                      <th scope="col">Occupation</th>
-                                      <th scope="col">Work Experience</th>
-                                      <th scope="col">Work Post</th>
-                                      <th scope="col">Work Year</th>
-                                      <th scope="col">Actions</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {formData?.family_work?.map((data, i) => (
-                                      <tr key={i} className="custom-table-row">
-                                        <td>{i + 1}</td>
-                                        <td>{data?.occupation_father || 'N/A'}</td>
-                                        <td>{data?.occupation || 'N/A'}</td>
-                                        <td>{data?.work_experience || 'N/A'}</td>
-                                        <td>{data?.work_post || 'N/A'}</td>
-                                        <td>{data?.work_year || 'N/A'}</td>
-                                        <td>
-                                          <div className="d-flex">
-                                            <span className="icon-border edit-icon">
-                                              <EditIcon
-                                                onClick={() =>
-                                                  setEdit((prev) => ({
-                                                    ...prev,
-                                                    familyWork: true,
-                                                    familyWorkIndex: i || 0,
-                                                  }))
-                                                }
-                                              />
-                                            </span>
-                                            <span className="icon-border delete-icon ms-2">
-                                              <DeleteIcon onClick={() => handleFamilyWorkDelete(i)} />
-                                            </span>
-                                          </div>
-                                        </td>
+                          {formData.family_work &&
+                            formData.family_work.length > 0 && (
+                              <div className="mt-5">
+                                <h5>Family Work Data:</h5>
+                                <div className="table-responsive">
+                                  <Table className="text-nowrap border">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">NO.</th>
+                                        <th scope="col">Relation</th>
+                                        <th scope="col">Occupation</th>
+                                        <th scope="col">Work Experience</th>
+                                        <th scope="col">Work Post</th>
+                                        <th scope="col">Work Year</th>
+                                        <th scope="col">Actions</th>
                                       </tr>
-                                    ))}
-                                  </tbody>
-                                </Table>
+                                    </thead>
+                                    <tbody>
+                                      {formData?.family_work?.map((data, i) => (
+                                        <tr
+                                          key={i}
+                                          className="custom-table-row"
+                                        >
+                                          <td>{i + 1}</td>
+                                          <td>
+                                            {data?.occupation_father || "N/A"}
+                                          </td>
+                                          <td>{data?.occupation || "N/A"}</td>
+                                          <td>
+                                            {data?.work_experience || "N/A"}
+                                          </td>
+                                          <td>{data?.work_post || "N/A"}</td>
+                                          <td>{data?.work_year || "N/A"}</td>
+                                          <td>
+                                            <div className="d-flex">
+                                              <span className="icon-border edit-icon">
+                                                <EditIcon
+                                                  onClick={() =>
+                                                    setEdit((prev) => ({
+                                                      ...prev,
+                                                      familyWork: true,
+                                                      familyWorkIndex: i || 0,
+                                                    }))
+                                                  }
+                                                />
+                                              </span>
+                                              <span className="icon-border delete-icon ms-2">
+                                                <DeleteIcon
+                                                  onClick={() =>
+                                                    handleFamilyWorkDelete(i)
+                                                  }
+                                                />
+                                              </span>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </Table>
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
                         </div>
                       )}
                     </div>
@@ -2729,7 +3432,7 @@ const FormModal = ({
                     <div className="section-wrapper" ref={visaInfoRef}>
                       <h5
                         className="form-heading p-2 d-flex justify-content-between mb-2"
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                         onClick={() => setShowVisaInfo(!showVisaInfo)}
                       >
                         Visa Info
@@ -2742,7 +3445,9 @@ const FormModal = ({
                               <Form.Label>Visited Countries</Form.Label>
                               <Select
                                 name={`visa_info[${
-                                  edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                  edit.visaInfo
+                                    ? edit.visaInfoIndex
+                                    : index.visaInfo
                                 }].visited_countries`}
                                 options={countries?.map((c) => ({
                                   value: c.name,
@@ -2755,21 +3460,34 @@ const FormModal = ({
                                 onChange={(selectedOptions) =>
                                   setFieldValue(
                                     `visa_info[${
-                                      edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                      edit.visaInfo
+                                        ? edit.visaInfoIndex
+                                        : index.visaInfo
                                     }].visited_countries`,
-                                    selectedOptions ? selectedOptions.value : '',
+                                    selectedOptions
+                                      ? selectedOptions.value
+                                      : "",
                                   )
                                 }
                                 value={
-                                  values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                    ?.visited_countries
+                                  values.visa_info[
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
+                                  ]?.visited_countries
                                     ? {
                                         value:
-                                          values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                            ?.visited_countries,
+                                          values.visa_info[
+                                            edit.visaInfo
+                                              ? edit.visaInfoIndex
+                                              : index.visaInfo
+                                          ]?.visited_countries,
                                         label:
-                                          values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                            ?.visited_countries,
+                                          values.visa_info[
+                                            edit.visaInfo
+                                              ? edit.visaInfoIndex
+                                              : index.visaInfo
+                                          ]?.visited_countries,
                                       }
                                     : null
                                 }
@@ -2782,14 +3500,16 @@ const FormModal = ({
                                   menu: (base) => ({
                                     ...base,
                                     zIndex: 9999,
-                                    position: 'absolute',
-                                    width: '100%',
+                                    position: "absolute",
+                                    width: "100%",
                                   }),
                                 }}
                               />
                               <ErrorMessage
                                 name={`visa_info[${
-                                  edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                  edit.visaInfo
+                                    ? edit.visaInfoIndex
+                                    : index.visaInfo
                                 }].visited_countries`}
                                 component="div"
                                 className="text-danger"
@@ -2807,8 +3527,11 @@ const FormModal = ({
                                   )
                                 }
                                 value={
-                                  values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]?.visit_count ||
-                                  ''
+                                  values.visa_info[
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
+                                  ]?.visit_count || ""
                                 }
                                 type="number"
                                 className="custom-select-height"
@@ -2832,7 +3555,11 @@ const FormModal = ({
                                   )
                                 }
                                 value={
-                                  values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]?.visa_type || ''
+                                  values.visa_info[
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
+                                  ]?.visa_type || ""
                                 }
                                 type="text"
                                 className="custom-select-height"
@@ -2851,7 +3578,9 @@ const FormModal = ({
                                 <Form.Check
                                   type="radio"
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].visa_refused`}
                                   id="visa_refusedYes"
                                   label="Yes"
@@ -2863,16 +3592,22 @@ const FormModal = ({
                                     )
                                   }
                                   checked={
-                                    values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                      ?.visa_refused === true
+                                    values.visa_info[
+                                      edit.visaInfo
+                                        ? edit.visaInfoIndex
+                                        : index.visaInfo
+                                    ]?.visa_refused === true
                                   }
+                                  className="custom-radio-border"
                                 />
 
                                 {/* NO */}
                                 <Form.Check
                                   type="radio"
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].visa_refused`}
                                   id="visa_refusedNo"
                                   label="No"
@@ -2885,13 +3620,15 @@ const FormModal = ({
                                     // Optional: auto-clear refusal details
                                     setFieldValue(
                                       `visa_info[${
-                                        edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                        edit.visaInfo
+                                          ? edit.visaInfoIndex
+                                          : index.visaInfo
                                       }].refused_country`,
-                                      '',
+                                      "",
                                     );
                                     setFieldValue(
                                       `visa_info[${edit.visaInfo ? edit.visaInfoIndex : index.visaInfo}].refused_times`,
-                                      '',
+                                      "",
                                     );
                                     setFieldValue(
                                       `visa_info[${edit.visaInfo ? edit.visaInfoIndex : index.visaInfo}].refused_years`,
@@ -2899,40 +3636,54 @@ const FormModal = ({
                                     );
                                     setFieldValue(
                                       `visa_info[${
-                                        edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                        edit.visaInfo
+                                          ? edit.visaInfoIndex
+                                          : index.visaInfo
                                       }].refused_visa_type`,
-                                      '',
+                                      "",
                                     );
                                   }}
                                   checked={
-                                    values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                      ?.visa_refused === false
+                                    values.visa_info[
+                                      edit.visaInfo
+                                        ? edit.visaInfoIndex
+                                        : index.visaInfo
+                                    ]?.visa_refused === false
                                   }
+                                  className="custom-radio-border"
                                 />
                               </div>
                             </Col>
                           </Row>
-                          {values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]?.visa_refused ===
-                            true && (
+                          {values.visa_info[
+                            edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                          ]?.visa_refused === true && (
                             <Row className="mb-3">
                               <Col md={3} className="mt-3">
                                 <Form.Label>Refused Country</Form.Label>
                                 <Form.Control
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].refused_country`}
                                   as={Form.Control}
                                   onChange={(e) =>
                                     setFieldValue(
                                       `visa_info[${
-                                        edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                        edit.visaInfo
+                                          ? edit.visaInfoIndex
+                                          : index.visaInfo
                                       }].refused_country`,
                                       e.target.value,
                                     )
                                   }
                                   value={
-                                    values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                      ?.refused_country || ''
+                                    values.visa_info[
+                                      edit.visaInfo
+                                        ? edit.visaInfoIndex
+                                        : index.visaInfo
+                                    ]?.refused_country || ""
                                   }
                                   type="text"
                                   className="custom-select-height"
@@ -2940,7 +3691,9 @@ const FormModal = ({
                                 />
                                 <ErrorMessage
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].refused_country`}
                                   component="div"
                                   className="text-danger"
@@ -2950,7 +3703,9 @@ const FormModal = ({
                                 <Form.Label>Refused Times</Form.Label>
                                 <Form.Control
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].refused_times`}
                                   as={Form.Control}
                                   onChange={(e) =>
@@ -2960,8 +3715,11 @@ const FormModal = ({
                                     )
                                   }
                                   value={
-                                    values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                      ?.refused_times || ''
+                                    values.visa_info[
+                                      edit.visaInfo
+                                        ? edit.visaInfoIndex
+                                        : index.visaInfo
+                                    ]?.refused_times || ""
                                   }
                                   type="number"
                                   className="custom-select-height"
@@ -2980,18 +3738,23 @@ const FormModal = ({
                                 <Form.Label>Refused Years</Form.Label>
                                 <Form.Control
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].refused_years`}
                                   as={Form.Control}
                                   onChange={(e) =>
                                     setFieldValue(
                                       `visa_info[${edit.visaInfo ? edit.visaInfoIndex : index.visaInfo}].refused_years`,
-                                      e.target.value.split(','),
+                                      e.target.value.split(","),
                                     )
                                   }
                                   value={
-                                    values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                      ?.refused_years || ''
+                                    values.visa_info[
+                                      edit.visaInfo
+                                        ? edit.visaInfoIndex
+                                        : index.visaInfo
+                                    ]?.refused_years || ""
                                   }
                                   type="text"
                                   className="custom-select-height"
@@ -2999,7 +3762,9 @@ const FormModal = ({
                                 />
                                 <ErrorMessage
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].refused_years`}
                                   component="div"
                                   className="text-danger"
@@ -3009,20 +3774,27 @@ const FormModal = ({
                                 <Form.Label>Refused Visa Type</Form.Label>
                                 <Form.Control
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].refused_visa_type`}
                                   as={Form.Control}
                                   onChange={(e) =>
                                     setFieldValue(
                                       `visa_info[${
-                                        edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                        edit.visaInfo
+                                          ? edit.visaInfoIndex
+                                          : index.visaInfo
                                       }].refused_visa_type`,
                                       e.target.value,
                                     )
                                   }
                                   value={
-                                    values.visa_info[edit.visaInfo ? edit.visaInfoIndex : index.visaInfo]
-                                      ?.refused_visa_type || ''
+                                    values.visa_info[
+                                      edit.visaInfo
+                                        ? edit.visaInfoIndex
+                                        : index.visaInfo
+                                    ]?.refused_visa_type || ""
                                   }
                                   type="text"
                                   className="custom-select-height"
@@ -3030,7 +3802,9 @@ const FormModal = ({
                                 />
                                 <ErrorMessage
                                   name={`visa_info[${
-                                    edit.visaInfo ? edit.visaInfoIndex : index.visaInfo
+                                    edit.visaInfo
+                                      ? edit.visaInfoIndex
+                                      : index.visaInfo
                                   }].refused_visa_type`}
                                   component="div"
                                   className="text-danger"
@@ -3039,11 +3813,14 @@ const FormModal = ({
                             </Row>
                           )}
                           <Row className="mt-3">
-                            <Col md={{ span: 3, offset: 9 }} className="mt-auto">
+                            <Col
+                              md={{ span: 3, offset: 9 }}
+                              className="mt-auto"
+                            >
                               <Button
                                 type="button"
                                 className="w-100 custom-select-height text-white"
-                                style={{ backgroundColor: '#3b3665' }}
+                                style={{ backgroundColor: "#3b3665" }}
                                 onClick={() => {
                                   if (edit.visaInfo) {
                                     handleVisaInfoEdit(values);
@@ -3052,79 +3829,111 @@ const FormModal = ({
                                   }
                                 }}
                               >
-                                <FaPlus className="plus-button mx-2" /> {edit.visaInfo ? 'Update' : 'Add'} Visa Info
+                                <FaPlus className="plus-button mx-2" />{" "}
+                                {edit.visaInfo ? "Update" : "Add"} Visa Info
                               </Button>
                             </Col>
                           </Row>
-                          {formData.visa_info && formData.visa_info.length > 0 && (
-                            <div className="mt-5">
-                              <h5>Visa Info:</h5>
-                              <div className="table-responsive">
-                                <Table className="text-nowrap border">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">NO.</th>
-                                      <th scope="col">Visited Country</th>
-                                      <th scope="col">Visit Count</th>
-                                      <th scope="col">Visa Type</th>
-                                      <th scope="col">Visa Refused</th>
-                                      <th scope="col">Refused Country</th>
-                                      <th scope="col">Refused Times</th>
-                                      <th scope="col">Refused Years</th>
-                                      <th scope="col">Refused Visa Type</th>
-                                      <th scope="col">Actions</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {formData?.visa_info?.map((data, i) => (
-                                      <tr key={i} className="custom-table-row">
-                                        <td>{i + 1}</td>
-                                        <td>{data?.visited_countries || 'N/A'}</td>
-                                        <td>{data?.visit_count || 'N/A'}</td>
-                                        <td>{data?.visa_type || 'N/A'}</td>
-                                        <td>{data?.visa_refused === true ? 'Yes' : 'No' || 'N/A'}</td>
-                                        <td>{data?.refused_country || 'N/A'}</td>
-                                        <td>{data?.refused_times || 'N/A'}</td>
-                                        <td>{data?.refused_years || 'N/A'}</td>
-                                        <td>{data?.refused_visa_type || 'N/A'}</td>
-                                        <td>
-                                          <div className="d-flex">
-                                            <span className="icon-border edit-icon">
-                                              <EditIcon
-                                                onClick={() =>
-                                                  setEdit((prev) => ({
-                                                    ...prev,
-                                                    visaInfo: true,
-                                                    visaInfoIndex: i || 0,
-                                                  }))
-                                                }
-                                              />
-                                            </span>
-                                            <span className="icon-border delete-icon ms-2">
-                                              <DeleteIcon onClick={() => handleVisaInfoDelete(i)} />
-                                            </span>
-                                          </div>
-                                        </td>
+                          {formData.visa_info &&
+                            formData.visa_info.length > 0 && (
+                              <div className="mt-5">
+                                <h5>Visa Info:</h5>
+                                <div className="table-responsive">
+                                  <Table className="text-nowrap border">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">NO.</th>
+                                        <th scope="col">Visited Country</th>
+                                        <th scope="col">Visit Count</th>
+                                        <th scope="col">Visa Type</th>
+                                        <th scope="col">Visa Refused</th>
+                                        <th scope="col">Refused Country</th>
+                                        <th scope="col">Refused Times</th>
+                                        <th scope="col">Refused Years</th>
+                                        <th scope="col">Refused Visa Type</th>
+                                        <th scope="col">Actions</th>
                                       </tr>
-                                    ))}
-                                  </tbody>
-                                </Table>
+                                    </thead>
+                                    <tbody>
+                                      {formData?.visa_info?.map((data, i) => (
+                                        <tr
+                                          key={i}
+                                          className="custom-table-row"
+                                        >
+                                          <td>{i + 1}</td>
+                                          <td>
+                                            {data?.visited_countries || "N/A"}
+                                          </td>
+                                          <td>{data?.visit_count || "N/A"}</td>
+                                          <td>{data?.visa_type || "N/A"}</td>
+                                          <td>
+                                            {data?.visa_refused === true
+                                              ? "Yes"
+                                              : "No" || "N/A"}
+                                          </td>
+                                          <td>
+                                            {data?.refused_country || "N/A"}
+                                          </td>
+                                          <td>
+                                            {data?.refused_times || "N/A"}
+                                          </td>
+                                          <td>
+                                            {data?.refused_years || "N/A"}
+                                          </td>
+                                          <td>
+                                            {data?.refused_visa_type || "N/A"}
+                                          </td>
+                                          <td>
+                                            <div className="d-flex">
+                                              <span className="icon-border edit-icon">
+                                                <EditIcon
+                                                  onClick={() =>
+                                                    setEdit((prev) => ({
+                                                      ...prev,
+                                                      visaInfo: true,
+                                                      visaInfoIndex: i || 0,
+                                                    }))
+                                                  }
+                                                />
+                                              </span>
+                                              <span className="icon-border delete-icon ms-2">
+                                                <DeleteIcon
+                                                  onClick={() =>
+                                                    handleVisaInfoDelete(i)
+                                                  }
+                                                />
+                                              </span>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </Table>
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
                         </div>
                       )}
                     </div>
 
-                    <div className="section-wrapper" ref={educationEvaluationRef}>
+                    <div
+                      className="section-wrapper"
+                      ref={educationEvaluationRef}
+                    >
                       <h5
                         className="form-heading p-2 d-flex justify-content-between mb-3"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => setShowEducationEvaluation(!showEducationEvaluation)}
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          setShowEducationEvaluation(!showEducationEvaluation)
+                        }
                       >
                         Education Evaluation
                         <div className="d-flex gap-3">
-                          {showEducationEvaluation ? <FaChevronUp /> : <FaChevronDown />}
+                          {showEducationEvaluation ? (
+                            <FaChevronUp />
+                          ) : (
+                            <FaChevronDown />
+                          )}
                         </div>
                       </h5>
                       {showEducationEvaluation && (
@@ -3153,7 +3962,7 @@ const FormModal = ({
                                         ? edit.educationEvaluationIndex
                                         : index.educationEvaluation
                                     }].test_name`,
-                                    selectedOption ? selectedOption.value : '',
+                                    selectedOption ? selectedOption.value : "",
                                   )
                                 }
                                 placeholder="Select Exam"
@@ -3161,12 +3970,16 @@ const FormModal = ({
                                 isSearchable
                                 classNamePrefix="custom-select"
                                 menuPortalTarget={document.body}
-                                noOptionsMessage={() => 'No exam options available'}
+                                noOptionsMessage={() =>
+                                  "No exam options available"
+                                }
                                 styles={selectStyles}
                               />
                               <ErrorMessage
                                 name={`education_evaluation[${
-                                  edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
+                                  edit.educationEvaluation
+                                    ? edit.educationEvaluationIndex
+                                    : index.educationEvaluation
                                 }].test_name`}
                                 component="div"
                                 className="text-danger"
@@ -3178,7 +3991,9 @@ const FormModal = ({
                                 type="number"
                                 as={Form.Control}
                                 name={`education_evaluation[${
-                                  edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
+                                  edit.educationEvaluation
+                                    ? edit.educationEvaluationIndex
+                                    : index.educationEvaluation
                                 }].scores.listen`}
                                 onChange={(e) =>
                                   setFieldValue(
@@ -3192,8 +4007,10 @@ const FormModal = ({
                                 }
                                 value={
                                   values.education_evaluation[
-                                    edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
-                                  ]?.scores?.listen || ''
+                                    edit.educationEvaluation
+                                      ? edit.educationEvaluationIndex
+                                      : index.educationEvaluation
+                                  ]?.scores?.listen || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Listening Score"
@@ -3205,7 +4022,9 @@ const FormModal = ({
                                 type="number"
                                 as={Form.Control}
                                 name={`education_evaluation[${
-                                  edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
+                                  edit.educationEvaluation
+                                    ? edit.educationEvaluationIndex
+                                    : index.educationEvaluation
                                 }].scores.read`}
                                 onChange={(e) =>
                                   setFieldValue(
@@ -3219,8 +4038,10 @@ const FormModal = ({
                                 }
                                 value={
                                   values.education_evaluation[
-                                    edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
-                                  ]?.scores?.read || ''
+                                    edit.educationEvaluation
+                                      ? edit.educationEvaluationIndex
+                                      : index.educationEvaluation
+                                  ]?.scores?.read || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Reading Score"
@@ -3232,7 +4053,9 @@ const FormModal = ({
                                 type="number"
                                 as={Form.Control}
                                 name={`education_evaluation[${
-                                  edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
+                                  edit.educationEvaluation
+                                    ? edit.educationEvaluationIndex
+                                    : index.educationEvaluation
                                 }].scores.write`}
                                 onChange={(e) =>
                                   setFieldValue(
@@ -3246,8 +4069,10 @@ const FormModal = ({
                                 }
                                 value={
                                   values.education_evaluation[
-                                    edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
-                                  ]?.scores?.write || ''
+                                    edit.educationEvaluation
+                                      ? edit.educationEvaluationIndex
+                                      : index.educationEvaluation
+                                  ]?.scores?.write || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Writing Score"
@@ -3259,7 +4084,9 @@ const FormModal = ({
                                 type="number"
                                 as={Form.Control}
                                 name={`education_evaluation[${
-                                  edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
+                                  edit.educationEvaluation
+                                    ? edit.educationEvaluationIndex
+                                    : index.educationEvaluation
                                 }].scores.speak`}
                                 onChange={(e) =>
                                   setFieldValue(
@@ -3273,8 +4100,10 @@ const FormModal = ({
                                 }
                                 value={
                                   values.education_evaluation[
-                                    edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
-                                  ]?.scores?.speak || ''
+                                    edit.educationEvaluation
+                                      ? edit.educationEvaluationIndex
+                                      : index.educationEvaluation
+                                  ]?.scores?.speak || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Speaking Score"
@@ -3286,7 +4115,9 @@ const FormModal = ({
                                 type="number"
                                 as={Form.Control}
                                 name={`education_evaluation[${
-                                  edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
+                                  edit.educationEvaluation
+                                    ? edit.educationEvaluationIndex
+                                    : index.educationEvaluation
                                 }].scores.overall`}
                                 onChange={(e) =>
                                   setFieldValue(
@@ -3300,23 +4131,29 @@ const FormModal = ({
                                 }
                                 value={
                                   values.education_evaluation[
-                                    edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
-                                  ]?.scores?.overall || ''
+                                    edit.educationEvaluation
+                                      ? edit.educationEvaluationIndex
+                                      : index.educationEvaluation
+                                  ]?.scores?.overall || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Overall Score"
                               />
                             </Col>
                             {values?.education_evaluation[
-                              edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
-                            ]?.test_name === 'P.T.E.' && (
+                              edit.educationEvaluation
+                                ? edit.educationEvaluationIndex
+                                : index.educationEvaluation
+                            ]?.test_name === "P.T.E." && (
                               <Col md={3} className="mt-3">
                                 <Form.Label>DUOLINGO Score</Form.Label>
                                 <Form.Control
                                   type="number"
                                   as={Form.Control}
                                   name={`education_evaluation[${
-                                    edit.educationEvaluation ? edit.educationEvaluationIndex : index.educationEvaluation
+                                    edit.educationEvaluation
+                                      ? edit.educationEvaluationIndex
+                                      : index.educationEvaluation
                                   }].scores.duolingoScore`}
                                   onChange={(e) =>
                                     setFieldValue(
@@ -3333,7 +4170,7 @@ const FormModal = ({
                                       edit.educationEvaluation
                                         ? edit.educationEvaluationIndex
                                         : index.educationEvaluation
-                                    ]?.scores?.duolingoScore || ''
+                                    ]?.scores?.duolingoScore || ""
                                   }
                                   className="custom-select-height"
                                 />
@@ -3343,7 +4180,7 @@ const FormModal = ({
                               <Button
                                 type="button"
                                 className="w-100 custom-select-height text-white"
-                                style={{ backgroundColor: '#3b3665' }}
+                                style={{ backgroundColor: "#3b3665" }}
                                 onClick={() => {
                                   if (edit.educationEvaluation) {
                                     handleEditEvaluation(values);
@@ -3353,7 +4190,10 @@ const FormModal = ({
                                 }}
                               >
                                 <FaPlus className="plus-button mx-2" />
-                                {edit.educationEvaluation ? 'Update' : 'Add'} Education Evaluation
+                                {edit.educationEvaluation
+                                  ? "Update"
+                                  : "Add"}{" "}
+                                Education Evaluation
                               </Button>
                             </Col>
                             {formData?.education_evaluation?.length > 0 && (
@@ -3375,36 +4215,59 @@ const FormModal = ({
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      {formData?.education_evaluation?.map((data, i) => (
-                                        <tr key={i} className="custom-table-row">
-                                          <td>{i + 1}</td>
-                                          <td>{data?.test_name || 'N/A'}</td>
-                                          <td>{data?.scores?.listen || 'N/A'}</td>
-                                          <td>{data?.scores?.read || 'N/A'}</td>
-                                          <td>{data?.scores?.write || 'N/A'}</td>
-                                          <td>{data?.scores?.speak || 'N/A'}</td>
-                                          <td>{data?.scores?.overall || 'N/A'}</td>
-                                          <td>{data?.scores?.duolingoScore || 'N/A'}</td>
-                                          <td>
-                                            <div className="d-flex">
-                                              <span className="icon-border edit-icon">
-                                                <EditIcon
-                                                  onClick={() =>
-                                                    setEdit((prev) => ({
-                                                      ...prev,
-                                                      educationEvaluation: true,
-                                                      educationEvaluationIndex: i || 0,
-                                                    }))
-                                                  }
-                                                />
-                                              </span>
-                                              <span className="icon-border delete-icon ms-2">
-                                                <DeleteIcon onClick={() => handleDeleteEvaluation(i)} />
-                                              </span>
-                                            </div>
-                                          </td>
-                                        </tr>
-                                      ))}
+                                      {formData?.education_evaluation?.map(
+                                        (data, i) => (
+                                          <tr
+                                            key={i}
+                                            className="custom-table-row"
+                                          >
+                                            <td>{i + 1}</td>
+                                            <td>{data?.test_name || "N/A"}</td>
+                                            <td>
+                                              {data?.scores?.listen || "N/A"}
+                                            </td>
+                                            <td>
+                                              {data?.scores?.read || "N/A"}
+                                            </td>
+                                            <td>
+                                              {data?.scores?.write || "N/A"}
+                                            </td>
+                                            <td>
+                                              {data?.scores?.speak || "N/A"}
+                                            </td>
+                                            <td>
+                                              {data?.scores?.overall || "N/A"}
+                                            </td>
+                                            <td>
+                                              {data?.scores?.duolingoScore ||
+                                                "N/A"}
+                                            </td>
+                                            <td>
+                                              <div className="d-flex">
+                                                <span className="icon-border edit-icon">
+                                                  <EditIcon
+                                                    onClick={() =>
+                                                      setEdit((prev) => ({
+                                                        ...prev,
+                                                        educationEvaluation: true,
+                                                        educationEvaluationIndex:
+                                                          i || 0,
+                                                      }))
+                                                    }
+                                                  />
+                                                </span>
+                                                <span className="icon-border delete-icon ms-2">
+                                                  <DeleteIcon
+                                                    onClick={() =>
+                                                      handleDeleteEvaluation(i)
+                                                    }
+                                                  />
+                                                </span>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        ),
+                                      )}
                                     </tbody>
                                   </Table>
                                 </div>
@@ -3418,11 +4281,19 @@ const FormModal = ({
                     <div className="section-wrapper" ref={educationDetailsRef}>
                       <h5
                         className="form-heading p-2 d-flex justify-content-between mb-3"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => setShowEducationDetails(!showEducationDetails)}
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          setShowEducationDetails(!showEducationDetails)
+                        }
                       >
                         Education Details
-                        <div className="d-flex gap-3">{showEducationDetails ? <FaChevronUp /> : <FaChevronDown />}</div>
+                        <div className="d-flex gap-3">
+                          {showEducationDetails ? (
+                            <FaChevronUp />
+                          ) : (
+                            <FaChevronDown />
+                          )}
+                        </div>
                       </h5>
                       {showEducationDetails && (
                         <div className="section-content mt-4 mb-5">
@@ -3437,16 +4308,20 @@ const FormModal = ({
                                     (option) =>
                                       option.value ===
                                       values.education_details[
-                                        edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                        edit.educationDetails
+                                          ? edit.educationDetailsIndex
+                                          : index.educationDetails
                                       ]?.degree,
                                   ) || null
                                 }
                                 onChange={(selectedOption) =>
                                   setFieldValue(
                                     `education_details[${
-                                      edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                      edit.educationDetails
+                                        ? edit.educationDetailsIndex
+                                        : index.educationDetails
                                     }].degree`,
-                                    selectedOption ? selectedOption.value : '',
+                                    selectedOption ? selectedOption.value : "",
                                   )
                                 }
                                 placeholder="Select Degree"
@@ -3454,12 +4329,16 @@ const FormModal = ({
                                 isSearchable
                                 classNamePrefix="custom-select"
                                 menuPortalTarget={document.body}
-                                noOptionsMessage={() => 'No degree options available'}
+                                noOptionsMessage={() =>
+                                  "No degree options available"
+                                }
                                 styles={selectStyles}
                               />
                               <ErrorMessage
                                 name={`education_details[${
-                                  edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                  edit.educationDetails
+                                    ? edit.educationDetailsIndex
+                                    : index.educationDetails
                                 }].degree`}
                                 component="div"
                                 className="text-danger"
@@ -3471,45 +4350,59 @@ const FormModal = ({
                                 type="text"
                                 as={Form.Control}
                                 name={`education_details[${
-                                  edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                  edit.educationDetails
+                                    ? edit.educationDetailsIndex
+                                    : index.educationDetails
                                 }].stream`}
                                 onChange={(e) =>
                                   setFieldValue(
                                     `education_details[${
-                                      edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                      edit.educationDetails
+                                        ? edit.educationDetailsIndex
+                                        : index.educationDetails
                                     }].stream`,
                                     e.target.value,
                                   )
                                 }
                                 value={
                                   values.education_details[
-                                    edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
-                                  ]?.stream || ''
+                                    edit.educationDetails
+                                      ? edit.educationDetailsIndex
+                                      : index.educationDetails
+                                  ]?.stream || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Stream"
                               />
                             </Col>
                             <Col md={3} className="mt-3">
-                              <Form.Label>Medium of Instruction (MOI)</Form.Label>
+                              <Form.Label>
+                                Medium of Instruction (MOI)
+                              </Form.Label>
                               <Form.Control
                                 type="text"
                                 as={Form.Control}
                                 name={`education_details[${
-                                  edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                  edit.educationDetails
+                                    ? edit.educationDetailsIndex
+                                    : index.educationDetails
                                 }].moi`}
                                 onChange={(e) =>
                                   setFieldValue(
                                     `education_details[${
-                                      edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                      edit.educationDetails
+                                        ? edit.educationDetailsIndex
+                                        : index.educationDetails
                                     }].moi`,
                                     e.target.value,
                                   )
                                 }
                                 value={
                                   values.education_details[
-                                    edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
-                                  ]?.moi || ''
+                                    edit.educationDetails
+                                      ? edit.educationDetailsIndex
+                                      : index.educationDetails
+                                  ]?.moi || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Medium of Instruction"
@@ -3521,20 +4414,26 @@ const FormModal = ({
                                 type="number"
                                 as={Form.Control}
                                 name={`education_details[${
-                                  edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                  edit.educationDetails
+                                    ? edit.educationDetailsIndex
+                                    : index.educationDetails
                                 }].year`}
                                 onChange={(e) =>
                                   setFieldValue(
                                     `education_details[${
-                                      edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                      edit.educationDetails
+                                        ? edit.educationDetailsIndex
+                                        : index.educationDetails
                                     }].year`,
                                     e.target.value,
                                   )
                                 }
                                 value={
                                   values.education_details[
-                                    edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
-                                  ]?.year || ''
+                                    edit.educationDetails
+                                      ? edit.educationDetailsIndex
+                                      : index.educationDetails
+                                  ]?.year || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Year"
@@ -3546,20 +4445,26 @@ const FormModal = ({
                                 type="text"
                                 as={Form.Control}
                                 name={`education_details[${
-                                  edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                  edit.educationDetails
+                                    ? edit.educationDetailsIndex
+                                    : index.educationDetails
                                 }].score`}
                                 onChange={(e) =>
                                   setFieldValue(
                                     `education_details[${
-                                      edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                      edit.educationDetails
+                                        ? edit.educationDetailsIndex
+                                        : index.educationDetails
                                     }].score`,
                                     e.target.value,
                                   )
                                 }
                                 value={
                                   values.education_details[
-                                    edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
-                                  ]?.score || ''
+                                    edit.educationDetails
+                                      ? edit.educationDetailsIndex
+                                      : index.educationDetails
+                                  ]?.score || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Score"
@@ -3571,27 +4476,35 @@ const FormModal = ({
                                 type="text"
                                 as={Form.Control}
                                 name={`education_details[${
-                                  edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                  edit.educationDetails
+                                    ? edit.educationDetailsIndex
+                                    : index.educationDetails
                                 }].institution`}
                                 onChange={(e) =>
                                   setFieldValue(
                                     `education_details[${
-                                      edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                      edit.educationDetails
+                                        ? edit.educationDetailsIndex
+                                        : index.educationDetails
                                     }].institution`,
                                     e.target.value,
                                   )
                                 }
                                 value={
                                   values.education_details[
-                                    edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
-                                  ]?.institution || ''
+                                    edit.educationDetails
+                                      ? edit.educationDetailsIndex
+                                      : index.educationDetails
+                                  ]?.institution || ""
                                 }
                                 className="custom-select-height"
                                 placeholder="Enter Institution"
                               />
                             </Col>
                             {values?.education_details[
-                              edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                              edit.educationDetails
+                                ? edit.educationDetailsIndex
+                                : index.educationDetails
                             ]?.degree === "BACHELOR'S" && (
                               <Col md={3} className="mt-3">
                                 <Form.Label>Backlogs</Form.Label>
@@ -3599,20 +4512,26 @@ const FormModal = ({
                                   type="number"
                                   as={Form.Control}
                                   name={`education_details[${
-                                    edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                    edit.educationDetails
+                                      ? edit.educationDetailsIndex
+                                      : index.educationDetails
                                   }].backlogs`}
                                   onChange={(e) =>
                                     setFieldValue(
                                       `education_details[${
-                                        edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
+                                        edit.educationDetails
+                                          ? edit.educationDetailsIndex
+                                          : index.educationDetails
                                       }].backlogs`,
                                       e.target.value,
                                     )
                                   }
                                   value={
                                     values.education_details[
-                                      edit.educationDetails ? edit.educationDetailsIndex : index.educationDetails
-                                    ]?.backlogs || ''
+                                      edit.educationDetails
+                                        ? edit.educationDetailsIndex
+                                        : index.educationDetails
+                                    ]?.backlogs || ""
                                   }
                                   className="custom-select-height"
                                 />
@@ -3622,7 +4541,7 @@ const FormModal = ({
                               <Button
                                 type="button"
                                 className="w-100 custom-select-height text-white"
-                                style={{ backgroundColor: '#3b3665' }}
+                                style={{ backgroundColor: "#3b3665" }}
                                 onClick={() => {
                                   if (edit.educationEvaluation) {
                                     handleEducationDetailedit(values);
@@ -3631,7 +4550,8 @@ const FormModal = ({
                                   }
                                 }}
                               >
-                                <FaPlus className="plus-button mx-2" /> Add Education Details
+                                <FaPlus className="plus-button mx-2" /> Add
+                                Education Details
                               </Button>
                             </Col>
                           </Row>
@@ -3654,36 +4574,48 @@ const FormModal = ({
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {formData?.education_details?.map((data, i) => (
-                                      <tr key={i} className="custom-table-row">
-                                        <td>{i + 1}</td>
-                                        <td>{data?.degree || 'N/A'}</td>
-                                        <td>{data?.institution || 'N/A'}</td>
-                                        <td>{data?.year || 'N/A'}</td>
-                                        <td>{data?.stream || 'N/A'}</td>
-                                        <td>{data?.score || 'N/A'}</td>
-                                        <td>{data?.institution || 'N/A'}</td>
-                                        <td>{data?.backlogs || 'N/A'}</td>
-                                        <td>
-                                          <div className="d-flex">
-                                            <span className="icon-border edit-icon">
-                                              <EditIcon
-                                                onClick={() =>
-                                                  setEdit((prev) => ({
-                                                    ...prev,
-                                                    educationDetails: true,
-                                                    educationDetailsIndex: i || 0,
-                                                  }))
-                                                }
-                                              />
-                                            </span>
-                                            <span className="icon-border delete-icon ms-2">
-                                              <DeleteIcon onClick={() => handleDeleteEvaluationDetail(i)} />
-                                            </span>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    ))}
+                                    {formData?.education_details?.map(
+                                      (data, i) => (
+                                        <tr
+                                          key={i}
+                                          className="custom-table-row"
+                                        >
+                                          <td>{i + 1}</td>
+                                          <td>{data?.degree || "N/A"}</td>
+                                          <td>{data?.institution || "N/A"}</td>
+                                          <td>{data?.year || "N/A"}</td>
+                                          <td>{data?.stream || "N/A"}</td>
+                                          <td>{data?.score || "N/A"}</td>
+                                          <td>{data?.institution || "N/A"}</td>
+                                          <td>{data?.backlogs || "N/A"}</td>
+                                          <td>
+                                            <div className="d-flex">
+                                              <span className="icon-border edit-icon">
+                                                <EditIcon
+                                                  onClick={() =>
+                                                    setEdit((prev) => ({
+                                                      ...prev,
+                                                      educationDetails: true,
+                                                      educationDetailsIndex:
+                                                        i || 0,
+                                                    }))
+                                                  }
+                                                />
+                                              </span>
+                                              <span className="icon-border delete-icon ms-2">
+                                                <DeleteIcon
+                                                  onClick={() =>
+                                                    handleDeleteEvaluationDetail(
+                                                      i,
+                                                    )
+                                                  }
+                                                />
+                                              </span>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      ),
+                                    )}
                                   </tbody>
                                 </Table>
                               </div>
@@ -3696,7 +4628,7 @@ const FormModal = ({
                     <div className="section-wrapper" ref={referFriendRef}>
                       <h5
                         className="form-heading p-2 d-flex justify-content-between mb-3"
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                         onClick={() => setShowReferFriend(!showReferFriend)}
                       >
                         Refer a Friend
@@ -3710,59 +4642,95 @@ const FormModal = ({
                               <Form.Control
                                 type="text"
                                 name="refer_friend.name"
-                                value={values.refer_friend?.name || ''}
-                                onChange={(e) => setFieldValue('refer_friend.name', e.target.value)}
+                                value={values.refer_friend?.name || ""}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    "refer_friend.name",
+                                    e.target.value,
+                                  )
+                                }
                                 className="custom-select-height"
                                 placeholder="Enter Friend Name"
                               />
-                              <ErrorMessage name="refer_friend.name" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="refer_friend.name"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Friend Phone</Form.Label>
                               <PhoneInput
                                 country={countryCodeISO()}
-                                value={values.refer_friend?.phone || ''}
+                                value={values.refer_friend?.phone || ""}
                                 onChange={(phone, data) => {
-                                  const dialCode = data.dialCode ? `+${data.dialCode}` : '';
-                                  const formattedPhone = `${dialCode} ${phone.replace(data.dialCode, '')}`.trim();
-                                  setFieldValue('refer_friend.phone', formattedPhone);
+                                  const dialCode = data.dialCode
+                                    ? `+${data.dialCode}`
+                                    : "";
+                                  const formattedPhone =
+                                    `${dialCode} ${phone.replace(data.dialCode, "")}`.trim();
+                                  setFieldValue(
+                                    "refer_friend.phone",
+                                    formattedPhone,
+                                  );
                                 }}
                                 // disableCountryGuess={true}
                                 inputProps={{
-                                  name: 'phone',
+                                  name: "phone",
                                   required: true,
-                                  className: 'form-control custom-select-height',
+                                  className:
+                                    "form-control custom-select-height",
                                 }}
                                 inputStyle={{
-                                  width: '100%',
-                                  paddingLeft: '65px',
-                                  borderRadius: '4px',
+                                  width: "100%",
+                                  paddingLeft: "65px",
+                                  borderRadius: "4px",
                                 }}
                                 buttonStyle={{
-                                  marginRight: '10px',
+                                  marginRight: "10px",
                                 }}
                               />
-                              <ErrorMessage name="refer_friend.phone" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="refer_friend.phone"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Friend Email</Form.Label>
                               <Form.Control
                                 type="email"
                                 name="refer_friend.email"
-                                value={values.refer_friend?.email || ''}
-                                onChange={(e) => setFieldValue('refer_friend.email', e.target.value)}
+                                value={values.refer_friend?.email || ""}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    "refer_friend.email",
+                                    e.target.value,
+                                  )
+                                }
                                 className="custom-select-height"
                                 placeholder="Enter Friend Email"
                               />
-                              <ErrorMessage name="refer_friend.email" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="refer_friend.email"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Suggested Countries</Form.Label>
                               <Form.Control
                                 type="text"
                                 name="refer_friend.suggested_countries"
-                                value={values.refer_friend?.suggested_countries || ''}
-                                onChange={(e) => setFieldValue('refer_friend.suggested_countries', e.target.value)}
+                                value={
+                                  values.refer_friend?.suggested_countries || ""
+                                }
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    "refer_friend.suggested_countries",
+                                    e.target.value,
+                                  )
+                                }
                                 className="custom-select-height"
                                 placeholder="Comma-separated"
                               />
@@ -3777,24 +4745,42 @@ const FormModal = ({
                               <Form.Control
                                 type="text"
                                 name="refer_friend.courses"
-                                value={values.refer_friend?.courses || ''}
-                                onChange={(e) => setFieldValue('refer_friend.courses', e.target.value)}
+                                value={values.refer_friend?.courses || ""}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    "refer_friend.courses",
+                                    e.target.value,
+                                  )
+                                }
                                 className="custom-select-height"
                                 placeholder="Comma-separated"
                               />
-                              <ErrorMessage name="refer_friend.courses" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="refer_friend.courses"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Response</Form.Label>
                               <Form.Control
                                 type="text"
                                 name="refer_friend.response"
-                                value={values.refer_friend?.response || ''}
-                                onChange={(e) => setFieldValue('refer_friend.response', e.target.value)}
+                                value={values.refer_friend?.response || ""}
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    "refer_friend.response",
+                                    e.target.value,
+                                  )
+                                }
                                 className="custom-select-height"
                                 placeholder="Enter Response"
                               />
-                              <ErrorMessage name="refer_friend.response" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="refer_friend.response"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                           </Row>
                         </div>
@@ -3804,7 +4790,7 @@ const FormModal = ({
                     <div className="section-wrapper" ref={reviewsRef}>
                       <h5
                         className="form-heading p-2 d-flex justify-content-between mb-3"
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                         onClick={() => setShowReviews(!showReviews)}
                       >
                         Reviews
@@ -3821,13 +4807,15 @@ const FormModal = ({
                                 options={reviewOptions}
                                 value={
                                   reviewOptions.find(
-                                    (option) => option.value === values.reviews?.reception_greetings,
+                                    (option) =>
+                                      option.value ===
+                                      values.reviews?.reception_greetings,
                                   ) || null
                                 }
                                 onChange={(selectedOption) =>
                                   setFieldValue(
-                                    'reviews.reception_greetings',
-                                    selectedOption ? selectedOption.value : '',
+                                    "reviews.reception_greetings",
+                                    selectedOption ? selectedOption.value : "",
                                   )
                                 }
                                 placeholder="Select"
@@ -3835,7 +4823,9 @@ const FormModal = ({
                                 isSearchable
                                 classNamePrefix="custom-select"
                                 menuPortalTarget={document.body}
-                                noOptionsMessage={() => 'No reception greetings options available'}
+                                noOptionsMessage={() =>
+                                  "No reception greetings options available"
+                                }
                                 styles={selectStyles}
                               />
                               <ErrorMessage
@@ -3852,13 +4842,15 @@ const FormModal = ({
                                 options={reviewOptions}
                                 value={
                                   reviewOptions.find(
-                                    (option) => option.value === values.reviews?.counsellor_explanation,
+                                    (option) =>
+                                      option.value ===
+                                      values.reviews?.counsellor_explanation,
                                   ) || null
                                 }
                                 onChange={(selectedOption) =>
                                   setFieldValue(
-                                    'reviews.counsellor_explanation',
-                                    selectedOption ? selectedOption.value : '',
+                                    "reviews.counsellor_explanation",
+                                    selectedOption ? selectedOption.value : "",
                                   )
                                 }
                                 placeholder="Select"
@@ -3866,7 +4858,9 @@ const FormModal = ({
                                 isSearchable
                                 classNamePrefix="custom-select"
                                 menuPortalTarget={document.body}
-                                noOptionsMessage={() => 'No counsellor explanation options available'}
+                                noOptionsMessage={() =>
+                                  "No counsellor explanation options available"
+                                }
                                 styles={selectStyles}
                               />
                               <ErrorMessage
@@ -3881,20 +4875,33 @@ const FormModal = ({
                                 className="custom-select-height"
                                 options={reviewOptions}
                                 value={
-                                  reviewOptions.find((option) => option.value === values.reviews?.hospitality) || null
+                                  reviewOptions.find(
+                                    (option) =>
+                                      option.value ===
+                                      values.reviews?.hospitality,
+                                  ) || null
                                 }
                                 onChange={(selectedOption) =>
-                                  setFieldValue('reviews.hospitality', selectedOption ? selectedOption.value : '')
+                                  setFieldValue(
+                                    "reviews.hospitality",
+                                    selectedOption ? selectedOption.value : "",
+                                  )
                                 }
                                 placeholder="Select"
                                 isClearable
                                 isSearchable
                                 classNamePrefix="custom-select"
                                 menuPortalTarget={document.body}
-                                noOptionsMessage={() => 'No hospitality options available'}
+                                noOptionsMessage={() =>
+                                  "No hospitality options available"
+                                }
                                 styles={selectStyles}
                               />
-                              <ErrorMessage name="reviews.hospitality" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="reviews.hospitality"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                             <Col md={3} className="mt-3">
                               <Form.Label>Hygiene & Cleanliness</Form.Label>
@@ -3903,13 +4910,15 @@ const FormModal = ({
                                 options={reviewOptions}
                                 value={
                                   reviewOptions.find(
-                                    (option) => option.value === values.reviews?.hygiene_cleanliness,
+                                    (option) =>
+                                      option.value ===
+                                      values.reviews?.hygiene_cleanliness,
                                   ) || null
                                 }
                                 onChange={(selectedOption) =>
                                   setFieldValue(
-                                    'reviews.hygiene_cleanliness',
-                                    selectedOption ? selectedOption.value : '',
+                                    "reviews.hygiene_cleanliness",
+                                    selectedOption ? selectedOption.value : "",
                                   )
                                 }
                                 placeholder="Select"
@@ -3917,7 +4926,9 @@ const FormModal = ({
                                 isSearchable
                                 classNamePrefix="custom-select"
                                 menuPortalTarget={document.body}
-                                noOptionsMessage={() => 'No hygiene & cleanliness options available'}
+                                noOptionsMessage={() =>
+                                  "No hygiene & cleanliness options available"
+                                }
                                 styles={selectStyles}
                               />
                               <ErrorMessage
@@ -3932,20 +4943,33 @@ const FormModal = ({
                                 className="custom-select-height"
                                 options={reviewOptions}
                                 value={
-                                  reviewOptions.find((option) => option.value === values.reviews?.team_response) || null
+                                  reviewOptions.find(
+                                    (option) =>
+                                      option.value ===
+                                      values.reviews?.team_response,
+                                  ) || null
                                 }
                                 onChange={(selectedOption) =>
-                                  setFieldValue('reviews.team_response', selectedOption ? selectedOption.value : '')
+                                  setFieldValue(
+                                    "reviews.team_response",
+                                    selectedOption ? selectedOption.value : "",
+                                  )
                                 }
                                 placeholder="Select"
                                 isClearable
                                 isSearchable
                                 classNamePrefix="custom-select"
                                 menuPortalTarget={document.body}
-                                noOptionsMessage={() => 'No team response options available'}
+                                noOptionsMessage={() =>
+                                  "No team response options available"
+                                }
                                 styles={selectStyles}
                               />
-                              <ErrorMessage name="reviews.team_response" component="div" className="text-danger" />
+                              <ErrorMessage
+                                name="reviews.team_response"
+                                component="div"
+                                className="text-danger"
+                              />
                             </Col>
                           </Row>
                         </div>
@@ -3958,7 +4982,7 @@ const FormModal = ({
                   <div className="mt-4 mb-4 section-wrapper">
                     <h5
                       className="form-heading p-2 d-flex justify-content-between mt-4 mb-3"
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                       onClick={() => setShowHistory(!showHistory)}
                     >
                       History
@@ -3985,21 +5009,35 @@ const FormModal = ({
                               editHistoryData?.map((item, index) => (
                                 <tr key={index}>
                                   <td className="fw-semibold">
-                                    {new Date(item.createdAt).toLocaleDateString(`en-GB`, {
-                                      day: '2-digit',
-                                      month: '2-digit',
-                                      year: 'numeric',
-                                      timeZone: 'UTC',
+                                    {new Date(
+                                      item.createdAt,
+                                    ).toLocaleDateString(`en-GB`, {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                      timeZone: "UTC",
                                     })}
                                   </td>
-                                  <td className="fw-semibold">{formatTime(new Date(item.createdAt))}</td>
-                                  <td>{item?.name ? item?.name : '-'}</td>
-                                  <td>{item?.phone ? item?.phone : '-'}</td>
-                                  <td>{item?.city ? item?.city : '-'}</td>
-                                  <td>{item?.lead_form ? item?.lead_form : '-'}</td>
-                                  <td>{item?.lead_assign ? item?.lead_assign?.name : '-'}</td>
-                                  <td>{item?.remarks ? item?.remarks : '-'}</td>
-                                  <td>{item?.lead_text_remark ? item?.lead_text_remark : '-'}</td>
+                                  <td className="fw-semibold">
+                                    {formatTime(new Date(item.createdAt))}
+                                  </td>
+                                  <td>{item?.name ? item?.name : "-"}</td>
+                                  <td>{item?.phone ? item?.phone : "-"}</td>
+                                  <td>{item?.city ? item?.city : "-"}</td>
+                                  <td>
+                                    {item?.lead_form ? item?.lead_form : "-"}
+                                  </td>
+                                  <td>
+                                    {item?.lead_assign
+                                      ? item?.lead_assign?.name
+                                      : "-"}
+                                  </td>
+                                  <td>{item?.remarks ? item?.remarks : "-"}</td>
+                                  <td>
+                                    {item?.lead_text_remark
+                                      ? item?.lead_text_remark
+                                      : "-"}
+                                  </td>
                                 </tr>
                               ))
                             ) : (
@@ -4016,8 +5054,12 @@ const FormModal = ({
                   </div>
                 )}
                 <div className="text-end mt-4">
-                  <Button variant="primary" className="custom-select-height" type="submit">
-                    {isEdit ? 'Update' : 'Add'}
+                  <Button
+                    variant="primary"
+                    className="custom-select-height"
+                    type="submit"
+                  >
+                    {isEdit ? "Update" : "Add"}
                   </Button>
                 </div>
               </Form>

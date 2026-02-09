@@ -685,7 +685,6 @@ const TotalBalance = () => {
         onHide={handleClose}
         size="lg"
         centered
-        backdrop="static"
       >
         <Modal.Header className="form-main-heading">
           <Modal.Title>Add Record Transaction</Modal.Title>
@@ -697,7 +696,7 @@ const TotalBalance = () => {
               <Row className="g-3">
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label className="form-label-custom">
+                    <Form.Label>
                       Transaction Type
                     </Form.Label>
                     <Select
@@ -731,7 +730,7 @@ const TotalBalance = () => {
 
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label className="form-label-custom">
+                    <Form.Label>
                       Transaction Date
                     </Form.Label>
                     <div style={{ position: "relative" }}>
@@ -795,7 +794,7 @@ const TotalBalance = () => {
 
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label className="form-label-custom">
+                    <Form.Label>
                       Select Bank
                     </Form.Label>
                     <Select
@@ -829,7 +828,7 @@ const TotalBalance = () => {
 
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label className="form-label-custom">
+                    <Form.Label>
                       Amount
                     </Form.Label>
                     <Form.Control
@@ -851,7 +850,7 @@ const TotalBalance = () => {
 
                 <Col md={12}>
                   <Form.Group>
-                    <Form.Label className="form-label-custom">
+                    <Form.Label>
                       Upload Proof
                     </Form.Label>
                     <Form.Control

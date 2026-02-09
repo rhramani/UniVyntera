@@ -191,19 +191,21 @@ const CoachingStudentCard = ({
                   <div className="d-flex align-items-start gap-3">
                     <div>
                       <div className="d-flex flex-wrap align-items-center gap-2 mb-1">
-                        <span
-                          className="badge border-0 fw-bold px-2 py-1 shadow-sm"
-                          style={{
-                            fontSize: "0.7rem",
-                            letterSpacing: "0.8px",
-                            backgroundColor: "#5d54be",
-                            color: "#ffffff",
-                            borderRadius: "4px",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {item?.studentId || "N/A"}
-                        </span>
+                        {item?.studentId && (
+                          <span
+                            className="badge border-0 fw-bold px-2 py-1 shadow-sm"
+                            style={{
+                              fontSize: "0.7rem",
+                              letterSpacing: "0.8px",
+                              backgroundColor: "#5d54be",
+                              color: "#ffffff",
+                              borderRadius: "4px",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            {item?.studentId || "N/A"}
+                          </span>
+                        )}
                         <h5
                           className="mb-0 fw-bold"
                           style={{
@@ -250,98 +252,92 @@ const CoachingStudentCard = ({
                         item?.updatedByName?.length > 0 ||
                         item?.created_by_type?.length > 0 ||
                         item?.b2bCompany?.length > 0) && (
-                          <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
-                            {item?.created_by_type?.length > 0 && (
-                              <div
-                                className="d-flex align-items-center me-3"
+                        <div className="d-flex flex-wrap gap-x-4 gap-y-1 align-items-center small mt-2">
+                          {item?.created_by_type?.length > 0 && (
+                            <div
+                              className="d-flex align-items-center me-3"
                               // style={{ color: "#6366f1" }}
-                              >
-                                <AssignmentIndIcon
-                                  className="me-1 flex-shrink-0"
-                                  size={18}
-                                  style={{
-                                    color: "#475569"
-                                  }}
-                                />
-                                <div className="text-muted small fw-medium mb-0">
-                                  Type
-                                </div>
-                                &nbsp;:&nbsp;
-                                <span className="fw-semibold">
-                                  {item?.created_by_type === "B2B Admin" ||
-                                    item?.created_by_type === "B2B Member" ? (
-                                    <>
-                                      B2B Partner
-                                      {item?.b2bCompany && ` (${item.branch})`}
-                                    </>
-                                  ) : item?.created_by_type === "user" ? (
-                                    <>
-                                      Head Office
-                                      {item?.b2bCompany && ` (${item.branch})`}
-                                    </>
-                                  ) : item?.created_by_type === "Branch" ||
-                                    item?.created_by_type === "branch" ? (
-                                    <>
-                                      Branch
-                                      {item?.createdByName &&
-                                        ` (${item.createdByName})`}
-                                    </>
-                                  ) : item?.created_by_type === "Branch User" ||
-                                    item?.created_by_type === "Branch user" ? (
-                                    <>
-                                      Branch User
-                                      {item?.branch && ` (${item.branch})`}
-                                    </>
-                                  ) : (
-                                    item?.created_by_type
-                                  )}
-                                </span>
+                            >
+                              <AssignmentIndIcon
+                                className="me-1 flex-shrink-0"
+                                size={18}
+                                style={{
+                                  color: "#475569",
+                                }}
+                              />
+                              <div className="text-muted small fw-medium mb-0">
+                                Type
                               </div>
-                            )}
-                            {item?.createdByName?.length > 0 && (
-                              <div
-                                className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex"
-
-                              >
-                                <PersonIcon
-                                  className="me-1 flex-shrink-0"
-                                  size={18}
-                                  style={{
-                                    color: "#0F766E"
-                                  }}
-                                />
-                                <div className="text-muted small fw-medium mb-0">
-                                  Created By
-                                </div>
-                                &nbsp;:&nbsp;
-                                <span className="fw-semibold">
-                                  {item?.createdByName}
-                                </span>
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
+                                {item?.created_by_type === "B2B Admin" ||
+                                item?.created_by_type === "B2B Member" ? (
+                                  <>
+                                    B2B Partner
+                                    {item?.b2bCompany && ` (${item.branch})`}
+                                  </>
+                                ) : item?.created_by_type === "user" ? (
+                                  <>
+                                    Head Office
+                                    {item?.b2bCompany && ` (${item.branch})`}
+                                  </>
+                                ) : item?.created_by_type === "Branch" ||
+                                  item?.created_by_type === "branch" ? (
+                                  <>
+                                    Branch
+                                    {item?.createdByName &&
+                                      ` (${item.createdByName})`}
+                                  </>
+                                ) : item?.created_by_type === "Branch User" ||
+                                  item?.created_by_type === "Branch user" ? (
+                                  <>
+                                    Branch User
+                                    {item?.branch && ` (${item.branch})`}
+                                  </>
+                                ) : (
+                                  item?.created_by_type
+                                )}
+                              </span>
+                            </div>
+                          )}
+                          {item?.createdByName?.length > 0 && (
+                            <div className="d-flex align-items-center me-3 border-start ps-3 d-none d-sm-flex">
+                              <PersonIcon
+                                className="me-1 flex-shrink-0"
+                                size={18}
+                                style={{
+                                  color: "#0F766E",
+                                }}
+                              />
+                              <div className="text-muted small fw-medium mb-0">
+                                Created By
                               </div>
-                            )}
-                            {item?.updatedByName?.length > 0 && (
-                              <div
-                                className="d-flex align-items-center border-start ps-3 d-none d-md-flex"
-
-                              >
-                                <CreateIcon
-                                  className="me-1 flex-shrink-0"
-                                  size={18}
-                                  style={{
-                                    color: "#92400E"
-                                  }}
-                                />
-                                <div className="text-muted small fw-medium mb-0">
-                                  Updated By
-                                </div>
-                                &nbsp;:&nbsp;
-                                <span className="fw-semibold">
-                                  {item?.updatedByName}
-                                </span>
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
+                                {item?.createdByName}
+                              </span>
+                            </div>
+                          )}
+                          {item?.updatedByName?.length > 0 && (
+                            <div className="d-flex align-items-center border-start ps-3 d-none d-md-flex">
+                              <CreateIcon
+                                className="me-1 flex-shrink-0"
+                                size={18}
+                                style={{
+                                  color: "#92400E",
+                                }}
+                              />
+                              <div className="text-muted small fw-medium mb-0">
+                                Updated By
                               </div>
-                            )}
-                          </div>
-                        )}
+                              &nbsp;:&nbsp;
+                              <span className="fw-semibold">
+                                {item?.updatedByName}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -529,129 +525,131 @@ const CoachingStudentCard = ({
                     {(item?.mainStatus ||
                       item?.admissionProcessRequired ||
                       courseEnded) && (
-                        <div className="col-12">
-                          <div
-                            className="d-inline-flex flex-column flex-md-row flex-wrap gap-3 p-3 bg-light border border-light"
-                            style={{
-                              borderRadius: "12px",
-                              width: "fit-content",
-                              maxWidth: "100%",
-                            }}
-                          >
-                            {item?.mainStatus && (
+                      <div className="col-12">
+                        <div
+                          className="d-inline-flex flex-column flex-md-row flex-wrap gap-3 p-3 bg-light border border-light"
+                          style={{
+                            borderRadius: "12px",
+                            width: "fit-content",
+                            maxWidth: "100%",
+                          }}
+                        >
+                          {item?.mainStatus && (
+                            <div
+                              className={`d-flex align-items-center gap-3 pe-md-4 mb-2 mb-md-0 ${
+                                item?.admissionProcessRequired || courseEnded
+                                  ? "border-md-end border-light"
+                                  : ""
+                              }`}
+                            >
                               <div
-                                className={`d-flex align-items-center gap-3 pe-md-4 mb-2 mb-md-0 ${item?.admissionProcessRequired || courseEnded
-                                    ? "border-md-end border-light"
-                                    : ""
-                                  }`}
+                                className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                                style={{
+                                  backgroundColor: "#4b49ac31",
+                                  borderColor: "#4b49ac49",
+                                }}
                               >
-                                <div
-                                  className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                                <AssignmentIcon
+                                  style={{ fontSize: "20px", color: "#4B49AC" }}
+                                />
+                              </div>
+                              <div>
+                                <div className="text-muted small fw-medium mb-1">
+                                  Status
+                                </div>
+                                <span
+                                  className="badge border-0"
                                   style={{
-                                    backgroundColor: "#4b49ac31",
-                                    borderColor: "#4b49ac49",
+                                    backgroundColor:
+                                      item?.mainStatus?.color || "#5d54be",
+                                    color: "#fff",
+                                    padding: "6px 14px",
+                                    borderRadius: "20px",
+                                    fontSize: "0.75rem",
+                                    fontWeight: 600,
+                                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                                   }}
                                 >
-                                  <AssignmentIcon
-                                    style={{ fontSize: "20px", color: "#4B49AC" }}
-                                  />
-                                </div>
-                                <div>
-                                  <div className="text-muted small fw-medium mb-1">
-                                    Status
-                                  </div>
-                                  <span
-                                    className="badge border-0"
-                                    style={{
-                                      backgroundColor:
-                                        item?.mainStatus?.color || "#5d54be",
-                                      color: "#fff",
-                                      padding: "6px 14px",
-                                      borderRadius: "20px",
-                                      fontSize: "0.75rem",
-                                      fontWeight: 600,
-                                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                                    }}
-                                  >
-                                    {item.mainStatus.name}
-                                  </span>
-                                </div>
+                                  {item.mainStatus.name}
+                                </span>
                               </div>
-                            )}
+                            </div>
+                          )}
 
-                            {item?.admissionProcessRequired && (
+                          {item?.admissionProcessRequired && (
+                            <div
+                              className={`d-flex align-items-center gap-3 mb-2 mb-md-0 ${
+                                courseEnded
+                                  ? "pe-md-4 border-md-end border-light"
+                                  : ""
+                              }`}
+                            >
                               <div
-                                className={`d-flex align-items-center gap-3 mb-2 mb-md-0 ${courseEnded
-                                    ? "pe-md-4 border-md-end border-light"
-                                    : ""
-                                  }`}
+                                className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                                style={{
+                                  backgroundColor: "#0061643a",
+                                  borderColor: "#0061643a",
+                                }}
                               >
-                                <div
-                                  className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                                <MdInfoOutline size={20} color="#006064" />
+                              </div>
+                              <div>
+                                <div className="text-muted small fw-medium mb-1">
+                                  Note
+                                </div>
+                                <span
+                                  className="badge border-0"
                                   style={{
-                                    backgroundColor: "#0061643a",
-                                    borderColor: "#0061643a",
+                                    backgroundColor: "#e0f7fa",
+                                    color: "#006064",
+                                    padding: "6px 14px",
+                                    borderRadius: "20px",
+                                    fontSize: "0.75rem",
+                                    fontWeight: 600,
+                                    border: "1px solid #b2ebf2",
                                   }}
                                 >
-                                  <MdInfoOutline size={20} color="#006064" />
-                                </div>
-                                <div>
-                                  <div className="text-muted small fw-medium mb-1">
-                                    Note
-                                  </div>
-                                  <span
-                                    className="badge border-0"
-                                    style={{
-                                      backgroundColor: "#e0f7fa",
-                                      color: "#006064",
-                                      padding: "6px 14px",
-                                      borderRadius: "20px",
-                                      fontSize: "0.75rem",
-                                      fontWeight: 600,
-                                      border: "1px solid #b2ebf2",
-                                    }}
-                                  >
-                                    Direct Student Application
-                                  </span>
-                                </div>
+                                  Direct Student Application
+                                </span>
                               </div>
-                            )}
+                            </div>
+                          )}
 
-                            {courseEnded && (
-                              <div className="d-flex align-items-center gap-3">
-                                <div
-                                  className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                          {courseEnded && (
+                            <div className="d-flex align-items-center gap-3">
+                              <div
+                                className="p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center flex-shrink-0"
+                                style={{
+                                  backgroundColor: "#ef44442c",
+                                  borderColor: "#ef44442c",
+                                }}
+                              >
+                                <MdAccessTime size={20} color="#ef4444" />
+                              </div>
+                              <div>
+                                <div className="text-muted small fw-medium mb-1">
+                                  Alert
+                                </div>
+                                <span
+                                  className="badge border-0"
                                   style={{
-                                    backgroundColor: "#ef44442c",
-                                    borderColor: "#ef44442c",
+                                    backgroundColor: "#fee2e2",
+                                    color: "#ef4444",
+                                    padding: "6px 14px",
+                                    borderRadius: "20px",
+                                    fontSize: "0.75rem",
+                                    fontWeight: 600,
+                                    border: "1px solid #fecaca",
                                   }}
                                 >
-                                  <MdAccessTime size={20} color="#ef4444" />
-                                </div>
-                                <div>
-                                  <div className="text-muted small fw-medium mb-1">
-                                    Alert
-                                  </div>
-                                  <span
-                                    className="badge border-0"
-                                    style={{
-                                      backgroundColor: "#fee2e2",
-                                      color: "#ef4444",
-                                      padding: "6px 14px",
-                                      borderRadius: "20px",
-                                      fontSize: "0.75rem",
-                                      fontWeight: 600,
-                                      border: "1px solid #fecaca",
-                                    }}
-                                  >
-                                    Course Duration Closed
-                                  </span>
-                                </div>
+                                  Course Duration Closed
+                                </span>
                               </div>
-                            )}
-                          </div>
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
+                    )}
 
                     {/* Email */}
                     <div className="col-12 col-sm-6 col-lg-3">
@@ -789,14 +787,14 @@ const CoachingStudentCard = ({
                           <div className="fw-semibold">
                             {item?.coachingDetails?.startDate
                               ? formatDate(
-                                parseDate(item.coachingDetails.startDate),
-                              )
+                                  parseDate(item.coachingDetails.startDate),
+                                )
                               : "-"}
                             {" to "}
                             {item?.coachingDetails?.endDate
                               ? formatDate(
-                                parseDate(item.coachingDetails.endDate),
-                              )
+                                  parseDate(item.coachingDetails.endDate),
+                                )
                               : "-"}
                           </div>
                         </div>

@@ -100,7 +100,7 @@ const VisaApplicationOnlineSub = ({
             )}
           </div> */}
         </div>
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form onSubmit={visaApplicationSubmissionFormik.handleSubmit}>
             <Row>
               <Col md={6} className="mb-3">

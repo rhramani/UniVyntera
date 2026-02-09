@@ -57305,7 +57305,7 @@ th.sticky-col-right-2 {
 }
 
 .premium-announcement-header {
-  background: linear-gradient(135deg, #6c5ffc 0%, #4e44e7 100%);
+  background: #5D54BE !important;
   padding: 25px !important;
   border: none !important;
 }
@@ -57415,7 +57415,7 @@ th.sticky-col-right-2 {
 }
 
 .premium-send-btn {
-  background: linear-gradient(135deg, #6c5ffc 0%, #4e44e7 100%) !important;
+  background: #5D54BE !important;
   border: none !important;
   border-radius: 12px !important;
   padding: 12px 30px !important;

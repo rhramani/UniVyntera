@@ -308,7 +308,7 @@ const GerTravelResidencePermit = ({ id }) => {
 
       <div className="mb-4 my-5 p-4 bg-light rounded shadow-sm">
         <h5>Travel & Residence Permit</h5>
-        <div className="bg-white mt-3 p-3">
+        <div className="bg-white rounded mt-3 p-3">
           <Form onSubmit={formik.handleSubmit}>
             <Row>
               <Col md={6} className="mb-3">
