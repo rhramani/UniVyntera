@@ -594,7 +594,10 @@ const Signin = () => {
                   <div className="text-danger">{formik.errors.credential}</div>
                 )}
 
-                <Button variant="link" className="p-0 mt-1 send-otp">
+                <Button variant="link" className="p-0 mt-1 send-otp" onClick={() => {
+                  handleSendOTP();
+                  setLoginMode("otp");
+                }}>
                   Send OTP
                 </Button>
               </Form.Group>

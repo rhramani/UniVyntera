@@ -5,9 +5,10 @@ const Branch = require("../model/branch/branches");
 const BranchMember = require("../model/branch/branchMember");
 const CoachingFaculty = require("../model/masters/coachingDetails/coachingFaculty");
 const StudentApplication = require("../model/masters/studentApplication/studentApplication");
+const Lead = require("../model/lead");
 
 const findUserAndModel = async (email) => {
-    const models = [User, B2BAdmin, B2BMember , Branch, BranchMember, CoachingFaculty , StudentApplication];
+    const models = [User, B2BAdmin, B2BMember , Branch, BranchMember, CoachingFaculty , StudentApplication, Lead];
   
     for (let model of models) {
       const user = await model.findOne({ email });

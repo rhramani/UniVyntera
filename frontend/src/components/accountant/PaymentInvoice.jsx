@@ -559,7 +559,7 @@ const PaymentInvoice = () => {
         return;
       }
 
-      await fetchSubPlans(item.mainPlan._id);
+      await fetchSubPlans(item.mainPlan?._id);
 
       const otherSum =
         item.paidAmount

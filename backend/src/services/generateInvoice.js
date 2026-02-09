@@ -21,7 +21,7 @@ const generateInvoiceServices = {
     if (data.paidAmount && Array.isArray(data.paidAmount)) {
       data.paidAmount = data.paidAmount.map((entry) => ({
         amount: entry.amount,
-         date: entry.date ? new Date(entry.date) : new Date(),
+        date: entry.date ? new Date(entry.date) : new Date(),
         bank: entry.bank || null,
         paymentMode: entry.paymentMode || null, // ✅ keep mode per entry
       }));
@@ -58,8 +58,11 @@ const generateInvoiceServices = {
     const subPlanId = updateData.subPlan || existing.subPlan;
     const discount = updateData.discount ?? existing.discount;
 
-    const subPlanDoc = await SubPlan.findById(subPlanId);
-    if (!subPlanDoc) {
+    const subPlanDoc = null
+    if (subPlanId) {
+      const subPlanDoc = await SubPlan.findById(subPlanId);
+    }
+    if (subPlanDoc === undefined) {
       throw { status: false, message: "SubPlan not found" };
     }
 
@@ -88,8 +91,8 @@ const generateInvoiceServices = {
         );
         if (index !== -1) {
           existingPaid[index].amount = paid.amount;
-          existingPaid[index].date =  paid.date ? new Date(paid.date) : new Date(),
-          existingPaid[index].bank = paid.bank || null;
+          existingPaid[index].date = paid.date ? new Date(paid.date) : new Date(),
+            existingPaid[index].bank = paid.bank || null;
           existingPaid[index].paymentMode =
             paid.paymentMode || existingPaid[index].paymentMode || null; // ✅ update mode too
         } else {
@@ -243,8 +246,8 @@ const generateInvoiceServices = {
         return status === "paid"
           ? dueAmount <= 0
           : status === "due"
-          ? dueAmount > 0
-          : true;
+            ? dueAmount > 0
+            : true;
       });
 
       result.totalRecords = result.data.length;
@@ -492,8 +495,8 @@ const generateInvoiceServices = {
         ...inv,
         name: actualName, // Replace ObjectId with resolved name
         studentId: studentId,
-         discount: inv.discount || "",
-      discountAmount: inv.discountAmount || "0",
+        discount: inv.discount || "",
+        discountAmount: inv.discountAmount || "0",
       })),
       totals: {
         totalCash,
@@ -595,7 +598,7 @@ const generateInvoiceServices = {
       dateFilter.branch = branchId;
     }
 
-    const [paymentInvoices, universityCommissions, b2bCommissions, expenses] = 
+    const [paymentInvoices, universityCommissions, b2bCommissions, expenses] =
       await Promise.all([
         GenerateInvoice.aggregate([
           { $unwind: "$paidAmount" },
@@ -875,58 +878,58 @@ const generateInvoiceServices = {
       (cashExpenses[0]?.totalAmount || 0);
 
     const transferFilter = {};
-    if(startDate && endDate){
+    if (startDate && endDate) {
       transferFilter.date = {
         $gte: new Date(startDate),
         $lte: new Date(endDate)
       };
     }
 
-    if(branchId) {
+    if (branchId) {
       transferFilter.branch = branchId;
     }
 
-    const transfers = await FundTransfer.find(transferFilter).populate("bank" , "bankName");
+    const transfers = await FundTransfer.find(transferFilter).populate("bank", "bankName");
 
-let totalCashToBank = 0;
-let totalBankToCash = 0;
+    let totalCashToBank = 0;
+    let totalBankToCash = 0;
 
-transfers.forEach((t) => {
-  if (t.fromType  === "CashToBank") totalCashToBank += t.amount;
-  else if (t.fromType  === "BankToCash") totalBankToCash += t.amount;
-});
+    transfers.forEach((t) => {
+      if (t.fromType === "CashToBank") totalCashToBank += t.amount;
+      else if (t.fromType === "BankToCash") totalBankToCash += t.amount;
+    });
 
-const adjustedCashBalance = cashBalance - totalCashToBank + totalBankToCash;
-const adjustedBankBalance = bankBalance + totalCashToBank - totalBankToCash;
+    const adjustedCashBalance = cashBalance - totalCashToBank + totalBankToCash;
+    const adjustedBankBalance = bankBalance + totalCashToBank - totalBankToCash;
 
-transfers.forEach((t) => {
-  const bankId = t.bank?._id?.toString();
-  const bankName = t.bank?.bankName;
-  if (!bankId) return;
+    transfers.forEach((t) => {
+      const bankId = t.bank?._id?.toString();
+      const bankName = t.bank?.bankName;
+      if (!bankId) return;
 
-  if (!bankWiseTotalMap[bankId]) {
-    bankWiseTotalMap[bankId] = { bankId, bankName, totalAmount: 0 };
-  }
+      if (!bankWiseTotalMap[bankId]) {
+        bankWiseTotalMap[bankId] = { bankId, bankName, totalAmount: 0 };
+      }
 
-  if (t.fromType  === "CashToBank") {
-    bankWiseTotalMap[bankId].totalAmount += t.amount;
-  } else if (t.fromType  === "BankToCash") {
-    bankWiseTotalMap[bankId].totalAmount -= t.amount;
-  }
-});
+      if (t.fromType === "CashToBank") {
+        bankWiseTotalMap[bankId].totalAmount += t.amount;
+      } else if (t.fromType === "BankToCash") {
+        bankWiseTotalMap[bankId].totalAmount -= t.amount;
+      }
+    });
 
 
-const updatedBankwiseTotals = Object.values(bankWiseTotalMap);
-const totalBankAfterTransfer = updatedBankwiseTotals.reduce(
-  (sum, b) => sum + b.totalAmount,
-  0
-);
-   return {
-  bankBalance: adjustedBankBalance,
-  cashBalance: adjustedCashBalance,
-  totalBank: totalBankAfterTransfer,
-  bankwiseTotals: updatedBankwiseTotals,
-};
+    const updatedBankwiseTotals = Object.values(bankWiseTotalMap);
+    const totalBankAfterTransfer = updatedBankwiseTotals.reduce(
+      (sum, b) => sum + b.totalAmount,
+      0
+    );
+    return {
+      bankBalance: adjustedBankBalance,
+      cashBalance: adjustedCashBalance,
+      totalBank: totalBankAfterTransfer,
+      bankwiseTotals: updatedBankwiseTotals,
+    };
 
   },
 };

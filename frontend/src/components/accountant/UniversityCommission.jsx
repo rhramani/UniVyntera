@@ -572,6 +572,8 @@ const UniversityCommission = () => {
           universityPaymentReceived: {
             status: data?.universityPaymentReceived?.status || false,
             amount: data?.universityPaymentReceived?.amount || "",
+            paymentMode: data?.universityPaymentReceived?.paymentMode || "",
+            bank: data?.universityPaymentReceived?.bank || "",
             b2bCommission: {
               commissionType:
                 data?.universityPaymentReceived?.b2bCommission

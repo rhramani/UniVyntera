@@ -514,7 +514,7 @@ const CourseFinderCard = ({
                   )}
               </div>
               <div className="my-4">
-                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-4">
+                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-3 g-4">
                   {courseFinderData?.length > 0
                     ? courseFinderData?.map((item, index) => (
                         <div key={index} className="col">
