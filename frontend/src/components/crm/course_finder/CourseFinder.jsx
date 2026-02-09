@@ -1889,7 +1889,7 @@ const CourseFinder = () => {
         <div className="mt-4 align-items-center">
           <div className="d-flex justify-content-center">
             <Button
-              variant={showFilterModal ? "danger" : "primary"}
+              variant={showFilterModal ? "primary" : "primary"}
               className="px-3 py-2"
               style={{
                 borderRadius: "12px",

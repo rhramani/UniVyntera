@@ -996,16 +996,7 @@ const Dashboard = () => {
                       />
                     </div>
 
-                    <div className="mt-3">
-                      <Badge
-                        bg="primary-light"
-                        className="text-primary fw-normal border-0"
-                        style={{ cursor: "pointer" }} // Makes it look clickable
-                        onClick={() => window.open(qrCodeUrl, "_blank")} // Opens the link
-                      >
-                        <i className="fe fe-external-link me-1"></i> Open Link
-                      </Badge>
-                    </div>
+                 
                   </Card.Body>
                 </Card>
               </Col>
