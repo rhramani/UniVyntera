@@ -1024,7 +1024,7 @@ const Dashboard = () => {
               ].includes(role) || userRole == "Branch User"
             ) && (
               <>
-                <Col md={9}>
+                <Col md={12} lg={12} xl={9}>
                   <Row className="row-sm mb-4 align-items-stretch">
                     {/* DATE RANGE CONTROL CARD */}
                     <Col xl={8} lg={7} md={12} className="mb-3">
@@ -1581,7 +1581,7 @@ const Dashboard = () => {
                   </Row>
                 </Col>
 
-                <Col md={3} lg={3} xl={3} className="mb-3">
+                <Col md={12} lg={12} xl={3} className="mb-3">
                   <Dialpad
                     onCall={(number) => console.log("Calling:", number)}
                   />
@@ -2117,7 +2117,7 @@ const Dashboard = () => {
             ].includes(role) ||
               userRole === "Branch User") && (
               <>
-                <Col md={9}>
+                <Col md={12} lg={12} xl={9}>
                   <Row className="row-sm mb-4 align-items-stretch">
                     <Col xl={12} lg={12} md={12} className="mb-3">
                       <Card
@@ -2446,7 +2446,7 @@ const Dashboard = () => {
                   </Row>
                 </Col>
 
-                <Col xl={3} lg={4} md={12} className="mb-3">
+                <Col md={12} lg={12} xl={3} className="mb-3">
                   <SmallDialpad
                     onCall={(number) => console.log("Calling:", number)}
                   />
