@@ -229,7 +229,7 @@ const Tutorial = () => {
 
                   <div className="custom-select-height total-records px-3 d-flex align-items-center h-6 border rounded bg-light">
                     <span className="text-muted small">
-                      Total:{" "}
+                      Total Records:{" "}
                       <strong className="text-dark">{totalRecords}</strong>
                     </span>
                   </div>

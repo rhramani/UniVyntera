@@ -3880,8 +3880,14 @@ const AllocatedLeads = () => {
                 }}
                 centered
               >
-                <Modal.Header className="form-main-heading">
-                  <Modal.Title className="fw-semibold">
+                <Modal.Header
+                  style={{
+                    background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                    borderTopLeftRadius: "12px",
+                    borderTopRightRadius: "12px",
+                  }}
+                >
+                  <Modal.Title className="fw-semibold text-white">
                     Confirm Mark as Inactive Lead
                   </Modal.Title>
                   <AiOutlineClose
@@ -3894,10 +3900,20 @@ const AllocatedLeads = () => {
                   />
                 </Modal.Header>
                 <Modal.Body className="text-center py-4">
-                  <div className="text-danger fs-1 mb-3">
-                    <DangerousIcon fontSize="large" />
+                  <div
+                    className="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      borderRadius: "50%",
+                      background: "#fee2e2",
+                      color: "#dc2626",
+                      fontSize: "32px",
+                    }}
+                  >
+                    <i className="bi bi-exclamation-triangle-fill"></i>
                   </div>
-                  <p className="mb-1 fw-semibold">
+                  <p className="mb-1 fw-semibold fs-6">
                     Are you sure you want to mark this lead as inactive?
                   </p>
                   <small className="text-muted">
@@ -3907,7 +3923,7 @@ const AllocatedLeads = () => {
                 <Modal.Footer className="border-0 justify-content-center gap-3 pb-4">
                   <Button
                     variant="light"
-                    className="btn-cancel-delete px-4"
+                    className=" px-4"
                     onClick={() => {
                       setShowDeadLeadModal(false);
                       setSelectedDeadLead(null);
@@ -3916,7 +3932,12 @@ const AllocatedLeads = () => {
                     Cancel
                   </Button>
                   <Button
-                    className="btn-delete-confirm"
+                    className="px-4 text-white"
+                    style={{
+                      borderRadius: "8px",
+                      background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                      border: "none",
+                    }}
                     onClick={() => handleMarkDeadLead(showDeadLeadModal)}
                   >
                     <i className="bi bi-check-circle-fill me-2"></i>Yes

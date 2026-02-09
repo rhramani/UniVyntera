@@ -2850,7 +2850,13 @@ const AiCallLeads = () => {
                 }}
                 centered
               >
-                <Modal.Header className="form-main-heading">
+                <Modal.Header
+                  style={{
+                    background: "linear-gradient(90deg, #dc2626, #ef4444)",
+                    borderTopLeftRadius: "12px",
+                    borderTopRightRadius: "12px",
+                  }}
+                >
                   <Modal.Title className="fw-semibold">
                     Confirm Mark as Inactive Lead
                   </Modal.Title>
