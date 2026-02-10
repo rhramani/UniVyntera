@@ -720,11 +720,12 @@ const VisitorApplication = () => {
       setCurrentPage(updatedPage);
       if (canRead) {
         fetchAllVisitorApplication(
-          currentPage,
+          updatedPage,
           itemsPerPage,
           search,
           mainStatus?.value || "",
           selectedBranch === "all" ? "" : selectedBranch || "",
+          showAll,
           selectedCountry?.value || "",
           followUpDate,
         );
@@ -759,6 +760,7 @@ const VisitorApplication = () => {
           search,
           mainStatus?.value || "",
           selectedBranch === "all" ? "" : selectedBranch || "",
+          showAll,
           selectedCountry?.value || "",
           followUpDate,
         );

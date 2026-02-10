@@ -1261,19 +1261,6 @@ const CourseFinder = () => {
             activepage="Course Finder"
           />
         </div>
-        <div style={{ minWidth: "100px" }}>
-          {canCreate && (
-            <Button
-              variant="primary"
-              className="custom-select-height2 d-flex align-items-center gap-1 w-100"
-              style={{ height: "45px" }}
-              onClick={openModal}
-            >
-              <FaPlus fontSize={12} style={{ marginBottom: "2px" }} />
-              <span>Add Course</span>
-            </Button>
-          )}
-        </div>
       </div>
 
       {/* Premium Modern Filter UI */}
@@ -1288,13 +1275,29 @@ const CourseFinder = () => {
         }}
       >
         {/* Header Section */}
-        <div className="mb-6">
+        <div className="d-flex justify-content-between align-items-center mb-4">
           <h2
-            className="mb-2"
+            className="mb-0"
             style={{ fontSize: "1.5rem", fontWeight: 700, color: "#1e293b" }}
           >
             Find Your Perfect Course
           </h2>
+          <div
+            style={{ minWidth: "100px" }}
+            className="d-flex justify-content-end"
+          >
+            {canCreate && (
+              <Button
+                variant="primary"
+                className="custom-select-height2 d-flex align-items-center gap-1 "
+                style={{ height: "45px" }}
+                onClick={openModal}
+              >
+                {/* <FaPlus fontSize={12} style={{ marginBottom: "2px" }} /> */}
+                <span>Add Course</span>
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Search Bar with Gradient Background */}

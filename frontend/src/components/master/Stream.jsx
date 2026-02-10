@@ -62,6 +62,7 @@ const Stream = () => {
       const res = await dispatch(getAllStream(page, limit, search));
       const responseData = res?.data?.data;
       setAllStream(responseData?.data || []);
+      
       setTotalPages(responseData?.totalPages || 0);
       setTotalRecords(responseData?.totalRecords || 0);
     } catch (error) {
