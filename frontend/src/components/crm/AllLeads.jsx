@@ -1308,10 +1308,6 @@ const AllLeads = () => {
   };
 
   const handleLeadAssignmentEdit = (values) => {
-    console.log("handleLeadAssignmentEdit called");
-    console.log("currentEditingAssignment:", currentEditingAssignment);
-    console.log("values.lead_assign:", values.lead_assign);
-    console.log("formData.lead_assign before:", formData.lead_assign);
 
     if (!currentEditingAssignment) {
       console.error("No current editing assignment found");
@@ -1322,10 +1318,6 @@ const AllLeads = () => {
     const updatedIndex = currentEditingAssignment.index;
     // Use the current form values for the update
     const updatedEntry = values.lead_assign[0];
-
-    console.log("updatedEntry:", updatedEntry);
-    console.log("updating index:", updatedIndex);
-    console.log("updatedData length:", updatedData.length);
 
     if (updatedIndex >= updatedData.length) {
       console.error(
@@ -2213,7 +2205,7 @@ const AllLeads = () => {
 
   const handleSampleFileDownload = () => {
     const link = document.createElement("a");
-    link.href = `https://studyvisaconsultant.com/api/public/sampleleadfile/Sample_Lead_UploadFile.xlsx`;
+    link.href = `https://zokepconsultant.com/api/public/sampleleadfile/Sample_Lead_UploadFile.xlsx`;
     link.setAttribute("download", "LeadUpload.xlsx");
     document.body.appendChild(link);
     link.click();

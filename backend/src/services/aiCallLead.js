@@ -75,7 +75,7 @@ const createLead = async (
           to: lead.contact,
           templateId: null,
           templateName: "welcome_lead1",
-          fromNumberId: "917575888326", // your WhatsApp number ID
+          fromNumberId: "917359266930", // your WhatsApp number ID
           languageCode: "en",
           parameters: {
             body: [lead.name], // dynamically add lead name

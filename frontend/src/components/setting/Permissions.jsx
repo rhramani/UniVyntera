@@ -33,7 +33,7 @@ const VISITOR_APPLICATION_SECTIONS = [
 
 const ADDITIONAL_DOCUMENT_SUBSECTIONS = [
   { tabName: "Other Documents", show: false },
-  { tabName: "RG Documents", show: false },
+  { tabName: "ZOKEP Documents", show: false },
   { tabName: "Visa Documents", show: false },
 ];
 

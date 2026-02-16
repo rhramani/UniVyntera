@@ -184,7 +184,7 @@ const TemplateSelectorModal = ({ show, onHide, contact }) => {
       to: contact.phoneNumber,
       templateId: selectedTemplate.id || selectedTemplate.templateId,
       templateName: selectedTemplate.name,
-      fromNumberId: "917575888326",
+      fromNumberId: "917359266930",
       languageCode: selectedTemplate.language || selectedTemplate.languageCode,
       parameters,
     };

@@ -35403,6 +35403,7 @@ a.tag-addon:hover {
   border-inline-end: 1px solid var(--menu-border-color);
   border-block-end: 1px solid var(--menu-border-color);
   transition: all 0.05s ease;
+  height: 4.5rem;
 }
 
 .app-sidebar .main-sidebar-header .header-logo img {
@@ -44883,7 +44884,7 @@ table.dataTable thead .sorting_asc_disabled:after,
 }
 
 .toggle-logo {
-  width: 50px;
+  width: 70px;
 }
 
 [data-theme-mode="dark"] .landing-body .landing-trusted-companies img {
@@ -55039,7 +55040,7 @@ table {
 }
 
 .desktop-dark {
-  width: 80px;
+  width: 180px;
 }
 
 .desktop-dark-1 {
@@ -56855,7 +56856,7 @@ th.sticky-col-right-2 {
 }
 
 .left-logo {
-  width: 600px;
+  width: 350px;
   margin-bottom: 30px;
 }
 

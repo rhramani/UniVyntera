@@ -14,6 +14,7 @@ import { encryptData } from "../../utils/encryptionUtils";
 import Axios from "../../api";
 import { getAllCrmSettings } from "../../redux/actions/CrmSettings.action";
 import { rawMenuItems } from "../../common/Sidemenu";
+import { BASEURL } from "../../baseUrl";
 // import { useGoogleLogin } from "@react-oauth/google";
 
 const Signin = () => {
@@ -51,8 +52,12 @@ const Signin = () => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 1500);
 
+        // const res = await Axios.get(
+        //   `https://admin.educacrm.in/api//accounts/get?domain=${currentDomain}&id=`,
+        //   { signal: controller.signal },
+        // );
         const res = await Axios.get(
-          `https://admin.educacrm.in/api//accounts/get?domain=${currentDomain}&id=`,
+          `https://admin.zokepcrm.in/api//accounts/get?domain=${currentDomain}&id=`,
           { signal: controller.signal },
         );
 
@@ -74,7 +79,7 @@ const Signin = () => {
             setAccountStatus("active");
           }
         } else {
-          setAccountStatus("inactive");
+          setAccountStatus("active");
         }
 
         if (data?.data?.companyLogo) {
@@ -455,7 +460,7 @@ const Signin = () => {
                   access.
                 </Card.Text>
                 <Button
-                  href="mailto:support@zokepcrm.com"
+                  href="mailto:zokepcrm@gmail.com"
                   style={{
                     backgroundColor: "#5D54BE", // Deep blue button
                     borderColor: "#5D54BE",
@@ -478,14 +483,14 @@ const Signin = () => {
                 >
                   📞 Need help? Reach out at{" "}
                   <a
-                    href="mailto:support@zokepcrm.com"
+                    href="mailto:zokepcrm@gmail.com"
                     style={{
                       color: "#5D54BE",
                       textDecoration: "none",
                       fontWeight: "500",
                     }}
                   >
-                    support@zokepcrm.com
+                    zokepcrm@gmail.com
                   </a>
                 </p>
               </Card.Body>
@@ -504,7 +509,7 @@ const Signin = () => {
         <div className="signin-left d-none d-lg-flex">
           <div className="left-content text-center d-flex flex-column align-items-center px-4">
             <img
-              // src={loginLogo || ALLImages("logo3")}
+              // src={`${BASEURL}/${loginLogo}` || ALLImages("logo3")}
               src={ALLImages("logo3")}
               alt="logo"
               className="left-logo"
@@ -594,10 +599,14 @@ const Signin = () => {
                   <div className="text-danger">{formik.errors.credential}</div>
                 )}
 
-                <Button variant="link" className="p-0 mt-1 send-otp" onClick={() => {
-                  handleSendOTP();
-                  setLoginMode("otp");
-                }}>
+                <Button
+                  variant="link"
+                  className="p-0 mt-1 send-otp"
+                  onClick={() => {
+                    handleSendOTP();
+                    setLoginMode("otp");
+                  }}
+                >
                   Send OTP
                 </Button>
               </Form.Group>
@@ -611,9 +620,7 @@ const Signin = () => {
             <div className="signin-footer">
               <p>
                 📞 Need help? Contact{" "}
-                <a href="mailto:support@zokepcrm.com">
-                  support@zokepcrm.com
-                </a>
+                <a href="mailto:zokepcrm@gmail.com">zokepcrm@gmail.com</a>
               </p>
 
               {/* <p>

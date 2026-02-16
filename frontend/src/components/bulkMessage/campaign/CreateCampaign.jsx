@@ -21,8 +21,8 @@ import { toast } from "react-toastify";
 const CreateCampaign = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [campaignName, setCampaignName] = useState("");
-  const [ownerName, setOwnerName] = useState("SmartX CRM");
-  const [fromNumber, setFromNumber] = useState("917575888326");
+  const [ownerName, setOwnerName] = useState("Zokep CRM");
+  const [fromNumber, setFromNumber] = useState("917359266930");
   const [recipientType, setRecipientType] = useState("");
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState(null);

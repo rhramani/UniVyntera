@@ -11,7 +11,7 @@ const Footer = () => {
             {" "}
             Copyright © <span id="year">{new Date().getFullYear()}</span>{" "}
             <a
-              // href="https://smartxcrm.com/"
+              // href="https://zokepcrm.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-dark fw-semibold"
@@ -22,7 +22,7 @@ const Footer = () => {
             <span> </span>
             {/* <span className="bi bi-heart-fill text-danger"></span> */}
             <a
-              // href="https://smartxcrm.com/"
+              // href="https://zokepcrm.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="fw-semibold text-primary"

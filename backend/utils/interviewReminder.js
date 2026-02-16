@@ -79,7 +79,7 @@ async function sendInterviewReminders() {
                     </p>
 
                       <p>Please prepare accordingly.</p>
-                      <p>Best Regards,<br/>SmartX CRM Team</p>
+                      <p>Best Regards,<br/>Zokep CRM Team</p>
                     </div>
                     <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4;">
                       <p style="margin: 0; font-size: 12px; color: #555;">Powered by</p>

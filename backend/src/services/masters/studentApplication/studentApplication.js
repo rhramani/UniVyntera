@@ -378,7 +378,7 @@ const StudentApplicationServices = {
                     to: newStudent.contact,
                     templateId: null,
                     templateName: "welcome_application_start1",
-                    fromNumberId: "917575888326",
+                    fromNumberId: "917359266930",
                     languageCode: "en",
                     parameters: { body: [newStudent.name] },
                   }),
@@ -392,7 +392,7 @@ const StudentApplicationServices = {
                     to: newStudent.contact,
                     templateId: null,
                     templateName: "coaching_admission_welcome1",
-                    fromNumberId: "917575888326",
+                    fromNumberId: "917359266930",
                     languageCode: "en",
                     parameters: { body: [newStudent.name] },
                   }),
@@ -1936,7 +1936,7 @@ const StudentApplicationServices = {
                     sendSingleMessage({
                       to: student.contact,
                       templateName: "course_selection_underway",
-                      fromNumberId: "917575888326",
+                      fromNumberId: "917359266930",
                       languageCode: "en",
                       parameters: {
                         body: [student.name, universityName, courseName],
@@ -2193,7 +2193,7 @@ const StudentApplicationServices = {
         //         await sendSingleMessage({
         //           to: student.contact,
         //           templateName: "offer_letter_received",
-        //           fromNumberId: "917575888326",
+        //           fromNumberId: "917359266930",
         //           languageCode: "en",
         //           parameters: {
         //             body: [student.name, universityName, courseName],
@@ -2341,7 +2341,7 @@ const StudentApplicationServices = {
               await sendSingleMessage({
                 to: student.contact,
                 templateName: "offer_letter_received",
-                fromNumberId: "917575888326",
+                fromNumberId: "917359266930",
                 languageCode: "en",
                 parameters: {
                   body: [student.name, courseName],
@@ -2643,7 +2643,7 @@ const StudentApplicationServices = {
           const b2bPartnerName =
             student.b2bCompany || student.createdByName || "B2B Partner";
           const senderName = b2bPartnerName;
-          const companyName = "RG International";
+          const companyName = "Kurm Infotech";
 
           await sendNewStudentApplicationEmail(
             user.email,
@@ -3204,7 +3204,7 @@ const StudentApplicationServices = {
       const b2bPartnerName =
         student.b2bCompany || student.createdByName || "B2B Partner";
       const senderName = b2bPartnerName;
-      const companyName = "RG International";
+      const companyName = "Kurm Infotech";
 
       const usersToEmail = [];
 
@@ -3366,7 +3366,7 @@ const StudentApplicationServices = {
                 : statusName === "Visa Denied"
                   ? "visa_decision__regret_to_inform1"
                   : null,
-            fromNumberId: "917575888326",
+            fromNumberId: "917359266930",
             languageCode: "en",
             parameters: { body: [student.name, preferredCountry] },
           });
@@ -4624,7 +4624,7 @@ for (const student of getAll.data) {
     return message;
   },
   downloadDocuments: async (applicationId, documentIds) => {
-    const BASEURL = "https://studyvisaconsultant.com/api";
+    const BASEURL = "https://zokepconsultant.com/api";
     const application = await studentApplication.findById(applicationId);
     if (!application) {
       throw { status: false, message: "Student application not found" };

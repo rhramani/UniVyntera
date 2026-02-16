@@ -1018,7 +1018,7 @@ const B2BAdmin = () => {
 
   const handleSampleFileDownload = () => {
     const link = document.createElement("a");
-    link.href = `https://studyvisaconsultant.com/api/public/sampleB2BAdminBulkUpload/b2b_admin_bulkUpload.xlsx`;
+    link.href = `https://zokepconsultant.com/api/public/sampleB2BAdminBulkUpload/b2b_admin_bulkUpload.xlsx`;
     link.setAttribute("download", "b2bAdmin_upload.xlsx");
     document.body.appendChild(link);
     link.click();

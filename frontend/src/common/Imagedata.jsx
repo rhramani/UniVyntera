@@ -11,7 +11,7 @@ import apppng9 from '../assets/images/apps/translate.png';
 
 //logos
 
-import logo1 from '../assets/images/brand-logos/sidebar_logo1.png';
+import logo1 from '../assets/images/brand-logos/sidebar_logo.png';
 import logo2 from '../assets/images/brand-logos/desktop-logo.png';
 import logo3 from '../assets/images/brand-logos/sidebar_logo1.png';
 import logo4 from '../assets/images/brand-logos/sidebar_logo1.png';

@@ -46,18 +46,18 @@ const LeadForm = () => {
       }
     },
   });
-  console.log("formikformik", formik.errors);
+
   return (
     <>
       <div className="mainLeadform">
         <header className="leadFormHeader my-5">
-          {/* <img src={logo} alt="RG International Logo" className="img-fluid" /> */}
+          {/* <img src={logo} alt="Kurm Infotech Logo" className="img-fluid" /> */}
         </header>
         <div className="d-flex justify-content-center align-items-center leadFormBackground">
           <div className="leadFormContainer rounded-5">
             <h1 className="text-center mb-3">REGISTRATION</h1>
             <h5 className="text-center mb-3">Grab your seat today!</h5>
-            <h5 className="text-center mb-4">Surat: +91 75758 66622</h5>
+            <h5 className="text-center mb-4">Surat: +91 73592 66930</h5>
             <Form noValidate onSubmit={formik.handleSubmit}>
               <Form.Group className="mb-3" controlId="leadName">
                 <Form.Control

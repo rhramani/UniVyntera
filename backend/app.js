@@ -59,7 +59,7 @@ app.get("/webhook", (req, res) => {
   const token = req.query["hub.verify_token"];
   const challenge = req.query["hub.challenge"];
 
-  if (mode === "subscribe" && token === "smartxcrmtoken") {
+  if (mode === "subscribe" && token === "zokepcrmtoken") {
     console.log("✅ Webhook verified");
     return res.status(200).send(challenge);
   }
@@ -243,8 +243,8 @@ app.post("/webhook", async (req, res) => {
 });
 
 
-// const privateKey = fs.readFileSync("/etc/letsencrypt/live/studyvisaconsultant.com/privkey.pem", "utf8");
-// const certificate = fs.readFileSync("/etc/letsencrypt/live/studyvisaconsultant.com/fullchain.pem", "utf8");
+// const privateKey = fs.readFileSync("/etc/letsencrypt/live/zokepconsultant.com/privkey.pem", "utf8");
+// const certificate = fs.readFileSync("/etc/letsencrypt/live/zokepconsultant.com/fullchain.pem", "utf8");
 
 // const credentials = { key: privateKey, cert: certificate };
 

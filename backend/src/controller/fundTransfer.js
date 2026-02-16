@@ -22,6 +22,7 @@ const create = async (req, res) => {
             data: result
         })
     }catch(error){
+        console.error("Error in fund transfer creation:", error);
         res.status(500).json({
             status: false,
             code: 500,

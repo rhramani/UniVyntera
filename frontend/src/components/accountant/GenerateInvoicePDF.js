@@ -51,7 +51,7 @@ const GenerateInvoicePDF = ({ invoiceData, dashboardLogo, paymentInvoice }) => {
       const companyX = logoX + logoWidth + 12;
       addText(
         doc,
-        paymentInvoice?.name?.toUpperCase() || "RG OVERSEAS",
+        paymentInvoice?.name?.toUpperCase() || "ZOKEP OVERSEAS",
         companyX,
         logoY + 10,
         {
@@ -119,7 +119,7 @@ const GenerateInvoicePDF = ({ invoiceData, dashboardLogo, paymentInvoice }) => {
   //     );
 
   //     const companyX = logoX + logoWidth + 15;
-  //     addText(doc, "RG OVERSEAS", companyX, logoY + 12, {
+  //     addText(doc, "ZOKEP OVERSEAS", companyX, logoY + 12, {
   //       fontSize: 20,
   //       fontStyle: "bold",
   //       textColor: [0, 0, 0],
@@ -172,7 +172,7 @@ const GenerateInvoicePDF = ({ invoiceData, dashboardLogo, paymentInvoice }) => {
   //     return headerBottomY + 15 + extraSpace; // line ke niche space
   //   } catch (error) {
   //     const companyX = margin + 60;
-  //     addText(doc, "RG OVERSEAS", companyX, currentY + 12, {
+  //     addText(doc, "ZOKEP OVERSEAS", companyX, currentY + 12, {
   //       fontSize: 20,
   //       fontStyle: "bold",
   //       textColor: [0, 0, 0],
@@ -471,7 +471,7 @@ const GenerateInvoicePDF = ({ invoiceData, dashboardLogo, paymentInvoice }) => {
   //   });
   //   currentY += 8;
   //   const noteText =
-  //     "RG International service charge invoices are refundable after the student receives the visa. It will be non-refundable in cases of rejection, missed interviews, or change of mind.";
+  //     "Kurm Infotech service charge invoices are refundable after the student receives the visa. It will be non-refundable in cases of rejection, missed interviews, or change of mind.";
   //   const maxWidth = pageWidth - margin;
   //   const lines = doc.splitTextToSize(noteText, maxWidth);
   //   lines.forEach((line) => {
@@ -493,7 +493,7 @@ const GenerateInvoicePDF = ({ invoiceData, dashboardLogo, paymentInvoice }) => {
   const addFooter = (doc) => {
     const margin = 10; // Increased margin for wider page
     const pageHeight = doc.internal.pageSize.height;
-    addText(doc, "www.rginternational.org", margin, pageHeight - 15, {
+    addText(doc, "https://kurminfotech.in/", margin, pageHeight - 15, {
       fontSize: 10,
       fontStyle: "normal",
       textColor: [0, 0, 0],

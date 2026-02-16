@@ -125,7 +125,7 @@ const checkDocumentDeadline = async () => {
               <tbody>${docHtml}</tbody>
             </table>
 
-            <p>Best Regards,<br/>SmartX CRM Team</p>
+            <p>Best Regards,<br/>Zokep CRM Team</p>
 
             <div style="text-align:center;padding:20px;background:#f4f4f4;">
               <img src="${bottomLogoUrl}" style="width:150px;" />

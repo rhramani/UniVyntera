@@ -84,7 +84,7 @@ const visitorApplicationServices = {
                 to: newVisitor.contact,
                 templateId: null,
                 templateName: "visitor_visa_welcome1",
-                fromNumberId: "917575888326",
+                fromNumberId: "917359266930",
                 languageCode: "en",
                 parameters: {
                   body: [newVisitor.name, newVisitor.preferredCountry],
@@ -931,7 +931,7 @@ const visitorApplicationServices = {
           const b2bPartnerName =
             visitor.b2bCompany || visitor.createdByName || "B2B Partner";
           const senderName = b2bPartnerName;
-          const companyName = "RG International";
+          const companyName = "Kurm Infotech";
 
           await sendNewStudentApplicationEmail(
             user.email,
@@ -1206,7 +1206,7 @@ const visitorApplicationServices = {
       const b2bPartnerName =
         visitor.b2bCompany || visitor.createdByName || "B2B Partner";
       const senderName = b2bPartnerName;
-      const companyName = "RG International";
+      const companyName = "Kurm Infotech";
 
       const usersToEmail = [];
 
