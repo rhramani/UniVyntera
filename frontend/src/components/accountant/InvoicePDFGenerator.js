@@ -506,7 +506,7 @@ const InvoicePDFGenerator = ({
   // const addFooter = (doc) => {
   //   const margin = 20;
   //   const pageHeight = doc.internal.pageSize.height;
-  //   addText(doc, "www.rginternational.org", margin, pageHeight - 15, {
+  //   addText(doc, "https://kurminfotech.in/", margin, pageHeight - 15, {
   //     fontSize: 10,
   //     fontStyle: "normal",
   //     textColor: [0, 0, 0],

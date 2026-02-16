@@ -186,7 +186,7 @@ const WaDaddyWhatsAppModal = ({ show, onClose, data, onSubmit }) => {
       to: formData.mobile,
       templateId: selectedTemplate.id,
       templateName: selectedTemplate.name,
-      fromNumberId: "917575888326",
+      fromNumberId: "917359266930",
       languageCode: selectedTemplate.language || "en",
       parameters: {
         body: hasVariables ? bodyParams : [],

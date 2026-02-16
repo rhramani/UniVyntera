@@ -8,7 +8,7 @@ const coachingFaculty = require("../model/masters/coachingDetails/coachingFacult
 const nodemailer = require("nodemailer");
 const Configuration = require("../model/configuration");
 
-const baseUrl = process.env.BASE_URL || "https://studyvisaconsultant.com/api/";
+const baseUrl = process.env.BASE_URL || "http://localhost:3000/api/";
 
 // Get latest config from DB
 const getConfig = async () => {
@@ -42,7 +42,7 @@ const sendEmail = async (to, subject, html, attachments = [], bcc = null) => {
 
   const mailOptions = {
     from: config.nodemailer.email,
-    to: hasBcc ? "no-reply@smartxcrm.com" : to,
+    to: hasBcc ? "zokepcrm@gmail.com" : to,
     subject,
     html,
   };
@@ -73,7 +73,7 @@ const sendOTPEmail = async (email, otp) => {
         </div>
         
         <div style="padding: 20px; text-align: center;">
-          <h2 style="color: #333;">Here’s your OTP to Login in your SmartX CRM</h2>
+          <h2 style="color: #333;">Here’s your OTP to Login in your Zokep CRM</h2>
           <p style="font-size: 16px; color: #666;">Enter the 6-digit code to verify your identity and access to your account.</p>
           <div style="background-color: #f4f4f4; padding: 15px; border-radius: 4px; margin: 20px auto; display: inline-block; font-size: 24px; font-weight: bold; color: #333;">
             ${otp}
@@ -124,7 +124,7 @@ const sendLeadAssignEmail = async (
           A new student lead, <strong>${leadName}</strong>, has been assigned to you by <strong>${assignedByName}</strong>.
         </p>
         <p style="font-size: 16px; color: #555;">
-          Please log in to your SmartX CRM dashboard and reach out to the student at your earliest convenience.
+          Please log in to your Zokep CRM dashboard and reach out to the student at your earliest convenience.
         </p>
         <br />
         <p style="font-size: 16px; color: #333;">Best Regards,<br/>${assignedByName}<br/>${resolvedRole}</p>
@@ -147,7 +147,7 @@ const sendB2BWelcomeEmail = async (
   email,
   name,
   tempPassword,
-  companyName = "RG International"
+  companyName = "Kurm Infotech"
 ) => {
   const config = await getConfig();
   const topLogoUrl = config.gmail?.topLogo
@@ -157,7 +157,7 @@ const sendB2BWelcomeEmail = async (
     ? baseUrl + config.gmail.bottomLogo
     : "";
 
-  const subject = `Welcome to SmartX CRM – You're Officially Onboard!`;
+  const subject = `Welcome to Zokep CRM – You're Officially Onboard!`;
   const html = `
     <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
       <div style="max-width: 600px; margin: auto; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
@@ -168,18 +168,18 @@ const sendB2BWelcomeEmail = async (
 
         <p style="font-size: 16px; color: #333;">Dear ${name},</p>  
         <p style="font-size: 16px; color: #555;">
-          Welcome to <strong>SmartX</strong> CRM!<br/>
+          Welcome to <strong>Zokep</strong> CRM!<br/>
           We’re excited to have you on board. You now have access to our CRM platform where you can manage your leads, track customer interactions, and streamline your workflow efficiently.
         </p>
         <h3 style="color: #333;">Here are your login credentials:</h3>
         <ul style="font-size: 16px; color: #555;">
-          <li><strong>CRM URL:</strong> <a href="https://studyvisaconsultant.com/">https://studyvisaconsultant.com</a></li>
+          <li><strong>CRM URL:</strong> <a href="https://zokepconsultant.com/">https://zokepconsultant.com</a></li>
           <li><strong>Email:</strong> ${email}</li>
           <li><strong>Temporary Password:</strong> ${tempPassword}</li>
         </ul>
         <p style="font-size: 14px; color: #999;">🔒 For security reasons, we recommend changing your password after your first login.</p>
         <p style="font-size: 16px; color: #555;">
-          If you have any questions or need support, feel free to reach out to our team at <a href="mailto:support@rginternational.com">support@rginternational.com</a>.
+          If you have any questions or need support, feel free to reach out to our team at <a href="mailto:zokepcrm@gmail.com">zokepcrm@gmail.com</a>.
         </p>
         <p style="font-size: 16px; color: #333;">
           We’re thrilled to have you with us and look forward to your success!
@@ -208,7 +208,7 @@ const sendB2BWelcomeEmail = async (
 //   studentName,
 //   b2bPartnerName,
 //   senderName,
-//   companyName = "RG International",
+//   companyName = "Kurm Infotech",
 //   role
 // ) => {
 //   const subject = `New Student Application Submitted by ${b2bPartnerName}`;
@@ -255,7 +255,7 @@ const sendNewStudentApplicationEmail = async (
   studentName,
   b2bPartnerName,
   senderName,
-  companyName = "RG International",
+  companyName = "Kurm Infotech",
   role
 ) => {
   const config = await getConfig();
@@ -433,7 +433,7 @@ const sendBranchWelcomeEmail = async (
   email,
   name,
   tempPassword,
-  companyName = "RG International"
+  companyName = "Kurm Infotech"
 ) => {
   const config = await getConfig();
   const topLogoUrl = config.gmail?.topLogo
@@ -443,7 +443,7 @@ const sendBranchWelcomeEmail = async (
     ? baseUrl + config.gmail.bottomLogo
     : "";
 
-  const subject = `Welcome to SmartX CRM – You're Officially Onboard!`;
+  const subject = `Welcome to Zokep CRM – You're Officially Onboard!`;
   const html = `
     <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
       <div style="max-width: 600px; margin: auto; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
@@ -453,18 +453,18 @@ const sendBranchWelcomeEmail = async (
         </div>
         <p style="font-size: 16px; color: #333;">Dear ${name},</p>  
         <p style="font-size: 16px; color: #555;">
-          Welcome to <strong>SmartX</strong> CRM!<br/>
+          Welcome to <strong>Zokep</strong> CRM!<br/>
           We’re excited to have you on board. You now have access to our CRM platform where you can manage your leads, track customer interactions, and streamline your workflow efficiently.
         </p>
         <h3 style="color: #333;">Here are your login credentials:</h3>
         <ul style="font-size: 16px; color: #555;">
-          <li><strong>CRM URL:</strong> <a href="https://studyvisaconsultant.com/">https://studyvisaconsultant.com/</a></li>
+          <li><strong>CRM URL:</strong> <a href="https://zokepconsultant.com/">https://zokepconsultant.com/</a></li>
           <li><strong>Email:</strong> ${email}</li>
           <li><strong>Temporary Password:</strong> ${tempPassword}</li>
         </ul>
         <p style="font-size: 14px; color: #999;">🔒 For security reasons, we recommend changing your password after your first login.</p>
         <p style="font-size: 16px; color: #555;">
-          If you have any questions or need support, feel free to reach out to our team at <a href="mailto:support@rginternational.com">support@rginternational.com</a>.
+          If you have any questions or need support, feel free to reach out to our team at <a href="mailto:zokepcrm@gmail.com">zokepcrm@gmail.com</a>.
         </p>
         <p style="font-size: 16px; color: #333;">
           We’re thrilled to have you with us and look forward to your success!
@@ -487,7 +487,7 @@ const sendBranchWelcomeEmail = async (
 const sendNewB2BPartnerEmail = async (
   email,
   B2BName,
-  companyName = "RG International"
+  companyName = "Kurm Infotech"
 ) => {
   const config = await getConfig();
   const topLogoUrl = config.gmail?.topLogo
@@ -517,7 +517,7 @@ const sendNewB2BPartnerEmail = async (
           <li><strong>Action:</strong> Please log in to the B2B admin page to view and process the lead.</li>
         </ul>
         <p style="font-size: 16px; color: #555;">
-          👉 <a href="https://studyvisaconsultant.com/">Access B2B Admin Panel</a>
+          👉 <a href="https://zokepconsultant.com/">Access B2B Admin Panel</a>
         </p>
         <p style="font-size: 16px; color: #333;">
           Let’s ensure timely follow-up and onboarding for a smooth partnership experience.
@@ -733,8 +733,8 @@ const sendApplicationStatusUpdateEmail = async (
       </div>
       <div style="background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 13px; color: #888; border-radius: 0 0 8px 8px;">
         Best Regards,<br>
-        <strong>RG International Team</strong><br>
-        <a href="https://studyvisaconsultant.com" style="color: #888; text-decoration: none;">https://studyvisaconsultant.com</a>
+        <strong>Kurm Infotech Team</strong><br>
+        <a href="https://zokepconsultant.com" style="color: #888; text-decoration: none;">https://zokepconsultant.com</a>
       </div>
         <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
@@ -757,7 +757,7 @@ const sendAnnouncementEmail = async (
   sentByName,
   fileUrl = null,
   resolvedRole,
-  companyName = "RG International"
+  companyName = "Kurm Infotech"
 ) => {
   const config = await getConfig();
   const topLogoUrl = config.gmail?.topLogo
@@ -860,8 +860,8 @@ const sendVisaStatusUpdateEmail = async (
       </div>
       <div style="background-color: #f4f4f4; padding: 15px; text-align: center; font-size: 13px; color: #888; border-radius: 0 0 8px 8px;">
         Best Regards,<br>
-        <strong>RG International Team</strong><br>
-        <a href="https://studyvisaconsultant.com" style="color: #888; text-decoration: none;">https://studyvisaconsultant.com</a>
+        <strong>Kurm Infotech Team</strong><br>
+        <a href="https://zokepconsultant.com" style="color: #888; text-decoration: none;">https://zokepconsultant.com</a>
       </div>
         <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
@@ -882,7 +882,7 @@ const sendUnreadMessageAlertEmail = async (
   studentName,
   messageText,
   messageTime,
-  companyName = "RG International"
+  companyName = "Kurm Infotech"
 ) => {
   const config = await getConfig();
   const topLogoUrl = config.gmail?.topLogo
@@ -913,7 +913,7 @@ const sendUnreadMessageAlertEmail = async (
           <li><strong>Message:</strong> ${messageText || "(media message)"}</li>
         </ul>
         <p style="font-size: 16px; color: #555;">
-          👉 <a href="https://studyvisaconsultant.com/">Open Chat in Admin Panel</a>
+          👉 <a href="https://zokepconsultant.com/">Open Chat in Admin Panel</a>
         </p>
         <p style="font-size: 16px; color: #333;">
           Please log in and take action to avoid delays in communication.
@@ -939,7 +939,7 @@ const sendB2BCommissionQueryEmail = async (
   studentId,
   b2bName,
   remarks,
-  companyName = "RG International"
+  companyName = "Kurm Infotech"
 ) => {
   const config = await getConfig();
   const topLogoUrl = config.gmail?.topLogo
@@ -971,7 +971,7 @@ const sendB2BCommissionQueryEmail = async (
         </p>
 
         <p style="font-size: 16px; color: #555;">
-          👉 <a href="https://studyvisaconsultant.com/">View Student in Admin Panel</a>
+          👉 <a href="https://zokepconsultant.com/">View Student in Admin Panel</a>
         </p>
 
         <br/>
@@ -1042,7 +1042,7 @@ const sendNewEligibleStudentEmail = async (
           You can log in to your account to view full student details and take the next steps if required.
         </p>
          <p style="font-size: 16px; color: #555;">
-          👉 <a href="https://studyvisaconsultant.com/">Open SmartX CRM</a>
+          👉 <a href="https://zokepconsultant.com/">Open Zokep CRM</a>
         </p>
 
         <p style="font-size: 16px; color: #333;">Best Regards</p>
@@ -1106,7 +1106,7 @@ const sendUniversityCommissionStatusEmail = async (
             Please log in to review and take appropriate action if needed.
           </p>
            <p style="font-size: 16px; color: #555;">
-          👉 <a href="https://studyvisaconsultant.com/">Open SmartX CRM</a>
+          👉 <a href="https://zokepconsultant.com/">Open Zokep CRM</a>
         </p>
           <p style="font-size: 16px; color: #333;">Best Regards</p>
         </div>
@@ -1181,10 +1181,10 @@ const sendB2BCommissionStatusEmail = async (
             ${detailItems}
           </ul>
           <p style="font-size: 15px; color: #666; text-align: center; margin-top: 30px;">
-            Kindly log in to your SmartX portal to view full details.
+            Kindly log in to your Zokep portal to view full details.
           </p>
           <p style="font-size: 16px; text-align: center;">
-            👉 <a href="https://studyvisaconsultant.com/" target="_blank">Open SmartX CRM</a>
+            👉 <a href="https://zokepconsultant.com/" target="_blank">Open Zokep CRM</a>
           </p>
           <p style="font-size: 16px; color: #333; text-align: center;">Best Regards</p>
         </div>
@@ -1263,7 +1263,7 @@ const sendStudentAssignToFacultyEmail = async (
       </p>
       <br>
       <p style="font-size: 16px; color: #555;">
-        Please log in to your SmartX CRM dashboard and review the student details to begin coaching guidance.
+        Please log in to your Zokep CRM dashboard and review the student details to begin coaching guidance.
       </p>
       <br />
       <p style="font-size: 16px; color: #333;">Best Regards</p>
@@ -1289,7 +1289,7 @@ const sendFollowUpReminderEmail = async (
   followUpType,
   followUpDate,
   senderName,
-  companyName = "RG International",
+  companyName = "Kurm Infotech",
   role,
   isToday = false // NEW flag to differentiate Today reminder vs Upcoming
 ) => {
@@ -1371,7 +1371,7 @@ const sendStudentWelcomeEmail = async (email, name) => {
     ? baseUrl + config.gmail.bottomLogo
     : "";
 
-  const subject = "Welcome to EduCa CRM 🎉";
+  const subject = "Welcome to Zokep CRM 🎉";
 
   const html = `
     <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
@@ -1384,12 +1384,12 @@ const sendStudentWelcomeEmail = async (email, name) => {
       <p style="font-size: 16px; color: #333;">Dear ${name},</p>
       <br/>
         <p style="font-size: 16px; color: #555;">
-          Welcome to <strong>EduCa CRM</strong> 🎉<br/>
+          Welcome to <strong>Zokep CRM</strong> 🎉<br/>
           Your study abroad application process has officially begun.
         </p>
         <br/>
         <p style="font-size: 16px; color: #555;">
-          From course selection to visa documentation, EduCa will guide you every step of the way. You can now log in to track progress, upload documents, and stay updated on every milestone.
+          From course selection to visa documentation, Zokep will guide you every step of the way. You can now log in to track progress, upload documents, and stay updated on every milestone.
         </p>
         <br/>
         <p style="font-size: 16px; color: #555;">
@@ -1397,7 +1397,7 @@ const sendStudentWelcomeEmail = async (email, name) => {
         </p>
         <br/>
         <p style="font-size: 16px; color: #333;">Best regards,</p>
-        <p style="font-size: 16px; color: #333;">Team EduCa</p>
+        <p style="font-size: 16px; color: #333;">Team Zokep</p>
 
          <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
@@ -1505,7 +1505,7 @@ const sendInterviewScheduledEmail = async (
             : multiRoundHtml
         }
 
-        <p>Best wishes,<br/>Team Educa</p>
+        <p>Best wishes,<br/>Team Zokep</p>
 
         <!-- Bottom Logo -->
         <div style="text-align:center; padding:20px 0; background:#f4f4f4;">
@@ -1566,7 +1566,7 @@ const sendCourseSelectionEmail = async (
         </p>
         <br/>
         <p style="font-size: 16px; color: #555;">
-          Track every step—from document submission to visa updates—right inside EduCa CRM.
+          Track every step—from document submission to visa updates—right inside Zokep CRM.
         </p>
         <br/>
         <p style="font-size: 16px; color: #555;">
@@ -1574,7 +1574,7 @@ const sendCourseSelectionEmail = async (
         </p>
         <br/>
         <p style="font-size: 16px; color: #333;">Best wishes,</p>
-        <p style="font-size: 16px; color: #333;">Team EduCa</p>
+        <p style="font-size: 16px; color: #333;">Team Zokep</p>
 
           <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
@@ -1634,7 +1634,7 @@ const sendVisaApprovalEmail = async (
         </p>
         <br/>
         <p style="font-size: 16px; color: #333;">Best wishes,</p>
-        <p style="font-size: 16px; color: #333;">Team EduCa</p>
+        <p style="font-size: 16px; color: #333;">Team Zokep</p>
 
           <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
@@ -1691,7 +1691,7 @@ const sendVisaRefusalEmail = async (
         </p>
         <br/>
         <p style="font-size: 16px; color: #333;">Sincerely,</p>
-        <p style="font-size: 16px; color: #333;">Team EduCa</p>
+        <p style="font-size: 16px; color: #333;">Team Zokep</p>
 
         <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
@@ -1747,7 +1747,7 @@ const sendOfferLetterReceivedEmail = async (
        <p style="font-size: 16px; color: #555;">
           Your <strong>${offerType} Offer Letter</strong> for the 
           <strong>${courseName}</strong> program has been received.<br/>
-          You can now log in to EduCa CRM to view and download it, 
+          You can now log in to Zokep CRM to view and download it, 
           and proceed with the next steps in your study-abroad journey.
         </p>
   
@@ -1780,7 +1780,7 @@ const sendOfferLetterReceivedEmail = async (
 
         <br/>
         <p style="font-size: 16px; color: #333;">Best wishes,</p>
-        <p style="font-size: 16px; color: #333;">Team EduCa</p>
+        <p style="font-size: 16px; color: #333;">Team Zokep</p>
 
         <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
@@ -1850,7 +1850,7 @@ const sendTaskAssignEmail = async (
 
         <br />
         <p style="font-size: 16px; color: #333;">
-          Thank you,<br/> Team Educa
+          Thank you,<br/> Team Zokep
         </p>
 
         <!-- Bottom Logo -->
@@ -1955,7 +1955,7 @@ const sendCoachingWelcomeEmail = async (email, name) => {
     ? baseUrl + config.gmail.bottomLogo
     : "";
 
-  const subject = "Welcome to EduCa CRM 🎉";
+  const subject = "Welcome to Zokep CRM 🎉";
 
   const html = `
     <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
@@ -1968,7 +1968,7 @@ const sendCoachingWelcomeEmail = async (email, name) => {
         <p style="font-size: 16px; color: #333;">Dear ${name},</p>
         <br/>
         <p style="font-size: 16px; color: #555;">
-          Welcome to <strong>EduCa CRM</strong> 🎉<br/>
+          Welcome to <strong>Zokep CRM</strong> 🎉<br/>
           Your coaching admission process has officially begun.
         </p>
          <br/>
@@ -1977,7 +1977,7 @@ const sendCoachingWelcomeEmail = async (email, name) => {
         </p>
         <br/>
         <p style="font-size: 16px; color: #333;">Best regards,</p>
-        <p style="font-size: 16px; color: #333;">Team EduCa</p>
+        <p style="font-size: 16px; color: #333;">Team Zokep</p>
         <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
           <p style="margin: 0 0 5px 0; font-size: 12px; color: #555;">Powered by</p>
@@ -2044,7 +2044,7 @@ const sendOfferLetterRejectedEmail = async (
 
         <br/>
         <p style="font-size: 16px; color: #333;">For any clarification, feel free to contact your counselor.</p>
-        <p style="font-size: 16px; color: #333;">Team EduCa</p>
+        <p style="font-size: 16px; color: #333;">Team Zokep</p>
 
         <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">
@@ -2074,7 +2074,7 @@ const sendVisitorWelcomeEmail = async (email, name, country) => {
     ? baseUrl + config.gmail.bottomLogo
     : "";
 
-  const subject = `Welcome to EduCa CRM 🎉 Your ${country} Visitor Visa Application Has Started`;
+  const subject = `Welcome to Zokep CRM 🎉 Your ${country} Visitor Visa Application Has Started`;
 
   const html = `
     <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
@@ -2089,12 +2089,12 @@ const sendVisitorWelcomeEmail = async (email, name, country) => {
         <p style="font-size: 16px; color: #333;">Dear ${name},</p>
           <br/>
         <p style="font-size: 16px; color: #555;">
-          Welcome to <strong>EduCa CRM</strong> 🎉<br/>
+          Welcome to <strong>Zokep CRM</strong> 🎉<br/>
           Your <strong>${country}</strong> visitor visa application process has officially begun.
         </p>
           <br/>
         <p style="font-size: 16px; color: #555;">
-          From document submission and appointment scheduling to visa fee tracking and status updates, EduCa will guide you every step of the way.
+          From document submission and appointment scheduling to visa fee tracking and status updates, Zokep will guide you every step of the way.
         </p>
           <br/>
         <p style="font-size: 16px; color: #555;">
@@ -2102,7 +2102,7 @@ const sendVisitorWelcomeEmail = async (email, name, country) => {
         </p>
         <br/>
         <p style="font-size: 16px; color: #333;">Best regards,</p>
-        <p style="font-size: 16px; color: #333;">Team EduCa</p>
+        <p style="font-size: 16px; color: #333;">Team Zokep</p>
 
         <!-- Bottom Logo -->
         <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">

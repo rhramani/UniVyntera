@@ -264,7 +264,7 @@ const ClientMail = () => {
 
   const handleSampleFileDownload = () => {
     const link = document.createElement("a");
-    link.href = `https://studyvisaconsultant.com/api/public/sampleClientMailFile/sample_client_mail_upload.xlsx`;
+    link.href = `https://zokepconsultant.com/api/public/sampleClientMailFile/sample_client_mail_upload.xlsx`;
     link.setAttribute("download", "sample_client_mail_upload.xlsx");
     document.body.appendChild(link);
     link.click();

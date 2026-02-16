@@ -1612,7 +1612,7 @@ const AiCallLeads = () => {
 
   const handleSampleFileDownload = () => {
     const link = document.createElement("a");
-    link.href = `https://studyvisaconsultant.com/api/public/sampleleadfile/Sample_Lead_Upload.xlsx`;
+    link.href = `https://zokepconsultant.com/api/public/sampleleadfile/Sample_Lead_Upload.xlsx`;
     link.setAttribute("download", "LeadUpload.xlsx");
     document.body.appendChild(link);
     link.click();

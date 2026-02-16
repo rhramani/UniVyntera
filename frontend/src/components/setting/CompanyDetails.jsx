@@ -14,6 +14,7 @@ import {
 } from "../../redux/actions/Setting.action";
 import eventEmitter from "../../utils/eventEmitter";
 import Pageheader from "../../layouts/Pageheader";
+import { BASEURL } from "../../baseUrl";
 
 const CompanyDetails = () => {
   const dispatch = useDispatch();
@@ -51,8 +52,8 @@ const CompanyDetails = () => {
         existingLoginPageLogo: item.loginPageLogo,
         existingDashboardLogo: item.dashboardLogo,
       });
-      setLoginPreview(`${item.loginPageLogo}`);
-      setDashboardPreview(`${item.dashboardLogo}`);
+      setLoginPreview(`${BASEURL}/${item.loginPageLogo}`);
+      setDashboardPreview(`${BASEURL}/${item.dashboardLogo}`);
     } else {
       formik.resetForm();
       setLoginPreview(null);
@@ -180,7 +181,7 @@ const CompanyDetails = () => {
       key: "loginPageLogo",
       render: (item) => {
         return item?.loginPageLogo ? (
-          <img src={`${item.loginPageLogo}`} alt="Login Logo" width="50" />
+          <img src={`${BASEURL}/${item.loginPageLogo}`} alt="Login Logo" width="50" />
         ) : (
           "-"
         );
@@ -191,7 +192,7 @@ const CompanyDetails = () => {
       key: "dashboardLogo",
       render: (item) => {
         return item?.dashboardLogo ? (
-          <img src={`${item.dashboardLogo}`} alt="Dashboard Logo" width="50" />
+          <img src={`${BASEURL}/${item.dashboardLogo}`} alt="Dashboard Logo" width="50" />
         ) : (
           "-"
         );

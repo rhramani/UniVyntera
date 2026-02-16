@@ -122,7 +122,7 @@ async function sendAppointmentReminder() {
           </p>
 
           <br />
-          <p style="font-size: 16px; color: #333;">Best Regards,<br/>SmartX CRM Team</p>
+          <p style="font-size: 16px; color: #333;">Best Regards,<br/>Zokep CRM Team</p>
 
           <!-- Bottom Logo -->
           <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4; border-radius: 0 0 8px 8px;">

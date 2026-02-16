@@ -66,7 +66,6 @@ const DocumentSection = ({
   handleAllDocumentsDownload,
   fetchOneStudentDetails,
 }) => {
-  console.log("countryDocuments", countryDocuments);
   const dispatch = useDispatch();
   const [openDeadlineDoc, setOpenDeadlineDoc] = useState(null);
   const calendarRef = useRef(null);
@@ -76,12 +75,6 @@ const DocumentSection = ({
       ? oneStudentData?.docUploadByStudent === true
       : true;
 
-  console.log(
-    "isStudentUploadAllowed",
-    isStudentUploadAllowed,
-    oneStudentData?.docUploadByStudent,
-    userRole,
-  );
   const docPermissions = usePermissions("Student Applications", "Document");
   const OtherDocTypePermissions = usePermissions(
     "Student Applications",
@@ -91,7 +84,7 @@ const DocumentSection = ({
   const rgDocTypePermission = usePermissions(
     "Student Applications",
     "Document",
-    "RG Documents",
+    "ZOKEP Documents",
   );
   const visaDocTypePermission = usePermissions(
     "Student Applications",
@@ -225,7 +218,7 @@ const DocumentSection = ({
                 </Button>
               )}
 
-            {/* For AllRG Documents (Visa + Other) */}
+            {/* For AllZOKEP Documents (Visa + Other) */}
             {selectedDocType === "allrg" &&
               oneStudentData?.uploadedDocumentDetails?.some(
                 (doc) => !!doc?.filePath && doc?.customDocumentName, // only custom docs
@@ -1351,7 +1344,7 @@ const DocumentSection = ({
           </>
         )}
 
-        {/* RG Documents */}
+        {/* ZOKEP Documents */}
         {(selectedDocType === "allrg" || selectedDocType === "rgdocument") && (
           <>
             {!(

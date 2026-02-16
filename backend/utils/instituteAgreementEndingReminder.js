@@ -74,7 +74,7 @@ async function sendAgreementEndingReminder() {
 
           <p>Please take necessary action to renew or follow up with the institute.</p>
           <br>
-          <p>Best regards,<br><strong>SmartX CRM System</strong></p>
+          <p>Best regards,<br><strong>Zokep CRM System</strong></p>
                                </div>
                                <div style="text-align: center; padding: 20px 0; background-color: #f4f4f4;">
                                  <p style="margin: 0; font-size: 12px; color: #555;">Powered by</p>

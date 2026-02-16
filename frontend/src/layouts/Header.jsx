@@ -62,7 +62,7 @@ const Header = ({ local_varaiable, ThemeChanger }) => {
     }
 
     // agar relative path hai
-    return `${BASEURL}${logoPath}`;
+    return `${BASEURL}/${logoPath}`;
   };
   const fetchSettings = async () => {
     try {

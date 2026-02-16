@@ -11,7 +11,7 @@ export const LeadNotificationProvider = ({ children }) => {
 
   useEffect(() => {
     if (!userId) return;
-    const newSocket = io(`wss://studyvisaconsultant.com/lead-notifications-namespace`, {
+    const newSocket = io(`wss://zokepconsultant.com/lead-notifications-namespace`, {
       query: { userId },
       transports: ['websocket'],
     });

@@ -251,7 +251,7 @@ const B2BInvoiceTemplate = ({
       doc.setFont("helvetica", "normal");
       doc.setFontSize(11);
       doc.text("To,", 12, y);
-      doc.text(b2bCommissionInvoice?.name || "RG International", 12, y + 7);
+      doc.text(b2bCommissionInvoice?.name || "Kurm Infotech", 12, y + 7);
       const addressLines = (b2bCommissionInvoice?.address || "N/A").split(", ");
       let addressY = y + 14;
       addressLines.forEach((line, index) => {

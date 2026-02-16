@@ -547,7 +547,7 @@ const InvoiceTemplate = ({
 
       // const bankTableBody = [
       //   ["Payment:", "Bank Transfer"],
-      //   ["Account Owner Name:", "RG INTERNATIONAL FZC"],
+      //   ["Account Owner Name:", "Kurm Infotech FZC"],
       //   [
       //     "Account Owner Address:",
       //     "B08 – 165, Block B, Sharjah Research Technology and Innovation Park, Sharjah, United Arab Emirates",

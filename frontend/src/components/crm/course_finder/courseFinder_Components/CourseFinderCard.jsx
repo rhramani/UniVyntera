@@ -243,7 +243,7 @@ const CourseFinderCard = ({
                     <div className="d-none d-md-flex flex-wrap justify-content-start justify-content-lg-end gap-2">
                       {canUpload && (
                         <a
-                          href={`https://studyvisaconsultant.com/api/public/sampleCourseBulkUpload/sampleCourseBulkUpload.xlsx`}
+                          href={`https://zokepconsultant.com/api/public/sampleCourseBulkUpload/sampleCourseBulkUpload.xlsx`}
                           download
                           className="custom-select-height btn btn-primary btn-icon-text d-inline-flex align-items-center justify-content-center"
                           style={{
@@ -347,7 +347,7 @@ const CourseFinderCard = ({
                         {canUpload && (
                           <div className="col-6">
                             <a
-                              href={`https://studyvisaconsultant.com/api/public/sampleCourseBulkUpload/sampleCourseBulkUpload.xlsx`}
+                              href={`https://zokepconsultant.com/api/public/sampleCourseBulkUpload/sampleCourseBulkUpload.xlsx`}
                               download
                               className="custom-select-height btn btn-primary btn-icon-text d-flex align-items-center justify-content-center w-100"
                               style={{

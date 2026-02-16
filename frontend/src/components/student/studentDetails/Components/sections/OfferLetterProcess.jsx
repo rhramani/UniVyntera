@@ -830,7 +830,7 @@ const OfferLetterProcess = ({
                 ) : (
                   <tr>
                     <td colSpan="10" className="text-muted text-center">
-                      No RG documents available
+                      No ZOKEP documents available
                     </td>
                   </tr>
                 )}

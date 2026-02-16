@@ -241,7 +241,7 @@ const LeadTracking = () => {
       case "loanProvider_updated":
         return "Loan Provider Updated";
       case "visaByRG_updated":
-        return "Visa By RG Updated";
+        return "Visa By KURM Updated";
       case "accountantStatus_updated":
         return "Accountant Status Updated";
       case "b2bCommissionRemarks_updated":

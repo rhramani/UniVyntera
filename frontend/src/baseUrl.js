@@ -11,10 +11,10 @@ export const CHAT_MESSAGE_URL = "http://localhost:3000";
 export const QRCODE_URL = "http://localhost:5173";
 
 // Production :
-// export const BASEURL = "https://studyvisaconsultant.com/api";
-// export const REACT_APP_API_URL = "https://studyvisaconsultant.com/api";
-// export const CHAT_MESSAGE_URL = "wss://studyvisaconsultant.com";
-// export const QRCODE_URL = "https://studyvisaconsultant.com";
+// export const BASEURL = "https://zokepconsultant.com/api";
+// export const REACT_APP_API_URL = "https://zokepconsultant.com/api";
+// export const CHAT_MESSAGE_URL = "wss://zokepconsultant.com";
+// export const QRCODE_URL = "https://zokepconsultant.com";
 
 // secret key
 export const SECRET_KEY = "abcdefghij123klmnop324qrstu545vwxyz65"; 

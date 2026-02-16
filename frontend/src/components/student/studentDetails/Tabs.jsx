@@ -113,7 +113,7 @@ const Tabs = ({
         ...documentTypes
           .filter(
             (docType) =>
-              !["Visa Documents", "RG Documents"].includes(docType?.type?.name),
+              !["Visa Documents", "ZOKEP Documents"].includes(docType?.type?.name),
           )
           .map((docType, index) => {
             const docTypeName = docType?.type?.name || `UnnamedType_${index}`;
@@ -172,7 +172,7 @@ const Tabs = ({
               : usePermissions(
                   "Student Applications",
                   "Document",
-                  "RG Documents",
+                  "ZOKEP Documents",
                 ).canShow,
         },
         {
